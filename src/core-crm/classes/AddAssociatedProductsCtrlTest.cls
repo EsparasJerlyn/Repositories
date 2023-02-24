@@ -119,7 +119,8 @@ public with sharing class AddAssociatedProductsCtrlTest {
             'Product list retrieved did not match expected.');        
     }
 	
-    @isTest static void getAssociatedProductsTest() {
+    @isTest 
+    static void getAssociatedProductsTest() {
         List<AddAssociatedProductsCtrl.ProductDetails> productList = new List<AddAssociatedProductsCtrl.ProductDetails>();
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()){

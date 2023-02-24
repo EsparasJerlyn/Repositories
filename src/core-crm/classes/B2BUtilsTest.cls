@@ -14,37 +14,51 @@
 @isTest
 public with sharing class B2BUtilsTest {
    
+    @testSetup static void setupMethod() {
+        TestDataFactory.generateTestUsers();
+    }
+    
   	@isTest
     public static void resolveCommunityIdToWebstoreId() {
-        String exceptionMessage;
-        Test.startTest();
-        try{
-            //Get the Network ID
-            String networkId = [SELECT Id FROM Network WHERE Status = 'Live' ORDER BY FirstActivationDate DESC LIMIT 1].Id;
-            B2BUtils.resolveCommunityIdToWebstoreId(networkId);
-        }catch(Exception e){
-            exceptionMessage = e.getMessage();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            String exceptionMessage;
+            Test.startTest();
+            try{
+                //Get the Network ID
+                String networkId = [SELECT Id FROM Network WHERE Status = 'Live' ORDER BY FirstActivationDate DESC LIMIT 1].Id;
+                B2BUtils.resolveCommunityIdToWebstoreId(networkId);
+            }catch(Exception e){
+                exceptionMessage = e.getMessage();
+            }
+            Test.stopTest();
+            System.assertEquals(null, exceptionMessage, 'Network Id doesnt match');
         }
-        Test.stopTest();
-        System.assertEquals(true, true, 'Network Id doesnt match');
     }
     
     @isTest
     static void getAPIVersionTest() {
-        Test.startTest();
-        B2BUtils.getAPIVersion('B2BUtilsTest');
-        Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            Decimal retVal = B2BUtils.getAPIVersion('B2BUtilsTest');
+            Test.stopTest();
 
-        System.assertEquals(true, true, 'API version doesnt match');
+            List<ApexClass> results = [SELECT ApiVersion FROM ApexClass WHERE Name = 'B2BUtilsTest'];
+            System.assertEquals(results.get(0).ApiVersion, retVal, 'API version doesnt match');
+        }
     }
     
     @isTest
     static void getCommunityIdByNameTest() {
-        Test.startTest();
-        B2BUtils.getCommunityIdByName('Test');
-        Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+            String retVal = B2BUtils.getCommunityIdByName('Test');
+            Test.stopTest();
 
-        System.assertEquals(true, true, 'Community name doesnt match');
+            System.assertEquals(null, retVal, 'Community name doesnt match');
+        }
     }
 
 

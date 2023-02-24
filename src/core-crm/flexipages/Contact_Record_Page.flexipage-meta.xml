@@ -34,7 +34,7 @@
                             <value>LoginToPortalAsUser</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Contact.Enable_Partner_Portal_Access</value>
+                            <value>Contact.Enable_Portal_Access</value>
                             <visibilityRule>
                                 <criteria>
                                     <leftValue>{!Record.Is_CCE_Enabled__c}</leftValue>

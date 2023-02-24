@@ -41,13 +41,13 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
      * @param batchObjects The objects to process.
      */
     public void execute(Database.BatchableContext context, List<Contact> batchObjects) {
-        System.debug('Execute SAMSRegisterLearnerBatchHandler start');
+        System.debug(LoggingLevel.DEBUG, 'Execute SAMSRegisterLearnerBatchHandler start');//NOPMD
 
         if (batchObjects.size() == 1) {
             LMSIntegrationManager.calloutSAMSRegisterLearner(batchObjects[0]);
         }
         
-        System.debug('Execute SAMSRegisterLearnerBatchHandler finish');
+        System.debug(LoggingLevel.DEBUG, 'Execute SAMSRegisterLearnerBatchHandler finish');//NOPMD
     }
 
     /**
@@ -59,7 +59,7 @@ public without sharing class SAMSRegisterLearnerBatchHandler implements Database
         try {
             System.scheduleBatch(new SAMSRegisterLearnerBatchHandler(), 'SAMS Learner Registration Batch Job', 30, 1);
         } catch(Exception e) {
-            System.debug('Error rescheduling SAMSRegisterLearnerBatchHandler: ' + e.getMessage());
+            System.debug(LoggingLevel.DEBUG, 'Error rescheduling SAMSRegisterLearnerBatchHandler: ' + e.getMessage());//NOPMD
         }
     }
 

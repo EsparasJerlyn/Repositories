@@ -55,7 +55,7 @@ public without sharing class ContactTriggerHelper {
     public static void createAccountContactRelationRecords(List<Contact> newItems, Map<Id,Contact> oldMap){
         //map of acrt to be inserted
         Map<String,AccountContactRelation> acrToBeUpserted = new Map<String,AccountContactRelation>();
-       
+
         Set<Id> contactIds = new Set<Id>();
         Set<Id> accountIds = new Set<Id>();
 
@@ -74,13 +74,13 @@ public without sharing class ContactTriggerHelper {
                     acrToBeUpserted.put(String.valueOf(con.hed__Primary_Organization__c) + String.valueOf(con.Id),
                                         new AccountContactRelation( 
                                             Id = null,
-                                            AccountId = con.hed__Primary_Organization__c, 
+                                            AccountId = con.hed__Primary_Organization__c,
                                             ContactId = con.Id,
                                             IsActive = true
                                         ));
-            //deactivate old ACR when removed       
+            //deactivate old ACR when removed
             }else if( con.hed__Primary_Organization__c == null &&
-                      oldMap != null && 
+                      oldMap != null &&
                       oldMap.get(con.Id).hed__Primary_Organization__c != con.hed__Primary_Organization__c){
 
                         contactIds.add(con.Id);
@@ -89,9 +89,9 @@ public without sharing class ContactTriggerHelper {
                         //build ACR Record to upsert
                         //set previous acr to isactive false
                         acrToBeUpserted.put(String.valueOf(oldMap.get(con.Id).hed__Primary_Organization__c) + String.valueOf(con.Id),
-                        new AccountContactRelation( 
+                        new AccountContactRelation(
                             Id = null,
-                            AccountId = oldMap.get(con.Id).hed__Primary_Organization__c, 
+                            AccountId = oldMap.get(con.Id).hed__Primary_Organization__c,
                             ContactId = con.Id,
                             IsActive = false
                         ));
@@ -104,7 +104,7 @@ public without sharing class ContactTriggerHelper {
 
             upsert acrToBeUpserted.values();
 
-            //deactivate other ACR linked the contact 
+            //deactivate other ACR linked the contact
             deactivateExistingACRRecords(acrToBeUpserted.values(),contactIds);
 
         }
@@ -121,8 +121,8 @@ public without sharing class ContactTriggerHelper {
         ]);
 
         for(AccountContactRelation acr: existingACR){
-            if( acr.AccountId != null && 
-                acr.ContactId != null && 
+            if( acr.AccountId != null &&
+                acr.ContactId != null &&
                 acrToBeUpserted.containsKey(String.valueOf(acr.AccountId) + String.valueOf(acr.contactId))){
                   //set the id of the ACR if found
                   //this would set the IsActive status of existing ACR to True
@@ -144,7 +144,7 @@ public without sharing class ContactTriggerHelper {
           AND Id NOT IN: newACRs
           AND IsActive = true
       ]);
-      
+
       for(AccountContactRelation acr: acrToDeactivate){
           acr.IsActive = false;
       }
@@ -152,7 +152,7 @@ public without sharing class ContactTriggerHelper {
       if(!acrToDeactivate.isEmpty()){
           update acrToDeactivate;
       }
-      
+
 
     }
 

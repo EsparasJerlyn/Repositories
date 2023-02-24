@@ -29,10 +29,9 @@ public class CreateAssetCtrlTest {
         insert accounts;
         conList = TestDataFactory.createTestContactRecords(1);
         insert conList;
-        oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].id,conList[0].id);
+        oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].id,conList[0].id);
         insert oppList;
-        prodSpec = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
-        insert prodSpec;
+        prodSpec = TestDataFactory.retrieveCCEProductSpecifications();
         prodReq = TestDataFactory.createTestProductRequestRecords(1);
         insert prodReq;
         assetData = TestDataFactory.createTestAssetRecords(1,accounts[0].id,prodReq[0].id);

@@ -5,7 +5,7 @@
         <name>is_lead_created</name>
         <label>is lead created?</label>
         <locationX>314</locationX>
-        <locationY>398</locationY>
+        <locationY>518</locationY>
         <defaultConnector>
             <targetReference>Update_Case</targetReference>
         </defaultConnector>
@@ -107,7 +107,7 @@
         <name>Create_Lead_Record</name>
         <label>Create Lead Record</label>
         <locationX>314</locationX>
-        <locationY>278</locationY>
+        <locationY>398</locationY>
         <assignRecordIdToReference>CreatedLeadId</assignRecordIdToReference>
         <connector>
             <targetReference>is_lead_created</targetReference>
@@ -175,7 +175,7 @@
         <name>Create_Marketing_Segmentation_Record</name>
         <label>Create Marketing Segmentation Record</label>
         <locationX>50</locationX>
-        <locationY>518</locationY>
+        <locationY>638</locationY>
         <connector>
             <targetReference>Update_Case</targetReference>
         </connector>
@@ -216,11 +216,32 @@
         <object>Marketing_Segmentation__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordLookups>
+        <name>Get_Case_Record</name>
+        <label>Get Case Record</label>
+        <locationX>314</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_Lead</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Case</name>
         <label>Update Case</label>
         <locationX>314</locationX>
-        <locationY>770</locationY>
+        <locationY>890</locationY>
         <faultConnector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Message</targetReference>
@@ -245,7 +266,7 @@
         <name>Create_Lead</name>
         <label>Create Lead</label>
         <locationX>314</locationX>
-        <locationY>158</locationY>
+        <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -266,6 +287,9 @@
                 <fields>
                     <name>First_Name</name>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Get_Case_Record.Web_First_Name__c</elementReference>
+                    </defaultValue>
                     <fieldText>First Name</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -296,6 +320,24 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>value</name>
+                        <value>
+                            <elementReference>Get_Case_Record.SuppliedEmail</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>readonly</name>
+                        <value>
+                            <booleanValue>false</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>placeholder</name>
+                        <value>
+                            <stringValue>you@example.com</stringValue>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -314,6 +356,9 @@
                 <fields>
                     <name>Last_Name</name>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Get_Case_Record.Web_Last_Name__c</elementReference>
+                    </defaultValue>
                     <fieldText>Last Name</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -422,7 +467,7 @@
         <name>Error_Message</name>
         <label>Error Message</label>
         <locationX>1018</locationX>
-        <locationY>398</locationY>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -438,7 +483,7 @@
         <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Create_Lead</targetReference>
+            <targetReference>Get_Case_Record</targetReference>
         </connector>
     </start>
     <status>Active</status>

@@ -86,7 +86,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
                     AND IsActive = true
                     LIMIT 1
                ]);
-               
+
                if(acrList.isEmpty()){
                     AccountContactRelation acr = new AccountContactRelation(
                          ContactId = contact.Id,
@@ -99,15 +99,14 @@ public with sharing class CorporateBundleAndSOAHelperTest {
                List<Contact> conList = new List<Contact>();
                conList.add(contact);
 
-               List<Opportunity> opp = TestDataFactory.createTestOpportunityRecords(1,account.Id,contact.Id);
-               opp[0].StageName = 'Closed Won';
+               List<Opportunity> opp = TestDataFactory.createClosedWonOpportunities(1,account.Id,contact.Id);
                insert opp;
 
                Pricebook2 priceBook;
                pricebook = new Pricebook2(isActive = true, id = Test.getStandardPricebookId());
                update pricebook;
 
-               List<Product_Specification__c> prodSpecList = [SELECT Id FROM Product_Specification__c WHERE Opportunity_Name__c =: opp[0].Id];
+               List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
 
                List<Product_Request__c> cbRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
                for(Product_Request__c pr : cbRequest){

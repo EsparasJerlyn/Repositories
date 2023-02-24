@@ -3,6 +3,11 @@
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <email>qut.direct-test@qut.edu.au</email>
     <name>International Enquiries</name>
+    <queueMembers>
+        <roles>
+            <role>International_Super_User</role>
+        </roles>
+    </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

@@ -23,6 +23,7 @@
 */
 @isTest
 public with sharing class ContactTriggerHandlerTest {
+    private static final String CATEGORY_CCE = 'Corporate Portal';
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
     public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('Person')
@@ -319,7 +320,12 @@ public with sharing class ContactTriggerHandlerTest {
             contact.AccountId = account.Id;
             insert contact;
 
-            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(contact.Id);
+            BuyerGroup bg = new BuyerGroup();
+            bg.Name = 'OPE BuyerGroup';
+            insert bg;
+
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
+            System.assert(enableResponse != null, 'no response');
         }
 
         Contact c = new Contact(LastName = 'UnitTest');
@@ -334,7 +340,7 @@ public with sharing class ContactTriggerHandlerTest {
 
         // Verify
         Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
-        System.assertEquals(u.Contact.hed__Primary_Organization__r.OwnerId, actualContact.OwnerId);
+        System.assertEquals(u.Contact.hed__Primary_Organization__r.OwnerId, actualContact.OwnerId, 'Should set the contact owner when the current user is having UserType of PowerPartner.');
     }
 
     /**
@@ -342,16 +348,19 @@ public with sharing class ContactTriggerHandlerTest {
      */
     @IsTest
     private static void shouldNotSetContactOwner() {
-        Contact c = new Contact(LastName = 'UnitTest');
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            Contact c = new Contact(LastName = 'UnitTest');
 
-        // Test
-        User testUser = [Select Id from User where id = :UserInfo.getUserId()];
-        Test.StartTest();
-        insert c;
-        Test.StopTest();
+            // Test
+            User testUser = [Select Id from User where id = :UserInfo.getUserId()];
+            Test.StartTest();
+            insert c;
+            Test.StopTest();
 
         // Verify
         Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
-        System.assertEquals(testUser.Id, actualContact.OwnerId);
+        System.assertEquals(testUser.Id, actualContact.OwnerId, 'Should not set the contact owner when the current user is not having UserType of PowerPartner.');
     }
+  }
 }

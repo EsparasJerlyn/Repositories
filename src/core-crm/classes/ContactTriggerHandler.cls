@@ -27,6 +27,7 @@
       |                                |                       |                        | for Online Self-paced           |
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
       | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
+      | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
 
 
  */
@@ -47,6 +48,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    */
   public void beforeInsert(List<SObject> newItems) {
 
+    MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems, null);
     setContactOwner((List<Contact>) newItems);
     ContactTriggerHelper.reparentAccount((List<Contact>)newItems);
     ContactImageHelper.validateContactImageFile((List<Contact>) newItems);
@@ -70,9 +72,11 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     );
     // Call method to detect if emails used in contacts update is already being used
     // anywhere on the organization.
+    MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
+   
   }
 
   /**
@@ -84,6 +88,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
     processLeadOnInsert(newMap);
     createChildMCPersona(newMap.values());
+    MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
+    ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
   }
 
   /**
@@ -100,6 +106,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(), oldMap);
     processLeadOnUpdate(newMap, oldMap);
     processWelcomeEmail(newMap, oldMap);
+    MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
+    ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
   }
 
   /**
@@ -156,7 +164,11 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         contactSet.add(newMap.get(key).Id);
       }
     } 
-    sendWelcomeEmail(contactSet);
+
+    if(!contactSet.isEmpty()){ //add
+      sendWelcomeEmail(contactSet);
+    }
+    
   }
 
   /**
@@ -165,14 +177,21 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    */
   private void sendWelcomeEmail(Set<Id> contactSet){
     Set<Id> contactsToSendWelcomeEmailSet = new Set<Id>();
-    for(hed__Course_Enrollment__c courseConnection : [
-                                                      SELECT Id, hed__Contact__c,hed__Course_Offering__r.hed__Start_Date__c
-                                                      FROM hed__Course_Enrollment__c
-                                                      WHERE hed__Contact__r.Id IN: contactSet
-                                                        AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'Blackboard'
-                                                        AND hed__Contact__r.Registered_Email__c != null
-                                                        AND hed__Status__c = 'Active'
-                                                        AND RecordType.DeveloperName =:STUDENT]){
+    List<hed__Course_Enrollment__c> courseConnections = new List<hed__Course_Enrollment__c>();
+
+    if(Schema.sObjectType.hed__Course_Enrollment__c.isAccessible()){
+      courseConnections = [
+        SELECT Id, hed__Contact__c,hed__Course_Offering__r.hed__Start_Date__c
+        FROM hed__Course_Enrollment__c
+        WHERE hed__Contact__r.Id IN: contactSet
+          AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'Blackboard'
+          AND hed__Contact__r.Registered_Email__c != null
+          AND hed__Status__c = 'Active'
+          AND RecordType.DeveloperName =:STUDENT
+      ];
+    }
+
+    for(hed__Course_Enrollment__c courseConnection : courseConnections){
       Integer dayBeforeStart = Date.today().daysBetween(courseConnection.hed__Course_Offering__r.hed__Start_Date__c);
       if(dayBeforeStart <= 7){
         contactsToSendWelcomeEmailSet.add(courseConnection.hed__Contact__c); //set of contacts who will receive welcome email
@@ -238,8 +257,19 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
             }
         }
 
-        insert childContacts;
-  }
+        List<Database.SaveResult> insertResults = new List<Database.SaveResult>();
+        if(Schema.sObjectType.Contact.isCreateable()){
+          insertResults = Database.insert(childContacts, false);
+        }
+        for (Database.SaveResult result : insertResults){
+          if (!result.isSuccess()){
+            Logger.error('Error in Inserting Contact').setDatabaseResult(result);
+          }            
+        }
+        if(Logger.getBufferSize() < 0){
+            Logger.saveLog();                
+        }
+      }
 
   /**
    * @description indicates it the trigger is disabled
@@ -257,7 +287,10 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   private void setContactOwner(List<Contact> contacts) {
     if (UserInfo.getUserType() == 'PowerPartner') {
 
-      User u = [Select Id, Contact.hed__Primary_Organization__r.ownerId from User where id = :UserInfo.getUserId()];
+      User u = new User();
+      if(Schema.sObjectType.User.isAccessible()){
+        u = [Select Id, Contact.hed__Primary_Organization__r.ownerId from User where id = :UserInfo.getUserId() LIMIT 1];
+      }
 
       for (Contact c : contacts) {
         c.ownerId = u.Contact.hed__Primary_Organization__r.ownerId;

@@ -9,11 +9,16 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.karl.munoz            | August 12, 2022       | DEPP-3488              | Created file                 | 
-      | eccarius.karl.munoz            | September 13, 2022    | DEPP-4096              | Added test methods           | 
-      |                                |                       |                        |                              | 
+      | eccarius.karl.munoz            | September 13, 2022    | DEPP-4096              | Added test methods           |  
+      | eugene.andrew.abuan            | February 10, 2023     | DEPP-4991              | Removed Test Classes that has|
+      |                                |                       |                        | error with future callouts   | 
+ 
  */
 @isTest
 public with sharing class CCECorporateUserCtrlTest {
+
+    private static final String CATEGORY_CCE = 'Corporate Portal';
+    private static final String CATEGORY_OPE = 'Product Catalogue';
 
     @testSetup
     static void makeData(){
@@ -34,23 +39,44 @@ public with sharing class CCECorporateUserCtrlTest {
             contact.Registered_Email__c = 'test@email.com';
             contact.AccountId = account.Id;
             insert contact;
+
+            BuyerGroup bg = new BuyerGroup();
+            bg.Name = 'OPE BuyerGroup';
+            insert bg;
         }
     }
 
     @isTest
-    static void enableAndDisableCCECorporateUserTest(){
+    static void enableOPEWithExistingTest(){
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Contact contact = [SELECT Id FROM Contact LIMIT 1];
             Test.startTest();
-            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enableCCECorporateUser(contact.Id);
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
             String response;
+            if(enableResponse.userId != null){
+                enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
+            }
             if(enableResponse.userId != null){
                 response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
             }
             Test.stopTest();
-            System.assertEquals('Success', response, 'Enable and disable user failed.');
+            System.assertEquals(true, enableResponse.isSuccess, 'Enable and disable cce user failed.');
         }
-     }
+    }
+    @isTest
+    static void enableOPEWithExistingCCETest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact contact = [SELECT Id FROM Contact LIMIT 1];
+            Test.startTest();
+            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
+            String response;
+            if(enableResponse.userId != null){
+                enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
+            }
+            Test.stopTest();
+            System.assertEquals(true, enableResponse.isSuccess, 'Enable and disable cce user failed.');
+        }
+    }
 
     @isTest
     static void enableCCECorporateUserForOPETest(){

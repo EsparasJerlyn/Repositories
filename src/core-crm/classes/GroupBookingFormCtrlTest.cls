@@ -324,7 +324,6 @@ public with sharing class GroupBookingFormCtrlTest {
   static void saveBookingTest(){
 
     Test.startTest();
-    List<Contact> newContacts = new List<Contact>();
     Contact newContact = new Contact(
       Email ='testemail12@email.com', 
       FirstName ='tetfirstnam2e', 

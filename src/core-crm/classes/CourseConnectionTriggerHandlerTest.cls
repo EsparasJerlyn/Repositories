@@ -315,12 +315,10 @@ public with sharing class CourseConnectionTriggerHandlerTest{
       conList = TestDataFactory.createTestContactRecords(100);
       insert conList;
 
-      List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList.iterator().next()?.Id);
+      List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,conList.iterator().next()?.Id);
       insert oppList;
 
-      List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
-      prodSpecList[0].RecordTypeId = cceProdSpecId;
-      insert prodSpecList;
+      List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
 
       List<Product_Request__c> diagnosticToolList = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
       for(Product_Request__c pr : diagnosticToolList){

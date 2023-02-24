@@ -13,6 +13,7 @@
 	  | keno.domienri.dico        | August 18, 2022       | DEPP-3765    | Updated Product Category method                        |
 	  | marygrace.li              | September 7, 2022     | DEPP-2699    | Added homepage mobile view                             |
 	  | keno.domienri.dico		  | September 28, 2022	  | DEPP-4459	 | Added search filter in getProducts method			  |
+	  | mary.grace.li             | November 22, 2022     | DEPP-4693    | Added Selected account logic                           |
 */
 
 import { LightningElement, wire, track, api } from 'lwc';
@@ -20,6 +21,8 @@ import getNavigationMenu from '@salesforce/apex/MainNavigationMenuCtrl.defaultMe
 import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
 import getOpportunityContractType from '@salesforce/apex/MainNavigationMenuCtrl.getOpportunityContractType';
 import getProductsByCategory from '@salesforce/apex/ProductCtrl.getProductsByCategory';
+import getAssetsByAccount from '@salesforce/apex/ProductCtrl.getAssetsByAccount';
+import getBuyerGroups from '@salesforce/apex/ProductCtrl.getBuyerGroups';
 import communityId from '@salesforce/community/Id';
 import basePath from '@salesforce/community/basePath';
 import userId from '@salesforce/user/Id';
@@ -27,6 +30,8 @@ import USER_ID from '@salesforce/user/Id';
 import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import { loadStyle } from "lightning/platformResourceLoader";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
+import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
+import payloadContainerLMS from '@salesforce/messageChannel/AccountId__c';
 
 const STORE_FRONT_CATEGORY = 'StorefrontCategories';
 const LOGIN_REQUIRED = 'LoginRequired';
@@ -34,6 +39,10 @@ const AVAILABLE_TO_BUY = 'Available to Buy';
 const CONTRACT_TYPE = 'Standing Offer Arrangement';
 const HOME_HEADER = 'For your organisation';
 const DEFAULT_CATEGORY = 'Tailored Executive Education'
+
+const STORED_ACCTID = "storedAccountId";
+const STORED_ASSETID = "storedAssetId";
+const STORED_BUYERGROUPID = "storedBuyerGroupId";
 export default class MainNavigationMenu extends LightningElement {
 
 	NavigationMenuList;
@@ -50,9 +59,33 @@ export default class MainNavigationMenu extends LightningElement {
 	accordionIcon;
 	activeSections = [DEFAULT_CATEGORY];
 	accordionIsClicked = false;
+	accountId;
+	accountName;
+	subscription;
+	fullLabel;
+	selectedAssetId;
+	assets;
+	selectedBuyerGroupId;
+	buyerGroups;
+	prodSpecId = '';
+
+	@wire(MessageContext)
+    messageContext;
+
+	
+	parameterObject = {
+		userId: USER_ID,
+		categoryId : '', 
+		accountId: '',
+		accountName: '',
+		fullLabel: '',
+		prodSpecId:'',
+		assetId: '',
+		buyerGroupId: ''
+	}
 
 	renderedCallback() {
-		Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
+		this.subscribeLMS();
 	}
 
 	//retrieve Opportunity Contract Type
@@ -104,6 +137,21 @@ export default class MainNavigationMenu extends LightningElement {
                 if(Category.SortOrder == '1'){
                     this.className = 'slds-tabs_default__item slds-is-active';
                     this.navMenuId = Category.Id;
+
+					if(sessionStorage.getItem(STORED_ACCTID)){
+						this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+					}
+
+					  this.parameterObject = {
+						userId: USER_ID,
+						categoryId : this.navMenuId,
+						accountId: this.accountId,
+						accountName: this.accountName,
+						fullLabel: this.fullLabel,
+						prodSpecId: this.prodSpecId,
+						assetId: this.selectedAssetId,
+						buyerGroupId: this.selectedBuyerGroupId
+					  }
                 } else {
                     this.className = 'slds-tabs_default__item';
                 }
@@ -120,6 +168,83 @@ export default class MainNavigationMenu extends LightningElement {
 			this.getProducts();
 		}
 	}
+	
+
+	@wire(getAssetsByAccount, { accountId : '$accountId' })
+		getAssetsByAccount(result) {
+			this.assets = result.data;
+			if(this.assets && this.assets.length > 0){
+
+				const options = result.data.map( res => {
+					return {
+						label: res.Name,
+						value: res.Id
+					}
+				});
+
+				this.assetOptions = options;
+
+				if(sessionStorage.getItem(STORED_ASSETID)){
+					this.selectedAssetId =  sessionStorage.getItem(STORED_ASSETID);
+				}else{
+					this.selectedAssetId = options[0].value;
+				}
+				
+				this.parameterObject = {
+					userId : userId,
+					categoryId : this.categoryId,
+					accountId: this.accountId,
+					accountName: this.accountName,
+					fullLabel: this.fullLabel,
+					prodSpecId: this.prodSpecId,
+					assetId: this.selectedAssetId,
+					buyerGroupId: this.selectedBuyerGroupId
+				}
+
+				sessionStorage.setItem(
+					STORED_ASSETID,
+					this.selectedAssetId
+				);
+			}
+		}
+
+
+
+	@wire(getBuyerGroups, { accountId : '$accountId' })
+	getBuyerGroups(result) {
+		this.buyerGroups = result.data;
+		if(this.buyerGroups && this.buyerGroups.length > 0){
+
+			const options = result.data.map( res => {
+				return {
+					label: res.Name,
+					value: res.Id
+				}
+			});
+
+			if(sessionStorage.getItem(STORED_BUYERGROUPID)){
+				this.selectedBuyerGroupId =  sessionStorage.getItem(STORED_BUYERGROUPID);
+			}else{
+				this.selectedBuyerGroupId = options[0].value;
+			}
+			
+			this.parameterObject = {
+				userId : userId,
+				categoryId : this.categoryId,
+				accountId: this.accountId,
+				accountName: this.accountName,
+				fullLabel: this.fullLabel,
+				prodSpecId: this.prodSpecId,
+				assetId: this.selectedAssetId,
+				buyerGroupId: this.selectedBuyerGroupId
+			}
+
+			sessionStorage.setItem(
+				STORED_BUYERGROUPID,
+				this.selectedBuyerGroupId
+			);
+		}
+	}
 
 	connectedCallback() {
 		this.isTailoredExecEduc = true;
@@ -127,6 +252,16 @@ export default class MainNavigationMenu extends LightningElement {
 		this.accordionIcon = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
 		this.accordionClose = qutResourceImg + "/QUTImages/Icon/accordionClose.svg";
 	}
+
+    disconnectedCallback() {
+        this.unsubscribeLMS();
+    }
+
+    unsubscribeLMS(){
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
 
 	// get header text
 	get headerHome() {
@@ -140,6 +275,21 @@ export default class MainNavigationMenu extends LightningElement {
 		let inactiveMenu = this.template.querySelectorAll('li');
 		this.navMenuId = activeMenu.dataset.id;
 		this.navMenuName = activeMenu.dataset.name;
+
+		if(sessionStorage.getItem(STORED_ACCTID)){
+			this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+		}
+
+		this.parameterObject = {
+			userId: USER_ID,
+			categoryId : this.navMenuId,
+			accountId: this.accountId,
+			accountName: this.accountName,
+			fullLabel: this.fullLabel,
+			prodSpecId: this.prodSpecId,
+			assetId: this.selectedAssetId,
+			buyerGroupId: this.selectedBuyerGroupId
+		  }
 
 		// set navigation menu classes to default
 		if (inactiveMenu) {
@@ -174,13 +324,11 @@ export default class MainNavigationMenu extends LightningElement {
 	// Get the Products per category menu
 	getProducts() {
 		getProductsByCategory({
-			categoryId : this.navMenuId,
-			userId : USER_ID,
+			acctFilterDataWrapper: this.parameterObject,
 			keyword : ''
 		}).then((result) => {
 			let prodList = [];
 			this.productInfoList = [];
-			let count = 1;
 			prodList = result.productList;
 			prodList = prodList.slice().sort(function (futureDate, pastDate) {
 				if (!!futureDate.childProdOfferingDate && !!pastDate.childProdOfferingDate && (Date.parse(futureDate.childProdOfferingDate) < Date.parse(pastDate.childProdOfferingDate))) return -1;
@@ -197,24 +345,19 @@ export default class MainNavigationMenu extends LightningElement {
 
 			// Limit to 2 Products to display
 			let totalProdDisplayed = 0;
-			let today = new Date();
 
 			if(prodList.length > 2) {
 				prodList.forEach((p) => {
 					if(totalProdDisplayed < 2) {
-						if(!p.isProgramFlex){
-							if(p.childProdOfferingDate){
-								this.productInfoList.push(p);
-								totalProdDisplayed++;
-							}
-						}
+						this.productInfoList.push(p);
+						totalProdDisplayed++;
 					}
 				});
 			} else {
 				this.productInfoList = prodList;
 			}
 		}).catch((error) => {
-			this.error = error;
+			this.productInfoList = [];
 		});
 	}
 
@@ -224,6 +367,21 @@ export default class MainNavigationMenu extends LightningElement {
 
 		this.navMenuName = sections[0];
 		this.navMenuId = sections[1];
+
+		if(sessionStorage.getItem(STORED_ACCTID)){
+			this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+		}
+
+		this.parameterObject = {
+			userId : USER_ID,
+			categoryId : this.navMenuId,
+			accountId: this.accountId,
+			accountName: this.accountName,
+			fullLabel: this.fullLabel,
+			prodSpecId: this.prodSpecId,
+			assetId: this.selectedAssetId,
+			buyerGroupId: this.selectedBuyerGroupId
+		  }
 		
 		this.accordionIsClicked == true;
 
@@ -237,4 +395,39 @@ export default class MainNavigationMenu extends LightningElement {
 		// get products list
 		this.getProducts();
 	}
+
+	subscribeLMS() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext, 
+                payloadContainerLMS, 
+                (message) => this.validateValue(message));
+        }
+    }
+
+	validateValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+           	this.accountId = newValObj.accountId;
+			this.accountName = newValObj.accountName;
+			this.fullLabel =  newValObj.fullLabel;
+
+			this.parameterObject = {
+				userId : USER_ID,
+				categoryId : this.navMenuId,
+				accountId: this.accountId,
+				accountName: this.accountName,
+				fullLabel: this.fullLabel,
+				prodSpecId: this.prodSpecId,
+				assetId: this.selectedAssetId,
+				buyerGroupId: this.selectedBuyerGroupId
+			  }
+			  this.getProducts();
+        }
+    }
+
+	setSessionStorage(){
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
+    }
 }

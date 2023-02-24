@@ -137,18 +137,24 @@ private class Send_Email_Upon_Design_SubmissionTest {
             fac.Name = 'Externals';
             insert fac;
 
-            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,acc[0].Id,conList.iterator().next()?.Id);
-            insert oppList;
-
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
-            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                prodSpecList[i].RecordTypeId = psRecordType;
-                prodSpecList[i].Stage__c = 'Design';
-                prodSpecList[i].Status__c = 'Design';
-                prodSpecList[i].Requestor_Name__c = conList[i].Id;
-                prodSpecList[i].Requestor_Internal_External__c = 'Internal';
+            if(psRecordType == PS_CCE_PROGRAM_SPEC_ID){
+                // Create CCE Product Specification
+                List<Opportunity> closedWonOpportunityList = TestDataFactory.createClosedWonOpportunities(1, acc[0].Id, conList.iterator().next()?.Id);
+                insert closedWonOpportunityList;
+            } else if(psRecordType == PS_PROGRAM_SPEC_ID){
+                // Create OPE Product Specification
+                List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1, acc[0].Id, conList.iterator().next()?.Id);
+                insert oppList;
+                List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1, conList, oppList);
+                for(Integer i = 0 ; i < prodSpecList.size() ; i++){
+                    prodSpecList[i].RecordTypeId = PS_PROGRAM_SPEC_ID;
+                    prodSpecList[i].Stage__c = 'Design';
+                    prodSpecList[i].Status__c = 'Design';
+                    prodSpecList[i].Requestor_Name__c = conList[i].Id;
+                    prodSpecList[i].Requestor_Internal_External__c = 'Internal';
+                }
+                insert prodSpecList;
             }
-            insert prodSpecList;
 
             List<Product_Request__c> pr = TestDataFactory.createTestProductRequestRecords(1);
             for(Integer i = 0 ; i < pr.size() ; i++){

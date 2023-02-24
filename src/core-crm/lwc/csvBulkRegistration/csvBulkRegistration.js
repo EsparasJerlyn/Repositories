@@ -93,9 +93,9 @@ export default class ProductBulkRegistration extends NavigationMixin(
     @api creditAvailable; //this is the available remaining credit
     @track totalAmount;
     mobileLocaleList = [];
-   
     filteredFieldNames = [];
     filteredMobileLocale = [];
+    
     get acceptedFormats() {
         return ['.csv'];
     }
@@ -124,7 +124,7 @@ export default class ProductBulkRegistration extends NavigationMixin(
             let currentProductCategory = JSON.parse(
              sessionStorage.getItem(CURRENTPRODUCTCATEGORY)
             );
-            if(currentProductCategory && currentProductCategory.fromCategoryName == Corporate_Bundle){
+            if(currentProductCategory && currentProductCategory.fromCategoryName == Corporate_Bundle){ 
                 this.productCategoryCheck = true;
             }
        }

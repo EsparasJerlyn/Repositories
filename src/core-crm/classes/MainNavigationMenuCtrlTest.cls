@@ -1,14 +1,35 @@
+/**
+ * @description Add a custom tab for more flexible manipulation
+ * @see ../lwc/mainNavigationMenuCtrl
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                 | Change Summary                         |
+      |--------------------------------|-----------------------|----------------------|----------------------------------------|
+      | julie.jane.alegre              | November 28, 2022     | DEPP-4693            | Add test method for getAllAccountNames | 
+
+ */
+
 @isTest 
-public class MainNavigationMenuCtrlTest {
+public with sharing class MainNavigationMenuCtrlTest {
+private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
+   
+    @testSetup 
+    static void setupMethod() {
+        Test.startTest();
+        TestDataFactory.generateTestUsers();
+        Test.stopTest();
+    }
 
     @isTest
     public static void getOpportunityContractTypeTest(){
         
     	User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
         insert currentUser;
-		System.debug(currentUser);        
 
-       Test.startTest();
+        Test.startTest();
 		List<Opportunity> opp = MainNavigationMenuCtrl.getOpportunityContractType(currentUser.id);
         Test.stopTest();
 		System.assert(opp != null, 'Pass');        
@@ -16,10 +37,8 @@ public class MainNavigationMenuCtrlTest {
     
     @isTest
     public static void defaultMenuTest(){
-        System.debug('1111');
         Test.startTest();
         List<NavigationMenuItem> navMenu = MainNavigationMenuCtrl.defaultMenu();
-        System.debug('2342'+navMenu);
 		System.assert(navMenu.size() == 0, 'Pass');
         Test.stopTest();
 
@@ -38,7 +57,7 @@ public class MainNavigationMenuCtrlTest {
 
         Test.startTest();
         List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
-		System.assert(cate != null, 'Pass');
+		System.assert(categories != null, 'Pass');
         Test.stopTest();
 
     }
@@ -92,8 +111,9 @@ public class MainNavigationMenuCtrlTest {
 
         Test.startTest();     
         List<ProductCategory> categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
-		System.assert(cate != null, 'Pass');
+		System.assert(categories != null, 'Pass');
         Test.stopTest();
+        
     }
     @isTest
     public static void getAccountNameTest(){
@@ -101,5 +121,6 @@ public class MainNavigationMenuCtrlTest {
         String accountName = MainNavigationMenuCtrl.getAccountName('');
 		System.assert(String.isBlank(accountName), 'Has account name');
         Test.stopTest();
-    }
+    }    
+    
 }

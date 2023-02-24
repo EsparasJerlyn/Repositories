@@ -36,12 +36,10 @@ private class UpdateProductCodeFlowTest{
             insert contacts;
 
             List<Opportunity> opps;
-            opps = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,contacts[0].Id);
+            opps = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,contacts[0].Id);
             insert opps;
 
-            List<Product_Specification__c> productSpecs;
-            productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
-            insert productSpecs;
+            List<Product_Specification__c> productSpecs = TestDataFactory.retrieveCCEProductSpecifications();
 
             List<Product_Request__c> prodRequestOPEProgramRequest;
             prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(1,productSpecs[0].Id);

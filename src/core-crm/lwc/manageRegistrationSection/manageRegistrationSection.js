@@ -97,6 +97,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     empty = false;
     isDisabled = true;
     isForRejection = false;
+    isGroupRegister = false;
     error;
     registrationStatusValues;
     registrationStatusModal;
@@ -203,7 +204,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                     record.applicationName = item.applicationDetails.Name;
                     record.applicationURL = '/' + item.applicationDetails.Id;
                 }
-                
+
                 record.regenerateInvoiceURL = item.regenerateInvoiceURL;
 
                 return record;
@@ -638,6 +639,11 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         }
     }
 
+    handleGroupRegister(){
+        this.isGroupRegister = true;
+        this.isAddContact = false;
+    }
+
     handleSaveResponse(){
         this.isLoading = true;
         this.saveInProgress = true;
@@ -679,6 +685,15 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             return record;
         });
         return answerRecords;
+    }
+
+    handleBulkRegistrationResponse(event){
+        if(event.detail === 'Success'){
+            this.generateToast(SUCCESS_TITLE, 'Bulk Registration Successful', SUCCESS_VARIANT);
+            refreshApex(this.tableData);
+        }else{
+            this.generateToast('Error.',LWC_Error_General,'error');
+        }
     }
     
     saveRegistration(contact, offeringId, relatedAnswer, answer, fileUpload, prescribedProgram){
@@ -748,7 +763,14 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 error.body && 
                 error.body.message == 'Please make sure to enable the contact as Partner User'){
                     this.generateToast('Error.', error.body.message ,'error');
-            }else{
+            }
+            else if(error &&
+                error.body &&
+                error.body.fieldErrors &&
+                error.body.fieldErrors.Birthdate){
+                    this.generateToast('Error.', error.body.fieldErrors.Birthdate[0].message ,'error');
+            }
+            else{
                 this.generateToast('Error.', LWC_Error_General ,'error');
             }
             console.error('ERROR: ' + JSON.stringify(error));
@@ -831,6 +853,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         this.contactId = undefined;
         this.emailOptions = [];
         this.registeredEmail = undefined;
+        this.isGroupRegister = false;
     }
 
     closeManageResponse(){
@@ -1082,6 +1105,13 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             return this.saveInProgress || !this.contactId || !this.pbEntryRecord || !this.registeredEmail;
         }
         return this.saveInProgress || !this.contactId || !this.registeredEmail;
+    }
+
+    get disableGroupRegistration(){
+        if(this.contactId){
+            return true;
+        }
+        return false;
     }
 
     get hasEmailOptions(){

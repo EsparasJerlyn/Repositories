@@ -3,9 +3,10 @@
  * @see ..RegistrationMatchingHelper
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | August 15, 2022       | DEPP-3568            | Created file                 |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                       |
+      |---------------------------|-----------------------|----------------------|------------------------------------------------------|
+      | roy.nino.s.regala         | August 15, 2022       | DEPP-3568            | Created file                                         |
+      | roy.nino.s.regala         | January 17, 2023      | DEPP-5076            | Updated Logic to prioritize email matching result    | 
  */
 @isTest
 public with sharing class RegistrationMatchingHelperTest {
@@ -31,6 +32,21 @@ public with sharing class RegistrationMatchingHelperTest {
             Work_Email__c = 'workEmail@email.com',
             hed__Preferred_Email__c = 'Alternate Email',
             hed__AlternateEmail__c = 'personalEmail@email.com',
+            RecordTypeId = PERSON
+        )
+    );
+
+    conList.add(
+        new Contact(
+            FirstName = 'FirstName Test No DOB',
+            LastName = 'LastName Test No DOB',
+            Email = 'personalEmailNoDOB@email.com',
+            Registered_Email__c = 'personalEmailNoDOB@email.com',
+            QUT_Learner_Email__c = 'learnerEmailNoDOB@email.com',
+            QUT_Staff_Email__c = 'staffEmailNoDOB@email.com',
+            Work_Email__c = 'workEmailNoDOB@email.com',
+            hed__Preferred_Email__c = 'Alternate Email',
+            hed__AlternateEmail__c = 'personalEmailNoDOB@email.com',
             RecordTypeId = PERSON
         )
     );
@@ -165,6 +181,28 @@ public with sharing class RegistrationMatchingHelperTest {
         LastName = 'LastName Test',
         Registered_Email__c = 'mismatchEmail@email.com',
         Birthdate = Date.Today().addYears(-15)
+    );
+    contactToValidateList.add(contactToValidate);
+    String contactString = JSON.serialize(contactToValidateList);
+    Test.startTest();
+    System.runAs(PORTAL_SYS_ADMIN){
+        responseList = RegistrationMatchingHelper.validateContactMatching(contactString);
+        system.assert(responseList[0].isPartialMatch, 'is not partial match');
+        system.assert(!responseList[0].isEmailMatch, 'email matched');
+    }
+    Test.stopTest();
+  }
+
+  @isTest
+  static void registerOnlyDetailsMatchNoDOB() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    
+    List<RegistrationMatchingHelper.ContactMatchingResponse> responseList = new List<RegistrationMatchingHelper.ContactMatchingResponse>();
+    List<Contact> contactToValidateList = new List<Contact>();
+    Contact contactToValidate = new Contact(
+        FirstName = 'FirstName Test No DOB',
+        LastName = 'LastName Test No DOB',
+        Registered_Email__c = 'mismatchEmail@email.com'
     );
     contactToValidateList.add(contactToValidate);
     String contactString = JSON.serialize(contactToValidateList);

@@ -26,7 +26,8 @@ public class LMSIntegrationManagerTest {
         insert courses;
         
         List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
-        insert courseOfferings;      
+        courseOfferings[0].hed__Start_Date__c = System.today();
+        insert courseOfferings; 
         
         List<hed__Course_Enrollment__c> courseConnections = TestDataFactory.createTestCourseConnectionRecord(1, contacts[0].Id, courseOfferings);
         for(hed__Course_Enrollment__c courseEnrollment : courseConnections) {
@@ -88,7 +89,6 @@ public class LMSIntegrationManagerTest {
 
         hed__Course_Offering__c courseOffering = [SELECT Id, LMS_Integration_Status__c, hed__Start_Date__c FROM hed__Course_Offering__c LIMIT 1];
         courseOffering.LMS_Integration_Status__c = 'Success';
-        courseOffering.hed__Start_Date__c = System.today();
         update courseOffering;
         
         Test.startTest();

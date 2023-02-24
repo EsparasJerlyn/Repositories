@@ -25,23 +25,28 @@ public class LMSCourseBatchHandlerTest {
         insert courses;
     
         List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
-        insert courseOfferings;      
+        insert courseOfferings;     
+        
+        TestDataFactory.generateTestUsers();
     }
 
     @isTest
     static void testCourseLMSUpdate() 
     {
-        hed__Course__c course = [SELECT Id, Mark_Design_Stage_as_Complete__c, Primary_Delivery_Platform__c FROM hed__Course__c LIMIT 1];
-        course.Mark_Design_Stage_as_Complete__c = true;
-        course.Primary_Delivery_Platform__c = 'Blackboard';
-        update course;
-        
-        Test.startTest();
-        LMSCourseBatchHandler job = new LMSCourseBatchHandler();
-        DataBase.executeBatch(job, 1); 
-        Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+		System.runAs(PORTAL_SYS_ADMIN) {
+            hed__Course__c course = [SELECT Id, Mark_Design_Stage_as_Complete__c, Primary_Delivery_Platform__c FROM hed__Course__c LIMIT 1];
+            course.Mark_Design_Stage_as_Complete__c = true;
+            course.Primary_Delivery_Platform__c = 'Blackboard';
+            update course;
+            
+            Test.startTest();
+            LMSCourseBatchHandler job = new LMSCourseBatchHandler();
+            DataBase.executeBatch(job, 1); 
+            Test.stopTest();
 
-        hed__Course__c courseAfterUpdate = [SELECT Id, LMS_Integration_Status__c FROM hed__Course__c LIMIT 1];
-        System.assertEquals('Sent', courseAfterUpdate.LMS_Integration_Status__c, 'LMS Course Callout is completed.');
+            hed__Course__c courseAfterUpdate = [SELECT Id, LMS_Integration_Status__c FROM hed__Course__c LIMIT 1];
+            System.assertEquals('Sent', courseAfterUpdate.LMS_Integration_Status__c, 'LMS Course Callout is completed.');
+        }
     }
 }

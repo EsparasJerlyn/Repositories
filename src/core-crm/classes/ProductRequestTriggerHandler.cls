@@ -9,6 +9,7 @@
       |---------------------------|-----------------------|-----------|---------------------------------------------|
       | roy.nino.s.regala         | June 02, 2022         | DEPP-2863 | Created file                                |
       | arsenio.jr.dayrit         | June 24, 2022         | DEPP-3246 | Added Method for Update Course and Program  |
+      | rhea.b.torres             | February 16, 2023     | DEPP-5182 | Implemented Logger and used Database.update |
 */
 
 public without sharing class ProductRequestTriggerHandler implements Disableable, AfterUpdate {
@@ -73,19 +74,35 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
             }
 
             if(!productToUpdateMap.keySet().isEmpty()){
-                update productToUpdateMap.values();
+                Database.SaveResult[] srList=  Database.update(productToUpdateMap.values(), false);
+                for (Database.SaveResult sr : srList) {
+                    if(!sr.isSuccess()){
+                        Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Product records: ').setDatabaseResult(sr);
+                    }
+                }
             }
 
             if(!courseToUpdate.keySet().isEmpty()){
-                update courseToUpdate.values();
+                Database.SaveResult[] srList=  Database.update(courseToUpdate.values(),false);
+                for (Database.SaveResult sr : srList) {
+                    if(!sr.isSuccess()){
+                        Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Course records: ').setDatabaseResult(sr);
+                    }
+                }
             }
 
             if(!programToUpdate.keySet().isEmpty()){
-                update programToUpdate.values();
+                Database.SaveResult[] srList=  Database.update(programToUpdate.values(),false);
+                for (Database.SaveResult sr : srList) {
+                    if(!sr.isSuccess()){
+                        Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Program Plan records: ').setDatabaseResult(sr);
+                    }
+                }
             }
 
-
-
+            if(Logger.getBufferSize() <0){
+                Logger.saveLog();
+            }
         }
     }
 

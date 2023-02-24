@@ -30,6 +30,9 @@ parameters:
   values:
   - "Diff from main"
   - "Diff from target branch"
+  - "Last 5 days"
+  - "Last 10 days"
+  - "Full Deployment"
 
 - name: TARGET_BRANCH
   displayName: Target Branch

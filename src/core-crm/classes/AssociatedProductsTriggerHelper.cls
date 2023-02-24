@@ -102,7 +102,6 @@ public without sharing class AssociatedProductsTriggerHelper {
 
          // Get CCE Entitlement Policy Map
         Map<Id, Id> entPolicyCCEMap = new Map<Id, Id>();
-        Set<Id> entPolicyCCESet = new Set<Id>();
         for(CommerceEntitlementBuyerGroup commEntBG : [
                                                         SELECT BuyerGroupId, PolicyId
                                                         FROM CommerceEntitlementBuyerGroup

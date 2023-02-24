@@ -20,14 +20,8 @@ const htmlDecode = (input) => {
 /**
 * @description truncate text
 */
-const truncateText = (str, length, ending) => {
-    if (length == null) length = 100;
-    if (ending == null) ending = '...';
-
-    if (str.length > length)
-        return str.substring(0, length - ending.length) + ending;
-    else
-        return str;
+const truncateText = (str, length) => {
+    return str.substring(0, length);
 }
 
 /**
@@ -124,6 +118,26 @@ const checkPasteIfNumeric = (event) => {
   return isNumeric;
 }
 
+/*!
+ * Get the URL parameters
+ * @param  {String} url The URL
+ * @return {Object}     The URL parameters
+ */
+const getParams = (url = window.location) => {
+	let params = {};
+	new URL(url).searchParams.forEach(function (val, key) {
+		if (params[key] !== undefined) {
+			if (!Array.isArray(params[key])) {
+				params[key] = [params[key]];
+			}
+			params[key].push(val);
+		} else {
+			params[key] = val;
+		}
+	});
+	return params;
+}
+
 const baseURL = `${url}s`;
 
 export default{
@@ -134,6 +148,7 @@ export default{
     birthdateValidation,
     checkPasteIfNumeric,
     preventNonNumbersInInput,
-    baseURL
+    getParams,
+    baseURL,
    
 }

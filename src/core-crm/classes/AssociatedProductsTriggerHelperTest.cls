@@ -79,7 +79,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
             insert conList;
             
-            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accountList[0].Id,conList.iterator().next()?.Id);
+            List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accountList[0].Id,conList.iterator().next()?.Id);
             insert oppList;
 
             List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
@@ -125,18 +125,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-            List<Account> accountBG = [SELECT Id 
-                                        FROM Account 
-                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                        LIMIT 1];
-                
-            List<Account> accountUniv = [SELECT Id 
-                                         FROM Account 
-                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                         LIMIT 1];
-
+            
             List<Contact> contact = [SELECT Id
                                      FROM Contact 
                                      WHERE CreatedById =: PROGRAM_ADMIN.Id
@@ -159,11 +148,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
                                                  WHERE Name =: CCE_CATEGORY_QLS
                                                  LIMIT 1];
 
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contact,opp);
-            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                prodSpecList[i].RecordTypeId = cceProdSpecId;
-            }
-            insert prodSpecList;
+            List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
 
             List<Product_Request__c> productRequestList = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c productRequest : productRequestList){
@@ -210,18 +195,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-            List<Account> accountBG = [SELECT Id 
-                                        FROM Account 
-                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                        LIMIT 1];
                 
-            List<Account> accountUniv = [SELECT Id 
-                                         FROM Account 
-                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                         LIMIT 1];
-
             List<Contact> contact = [SELECT Id
                                      FROM Contact 
                                      WHERE CreatedById =: PROGRAM_ADMIN.Id
@@ -244,11 +218,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
                                                  WHERE Name =: CCE_CATEGORY_CB
                                                  LIMIT 1];
 
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contact,opp);
-            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                prodSpecList[i].RecordTypeId = cceProdSpecId;
-            }
-            insert prodSpecList;
+            List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
 
             List<Product_Request__c> productRequestList = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c productRequest : productRequestList){
@@ -295,18 +265,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-            List<Account> accountBG = [SELECT Id 
-                                        FROM Account 
-                                        WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                        AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                        LIMIT 1];
-                
-            List<Account> accountUniv = [SELECT Id 
-                                         FROM Account 
-                                         WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                         AND RecordTypeId =: BUSINESS_ACC_RECTYPEID
-                                         LIMIT 1];
-
+        
             List<Contact> contact = [SELECT Id
                                      FROM Contact 
                                      WHERE CreatedById =: PROGRAM_ADMIN.Id
@@ -330,11 +289,7 @@ public without sharing class AssociatedProductsTriggerHelperTest {
                                                  LIMIT 1];
             
 
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contact,opp);
-            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                prodSpecList[i].RecordTypeId = cceProdSpecId;
-            }
-            insert prodSpecList;
+            List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
 
             List<Product_Request__c> productRequestList = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c productRequest : productRequestList){

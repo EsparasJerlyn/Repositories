@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | julie.jane.alegre         | September 13, 2022    | DEPP-4270            | Created file                                 |
       | marygrace.li              | September 24, 2022    | DEPP-4414            | Customized user profile menu and logout      |
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
 */
 
 import { LightningElement, wire } from "lwc";
@@ -28,6 +29,8 @@ const CONTACT_FIELDS = [
     "User.Contact.Registered_Email__c"
   ];
 
+  const STORED_CONTACTNAME ="storedContactName";
+
 export default class CceLogout extends NavigationMixin(LightningElement) {
 
     contactName;
@@ -42,8 +45,14 @@ export default class CceLogout extends NavigationMixin(LightningElement) {
         if(data){
             this.firstName = data.fields.Contact.value.fields.FirstName.value;
             this.lastName = data.fields.Contact.value.fields.LastName.value;
+            let contactName = this.firstName + ' ' + this.lastName;
+
+            sessionStorage.setItem(STORED_CONTACTNAME,contactName);
         }
-         this.contactName = this.firstName + ' ' + this.lastName;
+       
+        if(sessionStorage.getItem(STORED_CONTACTNAME)){
+            this.contactName = sessionStorage.getItem(STORED_CONTACTNAME);
+        }
     }
 
     /* Load Custom CSS */
@@ -72,6 +81,7 @@ export default class CceLogout extends NavigationMixin(LightningElement) {
                 url: this.loginPageUrl
             }
         });
+        sessionStorage.clear();
     }
 
     handleToggle(){

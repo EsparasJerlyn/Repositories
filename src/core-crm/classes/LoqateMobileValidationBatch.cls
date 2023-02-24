@@ -80,7 +80,6 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
      */
     public void execute(Database.BatchableContext context, List<sObject> objectList) {
         try{
-            String payLoadString;
             String endPointAU;
             String endPointNZ;
 
@@ -93,8 +92,6 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
             endPointNZ += 'nz' + STR_PHONE;
 
 
-            Map<String,Object> resultObjectMap = new Map<String,Object>();
-            ResponseResult responseRes = new ResponseResult();
             String auPayLoadStr;
             String nzPayLoadStr;
             PayLoad auPayLoadClass;
@@ -104,7 +101,6 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
             List<sObject> auRecords = new List<sObject>();
             List<sObject> nzRecords = new List<sObject>();
             List<sObject> objectsToUpdate = new List<sObject>();
-            sObject newObj;
             
             //filter nz and au
             for(sObject obj: objectList){

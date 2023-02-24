@@ -7,7 +7,7 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
+      | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 | 
 */
 @isTest
 public class ManageRegistrationSectionHelperTest {
@@ -195,6 +195,10 @@ public class ManageRegistrationSectionHelperTest {
      private static void createRecord(String productRequestRecordType){
           System.runAs(TestDataFactory.getProgramAdminUser()){
 
+               BuyerGroup bg = new BuyerGroup();
+               bg.Name = 'OPE BuyerGroup';
+               insert bg;
+
                List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
                for(Account account : accounts){
                     account.RecordTypeId = ACCT_UNIV_DEP_ID;
@@ -243,4 +247,5 @@ public class ManageRegistrationSectionHelperTest {
           private String fileName;
           private String relatedAnswerId;
       }
+      
 }

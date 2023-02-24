@@ -43,7 +43,7 @@
         <div class="breadcrumbs-container breadcrumbs-pad">
           <ol class="slds_breadcrumbs">
             <li class="slds_breadcrumb__item breadcrumb__item--home">
-              <a href={homeLink} class=""> <img alt="" src={iconhome} /></a>
+              <a href={homeLink} class="" onclick={setSessionStorage}> <img alt="" src={iconhome} /></a>
             </li>      
             <template if:true={menuList}>
               <template for:each={menuList} for:item="item" for:index="i">

@@ -201,45 +201,49 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     
      @isTest
      private static void getFontSizeXSmallTest(){
-         Integer prodNameLength;
+        System.runAs(currentUser){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(122);
          
   		 Test.stopTest();
 		 System.assert(TRUE, 'x-small-font'); 
+        }
     }
     
      @isTest
      private static void getFontSizeSmallTest(){
-         Integer prodNameLength;
+        System.runAs(currentUser){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(120);
          
   		 Test.stopTest();
 		 System.assert(TRUE, 'small-font'); 
+        }
     }
     
     @isTest
      private static void getFontSizeMediumTest(){
-         Integer prodNameLength;
+        System.runAs(currentUser){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(32);
          
   		 Test.stopTest();
 		 System.assert(TRUE, 'medium-font'); 
+        }
     }
     
      @isTest
      private static void getFontSizeLargeTest(){
-         Integer prodNameLength;
+        System.runAs(currentUser){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(30);
          
   		 Test.stopTest();
 		 System.assert(TRUE, 'big-font'); 
+        }
     }
 }

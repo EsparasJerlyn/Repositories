@@ -7,6 +7,10 @@
         <members>PostCourseCompletionEmailCtrl</members>
         <members>PostCourseCompletionEmailCtrlTest</members>
         <!--(End) DEPP-4720 -->
+        <!--(Start) DEPP-4909 -->
+        <members>OfferingStartDateBatch</members>
+        <members>OfferingStartDateBatchTest</members>
+        <!--(End) DEPP-4909 -->
         <name>ApexClass</name>
     </types>
     <types>
@@ -30,6 +34,18 @@
         <members>Opportunity-Opportunity Layout.layout-meta.xml</members>
         <!--DEPP-5055 end-->
         <name>Layout</name>
+    </types>
+    <types>
+        <!--Start DEPP-4925-->
+        <members>enableCCECorporateUser</members>
+        <!--End DEPP-4925-->
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <!--Start DEPP-4925-->
+        <members>Contact.Enable_Partner_Portal_Access</members>
+        <!--End DEPP-4925-->
+        <name>QuickAction</name>
     </types>
     <version>52.0</version>
 </Package>

@@ -8,6 +8,8 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
+      | eugene.andrew.abuan       | February 15, 2023     | DEPP-5044            | Adjusted lines in createUser for assigning |
+      |                           |                       |                      | permset and adding Buyer Account           |
 */
 
 public without sharing class ManageRegistrationSectionHelper{
@@ -67,12 +69,12 @@ public without sharing class ManageRegistrationSectionHelper{
                     Email = finalContactRecord.Email,
                     LastName = finalContactRecord.LastName,
                     FirstName = finalContactRecord.FirstName,
-                    Id = contactRecord.Id
+                    Id = finalContactRecord.Id
                );
 
                //create new user to be enrolled to ope portal
                commerceUser = createUser(newContact);
-               newWebCart = createWebCart(commerceUser, contactRecord.Id);
+               newWebCart = createWebCart(commerceUser, finalContactRecord.Id);
           }
 
           insert newWebCart; 
@@ -175,7 +177,7 @@ public without sharing class ManageRegistrationSectionHelper{
 
                update cartPayment;                   
 
-               enrollmentProcessingReturn.contactId = contactRecord.Id;
+               enrollmentProcessingReturn.contactId = finalContactRecord.Id;
                enrollmentProcessingReturn.paymentURL = paymentURL;
                enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
 
@@ -200,7 +202,7 @@ public without sharing class ManageRegistrationSectionHelper{
                
                enrolmentParam = new ManageRegistrationEnrolmentHelper.EnrolmentCreationParamClass();
                     
-               enrolmentParam.contactId = contactRecord.Id;
+               enrolmentParam.contactId = finalContactRecord.Id;
                enrolmentParam.offeringId = offeringId;
                enrolmentParam.prescribedProgram = prescribedProgram;
                enrolmentParam.isTailored = isTailored;
@@ -211,7 +213,7 @@ public without sharing class ManageRegistrationSectionHelper{
                //directly create course connection records
                List<hed__Course_Enrollment__c> courseConnectionList = ManageRegistrationEnrolmentHelper.createCourseConnectionList(enrolmentParam);  
                
-               enrollmentProcessingReturn.contactId = contactRecord.Id;
+               enrollmentProcessingReturn.contactId = finalContactRecord.Id;
                enrollmentProcessingReturn.contactName = finalContactRecord.FirstName + finalContactRecord.LastName;
 
                //if corporate pricing is selected
@@ -566,6 +568,7 @@ public without sharing class ManageRegistrationSectionHelper{
      */
      private static Id createUser(Contact newContact){
           Id response;
+          Id contactId = newContact.Id;
 
           List<User> users = [
                SELECT Id 
@@ -600,8 +603,89 @@ public without sharing class ManageRegistrationSectionHelper{
 
                response = commerceUser.Id;
           }
+          assignToOPEBuyerGroup(contactId);
+          assignOPEPermSet(response);
 
           return response;
+     }
+
+     private static void assignToOPEBuyerGroup(Id contactId){
+          
+          List<BuyerGroup> opeBuyerGroup = [ SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' WITH SECURITY_ENFORCED LIMIT 1];
+          List<Contact> contact = [SELECT AccountId, Account.Name FROM Contact WHERE Id =: contactId WITH SECURITY_ENFORCED LIMIT 1];
+          Id contactAdminAccountId = contact[0].AccountId;
+          List<BuyerAccount> buyerAccount = [SELECT Id FROM BuyerAccount WHERE BuyerId =: contactAdminAccountId WITH SECURITY_ENFORCED LIMIT 1];
+
+          if(buyerAccount.isEmpty()){
+               BuyerAccount administrativeAccountBuyer = new BuyerAccount();
+               administrativeAccountBuyer.BuyerId = contact[0].AccountId;
+               administrativeAccountBuyer.Name = contact[0].Account.Name;
+               administrativeAccountBuyer.IsActive = true;
+               administrativeAccountBuyer.BuyerStatus = 'Active';
+
+               insertAdministrativeAccountBuyer(administrativeAccountBuyer);               
+           }
+
+          List<BuyerGroupMember> buyerGroupMember = [SELECT Id FROM buyerGroupMember WHERE BuyerId =: contactAdminAccountId AND BuyerGroupId =: opeBuyerGroup[0].Id WITH SECURITY_ENFORCED LIMIT 1];
+          if(buyerGroupMember.isEmpty()){
+               BuyerGroupMember bgMember = new BuyerGroupMember();
+               bgMember.BuyerId = contactAdminAccountId;
+               bgMember.BuyerGroupId = opeBuyerGroup[0].Id;
+               
+               insertBuyerGroupMember(bgMember);
+          }
+     }
+
+     private static void insertAdministrativeAccountBuyer(BuyerAccount administrativeAccountBuyer){
+          if(Schema.sObjectType.BuyerAccount.fields.BuyerId.isCreateable() &&
+               Schema.sObjectType.BuyerAccount.fields.Name.isCreateable() &&
+               Schema.sObjectType.BuyerAccount.fields.IsActive.isCreateable() &&
+               Schema.sObjectType.BuyerAccount.fields.BuyerStatus.isCreateable()){
+               
+                    Database.SaveResult insertResult = Database.insert(administrativeAccountBuyer, false);
+                    if(!insertResult.isSuccess()){
+                         Logger.error('Error in Inserting Buyer Accounts').setDatabaseResult(insertResult);
+                    }
+                    if(Logger.getBufferSize() < 0){
+                         Logger.saveLog();                
+                    }
+          }
+          
+     }
+
+     private static void insertBuyerGroupMember(BuyerGroupMember bgMember){
+          if(Schema.sObjectType.BuyerGroupMember.fields.BuyerId.isCreateable() &&
+               Schema.sObjectType.BuyerGroupMember.fields.BuyerGroupId.isCreateable()){
+                    
+                    Database.SaveResult insertResult = Database.insert(bgMember, false);
+                    if(!insertResult.isSuccess()){
+                         Logger.error('Error in Inserting Buyer Group Members').setDatabaseResult(insertResult);
+                    }
+                    if(Logger.getBufferSize() < 0){
+                         Logger.saveLog();                
+                    }
+          }
+     }
+
+     @future
+     private static void assignOPEPermSet(Id userId){
+          List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
+          List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label = 'OPE Catalogue' WITH SECURITY_ENFORCED LIMIT 1];
+          List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId WITH SECURITY_ENFORCED];
+          if(userPermSetAssignments.isEmpty()){
+              for(PermissionSet perm: permsets){
+                  PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
+                      PermissionSetId = perm.Id, 
+                      AssigneeId = userId
+                  );
+                  permSetAssignments.add(permSetAssignment);
+              }
+              if(permSetAssignments.size() > 0 && 
+                    Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
+                    Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable()){
+                  insert permSetAssignments;
+              }
+          }
      }
 
      /**

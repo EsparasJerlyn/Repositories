@@ -20,6 +20,8 @@
       | eugene.andrew.abuan       | September 16, 2022    | DEPP-3506            | Update OPE Catalouge to           |
       |                           |                       |                      | Administrative account            |
       | marygrace.li              | September 24, 2022    | DEPP-4411            | Updated isEmailExist method       |
+      | arsenio.jr.dayrit         | December 16, 2022     | DEPP-4907            | Update UpdateContact method       |
+      | eugene.andrew.abuan       | February 22, 2023     | DEPP-5232            | Updates in isEmailExist method    |
 
  */
 public without sharing class RegistrationFormCtrl {
@@ -40,14 +42,16 @@ public without sharing class RegistrationFormCtrl {
   public static List<User> isEmailExist(String email) {
     try {
       List<User> userList = new List<User>();
-      userList = [
-        SELECT 
-          Id, Name, MobilePhone, Username, Profile.Name, AccountId, FirstName, LastName
-        FROM User
-        WHERE (Contact.Email =: email OR Contact.Work_Email__c =: email)
-        AND IsActive = true
-        LIMIT 1
-      ];
+      if(Schema.sObjectType.User.isAccessible()){
+        userList = [
+          SELECT 
+            Id, Name, Contact.MobilePhone, Username, Profile.Name, AccountId, FirstName, LastName
+          FROM User
+          WHERE (Contact.Registered_Email__c =: email OR Contact.Work_Email__c =: email)
+          AND IsActive = true
+          LIMIT 1
+        ];
+      }
 
       List<BuyerGroup> opeBuyerGroup = [
         SELECT Id
@@ -84,13 +88,14 @@ public without sharing class RegistrationFormCtrl {
    */
   @AuraEnabled
   public static void updateContact(
-    Id contactId,
-    String email,
-    String mobileNoLocale,
-    String mobileConLocale,
-    String dietaryReq,
-    String accessibilityReq
+    String registrationData,
+    Boolean isUpdatePersonalEmail
   ) {
+
+      RegistrationDataWrapper parsedRegistrationData = (RegistrationDataWrapper) JSON.deserialize(
+            registrationData, 
+            RegistrationDataWrapper.class
+      );
 
       List<Contact> currentContacts = new List<Contact>(
         [
@@ -104,29 +109,53 @@ public without sharing class RegistrationFormCtrl {
             Email,
             Work_Email__c,
             QUT_Learner_Email__c,
-            QUT_Staff_Email__c
+            QUT_Staff_Email__c,
+            HasOptedOutOfEmail,
+            Email_Opt_In_DateTime__c,
+            Consent_Source__c,
+            Consent_Source_Category__c
           FROM Contact
           WHERE
             RecordTypeId = :RT_CONTACT_PERSON_ID
             AND Parent_Person_Contact__c = NULL
-            AND Id = :contactId
-            AND (Email = :email
-            OR Work_Email__c = :email
-            OR QUT_Learner_Email__c = :email
-            OR QUT_Staff_Email__c = :email)
+            AND Id = :parsedRegistrationData.contactRecord.Id
+            AND (Email = :parsedRegistrationData.contactRecord.Registered_Email__c
+            OR Work_Email__c = :parsedRegistrationData.contactRecord.Registered_Email__c
+            OR QUT_Learner_Email__c = :parsedRegistrationData.contactRecord.Registered_Email__c
+            OR QUT_Staff_Email__c = :parsedRegistrationData.contactRecord.Registered_Email__c)
         ]
       );
-
       //Update existing contact if there's only 1 exact match
       if (currentContacts.size() == 1) {
         Contact existingContact = currentContacts[0];
-        existingContact.ContactMobile_Locale__c = mobileConLocale;
-        existingContact.Mobile_No_Locale__c = mobileNoLocale;
-        existingContact.Registered_Email__c = email;
-        existingContact.Dietary_Requirement__c = dietaryReq;
-        existingContact.Accessibility_Requirement__c = accessibilityReq;
-        update existingContact;
+        existingContact.ContactMobile_Locale__c = parsedRegistrationData.contactRecord.ContactMobile_Locale__c;
+        existingContact.Mobile_No_Locale__c = parsedRegistrationData.contactRecord.Mobile_No_Locale__c;
+        existingContact.Registered_Email__c = parsedRegistrationData.contactRecord.Email;
+        if( parsedRegistrationData.contactRecord.Email != existingContact.Email 
+            && parsedRegistrationData.contactRecord.Email != existingContact.QUT_Learner_Email__c 
+            && parsedRegistrationData.contactRecord.Email != existingContact.QUT_Staff_Email__c 
+            && parsedRegistrationData.contactRecord.Email != existingContact.Work_Email__c){
+            if(isUpdatePersonalEmail == true){
+              existingContact.Email = parsedRegistrationData.contactRecord.Email;
+            }else{
+              existingContact.Work_Email__c = parsedRegistrationData.contactRecord.Email;
+            }
+        }
+        existingContact.Dietary_Requirement__c = parsedRegistrationData.contactRecord.Dietary_Requirement__c;
+        existingContact.Accessibility_Requirement__c = parsedRegistrationData.contactRecord.Dietary_Requirement__c;
 
+        Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
+
+        if(parsedRegistrationData.isOptIn == true){
+          existingContact.HasOptedOutOfEmail = false;
+          existingContact.Email_Opt_In_DateTime__c = System.now();
+          existingContact.Consent_Source__c = storeLinkSettings.Study_Store_Link__c;
+          existingContact.Consent_Source_Category__c = 'Study Application';
+        }else{
+          existingContact.HasOptedOutOfEmail = true;
+        }
+
+        update existingContact;
       }
    
   }
@@ -269,25 +298,25 @@ public without sharing class RegistrationFormCtrl {
    */
   @AuraEnabled
   public static string registerUser(
-    String firstName,
-    String lastName,
-    String email,
-    String mobile,
-    Integer day,
-    Integer month,
-    Integer year,
-    String dietaryReq,
-    String accessReq,
-    String startURL,
-    String mobileNoLocale,
-    String mobileConLocale,
-    Id contactId
+    String registrationData,
+    String birthDateData
   ) {
-    try {
       String confirmPageName = 'CheckPasswordResetEmail';
 
+      
+
+      RegistrationDataWrapper parsedRegistrationData = (RegistrationDataWrapper) JSON.deserialize(
+            registrationData, 
+            RegistrationDataWrapper.class
+      );
+
+      BirthDateWrapper parsedBirthDateData = (BirthDateWrapper) JSON.deserialize(
+        birthDateData, 
+        BirthDateWrapper.class
+      );
+
       //Format birthday
-      Date birthdate = Date.newInstance(year, month, day);
+      parsedRegistrationData.contactRecord.Birthdate = Date.newInstance(parsedBirthDateData.year, parsedBirthDateData.month, parsedBirthDateData.day);
 
       // Query OPE Buyer Group
       List <BuyerGroup> opeBuyerGroup = [
@@ -298,32 +327,32 @@ public without sharing class RegistrationFormCtrl {
       ];
 
       //Update existing contact if there's only 1 exact match
-      if (contactId != null) {
+      if (parsedRegistrationData.contactRecord.Id != null) {
         Id accId;
         // Query if there is an exsisting administrative account linked to the contact
         List<Contact> contactAdministrativeAcc = [
           SELECT Id, AccountId
           FROM Contact 
           WHERE Account.RecordTypeId =: ADMINISTRATIVE_ACC_RECTYPEID
-          AND Id =: contactId
+          AND Id =: parsedRegistrationData.contactRecord.Id
           LIMIT 1
         ];
 
         if(contactAdministrativeAcc.isEmpty()){
-          accId = createAdministrativeAccount(opeBuyerGroup[0].Id, null, lastName, firstName);
+          accId = createAdministrativeAccount(opeBuyerGroup[0].Id, null, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
         }else{
-          accId = createAdministrativeAccount(opeBuyerGroup[0].Id, contactAdministrativeAcc[0].AccountId, lastName, firstName);
+          accId = createAdministrativeAccount(opeBuyerGroup[0].Id, contactAdministrativeAcc[0].AccountId, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
         }
 
         Contact existingContact = new Contact();
-        existingContact.Id = contactId;
+        existingContact.Id = parsedRegistrationData.contactRecord.Id;
         existingContact.AccountId = accId;
-        existingContact.ContactMobile_Locale__c = mobileConLocale;
-        existingContact.Mobile_No_Locale__c = mobileNoLocale;
-        existingContact.Registered_Email__c = email;
-        existingContact.Birthdate = birthdate;
-        existingContact.Dietary_Requirement__c = dietaryReq;
-        existingContact.Accessibility_Requirement__c = accessReq;
+        existingContact.ContactMobile_Locale__c = parsedRegistrationData.contactRecord.ContactMobile_Locale__c;
+        existingContact.Mobile_No_Locale__c = parsedRegistrationData.contactRecord.Mobile_No_Locale__c;
+        existingContact.Registered_Email__c = parsedRegistrationData.contactRecord.Registered_Email__c;
+        existingContact.Birthdate = parsedRegistrationData.contactRecord.Birthdate;
+        existingContact.Dietary_Requirement__c = parsedRegistrationData.contactRecord.Dietary_Requirement__c;
+        existingContact.Accessibility_Requirement__c = parsedRegistrationData.contactRecord.Accessibility_Requirement__c;
         update existingContact;
 
         //Create user if none associated yet
@@ -336,48 +365,40 @@ public without sharing class RegistrationFormCtrl {
         if (existingUser.isEmpty())
         {
           confirmPageName = createNewUser(
-            firstName,
-            lastName,
-            email,
-            mobile,
-            birthdate,
-            existingContact.Id,
-            accId,
-            startURL
+            parsedRegistrationData
           );
         } else {
           confirmPageName = 'CloseModal';
         }
       } else {
         //Proceed in creation as usual if no exact match found
-        Id administrativAccount = createAdministrativeAccount(opeBuyerGroup[0].Id, null,lastName,firstName);
+        
+        //parsedRegistrationData.contactRecord.AccountId = administrativAccount;
         Id newContactId = createNewContact(
-          firstName,
-          lastName,
-          email,
-          birthdate,
-          dietaryReq,
-          accessReq,
-          administrativAccount,
-          mobileNoLocale,
-          mobileConLocale
+          parsedRegistrationData
         );
+
+        List<Contact> contactAdministrativeAcc = [
+          SELECT Id, AccountId
+          FROM Contact 
+          WHERE Account.RecordTypeId =: ADMINISTRATIVE_ACC_RECTYPEID
+          AND Id =: newContactId
+          LIMIT 1
+        ];
+
+        if(contactAdministrativeAcc.isEmpty()){
+          createAdministrativeAccount(opeBuyerGroup[0].Id, null, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
+        }else{
+          createAdministrativeAccount(opeBuyerGroup[0].Id, contactAdministrativeAcc[0].AccountId, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
+        }
+
+        parsedRegistrationData.contactRecord.Id = newContactId;
         confirmPageName = createNewUser(
-          firstName,
-          lastName,
-          email,
-          mobile,
-          birthdate,
-          newContactId,
-          administrativAccount,
-          startURL
+          parsedRegistrationData
         );
       }
 
       return confirmPageName;
-    } catch (Exception e) {
-      return null;
-    }
   }
   
   /**
@@ -452,30 +473,36 @@ public without sharing class RegistrationFormCtrl {
    * @param accountId - account of the User
    * @return Returns api name of the confirmation page
    */
-  public static Id createNewContact(
-    String firstName,
-    String lastName,
-    String email,
-    Date birthdate,
-    String dietaryReq,
-    String accessReq,
-    Id accountId,
-    String mobileNoLocale,
-    String mobileConLocale
+  private static Id createNewContact(
+    RegistrationDataWrapper registrationData
   ) {
+
+
     //Set fields from the form to the Contact Object
     Contact c = new Contact();
-    c.AccountId = accountId;
-    c.FirstName = firstName;
-    c.lastName = lastName;
-    c.Email = email;
-    c.Registered_Email__c = email;
-    c.Mobile_No_Locale__c = mobileNoLocale;
-    c.ContactMobile_Locale__c = mobileConLocale;
-    c.Birthdate = birthdate;
-    c.Dietary_Requirement__c = dietaryReq;
-    c.Accessibility_Requirement__c = accessReq;
+    c.AccountId = registrationData.accountId;
+    c.FirstName = registrationData.contactRecord.FirstName;
+    c.lastName = registrationData.contactRecord.LastName;
+    c.Email = registrationData.contactRecord.Registered_Email__c;
+    c.Registered_Email__c = registrationData.contactRecord.Registered_Email__c;
+    c.Mobile_No_Locale__c = registrationData.contactRecord.Mobile_No_Locale__c;
+    c.ContactMobile_Locale__c = registrationData.contactRecord.ContactMobile_Locale__c;
+    c.Birthdate = registrationData.contactRecord.Birthdate;
+    c.Dietary_Requirement__c = registrationData.contactRecord.Dietary_Requirement__c;
+    c.Accessibility_Requirement__c = registrationData.contactRecord.Accessibility_Requirement__c;
     c.RecordTypeId = RT_CONTACT_PERSON_ID;
+
+    Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
+
+    if(registrationData.isOptIn == true){
+      c.HasOptedOutOfEmail = false;
+      c.Email_Opt_In_DateTime__c = System.now();
+      c.Consent_Source__c = storeLinkSettings.Study_Store_Link__c;
+      c.Consent_Source_Category__c = 'Study Application';
+    }else{
+      c.HasOptedOutOfEmail = true;
+    }
+
     insert (c);
 
     return c.Id;
@@ -490,33 +517,26 @@ public without sharing class RegistrationFormCtrl {
    * @param birthdate - date of the Birthdate of the User
    * @param contactId - Contact related to the User
    */
-  public static String createNewUser(
-    String firstName,
-    String lastName,
-    String email,
-    String mobile,
-    Date birthdate,
-    Id contactId,
-    Id accId,
-    String startURL
+  private static String createNewUser(
+    RegistrationDataWrapper registrationData
   ) {
     //Query Ecommerece Learner Profile
     String userId;
     String invalidChar = '[^0-9]';
     datetime myDate = datetime.now();
     String retURL;
-    String userName = email + '.ope';
+    String userName = registrationData.contactRecord.Registered_Email__c + '.ope';
     Profile p = [SELECT Id FROM Profile WHERE Name = 'OPE Catalogue'];
 
     //Create User
     User u = new User();
-    u.FirstName = firstName;
-    u.LastName = lastName;
-    u.Email = email;
-    u.MobilePhone = mobile;
-    u.Birthdate__c = birthdate;
+    u.FirstName = registrationData.contactRecord.FirstName;
+    u.LastName = registrationData.contactRecord.LastName;
+    u.Email = registrationData.contactRecord.Registered_Email__c;
+    u.MobilePhone = registrationData.contactRecord.MobilePhone;
+    u.Birthdate__c = registrationData.contactRecord.Birthdate;
     u.Username = username;
-    String alias = lastName + firstName;
+    String alias = u.LastName + u.FirstName;
     if (alias.length() > 8) {
       alias = alias.substring(0, 8);
     }
@@ -524,12 +544,12 @@ public without sharing class RegistrationFormCtrl {
     u.CommunityNickname =
       alias +
       String.valueOf(myDate).replaceAll(invalidChar, '') +
-      String.valueOf(birthdate).replaceAll(invalidChar, '');
+      String.valueOf(u.Birthdate__c).replaceAll(invalidChar, '');
     u.LanguageLocaleKey = 'en_US';
     u.localesidkey = UserInfo.getLocale();
     u.emailEncodingKey = 'UTF-8';
     u.timeZoneSidKey = 'Australia/Brisbane';
-    u.ContactId = contactId;
+    u.ContactId = registrationData.contactRecord.Id;
     u.profileId = p.Id;
     insert (u);
 
@@ -542,7 +562,7 @@ public without sharing class RegistrationFormCtrl {
     userInserted.add(u.id);
     assignOPEPermset(userInserted);
 
-    ApexPages.PageReference pageRef = Site.login(userName, pwd, startURL);
+    ApexPages.PageReference pageRef = Site.login(userName, pwd, registrationData.startURL);
     if (pageRef != null) {
       retURL = pageRef.getUrl();
     }
@@ -695,5 +715,25 @@ public without sharing class RegistrationFormCtrl {
     public String conMobileLocale;
     @AuraEnabled
     public String countryCode;
+  }
+
+  public class RegistrationDataWrapper{
+    @AuraEnabled
+    public Contact contactRecord;
+    @AuraEnabled
+    public Id accountId;
+    @AuraEnabled
+    public String startURL;
+    @AuraEnabled
+    public Boolean isOptIn;
+  }
+
+  public class BirthDateWrapper{
+    @AuraEnabled
+    public Integer day;
+    @AuraEnabled
+    public Integer month;
+    @AuraEnabled
+    public Integer year;
   }
 }

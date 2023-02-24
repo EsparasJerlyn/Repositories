@@ -355,7 +355,6 @@ public with sharing class GenerateCodeCtrlTest{
 
      private static void createRecord(String productRequestRecordType, String productSpecsRecordType){
           System.runAs(currentUser){
-               Id offeringId = null;
 
                Activity_Code_Generator__c actCodeGen = new Activity_Code_Generator__c();
                actCodeGen.Type__c = 'Activity';
@@ -402,20 +401,20 @@ public with sharing class GenerateCodeCtrlTest{
                cceUnitCodeGen.Number__c = 0;
                insert cceUnitCodeGen;
 
-               CCE_Coaching_Code_Generator__c CCEcoachingCodeGen = new CCE_Coaching_Code_Generator__c();
-               CCEcoachingCodeGen.Type__c = 'Group_Coaching';
-               CCEcoachingCodeGen.Number__c = 0;
-               insert CCEcoachingCodeGen;
+               CCE_Coaching_Code_Generator__c cceCoachingCodeGen = new CCE_Coaching_Code_Generator__c();
+               cceCoachingCodeGen.Type__c = 'Group_Coaching';
+               cceCoachingCodeGen.Number__c = 0;
+               insert cceCoachingCodeGen;
 
-               CCE_Individual_Coaching_Code_Generator__c CCEindiCoachingCodeGen = new CCE_Individual_Coaching_Code_Generator__c();
-               CCEindiCoachingCodeGen.Type__c = 'Individual_Coaching';
-               CCEindiCoachingCodeGen.Number__c = 0;
-               insert CCEindiCoachingCodeGen;
+               CCE_Individual_Coaching_Code_Generator__c cceIndiCoachingCodeGen = new CCE_Individual_Coaching_Code_Generator__c();
+               cceIndiCoachingCodeGen.Type__c = 'Individual_Coaching';
+               cceIndiCoachingCodeGen.Number__c = 0;
+               insert cceIndiCoachingCodeGen;
 
-               CCE_Diagnostic_Tool_Code_Generator__c CCEdiagToolCodeGen = new CCE_Diagnostic_Tool_Code_Generator__c();
-               CCEdiagToolCodeGen.Type__c = 'Diagnostic_Tool';
-               CCEdiagToolCodeGen.Number__c = 0;
-               insert CCEdiagToolCodeGen;
+               CCE_Diagnostic_Tool_Code_Generator__c cceDiagToolCodeGen = new CCE_Diagnostic_Tool_Code_Generator__c();
+               cceDiagToolCodeGen.Type__c = 'Diagnostic_Tool';
+               cceDiagToolCodeGen.Number__c = 0;
+               insert cceDiagToolCodeGen;
 
                PWP_Code_Generator__c pwpCodeGen = new PWP_Code_Generator__c();
                pwpCodeGen.Type__c = 'Program_Without_Pathway';
@@ -437,14 +436,22 @@ public with sharing class GenerateCodeCtrlTest{
                List<Contact> conList = TestDataFactory.createTestContactRecords(1);
                insert conList;
        
-               List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList.iterator().next()?.Id);
-               insert oppList;
+               List<Opportunity> oppList;
+               List<Product_Specification__c> prodSpecs;
+               if(productSpecsRecordType == RT_CCE_ID){
+                    oppList = TestDataFactory.createClosedWonOpportunities(1, accounts[0].Id, conList.iterator().next()?.Id);
+                    insert oppList;
+                    prodSpecs = TestDataFactory.retrieveCCEProductSpecifications();
+               } else if(productSpecsRecordType == RT_OPE_ID){
+                    oppList = TestDataFactory.createTestOpportunityRecords(1, accounts[0].Id, conList.iterator().next()?.Id);
+                    insert oppList;
+                    prodSpecs = TestDataFactory.createTestProductSpecsRecords(1, conList, oppList);
+                    prodSpecs[0].RecordTypeId = RT_OPE_ID;
+                    prodSpecs[0].Stage__c = 'Idea';
+                    insert prodSpecs;
+               }
 
-               List<Product_Specification__c> prodSpecs = TestDataFactory.createTestProductSpecsRecords(1, conList, oppList);
-               prodSpecs[0].RecordTypeId = productSpecsRecordType;
-               prodSpecs[0].Stage__c = 'Design';
-               insert prodSpecs;
-			   
+               System.debug('prodSpecs' + prodSpecs);
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
                for(Product_Request__c productRequest : productRequests){
                     productRequest.RecordTypeId = productRequestRecordType;

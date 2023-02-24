@@ -1,4 +1,4 @@
-System.debug('schedule-PublishingEndDateBatchScheduler.apex');
+System.debug(LoggingLevel.DEBUG, 'schedule-PublishingEndDateBatchScheduler.apex');//NOPMD
  
 String cronExp = Label.Publishing_End_Date_Cron_Expression;
 String ClassName='PublishingEndDateBatchScheduler';
@@ -10,10 +10,10 @@ list<AsyncApexJob> aJob= [
 ];
  
 if(aJob.size()>0){
-    System.Debug('Job already scheduled: '+aJob[0]);
+    System.debug(LoggingLevel.DEBUG, 'Job already scheduled: '+aJob[0]);//NOPMD
 }else{
-    System.Debug('Schedule Job: '+ClassName);
+    System.debug(LoggingLevel.DEBUG, 'Schedule Job: '+ClassName);//NOPMD
     System.schedule(ClassName, cronExp, new PublishingEndDateBatchScheduler());
 }
  
-System.debug('Complete');
+System.debug(LoggingLevel.DEBUG, 'Complete');//NOPMD

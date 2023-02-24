@@ -64,6 +64,7 @@ const REQ_FIELD = "Indicates a required field";
 const ACKNOWLDGE = "I acknowledge and accept the";
 const QUT_PRIVACY_POLICY ="QUT Privacy Policy.";
 const LWC_ERROR_GENERAL = "An error has been encountered. Please contact your administrator.";
+const INFO_CONSENT = "Yes, I would like to receive information from QUT about short courses and professional education.";
 export default class RegistrationForm extends LightningElement {
   firstName = null;
   lastName = null;
@@ -85,6 +86,7 @@ export default class RegistrationForm extends LightningElement {
   yearErrorMessage;
   errorMessage;
   requiredErrorMessage;
+  uniqueEmail;
   @track requiredDisplayData = {};
   @track requiredInputClass = {};
   @track locale = null;
@@ -123,6 +125,15 @@ export default class RegistrationForm extends LightningElement {
   contactId;
   otherEmail;
   contactDetail;
+  contactFoundMisMatchEmail = false;
+  displayInformationUpdate = false;
+  isUpdatePersonalEmail = true;
+  uniqueEmailValid = true;
+  updatingUniqueEmail = false;
+  isOptIn = true;
+
+  workEmail;
+  personalEmail;
 
   @api startURL;
   @api recordId;
@@ -146,7 +157,8 @@ export default class RegistrationForm extends LightningElement {
     qutLoginText: QUT_LOGIN_TEXT,
     privacyPolicy: QUT_PRIVACY_POLICY,
     acknowledge: ACKNOWLDGE,
-    contactDetail: QUTeX_Contact_Detail
+    contactDetail: QUTeX_Contact_Detail,
+    infoConsent: INFO_CONSENT
   };
 
   /*
@@ -395,6 +407,9 @@ export default class RegistrationForm extends LightningElement {
                       validationResult.isEmailMatch == true){ //email and contact details matched
                         //Proceed to log in, existing record
                         this.contactId = validationResult.contactRecord.Id;
+                        this.workEmail = validationResult.contactRecord.Work_Email__c;
+                        this.personalEmail = validationResult.contactRecord.Email;
+
                         isUserExist({contactId: this.contactId})
                         .then((res) => {
                             if(res.length > 0){
@@ -417,9 +432,11 @@ export default class RegistrationForm extends LightningElement {
             }else if( validationResult.isPartialMatch == true &&
                       validationResult.isEmailMatch == false){ //email did not match and contact details matched
                         //Request user to enter email
-                        //Tell Me More About You screen is display
+                        //Tell Us More About You screen is display
                         this.displayForm = false;
                         this.displayEmailValidation = true;
+                        this.displayInfoModal = true;
+                        this.contactFoundMisMatchEmail = true;
 
             }else if( validationResult.isPartialMatch == true &&
                       validationResult.isEmailMatch == true){  //email match and contact details did not match
@@ -507,25 +524,40 @@ export default class RegistrationForm extends LightningElement {
   }
 
   registerPortalUser() {
+    let contactRecord = {};
+    let registrationData = {};
+    let birthDateData = {};
+
+    contactRecord.FirstName = this.firstName;
+    contactRecord.LastName = this.lastName;
+    contactRecord.Registered_Email__c = this.email;
+    contactRecord.MobilePhone = this.mobileFull;
+    contactRecord.ContactMobile_Locale__c = this.localeConMobile;
+    contactRecord.Mobile_No_Locale__c = this.mobile;
+    contactRecord.Dietary_Requirement__c = this.dietaryReq;
+    contactRecord.Accessibility_Requirement__c = this.accessReq;
+    contactRecord.Id = this.contactId;
+
+    registrationData.startURL = this.startURL;
+    registrationData.isOptIn = this.isOptIn;
+    registrationData.contactRecord = contactRecord;
+    
+    birthDateData.day = this.date;
+    birthDateData.year = this.year;
+    birthDateData.month = this.month;
+
+
     registerUser({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      mobile: this.mobileFull,
-      day: this.date,
-      month: this.month,
-      year: this.year,
-      dietaryReq: this.dietaryReq,
-      accessReq: this.accessReq,
-      startURL: this.startURL,
-      mobileNoLocale: this.mobile,
-      mobileConLocale: this.localeConMobile,
-      contactId: this.contactId
+      registrationData: JSON.stringify(registrationData),
+      birthDateData: JSON.stringify(birthDateData)
     })
     .then((res) => {
+      this.displayVerification = false;
+      this.displayInformationUpdate = false;
       if (res == "CloseModal") {
         this.closeModal();
       } else if (res) {
+        this.updateContactOfExistingUser(); 
         window.location.href = res;
       }
     })
@@ -660,6 +692,7 @@ export default class RegistrationForm extends LightningElement {
    */
   handleEmailChange(event) {
     this.email = event.target.value;
+    this.uniqueEmail = event.target.value;
   }
 
   /*
@@ -679,7 +712,7 @@ export default class RegistrationForm extends LightningElement {
       this.otherEmail = event.detail.value;
   }
 
-  //Handle the other existing email on "Tell Me More About You"
+  //Handle the other existing email on "Tell Us More About You"
   handleOtherExistEmail(){
       //Pass other email to email
       this.email = this.otherEmail;
@@ -698,10 +731,12 @@ export default class RegistrationForm extends LightningElement {
           if(validationResult.isPartialMatch == false &&
              validationResult.isEmailMatch == true){ //email and contact details matched
                 this.contactId = validationResult.contactRecord.Id;
+                this.workEmail = validationResult.contactRecord.Work_Email__c;
+                this.personalEmail = validationResult.contactRecord.Email;
                 //Check if the user exist
                 isUserExist({contactId: this.contactId})
                 .then((res) => {
-                    if(res.length > 0){
+                    if(res.length > 0){                        
                         this.displayEmailValidation = false;
                         this.userExists = true;
                         this.loginUser = res[0];
@@ -804,7 +839,12 @@ export default class RegistrationForm extends LightningElement {
       if (this.verifyOTP == this.userOTP) {
         this.generateToast("Success!", "Successfully Submitted", "success");
         this.loading = true;
-        if (Object.keys(this.loginUser).length > 0 && this.executeLogin) {
+        //is from tell us about u
+        if(this.contactFoundMisMatchEmail && this.hasPersonalEmail){
+          this.displayInformationUpdate = true;
+          this.displayVerification = false;
+          this.loading = false;
+        }else if (Object.keys(this.loginUser).length > 0 && this.executeLogin) {
           this.loginExistingPortalUser();
         } else {
           this.registerPortalUser();
@@ -825,8 +865,11 @@ export default class RegistrationForm extends LightningElement {
     })
       .then((res) => {
         if (res) {
-          window.location.href = res;
           this.updateContactOfExistingUser();
+          
+          this.displayVerification = false;
+          this.displayInformationUpdate = false;
+          window.location.href = res;
         }
       })
       .catch((error) => {
@@ -835,17 +878,67 @@ export default class RegistrationForm extends LightningElement {
   }
   // Update the existing user contact details
   updateContactOfExistingUser(){
+
+    let contactRecord = {};
+    let registrationData = {};
+
+    contactRecord.Id = this.contactId;
+    contactRecord.Registered_Email__c = this.email;
+    contactRecord.Email = this.uniqueEmail;
+    contactRecord.MobilePhone = this.mobileFull;
+    contactRecord.ContactMobile_Locale__c = this.localeConMobile;
+    contactRecord.Mobile_No_Locale__c = this.mobile;
+    contactRecord.Dietary_Requirement__c = this.dietaryReq;
+    contactRecord.Accessibility_Requirement__c = this.accessReq;
+
+    registrationData.startURL = this.startURL;
+    registrationData.isOptIn = this.isOptIn;
+    registrationData.contactRecord = contactRecord;
+
       updateContact({
-            contactId: this.contactId,
-            email: this.email,
-            mobileNoLocale: this.mobile,
-            mobileConLocale: this.localeConMobile,
-            dietaryReq: this.dietaryReq,
-            accessibilityReq: this.accessReq
+            registrationData:JSON.stringify(registrationData),
+            isUpdatePersonalEmail: this.isUpdatePersonalEmail
           })
           .then(()=>{
             //Updated contact...
           })
+  }
+
+  handleWorkEmailCheckbox(event){
+      this.isUpdatePersonalEmail = !event.target.checked;
+      this.template.querySelector('input[name=personal-email-checkbox]').checked = this.isUpdatePersonalEmail;
+  }
+
+  handlePersonalEmailCheckbox(event){
+      this.isUpdatePersonalEmail = event.target.checked;
+      this.template.querySelector('input[name=work-email-checkbox]').checked = !this.isUpdatePersonalEmail;
+  }
+
+  handleUniqueEmailChange(event){
+    this.uniqueEmail = event.target.value.replaceAll( '\\s+', '');
+
+    if(this.uniqueEmail == this.personalEmail){
+      this.template.querySelector('input[name=work-email-checkbox]').checked = false;
+      this.template.querySelector('input[name=personal-email-checkbox]').checked = true;
+      this.isUpdatePersonalEmail = true;
+    }else if(this.uniqueEmail === this.workEmail){
+      this.template.querySelector('input[name=work-email-checkbox]').checked = true;
+      this.template.querySelector('input[name=personal-email-checkbox]').checked = false;
+      this.isUpdatePersonalEmail = false;
+    }
+    
+    this.updatingUniqueEmail = true;
+  }
+  
+  handleUniqEmailBlur(event){
+    let valid;
+    valid = this.template.querySelector('.uniqueEmail').validity.valid;
+    this.uniqueEmailValid = valid;
+    this.updatingUniqueEmail = false;
+  }
+
+  handleInfoConsentCheckBox(event){
+    this.isOptIn = event.target.checked;
   }
   /**
    * concatenates error name and message
@@ -880,6 +973,57 @@ export default class RegistrationForm extends LightningElement {
             }
         })
     );
-}
+    }
 
-}
+    handleSubmitUpdateInfo(){
+      this.loading = true;
+      
+      if(Object.keys(this.loginUser).length > 0 && this.executeLogin) {
+        this.loginExistingPortalUser();
+      } else {
+        this.registerPortalUser();
+      }
+    }
+
+    get hasPersonalEmail(){
+      if(this.personalEmail && this.personalEmail.length > 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    get emailCSS(){
+      if(this.hasWorkEmail && this.hasPersonalEmail){
+        return 'slds-large-size_1-of-2 slds-medium-size_1-of-2 slds-size_2-of-2 slds-text-align_center pb2';
+      }else{
+        return 'slds-large-size_2-of-2 slds-medium-size_2-of-2 slds-size_2-of-2 slds-text-align_center pb2';
+      }
+    }
+
+
+    get hasWorkEmail(){
+      if(this.workEmail && this.workEmail.length > 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    get disableEmailCheckBoxes(){
+      if(this.uniqueEmail == this.personalEmail || this.uniqueEmail == this.workEmail || !this.hasWorkEmail){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    get disableEmailUpdateSubmit(){
+      if(  this.uniqueEmail && this.uniqueEmailValid && !this.updatingUniqueEmail){
+            return false;
+      }else{
+        return true;
+      }
+    }
+
+  }

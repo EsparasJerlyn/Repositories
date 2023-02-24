@@ -15,13 +15,17 @@
 @isTest
 public with sharing class Prod_Specs_Send_EmailTest {
 
-    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static Id opeProdSpecId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE').getRecordTypeId();
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+    }
 
     @isTest
     private static void updateProdSpecsFromQualifyToDesignInternal()
     {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
@@ -43,11 +47,12 @@ public with sharing class Prod_Specs_Send_EmailTest {
 
             List<Product_Specification__c> prodSpec = TestDataFactory.createTestProductSpecsRecords(5,conList,oppList);
             for(Integer i =0;i<prodSpec.size();i++){
-                prodSpec[i].Stage__c = 'Idea';
                 prodSpec[i].Requestor_Name__c = conList[i].Id;
                 prodSpec[i].Endorsed_by__c = conList[i].Id;
                 prodSpec[i].Idea_Summary__c = 'Test';
                 prodSpec[i].Requestor_Internal_External__c = 'Internal';
+                prodSpec[i].RecordTypeId = opeProdSpecId;
+                prodSpec[i].Stage__c = 'Idea';
             }
             insert prodSpec;
             
@@ -60,6 +65,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
             for(Product_Specification__c prodSpecs : productSpecsRec){
                 prodSpecs.RecordTypeId = opeProdSpecId;
                 prodSpecs.Stage__c = 'Qualify';
+                prodSpecs.Requestor_Name__c = conList[0].Id;
                 getProductSpecsRecord.add(prodSpecs);
             }
             update getProductSpecsRecord;
@@ -76,6 +82,9 @@ public with sharing class Prod_Specs_Send_EmailTest {
                 uProdSpecs.QUTeX_Capacity__c = 'Yes';
                 uProdSpecs.QUT_Faculty_Capacity__c = 'Yes';
                 uProdSpecs.Product_Type__c = 'Module';
+                uProdSpecs.Endorsed_by__c = conList[0].Id;
+                uProdSpecs.Idea_Summary__c = 'Idea Summary Details';
+                uProdSpecs.Supporting_Comments__c = 'Supporting Comments';
                 getUpdatedProductSpecsRecord.add(uProdSpecs);
             }
             update getUpdatedProductSpecsRecord;
@@ -88,7 +97,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
     @isTest
     private static void updateProdSpecsFromQualifyToDesignExternal()
     {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
             
@@ -110,11 +119,12 @@ public with sharing class Prod_Specs_Send_EmailTest {
 
             List<Product_Specification__c> prodSpec = TestDataFactory.createTestProductSpecsRecords(5,conList,oppList);
             for(Integer i =0;i<prodSpec.size();i++){
-                prodSpec[i].Stage__c = 'Idea';
                 prodSpec[i].Requestor_Name__c = conList[i].Id;
                 prodSpec[i].Endorsed_by__c = conList[i].Id;
                 prodSpec[i].Idea_Summary__c = 'Test';
                 prodSpec[i].Requestor_Internal_External__c = 'External';
+                prodSpec[i].RecordTypeId = opeProdSpecId;
+                prodSpec[i].Stage__c = 'Idea';
             }
             insert prodSpec;
             
@@ -127,6 +137,7 @@ public with sharing class Prod_Specs_Send_EmailTest {
             for(Product_Specification__c prodSpecs : productSpecsRec){
                 prodSpecs.RecordTypeId = opeProdSpecId;
                 prodSpecs.Stage__c = 'Qualify';
+                prodSpecs.Requestor_Name__c = conList[0].Id;
                 getProductSpecsRecord.add(prodSpecs);
             }
             update getProductSpecsRecord;
@@ -143,6 +154,9 @@ public with sharing class Prod_Specs_Send_EmailTest {
                 uProdSpecs.QUTeX_Capacity__c = 'Yes';
                 uProdSpecs.QUT_Faculty_Capacity__c = 'Yes';
                 uProdSpecs.Product_Type__c = 'Module';
+                uProdSpecs.Endorsed_by__c = conList[0].Id;
+                uProdSpecs.Idea_Summary__c = 'Idea Summary Details';
+                uProdSpecs.Supporting_Comments__c = 'Supporting Comments';
                 getUpdatedProductSpecsRecord.add(uProdSpecs);
             }
             update getUpdatedProductSpecsRecord;

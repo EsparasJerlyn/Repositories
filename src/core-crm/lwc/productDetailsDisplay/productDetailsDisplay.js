@@ -51,12 +51,10 @@
 
 import { LightningElement, wire, api, track } from "lwc";
 import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
-import { loadStyle } from "lightning/platformResourceLoader";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import BasePath from "@salesforce/community/basePath";
 import userId from "@salesforce/user/Id";
 import isGuest from "@salesforce/user/isGuest";
-import customSR from "@salesforce/resourceUrl/QUTCustomLwcCss";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import insertExpressionOfInterest from "@salesforce/apex/ProductDetailsCtrl.insertExpressionOfInterest";
 import getRelatedCourseOffering from "@salesforce/apex/ProductDetailsCtrl.getCourseOfferingRelatedRecords";
@@ -65,8 +63,9 @@ import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CONTACT_ID from "@salesforce/schema/User.ContactId";
 import getQuestions from "@salesforce/apex/ProductDetailsCtrl.getQuestions";
 import assetRecordData from "@salesforce/apex/ProductDetailsCtrl.assetRecordData";
-import { publish, MessageContext } from "lightning/messageService";
+import { publish, MessageContext, subscribe, unsubscribe } from "lightning/messageService";
 import payloadContainerLMSsubMenuName from "@salesforce/messageChannel/SubMenu__c";
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 const ERROR_TITLE = "Error!";
 const ERROR_VARIANT = "error";
 const NO_REC_FOUND = "No record(s) found.";
@@ -93,6 +92,7 @@ const Tailored_Executive_Education = 'Tailored Executive Education';
 const Tailored_Executive_Program = 'Tailored Executive Program';
 const Corporate_Bundle = 'Corporate Bundle';
 const QUTeX_Learning_Solutions = 'QUTeX Learning Solutions';
+const STORED_ACCTID = "storedAccountId";
 const STOREPRODUCTCATEGORY = "product_category";
 const CURRENTPRODUCTCATEGORY = "current_product_category";
 export default class ProductDetailsDisplay extends NavigationMixin(
@@ -174,6 +174,9 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   @track registerInterest;
   @track professionalDevelopmentModules;
   displayCsvBulkRegistration = false;
+
+  subscription;
+  accountId;
 
   @wire(MessageContext)
   messageContext;
@@ -300,6 +303,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   }
 
   connectedCallback() {
+    this.subscribeLMS();
     this._resolveConnected();
 
     if(this.isCCEPortal){
@@ -548,15 +552,33 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     }
   }
 
-  /* Load Custom CSS */
-  renderedCallback() {
-    Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
+  subscribeLMS() {
+    if (!this.subscription) {
+        this.subscription = subscribe(
+            this.messageContext, 
+            payloadAcctContainerLMS, 
+            (message) => this.validateValue(message));
+    }
+  }
+
+  validateValue(val) {
+      if (val && val.accountIdParameter) {
+          let newValObj = JSON.parse(val.accountIdParameter);
+          this.accountId = newValObj.accountId;
+          sessionStorage.setItem(STORED_ACCTID,this.accountId);
+      }
   }
 
   disconnectedCallback() {
+    this.unsubscribeLMS();
     this._connected = new Promise((resolve) => {
       this._resolveConnected = resolve;
     });
+  }
+
+  unsubscribeLMS(){
+    unsubscribe(this.subscription);
+    this.subscription = null;
   }
 
   searchString(nameKey, listArray) {
@@ -927,6 +949,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       this.selectedCourseOfferingFacilitator[this.facilitatorIndex];
   }
 
+  get getPriceBookEntriesFiltered(){
+    return this.priceBookEntriesFiltered;
+  }
+
   // Set Selected Price Book Entry value
   handlePricebookSelected(event) {
     let selectedPBLabel = event.detail.label;
@@ -995,11 +1021,17 @@ export default class ProductDetailsDisplay extends NavigationMixin(
     if(this.productCategory != Tailored_Executive_Education){
       pbEId = this.ccePricebookEntryId ? this.ccePricebookEntryId: '';
     }
-    sendEmployeeRegistrationEmail({
+
+    let selfRegistrationParameters = {
       userId: userId,
       productId: this.productDetails.Id,
       selectedOffering : this.selectedCourseOffering,
       pricebookEntryId : pbEId
+    };
+
+    sendEmployeeRegistrationEmail({
+      selfRegistrationParams : selfRegistrationParameters,
+      accountSelected : this.accountId
     }).then( (result) => {
       if(result == 'success'){
         this.isRegModalMessage = true;

@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Who should participate? By attending participants will gain new knowledge and skills</inlineHelpText>
     <label>Who Should Participate?</label>
-    <length>1000</length>
+    <length>75000</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>25</visibleLines>

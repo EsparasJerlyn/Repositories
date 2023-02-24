@@ -93,7 +93,7 @@ private class Update_Product_from_CourseTest{
 
 
             List<hed__Program_Plan__c> programPlansToUpdate = [SELECT Id, Product_Request__c, Core_Conceptsv2__c,
-                                                                    hed__Description__c, hed__End_Date__c, More_Detailsv2__c,
+                                                                    Description__c, hed__End_Date__c, More_Detailsv2__c,
                                                                     Name, Overviewv2__c, hed__Start_Date__c, Who_Should_Participatev2__c,
                                                                     Evolve_with_QUTeXv2__c
                                                                     FROM hed__Program_Plan__c LIMIT 100];
@@ -114,7 +114,7 @@ private class Update_Product_from_CourseTest{
                 programPlansToUpdate[i].Courseloop_Full_URL__c  = 'test' + i;
                 programPlansToUpdate[i].PP_Is_curriculum_approved__c  = true;
                 programPlansToUpdate[i].Mark_Design_Stage_as_Complete__c=true;
-                programPlansToUpdate[i].hed__Description__c='sdfdsfsdfsd';
+                programPlansToUpdate[i].Description__c='sdfdsfsdfsd';
                 programPlansToUpdate[i].Implementation_Year__c='2040';
                 programPlansToUpdate[i].Location__c=facility.Id;
             }
@@ -136,7 +136,7 @@ private class Update_Product_from_CourseTest{
             System.assertEquals(programPlansToUpdate.size(), products.size(), 'Product record must be created upon release of course in product request.');
             for(Integer i=0; i<numberOfRecords; i++){
                 System.assertEquals(programPlansToUpdate[i].Core_Conceptsv2__c, products[i].Core_Concepts__c, 'Core Concept must be the same.');
-                System.assertEquals(programPlansToUpdate[i].hed__Description__c, products[i].Description, 'Description must be the same.');
+                System.assertEquals(programPlansToUpdate[i].Description__c, products[i].Description, 'Description must be the same.');
                 System.assertEquals(programPlansToUpdate[i].More_Detailsv2__c, products[i].More_Details__c, 'More Details must be the same.');
                 System.assertEquals(programPlansToUpdate[i].Name, products[i].Name, 'Name must be the same.');
                 System.assertEquals(programPlansToUpdate[i].Overviewv2__c, products[i].Overview__c, 'Overview must be the same.');
@@ -191,7 +191,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].Location_Details__c = 'test';
                 courses[i].Minimum_Participants__c = 1;
                 courses[i].Maximum_Participants__c = 10;
-                courses[i].Implementation_Year__c = '2022';
+                courses[i].Implementation_Year__c = String.valueOf(Date.today().year());
                 courses[i].Unit_Type__c = 'Unit';
                 courses[i].Unit_Category__c = 'Undergraduate Honours Unit';
                 courses[i].Field_of_Education__c = 'test';

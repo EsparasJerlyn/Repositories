@@ -16,6 +16,7 @@
       | john.m.tambasen           | August 09, 2022       | DEPP-3721            | consider as free for 0 total |
       | julie.jane.alegre         | September 07, 2022    | DEPP-3613            | add validation for early bird|
       | julie.jane.alegre         | December 09, 2022     | DEPP-3613            | fix alignment for email textbox|
+      | eugene.andrew.abuan       | January 18, 2023      | DEPP-5045            | Hide date for online self-paced|
 */
 
 import { LightningElement, wire, api, track } from "lwc";
@@ -319,6 +320,16 @@ export default class CartDetails extends LightningElement {
 
         //set the cart items data and questions
         this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
+
+        //Loop each cart item to verify if there is online selfpaced for DEPP-5045
+        this.cartItems.forEach(cartItem => {
+          if(cartItem.deliveryType == "Online Self-paced"){
+            cartItem.hideDateInCartSummary = true;
+          }else{
+            cartItem.hideDateInCartSummary = false;
+          }
+        });
+
         /*this.questions = result.questionsList;
         console.log(this.questions);
         console.log(JSON.parse(JSON.stringify(this.questions)));*/

@@ -20,6 +20,10 @@ public class ProductOfferingCtrlTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
+    @testSetup static void setup() {
+        TestDataFactory.generateTestUsers();
+    }
+    
     @isTest
     static void getTermIdTest() {
         System.runAs(currentUser){
@@ -194,4 +198,38 @@ public class ProductOfferingCtrlTest {
         }
     }
 
+    @isTest static void getFacilitatorBiosTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Id> idList = new List<Id>();
+            Contact con = new Contact( LastName = 'Test' );
+            insert con;
+            Boolean isException = false;
+            String errorMsg;
+            Test.startTest();
+            try{
+            	ProductOfferingCtrl.getFacilitatorBios(con.Id, idList);                
+            } catch(Exception e) {
+                isException = true;
+                errorMsg = e.getMessage();
+            }
+            Test.stopTest();
+            System.assert(!isException, 'Exception: ' + errorMsg);
+        }
+    }
+    
+    @isTest static void isNewFacilitatorTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Boolean isException = false;
+            String errorMsg;
+            Test.startTest();
+            try {
+                ProductOfferingCtrl.isNewFacilitator(null, null);
+            } catch(Exception e) {
+                isException = true;
+                errorMsg = e.getMessage();
+            }
+            Test.stopTest();
+            System.assert(!isException, 'Exception: ' + errorMsg);
+        }
+    }
 }

@@ -12,14 +12,19 @@
 @isTest
 public with sharing class EmailTemplateSelectorTest {
 
+     @testSetup static void setupMethod() {
+          TestDataFactory.generateTestUsers();
+      }
+
     @isTest
      static void checkEmailSelectorEmpty(){
-    
-        Test.startTest();
-        EmailTemplate coverTemplate = EmailTemplateSelector.getEmailTemplate('Send Certificate'); 
-        Test.stopTest();
-        System.assertNotEquals(null, coverTemplate, 'coverTemplate is null');
-
+     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+          System.runAs(PORTAL_SYS_ADMIN) {
+          Test.startTest();
+          EmailTemplate coverTemplate = EmailTemplateSelector.getEmailTemplate('Send Certificate'); 
+          Test.stopTest();
+          System.assertNotEquals(null, coverTemplate, 'coverTemplate is null');
+          }
      }  
 
 }

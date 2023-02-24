@@ -23,9 +23,11 @@
 			| keno.domienri.dico        | August 03, 2022       | DEPP-3474            | CCE QUTex Learning added product category    |
 			| keno.domienri.dico        | August 18, 2022       | DEPP-3765            | Added new Product category identifier        |
 			|                           | August 24, 2022       |                      | Addded new method for CCE Product Details    |
+			| mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
+			| mary.grace.li             | February 9, 2022      | DEPP-5157 / 5180     | Removed renderedCallback in CCE              |
 */
 
-import { LightningElement, wire, api, track } from "lwc";
+import { LightningElement, wire, api } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import communityId from "@salesforce/community/Id";
 import isGuest from "@salesforce/user/isGuest";
@@ -38,11 +40,16 @@ import userId from "@salesforce/user/Id";
 import BasePath from '@salesforce/community/basePath';
 import { publish, MessageContext } from "lightning/messageService";
 import payloadContainerLMS from "@salesforce/messageChannel/Breadcrumbs__c";
-import { CurrentPageReference } from "lightning/navigation";
+import { NavigationMixin, CurrentPageReference } from "lightning/navigation";
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
+import { subscribe, unsubscribe } from 'lightning/messageService';
+const STORED_ACCTID = "storedAccountId";
+const STORED_ASSETID = "storedAssetId";
+const STORED_BUYERGROUPID = "storedBuyerGroupId";
 
 const Tailored_Executive_Education = 'Tailored Executive Education';
 const STOREPRODUCTCATEGORY = "product_category";
-export default class ProductDetails extends LightningElement {
+export default class ProductDetails extends NavigationMixin(LightningElement) {
   loading;
   productDetails;
   priceReadOnly;
@@ -56,11 +63,36 @@ export default class ProductDetails extends LightningElement {
   cProducts;
   isProgramFlex = false;
   availablePricings = [];
+  recordNameId;
   fromCategoryName;
   fromCategoryId;
   ccePricebookEntryId;
+
+  tempAcct;
+  subscription;
+  accountId;
+  productDetail;
+  hasData = false;
+  baseUrl;
+  assetId;
+  buyerGroupId;
+
+  parameterObject = {
+	accountId: '',
+	productId: '', 
+	categoryName: '', 
+	userId: '',
+	assetId: '',
+	buyerGroupId: ''
+  }
+
+  tempParameterObject ={
+	accountId: '',
+	userId: ''
+  }
+
 	// Gets product Category
-  @api productCategory; 
+    @api productCategory; 
 	@api productCategoryChild;
 
 	// Gets & Sets the effective account - if any - of the user viewing the product.
@@ -86,11 +118,27 @@ export default class ProductDetails extends LightningElement {
 	@wire(MessageContext)
 	messageContext;
 
+	accountSelectionSubscription;
+
+	disconnectedCallback() {
+        this.unsubscribeLMS();
+    }
+
+	unsubscribeLMS(){
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
+
+
 	// Get param from URL
 	@wire(CurrentPageReference)
 	getpageRef(pageRef) {
-		if (pageRef && pageRef.state &&  pageRef.attributes) {
-			this.recordId = pageRef.attributes.recordId;
+		if (pageRef && pageRef.state && pageRef.state.p) {
+			this.recordId = pageRef.state.p.substring(
+				pageRef.state.p.lastIndexOf("_") + 1
+			);
+			this.recordNameId = pageRef.state.p;
 		}
 	}
 	// The connectedCallback() lifecycle hook fires when a component is inserted into the DOM.
@@ -101,7 +149,14 @@ export default class ProductDetails extends LightningElement {
 		this.showProductDetailsSingle = false;
 		this.showProductDetailsDisplay = false;
 
-		this.getProductDetailsApex(this.recordId);
+		if(this.isCCEPortal){
+			this.subscribeLMS();
+			this.getCCEProductDetails(this.recordId);
+		}
+
+		if(this.isOPEPortal){
+			this.getProductDetailsApex(this.recordId);
+		}
 		if(this.isOPEPortal){
 			if (!isGuest) {
 				this.updateCartInformation();
@@ -123,7 +178,6 @@ export default class ProductDetails extends LightningElement {
 					this.updateCartInformation();
 				})
 				.catch((e) => {
-					console.log("here catch");
 					console.log(e);
 				});
 			}
@@ -141,141 +195,75 @@ export default class ProductDetails extends LightningElement {
 	}
 
 	getProductDetailsApex(productId) {
-		// For CCE 
-		if(this.isCCEPortal){
-			//get current product category
-			let currentProductCategory = JSON.parse(
-				sessionStorage.getItem(STOREPRODUCTCATEGORY)
-			);
-			this.productCategory = currentProductCategory.fromCategoryName;
-			getCCEProductDetails({ productId: productId, categoryName: this.productCategory, userId: userId })
-			.then((result) => {
-				this.isProgramFlex = !result.isNotFlexProgram;
-				this.productDetails = result.productOnPage;
-				this.ccePricebookEntryId = result.pricebookEntryIdCCE;
-				this.priceReadOnly = parseInt(result.priceCCE).toLocaleString("en-US", {
-															style: "currency",
-															currency: "USD",
-															minimumFractionDigits: 0
-														});
-				this.priceBookEntryList = result.pricebookWrapperList;
-				this.deliveryOptions = result.deliveryWrapperList;
-				this.product = {};
-				this.product.productDetails = result.productOnPage;
-				this.product.programModules = result.moduleWrapperList;
-				this.product.deliveryOptions = result.deliveryWrapperList;
-				this.product.programDeliveryAndOfferings = result.programDeliveryAndOfferingMap;
-				if (this.product.productDetails.Program_Plan__r == undefined) {
-					this.showPrescribedProgram = false;
-					this.showFlexibleProgram = true;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = true;
-				} else if (
-					this.product.productDetails.Program_Plan__r
-						.Program_Delivery_Structure__c == "Prescribed Program"
-				) {
-					this.showPrescribedProgram = true;
-					this.showFlexibleProgram = false;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = false;
-				} else if (
-					this.product.productDetails.Program_Plan__r
-						.Program_Delivery_Structure__c == "Flexible Program"
-				) {
-					this.showPrescribedProgram = false;
-					this.cProducts = result.childProductList;
-					this.showFlexibleProgram = false;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = true;
-				} else {
-					this.showPrescribedProgram = false;
-					this.showFlexibleProgram = true;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = true;
-				}
-
-				this.loading = false;	
-				this.publishLMS();
-
-			})
-			.catch((error) => {
-				console.log(error);
-			})
-			.finally(() => {
-				this.loading = false;
-			});
-		// For OPE / Study
-		} else {
-			getProductDetails({ productId: productId })
-			.then((result) => {
-				this.isProgramFlex = !result.isNotFlexProgram;
-				this.productDetails = result.productOnPage;
-				this.priceBookEntryList = result.pricebookWrapperList;
-				this.deliveryOptions = result.deliveryWrapperList;
-				this.product = {};
-				this.product.productDetails = result.productOnPage;
-				this.product.programModules = result.moduleWrapperList;
-				this.product.priceBookEntryList = result.pricebookWrapperList;
-				let pricingsLocal = [];
-				this.product.priceBookEntryList.forEach(function (priceBookEntry) {
-					pricingsLocal.push({
-						label:
-							priceBookEntry.label === "Standard Price Book"
-								? priceBookEntry.label.slice(0, 8)
-								: priceBookEntry.label,
-						value: priceBookEntry.value,
-						meta: parseInt(priceBookEntry.meta).toLocaleString("en-US", {
-							style: "currency",
-							currency: "USD",
-							minimumFractionDigits: 0
-						}),
-						noOfDays: priceBookEntry.noOfDays
-					});
+		// For Study 
+		getProductDetails({ productId: productId })
+		.then((result) => {
+			this.isProgramFlex = !result.isNotFlexProgram;
+			this.productDetails = result.productOnPage;
+			this.priceBookEntryList = result.pricebookWrapperList;
+			this.deliveryOptions = result.deliveryWrapperList;
+			this.product = {};
+			this.product.productDetails = result.productOnPage;
+			this.product.programModules = result.moduleWrapperList;
+			this.product.priceBookEntryList = result.pricebookWrapperList;
+			let pricingsLocal = [];
+			this.product.priceBookEntryList.forEach(function (priceBookEntry) {
+				pricingsLocal.push({
+					label:
+						priceBookEntry.label === "Standard Price Book"
+							? priceBookEntry.label.slice(0, 8)
+							: priceBookEntry.label,
+					value: priceBookEntry.value,
+					meta: parseInt(priceBookEntry.meta).toLocaleString("en-US", {
+						style: "currency",
+						currency: "USD",
+						minimumFractionDigits: 0
+					}),
+					noOfDays: priceBookEntry.noOfDays
 				});
-				this.availablePricings = pricingsLocal;
-				this.product.deliveryOptions = result.deliveryWrapperList;
-				this.product.programDeliveryAndOfferings =
-					result.programDeliveryAndOfferingMap;
-				console.log("testing: " + this.product);
-				if (this.product.productDetails.Program_Plan__r == undefined) {
-					this.showPrescribedProgram = false;
-					this.showFlexibleProgram = true;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = true;
-				} else if (
-					this.product.productDetails.Program_Plan__r
-						.Program_Delivery_Structure__c == "Prescribed Program"
-				) {
-					this.showPrescribedProgram = true;
-					this.showFlexibleProgram = false;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = false;
-				} else if (
-					this.product.productDetails.Program_Plan__r
-						.Program_Delivery_Structure__c == "Flexible Program"
-				) {
-					this.showPrescribedProgram = false;
-					this.cProducts = result.childProductList;
-					this.showFlexibleProgram = false;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = true;
-				} else {
-					this.showPrescribedProgram = false;
-					this.showFlexibleProgram = true;
-					this.showProductDetailsSingle = false;
-					this.showProductDetailsDisplay = true;
-				}
-
-				this.loading = false;
-				this.publishLMS();
-			})
-			.catch((error) => {
-				console.log(error);
-			})
-			.finally(() => {
-				this.loading = false;
 			});
-		}
+			this.availablePricings = pricingsLocal;
+			this.product.deliveryOptions = result.deliveryWrapperList;
+			this.product.programDeliveryAndOfferings =
+				result.programDeliveryAndOfferingMap;
+			if (this.product.productDetails.Program_Plan__r == undefined) {
+				this.showPrescribedProgram = false;
+				this.showFlexibleProgram = true;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = true;
+			} else if (
+				this.product.productDetails.Program_Plan__r
+					.Program_Delivery_Structure__c == "Prescribed Program"
+			) {
+				this.showPrescribedProgram = true;
+				this.showFlexibleProgram = false;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = false;
+			} else if (
+				this.product.productDetails.Program_Plan__r
+					.Program_Delivery_Structure__c == "Flexible Program"
+			) {
+				this.showPrescribedProgram = false;
+				this.cProducts = result.childProductList;
+				this.showFlexibleProgram = false;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = true;
+			} else {
+				this.showPrescribedProgram = false;
+				this.showFlexibleProgram = true;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = true;
+			}
+
+			this.loading = false;
+			this.publishLMS();
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.finally(() => {
+			this.loading = false;
+		});
 	}
 
 	// Gets the normalized effective account of the user.
@@ -335,7 +323,6 @@ export default class ProductDetails extends LightningElement {
 			urlDefaultAddToCart: event.detail.urlDefaultAddToCart
 		})
 			.then((result) => {
-				console.log(JSON.stringify(result));
 				this.dispatchEvent(
 					new CustomEvent("cartchanged", {
 						bubbles: true,
@@ -398,10 +385,6 @@ export default class ProductDetails extends LightningElement {
 		this.showProductDetailsSingle = false;
 	}
 
-	/*   handleRefresh() {
-		refreshApex(this.productDetails);
-	} */
-
   //burhan
   publishLMS() {
     let currentProductCategory = JSON.parse(
@@ -427,5 +410,137 @@ export default class ProductDetails extends LightningElement {
 		};
 
 		publish(this.messageContext, payloadContainerLMS, payLoad);
+	}
+
+	subscribeLMS() {
+        if (!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext, 
+                payloadAcctContainerLMS, 
+                (message) => this.validateValue(message));
+        }
+    }
+
+	validateValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+               this.accountId = newValObj.accountId;
+               this.accountName = newValObj.accountName;
+               this.fullLabel = newValObj.fullLabel;
+
+			   sessionStorage.setItem(STORED_ACCTID,this.accountId);
+        }
+    }
+	getCCEProductDetails(productId){
+		let currentProductCategory = JSON.parse(
+			sessionStorage.getItem(STOREPRODUCTCATEGORY)
+		);
+		this.productCategory = currentProductCategory.fromCategoryName;
+		this.fromCategoryId = currentProductCategory.fromCategoryId;
+		
+		if(sessionStorage.getItem(STORED_ACCTID)){
+			this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+		}
+
+		if(sessionStorage.getItem(STORED_ASSETID)){
+			this.assetId =  sessionStorage.getItem(STORED_ASSETID);
+		}
+
+		if(sessionStorage.getItem(STORED_BUYERGROUPID)){
+			this.buyerGroupId =  sessionStorage.getItem(STORED_BUYERGROUPID);
+		}
+
+		this.parameterObject = {
+			accountId: this.accountId,
+			productId: productId, 
+			categoryName: this.productCategory, 
+			userId: userId,
+			assetId: this.assetId,
+			buyerGroupId: this.buyerGroupId
+		}
+
+		getCCEProductDetails({ 
+			productDetailsDataWrapper: this.parameterObject
+		})
+		.then((result) => {
+			
+			this.hasData = result.productOnPage ? true : false;
+			this.isProgramFlex = !result.isNotFlexProgram;
+			this.productDetails = result.productOnPage;
+			this.ccePricebookEntryId = result.pricebookEntryIdCCE;
+			this.priceReadOnly = parseInt(result.priceCCE).toLocaleString("en-US", {
+														style: "currency",
+														currency: "USD",
+														minimumFractionDigits: 0
+													});
+			this.priceBookEntryList = result.pricebookWrapperList;
+			this.deliveryOptions = result.deliveryWrapperList;
+			this.product = {};
+			this.product.productDetails = result.productOnPage;
+			this.product.programModules = result.moduleWrapperList;
+			this.product.deliveryOptions = result.deliveryWrapperList;
+			this.product.programDeliveryAndOfferings = result.programDeliveryAndOfferingMap;
+			if (this.product.productDetails.Program_Plan__r == undefined) {
+				this.showPrescribedProgram = false;
+				this.showFlexibleProgram = true;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = true;
+			} else if (
+				this.product.productDetails.Program_Plan__r
+					.Program_Delivery_Structure__c == "Prescribed Program"
+			) {
+				this.showPrescribedProgram = true;
+				this.showFlexibleProgram = false;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = false;
+			} else if (
+				this.product.productDetails.Program_Plan__r
+					.Program_Delivery_Structure__c == "Flexible Program"
+			) {
+				this.showPrescribedProgram = false;
+				this.cProducts = result.childProductList;
+				this.showFlexibleProgram = false;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = true;
+			} else {
+				this.showPrescribedProgram = false;
+				this.showFlexibleProgram = true;
+				this.showProductDetailsSingle = false;
+				this.showProductDetailsDisplay = true;
+			}
+
+			this.loading = false;	
+			this.publishLMS();
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.finally(() => {
+			this.loading = false;
+
+			if(!this.hasData){
+				this.redirectToListingPage();
+			}
+		});
+	}
+
+
+	/**
+	 * navigate to Product Listing page if product is not available on that account
+	 */
+	redirectToListingPage(){
+		let currentProductCategory = JSON.parse(
+			sessionStorage.getItem(STOREPRODUCTCATEGORY)
+		);
+		
+		this.listingPageUrl = BasePath + "/category/" + currentProductCategory.fromCategoryId;
+
+		this[NavigationMixin.Navigate]({
+			type: "standard__webPage",
+			attributes: {
+				url: this.listingPageUrl
+			}
+		});
 	}
 }

@@ -11,6 +11,7 @@
       | aljohn.motas@qut.edu.au        | January 14, 2022      | DEP1-1392            | Created file                 | 
       | marygrace.li@qut.edu.au        | June 1, 2022          | DEPP-2854            | Added getStudyStore          |
       | dodge.palattao@qut.edu.au      | June 4, 2022          | DEPP-2809            | Added getStudyProducts       | 
+      | mary.grace.li                  | November 22, 2022     | DEPP-4693            | Modified for Selected account logic|
  */
 
 public without sharing class MainNavigationMenuCtrl {
@@ -20,8 +21,8 @@ public without sharing class MainNavigationMenuCtrl {
         list<Opportunity> opportunities =new list<Opportunity>();
         list<User> users = [SELECT Id,Name,ContactId,AccountId FROM User WHERE Id=:userId];
 		if(users.size()!=0){
-            Id account_Id = users.get(0).AccountId;
-            opportunities = [SELECT Id,Name,AccountId,Contract_Type__c FROM Opportunity WHERE AccountId=:account_Id];
+            Id accountId = users.get(0).AccountId;
+            opportunities = [SELECT Id,Name,AccountId,Contract_Type__c FROM Opportunity WHERE AccountId=:accountId];
         }
         return opportunities;
     }
@@ -35,53 +36,53 @@ public without sharing class MainNavigationMenuCtrl {
 			AND ContactId IN (
 				SELECT ContactId 
 				FROM User 
-				WHERE Id = :userId)
-		];
+				WHERE Id = :userId)];
         if(!getAccount.isEmpty()){
             return getAccount[0].Account.Name;
         }else{
             return '';
         }
     }
-
     
     @AuraEnabled(cacheable=true)
     public static List<NavigationMenuItem> defaultMenu(){
 	    String publishedState = 'Live';
-        List<NavigationMenuItem> MenuItem = new List<NavigationMenuItem>();
+        List<NavigationMenuItem> menuItem = new List<NavigationMenuItem>();
 
 		String networkId = Network.getNetworkId();
         List<NavigationLinkSet> linkSets  = [SELECT Id,MasterLabel FROM NavigationLinkSet WHERE NetworkId=:networkId];
         if(linkSets.size()!=0){
         Id linkSetId = linkSets.get(0).Id;  
-        MenuItem= [SELECT toLabel(Label), Target, Type, DefaultListViewId, AccessRestriction,ParentId,Position,Status,TargetPrefs 
+        menuItem= [SELECT toLabel(Label), Target, Type, DefaultListViewId, AccessRestriction,ParentId,Position,Status,TargetPrefs 
         FROM NavigationMenuItem WHERE NavigationLinkSetId=:linkSetId AND Status = :publishedState];
 			}
-        return MenuItem;
+        return menuItem;
 
      }
     
     
     @AuraEnabled(cacheable=true)
     public static List<ProductCategory> getStoreFrontCategories(Id communityId){
-		List<ProductCategory> ProductCategories =new List<ProductCategory>();
-        String StoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
-        List<WebStoreCatalog> Catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:StoreId];
-        if(Catalogues.size()!=0){
-            Id Catalog_Id = Catalogues.get(0).ProductCatalogId;
-            ProductCategories = [SELECT Name, Id, SortOrder FROM ProductCategory WHERE CatalogId=:Catalog_Id AND IsNavigational = true ORDER By SortOrder ASC];
+		List<ProductCategory> productCategories =new List<ProductCategory>();
+        String storeId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+
+        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId];
+        if(catalogues.size()!=0){
+            Id catalogId = catalogues.get(0).ProductCatalogId;
+            productCategories = [SELECT Name, Id, SortOrder FROM ProductCategory WHERE CatalogId=:catalogId AND IsNavigational = true ORDER By SortOrder ASC];
             }
-        return ProductCategories;
+        return productCategories;
     }
     @AuraEnabled(cacheable=true)
     public static List<ProductCategory> getStudyProducts(Id communityId){
-        List<ProductCategory> ProductCategories =new List<ProductCategory>();
-        String StoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
-        List<WebStoreCatalog> Catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:StoreId];
-        if(Catalogues.size()!=0){
-            Id Catalog_Id = Catalogues.get(0).ProductCatalogId;
-            ProductCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:Catalog_Id AND Name = 'Products'];
+        List<ProductCategory> productCategories =new List<ProductCategory>();
+        String storeId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+        List<WebStoreCatalog> catalogues = [SELECT SalesStoreId,ProductCatalogId FROM WebStoreCatalog WHERE SalesStoreId=:storeId];
+        if(catalogues.size()!=0){
+            Id catalogId = catalogues.get(0).ProductCatalogId;
+            productCategories = [SELECT Name,Id FROM ProductCategory WHERE CatalogId=:catalogId AND Name = 'Products'];
             }
-        return ProductCategories;
+        return productCategories;
     }
+
 }

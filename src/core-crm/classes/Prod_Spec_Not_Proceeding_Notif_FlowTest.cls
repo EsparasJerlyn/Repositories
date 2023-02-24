@@ -13,14 +13,17 @@
 */
 @isTest
 private class Prod_Spec_Not_Proceeding_Notif_FlowTest{
-    
-    private static final String STR_PROFILE = 'QUTeX';
-    private static User  currentUser = TestDataFactory.createUserRecords(1, STR_PROFILE).iterator().next();
     private static Integer numberOfRecords = 100;
-          
+
+    @testSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers();
+    }
+
     @isTest 
-    private static void insertUpdateLeadRecordTest(){  
-        System.runAs(currentUser){
+    private static void insertUpdateLeadRecordTest(){
+        Id opeProductSpecsId = Schema.SObjectType.Product_Specification__c.getRecordTypeInfosByDeveloperName().get('OPE').getRecordTypeId();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(Name='test',New_Idea_To_Email_Address__c = 'test-qutex@yopmail.com');
             insert customEmail;
@@ -45,11 +48,14 @@ private class Prod_Spec_Not_Proceeding_Notif_FlowTest{
                 productSpecification.Requestor_Name__c = contacts[0].Id;
                 productSpecification.Endorsed_by__c = contacts[0].Id;
                 productSpecification.Idea_Summary__c = 'Test';
+                productSpecification.RecordTypeId = opeProductSpecsId;
             }
             insert productSpecifications;
 
             Test.startTest(); 
-            List<Product_Specification__c> productSpecificationList = [SELECT Id, Not_Proceeding_Comments__c, Stage__c, Status__c FROM Product_Specification__c];
+            List<Product_Specification__c> productSpecificationList = [SELECT Id, Not_Proceeding_Comments__c, Stage__c, Status__c, RecordType.Name 
+                                                                       FROM Product_Specification__c 
+                                                                       WHERE RecordTypeId=:opeProductSpecsId];
             for(Product_Specification__c productSpecs : productSpecificationList){
                 productSpecs.Stage__c = 'Not Proceeding';
                 productSpecs.Status__c = 'Doesnt meet Qualification';

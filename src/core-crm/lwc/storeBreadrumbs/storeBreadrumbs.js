@@ -1,19 +1,28 @@
+/**
+ * @description A LWC component to display store breadcrumbs
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
+*/
+
 import { LightningElement, wire, api,track } from 'lwc';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import NAME_FIELD from '@salesforce/schema/Product2.Name';
 import communityId from '@salesforce/community/Id';
-import basePath from '@salesforce/community/basePath';
+import basePath from "@salesforce/community/basePath";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import getStudyProducts from '@salesforce/apex/MainNavigationMenuCtrl.getStudyProducts';
-//import getProducts from '@salesforce/apex/ProductCtrl.getProducts';
 import { loadStyle } from "lightning/platformResourceLoader";
-import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import customCSS from "@salesforce/resourceUrl/QUTMainCSS";
+
+import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
-import BasePath from "@salesforce/community/basePath";
 const STOREBREADCRUMBS_PARENTLIST = 'storeBreadrumbs_parentList';
+const STORED_ACCTID = "storedAccountId";
+
 export default class StoreBreadrumbs extends LightningElement {
 
     @api recordId;
@@ -26,23 +35,19 @@ export default class StoreBreadrumbs extends LightningElement {
     menuList = [];
     parentProductList = [];
     categoryList =[];
+    subscriptionAcct;
+    accountId;
 
     @wire(MessageContext)
     messageContext;
 
     get isCCEPortal() {
-        return BasePath.toLowerCase().includes("cce");
+        return basePath.toLowerCase().includes("cce");
     }
     
     get isOPEPortal() {
-        return BasePath.toLowerCase().includes("study");
+        return basePath.toLowerCase().includes("study");
     } 
-
-    /**
-     * fetches product data
-     */
-    // @wire(getRecord, { recordId:'$recordId', fields: [NAME_FIELD]})
-    // product;
 
     connectedCallback() {
         this.iconhome = qutResourceImg + "/QUTImages/Icon/icon-home-blue.svg";
@@ -53,18 +58,24 @@ export default class StoreBreadrumbs extends LightningElement {
 
       /* Load Custom CSS */
     renderedCallback() {
-       // Promise.all([loadStyle(this, customSR + "/QUTInternalCSS.css")]);
         Promise.all([loadStyle(this, customCSS + "/QUTCSS.css")]);
+        this.subscribeAcctLMS();   
         
     }
 
     disconnectedCallback() {
         this.unsubscribeLMS();
+        this.unsubscribeAcctLMS();
     }
 
     unsubscribeLMS(){
         unsubscribe(this.subscription);
         this.subscription = null;
+    }
+
+    unsubscribeAcctLMS(){
+        unsubscribe(this.subscriptionAcct);
+        this.subscriptionAcct = null;
     }
     
     // async init() {
@@ -146,8 +157,24 @@ export default class StoreBreadrumbs extends LightningElement {
             newValObj.isProgramFlex = newValObj.isProgramFlex ? String(newValObj.isProgramFlex).toUpperCase() == 'TRUE' : false;
 
             this.addToMenuList(newValObj);
-            console.log('NewValObj2', newValObj);
             this.setProductUrl();
+        }
+    }
+
+    subscribeAcctLMS() {
+        if (!this.subscriptionAcct) {
+            this.subscriptionAcct = subscribe(
+                this.messageContext, 
+                payloadAcctContainerLMS, 
+                (message) => this.validateAcctValue(message));
+        }
+    }
+
+    validateAcctValue(val) {
+        if (val && val.accountIdParameter) {
+            let newValObj = JSON.parse(val.accountIdParameter);
+    
+               this.accountId = newValObj.accountId;
         }
     }
 
@@ -194,8 +221,6 @@ export default class StoreBreadrumbs extends LightningElement {
     }
 
     getCategoryUrl(name, id) {
-        console.log('geturlname'+ name);
-        console.log('geturlid'+ id);
         if(name && id){
             return basePath+'/category/'+name.replaceAll(' ','-').toLowerCase()+'/'+id.slice(0, -3);
         } else {
@@ -209,7 +234,6 @@ export default class StoreBreadrumbs extends LightningElement {
 
     setProductUrl() {
         let urlRecordId = window.location.href ? window.location.href.substring(window.location.href.lastIndexOf('_') + 1) : undefined;
-        console.log('URLRecordId', urlRecordId);
         if(!urlRecordId){
             urlRecordId = window.location.href ? window.location.href.substring(window.location.href.lastIndexOf('/') + 1) : undefined;
         }
@@ -220,7 +244,6 @@ export default class StoreBreadrumbs extends LightningElement {
             this.menuList.forEach(e => {
                 if(e.productId.length > urlRecordId.length){
                     e.productId = e.productId.slice(0,urlRecordId.length);
-                    console.log('Resultid', e.productId);
                 }
                 if (e.productId == urlRecordId && e.isProgramFlex) {
                     e.productUrl = window.location.href;
@@ -256,6 +279,8 @@ export default class StoreBreadrumbs extends LightningElement {
         if (menuRecordId) {
             this.removeChildrenFromMenuList(menuRecordId);
         }
+
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 
     removeChildrenFromMenuList(productId){
@@ -282,5 +307,9 @@ export default class StoreBreadrumbs extends LightningElement {
 
     get homeLink(){
         return basePath;
+    }
+
+    setSessionStorage(){
+        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 }

@@ -42,12 +42,10 @@ private class ProductRequestListCtrlTest {
         insert contacts;
 
         List<Opportunity> opps;
-        opps = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,contacts[0].Id);
+        opps = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,contacts[0].Id);
         insert opps;
 
-        List<Product_Specification__c> productSpecs;
-        productSpecs = TestDataFactory.createTestProductSpecsRecords(1,contacts,opps);
-        insert productSpecs;
+        List<Product_Specification__c> productSpecs = TestDataFactory.retrieveCCEProductSpecifications();
 
         List<Product_Request__c> prodRequestOPEProgramRequest;
         prodRequestOPEProgramRequest = TestDataFactory.createTestProductRequestRecords(1,productSpecs[0].Id);
@@ -109,7 +107,7 @@ private class ProductRequestListCtrlTest {
         Test.startTest();
         System.runAs(currentUser){
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
-            getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id FROM Product_Specification__c Limit 1].Id));
+            getProdReqs = ProductRequestListCtrl.getProductRequests(string.valueOf([SELECT Id, Product_Specification__c FROM Product_Request__c  WHERE RecordTypeId =: opeProgProdReqId Limit 1].Product_Specification__c));
             system.assert( !getProdReqs.productRequestData.isEmpty(), 'unable to get product requests');
         }
 

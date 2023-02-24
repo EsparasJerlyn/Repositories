@@ -24,10 +24,6 @@ export default class ProductDetailsSingle extends LightningElement {
     showCoreConcepts;
     showMoreDetails
 
-    renderedCallback() {
-        Promise.all([loadStyle(this, customSR + "/qutCustomLwcCss.css")]);
-    }
-
     connectedCallback() {
         this.showOverview = this.product.productDetails.overview ? true : false;
         this.showEvolveWithQUTeX = this.product.productDetails.evolveWithQUTeX ? true : false;

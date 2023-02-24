@@ -36,6 +36,7 @@
       | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification         |
       | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings           |
       | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records              |
+      | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification  |
 */
 
 @isTest
@@ -175,6 +176,47 @@ public class TestDataFactory {
   }
 
   /**
+   * @description Method for creating "Closed Won" Opportunity records
+   * @param numOpps - number of Opportunities to be created
+   * @param accId - Id of related Account
+   * @param conId - Id of related Contact for roles
+   * @return opps - list of Opportunities created
+   */
+  public static List<Opportunity> createClosedWonOpportunities(
+    Integer numOpps,
+    Id accId,
+    Id conId
+  ) {
+    List<Opportunity> opps = new List<Opportunity>();
+
+    for (Integer i = 0; i < numOpps; i++) {
+      opps.add(
+        new Opportunity(
+          Name = 'TestOpportunity' + i,
+          AccountId = accId,
+          Contact__c = conId,
+          StageName = 'Closed Won',
+          Status__c = 'Contract Signed',
+          CloseDate = System.today() + 30
+        )
+      );
+    }
+
+    return opps;
+  }
+
+  /**
+   * @description Method for retrieving CCE Product Specification records
+   * A pre-requisite to this is to call createClosedWonOpportunities method
+   * @param void
+   * @return prodSpecList - returns all available CCE Product Specification records
+   */
+  public static List<Product_Specification__c> retrieveCCEProductSpecifications() {
+    List<Product_Specification__c> prodSpecList = [SELECT Id, RecordTypeId FROM Product_Specification__c WHERE RecordType.DeveloperName = 'CCE'];
+    return prodSpecList;
+  }
+
+  /**
    * @description Method for creating test Hed Address records
    * @param numAddresses - number of Hed Addresses to be created
    * @param addressType - type of address
@@ -242,7 +284,7 @@ public class TestDataFactory {
       ps.Program_Lead__c = contacts[i].id;
       ps.Opportunity_Name__c = ops[i].id;
       ps.Status__c = 'Design';
-      ps.Stage__c = 'Design';
+      ps.Stage__c = 'Define';
       ps.Client_Review_Required__c = 'N/A';
       ps.Requestor_Name__c =  contacts[i].id;
       ps.Requires_Director_Endorsement__c = 'Yes';
@@ -252,7 +294,43 @@ public class TestDataFactory {
       ps.Market_Need__c = 'Yes';
       ps.QUTeX_Capacity__c = 'Yes';
       ps.QUT_Faculty_Capacity__c = 'Yes';
-	  ps.Supporting_Comments__c = 'Test';
+	    ps.Supporting_Comments__c = 'Test';
+      ps.Not_Proceeding_Comments__c = 'Test';
+      ps.Product_Type__c = 'Short Course';
+      productSpecifications.add(ps);
+    }
+
+    return productSpecifications;
+  }
+
+  /**
+   * @description Create a product specification record without an opportunity attached to it yet
+   * @param numProductSpecs number of product specification
+   * @param contacts list of related contacts
+   * @return productSpecifications - list of product specifications
+   */
+  public static List<Product_Specification__c> createTestProductSpecsRecords(
+    Integer numProductSpecs,
+    Id contact
+  ) {
+    List<Product_Specification__c> productSpecifications = new List<Product_Specification__c>();
+
+    for (Integer i = 0; i < numProductSpecs; i++) {
+      Product_Specification__c ps = new Product_Specification__c();
+      ps.Program_Name__c = 'TEST PS ' + i;
+      ps.Program_Lead__c = contact;
+      ps.Status__c = 'Design';
+      ps.Stage__c = 'Design';
+      ps.Client_Review_Required__c = 'N/A';
+      ps.Requestor_Name__c =  contact;
+      ps.Requires_Director_Endorsement__c = 'Yes';
+      ps.Endorsed_by__c = contact;
+      ps.Existing_Product__c = 'Yes';
+      ps.Financial_Viability__c = 'Yes';
+      ps.Market_Need__c = 'Yes';
+      ps.QUTeX_Capacity__c = 'Yes';
+      ps.QUT_Faculty_Capacity__c = 'Yes';
+	    ps.Supporting_Comments__c = 'Test';
       ps.Not_Proceeding_Comments__c = 'Test';
       ps.Product_Type__c = 'Short Course';
       productSpecifications.add(ps);
@@ -1363,6 +1441,16 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for getting Program Administrator
+     * @param void
+     * @return portalSysAdmin - QUTeX Program Admin User
+     */
+    public static User getMarketingCloudUser(){
+      User marketingCloud = [SELECT Id From User WHERE Username LIKE 'QUT_Marketing_Cloud%' LIMIT 1];
+      return marketingCloud;
+  }
+
+    /**
      * @description Method for creating Sys Admin Portal Owner
      * @param void
      * @return portalSysAdmin - Portal Sys Admin user
@@ -1370,6 +1458,16 @@ public class TestDataFactory {
     public static User getPortalSysAdminUser(){
         User portalSysAdmin = [SELECT Id FROM User WHERE Username LIKE 'QUT_Sys_Admin%' LIMIT 1];
         return portalSysAdmin;
+    }
+
+    /**
+     * @description Method for creating Corporate Partner
+     * @param void
+     * @return coporateUser - Corporate Partner User
+     */
+    public static User getCorporatePartnerUser(){
+        User coporateUser = [SELECT Id FROM User WHERE Username LIKE 'QUT_Corporate_Partner_User%' LIMIT 1];
+        return coporateUser;
     }
 
     /**
@@ -1463,7 +1561,7 @@ public class TestDataFactory {
                 list<GroupMember> addPG = new List<GroupMember>{};
                 for(String i:addGroups){
                     List<String> res = i.split('%%');
-                    System.Debug('groupMap SPLIT res: '+res);
+                    System.Debug(LoggingLevel.DEBUG, 'groupMap SPLIT res: '+res);//NOPMD
                     addPG.add(new GroupMember(
                         GroupId=groupMap.get(res[1])
                         ,UserOrGroupId=usermap.get(res[0])

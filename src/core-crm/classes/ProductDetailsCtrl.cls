@@ -32,9 +32,12 @@
 			| eugene.john.basilan       | September 01,2022     | DEPP-3479            | Added new method for CB Bulk Register      |
 			| jessel.bajao		        | September 10, 2022    | DEPP-4071            | Removed inserlearnerInfo method, reuse cv  |
 			| 							| 					    |                      | Close webcart manually					    |
-			| john.m.tambasen			| September 12, 2022    | DEPP-3743            | validate duplicate contacts	  				|
-			| john.m.tambasen			| October 11, 2022   	  | DEPP-4535            | added payment method Contract 				|
-			| keno.domienri.dico		| October 12, 2022  	  | DEPP-4283            | added condition for Prescribed Program child |
+			| john.m.tambasen			| September 12, 2022    | DEPP-3743            | validate duplicate contacts	  		    |
+			| john.m.tambasen			| October 11, 2022   	| DEPP-4535            | added payment method Contract 				|
+			| keno.domienri.dico		| October 12, 2022  	| DEPP-4283            | added condition for Prescribed Program child |
+			| mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
+			| eugene.andrew.abuan       | February 14, 2023     | DEPP-5180            | Added method for TEECEE Checking             |
+
 */
 public without sharing class ProductDetailsCtrl {
 	public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -357,43 +360,66 @@ public without sharing class ProductDetailsCtrl {
 	 * @return prodDetailsData - Product Details & Pricebook Entries for Price picklist
 	 */
 	@AuraEnabled(cacheable=true)
-	public static ProductDetailsData getCCEProductRelatedRecords(Id productId, String categoryName, Id userId) {
+	public static ProductDetailsData getCCEProductRelatedRecords(ProductDetailsData productDetailsDataWrapper) {
 		ProductDetailsData prodDetailsData = new ProductDetailsData();
 		List<PricebookEntryWrapper> pbEntryWrapperList = new List<PricebookEntryWrapper>();
 		List<DeliveryWrapper> delivWrapperList = new List<DeliveryWrapper>();
 		List<childProduct> childProdWrapperList = new List<childProduct>();
 		Set<Id> priceBookIdsOPE = new Set<Id>();
+		List<Asset> assetList = new List<Asset>();
+		List<BuyerGroupPricebook> bgpbList = new List<BuyerGroupPricebook>();
+		Boolean hasProductsTEE;
 
-		AccountContactRelation getAccount = [
-			SELECT Id, AccountId, ContactId 
-			FROM AccountContactRelation 
-			WHERE Account.RecordType.Name = 'Business Organization' 
-			AND IsActive = true
-			AND ContactId IN (
-				SELECT ContactId 
-				FROM User 
-				WHERE Id = :userId)
-			LIMIT 1
+		assetList = [
+			SELECT Id, Product_Request__c
+			FROM Asset
+			WHERE Id =: productDetailsDataWrapper.assetId
+			AND AccountId =: productDetailsDataWrapper.accountId
+			WITH SECURITY_ENFORCED
 		];
 
 		// Get the List of BuyerGroupId
 		List<BuyerGroupMember> buyerGroupIdList = [
 			SELECT Id, Name, BuyerGroupId, BuyerId, Buyer.Name
 			FROM BuyerGroupMember
-			WHERE BuyerId = :getAccount.AccountId
+			WHERE BuyerId = : productDetailsDataWrapper.accountId
 		];
+
 		List<String> bgIds = new List<String>();
 		for(BuyerGroupMember bgMember : buyerGroupIdList){
 			bgIds.add(bgMember.BuyerGroupId);
 		}
 
-		// Get the Pricebook2Id from PricebookEntry
-		List<BuyerGroupPricebook> bgpbList = [
-			SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
-			FROM BuyerGroupPricebook
-			WHERE BuyerGroupId IN :bgIds
-			AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
-		];
+		if(!bgIds.isEmpty() && productDetailsDataWrapper.categoryName == 'Tailored Executive Education' || productDetailsDataWrapper.categoryName == 'Tailored Executive Program'){
+			//check if the Product is under that account 
+			hasProductsTEE = checkProductsForTailored(bgIds,productDetailsDataWrapper.productId);
+		}
+
+		if(!assetList.isEmpty() && productDetailsDataWrapper.categoryName == 'Corporate Bundle'){
+			// Get the Pricebook2Id from PricebookEntry
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+				AND BuyerGroup.Product_Request__c =: assetList[0].Product_Request__c
+			];
+		}else if(productDetailsDataWrapper.categoryName == 'QUTeX Learning Solutions'){
+			// Get the Pricebook2Id from PricebookEntry
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroupId =: productDetailsDataWrapper.buyerGroupId
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+			];
+		}else{
+			// Get the Pricebook2Id from PricebookEntry
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroupId IN :bgIds
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+			];
+		}
 
 		// Check if CB or SOA
 		List<BuyerGroup> getPRId = [
@@ -413,7 +439,7 @@ public without sharing class ProductDetailsCtrl {
 			pbIds.add(bgpb.Pricebook2Id);
 		}
 		String pbeName = '%';
-		if(categoryName == 'Corporate Bundle'){
+		if(productDetailsDataWrapper.categoryName == 'Corporate Bundle'){
 			pbeName = pbeNameCB + '%';
 		} else {
 			pbeName = pbeNameSOA + '%';
@@ -449,7 +475,7 @@ public without sharing class ProductDetailsCtrl {
 					Product_Category__c, 
 					Program_Plan__r.Product_Request__c
 				FROM Product2
-				WHERE Id = :productId
+				WHERE Id = :productDetailsDataWrapper.productId
 			];
 
 			// Product Corporate Bundle and QUTeX Learning Solutions
@@ -485,16 +511,16 @@ public without sharing class ProductDetailsCtrl {
 						FROM PricebookEntries
 						WHERE IsActive = true
 						AND Pricebook2Id IN: pbIds
-						AND Product2Id = :productId
+						AND Product2Id =:productDetailsDataWrapper.productId
 						AND Pricebook2.Name LIKE :pbeName
 					),
 					Program_Plan__r.Product_Request__c
 				FROM Product2
-				WHERE Id = :productId
+				WHERE Id =:productDetailsDataWrapper.productId
 			];
 
-		if(categoryName == 'Tailored Executive Education' || categoryName == 'Tailored Executive Program'){
-			productOnPage = prodTEEDetails;
+		if(productDetailsDataWrapper.categoryName == 'Tailored Executive Education' || productDetailsDataWrapper.categoryName == 'Tailored Executive Program'){
+			productOnPage = hasProductsTEE? prodTEEDetails : null;
 			prodDetailsData.priceCCE = String.valueOf('0');
 		} else {
 			productOnPage = prodCBSOAList;
@@ -503,7 +529,7 @@ public without sharing class ProductDetailsCtrl {
 			Product2 checkFlex = [
 				SELECT Id, Name, Program_Plan__r.Program_Delivery_Structure__c
 				FROM Product2
-				WHERE ID = :productId
+				WHERE ID = :productDetailsDataWrapper.productId
 			];
 			Boolean isFlex = false;
 			if(checkFlex.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){
@@ -518,11 +544,10 @@ public without sharing class ProductDetailsCtrl {
 					WHERE IsActive = true
 					AND Pricebook2Id IN :pbIds
 					AND Pricebook2.Name LIKE :pbeName
-					AND Product2Id = :productId
+					AND Product2Id = :productDetailsDataWrapper.productId
 				];
 
 				// Pricebook Entries
-				Map<String, PricebookEntry> pbEntryMap = new Map<String, PricebookEntry>();
 				if (getPrice != null) {
 					prodDetailsData.priceCCE = String.valueOf(getPrice.UnitPrice);
 					prodDetailsData.pricebookEntryIdCCE = getPrice.Id;
@@ -532,200 +557,203 @@ public without sharing class ProductDetailsCtrl {
 			}
 		}
 
-		//Modules under the program
-		if (
-			productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
-			'Prescribed Program'
-		) {
-			prodDetailsData.moduleWrapperList = getProgramModules(productOnPage.Program_Plan__c);
-			prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(productOnPage.Program_Plan__c);
-		}
-
-		// Set isNotFlexProgram to True
-		prodDetailsData.isNotFlexProgram = true;
-
-		// Single Product
-		if (String.isBlank(productOnPage.Program_Plan__c)) {
-			// Delivery Options
-			if (String.isNotBlank(productOnPage.Delivery__c)) {
-				// Course Offering counter for Delivery
-				Map<String, Integer> deliveryCountMap = new Map<String, Integer>();
-				List<AggregateResult> countList = [
-					SELECT Count(Id) counter, Delivery_Type__c
-					FROM hed__Course_Offering__c
-					WHERE
-						Registration_Start_Date__c <= TODAY
-						AND (Registration_End_Date__c = NULL
-						OR Registration_End_Date__c > TODAY)
-						AND IsActive__c = TRUE
-						AND Available_Seats__c > 0
-						AND hed__Course__c = :productOnPage.Course__c
-					GROUP BY Delivery_Type__c
-				];
-				for (AggregateResult count : countList) {
-					deliveryCountMap.put( (String) count.get('Delivery_Type__c'), (Integer) count.get('counter') );
-				}
-
-				// Display Delivery Options w/ Course Offerings
-				List<String> delivList = productOnPage.Delivery__c.split(';');
-				for (String deliv : delivList) {
-					if (deliveryCountMap.get(deliv) > 0) {
-						DeliveryWrapper delivWrapper = new DeliveryWrapper();
-						delivWrapper.label = deliv;
-						delivWrapper.value = deliv;
-						delivWrapperList.add(delivWrapper);
+		if(productOnPage != null){
+			//Modules under the program
+			if (
+				productOnPage.Program_Plan__r.Program_Delivery_Structure__c ==
+				'Prescribed Program'
+			) {
+				prodDetailsData.moduleWrapperList = getProgramModules(productOnPage.Program_Plan__c);
+				prodDetailsData.programDeliveryAndOfferingMap = getProgramOfferings(productOnPage.Program_Plan__c);
+			}
+	
+			// Set isNotFlexProgram to True
+			prodDetailsData.isNotFlexProgram = true;
+	
+			// Single Product
+			if (String.isBlank(productOnPage.Program_Plan__c)) {
+				// Delivery Options
+				if (String.isNotBlank(productOnPage.Delivery__c)) {
+					// Course Offering counter for Delivery
+					Map<String, Integer> deliveryCountMap = new Map<String, Integer>();
+					List<AggregateResult> countList = [
+						SELECT Count(Id) counter, Delivery_Type__c
+						FROM hed__Course_Offering__c
+						WHERE
+							Registration_Start_Date__c <= TODAY
+							AND (Registration_End_Date__c = NULL
+							OR Registration_End_Date__c > TODAY)
+							AND IsActive__c = TRUE
+							AND Available_Seats__c > 0
+							AND hed__Course__c = :productOnPage.Course__c
+						GROUP BY Delivery_Type__c
+					];
+					for (AggregateResult count : countList) {
+						deliveryCountMap.put( (String) count.get('Delivery_Type__c'), (Integer) count.get('counter') );
+					}
+	
+					// Display Delivery Options w/ Course Offerings
+					List<String> delivList = productOnPage.Delivery__c.split(';');
+					for (String deliv : delivList) {
+						if (deliveryCountMap.get(deliv) > 0) {
+							DeliveryWrapper delivWrapper = new DeliveryWrapper();
+							delivWrapper.label = deliv;
+							delivWrapper.value = deliv;
+							delivWrapperList.add(delivWrapper);
+						}
 					}
 				}
-			}
-		} else {
-			// List Courses from Related Product Request
-			Set<Id> courseIdSet = new Set<Id>();
-			List<Related_Product_Request__c> relProdReqList = [
-				SELECT Id, Name, Program__c, Course__c
-				FROM Related_Product_Request__c
-				WHERE Program__c = :productOnPage.Program_Plan__r.Product_Request__c
-			];
-			for (Related_Product_Request__c relProdReq : relProdReqList) {
-				courseIdSet.add(relProdReq.Course__c);
-			}
-			// Get Child Products
-			List<Product2> childProdList = [
-				SELECT
-					Id,
-					Name,
-					Course__c,
-					Duration__c,
-					Delivery__c,
-					Description,
-					Professional_Level__c,
-					Detail_URL__c,
-					(
-						SELECT Id, Pricebook2.Name, UnitPrice, Early_Bird_No_of_Days__c
-						FROM PricebookEntries
-						WHERE IsActive = TRUE
-						AND (Pricebook2.IsStandard = true 
-						OR Pricebook2Id IN: priceBookIdsOPE)
-						ORDER BY CreatedDate, Pricebook2.IsStandard DESC
-					)
-				FROM Product2
-				WHERE
-					Course__r.ProductRequestID__c IN :courseIdSet
-					AND Available_on_Cart__c = TRUE
-			];
-
-			// Get sequence on Program Plan
-			List<hed__Plan_Requirement__c> programPlanRequirementList = [
-				SELECT Id, hed__Course__c, hed__Sequence__c
-				FROM hed__Plan_Requirement__c
-				WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
-				ORDER BY hed__Sequence__c 
+			} else {
+				// List Courses from Related Product Request
+				Set<Id> courseIdSet = new Set<Id>();
+				List<Related_Product_Request__c> relProdReqList = [
+					SELECT Id, Name, Program__c, Course__c
+					FROM Related_Product_Request__c
+					WHERE Program__c = :productOnPage.Program_Plan__r.Product_Request__c
+				];
+				for (Related_Product_Request__c relProdReq : relProdReqList) {
+					courseIdSet.add(relProdReq.Course__c);
+				}
+				// Get Child Products
+				List<Product2> childProdList = [
+					SELECT
+						Id,
+						Name,
+						Course__c,
+						Duration__c,
+						Delivery__c,
+						Description,
+						Professional_Level__c,
+						Detail_URL__c,
+						(
+							SELECT Id, Pricebook2.Name, UnitPrice, Early_Bird_No_of_Days__c
+							FROM PricebookEntries
+							WHERE IsActive = TRUE
+							AND (Pricebook2.IsStandard = true 
+							OR Pricebook2Id IN: priceBookIdsOPE)
+							ORDER BY CreatedDate, Pricebook2.IsStandard DESC
+						)
+					FROM Product2
+					WHERE
+						Course__r.ProductRequestID__c IN :courseIdSet
+						AND Available_on_Cart__c = TRUE
 				];
 	
-			// Child Products set to childProductList
-			List<Product2> childProductList = new List<Product2>();
-
-			if(programPlanRequirementList.size() > 0){
-				Set<Id> courseIdWithPlanSet = new Set<Id>();
-				List<hed__Plan_Requirement__c> childProdWithPlanList = new List<hed__Plan_Requirement__c>();
-				Map<String, Product2> childProductMap = new Map<String, Product2>();
-
-				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
-					courseIdWithPlanSet.add(programPlanRequirement.hed__Course__c);
-
-					childProdWithPlanList.add(programPlanRequirement);
-				}
-
-				for (Product2 childProd : childProdList) {
-
-					if(courseIdWithPlanSet.contains(childProd.Course__c)){
-						childProductMap.put(childProd.Course__c, childProd);
-					}else{
-						childProductList.add(childProd);
+				// Get sequence on Program Plan
+				List<hed__Plan_Requirement__c> programPlanRequirementList = [
+					SELECT Id, hed__Course__c, hed__Sequence__c
+					FROM hed__Plan_Requirement__c
+					WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
+					ORDER BY hed__Sequence__c 
+					];
+		
+				// Child Products set to childProductList
+				List<Product2> childProductList = new List<Product2>();
+	
+				if(programPlanRequirementList.size() > 0){
+					Set<Id> courseIdWithPlanSet = new Set<Id>();
+					List<hed__Plan_Requirement__c> childProdWithPlanList = new List<hed__Plan_Requirement__c>();
+					Map<String, Product2> childProductMap = new Map<String, Product2>();
+	
+					for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
+						courseIdWithPlanSet.add(programPlanRequirement.hed__Course__c);
+	
+						childProdWithPlanList.add(programPlanRequirement);
 					}
-				}
-
-				for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
-					if(childProductMap.containsKey(programPlanRequirement.hed__Course__c)){
-						childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
-					}
-				}
-			}
-			else{
-				childProductList = childProdList;
-			}
-
-			// Flexible-Program
-			Map<Id, Date> cProdDateMap = new Map<Id, Date>();
-			if (productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){
-				// Set isNotFlexProgram to False
-				prodDetailsData.isNotFlexProgram = false;
-
-				// Map Child Product Earliest Course Offering Date
-				List<AggregateResult> startDateList = [
-					SELECT hed__Course__c, MIN(hed__Start_Date__c) startDate
-					FROM hed__Course_Offering__c
-					WHERE
-						hed__Start_Date__c >= TODAY
-						AND Registration_Start_Date__c <= TODAY
-						AND (Registration_End_Date__c = NULL
-						OR Registration_End_Date__c > TODAY)
-						AND IsActive__c = TRUE
-						AND Available_Seats__c > 0
-						AND hed__Course__r.ProductRequestID__c IN :courseIdSet
-					GROUP BY hed__Course__c
-				];
-				for (AggregateResult startDate : startDateList) {
-					cProdDateMap.put( (Id) startDate.get('hed__Course__c'), (Date) startDate.get('startDate') );
-				}
-			}
-
-			// Process Child Products
-			for (Product2 childProd : childProductList) {
-				childProduct childProductWrapper = new childProduct();
-				childProductWrapper.childProdId = childProd.Id;
-				childProductWrapper.childProdName = childProd.Name;
-				childProductWrapper.childProdProfLevel = childProd.Professional_Level__c;
-				childProductWrapper.childProdDuration = childProd.Duration__c;
-				childProductWrapper.childProdDescription = childProd.Description;
-				childProductWrapper.isProgramFlex = false;
-				if (productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program') {
-					// Child Product Pricebook Entries
-					Map<String, String> cProdPBEntryMap = new Map<String, String>();
-					if (!childProd.PricebookEntries.isEmpty()) {
-						for (PricebookEntry cProductPBookEntry : childProd.PricebookEntries) {
-							cProdPBEntryMap.put(cProductPBookEntry.Pricebook2.Name, String.valueOf(cProductPBookEntry.UnitPrice));
+	
+					for (Product2 childProd : childProdList) {
+	
+						if(courseIdWithPlanSet.contains(childProd.Course__c)){
+							childProductMap.put(childProd.Course__c, childProd);
+						}else{
+							childProductList.add(childProd);
 						}
 					}
-
-					if (childProd.Delivery__c != null) {
-						childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(';', ', ');
+	
+					for (hed__Plan_Requirement__c programPlanRequirement : programPlanRequirementList) {
+						if(childProductMap.containsKey(programPlanRequirement.hed__Course__c)){
+							childProductList.add(childProductMap.get(programPlanRequirement.hed__Course__c));
+						}
 					}
-
-					if (cProdDateMap.containsKey(childProd.Course__c)) {
-						childProductWrapper.childProdOfferingDate = Datetime.newInstance(
-								cProdDateMap.get(childProd.Course__c),
-								Time.newInstance(0, 0, 0, 0)
-							)
-							.format('dd MMM yyyy');
+				}
+				else{
+					childProductList = childProdList;
+				}
+	
+				// Flexible-Program
+				Map<Id, Date> cProdDateMap = new Map<Id, Date>();
+				if (productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program'){
+					// Set isNotFlexProgram to False
+					prodDetailsData.isNotFlexProgram = false;
+	
+					// Map Child Product Earliest Course Offering Date
+					List<AggregateResult> startDateList = [
+						SELECT hed__Course__c, MIN(hed__Start_Date__c) startDate
+						FROM hed__Course_Offering__c
+						WHERE
+							hed__Start_Date__c >= TODAY
+							AND Registration_Start_Date__c <= TODAY
+							AND (Registration_End_Date__c = NULL
+							OR Registration_End_Date__c > TODAY)
+							AND IsActive__c = TRUE
+							AND Available_Seats__c > 0
+							AND hed__Course__r.ProductRequestID__c IN :courseIdSet
+						GROUP BY hed__Course__c
+					];
+					for (AggregateResult startDate : startDateList) {
+						cProdDateMap.put( (Id) startDate.get('hed__Course__c'), (Date) startDate.get('startDate') );
 					}
-
-					if (cProdPBEntryMap.containsKey('Free')) {
-						childProductWrapper.childProdPrice = cProdPBEntryMap.get('Free');
-					} else {
-						childProductWrapper.childProdPrice = cProdPBEntryMap.get(
-							'Standard Price Book'
-						);
-						if (cProdPBEntryMap.containsKey('Early Bird')) {
+				}
+	
+				// Process Child Products
+				for (Product2 childProd : childProductList) {
+					childProduct childProductWrapper = new childProduct();
+					childProductWrapper.childProdId = childProd.Id;
+					childProductWrapper.childProdName = childProd.Name;
+					childProductWrapper.childProdProfLevel = childProd.Professional_Level__c;
+					childProductWrapper.childProdDuration = childProd.Duration__c;
+					childProductWrapper.childProdDescription = childProd.Description;
+					childProductWrapper.isProgramFlex = false;
+					if (productOnPage.Program_Plan__r.Program_Delivery_Structure__c == 'Flexible Program') {
+						// Child Product Pricebook Entries
+						Map<String, String> cProdPBEntryMap = new Map<String, String>();
+						if (!childProd.PricebookEntries.isEmpty()) {
+							for (PricebookEntry cProductPBookEntry : childProd.PricebookEntries) {
+								cProdPBEntryMap.put(cProductPBookEntry.Pricebook2.Name, String.valueOf(cProductPBookEntry.UnitPrice));
+							}
+						}
+	
+						if (childProd.Delivery__c != null) {
+							childProductWrapper.childProdDelivery = childProd.Delivery__c.replace(';', ', ');
+						}
+	
+						if (cProdDateMap.containsKey(childProd.Course__c)) {
+							childProductWrapper.childProdOfferingDate = Datetime.newInstance(
+									cProdDateMap.get(childProd.Course__c),
+									Time.newInstance(0, 0, 0, 0)
+								)
+								.format('dd MMM yyyy');
+						}
+	
+						if (cProdPBEntryMap.containsKey('Free')) {
+							childProductWrapper.childProdPrice = cProdPBEntryMap.get('Free');
+						} else {
 							childProductWrapper.childProdPrice = cProdPBEntryMap.get(
-								'Early Bird'
+								'Standard Price Book'
 							);
+							if (cProdPBEntryMap.containsKey('Early Bird')) {
+								childProductWrapper.childProdPrice = cProdPBEntryMap.get(
+									'Early Bird'
+								);
+							}
 						}
+						childProductWrapper.detailURL = childProd.Detail_URL__c;
 					}
-					childProductWrapper.detailURL = childProd.Detail_URL__c;
+					childProdWrapperList.add(childProductWrapper);
 				}
-				childProdWrapperList.add(childProductWrapper);
 			}
 		}
+
 		// Set values to wrapper
 		prodDetailsData.productOnPage = productOnPage;
 		prodDetailsData.pricebookWrapperList = pbEntryWrapperList;
@@ -767,9 +795,11 @@ public without sharing class ProductDetailsCtrl {
 							hed__Contact__c,
 							hed__Contact__r.Name,
 							Facilitator_Bio__r.Professional_Bio__c,
-							hed__Contact__r.Contact_Image__c
+							hed__Contact__r.Contact_Image__c,
+							hed__Primary__c
 						FROM hed__Course_Enrollment__r
 						WHERE RecordTypeId = :FACULTY_RECTYPEID AND IsActive__c = TRUE
+						ORDER BY hed__Primary__c DESC
 					)
 				FROM hed__Course_Offering__c
 				WHERE
@@ -1203,8 +1233,8 @@ public without sharing class ProductDetailsCtrl {
 			cartWrapper.externalId = externalId;
 
 		} catch (Exception e) {
-			system.debug(e);
-			system.debug('error on ProductDetailsCtrl.insertLearnerInfo');
+			System.debug(LoggingLevel.DEBUG, e);//NOPMD
+			System.debug(LoggingLevel.DEBUG, 'error on ProductDetailsCtrl.insertLearnerInfo');//NOPMD
 			// AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			// throw auraEx;
 		}
@@ -1242,7 +1272,7 @@ public without sharing class ProductDetailsCtrl {
 				webcart.Status = 'Closed';
 				UPDATE webcart;
 			}catch(Exception e){
-				system.debug(e);
+				System.debug(LoggingLevel.DEBUG, (e));//NOPMD
 			}
 			
 			//get cart and course info through cart item
@@ -1565,6 +1595,18 @@ public without sharing class ProductDetailsCtrl {
 		public String priceCCE;
 		@AuraEnabled
 		public String pricebookEntryIdCCE;
+		@AuraEnabled
+		public String accountId{ get; set; }
+		@AuraEnabled
+		public String categoryName{ get; set; }
+		@AuraEnabled
+		public Id productId{ get; set; }
+		@AuraEnabled
+		public Id userId{ get; set; }
+		@AuraEnabled
+		public String assetId{ get; set; }
+		@AuraEnabled
+		public String buyerGroupId{ get; set; }
 	}
 
 	/**
@@ -2082,4 +2124,36 @@ public without sharing class ProductDetailsCtrl {
 			LIMIT 1
 		];
 	}
+
+	/**
+	 * @description Gets related products for tailored executive 
+	 * @param bgIds - Buyer Group Id of the selected account
+	 * @param productId - Id of the Selected Product
+	 * @return hasProducts - Boolean that checks the product Id is in the Entilement Policy
+	 */
+	@AuraEnabled
+	public static Boolean checkProductsForTailored(List<String> bgIds , Id productId) {
+
+		Boolean hasProducts;
+		// Query list of entilement policy
+		Set<Id> policyIdSet = new Set<Id>();
+		List<CommerceEntitlementBuyerGroup> cembgList = [SELECT PolicyId, BuyerGroupId FROM CommerceEntitlementBuyerGroup WHERE BuyerGroupId IN :bgIds];
+
+		//Store List of Policy Id inside the Set
+		for(CommerceEntitlementBuyerGroup cembg : cembgList){
+			if(String.isNotEmpty(cembg.PolicyId)){
+				policyIdSet.add(cembg.PolicyId);
+			}
+		}
+
+		if(!policyIdSet.isEmpty()){
+			List<CommerceEntitlementProduct> cep = [SELECT PolicyId, ProductId 
+												FROM CommerceEntitlementProduct 
+												WHERE PolicyId IN :policyIdSet  
+												AND ProductId =: productId];
+			hasProducts = !cep.isEmpty()? true : false;
+		}
+		return hasProducts;
+	}
+
 }

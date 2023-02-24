@@ -1,0 +1,153 @@
+<template>
+    <section class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small"></lightning-icon>
+                </button>
+                <h2 class="slds-text-heading_medium slds-hyphenate">{headerTitle}</h2>
+            </header>
+            <div class="slds-is-relative slds-scrollable max-height slds-theme_default">
+                <lightning-spinner if:true={processing} alternative-text="Loading" class="max-height" size="medium"></lightning-spinner>
+                <div class="slds-modal__content slds-p-around_small">
+                    <lightning-layout-item flexibility="auto" size="12">
+                        <p class="item-label slds-p-around_xx-small bodyRegular">{modalDescription}</p>
+                        <p class="item-label slds-p-around_xx-small"><b>{noteLabel}</b>{noteLabelValue}</p>
+                        <p class="item-label slds-p-around_xx-small">{totalNumPlacesLabel} <strong>{availableSeats}</strong></p>
+                        <p class="item-label slds-p-around_xx-small" if:true={productCategoryCheck}>Total Available Credit: <strong>12</strong></p>
+                        <p class="item-label slds-p-around_xx-small" if:true={productCategoryCheck}>Total Amount: <strong>12</strong></p>
+                    </lightning-layout-item>
+                    <div class="slds-form-element" if:false={isTailoredProductCategory}>
+                        <lightning-combobox
+                            label="Pricing"
+                            value={pbEntryRecord}
+                            options={pbEntryRecords}
+                            onchange={handleSelectedPricing}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-form-element" if:true={hasAsset}>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-size_1-of-1">Total Value: {relatedAsset.Total_Value__c} </div>
+                            <div class="slds-size_1-of-1">Remaining Value : {relatedAsset.Remaining_Value__c}</div>
+                        </div>
+                    </div>
+                    <template if:true={showDiscountSection}>
+                        <div class="slds-grid slds-wrap slds-form-element">
+                            <div class="slds-size_4-of-12">
+                                <div>
+                                    <div style="display: flex">
+                                        <p class="bodyBold">Discount code</p>
+                                        <lightning-helptext content="Coupon code will apply a discount on the Standard Price only"></lightning-helptext>
+                                    </div>
+                                    <lightning-input data-id="grpRegdiscountField" name={productIndex} type="text" variant="label-hidden" class="grpRegDiscountField"></lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_4-of-12">
+                                <p class="slds-p-top_xx-small">&nbsp;</p>
+                                <lightning-button class="slds-m-left_x-small" variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
+                            </div>
+                        </div>
+                        <p class={discountMessageClass}>{discountMessage}</p>
+                    </template>
+                    
+                    <!-- buttons -->
+                    <span class='action-button-container'>
+                        <a href={csvtemp} class="download-button" target='_self'>
+                            <lightning-button 
+                                variant="brand" 
+                                label={buttonDownloadLabel}
+                                title="Primary action" 
+                                icon-name="utility:download" 
+                                icon-position="left"
+                                class="slds-m-left_x-small">
+                            </lightning-button>
+                        </a>
+                        <lightning-file-upload
+                            name="fileUploader"
+                            accept={acceptedFormats}
+                            record-id={myRecordId}
+                            onuploadfinished={handleUploadFinished}>
+                        </lightning-file-upload>
+                    </span>
+                    <template if:false={csvtemp}>
+                        <h3>{errorForTemplate}</h3>
+                    </template>
+            
+                    <div if:true={contacts}>
+                        <div class="slds-scrollable">
+                            <lightning-datatable 
+                                key-field="id" 
+                                columns={columns} 
+                                data={contacts}
+                                hide-checkbox-column=true 
+                                show-row-number-column=false
+                                errors={errors}
+                                onrowaction={handleRowAction}
+                                class="slds-max-medium-table_stacked">
+                            </lightning-datatable>
+                        </div>
+                        <lightning-button 
+                            variant="brand" 
+                            label="Add" 
+                            title="Primary action" 
+                            onclick={addNewRow} 
+                            class="slds-m-left_x-small slds-float_right slds-m-top_medium mobileButton">
+                        </lightning-button>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+
+            <footer class="slds-modal__footer">
+                <template if:false={isCorporateBundlePricebook}>
+                    <div class="slds-var-top_medium" if:false={isTailoredProductCategory}>
+                        <lightning-button
+                            label="Proceed without Invoice"
+                            variant="brand"
+                            type="submit"
+                            onclick={processRegistration}
+                            disabled={disableProcessButton}
+                        ></lightning-button> 
+                    </div>
+                    <div class="slds-var-top_medium" if:true={isTailoredProductCategory}>
+                        <lightning-button
+                            label="Confirm Registration"
+                            variant="brand"
+                            type="submit"
+                            onclick={processRegistration}
+                            disabled={disableProcessButton}
+                        ></lightning-button>
+                    </div>
+                </template>
+                <template if:true={isCorporateBundlePricebook}>
+                    <lightning-button
+                        label="Confirm Registration"
+                        variant="brand"
+                        type="submit"
+                        onclick={processRegistration}
+                        disabled={disableProcessButton}
+                    ></lightning-button>
+                </template>                    
+            </footer>
+        </div>
+        <template if:true={isEditRecord}>
+            <c-custom-create-edit-record 
+                object-api-name={objApiName}
+                pre-populated-fields={prefields}
+                edit-temp-data={isEditRecord}
+                standard-header-label={standardHeaderLabel}
+                onsave={saveEdit}
+                onclose={closeModal}
+            ></c-custom-create-edit-record>
+        </template>
+        <template if:true={isCreateRecord}>
+            <c-custom-create-edit-record 
+                object-api-name={objApiName}
+                pre-populated-fields={prefields}
+                standard-header-label={standardHeaderLabel}
+                onsave={saveNew}
+                onclose={closeModal}
+            ></c-custom-create-edit-record>
+        </template>
+    </section>
+</template>

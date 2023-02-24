@@ -11,16 +11,21 @@ public with sharing class CommunitiesLandingControllerTest {
         ProductCategory prodCateg = new ProductCategory( Name = 'Products',CatalogId = prodCatalog.Id);
     	insert prodCateg;
         
+        TestDataFactory.generateTestUsers();
+        
 	}
     
 	@isTest
     public static void testCommunitiesLandingController() {
-       // Instantiate a new controller with all parameters in the page
-       CommunitiesLandingController controller = new CommunitiesLandingController();
-       PageReference pageRef = controller.forwardToStartPage();
-       //PageRef is either null or an empty object in test context
-       if(pageRef != null){
-             System.assertEquals(true, String.isNotEmpty(String.valueOf(pageRef)));
-    	}
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            // Instantiate a new controller with all parameters in the page
+            CommunitiesLandingController controller = new CommunitiesLandingController();
+            PageReference pageRef = controller.forwardToStartPage();
+            //PageRef is either null or an empty object in test context
+            if(pageRef != null){
+                System.assertEquals(true, String.isNotEmpty(String.valueOf(pageRef)), 'Error in Community Landing.');
+            }
+        }
   	}
 }

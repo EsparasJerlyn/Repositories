@@ -14,6 +14,7 @@
 @isTest
 public with sharing class ManageRegAndNomCtrlTest {
 
+    private static final String CATEGORY_CCE = 'Corporate Portal';
     private final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
@@ -56,16 +57,16 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void updateRegistrationOrNominationStatusTest(){  
-        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
-            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to Update Nomination status.');
         }
@@ -73,12 +74,12 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void updateExistingContactNominationStatusTest(){  
-        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){    
-            List<hed__Course_Offering__c> cList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c];
+            List<hed__Course_Offering__c> cList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WITH SECURITY_ENFORCED];
             Expression_of_Interest__c eoi = new Expression_of_Interest__c();
             eoi.First_Name__c = 'Contact';
             eoi.Last_Name__c = 'Record';
@@ -87,10 +88,10 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Status__c = 'Pending';
             eoi.Course_Offering__c = cList[0].Id;
             insert eoi;
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to Update Nomination status.');
         }
@@ -98,16 +99,16 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void updateStatusWithExceptionTest(){  
-        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){    
             Test.startTest();
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
-            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'InvalidStatus', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'InvalidStatus', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(!response.isSuccess, 'Should not be able to update record with invalid status.');
         }
@@ -118,10 +119,10 @@ public with sharing class ManageRegAndNomCtrlTest {
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){    
             Test.startTest();
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
-            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Pending', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Pending', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to Update Nomination status.');
         }
@@ -131,7 +132,7 @@ public with sharing class ManageRegAndNomCtrlTest {
     static void updateExistingContactDiffDetailsTest(){  
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){    
-            List<hed__Course_Offering__c> cList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c];
+            List<hed__Course_Offering__c> cList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WITH SECURITY_ENFORCED];
             Expression_of_Interest__c eoi = new Expression_of_Interest__c();
             eoi.First_Name__c = 'Contact123';
             eoi.Last_Name__c = 'Record123';
@@ -140,10 +141,10 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Status__c = 'Pending';
             eoi.Course_Offering__c = cList[0].Id;
             insert eoi;
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(!response.isSuccess, 'Incorrect validation of contact information.');
         }
@@ -160,10 +161,10 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Email__c = 'con@rec123.com';
             eoi.Status__c = 'Pending';
             insert eoi;
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(!response.isSuccess, 'Incorrect validation of contact information.');
         }
@@ -174,11 +175,11 @@ public with sharing class ManageRegAndNomCtrlTest {
     static void updateRegistrationStatusTest(){  
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
-            hed__Course_Enrollment__c learner = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1];
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
+            hed__Course_Enrollment__c learner = [SELECT Id FROM hed__Course_Enrollment__c WITH SECURITY_ENFORCED LIMIT 1];
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(learner.Id, 'Active', true, new Expression_of_Interest__c(), '', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(learner.Id, 'Active', true, new Expression_of_Interest__c(), '', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to update Registration status.');
         }
@@ -187,15 +188,30 @@ public with sharing class ManageRegAndNomCtrlTest {
     @isTest
     static void getRegistrationsAndNominationsTest(){
         Test.startTest();
-        Id contactId = [SELECT Id FROM Contact WHERE FirstName = 'cce contact' LIMIT 1].Id;
+        Contact contact = [SELECT Id, hed__Primary_Organization__c FROM Contact WHERE FirstName = 'cce contact' WITH SECURITY_ENFORCED LIMIT 1];
 
-        CCECorporateUserCtrl.CorporateUserDetails userDetails = CCECorporateUserCtrl.enableCCECorporateUser(contactId);   
-        User user = [SELECT Id, Name FROM User WHERE Id =: userDetails.userId LIMIT 1];
+        BuyerGroup bg = new BuyerGroup();
+        bg.Name = 'OPE BuyerGroup';
+        insert bg;
+
+        CCECorporateUserCtrl.CorporateUserDetails userDetails = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);   
+        User user = [SELECT Id, Name FROM User WHERE Id =: userDetails.userId WITH SECURITY_ENFORCED LIMIT 1];
 
         System.runAs(user){
-            List<ManageRegAndNomCtrl.ManageRegistrationorNominationDetails> registrations = ManageRegAndNomCtrl.getRegistrationsAndNominations(true, '', '', '', '', '', '', ''); 
+            ManageRegAndNomCtrl.RecordSearchParams params = new ManageRegAndNomCtrl.RecordSearchParams();
+            params.isRegistrations = true;
+            params.courseName = '';
+            params.firstName = '';
+            params.lastName = '';
+            params.email = '';
+            params.mobile = '';
+            params.status = '';
+            params.birthday = '';
+        
+            List<ManageRegAndNomCtrl.ManageRegistrationorNominationDetails> registrations = ManageRegAndNomCtrl.getRegistrationsAndNominations(params, contact.hed__Primary_Organization__c); 
             System.assertEquals(1, registrations.size(), 'Incorrect number of records retrieved.');
-            List<ManageRegAndNomCtrl.ManageRegistrationorNominationDetails> nominations = ManageRegAndNomCtrl.getRegistrationsAndNominations(false, '', '', '', '', '', '', ''); 
+            params.isRegistrations = false;
+            List<ManageRegAndNomCtrl.ManageRegistrationorNominationDetails> nominations = ManageRegAndNomCtrl.getRegistrationsAndNominations(params, contact.hed__Primary_Organization__c); 
             System.assertEquals(1, nominations.size(), 'Incorrect number of records retrieved.');
         }
         Test.stopTest();
@@ -214,15 +230,15 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void validateRegistrationEndDate(){  
-        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
 
-            List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Name, hed__Course__c, IsActive__c, Program_Offering__c, Registration_End_Date__c, hed__Capacity__c FROM hed__Course_Offering__c];
+            List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Name, hed__Course__c, IsActive__c, Program_Offering__c, Registration_End_Date__c, hed__Capacity__c FROM hed__Course_Offering__c WITH SECURITY_ENFORCED];
             List<hed__Course_Offering__c> courseOfferingsToUpdate = new List<hed__Course_Offering__c>();
             for(hed__Course_Offering__c courseOffering : courseOfferings){
                 hed__Course_Offering__c courseOfferingToUpdate = new hed__Course_Offering__c();
@@ -233,8 +249,8 @@ public with sharing class ManageRegAndNomCtrlTest {
             update courseOfferingsToUpdate;
 
             Test.startTest();
-            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
             Test.stopTest();
             System.assert(!response.isSuccess, 'Registration should be closed.');
         }
@@ -242,13 +258,13 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void validateCapacity(){  
-        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
+        BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account'].Id;
-            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account'].Id;
+            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
+            Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
 
             List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Name, hed__Course__c, IsActive__c, Program_Offering__c, Registration_End_Date__c, hed__Capacity__c FROM hed__Course_Offering__c];
             List<hed__Course_Offering__c> courseOfferingsToUpdate = new List<hed__Course_Offering__c>();
@@ -267,8 +283,8 @@ public with sharing class ManageRegAndNomCtrlTest {
             insert learners;
 
             Test.startTest();
-            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(adminAcctId), String.valueOf(businessOrgAcctId));
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
             
             Test.stopTest();
             System.assert(!response.isSuccess, 'Registration already full capacity.');
@@ -306,16 +322,11 @@ public with sharing class ManageRegAndNomCtrlTest {
             insert commerceEntbg;
 
             
-            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,portalAccount.Id,newContact.Id);
+            List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,portalAccount.Id,newContact.Id);
             insert oppList;
 
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,contactList,oppList);
-            for(Integer i = 0 ; i < prodSpecList.size() ; i++){
-                prodSpecList[i].RecordTypeId = cceProdSpecId;
-            }
-            insert prodSpecList;
+            List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
             
-
             List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c productRequest : productRequests){
                 productRequest.RecordTypeId = RT_ACTIVITY_ID;
@@ -366,7 +377,8 @@ public with sharing class ManageRegAndNomCtrlTest {
                 Mobile_Locale__c = 'Australia (+61)',
                 Course_Offering__c = courseOfferings[0].Id,
                 Type__c = 'Nomination',
-                Status__c = 'Pending'
+                Status__c = 'Pending',
+                Account__c = portalAccount.Id
             );
 
             insert eoi;

@@ -73,8 +73,8 @@ public without sharing class LMSIntegrationManager {
             response = http.send(request);
         }
 
-        System.debug('HTTP REQUEST: ' + payload);
-        System.debug('HTTP RESPONSE: ' + response.getBody());
+        System.debug(LoggingLevel.DEBUG, 'HTTP REQUEST: ' + payload);//NOPMD
+        System.debug(LoggingLevel.DEBUG, 'HTTP RESPONSE: ' + response.getBody());//NOPMD
 
         return response;
     }

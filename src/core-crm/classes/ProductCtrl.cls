@@ -18,6 +18,7 @@
  | julie.jane.alegre         | September 21, 2022    | DEPP-4399            | Add filter for Product Request on Published|
  | keno.domienri.dico		 | September 28, 2022	 | DEPP-4459 & 4461		| Added new parameter for getProductsByCategory |
  | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product list  |
+ | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic        |
  | mary.grace.li             | December  21, 2022    | DEPP-4878            | Added product full detail url for SEO      |
 
  */
@@ -251,7 +252,6 @@ public without sharing class ProductCtrl{
 			List<Product2> productList = new List<Product2>();
 
 			String getQuery = '';
-			String priceQry = '';
 			String dateQry = '';
 
 			String prodQry1 = 'SELECT Id, Name, Course__c, Duration__c, Detail_URL__c, Detail_Full_URL__c, Delivery__c, Professional_Level__c, Available_on_Cart__c, Start_Date__c, Description, ';
@@ -757,48 +757,131 @@ public without sharing class ProductCtrl{
 		return prodData;
 	}
 
+	@AuraEnabled(cacheable=true)
+	public static List<Asset> getAssetsByAccount(String accountId){
+
+
+		return [	SELECT Id, Name, Publishing_End_Date__c
+					FROM Asset
+					WHERE Account.Id =: accountId
+					AND Ready_for_publishing__c = 'Yes'
+					AND Product_Request__r.Product_Request_Status__c = 'Published'
+					WITH SECURITY_ENFORCED
+					ORDER BY Publishing_End_Date__c ASC
+				];
+	}
+
+	@AuraEnabled(cacheable=true)
+	public static List<Product_Specification__c> getProductSpecsByAccount(String accountId){
+		Map<Id, Product_Specification__c> prodSpecMap = new Map<Id, Product_Specification__c>([
+			SELECT Id, Product_Specification_Name__c FROM Product_Specification__c WHERE Opportunity_Name__r.AccountId =: accountId WITH SECURITY_ENFORCED ORDER By Product_Specification_Name__c ASC
+		]);
+
+		List<Product_Specification__c> prodSpecList = new List<Product_Specification__c>();
+		Set<Product_Specification__c> prodSpecSet = new Set<Product_Specification__c>();
+
+		List<Product_Request__c> prodReqList = [
+			SELECT Id, Product_Specification__c, Product_Request_Status__c, RecordType.Name
+			FROM Product_Request__c
+			WHERE Child_of_Prescribed_Program__c = false
+			AND Product_Specification__c IN :prodSpecMap.keySet()
+			AND Product_Request_Status__c ='Published' And (RecordType.Name != 'Corporate Bundle'
+			AND RecordType.Name != 'Standing Offer Arrangement') WITH SECURITY_ENFORCED];
+
+		for(Product_Request__c pr : prodReqList){
+			if(prodSpecMap.containsKey(pr.Product_Specification__c)){
+				prodSpecSet.add(prodSpecMap.get(pr.Product_Specification__c));
+			}
+		}
+
+		prodSpecList.addAll(prodSpecSet);
+
+		return prodSpecList;
+	}
+
+
+	@AuraEnabled(cacheable=true)
+	public static List<BuyerGroup> getBuyerGroups(String accountId){
+		
+		Set<Id> buyerGroupSet = new Set<Id>();
+		Map <Id,Id> buyerGroupMap = new Map <Id,Id>();
+
+		List<BuyerGroupMember> buyerGroupMemberInitList = [
+			SELECT Id, BuyerGroup.Name, BuyerId, BuyerGroupId, BuyerGroup.Product_Request__c
+			  FROM BuyerGroupMember
+			 WHERE BuyerId =: accountId
+			   AND BuyerGroup.Ready_for_publishing__c = 'Yes' 
+			   AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+		  ORDER BY BuyerGroup.Publishing_End_Date__c ASC
+		];
+		
+		List<Id> prodReqIds = new List<Id>();
+		for(BuyerGroupMember bgm : buyerGroupMemberInitList){
+			prodReqIds.add(bgm.BuyerGroup.Product_Request__c);
+			buyerGroupMap.put(bgm.BuyerGroup.Product_Request__c, bgm.BuyerGroupId);
+		}
+
+		List<Associated_Products__c> associatedProducts = [
+			SELECT Product_Request__c FROM Associated_Products__c 
+			 WHERE Product_Request__c IN : prodReqIds 
+			  WITH SECURITY_ENFORCED
+		];
+
+		List<Related_Product_Request__c> relatedProducts = [
+			SELECT Program__c FROM Related_Product_Request__c
+			WHERE Program__c IN: prodReqIds
+			WITH SECURITY_ENFORCED
+		];
+
+		for(Associated_Products__c associatedProduct : associatedProducts){
+			if(buyerGroupMap.containsKey(associatedProduct.Product_Request__c)){
+				buyerGroupSet.add(buyerGroupMap.get(associatedProduct.Product_Request__c));
+			}
+		}
+
+		for(Related_Product_Request__c rpr: relatedProducts){
+			if(buyerGroupMap.containsKey(rpr.Program__c)){
+				buyerGroupSet.add(buyerGroupMap.get(rpr.Program__c));
+			}
+		}
+
+		return [
+			SELECT Id, Name FROM BuyerGroup 
+			WHERE Id IN: buyerGroupSet
+			AND Ready_for_publishing__c = 'Yes'
+			AND Product_Request__r.Product_Request_Status__c = 'Published'
+			ORDER BY Publishing_End_Date__c ASC
+		];
+	}
+
 	/**
 	 * Get products by menu category
 	 */
 	@AuraEnabled
-	public static ProductData getProductsByCategory(String categoryId, String userId, String keyword){
+	public static ProductData getProductsByCategory(ProductData acctFilterDataWrapper,  String keyword){
 		ProductData prodData = new ProductData();
 		List<ProductWrapper> prodWrapperList = new List<ProductWrapper>();
+		List<BuyerGroupPricebook>  bgpbList = new List<BuyerGroupPricebook>();
+		List<Asset> checkCBPublished = new List<Asset>();
+
 		String standardPriceBook = 'Standard Price Book';
 		String earlyBirdPricebook = 'Early Bird';
 		String freePricebook = 'Free';
 
-		List<ProductCategoryProduct> catProdIds = [
-			SELECT Id, ProductId, ProductCategoryId
-			FROM ProductCategoryProduct
-			WHERE ProductCategoryId = :categoryId
-		];
-		List<String> prodIds = new List<String>();
-		for(ProductCategoryProduct getId : catProdIds){
-			prodIds.add(getId.ProductId);
-		}
+		Map<Id, Product_Request__c> productRequestList = new Map<Id, Product_Request__c>([
+			SELECT Id FROM Product_Request__c WHERE Product_Specification__c =: acctFilterDataWrapper.prodSpecId WITH SECURITY_ENFORCED
+		]);
 
-		/**
-		 * Get the Price for SOA and Corporate Bundle Products
-		 */
-		// Get the AccountId from Logged Corporate User
-		AccountContactRelation getAccount = [
-			SELECT Id, AccountId, ContactId 
-			FROM AccountContactRelation 
-			WHERE Account.RecordType.Name = 'Business Organization' 
-			AND IsActive = true
-			AND ContactId IN (
-				SELECT ContactId 
-				FROM User 
-				WHERE Id = :userId)
-			LIMIT 1
-		];
+		Map<Id,Product2> prodList = new Map<Id,Product2>([SELECT Id FROM Product2
+			WHERE Course__r.ProductRequestID__c IN: productRequestList.keySet() OR Program_Plan__r.Product_Request__c IN: productRequestList.keySet() WITH SECURITY_ENFORCED
+		]);
+
 
 		// Get the List of BuyerGroupId
 		List<BuyerGroupMember> buyerGroupIdList = [
 			SELECT Id, Name, BuyerGroupId, BuyerId, Buyer.Name
 			FROM BuyerGroupMember
-			WHERE BuyerId = :getAccount.AccountId
+			WHERE BuyerId = :acctFilterDataWrapper.accountId
 		];
 		List<String> bgIds = new List<String>();
 		for(BuyerGroupMember bgMember : buyerGroupIdList){
@@ -806,24 +889,24 @@ public without sharing class ProductCtrl{
 		}
 
 		// Get the PricebookEntry
-		List<BuyerGroupPricebook> bgpbList = [
-			SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive
-			FROM BuyerGroupPricebook
-			WHERE BuyerGroupId IN :bgIds
-			AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published' 
-		];
-
-		List<String> pbIds = new List<String>();
-		for(BuyerGroupPricebook bgpb : bgpbList){
-			pbIds.add(bgpb.Pricebook2Id);
+		if(acctFilterDataWrapper.assetId != null){
+			checkCBPublished = [
+				SELECT Id, Account.Id, Name, Start_Date__c, End_Date__c, Total_Value__c, Utilised_Value__c, Pending_Value__c, Remaining_Value__c, Ready_for_publishing__c,
+				Product_Request__c
+				FROM Asset
+				WHERE Id = :acctFilterDataWrapper.assetId
+				AND Account.Id = :acctFilterDataWrapper.accountId
+				AND Product_Request__r.Product_Request_Status__c = 'Published'
+				AND Ready_for_publishing__c = 'Yes'
+				WITH SECURITY_ENFORCED
+			];
 		}
-
 		// Get Product Category Name
 		String pbeName;
 		ProductCategoryProduct catName = [
 			SELECT Id, ProductCategory.Name, ProductId, ProductCategoryId
 			FROM ProductCategoryProduct
-			WHERE ProductCategoryId = :categoryId
+			 WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
 			LIMIT 1
 		];
 		if(catName.ProductCategory.Name == 'Corporate Bundle'){
@@ -832,6 +915,62 @@ public without sharing class ProductCtrl{
 			pbeName = 'SOA%';
 		} else {
 			pbeName = '%';
+		}
+
+
+		if(!checkCBPublished.isEmpty() && catName.ProductCategory.Name == 'Corporate Bundle'){
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive, BuyerGroup.Product_Request__c
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroupId IN :bgIds
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+				AND BuyerGroup.Product_Request__c =: checkCBPublished[0].Product_Request__c
+			];
+		}else if(catName.ProductCategory.Name == 'QUTeX Learning Solutions'){
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive, BuyerGroup.Product_Request__c
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroupId =:acctFilterDataWrapper.buyerGroupId
+				AND BuyerGroupId IN: bgIds
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+			];
+		}else{
+			bgpbList = [
+				SELECT Id, Name, Pricebook2.Name, Pricebook2Id, BuyerGroup.Name, BuyerGroupId, Pricebook2.IsActive, BuyerGroup.Product_Request__c
+				FROM BuyerGroupPricebook
+				WHERE BuyerGroupId IN :bgIds
+				AND BuyerGroup.Product_Request__r.Product_Request_Status__c = 'Published'
+			];
+		}
+
+		List<String> pbIds = new List<String>();
+		for(BuyerGroupPricebook bgpb : bgpbList){
+			pbIds.add(bgpb.Pricebook2Id);
+		}
+
+
+
+		List<ProductCategoryProduct> catProdIds = new List<ProductCategoryProduct>();
+		if(!String.isBlank(acctFilterDataWrapper.prodSpecId) &&
+			((catName.ProductCategory.Name == 'Tailored Executive Education') ||
+			(catName.ProductCategory.Name == 'Tailored Executive Program'))){
+				catProdIds = [
+					SELECT Id, ProductId, ProductCategoryId
+					FROM ProductCategoryProduct
+					WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
+					AND ProductId IN : prodList.keySet()
+				];
+		}else{
+			catProdIds = [
+				SELECT Id, ProductId, ProductCategoryId
+				FROM ProductCategoryProduct
+				WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
+			];
+		}
+
+		List<String> prodIds = new List<String>();
+		for(ProductCategoryProduct getId : catProdIds){
+			prodIds.add(getId.ProductId);
 		}
 
 		// Get the Price
@@ -867,24 +1006,17 @@ public without sharing class ProductCtrl{
 		Boolean isCBPublished = false;
 		Boolean isSOAPublished = false;
 		Boolean isTEEPublished = false;
-		if(catName.ProductCategory.Name == 'Corporate Bundle'){
-			List<Asset> checkCBPublished = [
-				SELECT Id, Account.Id, Name, Start_Date__c, End_Date__c, Total_Value__c, Utilised_Value__c, Pending_Value__c, Remaining_Value__c, Ready_for_publishing__c
-				FROM Asset
-				WHERE Account.Id = :getAccount.AccountId
-				AND Ready_for_publishing__c = 'Yes'
-			];
-			if(checkCBPublished != null){
-				isCBPublished = true;
-				prodData.assetList = checkCBPublished;
-			}
+		if(!checkCBPublished.isEmpty() && catName.ProductCategory.Name == 'Corporate Bundle'){
+
+			isCBPublished = true;
+			prodData.assetList = checkCBPublished;
 
 			List<Associated_Products__c> getPublishedCB = [
 				SELECT Id, Name, Product_Request__r.Product_Request_Status__c, IsActive__c, Product__r.Name, Product__r.Id, Product__r.Product_Category__c
 				FROM Associated_Products__c
 				WHERE Product_Request__r.Product_Request_Status__c = 'Published' 
 				AND Product__r.Id IN :prodIdsCCE
-				AND Product_Request__r.Id IN :prodReqIds
+				AND Product_Request__r.Id =: checkCBPublished[0].Product_Request__c
 				AND IsActive__c = true
 			];
 			
@@ -893,14 +1025,14 @@ public without sharing class ProductCtrl{
 				prodCBIds.add(prdCB.Product__r.Id);
 			}
             
-		} else if(catName.ProductCategory.Name == 'QUTeX Learning Solutions'){
+		} else if(!bgpbList.isEmpty() && catName.ProductCategory.Name == 'QUTeX Learning Solutions'){
 			List<BuyerGroupMember> checkSOAPublished = [
 				SELECT Id, Name, BuyerGroup.Name, BuyerGroupId, BuyerGroup.Ready_for_publishing__c
 				FROM BuyerGroupMember
-				WHERE BuyerId = :getAccount.AccountId
+				WHERE BuyerId = :acctFilterDataWrapper.accountId
 				AND BuyerGroup.Ready_for_publishing__c = 'Yes'
 			];
-			if(checkSOAPublished != null){
+			if(!checkSOAPublished.isEmpty()){
 				isSOAPublished = true;
 			}
 			// Get list of SOA Flexible Prog
@@ -909,7 +1041,7 @@ public without sharing class ProductCtrl{
 				FROM Associated_Products__c
 				WHERE Product_Request__r.Product_Request_Status__c = 'Published' 
 				AND Product__r.Id IN :prodIds
-				AND Product_Request__r.Id IN :prodReqIds
+				AND Product_Request__r.Id =: bgpbList[0].BuyerGroup.Product_Request__c
 				AND Product_Request__r.RecordType.Name = 'Standing Offer Arrangement'
 				AND IsActive__c = true
 			];
@@ -1115,6 +1247,20 @@ public without sharing class ProductCtrl{
 		public List<ProductWrapper> productList;
 		@AuraEnabled
 		public List<Asset> assetList;
+		@AuraEnabled
+		public String userId{ get; set; }
+		@AuraEnabled
+		public String accountId{ get; set; }
+		@AuraEnabled
+		public String accountName{ get; set; }
+		@AuraEnabled
+		public String categoryId{ get; set; }
+		@AuraEnabled
+		public String prodSpecId{ get; set; }
+		@AuraEnabled
+		public String assetId{ get; set; }
+		@AuraEnabled
+		public String buyerGroupId{ get; set; }
 	}
 
 	/**

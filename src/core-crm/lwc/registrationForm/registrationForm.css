@@ -7,6 +7,15 @@
   margin: 32px 0px;
 }
 
+.heading2 {
+  font-style: normal;
+  font-family: "ProximaNova-Bold";
+  font-weight: 600;
+  font-size: 39px;
+  color: #0066b9;
+  margin: 32px 0px;
+}
+
 /* .text-align-center {
   text-align: center;
   margin: 16px 0px;
@@ -169,6 +178,27 @@
   }
 }
 
+
+/* Mobile CSS */
+@media screen and (max-width: 767px) {
+  /*.modal-content {
+    width: 100%;
+  }*/
+  .heading2 {
+    font-size: 25px;
+    margin: 16px 0px;
+    text-align: center;
+  }
+  .form-margin {
+    margin: 10px 16px;
+  }
+
+  .slds-p-right_large,
+  .slds-p-right--large {
+    padding-right: 0px;
+  }
+}
+
 @media screen and (max-width: 764px) {
   .px3,
   .pt2 {
@@ -274,5 +304,49 @@ input[type="number"] {
 
 .reg-line-style ul.line-list li{
    list-style: outside;
+}
+
+.input-wrapper {
+  display: inline-block;
+  max-width: 70%;
+  margin-bottom: .75rem;
+}
+
+.tooltip{
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 80%;
+  background-color: #012A4C;
+  color: #FFF;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 10px;
+  transition: opacity .6s;
+  position: absolute;
+  z-index: 1;
+  word-break: break-word;
+  bottom: 80%;
+  left: 80%;
+  margin-left: -30%;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #012A4C transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 /*end*/

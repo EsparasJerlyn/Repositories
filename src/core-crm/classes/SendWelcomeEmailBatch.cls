@@ -60,6 +60,5 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
             System.debug(LoggingLevel.WARN, 'SendWelcomeEmailBatch Error: ' + e.getMessage());//NOPMD
         }
     }  
-    public void finish(Database.BatchableContext bc) {
-    }
+    public void finish(Database.BatchableContext bc) {}//NOPMD
 }

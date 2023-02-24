@@ -5,13 +5,13 @@ List<Contact> contactList = [
     LIMIT 1000
 ];
 
-system.debug('Size: '+contactList.size());
+System.debug(LoggingLevel.DEBUG, 'Size: '+contactList.size());//NOPMD
 
 if(!contactList.isEmpty()){
     
     for(Contact record : contactList){
         record.Work_Email__c = record.hed__WorkEmail__c;
-        system.debug('record.Work_Email__c: '+record.Work_Email__c);
+        System.debug(LoggingLevel.DEBUG, 'record.Work_Email__c: '+record.Work_Email__c);//NOPMD
     }
     update contactList;
 }

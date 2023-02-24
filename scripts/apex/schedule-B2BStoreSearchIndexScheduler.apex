@@ -1,4 +1,4 @@
-System.debug('schedule-B2BStoreSearchIndexScheduler.apex');
+System.debug(LoggingLevel.DEBUG, 'schedule-B2BStoreSearchIndexScheduler.apex');//NOPMD
  
 String cronExp = Label.Build_Search_Index_Cron_Expression;
 String ClassName='B2BStoreSearchIndexScheduler';
@@ -15,15 +15,15 @@ if(aJob.size()>0){
     if(aJob[0].Status!='Queued'){
         scheduleJob = true;
     }else{
-        System.Debug('Job already scheduled: '+aJob[0]);
+        System.Debug(LoggingLevel.DEBUG, 'Job already scheduled: '+aJob[0]);//NOPMD
     }
 }else{
     scheduleJob = true;
 }
 
 if(scheduleJob){
-    System.Debug('Schedule Job: '+ClassName);
+    System.Debug(LoggingLevel.DEBUG, 'Schedule Job: '+ClassName);//NOPMD
     System.schedule(ClassName, cronExp, new B2BStoreSearchIndexScheduler());
 }
  
-System.debug('Complete');
+System.debug(LoggingLevel.DEBUG, 'Complete');//NOPMD

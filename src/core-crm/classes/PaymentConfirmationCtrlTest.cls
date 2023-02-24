@@ -238,44 +238,49 @@ public with sharing class PaymentConfirmationCtrlTest {
 
   @isTest
   static void getCartDataTest() {
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+		System.runAs(PORTAL_SYS_ADMIN) {
+      WebCart webC = [
+        SELECT Id, External_Id__c, OwnerId
+        FROM WebCart
+        LIMIT 1
+      ];
 
-    WebCart webC = [
-      SELECT Id, External_Id__c, OwnerId
-      FROM WebCart
-      LIMIT 1
-    ];
+      PaymentConfirmationCtrl.CartData cartDataWrapper = new PaymentConfirmationCtrl.CartData();
 
-    PaymentConfirmationCtrl.CartData cartDataWrapper = new PaymentConfirmationCtrl.CartData();
+      Test.startTest();
+      cartDataWrapper = PaymentConfirmationCtrl.getCartData(
+        webC.External_Id__c,
+        webC.OwnerId
+      );
+      Test.stopTest();
 
-    Test.startTest();
-    cartDataWrapper = PaymentConfirmationCtrl.getCartData(
-      webC.External_Id__c,
-      webC.OwnerId
-    );
-    Test.stopTest();
-
-    System.assertNotEquals(
-      null,
-      cartDataWrapper,
-      'There should be a returned object data'
-    );
+      System.assertNotEquals(
+        null,
+        cartDataWrapper,
+        'There should be a returned object data'
+      );
+    }
   }
 
   @isTest
   static void checkCartOwnerShipTest() {
-    WebCart cart = [SELECT Id, OwnerId, Name, External_Id__c FROM WebCart LIMIT 1];
-      
-    Test.startTest();
-    Boolean isOwned = PaymentConfirmationCtrl.checkCartOwnerShip(
-      cart.External_Id__c,
-      cart.OwnerId
-    );
-    Test.stopTest();
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+		System.runAs(PORTAL_SYS_ADMIN) {
+      WebCart cart = [SELECT Id, OwnerId, Name, External_Id__c FROM WebCart LIMIT 1];
+        
+      Test.startTest();
+      Boolean isOwned = PaymentConfirmationCtrl.checkCartOwnerShip(
+        cart.External_Id__c,
+        cart.OwnerId
+      );
+      Test.stopTest();
 
-    System.assert(
-      isOwned,
-      'Cart should be owned by user'
-    );
+      System.assert(
+        isOwned,
+        'Cart should be owned by user'
+      );
+    }
   }
 
   /*@isTest
@@ -308,7 +313,8 @@ public with sharing class PaymentConfirmationCtrlTest {
 
   @isTest
   static void updateWebCartTest() {
-
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+		System.runAs(PORTAL_SYS_ADMIN) {
     WebCart webCart = [
       SELECT 
         Id, 
@@ -331,5 +337,6 @@ public with sharing class PaymentConfirmationCtrlTest {
     ];
 
     System.assertEquals('Closed', webCartUpdated.Status, 'Cart Status should be closed');
+    }
   }
 }

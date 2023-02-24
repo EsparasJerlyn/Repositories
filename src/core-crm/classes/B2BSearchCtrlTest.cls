@@ -18,38 +18,45 @@ public class B2BSearchCtrlTest {
     
     @testSetup static void setupMethod() {
         TestDataFactory.createTestAccount(true);
+        TestDataFactory.generateTestUsers();
     }
 	
     @isTest
     private static void productSearchTest() {
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
-        Account account = TestDataFactory.createTestAccount(false);
-        
-        ConnectApi.ProductSearchInput searchQuery;
-        ConnectApi.ProductSearchResults result;
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+            Account account = TestDataFactory.createTestAccount(false);
+            
+            ConnectApi.ProductSearchInput searchQuery;
+            ConnectApi.ProductSearchResults result;
 
-        Test.startTest();
-        
-        result = B2BSearchCtrl.searchProducts(communityId,account.Id, searchQuery);
+            Test.startTest();
+            
+            result = B2BSearchCtrl.searchProducts(communityId,account.Id, searchQuery);
 
-        Test.stopTest();
+            Test.stopTest();
 
-        System.assertEquals(true, result == null, 'result is not null');
+            System.assertEquals(true, result == null, 'result is not null');
+        }
     }
 	
 	@isTest
     private static void getSortRulesTest() {
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+        System.runAs(PORTAL_SYS_ADMIN) {
+            String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
 
-        ConnectApi.SortRulesCollection result;
+            ConnectApi.SortRulesCollection result;
 
-        Test.startTest();
-        
-        	result = B2BSearchCtrl.getSortRules(communityId);
+            Test.startTest();
+            
+                result = B2BSearchCtrl.getSortRules(communityId);
 
-        Test.stopTest();
+            Test.stopTest();
 
-        System.assertEquals(true, result == null, 'result is not null');
+            System.assertEquals(true, result == null, 'result is not null');
+        }
     }
     
 }

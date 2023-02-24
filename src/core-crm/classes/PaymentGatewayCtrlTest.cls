@@ -29,13 +29,11 @@ public with sharing class PaymentGatewayCtrlTest {
         String PaymentBaseUrl = getDetails.Payment_URL__c;
         String GLCode = getDetails.GL_Code__c;
         String TransCode1 = getDetails.TransType_PayNow__c;
-        String TransCode2 = getDetails.TransType_Invoice__c;
 
         CCE_Payment_Gateway_Settings__c getDetailsCCE = PaymentGatewayCtrl.getCCEPaymentGatewaySettings();
         String PaymentBaseUrlCCE = getDetailsCCE.Payment_URL__c;
         String GLCodeCCE = getDetailsCCE.GL_Code__c;
         String TransCode1CCE = getDetailsCCE.TransType_PayNow__c;
-        String TransCode2CCE = getDetailsCCE.TransType_Invoice__c;
         test.stopTest();
         
         String expected = 'https://www.test@sample.com/tranadd?type=test1&OPETRANSACTIONID=4567&EMAIL=sample%40email.com&FULLNAME=John+Doe&GLCODE=1234&UNITAMOUNTINCTAX=500.00';

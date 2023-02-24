@@ -144,7 +144,13 @@ public with sharing class AddProductRequestCtrl {
         if(isCorporateBundle) {
             //create BuyerGroup
             BuyerGroup bgInsert = new BuyerGroup();
-            bgInsert.Name = accountName + ' ' + String.valueofGmt(System.now());
+            String accName = accountName;
+
+            if(accName.length() > 80) {
+                accName = accName.substring(0, 80);
+            }
+
+            bgInsert.Name = accName + ' ' + String.valueofGmt(System.now());
             bgInsert.Product_Request__c = productRequestId;
             insert bgInsert;
             bg = bgInsert;

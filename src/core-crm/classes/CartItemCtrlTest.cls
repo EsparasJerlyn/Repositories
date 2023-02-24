@@ -391,27 +391,30 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void getCartItemsTest() {
-    WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
-    User userTest = [
-      SELECT Id, ContactId
-      FROM User
-      WHERE ContactId != NULL
-      LIMIT 1
-    ];
-    CartItemCtrl.CartItemsData cartItemsDataWrapper = new CartItemCtrl.CartItemsData();
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
+      User userTest = [
+        SELECT Id, ContactId
+        FROM User
+        WHERE ContactId != NULL
+        LIMIT 1
+      ];
+      CartItemCtrl.CartItemsData cartItemsDataWrapper = new CartItemCtrl.CartItemsData();
 
-    Test.startTest();
-    cartItemsDataWrapper = CartItemCtrl.getCartItemsByCart(
-      cart.Id,
-      userTest.Id
-    );
-    Test.stopTest();
+      Test.startTest();
+      cartItemsDataWrapper = CartItemCtrl.getCartItemsByCart(
+        cart.Id,
+        userTest.Id
+      );
+      Test.stopTest();
 
-    System.assertNotEquals(
-      null,
-      cartItemsDataWrapper,
-      'There should be a returned object data'
-    );
+      System.assertNotEquals(
+        null,
+        cartItemsDataWrapper,
+        'There should be a returned object data'
+      );
+    }
   }
 
   /*@isTest
@@ -430,81 +433,82 @@ public with sharing class CartItemCtrlTest {
 
   @isTest
   static void checkCartOwnerShipTest() {
-    WebCart cart = [SELECT Id, OwnerId, Name FROM WebCart LIMIT 1];
-      
-    Test.startTest();
-    Boolean isOwned = CartItemCtrl.checkCartOwnerShip(
-      cart.Id,
-      cart.OwnerId
-    );
-    Test.stopTest();
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      WebCart cart = [SELECT Id, OwnerId, Name FROM WebCart LIMIT 1];
+        
+      Test.startTest();
+      Boolean isOwned = CartItemCtrl.checkCartOwnerShip(
+        cart.Id,
+        cart.OwnerId
+      );
+      Test.stopTest();
 
-    System.assert(
-      isOwned,
-      'Cart should be owned by user'
-    );
+      System.assert(
+        isOwned,
+        'Cart should be owned by user'
+      );
+    }
   }
 
   @isTest
   static void saveCartSummaryQuestionsTest(){
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      hed__Course_Offering__c courseOffering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
+      List<CartItemCtrl.QuestionnaireResponseData> qrsDataList = new List<CartItemCtrl.QuestionnaireResponseData>();
+      CartItemCtrl.QuestionnaireResponseData qrsData = new CartItemCtrl.QuestionnaireResponseData();
+      CartItemCtrl.FileUpload fileUploadData = new CartItemCtrl.FileUpload();
 
+      qrsData.offeringId = courseOffering.Id;
+      qrsData.isPrescribed = false;
+      qrsData.relatedAnswerList = new List<CartItemCtrl.RelatedAnswersWrapper>();
+      qrsData.answerList = new List<Answer__c>();
+      qrsData.fileUploadData = new List<CartItemCtrl.FileUpload>();
 
-    hed__Course_Offering__c courseOffering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
-    List<CartItemCtrl.QuestionnaireResponseData> qrsDataList = new List<CartItemCtrl.QuestionnaireResponseData>();
-    CartItemCtrl.QuestionnaireResponseData qrsData = new CartItemCtrl.QuestionnaireResponseData();
-    CartItemCtrl.RelatedAnswersWrapper relatedAnswerData = new CartItemCtrl.RelatedAnswersWrapper();
-    CartItemCtrl.FileUpload fileUploadData = new CartItemCtrl.FileUpload();
+      List<Related_Answer__c> relatedAnswers = [SELECT Id, Questionnaire__c FROM Related_Answer__c LIMIT 5];
+      List<CartItemCtrl.FileUpload> fileLoadList = new List<CartItemCtrl.FileUpload>();
+      List<Answer__c> answerList = new List<Answer__c>();
 
-    qrsData.offeringId = courseOffering.Id;
-    qrsData.isPrescribed = false;
-    qrsData.relatedAnswerList = new List<CartItemCtrl.RelatedAnswersWrapper>();
-    qrsData.answerList = new List<Answer__c>();
-    qrsData.fileUploadData = new List<CartItemCtrl.FileUpload>();
+      Answer__c newAnswer;
+      
+      for(Related_Answer__c relatedA: relatedAnswers){
+        CartItemCtrl.RelatedAnswersWrapper relatedWrapper = new CartItemCtrl.RelatedAnswersWrapper();
 
+        relatedWrapper.Id =relatedA.Id;
+        relatedWrapper.QuestionnaireId = relatedA.Questionnaire__c;
 
-    List<Question__c> questionList = [SELECT Id FROM Question__c LIMIT 5];
+        qrsData.relatedAnswerList.add(relatedWrapper);
 
-    List<Related_Answer__c> relatedAnswers = [SELECT Id, Questionnaire__c FROM Related_Answer__c LIMIT 5];
-    List<CartItemCtrl.FileUpload> fileLoadList = new List<CartItemCtrl.FileUpload>();
-    List<Answer__c> answerList = new List<Answer__c>();
+          newAnswer = new Answer__c(
+                Response__c = relatedA.Id,
+                Related_Answer__c = relatedA.Id
+          );
+          answerList.add(newAnswer);
+          CartItemCtrl.FileUpload fileLoad = new CartItemCtrl.FileUpload();
+          fileLoad.Base64 = 'Test Content';
+          fileLoad.FileName = relatedA.Id;
+          fileLoad.RelatedAnswerId = relatedA.Id;
 
-    Answer__c newAnswer;
-    
-    for(Related_Answer__c relatedA: relatedAnswers){
-      CartItemCtrl.RelatedAnswersWrapper relatedWrapper = new CartItemCtrl.RelatedAnswersWrapper();
+          fileLoadList.add(fileLoad);
+      }
 
-      relatedWrapper.Id =relatedA.Id;
-      relatedWrapper.QuestionnaireId = relatedA.Questionnaire__c;
+      qrsData.answerList.addAll(answerList);
+      qrsData.fileUploadData.addAll(fileLoadList);
+      qrsDataList.add(qrsData);
+      Contact con = [SELECT Id FROM Contact Limit 1];
+      Test.startTest();
+      CartItemCtrl.saveCartSummaryQuestions(JSON.serialize(qrsDataList),con.Id);
+      Test.stopTest();
 
-      qrsData.relatedAnswerList.add(relatedWrapper);
-
-        newAnswer = new Answer__c(
-              Response__c = relatedA.Id,
-              Related_Answer__c = relatedA.Id
-        );
-        answerList.add(newAnswer);
-        CartItemCtrl.FileUpload fileLoad = new CartItemCtrl.FileUpload();
-        fileLoad.Base64 = 'Test Content';
-        fileLoad.FileName = relatedA.Id;
-        fileLoad.RelatedAnswerId = relatedA.Id;
-
-        fileLoadList.add(fileLoad);
+      System.assert(![SELECT Id FROM Questionnaire_Response_Summary__c WHERE Contact__c =: con.Id LIMIT 5].isEmpty(), 'No QRS is created against the contact');
     }
-
-    qrsData.answerList.addAll(answerList);
-    qrsData.fileUploadData.addAll(fileLoadList);
-    qrsDataList.add(qrsData);
-    Contact con = [SELECT Id FROM Contact Limit 1];
-    Test.startTest();
-    CartItemCtrl.saveCartSummaryQuestions(JSON.serialize(qrsDataList),con.Id);
-    Test.stopTest();
-
-    System.assert(![SELECT Id FROM Questionnaire_Response_Summary__c WHERE Contact__c =: con.Id LIMIT 5].isEmpty(), 'No QRS is created against the contact');
-  
   }
 
   @isTest
   static void getCartItemDiscountTest() {
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
     WebCart cart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
     List<CartItemCtrl.DiscountData> discount = new List<CartItemCtrl.DiscountData>();
@@ -523,19 +527,28 @@ public with sharing class CartItemCtrlTest {
 
     System.assert(discount.size() != 0, 'Incorrect calculation');
     System.assert(discount2.size() != 0 , 'Incorrect calculation');
+    }
   }
 
   @isTest
   static void updateCartStatusTest() {
-    WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
-    Test.startTest();
-    CartItemCtrl.updateCartStatus(webCart.Id, 'Checkout');
-    Test.stopTest();
+      Test.startTest();
+      CartItemCtrl.updateCartStatus(webCart.Id, 'Closed');
+      Test.stopTest();
+
+      WebCart result = [SELECT Id, Status__c FROM WebCart WHERE Id=:webCart.Id];
+      System.assertEquals('Closed', result.Status__c, 'WebCart status not updated.');
+    }
   }
 
   @isTest
   static void closeCartTest() {
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
     WebCart webCart = [SELECT Id, Name, Status FROM WebCart LIMIT 1];
 
     Test.startTest();
@@ -545,39 +558,49 @@ public with sharing class CartItemCtrlTest {
     WebCart webCartTest = [SELECT Id, Name, Status FROM WebCart LIMIT 1];
 
     System.assertEquals('Closed', webCartTest.Status, 'Cart should be closed');
+    }
   }
 
   
   @isTest
   static void getOPEProductCategTest() {
-    Test.startTest();
-    ProductCategory prodCategId = CartItemCtrl.getOPEProductCateg();
-    Test.stopTest();
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      Test.startTest();
+      ProductCategory prodCategId = CartItemCtrl.getOPEProductCateg();
+      Test.stopTest();
 
-    System.assertNotEquals(null, prodCategId, 'Product Category Id Retrieved');
+      System.assertNotEquals(null, prodCategId, 'Product Category Id Retrieved');
+    }
   }
 
   @isTest
   static void updatePaymentMethodTest() {
-    WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      WebCart webCart = [SELECT Id, Name FROM WebCart LIMIT 1];
 
-    Test.startTest();
-    CartItemCtrl.updatePaymentMethod(webCart.Id, 'Pay Now');
-    Test.stopTest();
+      Test.startTest();
+      CartItemCtrl.updatePaymentMethod(webCart.Id, 'Pay Now');
+      Test.stopTest();
 
-    WebCart webCartTest = [SELECT Id, Name, Payment_Method__c FROM WebCart LIMIT 1];
+      WebCart webCartTest = [SELECT Id, Name, Payment_Method__c FROM WebCart LIMIT 1];
 
-    System.assertEquals('Pay Now', webCartTest.Payment_Method__c, 'Incorrect Payment Method');
+      System.assertEquals('Pay Now', webCartTest.Payment_Method__c, 'Incorrect Payment Method');
+    }
   }
 
   @isTest
   static void getWebCartExternalIdTest(){
-    WebCart webCart = [SELECT Id, Name, External_Id__c FROM WebCart LIMIT 1];
+  final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    System.runAs(PORTAL_SYS_ADMIN) {
+      WebCart webCart = [SELECT Id, Name, External_Id__c FROM WebCart LIMIT 1];
 
-    Test.startTest();
-    String webCartExtId = CartItemCtrl.getCartExternaId(webCart.Id);
-    Test.stopTest();
+      Test.startTest();
+      String webCartExtId = CartItemCtrl.getCartExternaId(webCart.Id);
+      Test.stopTest();
 
-    System.assert( webCartExtId != null, 'No External Id');
+      System.assert( webCartExtId != null, 'No External Id');
+    }
   }
 }

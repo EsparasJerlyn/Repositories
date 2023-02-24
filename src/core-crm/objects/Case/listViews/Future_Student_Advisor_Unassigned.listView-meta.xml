@@ -27,5 +27,6 @@
     <queue>Future_Student_Advisor_Enquiries</queue>
     <sharedTo>
         <group>International_Recruitment</group>
+        <role>International_Super_User</role>
     </sharedTo>
 </ListView>

@@ -20,7 +20,6 @@ public without sharing class CartTriggerHelper {
     */
     public static void createCartPayment(List<WebCart> newItems) {
         List<Cart_Payment__c> cartPaymentToInsert = new List<Cart_Payment__c>();
-        Map<Id,WebCart> webCartToUpdate = new Map<Id,WebCart>();
         for(WebCart webCart: newItems){
             cartPaymentToInsert.add(new Cart_Payment__c());
         }

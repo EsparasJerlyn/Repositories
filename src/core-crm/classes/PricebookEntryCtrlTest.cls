@@ -158,12 +158,10 @@ private class PricebookEntryCtrlTest {
     
             List<Account> accounts = [SELECT Id FROM Account WHERE Organization_Unit_Level__c = '2' LIMIT 1];
     
-            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(1,accounts[0].Id,conList.iterator().next()?.Id);
+            List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,conList.iterator().next()?.Id);
             insert oppList;
     
-            List<Product_Specification__c> prodSpecList = TestDataFactory.createTestProductSpecsRecords(1,conList,oppList);
-            prodSpecList[0].RecordTypeId = cceProdSpecId;
-            insert prodSpecList;
+            List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
     
             List<Product_Request__c> soaRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
     
@@ -178,7 +176,6 @@ private class PricebookEntryCtrlTest {
             insert soaRequest;
     
             List<BuyerGroup> bgToInsertList = new List<BuyerGroup>();
-            List<PriceBook2> soaPBList = new List<PriceBook2>();
                 for(Integer i = 0; i<soaRequest.size();i++){
                 bgToInsertList.add(new BuyerGroup(Name ='SOA' + i, Product_Request__c = soaRequest[i].Id));
                 }
