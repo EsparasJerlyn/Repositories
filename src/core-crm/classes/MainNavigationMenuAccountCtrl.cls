@@ -23,8 +23,8 @@ public without sharing class MainNavigationMenuAccountCtrl {
     @AuraEnabled
     public static UserAccountOptionWrapper getAllRelatedBusinessAccountOfUser(String userId, String selectedAccountId){
         Id currentId = getCurrentBusinessAccountId(userId);        
-        Map<Id,List<Account>> accountByParentId = getAllAccountsWithParentId(currentId);
-        getAllChildrenByParentID(currentId, accountByParentId);
+        //Map<Id,List<Account>> accountByParentId = getAllAccountsWithParentId(currentId);
+        //getAllChildrenByParentID(currentId, accountByParentId);
 
         Account parentAccount = [SELECT Id, Name FROM Account WHERE Id =: currentId WITH SECURITY_ENFORCED LIMIT 1];
         userAccountOptions.add(parentAccount);
@@ -62,7 +62,7 @@ public without sharing class MainNavigationMenuAccountCtrl {
     /**
      * Retrieves Children Account from the Business Account of the current user
      */
-    private static Map<Id,List<Account>> getAllAccountsWithParentId(String currentId){   
+    /* private static Map<Id,List<Account>> getAllAccountsWithParentId(String currentId){   
         Map<Id,List<Account>> accountByParentId = new Map<Id,List<Account>>();     
         List<Account> accountsWithParentId = [SELECT Id, Name, ParentId, Parent.Name FROM Account WHERE ParentId != null AND RecordType.Name = 'Business Organization' WITH SECURITY_ENFORCED];
         for (Account acc: accountsWithParentId) {
@@ -72,19 +72,19 @@ public without sharing class MainNavigationMenuAccountCtrl {
             accountByParentId.get(acc.ParentId).add(acc);
         }   
         return accountByParentId;     
-    }
+    } */
 
     /**
      * Retrieves Children Account from the specified Parent Account Id
      */
-    private static void getAllChildrenByParentID(Id parentAccountID, Map <Id,List<Account>> accountByParentId) {
+    /* private static void getAllChildrenByParentID(Id parentAccountID, Map <Id,List<Account>> accountByParentId) {
         if(accountByParentId.containsKey(parentAccountID)){
             for (Account acc: accountByParentId.get(parentAccountID)) {
                 userAccountOptions.add(acc);
                 getAllChildrenByParentID(acc.Id, accountByParentId);
             }
         }
-    }
+    } */
 
     /**
      * Retrieves the Business Account of the current user

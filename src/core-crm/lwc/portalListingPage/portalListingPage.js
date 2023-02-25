@@ -348,6 +348,12 @@
 						this.isCorporateBundle = true;
 					}
 					this.assetList = result.assetList[0];
+					this.assetList.Start_Date__c = new Date(this.assetList.Start_Date__c).toLocaleDateString("en-GB") == 'Invalid Date'? '' : new Date(this.assetList.Start_Date__c).toLocaleDateString("en-GB");
+					this.assetList.End_Date__c = new Date(this.assetList.End_Date__c).toLocaleDateString("en-GB") == 'Invalid Date' ? '' : new Date(this.assetList.End_Date__c).toLocaleDateString("en-GB");
+					this.assetList.Pending_Value__c = isNaN(Math.round(this.assetList.Pending_Value__c)) ? 0 : Math.round(this.assetList.Pending_Value__c).toLocaleString();
+					this.assetList.Remaining_Value__c = isNaN(Math.round(this.assetList.Remaining_Value__c)) ? 0 : Math.round(this.assetList.Remaining_Value__c).toLocaleString();
+					this.assetList.Total_Value__c = isNaN(Math.round(this.assetList.Total_Value__c)) ? 0 : Math.round(this.assetList.Total_Value__c).toLocaleString();
+					this.assetList.Utilised_Value__c = isNaN(Math.round(this.assetList.Utilised_Value__c)) ? 0 : Math.round(this.assetList.Utilised_Value__c).toLocaleString();
 				  }
 				  else{
 					this.isCorporateBundle = false;

@@ -45,9 +45,9 @@
             </lightning-spinner>
             <!--  -->
             <!-- Upload -->
-            <template if:true={csvUrl}>
+            <template if:true={csvtemp}>
                 <span class='action-button-container'>
-                    <a href={csvUrl} class="download-button" target='_self'>
+                    <a href={csvtemp} class="download-button" target='_self'>
                     <lightning-button 
                     variant="brand" 
                     label="Download CSV Template" 
@@ -62,7 +62,7 @@
                     onuploadfinished={handleUploadFinished}>
                 </lightning-file-upload></span> 
             </template>
-            <template if:false={csvUrl}>
+            <template if:false={csvtemp}>
                 <h3>{errorForTemplate}</h3>
             </template>
             <!--  -->
