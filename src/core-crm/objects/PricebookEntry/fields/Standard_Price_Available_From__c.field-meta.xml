@@ -4,6 +4,6 @@
     <externalId>false</externalId>
     <label>Standard Price Available From</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Date</type>
 </CustomField>
