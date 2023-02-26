@@ -397,7 +397,7 @@ public without sharing class CCECorporateUserCtrl {
      * @param accountName - Account Name of the Administrative Account
      * @param administrativeAccId - administrative Account Id of the contact
      */
-    @AuraEnabled
+    @future
     public static void createOPEAccess (String accountName, String administrativeAccId){
         //Query the OPE Buyer Group
         List<BuyerGroup> opeBuyerGroup = [ SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' WITH SECURITY_ENFORCED LIMIT 1];
