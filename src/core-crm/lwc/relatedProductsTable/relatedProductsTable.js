@@ -108,6 +108,11 @@ export default class RelatedProductsTable extends LightningElement {
      updateDraftValues(updateItem) {
         let copyDraftValues = JSON.parse(JSON.stringify(this.draftValues));
         let draftValueChanged = false;
+        //set discount to 0 if blank
+        if(updateItem.formattedDiscount === ''){
+            updateItem.formattedDiscount = '0';
+        }
+
         //append % if none to sting if discount is populated
         if(updateItem.formattedDiscount){
             updateItem.formattedDiscount = updateItem.formattedDiscount.includes('%')?updateItem.formattedDiscount:updateItem.formattedDiscount + '%';
@@ -131,6 +136,7 @@ export default class RelatedProductsTable extends LightningElement {
             //add the new draft as new row 
             this.draftValues = [...copyDraftValues, updateItem];
         }
+
     }
 
     handleSave(event){
@@ -187,13 +193,17 @@ export default class RelatedProductsTable extends LightningElement {
             record.Product2Id = row.id;
             record.Pricebook2Id = this.productList.find(item => item.id == row.id)?this.productList.find(item => item.id == row.id).priceBookId:null;
             let standardPrice = this.productList.find(item => item.id == row.id)?this.productList.find(item => item.id == row.id).standardPrice:0;
-            if(this.processingApplyDiscount){
+            if(row.ccePrice && !this.processingApplyDiscount){
+                record.Discount__c = null;
+                record.UnitPrice = Math.round(parseFloat(row.ccePrice)); //parsefloat to calculate decimal value
+            }else if(this.processingApplyDiscount){
                 record.Discount__c = this.enteredDiscount;
-                record.UnitPrice = (standardPrice - (standardPrice * (parseInt(this.enteredDiscount)/100)));
+                record.UnitPrice =  Math.round((standardPrice - (standardPrice * (parseInt(this.enteredDiscount)/100))));
             }else if(row.formattedDiscount){
                 record.Discount__c = row.formattedDiscount.slice(0,-1);
-                record.UnitPrice = (standardPrice - (standardPrice * (parseInt(row.formattedDiscount.slice(0,-1))/100)));
+                record.UnitPrice =  Math.round((standardPrice - (standardPrice * (parseInt(row.formattedDiscount.slice(0,-1))/100))));
             }
+
             if(record.UnitPrice != undefined){
                 pbRecords = [...pbRecords,record];
             }

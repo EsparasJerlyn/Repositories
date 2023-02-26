@@ -128,7 +128,8 @@ export default class RelatedProducts extends LightningElement {
             {
                 currencyCode:'AUD', 
                 step: '0.001'
-            }
+            },
+            editable: {fieldName:"isEditable"}
         }
     ];
 
@@ -185,9 +186,10 @@ export default class RelatedProducts extends LightningElement {
             sortable:true,
             typeAttributes: 
             {
-                currencyCode:'AUD', 
+                currencyCode:'AUD',
                 step: '0.001'
-            }
+            },
+            editable: {fieldName:"isEditable"}
         }
     ];
 
