@@ -303,7 +303,7 @@ public with sharing class ContactTriggerHandlerTest {
     @IsTest
     private static void shouldSetContactOwner() {
         final Contact contact = new Contact();
-
+        Test.StartTest();
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Account account = new Account();
             account.Name = 'Test Account';
@@ -333,10 +333,9 @@ public with sharing class ContactTriggerHandlerTest {
         // Test
         User u = [Select id, Contact.hed__Primary_Organization__r.OwnerId from User where ContactId = :contact.id limit 1];
         System.runAs(u) {
-            Test.StartTest();
             insert c;
-            Test.StopTest();
         }
+        Test.StopTest();
 
         // Verify
         Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
