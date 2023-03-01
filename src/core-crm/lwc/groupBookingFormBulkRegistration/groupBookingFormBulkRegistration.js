@@ -27,6 +27,7 @@ import addCartItems from '@salesforce/apex/GroupBookingFormCtrl.addCartItems';
 import removeCartItems from '@salesforce/apex/GroupBookingFormCtrl.removeCartItems';
 import getAvailableSeats from '@salesforce/apex/GroupBookingFormCtrl.getAvailableSeats';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import DEDUP_PERSONAL_MISMATCH from "@salesforce/label/c.Dedup_Mismatch_Personal_Portal_Error";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import { NavigationMixin } from 'lightning/navigation';
@@ -574,7 +575,7 @@ export default class GroupBookingForm extends NavigationMixin(LightningElement) 
                                 let record = item;
                                 if(record.Email === row.email ){
                                     record.hasError = true;
-                                    record.errorMessage = 'Your personal details do not match with the email provided. Please check your details or contact QUTeX.';
+                                    record.errorMessage = DEDUP_PERSONAL_MISMATCH + row.fieldsMismatch;
                                     record.fieldsMismatch = row.fieldsMismatch;
                                 }
                                 return record;

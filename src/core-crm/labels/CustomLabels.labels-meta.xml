@@ -724,4 +724,22 @@
         <shortDescription>RT_ProgramPlan_Program_Without_Pathway</shortDescription>
         <value>Program_Without_Pathway</value>
     </labels>
+    <labels>
+        <fullName>Dedup_Mismatch_Personal_CRM_Error</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dedup_Mismatch_Personal_CRM_Error</shortDescription>
+        <value>The personal details do not match with the email provided. Please check the detail/s:</value>
+    </labels>
+    <labels>
+        <fullName>Dedup_Mismatch_Personal_Portal_Error</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dedup_Mismatch_Personal_CRM_Error</shortDescription>
+        <value>The personal details do not match with the email provided. Please check the detail/s or contact QUTeX:</value>
+    </labels>
 </CustomLabels>
+
+

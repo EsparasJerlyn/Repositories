@@ -34,6 +34,7 @@ public without sharing class ManageRegAndNomCtrl {
     private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
     private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
     private static final Id RT_CONTACT_PERSON_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get(RT_CONTACT_PERSON).getRecordTypeId();
+    private static final string  DEDUP_PERSONAL_MISMATCH = System.Label.Dedup_Mismatch_Personal_Portal_Error;
 
     /**
      * @description Retrieves list of Registration details of students for CCE Portal
@@ -379,7 +380,7 @@ public without sharing class ManageRegAndNomCtrl {
                     }
                     else if(contactValidated.isPartialMatch && contactValidated.isEmailMatch){
                         response.isSuccess = false;
-                        response.errorMessage = 'The personal details do not match with the email provided. Please check the details or Contact QUTeX.';
+                        response.errorMessage = DEDUP_PERSONAL_MISMATCH + ' ' + String.join(contactValidated.fieldsMismatch, ', ');
                         return response;
                     }else{
                         contactListToAdd.add(contact);

@@ -13,6 +13,8 @@
 public without sharing class ManageRegistrationEnrolmentHelper{
      
      private static string studentRT = System.Label.RT_CourseConnection_Student;
+     private static final string  DEDUP_PERSONAL_MISMATCH = System.Label.Dedup_Mismatch_Personal_CRM_Error;
+     
      private static Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
      private static string studentProgramRT = System.Label.RT_CourseConnection_Student_Program;
      private static Id studentProgramRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentProgramRT).getRecordTypeId();
@@ -171,7 +173,7 @@ public without sharing class ManageRegistrationEnrolmentHelper{
                     }
                     else if(contactValidated.isPartialMatch && contactValidated.isEmailMatch){
                          validationReturn.isContactInputValid = false;
-                         validationReturn.contactValidationResponse =  'The personal details do not match with the email provided. Please check the details.';
+                         validationReturn.contactValidationResponse =  DEDUP_PERSONAL_MISMATCH + ' ' + String.join(contactValidated.fieldsMismatch, ', ');
                     }else{
                          validationReturn.isContactInputValid = true;
                          validationReturn.contactValidationResponse =  '';
