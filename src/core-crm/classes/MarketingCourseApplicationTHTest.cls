@@ -9,6 +9,7 @@
  *    | Developer                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------|------------------------------|
       | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
+      | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts
  */
 
 @isTest
@@ -18,8 +19,9 @@ public without sharing class MarketingCourseApplicationTHTest {
     public static void testInsertMarketingCourseApplication() {
         Test.startTest();
         Marketing_Course_Application__c marketingCourseApplication = new Marketing_Course_Application__c();
-        insert marketingCourseApplication;
+        Database.SaveResult saveResult = Database.insert(marketingCourseApplication);
         Test.stopTest();
+        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
     }
 
     @isTest
@@ -29,8 +31,11 @@ public without sharing class MarketingCourseApplicationTHTest {
 
         Test.startTest();
         List<Marketing_Course_Application__c> marketingCourseApplicationToBeUpdated = [SELECT Id FROM Marketing_Course_Application__c LIMIT 1];
-        update marketingCourseApplicationToBeUpdated;
+        Database.SaveResult[] saveResultList = Database.update(marketingCourseApplicationToBeUpdated);
         Test.stopTest();
+        for(Database.SaveResult saveResult : saveResultList) {
+            System.assert(saveResult.isSuccess(), 'A record was not successfully updated.');
+        }
     }
 
  }

@@ -9,6 +9,7 @@
  *    | Developer                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------|------------------------------|
       | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
+      | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts
  */
 
 @isTest
@@ -18,8 +19,9 @@ public without sharing class MarketingInteractionTriggerHandlerTest {
     public static void testInsertMarketingInteraction() {
         Test.startTest();
         Marketing_Interaction__c marketingInteraction = new Marketing_Interaction__c();
-        insert marketingInteraction;
+        Database.SaveResult saveResult = Database.insert(marketingInteraction);
         Test.stopTest();
+        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
     }
 
     @isTest
@@ -29,8 +31,10 @@ public without sharing class MarketingInteractionTriggerHandlerTest {
 
         Test.startTest();
         List<Marketing_Interaction__c> marketingInteractionToBeUpdated = [SELECT Id FROM Marketing_Interaction__c LIMIT 1];
-        update marketingInteractionToBeUpdated;
+        Database.SaveResult[] saveResultList = Database.update(marketingInteractionToBeUpdated);
         Test.stopTest();
+        for(Database.SaveResult saveResult : saveResultList) {
+            System.assert(saveResult.isSuccess(), 'A record was not successfully updated.');
+        }
     }
-
- }
+}

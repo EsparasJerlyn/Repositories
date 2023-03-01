@@ -7,8 +7,9 @@
 * @history
 *
 *    | Developer                | Date                  | JIRA                   | Change Summary               |
-|--------------------------------|-----------------------|------------------|------------------------------|
-| w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
+     |--------------------------------|-----------------------|------------------|------------------------------|
+     | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
+     | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts
 */
 
 @isTest
@@ -78,6 +79,21 @@ public without sharing class LeadScoringManagerTest {
         insert newMarketingStaging;
 
         Test.stopTest();
+        
+        contact = [SELECT 
+                   Id, 
+                   Marketing_Segmentation_Score__c, 
+                   Marketing_Course_Application_Score__c, 
+                   Marketing_Interaction_Score__c, 
+                   IER_Score__c 
+                   FROM Contact 
+                   WHERE Id=:contact.Id
+                   LIMIT 1];
+        
+        System.assert(contact.Marketing_Segmentation_Score__c != null, 'Contact.Marketing_Segmentation_Score__c is empty.');
+        System.assert(contact.Marketing_Course_Application_Score__c != null, 'Contact.Marketing_Course_Application_Score__c is empty.');
+        System.assert(contact.Marketing_Interaction_Score__c != null, 'Contact.Marketing_Interaction_Score__c is empty.');
+        System.assert(contact.IER_Score__c != null, 'Contact.IER_Score__c is empty.');
     }
 
     @isTest
@@ -134,6 +150,21 @@ public without sharing class LeadScoringManagerTest {
         insert newMarketingStaging;
 
         Test.stopTest();
+        
+        lead = [SELECT 
+                   Id, 
+                   Marketing_Segmentation_Score__c, 
+                   Marketing_Course_Application_Score__c, 
+                   Marketing_Interaction_Score__c, 
+                   IER_Score__c 
+                   FROM Lead 
+                   WHERE Id=:lead.Id
+                   LIMIT 1];
+        
+        System.assert(lead.Marketing_Segmentation_Score__c != null, 'Lead.Marketing_Segmentation_Score__c is empty.');
+        System.assert(lead.Marketing_Course_Application_Score__c == null, 'Lead.Marketing_Course_Application_Score__c is not empty.');
+        System.assert(lead.Marketing_Interaction_Score__c != null, 'Lead.Marketing_Interaction_Score__c is empty.');
+        System.assert(lead.IER_Score__c != null, 'Lead.IER_Score__c is empty.');
     }
 
     @isTest
@@ -157,9 +188,10 @@ public without sharing class LeadScoringManagerTest {
         newMarketingStaging.Lead_Source__c = 'TESTLEADSOURCE1';
         newMarketingStaging.SPAD__c = 'TESTSPAD1';
         newMarketingStaging.Event_Name__c = 'TESTEVENTNAME1';
-        insert newMarketingStaging;
+        Database.SaveResult saveResult = Database.insert(newMarketingStaging);
 
         Test.stopTest();
+        
+        System.assert(saveResult.isSuccess(), 'The marketing staging record was not successfully inserted.');
     }
-    
 }

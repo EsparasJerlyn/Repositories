@@ -7,8 +7,9 @@
  * @history
  *
  *    | Developer                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------|------------------------------|
+      |--------------------------|-----------------------|------------------------|------------------------------|
       | w.li                     | June 15, 2022         | DEPP-1489              | Created file                 |
+      | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts
  */
 
 @isTest
@@ -35,8 +36,9 @@ public without sharing class Lead_AlertTest {
         marketingStaging.Lead_Source_Category__c = 'Enquiry';
         marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
         marketingStaging.Enquiry_Type__c = 'Application process';
-        insert marketingStaging;
+        Database.SaveResult saveResult = Database.insert(marketingStaging);
         Test.stopTest();
+        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
     }
 
     @isTest
@@ -60,8 +62,9 @@ public without sharing class Lead_AlertTest {
         marketingStaging.Lead_Source_Category__c = 'Enquiry';
         marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
         marketingStaging.Enquiry_Type__c = 'Application process';
-        insert marketingStaging;
+        Database.SaveResult saveResult = Database.insert(marketingStaging);
         Test.stopTest();
+        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
     }
 
     @isTest
@@ -85,8 +88,9 @@ public without sharing class Lead_AlertTest {
         marketingStaging.Lead_Source_Category__c = 'Enquiry';
         marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
         marketingStaging.Enquiry_Type__c = 'Application process';
-        insert marketingStaging;
+        Database.SaveResult saveResult = Database.insert(marketingStaging);
         Test.stopTest();
+        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
     }
 
     @isTest
@@ -111,8 +115,9 @@ public without sharing class Lead_AlertTest {
         marketingStaging.Lead_Source_Category__c = 'Enquiry';
         marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
         marketingStaging.Enquiry_Type__c = 'Application process';
-        insert marketingStaging;
+        Database.SaveResult saveResult = Database.insert(marketingStaging);
         Test.stopTest();
+        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
     }
 
     @isTest
@@ -136,9 +141,8 @@ public without sharing class Lead_AlertTest {
         marketingStaging.Lead_Source_Category__c = 'Enquiry';
         marketingStaging.Enquiry_Description__c = 'This is an enquiry.';
         marketingStaging.Enquiry_Type__c = 'Application process';
-        insert marketingStaging;
+        Database.SaveResult saveResult = Database.insert(marketingStaging);
         Test.stopTest();
+        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
     }
-
-
- }
+}
