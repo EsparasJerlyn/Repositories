@@ -529,7 +529,7 @@ public without sharing class ManageRegAndNomCtrl {
     private static Id getWebCartId(Id businessOrgAccount){
         Id webCartId;
         Id userId = UserInfo.getUserId();
-        List<WebCart> existingWebCartList = [SELECT Id FROM WebCart WHERE OwnerId =: userId AND Status = 'Active' LIMIT 1];
+        List<WebCart> existingWebCartList = [SELECT Id FROM WebCart WHERE OwnerId =: userId AND Status = 'Active'];
         List<WebCart> webCartToUpdate = new List<WebCart>();
         for(WebCart cart : existingWebCartList){
             WebCart cartToUpdate = new WebCart(Id = cart.Id, Status = 'Closed');
