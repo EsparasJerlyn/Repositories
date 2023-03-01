@@ -7764,11 +7764,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Program_Plan__c.Enrolment_Rulesv2__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>hed__Program_Plan__c.Evolve_with_QUTeXv2__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -17,6 +17,10 @@
         <!--DEPP-4144-->
         <members>Consultancy__c.Publish_to_the_Portal__c</members>
         <!--DEPP-4144 end-->
+        <!--DEPP-5205 START-->
+        <members>hed__Course__c.Enrolment_Rules__c</members>
+        <members>hed__Program_Plan__c.Enrolment_Rulesv2__c</members>
+        <!--DEPP-5205 END  -->
         <name>CustomField</name>
     </types>
     <types>

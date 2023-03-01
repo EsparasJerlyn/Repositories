@@ -147,10 +147,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Enrolment_Rules__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>More_Detailsv2__c</field>
             </layoutItems>
         </layoutColumns>

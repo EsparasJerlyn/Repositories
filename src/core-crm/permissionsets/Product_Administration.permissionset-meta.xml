@@ -2254,11 +2254,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Course__c.Enrolment_Rules__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>hed__Course__c.Evolve_with_QUTeXv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2647,11 +2642,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Program_Plan__c.Early_Exit_Options__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>hed__Program_Plan__c.Enrolment_Rulesv2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
