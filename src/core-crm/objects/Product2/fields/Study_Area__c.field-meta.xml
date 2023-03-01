@@ -17,9 +17,19 @@
                 <label>Business</label>
             </value>
             <value>
+                <fullName>Communication</fullName>
+                <default>false</default>
+                <label>Communication</label>
+            </value>
+            <value>
                 <fullName>Creative Industries</fullName>
                 <default>false</default>
                 <label>Creative Industries</label>
+            </value>
+            <value>
+                <fullName>Design</fullName>
+                <default>false</default>
+                <label>Design</label>
             </value>
             <value>
                 <fullName>Digital capability</fullName>
