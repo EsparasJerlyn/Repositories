@@ -31,9 +31,19 @@ The primary BSA a marketing person has expressed interest in receiving marketing
                 <label>Business</label>
             </value>
             <value>
+                <fullName>Communication</fullName>
+                <default>false</default>
+                <label>Communication</label>
+            </value>
+            <value>
                 <fullName>Creative Industries</fullName>
                 <default>false</default>
                 <label>Creative Industries</label>
+            </value>
+            <value>
+                <fullName>Design</fullName>
+                <default>false</default>
+                <label>Design</label>
             </value>
             <value>
                 <fullName>Education</fullName>

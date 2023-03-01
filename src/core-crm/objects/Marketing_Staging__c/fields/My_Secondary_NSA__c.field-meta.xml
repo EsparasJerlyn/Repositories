@@ -66,6 +66,7 @@ A person can select 1 or more NSAs where applicable.</description>
                 <fullName>Communication</fullName>
                 <default>false</default>
                 <label>Communication</label>
+                <isActive>false</isActive>
             </value>
             <value>
                 <fullName>Construction Management</fullName>
@@ -91,6 +92,7 @@ A person can select 1 or more NSAs where applicable.</description>
                 <fullName>Design</fullName>
                 <default>false</default>
                 <label>Design</label>
+                <isActive>false</isActive>
             </value>
             <value>
                 <fullName>Digital Capability</fullName>
