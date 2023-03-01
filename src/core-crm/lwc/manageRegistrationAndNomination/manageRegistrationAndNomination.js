@@ -101,10 +101,40 @@ export default class ManageRegistrationAndNomination extends LightningElement {
         { label: 'First Name', fieldName: 'contactFirstName', type: 'text', sortable: true },
         { label: 'Last Name', fieldName: 'contactLastName', type: 'text', sortable: true },
         { label: 'Email', fieldName: 'contactEmail', type: 'text', sortable: true },
-        { label: 'Date of Birth', fieldName: 'contactBirthdate', type: 'Date', sortable: true },
+        { 
+            label: 'Date of Birth', 
+            fieldName: 'contactBirthdate', 
+            type: 'date', 
+            sortable: true, 
+            typeAttributes: {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            }
+        },
         { label: 'Mobile', fieldName: 'contactMobile', type: 'text', sortable: true },
-        { label: 'Offering End Date', fieldName: 'offeringEndDate', type: 'Date', sortable: true },
-        { label: 'Offering Start Date', fieldName: 'offeringStartDate', sortable: true, type: 'Date' },
+        { 
+            label: 'Offering End Date', 
+            fieldName: 'offeringEndDate', 
+            type: 'date', 
+            sortable: true,
+            typeAttributes: {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            }
+        },
+        { 
+            label: 'Offering Start Date', 
+            fieldName: 'offeringStartDate',             
+            type: 'date',
+            sortable: true, 
+            typeAttributes: {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            }
+        },
         { label: 'Status', fieldName: 'status', type: 'text',  sortable: true },
         {
             type: 'action',
@@ -249,6 +279,7 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             this.selectedStudent = null;
             this._isLoading = false;
             refreshApex(this.nomisList); 
+            refreshApex(this.regisList);
         });
     }
 
