@@ -125,16 +125,6 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-            
-            List<Contact> contact = [SELECT Id
-                                     FROM Contact 
-                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                     LIMIT 1];
-
-            List<Opportunity> opp = [SELECT Id
-                                     FROM Opportunity
-                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                     LIMIT 1];
 
             List<Product2> products = [SELECT Id
                                        FROM Product2
@@ -195,16 +185,6 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-                
-            List<Contact> contact = [SELECT Id
-                                     FROM Contact 
-                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                     LIMIT 1];
-
-            List<Opportunity> opp = [SELECT Id
-                                     FROM Opportunity
-                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                     LIMIT 1];
 
             List<Product2> products = [SELECT Id
                                        FROM Product2
@@ -265,16 +245,6 @@ public without sharing class AssociatedProductsTriggerHelperTest {
         final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
         Test.startTest();
         System.runAs(PROGRAM_ADMIN){
-        
-            List<Contact> contact = [SELECT Id
-                                     FROM Contact 
-                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                     LIMIT 1];
-
-            List<Opportunity> opp = [SELECT Id
-                                     FROM Opportunity
-                                     WHERE CreatedById =: PROGRAM_ADMIN.Id
-                                     LIMIT 1];
 
             List<Product2> products = [SELECT Id
                                        FROM Product2
