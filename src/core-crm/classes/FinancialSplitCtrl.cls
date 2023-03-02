@@ -67,12 +67,13 @@ public with sharing class FinancialSplitCtrl {
     */
     @AuraEnabled(cacheable=true)
     public static List<Financial_Split__c> getFinancialSplits(String relatedParentField,Id relatedParentId){
-        String queryStr = 
-            'SELECT ' + FINANCIAL_SPLIT_FIELDS + 
-            ' FROM ' + FINANCIAL_SPLIT_API_NAME + 
-            ' WHERE ' + relatedParentField + ' = \'' + String.escapeSingleQuotes(relatedParentId) + 
-            '\' ORDER BY CreatedDate ASC';
-        List<SObject> records = Database.query(queryStr);
+        List<SObject> records = Database.query(
+            'SELECT ' + String.escapeSingleQuotes(FINANCIAL_SPLIT_FIELDS) + 
+            ' FROM ' + String.escapeSingleQuotes(FINANCIAL_SPLIT_API_NAME) + 
+            ' WHERE ' + String.escapeSingleQuotes(relatedParentField) + 
+            ' = \'' + String.escapeSingleQuotes(relatedParentId) + 
+            '\' ORDER BY CreatedDate ASC'
+        );
         return (List<Financial_Split__c>) records;
     }
 

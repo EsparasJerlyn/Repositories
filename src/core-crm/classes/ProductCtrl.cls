@@ -433,7 +433,7 @@ public without sharing class ProductCtrl{
 		//Checks if ProductType is Empty
 		if (filterData.productType.size() > 0){
 			for (String val : filterData.productType){
-				productTypeValue += '\'' + val + '\' ' + ',';
+				productTypeValue += '\'' + String.escapeSingleQuotes(val) + '\' ' + ',';
 			}
 			productTypeValue = productTypeValue.substring(0, productTypeValue.length() - 1);
 			filterProductsQuery +=
@@ -446,7 +446,8 @@ public without sharing class ProductCtrl{
 		}
 
 		//Queries based on Product objects
-		filterDataList = Database.query(filterProductsQuery);
+		filterDataList = Database.query(filterProductsQuery); //NOPMD
+		// Complex query. Single quote escape handled prior to this line.
 
 		List<Product2> filteredProductList = new List<Product2>();
 		Map<Id, Product2> allInputProductMap = new Map<Id, Product2>(filterDataList);
