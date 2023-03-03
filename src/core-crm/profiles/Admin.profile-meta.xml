@@ -5722,6 +5722,10 @@
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Task-Nurture</layout>
+        <recordType>Task.Nurture</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CaseClose-Close Case Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

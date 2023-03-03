@@ -7,4 +7,8 @@
         <layout>Case-International Enquiry Layout2</layout>
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Nurture</layout>
+        <recordType>Task.Nurture</recordType>
+    </layoutAssignments>
 </Profile>
