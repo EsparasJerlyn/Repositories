@@ -103,7 +103,8 @@ private class ProductRequestListCtrlTest {
         insert consultancies;
     }
 
-    static testMethod void testGetProductRequests() {
+    @isTest
+    static void testGetProductRequests() {
         Test.startTest();
         System.runAs(currentUser){
             ProductRequestListCtrl.ProductRequestData getProdReqs = new ProductRequestListCtrl.ProductRequestData();
