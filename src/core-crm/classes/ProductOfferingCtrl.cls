@@ -14,10 +14,10 @@
 */
 public with sharing class ProductOfferingCtrl {
     
-    private static final String COURSE_OFFERING_API_NAME = hed__Course_Offering__c.SObjectType.getDescribe().getLocalName();
-    private static final String COURSE_OFFERING_LABEL = hed__Course_Offering__c.sObjectType.getDescribe().getLabelPlural();
-    private static final String PROGRAM_OFFERING_API_NAME = Program_Offering__c.SObjectType.getDescribe().getLocalName();
-    private static final String PROGRAM_OFFERING_LABEL = Program_Offering__c.sObjectType.getDescribe().getLabelPlural();
+    private static final String COURSE_OFFERING_API_NAME = hed__Course_Offering__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+    private static final String COURSE_OFFERING_LABEL = hed__Course_Offering__c.sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLabelPlural();
+    private static final String PROGRAM_OFFERING_API_NAME = Program_Offering__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+    private static final String PROGRAM_OFFERING_LABEL = Program_Offering__c.sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLabelPlural();
     private static final String STR_QUTEX = 'QUTeX Products';
     private static final String STR_QUTEX_TERM = STR_QUTEX + ' Term';
     private static final String STR_ALL_OPE = 'All_OPE_';//metadata is named as All_OPE_<Object_Plural_Label>

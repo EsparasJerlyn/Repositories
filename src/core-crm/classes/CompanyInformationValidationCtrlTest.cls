@@ -14,7 +14,7 @@
 @isTest
 private class CompanyInformationValidationCtrlTest {
 
-    private static final String ACCOUNT_API_NAME = Account.SObjectType.getDescribe().getLocalName();
+    private static final String ACCOUNT_API_NAME = Account.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String ACCOUNT_MAPPING = '{"label": "ABN","apiName":"ABN__c","statusValidationField":"AccountABNEntity_Validation__c","loqateRequest":"name","loqateResponse":"status"}';
     private static final String STR_QUTEX = 'QUTeX';
     private static final String STR_COMPANY_MAPPING = 'Company_Mapping__c';

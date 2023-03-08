@@ -14,7 +14,7 @@
 @isTest
 private class AddProductRequestCtrlTest {
 
-    private static final String PRODUCT_REQ_API_NAME = Product_Request__c.SObjectType.getDescribe().getLocalName();
+    private static final String PRODUCT_REQ_API_NAME = Product_Request__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final Id ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(ACTIVITY).getRecordTypeId();
     private static final string PR_PROGRAM = System.Label.RT_ProductRequest_Program;

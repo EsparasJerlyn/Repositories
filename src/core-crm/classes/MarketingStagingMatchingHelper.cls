@@ -13,8 +13,8 @@
  */
 public without sharing class MarketingStagingMatchingHelper{
 
-    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe().getLocalName();
-    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
+    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
 
     private static final List<String> MARKETING_SEGMENTATION_FIELDS = new List<String>{
         'Migration_Key__c','Prospects_Behaviour__c','Prospects_Rank__c',

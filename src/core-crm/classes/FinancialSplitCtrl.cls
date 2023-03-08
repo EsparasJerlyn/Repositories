@@ -13,7 +13,7 @@
 */
 public with sharing class FinancialSplitCtrl {
     
-    private static final String FINANCIAL_SPLIT_API_NAME = Financial_Split__c.SObjectType.getDescribe().getLocalName();
+    private static final String FINANCIAL_SPLIT_API_NAME = Financial_Split__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String FINANCIAL_SPLIT_FIELDS = 
         'Id,Account_Code__c,Account_GL_Code__c,Account_Name__c,CreatedDate,' +
         'IsActive__c,Participating_School_Name__c,Participating_School_Name__r.Name,' +

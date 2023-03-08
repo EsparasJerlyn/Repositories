@@ -8,16 +8,16 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary                                         |
       |---------------------------|-----------------------|----------------------|--------------------------------------------------------|
-      | angelika.j.s.galang       | January 26, 2022      | DEPP-838,1299,1407   | Created file                                           |                           |
+      | angelika.j.s.galang       | January 26, 2022      | DEPP-838,1299,1407   | Created file                                           |
 */
 @isTest
 private class CustomLayoutCtrlTest {
 
-    private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
+    private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
-    private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
+    private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String PRODUCT_COURSE_FIELD = 'Course__c';
-    private static final String COMMUNICATION_SCHEDULE_API_NAME = Communication_Schedule__c.SObjectType.getDescribe().getLocalName();
+    private static final String COMMUNICATION_SCHEDULE_API_NAME = Communication_Schedule__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String MDT_COMMUNICATION_SCHEDULE = 'All_OPE_Communication_Schedules';
     private static User currentUser = TestDataFactory.createUserRecords(1, 'QUTeX').iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;

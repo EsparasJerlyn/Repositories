@@ -20,8 +20,8 @@ public without sharing class MarketingStagingTriggerHelper{
 
 
 
-    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe().getLocalName();
-    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
+    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     public static Map<Id,Contact> contactMatches = new Map<Id,Contact>();
     public static Map<Id,Lead> leadMatches = new Map<Id,Lead>();
     /**

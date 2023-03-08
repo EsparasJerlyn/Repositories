@@ -16,7 +16,7 @@ private class FinancialSplitCtrlTest {
 
     private static final String QUTEXPROD = System.Label.QUT_GSB;
     private static final String QUTEX = System.Label.QUTeX;
-    private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
+    private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String COURSE_PR_FIELD = 'ProductRequestID__c';
     private static final String FS_COURSE_FIELD = 'Course__c';
     private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();

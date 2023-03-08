@@ -28,7 +28,7 @@ public class ProductDetailsCtrlTest{
 
   private static final String CATEGORY_OPE = 'Product Catalogue';
   private static final string studentRT = System.Label.RT_CourseConnection_Student;
-  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
+  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
   private static final String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
   private static final Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
   private static final Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
