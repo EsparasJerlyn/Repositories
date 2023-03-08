@@ -233,9 +233,12 @@ public without sharing class ProductDetailsCtrl {
 
 			// Get sequence on Program Plan
 			List<hed__Plan_Requirement__c> programPlanRequirementList = [
-				SELECT Id, hed__Course__c, hed__Sequence__c
+				SELECT Id, 
+				hed__Course__c, 
+				hed__Sequence__c
 				FROM hed__Plan_Requirement__c
 				WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
+				AND IsActive__c = TRUE
 				ORDER BY hed__Sequence__c 
 				];
 	
@@ -257,8 +260,6 @@ public without sharing class ProductDetailsCtrl {
 
 					if(courseIdWithPlanSet.contains(childProd.Course__c)){
 						childProductMap.put(childProd.Course__c, childProd);
-					}else{
-						childProductList.add(childProd);
 					}
 				}
 
@@ -269,10 +270,7 @@ public without sharing class ProductDetailsCtrl {
 					}
 				}
 			}
-			else{
-				childProductList = childProdList;
-			}
-
+			
 			// Flexible-Program
 			Map<Id, Date> cProdDateMap = new Map<Id, Date>();
 			if (
@@ -641,9 +639,12 @@ public without sharing class ProductDetailsCtrl {
 	
 				// Get sequence on Program Plan
 				List<hed__Plan_Requirement__c> programPlanRequirementList = [
-					SELECT Id, hed__Course__c, hed__Sequence__c
+					SELECT Id, 
+					hed__Course__c,
+					hed__Sequence__c
 					FROM hed__Plan_Requirement__c
 					WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
+					AND IsActive__c = TRUE
 					ORDER BY hed__Sequence__c 
 					];
 		
@@ -665,8 +666,6 @@ public without sharing class ProductDetailsCtrl {
 	
 						if(courseIdWithPlanSet.contains(childProd.Course__c)){
 							childProductMap.put(childProd.Course__c, childProd);
-						}else{
-							childProductList.add(childProd);
 						}
 					}
 	
@@ -676,9 +675,7 @@ public without sharing class ProductDetailsCtrl {
 						}
 					}
 				}
-				else{
-					childProductList = childProdList;
-				}
+			
 	
 				// Flexible-Program
 				Map<Id, Date> cProdDateMap = new Map<Id, Date>();
@@ -1233,10 +1230,8 @@ public without sharing class ProductDetailsCtrl {
 			cartWrapper.externalId = externalId;
 
 		} catch (Exception e) {
-			System.debug(LoggingLevel.DEBUG, e);//NOPMD
-			System.debug(LoggingLevel.DEBUG, 'error on ProductDetailsCtrl.insertLearnerInfo');//NOPMD
-			// AuraHandledException auraEx = new AuraHandledException(e.getMessage());
-			// throw auraEx;
+			Logger.error('error on ProductDetailsCtrl.insertLearnerInfo').setExceptionDetails(e);
+			Logger.saveLog();
 		}
 
 		return cartWrapper;
@@ -1272,7 +1267,8 @@ public without sharing class ProductDetailsCtrl {
 				webcart.Status = 'Closed';
 				UPDATE webcart;
 			}catch(Exception e){
-				System.debug(LoggingLevel.DEBUG, (e));//NOPMD
+				Logger.error('error on updating Webcart').setExceptionDetails(e);
+				Logger.saveLog();
 			}
 			
 			//get cart and course info through cart item
@@ -1766,10 +1762,16 @@ public without sharing class ProductDetailsCtrl {
 		List<ModuleWrapper> modules = new List<ModuleWrapper>();
 		try {
 			List<hed__Plan_Requirement__c> programPlanRequirements = [
-				SELECT Id, hed__Course__c, hed__Sequence__c
+				SELECT Id, 
+				hed__Course__c, 
+				hed__Sequence__c
 				FROM hed__Plan_Requirement__c
 				WHERE hed__Program_Plan__c = :programPlanId
-				AND hed__Course__c IN ( SELECT Id FROM hed__Course__c WHERE ProductRequestID__r.Product_Request_Status__c = 'Published' )
+				AND IsActive__c = TRUE
+				AND hed__Course__c IN ( 
+					SELECT Id 
+					FROM hed__Course__c 
+					WHERE ProductRequestID__r.Product_Request_Status__c = 'Published' )
 				ORDER BY hed__Sequence__c
 			];
 			Map<Decimal, Id> coursesInPlanRequirements = new Map<Decimal, Id>();
@@ -2005,9 +2007,14 @@ public without sharing class ProductDetailsCtrl {
 				) {
 					productType = 'Prescribed Program Module';
 					List<hed__Plan_Requirement__c> programPlanRequirements = [
-						SELECT Id, hed__Course__c, hed__Sequence__c, hed__Program_Plan__c
+						SELECT Id, 
+						hed__Course__c, 
+						hed__Sequence__c, 
+						hed__Program_Plan__c
 						FROM hed__Plan_Requirement__c
-						WHERE hed__Course__c = :courses[0].Id
+						WHERE 
+						IsActive__c = TRUE
+						AND hed__Course__c = :courses[0].Id
 					];
 					Id programPlanId = programPlanRequirements[0].hed__Program_Plan__c;
 					Id parentProductId = [

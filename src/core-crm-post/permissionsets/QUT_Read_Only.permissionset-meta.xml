@@ -7659,6 +7659,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Plan_Requirement__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Plan_Requirement__c.hed__Course__c</field>
         <readable>true</readable>
     </fieldPermissions>
