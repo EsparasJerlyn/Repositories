@@ -73,12 +73,12 @@
 margin-right: auto;
 text-align:center;
 font-family: Arial Unicode MS;">
-    <apex:pageBlock rendered="{!hasPartnerLogo}">
+    <apex:pageBlock rendered="{!partnerLogo != NULL}">
         <div style="text-align: center; max-height: 100px;" >
                     <img src="{!partnerLogo}"  style="max-width: 500px; width: auto; height: 100px;" />
         </div>
     </apex:pageBlock>
-    <apex:pageBlock rendered="{!hasPartnerLogo = false}">
+    <apex:pageBlock rendered="{!partnerLogo == NULL}">
         <br/>
         <br/>
         <br/>
@@ -97,7 +97,10 @@ font-family: Arial Unicode MS;">
     <span style="font-size:16px;"> for the QUTeX {!product}:</span><br />
     <br />
     <span id="container" style="margin-bottom:10px">
-       <b><apex:outputText value="{!productName}" styleClass="{!fontSize}"/></b> 
+        <b> 
+            <apex:outputText rendered="{!student.Program_Offering__c != NULL}" value="{!student.Program_Offering__r.hed_Program_Plan__r.Name}" styleClass="{!fontSize}"/>
+            <apex:outputText rendered="{!student.hed__Course_Offering__c != NULL}" value="{!student.hed__Course_Offering__r.hed__Course__r.Name}" styleClass="{!fontSize}"/>
+        </b> 
     </span>
     <br />
     <br />
@@ -119,28 +122,40 @@ font-family: Arial Unicode MS;">
 	<tbody>
 		<tr >
 			<th>
-                <apex:pageBlock rendered="{!hasLeftSignature}">
+                <apex:pageBlock rendered="{!leftSignature != NULL}">
                     <img src="{!leftSignature}" style="max-width: 200px; width: auto; height: 50px;" />
                 </apex:pageBlock>
             </th>
 			<th style = "text-align:right;">
-                <apex:pageBlock rendered="{!hasRightSignature}">
+                <apex:pageBlock rendered="{!rightSignature != NULL}">
                     <img src="{!rightSignature}" style="max-width: 200px; width: auto; height: 50px;" />
                 </apex:pageBlock>
             </th>
 		</tr>
-		<tr>
-			<td style="text-align: left;"><span style="font-size:18px;">{!topLeftText}</span></td>
-			<td style="text-align:right;"><span style="font-size:18px;">{!topRightText}</span></td>
-		</tr>
-		<tr>
-			<td style="text-align: left;"><span style="font-size:18px;">{!midLeftText}</span></td>
-			<td style="text-align:right;"><span style="font-size:18px;">{!midRightText}</span></td>
-		</tr>
-		<tr>
-			<td style="text-align: left;"><span style="font-size:18px;">{!bottomLeftText}</span></td>
-			<td style="text-align:right;"><span style="font-size:18px;">{!bottomRightText}</span></td>
-		</tr>
+        <tr>
+            <td style="text-align: left;"><span style="font-size:18px;">{!student.Program_Offering__r.hed_Program_Plan__r.Name_Left_Indented__c}</span></td>
+            <td style="text-align:right;"><span style="font-size:18px;">{!student.Program_Offering__r.hed_Program_Plan__r.Name_Right_Indented__c}</span></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;"><span style="font-size:18px;">{!student.Program_Offering__r.hed_Program_Plan__r.Position_Left_Indented__c}</span></td>
+            <td style="text-align:right;"><span style="font-size:18px;">{!student.Program_Offering__r.hed_Program_Plan__r.Position_Right_Indented__c}</span></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;"><span style="font-size:18px;">{!student.Program_Offering__r.hed_Program_Plan__r.Department_Left_Indented__c}</span></td>
+            <td style="text-align:right;"><span style="font-size:18px;">{!student.Program_Offering__r.hed_Program_Plan__r.Department_Right_Indented__c}</span></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Name_Left_Indented__c}</span></td>
+            <td style="text-align:right;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Name_Right_Indented__c}</span></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Position_Left_Indented__c}</span></td>
+            <td style="text-align:right;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Position_Right_Indented__c}</span></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Department_Left_Indented__c}</span></td>
+            <td style="text-align:right;"><span style="font-size:18px;">{!student.hed__Course_Offering__r.hed__Course__r.Department_Right_Indented__c}</span></td>
+        </tr>
 	</tbody>
 </table>
 <br />

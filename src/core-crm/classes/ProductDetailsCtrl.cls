@@ -57,6 +57,7 @@ public without sharing class ProductDetailsCtrl {
 		public static final String CORPORATE_BUNDLE = 'Corporate Bundle';
 		public static final String TAILORED_EXECUTIVE_EDUCATION = 'Tailored Executive Education';
 		public static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
+		private static List<String> FACILITATOR_TITLE = System.Label.LWC_List_FacilitatorTitle.split(',');
 
 	/**
 	 * @description fetches course offerings and pricebooks related to the product
@@ -791,6 +792,7 @@ public without sharing class ProductDetailsCtrl {
 							Id,
 							hed__Contact__c,
 							hed__Contact__r.Name,
+							toLabel(hed__Contact__r.Salutation),
 							Facilitator_Bio__r.Professional_Bio__c,
 							hed__Contact__r.Contact_Image__c,
 							hed__Primary__c
@@ -930,6 +932,9 @@ public without sharing class ProductDetailsCtrl {
 						facilitatorWrapper facilWrapper = new facilitatorWrapper();
 						// Facilitator Name
 						facilWrapper.facilitatorName = cEnroll.hed__Contact__r.Name;
+						if(FACILITATOR_TITLE.contains(cEnroll.hed__Contact__r.Salutation)){
+							facilWrapper.facilitatorName = cEnroll.hed__Contact__r.Salutation + ' ' + cEnroll.hed__Contact__r.Name;
+						}
 						// Facilitator Bio
 						facilWrapper.facilitatorBio = cEnroll.Facilitator_Bio__r.Professional_Bio__c;
 						// Facilitator Image

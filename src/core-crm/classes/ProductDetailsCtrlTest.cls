@@ -1759,6 +1759,7 @@ public class ProductDetailsCtrlTest{
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
       for (Integer i = 0; i < contacts.size(); i++){
+        contacts[i].Salutation = 'DR';
         contacts[i].Email = 'testIdeaFormUser' + i + '@mailinator.com';
       }
       insert contacts;

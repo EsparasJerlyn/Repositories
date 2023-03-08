@@ -21,7 +21,7 @@
         <protected>false</protected>
         <shortDescription>DOC_Badge_Logo</shortDescription>
         <value>QUT_Badge_Logo</value>
-    </labels>
+</labels>
     <labels>
         <fullName>DOC_Email_Header</fullName>
         <categories>Document</categories>
@@ -125,6 +125,13 @@
         <protected>false</protected>
         <shortDescription>LWC_HelpText_StandardPriceBookRequired</shortDescription>
         <value>Please create first the standard pricing before creating pricing for non standard pricebooks.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_List_FacilitatorTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_FacilitatorTitle</shortDescription>
+        <value>Dr,Professor,Associate Professor,Adjunct Associate Professor,Adjunct Professor</value>
     </labels>
     <labels>
         <fullName>LWC_List_CCEChildFilter</fullName>
