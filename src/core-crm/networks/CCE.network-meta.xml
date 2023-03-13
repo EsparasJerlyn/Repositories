@@ -29,8 +29,9 @@
     <forgotPasswordTemplate>unfiled$public/Forgot_Password_Email</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
-        <permissionSet>Corporate_Portal_Base</permissionSet>
+        <permissionSet>Corporate_Partner</permissionSet>
         <profile>admin</profile>
+        <profile>corporate partner</profile>
         <profile>corporate partner user</profile>
         <profile>qut system administrator</profile>
     </networkMemberGroups>

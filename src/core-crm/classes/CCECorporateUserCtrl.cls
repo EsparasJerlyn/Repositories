@@ -40,7 +40,7 @@ public without sharing class CCECorporateUserCtrl {
             String administrativeAccName = '';           
 
             //Retrieves Contact details
-            List<Contact> contacts = [SELECT Id, AccountId, Account.Name, hed__Primary_Organization__c, Email, Work_Email__c, FirstName, LastName, Name, Registered_Email__c  FROM Contact WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
+            List<Contact> contacts = [SELECT Id, AccountId, Account.Name, hed__Primary_Organization__c, Email, Work_Email__c, FirstName, LastName, Name, Registered_Email__c, MobilePhone FROM Contact WHERE Id =: recordId WITH SECURITY_ENFORCED LIMIT 1];
             for(Contact con : contacts){
                 //store AccountName and Account Id in the variables above
                 if(String.IsNotBlank(con.AccountId) && String.IsNotBlank(con.Account.Name)){
@@ -143,8 +143,8 @@ public without sharing class CCECorporateUserCtrl {
         Contact contact =  userAccessWrapper.contact;
 
         if(userAccessWrapper.portalAccessType != 'Product Catalogue' || userAccessWrapper.hasCCEUser){
-            profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' WITH SECURITY_ENFORCED LIMIT 1];
-            permsetLabelList = new List<String>{'Corporate Portal Base', 'Account Switcher User​'};
+            profile = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner' WITH SECURITY_ENFORCED LIMIT 1];
+            permsetLabelList = new List<String>{'Corporate Partner'};
             username = contact.Work_Email__c + '.cce';
             emailToUse = contact.Work_Email__c;
         }else{
@@ -163,6 +163,7 @@ public without sharing class CCECorporateUserCtrl {
             commerceUser.LastName = contact.LastName;
             commerceUser.FirstName = contact.FirstName;
             commerceUser.ContactId = contact.Id;
+            commerceUser.MobilePhone = contact.MobilePhone;
             commerceUser.alias = contact.FirstName.substring(0, 1) + contact.LastName.substring(0, 2);
             commerceUser.LanguageLocaleKey = 'en_US';
             commerceUser.localesidkey = 'en_AU';
@@ -229,7 +230,7 @@ public without sharing class CCECorporateUserCtrl {
         Savepoint savePoint = Database.setSavepoint();
         Id userId;
         try {
-            Profile profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' WITH SECURITY_ENFORCED LIMIT 1];
+            Profile profile = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner' WITH SECURITY_ENFORCED LIMIT 1];
 
             List<User> usersToCreate = new List<User>();
             User commerceUser = new User();
@@ -253,7 +254,7 @@ public without sharing class CCECorporateUserCtrl {
                 userId = user.Id;
             }
             //Assign Permission Sets to the existing/new user
-            List<String> permsetLabelList = new List<String>{'Corporate Portal Base', 'Account Switcher User​'};
+            List<String> permsetLabelList = new List<String>{'Corporate Partner'};
             List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
             List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN : permsetLabelList WITH SECURITY_ENFORCED];
             List<PermissionSetAssignment> userPermSetAssignments = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId IN : permsets AND AssigneeId = : userId WITH SECURITY_ENFORCED];
@@ -323,7 +324,7 @@ public without sharing class CCECorporateUserCtrl {
 
             //Remove Permission Set from the existing user
             Set<Id> permSetIdSet = new Set<Id>();
-            List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN ('Corporate Portal Base', 'Account Switcher User​') WITH SECURITY_ENFORCED];
+            List<PermissionSet> permsets = [SELECT Id FROM PermissionSet WHERE Label IN ('Corporate Partner') WITH SECURITY_ENFORCED];
             for(PermissionSet perm: permsets){
                 permSetIdSet.add(perm.Id);
             }

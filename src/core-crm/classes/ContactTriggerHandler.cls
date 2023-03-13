@@ -49,7 +49,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   public void beforeInsert(List<SObject> newItems) {
 
     MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems, null);
-    setContactOwner((List<Contact>) newItems);
     ContactTriggerHelper.reparentAccount((List<Contact>)newItems);
     ContactImageHelper.validateContactImageFile((List<Contact>) newItems);
     // Call method to detect if emails used in contacts creation is already being used
@@ -90,6 +89,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     createChildMCPersona(newMap.values());
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
+    setContactOwner((List<Contact>) newItems.values());
   }
 
   /**
@@ -285,17 +285,34 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    * @param contacts the list of contacts to set owner for
    */
   private void setContactOwner(List<Contact> contacts) {
-    if (UserInfo.getUserType() == 'PowerPartner') {
 
+
+      List<Contact> contactsToUpdate = new List<Contact>();
       User u = new User();
       if(Schema.sObjectType.User.isAccessible()){
-        u = [Select Id, Contact.hed__Primary_Organization__r.ownerId from User where id = :UserInfo.getUserId() LIMIT 1];
+        u = [Select Id, Contact.hed__Primary_Organization__r.OwnerId, Profile.Name from User where id = :UserInfo.getUserId() LIMIT 1];
+      }
+  
+      for (Contact c : contacts) {
+        if( u != null && u.Profile.Name == 'Corporate Partner' && c.RecordTypeId != MC_PERSONA){
+            contactsToUpdate.add(new Contact(Id = c.Id, OwnerId = u.Contact.hed__Primary_Organization__r.OwnerId));
+        }
       }
 
-      for (Contact c : contacts) {
-        c.ownerId = u.Contact.hed__Primary_Organization__r.ownerId;
+      List<Database.SaveResult> updateResults = new List<Database.SaveResult>();
+
+      if(Schema.sObjectType.Contact.isUpdateable()){
+        updateResults = Database.update(contactsToUpdate, false);
       }
-    }
+      
+      for (Database.SaveResult result : updateResults){
+        if (!result.isSuccess()){
+          Logger.error('Error in Updating Contact').setDatabaseResult(result);
+        }            
+      }
+      if(Logger.getBufferSize() < 0){
+          Logger.saveLog();                
+      }
   }
 
 }
