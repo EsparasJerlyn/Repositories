@@ -190,7 +190,7 @@
         SELECT Contact.hed__Primary_Organization__c 
         FROM User 
         WHERE AccountId =: effectiveAccountID
-        AND Profile.Name = 'Partner Community User'
+        AND Profile.Name = 'Corporate Partner'
         Limit 1];
 
     return currentUser;

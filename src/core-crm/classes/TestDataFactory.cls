@@ -2229,9 +2229,9 @@ public class TestDataFactory {
             //Create Corporate Partner Admin
             generateUsers(
                 'QUT_Corporate_Partner_Admin'
-                ,'Partner Community User'
+                ,'Corporate Partner'
                 ,''
-                ,'Corporate_Portal_Base,Corporate_Portal_Admin,Account_Switcher_User'
+                ,'Corporate_Partner'
                 ,''
                 ,false
                 ,false
@@ -2246,9 +2246,9 @@ public class TestDataFactory {
             //Create Corporate Partner User
             generateUsers(
                 'QUT_Corporate_Partner_User'
-                ,'Partner Community User'
+                ,'Corporate Partner'
                 ,''
-                ,'Corporate_Portal_Base,Account_Switcher_User'
+                ,'Corporate_Partner'
                 ,''
                 ,false
                 ,false

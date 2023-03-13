@@ -302,7 +302,8 @@ public with sharing class ContactTriggerHandlerTest {
      */
     @IsTest
     private static void shouldSetContactOwner() {
-        final Contact contact = new Contact();
+        Contact contact = new Contact();
+        User commerceUser = new User();
         Test.StartTest();
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Account account = new Account();
@@ -324,19 +325,54 @@ public with sharing class ContactTriggerHandlerTest {
             bg.Name = 'OPE BuyerGroup';
             insert bg;
 
-            CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
-            System.assert(enableResponse != null, 'no response');
-        }
+            Id corporatePartnerProfileId = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner' Limit 1].Id;
 
-        Contact c = new Contact(LastName = 'UnitTest');
-
-        // Test
-        User u = [Select id, Contact.hed__Primary_Organization__r.OwnerId from User where ContactId = :contact.id limit 1];
-        System.runAs(u) {
-            insert c;
+            //create corporate partner user
+            commerceUser.IsActive = true;
+            commerceUser.Username = contact.Work_Email__c + '.cce';
+            commerceUser.Email = contact.Work_Email__c;
+            commerceUser.LastName = contact.LastName;
+            commerceUser.FirstName = contact.FirstName;
+            commerceUser.ContactId = contact.Id;
+            commerceUser.alias = contact.FirstName.substring(0, 1) + contact.LastName.substring(0, 2);
+            commerceUser.LanguageLocaleKey = 'en_US';
+            commerceUser.localesidkey = 'en_AU';
+            commerceUser.emailEncodingKey = 'UTF-8';
+            commerceUser.timeZoneSidKey = 'Australia/Brisbane';
+            commerceUser.profileId = corporatePartnerProfileId;
+            insert commerceUser;
+            
         }
         Test.StopTest();
 
+        //assign corporate partner permission set
+        List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
+        List<PermissionSet> permsets = new List<PermissionSet>();
+        if(Schema.sObjectType.PermissionSet.isAccessible()){
+            permsets = [SELECT Id FROM PermissionSet WHERE Label = 'Corporate Partner' LIMIT 1];
+        }
+
+        List<PermissionSetAssignment> userPermSetAssignments = new List<PermissionSetAssignment>();
+
+    
+        PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
+                PermissionSetId = permsets[0].Id,
+                AssigneeId = commerceUser.Id
+        );
+
+            if( Schema.sObjectType.PermissionSetAssignment.fields.AssigneeId.isCreateable() &&
+                Schema.sObjectType.PermissionSetAssignment.fields.PermissionSetId.isCreateable()){
+                insert permSetAssignment;
+            }
+        
+        Contact c = new Contact(LastName = 'UnitTest');
+        // Test
+        
+        System.runAs(commerceUser) {
+            insert c;
+        }
+
+        User u = [SELECT Id,Contact.hed__Primary_Organization__r.OwnerId FROM User WHERE Id =: commerceUser.Id];
         // Verify
         Contact actualContact = [Select id, OwnerId from Contact where id = :c.id];
         System.assertEquals(u.Contact.hed__Primary_Organization__r.OwnerId, actualContact.OwnerId, 'Should set the contact owner when the current user is having UserType of PowerPartner.');

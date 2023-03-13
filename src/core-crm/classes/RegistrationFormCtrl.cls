@@ -61,7 +61,7 @@ public without sharing class RegistrationFormCtrl {
       ];
 
       if(!userList.isEmpty() && !opeBuyerGroup.IsEmpty()){
-        if(userList[0].Profile.Name == 'Partner Community User'){
+        if(userList[0].Profile.Name == 'Corporate Partner'){
           
           //Assign account to the BuyerGroup Member
           Id assignBuyerGroupMember = createAdministrativeAccount( opeBuyerGroup[0].Id, 
