@@ -20,7 +20,7 @@ public without sharing class MainNavigationMenuAccountCtrl {
      * @param <String> userId : user id of the logged in user
      * @return <UserAccountOptionWrapper> List of Accounts 
      */
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static UserAccountOptionWrapper getAllRelatedBusinessAccountOfUser(String userId, String selectedAccountId){
         Id currentId = getCurrentBusinessAccountId(userId);        
         //Map<Id,List<Account>> accountByParentId = getAllAccountsWithParentId(currentId);

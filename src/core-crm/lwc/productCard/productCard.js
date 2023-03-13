@@ -98,7 +98,6 @@ export default class ProductCard extends NavigationMixin(LightningElement) {
           STOREPRODUCTCATEGORY,
           JSON.stringify(currentProductCategory)
         );
-        sessionStorage.setItem(STORED_ACCTID,this.accountId);
       }
 
       this[NavigationMixin.Navigate]({

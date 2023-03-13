@@ -30,7 +30,7 @@ export default class AccountWrapper extends LightningElement {
     accountNameOptions;
     @track isSelected;
     @track selected; //new
-    @track accountSelected;
+    @track accountSelected = '';
     @track isPrimaryAccount;
 
     subscription;
@@ -50,15 +50,26 @@ export default class AccountWrapper extends LightningElement {
     @wire(MessageContext)
     messageContext;
 
-
-    renderedCallback(){
-        if(sessionStorage.getItem(STORED_ACCTID)){
-            //An Id key is in the session Storage
-            this.accountSelected = sessionStorage.getItem(STORED_ACCTID);
-        } 
-        this.getAllRelatedBusinessAccountOfUser();
+    businessAccounts;
+    @wire(getAllRelatedBusinessAccountOfUser, { userId: userId, selectedAccountId: '$accountSelected'})
+    wiredBusinessAccounts(result) {        
+        if (result.data !=undefined) {
+            this.accountNameOptions = result.data.accountOptions;
+            this.accountNameOptions.sort((a,b)=>a.label.localeCompare(b.label));
+            for (const acct of result.data.accountOptions) {
+                if(acct.isPrimaryAccount && !this.accountSelected){
+                    this.selectedAccount =  acct.value;
+                    this.selectedAccountName =  truncateText(acct.label, CHAR_LEN);
+                    this.fullLabel = acct.fullLabel;
+                    sessionStorage.setItem(STORED_ACCTID, this.selectedAccount);
+                    this.publishLMS();
+                }
+            }
+        } else if (result.error) {
+            this.error = result.error;
+            console.error('Error: ' + JSON.stringify(result.error));
+        }
     }
-    
 
     getAllRelatedBusinessAccountOfUser(){
         getAllRelatedBusinessAccountOfUser({ userId: userId, selectedAccountId: this.accountSelected })
@@ -76,7 +87,7 @@ export default class AccountWrapper extends LightningElement {
                     this.fullLabel = acct.fullLabel;
                    // this.isSelected = acct.isSelected;
 
-                }else{
+               }else{
                     if(acct.isPrimaryAccount && !this.accountSelected){
                         this.selectedAccount =  acct.value;
                         this.selectedAccountName =  truncateText(acct.label, CHAR_LEN);
@@ -84,7 +95,7 @@ export default class AccountWrapper extends LightningElement {
                         //this.isSelected = acct.isSelected;
                         //this.isPrimaryAccount = acct.isPrimaryAccount;
                     }
-                }
+               }
             }
           
         }).catch((error) => {
@@ -104,12 +115,10 @@ export default class AccountWrapper extends LightningElement {
         };
     
         publish(this.messageContext, payloadContainerLMS, payLoad);
-        window.location.reload();
-
     }  
 
     handleValueChange(event) {
-        this.accountSelected = event.detail;
+       /* this.accountSelected = event.detail;
         sessionStorage.setItem(
             STORED_ASSETID,
             ''
@@ -118,7 +127,7 @@ export default class AccountWrapper extends LightningElement {
             STORED_BUYERGROUPID,
             ''
         );
-        this.publishLMS();
+        this.publishLMS();*/
     }
 
 }
