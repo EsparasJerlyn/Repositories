@@ -279,8 +279,6 @@ export default class StoreBreadrumbs extends LightningElement {
         if (menuRecordId) {
             this.removeChildrenFromMenuList(menuRecordId);
         }
-
-        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 
     removeChildrenFromMenuList(productId){
@@ -307,9 +305,5 @@ export default class StoreBreadrumbs extends LightningElement {
 
     get homeLink(){
         return basePath;
-    }
-
-    setSessionStorage(){
-        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 }

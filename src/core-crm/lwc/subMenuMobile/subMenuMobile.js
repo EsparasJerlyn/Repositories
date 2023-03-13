@@ -232,11 +232,5 @@ export default class SubMenuMobile extends LightningElement {
 		if(activeMenu){
 			activeMenu.setAttribute('class', 'arrow-link active');
 		}	
-       sessionStorage.setItem(STORED_ACCTID,this.accountId);
 	}
-
-
-    setSessionStorage(){
-        sessionStorage.setItem(STORED_ACCTID,this.accountId);
-    }
 }

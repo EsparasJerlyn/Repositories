@@ -773,10 +773,11 @@ public without sharing class ProductCtrl{
 
 	@AuraEnabled(cacheable=true)
 	public static List<Product_Specification__c> getProductSpecsByAccount(String accountId){
-		Map<Id, Product_Specification__c> prodSpecMap = new Map<Id, Product_Specification__c>([
-			SELECT Id, Product_Specification_Name__c FROM Product_Specification__c WHERE Opportunity_Name__r.AccountId =: accountId WITH SECURITY_ENFORCED ORDER By Product_Specification_Name__c ASC
-		]);
-
+		Map<Id, Product_Specification__c> prodSpecMap;
+		if(Schema.sObjectType.Product_Specification__c.isAccessible()){
+			prodSpecMap = new Map<Id, Product_Specification__c>([SELECT Id, Product_Specification_Name__c FROM Product_Specification__c WHERE Opportunity_Name__r.AccountId =: accountId ORDER By Product_Specification_Name__c ASC]);
+		}
+		
 		List<Product_Specification__c> prodSpecList = new List<Product_Specification__c>();
 		Set<Product_Specification__c> prodSpecSet = new Set<Product_Specification__c>();
 
@@ -857,7 +858,7 @@ public without sharing class ProductCtrl{
 	/**
 	 * Get products by menu category
 	 */
-	@AuraEnabled
+	@AuraEnabled(cacheable=true)
 	public static ProductData getProductsByCategory(ProductData acctFilterDataWrapper,  String keyword){
 		ProductData prodData = new ProductData();
 		List<ProductWrapper> prodWrapperList = new List<ProductWrapper>();

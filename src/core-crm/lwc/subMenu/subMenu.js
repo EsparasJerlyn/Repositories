@@ -55,10 +55,13 @@ export default class SubMenu extends LightningElement {
         fullLabel: ''
       }
 
+    connectedCallback(){
+     this.subscribeLMS(); 
+    }
+
     renderedCallback(){
         this.subMenuNameSubscribeLMS();
         this.breadCrumbsSubscribeLMS();
-        this.subscribeLMS();   
     }
 
     disconnectedCallback() {
@@ -241,10 +244,5 @@ export default class SubMenu extends LightningElement {
 		if(activeMenu){
 			activeMenu.setAttribute('class', 'arrow-link active');
 		}	
-       sessionStorage.setItem(STORED_ACCTID,this.accountId);
 	}
-
-    setSessionStorage(){
-        sessionStorage.setItem(STORED_ACCTID,this.accountId);
-    }
 }
