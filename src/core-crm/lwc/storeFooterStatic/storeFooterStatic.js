@@ -116,7 +116,6 @@ export default class StoreFooterStatic extends LightningElement {
 		if(activeMenu){
 			activeMenu .setAttribute('class', 'arrow-link active');
 		}
-        sessionStorage.setItem(STORED_ACCTID,this.accountId);
         this.template.querySelector('c-sub-menu').handleMenuClick(event);
        
 	}
@@ -149,11 +148,5 @@ export default class StoreFooterStatic extends LightningElement {
                this.fullLabel = newValObj.fullLabel;
 
         }
-    }
-
-
-
-    setSessionStorage(){
-        sessionStorage.setItem(STORED_ACCTID,this.accountId);
     }
 }

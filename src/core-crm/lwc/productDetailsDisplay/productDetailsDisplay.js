@@ -564,8 +564,7 @@ export default class ProductDetailsDisplay extends NavigationMixin(
   validateValue(val) {
       if (val && val.accountIdParameter) {
           let newValObj = JSON.parse(val.accountIdParameter);
-          this.accountId = newValObj.accountId;
-          sessionStorage.setItem(STORED_ACCTID,this.accountId);
+          this.accountId = newValObj.accountId;         
       }
   }
 
@@ -1028,6 +1027,10 @@ export default class ProductDetailsDisplay extends NavigationMixin(
       selectedOffering : this.selectedCourseOffering,
       pricebookEntryId : pbEId
     };
+
+    if(sessionStorage.getItem(STORED_ACCTID)){
+      this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+    }
 
     sendEmployeeRegistrationEmail({
       selfRegistrationParams : selfRegistrationParameters,

@@ -462,6 +462,9 @@ export default class ManageRegistrationAndNomination extends LightningElement {
     
     connectedCallback(){
         this.subscribeLMS();
+        if(sessionStorage.getItem(STORED_ACCTID)){
+            this.accountId =  sessionStorage.getItem(STORED_ACCTID);
+          }
         this.xButton = qutResourceImg + "/QUTImages/Icon/xMark.svg";
     }
 
@@ -492,7 +495,6 @@ export default class ManageRegistrationAndNomination extends LightningElement {
         if (val && val.accountIdParameter) {
             let newValObj = JSON.parse(val.accountIdParameter);
             this.accountId = newValObj.accountId;
-            sessionStorage.setItem(STORED_ACCTID,this.accountId);
         }
     }
 

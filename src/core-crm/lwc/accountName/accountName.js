@@ -34,7 +34,7 @@ export default class AccountName extends LightningElement {
     messageContext;
 
     renderedCallback(){
-        this.publishLMS();
+       // this.publishLMS();
 
         if(this.selectedAccount && this.showAccount){
             const selected = this.template.querySelector(`a[data-id="${this.selectedAccount}"]`)

@@ -17,20 +17,19 @@
  */
 
 	  import { LightningElement ,wire, track, api} from 'lwc';
+	  import { publish, MessageContext } from 'lightning/messageService';
+
 	  import getProductsByCategory from '@salesforce/apex/ProductCtrl.getProductsByCategory';
 	  import getStoreFrontCategoryMenu from '@salesforce/apex/MainNavigationMenuCtrl.getStoreFrontCategories';
 	  import getProductSpecsByAccount from '@salesforce/apex/ProductCtrl.getProductSpecsByAccount';
 	  import getBuyerGroups from '@salesforce/apex/ProductCtrl.getBuyerGroups';
 	  import getAssetsByAccount from '@salesforce/apex/ProductCtrl.getAssetsByAccount';
+
 	  import communityId from '@salesforce/community/Id';
 	  import BasePath from "@salesforce/community/basePath";
-	  import userId from "@salesforce/user/Id";
 
-	  import { publish, MessageContext } from 'lightning/messageService';
-	  import { subscribe, unsubscribe } from 'lightning/messageService';
 	  import payloadContainerLMS from '@salesforce/messageChannel/Breadcrumbs__c';
 	  import payloadContainerLMSsubMenuName from '@salesforce/messageChannel/SubMenu__c';
-	  import payloadAcctContainerLMS from '@salesforce/messageChannel/AccountId__c';
 
 	  const CURRENTPRODUCTCATEGORY = "current_product_category";
 	  const DELAY = 300;
@@ -42,15 +41,14 @@
 		  stringValue = '';
 		  filterKey = this.stringValue;
 		  categoryId;
-		  navMenuName;
-		  className;
 		  productCategory;
-		  _isLoading = true;
+		  _isLoading = true;		  
 		  _recordId;
-		  accountId;
+		  accountId = '';
 		  accountName;
 		  fullLabel;
 		  subscription;
+		  disableProdSpecList = true;
 		  prodSpecList = [];
 		  prodSpecValue = '';
 		  prodSpecId = '';
@@ -60,16 +58,16 @@
 		  isCorporateBundle;
 		  assetList;
 
-		  parameterObject = {
-			userId: userId,
-			categoryId : '', 
-			accountId: '',
-			accountName: '',
-			fullLabel: '',
-			prodSpecId: '',
-			assetId: '',
-			buyerGroupId: ''
-		  }
+		  disableAssetSelection = true;
+		  assetOptions = [];
+		  selectedAssetId;
+		  
+		  disableBuyerGroupSelection = true;
+		  buyerGroupOptions = [];
+		  selectedBuyerGroupId;
+		  buyerGroups;
+
+		  parameterObject = {};
 	  
 		  get isLoading() {
 			  return this._isLoading;
@@ -82,29 +80,25 @@
 	   */
 		  @api
 		  get recordId() {
-		  return this._recordId;
+		  	return this._recordId;
 		  }
 		  set recordId(value) {
-		  this._recordId = value;
+		  	this._recordId = value;
 		  }
 		  //check if in CCE Portal
 		  get isCCEPortal() {
-		  return BasePath.toLowerCase().includes("cce");
+		  	return BasePath.toLowerCase().includes("cce");
 		  }
 	  
 		  @wire(MessageContext)
 		  messageContext;
-	  
-
-		  renderedCallback(){
-			this.subscribeLMS();
-		  }
 		  
 		  //retrieve Category Link Menus
+		  categoryList;
 		  @wire(getStoreFrontCategoryMenu,{communityId:communityId})
 		  handleGetStorefrontCategories(result){  
 			  if(result.data){
-				  result.data.forEach((category, index) => {
+				  	result.data.forEach((category) => {
 					  let check = category.Id.includes(this.recordId);
 					  
 					  if(check){
@@ -114,17 +108,7 @@
 						  if(sessionStorage.getItem(STORED_ACCTID)){
 						 	 this.accountId =  sessionStorage.getItem(STORED_ACCTID);
 						  }
-
-						  this.parameterObject = {
-							userId : userId,
-							categoryId : this.categoryId,
-							accountId: this.accountId,
-							accountName: this.accountName,
-							fullLabel: this.fullLabel,
-							prodSpecId: this.prodSpecId,
-							assetId: this.selectedAssetId,
-							buyerGroupId: this.selectedBuyerGroupId
-						  }
+						  
 						  //gets isTailoredExecEduc value to store in session storage if in CCE Portal
 						  if(this.isCCEPortal){
 						  let currentProductCategory = {
@@ -135,11 +119,8 @@
 								  JSON.stringify(currentProductCategory)
 							  );
 						  } 
-						  
 					  }
-				  })
-				  // get products list
-				  this.getProducts();    
+				  });
 			  }
 		  }
 	  
@@ -169,18 +150,15 @@
 			window.clearTimeout(this.delayTimeout);
 			this.delayTimeout = setTimeout(() => {
 				this.filterKey = this.stringValue;
-				this.getProducts();
 				if(this.stringValue.length == 0 ){
 					this.filterKey = '';
-					this.getProducts();
 				}
 			}, DELAY);
 		}
-
-		disableProdSpecList = true;
-
+		
+		productSpecByAccountList; 
 		@wire(getProductSpecsByAccount, { accountId : '$accountId' })
-		getProductSpecsByAccount(result) {		
+		getProductSpecsByAccount(result) {
 			this.prodSpecs = result.data;
 			if(result.data){
 				if(this.prodSpecs.length > 1){
@@ -196,19 +174,26 @@
 				this.prodSpecList = options;
 				this.prodSpecValue = options[0].value;
 				this.prodSpecId = this.prodSpecValue;
-				this.getProducts();
+				this.setParameters();
 			}    
 		}
 
 		handleProdSpecChange(event){
 			this.prodSpecId = event.detail.value;
-			this.getProducts();
+			this.setParameters();
 		}
 
-		disableAssetSelection = true;
-		assetOptions = [];
-		selectedAssetId;
-
+		setParameters(){
+			this.parameterObject = {
+				categoryId : this.categoryId,
+				accountId: this.accountId,
+				prodSpecId: this.prodSpecId,
+				assetId: this.selectedAssetId,
+				buyerGroupId: this.selectedBuyerGroupId
+			}
+		}
+		
+		assetByAccountList;
 		@wire(getAssetsByAccount, { accountId : '$accountId' })
 		getAssetsByAccount(result) {
 			this.assets = result.data;
@@ -232,23 +217,13 @@
 					this.selectedAssetId = options[0].value;
 				}
 				
-				this.parameterObject = {
-					userId : userId,
-					categoryId : this.categoryId,
-					accountId: this.accountId,
-					accountName: this.accountName,
-					fullLabel: this.fullLabel,
-					prodSpecId: this.prodSpecId,
-					assetId: this.selectedAssetId,
-					buyerGroupId: this.selectedBuyerGroupId
-				}
+				this.setParameters();
 
 				sessionStorage.setItem(
 					STORED_ASSETID,
 					this.selectedAssetId
 				);
 				
-				this.getProducts();
 			}
 		}
 
@@ -258,23 +233,10 @@
 				STORED_ASSETID,
 				this.selectedAssetId
 			);
-			this.parameterObject = {
-				userId : userId,
-				categoryId : this.categoryId,
-				accountId: this.accountId,
-				accountName: this.accountName,
-				fullLabel: this.fullLabel,
-				assetId: this.selectedAssetId
-			}
-			this.getProducts();
+			this.setParameters();
 		}
 
-
-		disableBuyerGroupSelection = true;
-		buyerGroupOptions = [];
-		selectedBuyerGroupId;
-		buyerGroups;
-
+		buyerGroupList;
 		@wire(getBuyerGroups, { accountId : '$accountId' })
 		getBuyerGroups(result) {
 			this.buyerGroups = result.data;
@@ -298,21 +260,12 @@
 					this.selectedBuyerGroupId= options[0].value;
 				}
 				
-				this.parameterObject = {
-					userId : userId,
-					categoryId : this.categoryId,
-					accountId: this.accountId,
-					accountName: this.accountName,
-					fullLabel: this.fullLabel,
-					prodSpecId: this.prodSpecId,
-					assetId: this.selectedAssetId,
-					buyerGroupId: this.selectedBuyerGroupId
-				}
+				this.setParameters();
+
 				sessionStorage.setItem(
 					STORED_BUYERGROUPID,
 					this.selectedBuyerGroupId
 				);
-				this.getProducts();
 			}
 		}
 
@@ -322,88 +275,78 @@
 				STORED_BUYERGROUPID,
 				this.selectedBuyerGroupId
 			);
-			this.parameterObject = {
-				userId : userId,
-				categoryId : this.categoryId,
-				accountId: this.accountId,
-				accountName: this.accountName,
-				fullLabel: this.fullLabel,
-				prodSpecId: this.prodSpecId,
-				assetId: this.selectedAssetId,
-				buyerGroupId: this.selectedBuyerGroupId
-			}
-			this.getProducts();
+			this.setParameters();
 		}
 		  
-		  // Get the Products per category menu
-		  getProducts(){
-			  getProductsByCategory({
-				  acctFilterDataWrapper: this.parameterObject,
-				  keyword : this.filterKey
-			  }).then((result) => {
-				  this.productInfoList = [];
-				  let productsGroup = [];
-				  if(this.productCategory == 'Corporate Bundle'){
-					if(result.assetList.length > 0){
+		productList;
+		@wire(getProductsByCategory, { acctFilterDataWrapper: '$parameterObject', keyword : '$filterKey' })
+		wiredProducts(result) {   
+			if (result.data) {
+				this.productInfoList = [];
+				let productsGroup = [];
+				if(this.productCategory == 'Corporate Bundle'){
+					if(result.data.assetList && result.data.assetList.length > 0){
 						this.isCorporateBundle = true;
+						this.assetList = JSON.parse(JSON.stringify(result.data.assetList[0]));
+						this.assetList.Start_Date__c = new Date(this.assetList.Start_Date__c).toLocaleDateString("en-GB") == 'Invalid Date'? '' : new Date(this.assetList.Start_Date__c).toLocaleDateString("en-GB");
+						this.assetList.End_Date__c = new Date(this.assetList.End_Date__c).toLocaleDateString("en-GB") == 'Invalid Date' ? '' : new Date(this.assetList.End_Date__c).toLocaleDateString("en-GB");
+						this.assetList.Pending_Value__c = isNaN(Math.round(this.assetList.Pending_Value__c)) ? 0 : Math.round(this.assetList.Pending_Value__c).toLocaleString();
+						this.assetList.Remaining_Value__c = isNaN(Math.round(this.assetList.Remaining_Value__c)) ? 0 : Math.round(this.assetList.Remaining_Value__c).toLocaleString();
+						this.assetList.Total_Value__c = isNaN(Math.round(this.assetList.Total_Value__c)) ? 0 : Math.round(this.assetList.Total_Value__c).toLocaleString();
+						this.assetList.Utilised_Value__c = isNaN(Math.round(this.assetList.Utilised_Value__c)) ? 0 : Math.round(this.assetList.Utilised_Value__c).toLocaleString();
 					}
-					this.assetList = result.assetList[0];
-					this.assetList.Start_Date__c = new Date(this.assetList.Start_Date__c).toLocaleDateString("en-GB") == 'Invalid Date'? '' : new Date(this.assetList.Start_Date__c).toLocaleDateString("en-GB");
-					this.assetList.End_Date__c = new Date(this.assetList.End_Date__c).toLocaleDateString("en-GB") == 'Invalid Date' ? '' : new Date(this.assetList.End_Date__c).toLocaleDateString("en-GB");
-					this.assetList.Pending_Value__c = isNaN(Math.round(this.assetList.Pending_Value__c)) ? 0 : Math.round(this.assetList.Pending_Value__c).toLocaleString();
-					this.assetList.Remaining_Value__c = isNaN(Math.round(this.assetList.Remaining_Value__c)) ? 0 : Math.round(this.assetList.Remaining_Value__c).toLocaleString();
-					this.assetList.Total_Value__c = isNaN(Math.round(this.assetList.Total_Value__c)) ? 0 : Math.round(this.assetList.Total_Value__c).toLocaleString();
-					this.assetList.Utilised_Value__c = isNaN(Math.round(this.assetList.Utilised_Value__c)) ? 0 : Math.round(this.assetList.Utilised_Value__c).toLocaleString();
-				  }
-				  else{
+				}
+				else{
 					this.isCorporateBundle = false;
-				  }
-				  result.productList.forEach((p) => {
-					//   var type = p.childProdType;
-					  var type = '';
-					  var exsitTypeGroup = productsGroup.find(p => p.type === type);
-	  
-					  if(!!exsitTypeGroup){
-						  exsitTypeGroup.products.push(p);
-					  } else {
-						  productsGroup.push({
-							  type: type,
-							  products: [p],
-						  });
-					  }
-				  });
-	  
-				  productsGroup.sort((a,b) => {
-					  if(a.type < b.type) return -1;
-					  if(a.type > b.type) return 1;
-					  return 0;
-				  });
-				  
-				  this.productInfoList = productsGroup.map( p => {
-					  p.products.sort((a,b) => {
-						  if(!!a.childProdOfferingDate && !!b.childProdOfferingDate && (Date.parse(a.childProdOfferingDate) < Date.parse(b.childProdOfferingDate))) return -1;						  
-						  if(!!a.childProdOfferingDate && !!b.childProdOfferingDate && (Date.parse(a.childProdOfferingDate) > Date.parse(b.childProdOfferingDate)))  return 1;
-						  if((!!a.childProdOfferingDate && !!b.childProdOfferingDate && (a.childProdOfferingDate == b.childProdOfferingDate)) || (!a.childProdOfferingDate || !b.childProdOfferingDate)){                     
-						  if(!!a.childProdOfferingDate && !b.childProdOfferingDate) return -1;
-						  if(!a.childProdOfferingDate && !!b.childProdOfferingDate) return 1;
-							  if(a.childProdName < b.childProdName) return -1;
-							  if(a.childProdName > b.childProdName) return 1;
-							  return 0;
-						  }
-						  return 0;
-						  
-					  });
-					  return p;
-				  });
-				  	this._isLoading = false;
-					this.publishLMS();
-			  }).catch((error) => {
-				  this.error = error;
-				  this._isLoading = false;
-				  this.productInfoList = [];
-			  });
-		  }
+				}
 
+				result.data.productList.forEach((p) => {
+					var type = '';
+					var existTypeGroup = productsGroup.find(p => p.type === type);
+	
+					if(existTypeGroup){
+						existTypeGroup.products.push(p);
+					} else {
+						productsGroup.push({
+							type: type,
+							products: [p],
+						});
+					}
+				});
+
+				productsGroup.sort((a,b) => {
+					if(a.type < b.type) return -1;
+					if(a.type > b.type) return 1;
+					return 0;
+				});
+
+				this.productInfoList = productsGroup.map( p => {
+					p.products.sort((a,b) => {
+						if(!!a.childProdOfferingDate && !!b.childProdOfferingDate && (Date.parse(a.childProdOfferingDate) < Date.parse(b.childProdOfferingDate))) return -1;						  
+						if(!!a.childProdOfferingDate && !!b.childProdOfferingDate && (Date.parse(a.childProdOfferingDate) > Date.parse(b.childProdOfferingDate)))  return 1;
+						if((!!a.childProdOfferingDate && !!b.childProdOfferingDate && (a.childProdOfferingDate == b.childProdOfferingDate)) || (!a.childProdOfferingDate || !b.childProdOfferingDate)){                     
+						if(!!a.childProdOfferingDate && !b.childProdOfferingDate) return -1;
+						if(!a.childProdOfferingDate && !!b.childProdOfferingDate) return 1;
+							if(a.childProdName < b.childProdName) return -1;
+							if(a.childProdName > b.childProdName) return 1;
+							return 0;
+						}
+						return 0;
+						
+					});
+					return p;
+				});
+
+				this._isLoading = false;
+				this.publishLMS();
+				
+			} else if (result.error) {
+				this.error = result.error;
+				this._isLoading = false;
+				this.productInfoList = [];
+			}
+		}
+		
 		  publishLMS() {
 			  let paramObj = {
 				  productId: 1,
@@ -418,46 +361,5 @@
 			  publish(this.messageContext, payloadContainerLMS, payLoad);
 			  publish(this.messageContext, payloadContainerLMSsubMenuName, payLoad);
 		  } 
-		  
-		disconnectedCallback() {
-			this.unsubscribeLMS();
-		}
-	
-		unsubscribeLMS(){
-			unsubscribe(this.subscription);
-			this.subscription = null;
-		}
-
-
-		subscribeLMS() {
-			if (!this.subscription) {
-				this.subscription = subscribe(
-					this.messageContext, 
-					payloadAcctContainerLMS, 
-					(message) => this.validateValue(message));
-			}
-		}
-	
-		validateValue(val) {
-			if (val && val.accountIdParameter) {
-				let newValObj = JSON.parse(val.accountIdParameter);
-		
-				   this.accountId = newValObj.accountId;
-				   this.accountName = newValObj.accountName;
-				   this.fullLabel = newValObj.fullLabel;
-	
-					this.parameterObject = {
-						userId : userId,
-						categoryId : this.categoryId,
-						accountId: this.accountId,
-						accountName: this.accountName,
-						fullLabel: this.fullLabel,
-						prodSpecId: this.prodSpecId,
-						assetId: this.selectedAssetId,
-						buyerGroupId: this.selectedBuyerGroupId
-					}
-
-				  	this.getProducts();
-			}
-		}
+		  		
 	  }
