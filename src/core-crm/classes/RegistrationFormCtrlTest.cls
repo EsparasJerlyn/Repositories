@@ -258,7 +258,7 @@ public with sharing class RegistrationFormCtrlTest {
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
       
-      Profile pCEE = [SELECT Id FROM Profile WHERE Name = 'Partner Community User'];
+      Profile pCEE = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner'];
       List<Account> accounts;
       accounts = TestDataFactory.createTestAccountRecords(1);
       for(Account acc : accounts){
@@ -440,7 +440,7 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Profile p = [SELECT Id FROM Profile WHERE Name = 'Partner Community User'];
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner'];
       Contact c = new Contact(LastName = 'Testing');
 
       String uniqueID = GenerateUniqueId.getUUID();
@@ -475,7 +475,7 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Profile p = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' LIMIT 1];
+      Profile p = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner' LIMIT 1];
       Id buyerGroup = [SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' LIMIT 1].Id;
 
       List<Account> accounts;

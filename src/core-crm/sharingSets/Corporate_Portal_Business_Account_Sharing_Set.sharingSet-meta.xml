@@ -8,5 +8,5 @@
     </accessMappings>
     <description>Ensures that the Corporate Admin has an access to the business account.</description>
     <name>Corporate Portal Business Account Sharing Set</name>
-    <profiles>partner community user</profiles>
+    <profiles>corporate partner</profiles>
 </SharingSet>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Customer Community Plus Login</userLicense>
+    <layoutAssignments>
+        <layout>Lead-QUTeX Leads</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Global-Chatter Publisher Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Session__c-Session Layout</layout>
+        <recordType>Session__c.General_Session</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Session__c-Specialised Layout</layout>
+        <recordType>Session__c.Specialised_Session</recordType>
+    </layoutAssignments>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ParentId</field>
+        <readable>false</readable>
+    </fieldPermissions>
+</Profile>

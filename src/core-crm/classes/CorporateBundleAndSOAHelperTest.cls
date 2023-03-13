@@ -155,7 +155,7 @@ public with sharing class CorporateBundleAndSOAHelperTest {
 
           System.runAs(TestDataFactory.getPortalSysAdminUser()){
                Contact con = [SELECT Id,Registered_Email__c,LastName,FirstName FROM Contact WHERE Registered_Email__c =: 'registeredtest@email.com' Limit 1];
-               Profile profile = [SELECT Id FROM Profile WHERE Name = 'Partner Community User' LIMIT 1];
+               Profile profile = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner' LIMIT 1];
                User commerceUser = new User();
                commerceUser.IsActive = true;
                commerceUser.Username = contact.Registered_Email__c + '.cce';

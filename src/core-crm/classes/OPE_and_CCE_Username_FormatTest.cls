@@ -98,7 +98,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
       Profile p = [
         SELECT Id
         FROM Profile
-        WHERE Name = 'Partner Community User'
+        WHERE Name = 'Corporate Partner'
       ];
 
       //Create User
@@ -123,7 +123,7 @@ public with sharing class OPE_and_CCE_Username_FormatTest {
       insert (u);
     }
     System.assert(
-      ![SELECT Id FROM User WHERE Profile.Name = 'Partner Community User']
+      ![SELECT Id FROM User WHERE Profile.Name = 'Corporate Partner']
         .isEmpty(),
       'User must be created'
     );
