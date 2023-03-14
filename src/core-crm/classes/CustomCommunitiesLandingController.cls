@@ -20,7 +20,7 @@ public with sharing class CustomCommunitiesLandingController {
         String startUrl = System.currentPageReference().getParameters().get('startURL');
         if (startUrl == null) startUrl = '';
         if (UserInfo.getUserType().equals('Guest')) {
-            return new PageReference(communityUrl + '/s/login');
+            return new PageReference(EncodingUtil.urlEncode(communityUrl + '/s/login', 'UTF-8'));
         } else {
             return Network.communitiesLanding(); 
         }   
