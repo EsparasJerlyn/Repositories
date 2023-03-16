@@ -12,6 +12,7 @@
       | marygrace.j.li            | April 18, 2022        | DEPP-1269            | Created File                                 |
       | eugene.andrew.abuan       | May 12, 2022          | DEPP-1979            | Added logic to make price editable           |
       | eugene.andrew.abuan       | July 13, 2022         | DEPP-3376            |Changed onmouse events to ondrag              |
+      | eugene.andrew.abuan       | March 02, 2023        | DEPP-5266            | Removed toggleActiveThumb function           |
 
  */
 import { LightningElement, api,track } from 'lwc';
@@ -173,7 +174,6 @@ export default class Slider extends LightningElement {
             this.currentThumb = event.target;
             const startX = event.clientX || event.touches[0].clientX;
             this.currentThumbPositionX = startX - this.currentThumb.getBoundingClientRect().left;
-            this.toggleActiveThumb(true);
             this.isMoving = true;
         }
     }
@@ -196,7 +196,7 @@ export default class Slider extends LightningElement {
                         this._start = moveValue;
                         this.setThumb(this.currentThumbName, moveX);
                         this.setRange(this._endValueInPixels, this._startValueInPixels);
-                        tempValStart = this._start;
+                        this.tempValStart = this._start;
                     }
                     break;
                 case 'end':
@@ -218,7 +218,6 @@ export default class Slider extends LightningElement {
     //handles when the slider stops moving
     onMouseUp(event) {
         this.isMoving = false;
-        this.toggleActiveThumb(false);
         this.newchanges = 1;
         this.onChangeValue();
         event.preventDefault(); 
@@ -232,12 +231,6 @@ export default class Slider extends LightningElement {
                 thumb.style.setProperty('--thumb-left-position', `${valueInPixels}px`);
             }
         });
-    }
-
-    //function that sets color to the thumb
-    toggleActiveThumb(toggle = true) {
-        const color = toggle ? '#000000' : '#000000';
-        this.currentThumb.style.setProperty('--thumb-active-color', color);
     }
 
     //Functions that calculates the difference of the range of min price and max price

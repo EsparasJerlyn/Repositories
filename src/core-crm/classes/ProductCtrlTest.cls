@@ -16,6 +16,7 @@
 */
 @isTest
 public with sharing class ProductCtrlTest {
+	
 	private static final string STUDENT_RT = System.Label.RT_CourseConnection_Student;
 	private static final String RT_PRODUCT_REQ = System.Label.RT_ProductRequest_Activity;
 	private static final Id OPE_ACTIVITY_RECQ = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
@@ -1777,5 +1778,6 @@ public with sharing class ProductCtrlTest {
 			System.assert(!buyerGrps.isEmpty(), 'Buyer Groups must not be empty');
 		}
 	}
+	
 	
 }
