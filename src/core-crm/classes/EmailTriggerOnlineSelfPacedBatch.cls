@@ -155,7 +155,12 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                 }
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerOnlineSeldPaecdBatch.start ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method start in class EmailTriggerOnlineSelfPacedBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
         return wrapperList;
@@ -165,7 +170,12 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
         try{
             EmailTriggerBatchHelper.sendEmailWithoutAttachment(records);
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerOnlineSeldPaecdBatch.execute ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method execute in class EmailTriggerOnlineSelfPacedBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
     }

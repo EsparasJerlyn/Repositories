@@ -39,7 +39,8 @@ public class ProductLedgerEndedBatch implements Database.Batchable<sObject> {
            update productLedgerList;
 
         }catch(Exception e){
-           System.debug(LoggingLevel.WARN, 'ProductLedgerEndedBatch Error: ' + e.getMessage());//NOPMD
+            Logger.error('Exception caught in method execute in class ProductLedgerEndedBatch.').setExceptionDetails(e);
+            Logger.saveLog();
         }
        
     } 

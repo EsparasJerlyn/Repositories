@@ -291,9 +291,13 @@ public with sharing class CorporateBundleAndSOAHelper {
                     insert affiliationToInsert.values();
                }
           }catch(Exception e){
-               System.debug(LoggingLevel.DEBUG, 'An error has occurred. See error message: ' + e.getMessage());//NOPMD
+               Logger.error('Exception caught in method createAffiliationRecords in class CorporateBundleAndSOAHelper.')
+                    .setExceptionDetails(e);
+          } finally {
+               if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+               }
           }
-
      }
 
      private static hed__Affiliation__c createAffiliationRecord(hed__Course_Enrollment__c courseCon){

@@ -87,7 +87,12 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
                 
         } catch (Exception e) { 
-             System.debug(LoggingLevel.WARN,'getCCESearchIndexRequest ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method getCCESearchIndexRequest in Apex class B2BStoreSearchIndexScheduler')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
         return objResponse;
@@ -112,7 +117,12 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
                 
         } catch (Exception e) { 
-             System.debug(LoggingLevel.WARN,'getStudySearchIndexRequest ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method getStudySearchIndexRequest in Apex class B2BStoreSearchIndexScheduler')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
         return objResponse;
@@ -140,7 +150,12 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
            
         } catch (Exception e) { 
-             System.debug(LoggingLevel.WARN, 'postCCESearchIndexRequest ERROR: ' + e.getMessage());//NOPMD
+            Logger.error('Exception caught in method postCCESearchIndexRequest in Apex class B2BStoreSearchIndexScheduler.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
 
@@ -168,7 +183,12 @@ public with sharing class B2BStoreSearchIndexScheduler implements Schedulable{
             }
            
         } catch (Exception e) { 
-            System.debug(LoggingLevel.WARN, 'postStudySearchIndexRequest ERROR: ' + e.getMessage());//NOPMD
+            Logger.error('Exception caught in method postStudySearchIndexRequest in Apex class B2BStoreSearchIndexScheduler.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
 

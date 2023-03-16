@@ -451,7 +451,6 @@ public with sharing class GenerateCodeCtrlTest{
                     insert prodSpecs;
                }
 
-               System.debug('prodSpecs' + prodSpecs);
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
                for(Product_Request__c productRequest : productRequests){
                     productRequest.RecordTypeId = productRequestRecordType;

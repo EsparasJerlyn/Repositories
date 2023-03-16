@@ -175,7 +175,12 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
                 }
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerVirtualBatch.start ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method start in class EmailTriggerVirtualBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
         return wrapperList;
@@ -186,7 +191,12 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
         try{
             EmailTriggerBatchHelper.sendEmailWithAttachment(records);
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerVirtualBatch.execute ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method execute in class EmailTriggerVirtualBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
     }

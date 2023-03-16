@@ -552,7 +552,12 @@ public without sharing class ManageRegistrationSectionHelper{
                webCart.OwnerId = userId;
                webCart.WebStoreId = studyWebStoreId;
           }catch(Exception e){
-               System.debug(LoggingLevel.WARN, 'ManageRegistrationEnrolmentHelper.createWebCart Error: ' + e.getMessage());//NOPMD
+               Logger.error('Exception caught in method createWebCart in class ManageRegistrationSectionHelper.')
+                    .setExceptionDetails(e);
+          } finally {
+               if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+               }
           }
 
           return webCart;
@@ -645,8 +650,6 @@ public without sharing class ManageRegistrationSectionHelper{
                     Database.SaveResult insertResult = Database.insert(administrativeAccountBuyer, false);
                     if(!insertResult.isSuccess()){
                          Logger.error('Error in Inserting Buyer Accounts').setDatabaseResult(insertResult);
-                    }
-                    if(Logger.getBufferSize() < 0){
                          Logger.saveLog();                
                     }
           }
@@ -660,8 +663,6 @@ public without sharing class ManageRegistrationSectionHelper{
                     Database.SaveResult insertResult = Database.insert(bgMember, false);
                     if(!insertResult.isSuccess()){
                          Logger.error('Error in Inserting Buyer Group Members').setDatabaseResult(insertResult);
-                    }
-                    if(Logger.getBufferSize() < 0){
                          Logger.saveLog();                
                     }
           }

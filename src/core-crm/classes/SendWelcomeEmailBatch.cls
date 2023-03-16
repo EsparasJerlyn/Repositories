@@ -57,7 +57,12 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
                 ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactIds);
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN, 'SendWelcomeEmailBatch Error: ' + e.getMessage());//NOPMD
+            Logger.error('Exception caught in method execute in class SendWelcomeEmailBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
     }  
     public void finish(Database.BatchableContext bc) {}//NOPMD

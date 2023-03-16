@@ -1069,8 +1069,6 @@ public without sharing class ProductDetailsCtrl {
 				insert cItem;
 			}
 		} catch (Exception e) {
-			// system.debug(e);
-			// system.debug('Error on ProductDetailsCtrl.addToCartItem');
 			AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			throw auraEx;
 		}
@@ -1236,7 +1234,10 @@ public without sharing class ProductDetailsCtrl {
 
 		} catch (Exception e) {
 			Logger.error('error on ProductDetailsCtrl.insertLearnerInfo').setExceptionDetails(e);
-			Logger.saveLog();
+		} finally {
+			if(Logger.getBufferSize() > 0) {
+				Logger.saveLog();
+			}
 		}
 
 		return cartWrapper;
@@ -1273,7 +1274,10 @@ public without sharing class ProductDetailsCtrl {
 				UPDATE webcart;
 			}catch(Exception e){
 				Logger.error('error on updating Webcart').setExceptionDetails(e);
-				Logger.saveLog();
+			} finally {
+				if(Logger.getBufferSize() > 0) {
+					Logger.saveLog();
+				}
 			}
 			
 			//get cart and course info through cart item
@@ -1780,7 +1784,6 @@ public without sharing class ProductDetailsCtrl {
 				ORDER BY hed__Sequence__c
 			];
 			Map<Decimal, Id> coursesInPlanRequirements = new Map<Decimal, Id>();
-			// System.debug('programPlanRequirements: ' + programPlanRequirements);
 			for (
 				hed__Plan_Requirement__c programPlanRequirement : programPlanRequirements
 			) {
@@ -1789,7 +1792,6 @@ public without sharing class ProductDetailsCtrl {
 					programPlanRequirement.hed__Course__c
 				);
 			}
-			// System.debug('coursesInPlanRequirements: ' + coursesInPlanRequirements);
 			List<Product2> courseProducts = [
 				SELECT
 					Id,
@@ -1828,11 +1830,8 @@ public without sharing class ProductDetailsCtrl {
 				moduleWrapper.moreDetails = courseProduct.More_Details__c;
 				modules.add(moduleWrapper);
 			}
-			// System.debug('modules: ' + modules);
 			return modules;
 		} catch (Exception e) {
-			// system.debug(e);
-			// system.debug('Error on ProductDetailsCtrl.getProgramModules');
 			AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			throw auraEx;
 		}
@@ -1862,7 +1861,6 @@ public without sharing class ProductDetailsCtrl {
 					OR Registration_End_Date__c > TODAY)
 				ORDER BY Start_Date__c ASC
 			];
-			// System.debug('programOfferings: ' + programOfferings);
 			for (Program_Offering__c programOffering : programOfferings) {
 				ProgramOfferingWrapper programOfferingWrapper = new ProgramOfferingWrapper();
 				programOfferingWrapper.id = programOffering.Id;
@@ -1888,13 +1886,8 @@ public without sharing class ProductDetailsCtrl {
 					programOfferingWrapperList
 				);
 			}
-			// System.debug(
-			// 	'programDeliveryAndOfferingMap: ' + programDeliveryAndOfferingMap
-			// );
 			return programDeliveryAndOfferingMap;
 		} catch (Exception e) {
-			// system.debug(e);
-			// system.debug('Error on ProductDetailsCtrl.getProgramOfferings');
 			AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			throw auraEx;
 		}
@@ -1947,7 +1940,6 @@ public without sharing class ProductDetailsCtrl {
 	public static Map<String, Object> getProductDataRelatedToProductRequest(
 		String productRequestId
 	) {
-		// System.debug('productRequestId: ' + productRequestId);
 		Map<String, Object> returnMap = new Map<String, Object>();
 		String productType = '';
 		Id productId;
@@ -1959,7 +1951,6 @@ public without sharing class ProductDetailsCtrl {
 			WHERE Product_Request__c = :productRequestId
 		];
 		if (programPlans.size() > 0) {
-			// System.debug('Product is a program');
 			products = [
 				SELECT
 					Id,
@@ -1974,23 +1965,17 @@ public without sharing class ProductDetailsCtrl {
 					programPlans[0].Program_Delivery_Structure__c == 'Prescribed Program'
 				) {
 					productType = 'Prescribed Program';
-					//Call getProductRelatedRecords(productId);
 					prodDetailsData = getProductRelatedRecords(products[0].Id);
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('product', prodDetailsData);
 				} else if (
 					programPlans[0].Program_Delivery_Structure__c == 'Flexible Program'
 				) {
 					productType = 'Flexible Program';
-					//Call getProductRelatedRecords(productId);
-					// System.debug('productId: ' + productId);
 					prodDetailsData = getProductRelatedRecords(products[0].Id);
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('product', prodDetailsData);
 				}
 			}
 		} else {
-			// System.debug('Product is a Course');
 			List<hed__Course__c> courses = [
 				SELECT
 					Id,
@@ -2028,32 +2013,26 @@ public without sharing class ProductDetailsCtrl {
 						WHERE Program_Plan__c = :programPlanId
 					]
 					.Id;
-					// System.debug('parentProductId: ' + parentProductId);
 					//Call getProductRelatedRecords(productId);
 					prodDetailsData = getProductRelatedRecords(parentProductId);
 					List<ModuleWrapper> modules = prodDetailsData.moduleWrapperList;
-					// System.debug('modules: ' + modules);
 					for (ModuleWrapper module : modules) {
-						// System.debug('module: ' + module);
 						if (module.id == productId) {
 							returnMap.put('product', module);
 							break;
 						}
 					}
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('parent', prodDetailsData);
 				} else {
 					productType = 'Single Product';
 					//Call getProductRelatedRecords(productId);
 					prodDetailsData = getProductRelatedRecords(productId);
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('product', prodDetailsData);
 				}
 			}
 		}
 		returnMap.put('productType', productType);
 		returnMap.put('productId', productId);
-		// System.debug('returnMap: ' + returnMap);
 		return returnMap;
 	}
 

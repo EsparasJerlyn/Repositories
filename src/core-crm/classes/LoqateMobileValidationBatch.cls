@@ -144,7 +144,12 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
             }
             
         }catch(Exception e){
-            System.debug(LoggingLevel.DEBUG, 'Error Processing Request!'+ e.getStackTraceString());//NOPMD
+            Logger.error('Exception caught in execute in class LoqateMobileValidationBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
         
     }
@@ -174,8 +179,6 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
         }else{
             response = http.send(request);
         }
-        System.debug(LoggingLevel.DEBUG, 'HTTP REQUEST: '+payload);//NOPMD
-        System.debug(LoggingLevel.DEBUG, 'HTTP RESPONSE: '+response.getBody());//NOPMD
         if(response.getStatusCode() == 200) {
             return response.getBody();
         }else{

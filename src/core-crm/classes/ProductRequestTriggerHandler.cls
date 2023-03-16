@@ -100,7 +100,7 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
                 }
             }
 
-            if(Logger.getBufferSize() <0){
+            if(Logger.getBufferSize() > 0){
                 Logger.saveLog();
             }
         }

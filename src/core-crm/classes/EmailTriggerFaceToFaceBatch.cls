@@ -180,7 +180,12 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                 }
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerFaceToFaceBatch.start ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method start in class EmailTriggerFaceToFaceBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
         return wrapperList;
@@ -191,7 +196,12 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
         try{
             EmailTriggerBatchHelper.sendEmailWithAttachment(records);
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerFaceToFaceBatch.execute ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method execute in class EmailTriggerFaceToFaceBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
     }
 

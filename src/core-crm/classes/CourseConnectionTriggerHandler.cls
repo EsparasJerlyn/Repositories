@@ -57,7 +57,11 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
       sendRegistrationConfirmEmail(newItems.keySet());
       sendWelcomeEmail(newItems.keySet());
     }catch(Exception e){
-      System.debug(LoggingLevel.DEBUG, 'An error has occurred. See error message: ' + e.getMessage());//NOPMD
+      Logger.error('Exception caught in method afterInsert in class CourseConnnectionTriggerHandler.').setExceptionDetails(e);
+    } finally {
+      if(Logger.getBufferSize() > 0) {
+        Logger.saveLog();
+      }
     }
     
       ESBIntegrateOnCourseConnectionUpsert.calloutToMDM((Map<Id, hed__Course_Enrollment__c>) newItems);
@@ -219,7 +223,12 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
 
       update programOfferList;
     } catch (Exception e) {
-      System.debug(LoggingLevel.DEBUG, e); //NOPMD
+      Logger.error('Exception caught in method updateCourseConnectionCounter in class CourseConnnectionTriggerHandler.')
+        .setExceptionDetails(e);
+    } finally {
+      if(Logger.getBufferSize() > 0) {
+        Logger.saveLog();
+      }
     }
   }
 
@@ -249,7 +258,12 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactsToSendWelcomeEmailSet);
       }
     }catch(Exception e){
-      System.debug(LoggingLevel.DEBUG, 'Sending of Welcome email failed, see error: ' + e.getMessage());//NOPMD
+      Logger.error('Exception caught in method sendWelcomeEmail in class CourseConnectionTriggerHandler.')
+        .setExceptionDetails(e);
+    } finally {
+      if(Logger.getBufferSize() > 0) {
+        Logger.saveLog();
+      }
     }
   }
 

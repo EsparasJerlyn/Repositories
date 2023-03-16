@@ -36,7 +36,6 @@ public with sharing class StudySSORegHandlerTest {
             insert contacts;
 
             User u = handler.createUser(null, data);
-            System.debug(LoggingLevel.DEBUG, u);//NOPMD
             System.assert(u !=null,'User must not be null');
             System.assertEquals(u.email, data.email,'Email address must be the same');
             System.assertEquals(u.lastName,data.LastName, 'First name must match');

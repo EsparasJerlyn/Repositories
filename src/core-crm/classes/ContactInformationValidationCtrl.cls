@@ -116,7 +116,6 @@ public with sharing class ContactInformationValidationCtrl {
         respStr = JSON.serialize(result);
         requestToValidate.result = (ResponseResult) JSON.deserialize(respStr, ResponseResult.class);
 
-        System.debug(LoggingLevel.DEBUG,'CALLOUT DATETIME: '+requestToValidate.transmissionDateTime);//NOPMD
         payloadList.addAll(requestToValidate.result.payload);
     }
 
@@ -145,8 +144,6 @@ public with sharing class ContactInformationValidationCtrl {
         }else{
             response = http.send(request);
         }
-        System.debug(LoggingLevel.DEBUG, 'HTTP REQUEST: '+payload);//NOPMD
-        System.debug(LoggingLevel.DEBUG, 'HTTP RESPONSE: '+response.getBody());//NOPMD
         if(response.getStatusCode() == 200) {
             return response.getBody();
         }else{
@@ -163,8 +160,10 @@ public with sharing class ContactInformationValidationCtrl {
         Database.DMLOptions dml = new Database.DMLOptions();
         dml.DuplicateRuleHeader.AllowSave = true;
         Database.SaveResult sr = Database.update(leadRecord, dml);
-        if(sr.isSuccess()) {
-            System.debug(LoggingLevel.DEBUG, 'Lead has been updated');//NOPMD
+        if(!sr.isSuccess()) {
+            Logger.error('Database update failed on method allowDmlWithDuplicates on class ContactInformationValidationCtrl.')
+            .setDatabaseResult(sr);
+            Logger.saveLog();
         }
     }
 

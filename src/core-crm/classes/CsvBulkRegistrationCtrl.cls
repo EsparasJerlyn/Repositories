@@ -43,7 +43,12 @@ public with sharing class CsvBulkRegistrationCtrl {
                     pageNo += 1;
                 }
             } catch (ConnectApi.ConnectApiException e) {                
-                System.debug(LoggingLevel.DEBUG, 'error on CsvBulkRegistrationCtrl.GetCMSContentDataByName'); //NOPMD
+                Logger.error('Exception "ConnectApiException" caught in method GetCMSContentDataByName in class CsvBlukRegistrationCtrl.')
+                    .setExceptionDetails(e);
+            } finally {
+                if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+                }
             }
             return returnList;
         }

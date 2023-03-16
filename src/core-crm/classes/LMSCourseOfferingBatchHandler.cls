@@ -46,7 +46,12 @@ public without sharing class LMSCourseOfferingBatchHandler implements Database.B
         try {
             System.scheduleBatch(new LMSCourseOfferingBatchHandler(), 'LMS Course Offering Batch Job', 5, 1);
         } catch(Exception e) {
-            System.debug(LoggingLevel.DEBUG, 'Error rescheduling LMSCourseOfferingBatchHandler: ' + e.getMessage());//NOPMD
+            Logger.error('Exception caught in method finish in class LMSCourseOfferingBatchHandler.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
     }
 

@@ -139,21 +139,23 @@ public class B2BRegisterInterestBatch implements Database.Batchable<sObject>
                     //make sure email is not null
                 }
             }
-
+            
+            String errorLocation = 'On method execute on class B2BRegisterInterestBatch: ';
+            Messaging.SendEmailResult[] results;
             if(!lstEmails.isEmpty()){
-                Messaging.SendEmailResult[] results = Messaging.sendEmail(lstEmails);
-                // To Check whether Email is sent or not
-                if (results[0].success) {
-                    System.debug(LoggingLevel.DEBUG,'The email was sent successfully.');//NOPMD
-                } else {
-                    System.debug(LoggingLevel.DEBUG,'The email failed to send: ' + results[0].errors[0].message);//NOPMD
-                }
-                // To Check whether Email is sent or not
-            }else{
-                System.debug(LoggingLevel.DEBUG,'No emails to be sent');//NOPMD
+                results = Messaging.sendEmail(lstEmails);
+            } else {
+                Logger.error(errorLocation + 'No emails to be sent.');
             }
-        }    
-    
+
+            if(!results[0].success) {
+                Logger.error(errorLocation + 'The email failed to send: ' + results[0].errors[0].message);
+            }
+            
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
     }  
     public void finish(Database.BatchableContext bc){}//NOPMD
 }

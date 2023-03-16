@@ -42,7 +42,12 @@ public without sharing class LMSCourseBatchHandler implements Database.Batchable
         try {
             System.scheduleBatch(new LMSCourseBatchHandler(), 'LMS Course Batch Job', 5, 1);
         } catch(Exception e) {
-            System.debug(LoggingLevel.DEBUG, 'Error rescheduling LMSCourseBatchHandler: ' + e.getMessage());//NOPMD
+            Logger.error('Exception caught in method finish in class LMSCourseBatchHandler.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
     }
 

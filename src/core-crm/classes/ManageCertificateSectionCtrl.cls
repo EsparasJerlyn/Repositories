@@ -351,8 +351,13 @@ public with sharing class ManageCertificateSectionCtrl {
                attach.setInline(true);
                attach.Body = emailContent;
           }catch(Exception e){
-               System.debug(LoggingLevel.DEBUG, 'Error: ' + e.getMessage());//NOPMD
+               Logger.error('Exception caught in method attachmentBuilder in class ManageCertificatSectionCtrl.')
+                    .setExceptionDetails(e);
                attach = new Messaging.EmailFileAttachment();
+          } finally {
+               if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+               }
           }
           
           return attach;

@@ -72,10 +72,7 @@ public without sharing class LMSIntegrationManager {
         if (!Test.isRunningTest()) {
             response = http.send(request);
         }
-
-        System.debug(LoggingLevel.DEBUG, 'HTTP REQUEST: ' + payload);//NOPMD
-        System.debug(LoggingLevel.DEBUG, 'HTTP RESPONSE: ' + response.getBody());//NOPMD
-
+        
         return response;
     }
   

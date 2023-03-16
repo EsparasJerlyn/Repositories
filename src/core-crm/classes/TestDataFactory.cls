@@ -1561,7 +1561,6 @@ public class TestDataFactory {
                 list<GroupMember> addPG = new List<GroupMember>{};
                 for(String i:addGroups){
                     List<String> res = i.split('%%');
-                    System.Debug(LoggingLevel.DEBUG, 'groupMap SPLIT res: '+res);//NOPMD
                     addPG.add(new GroupMember(
                         GroupId=groupMap.get(res[1])
                         ,UserOrGroupId=usermap.get(res[0])

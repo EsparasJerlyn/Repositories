@@ -292,25 +292,18 @@ public without sharing class SendNewOfferingNotificationHelper {
             }
         }
 
+        String errorLocation = 'On method sendOfferingNotification on class SendNewOfferingNewNotificationHelper: ';
         if (!lstEmails.isEmpty()) {
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(
-                lstEmails
-            );
-            // To Check whether Email is sent or not
-            if (results[0].success) {
-                System.debug(
-                    LoggingLevel.DEBUG,
-                    'The email was sent successfully.'
-                ); //NOPMD
-            } else {
-                System.debug(
-                    LoggingLevel.DEBUG,
-                    'The email failed to send: ' + results[0].errors[0].message
-                ); //NOPMD
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(lstEmails);
+            if(!results[0].success) {
+                Logger.error(errorLocation + 'The email failed to send: ' + results[0].errors[0].message);
             }
-            // To Check whether Email is sent or not
         } else {
-            System.debug(LoggingLevel.DEBUG, 'No emails to be sent'); //NOPMD
+            Logger.error(errorLocation + 'No emails to be sent.');
+        }
+
+        if(Logger.getBufferSize() > 0) {
+            Logger.saveLog();
         }
     }
 }

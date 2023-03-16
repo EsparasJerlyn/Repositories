@@ -30,7 +30,9 @@ public with sharing class ESBIntegrateOnCourseConnectionUpsert {
             } catch(Exception e) {
                 Logger.error('Callout Exception on Course Connection insert/update').setExceptionDetails(e).setHttpResponseDetails(response);
             } finally {
-                Logger.saveLog();
+                if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+                }
             }
         }
         
