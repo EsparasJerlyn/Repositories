@@ -26,7 +26,6 @@ public with sharing class RelatedProductsCtrl {
      public static List<ProductDetails> getProductsWithPricing(String recordId){  
            
           Set<Id> cceProductsSet = new Set<Id>();
-          List<ProductDetails> productDetails =  new List<ProductDetails>();
           List<BuyerGroupPriceBook> buyerGroupPriceBook2 = new List<BuyerGroupPriceBook>(
                [    
                     SELECT Id, Pricebook2Id 

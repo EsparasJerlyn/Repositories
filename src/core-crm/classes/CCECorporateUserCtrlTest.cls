@@ -69,7 +69,6 @@ public with sharing class CCECorporateUserCtrlTest {
             Contact contact = [SELECT Id FROM Contact LIMIT 1];
             Test.startTest();
             CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
-            String response;
             if(enableResponse.userId != null){
                 enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
             }

@@ -112,7 +112,7 @@ public with sharing class BuyerGroupToPublishBatchTest {
             Test.startTest();
 
             BuyerGroupToPublishBatch batch = new BuyerGroupToPublishBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             Test.stopTest();
 

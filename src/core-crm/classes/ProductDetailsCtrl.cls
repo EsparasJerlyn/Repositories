@@ -1534,9 +1534,6 @@ public without sharing class ProductDetailsCtrl {
 			ContentDocumentLink cdl;
 			Answer__c updateAnswer;
 			for (ContentVersion cv : newContentVersionList) {
-				String test = relatedAnswerToAnswerMap.get(
-					cvToRelatedAnswerMap.get(cv.Title)
-				);
 				cdl = new ContentDocumentLink(
 					ContentDocumentId = cv.ContentDocumentId,
 					LinkedEntityId = relatedAnswerToAnswerMap.get(

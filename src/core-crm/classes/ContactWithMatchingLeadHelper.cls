@@ -214,19 +214,19 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
         }
         if(!contactsToUpdate.isEmpty()){
-            Database.SaveResult[] sr = Database.update(contactsToUpdate, false);
+            Database.update(contactsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!marketingInteractionsToUpdate.isEmpty()){
-            Database.SaveResult[] sr = Database.update(marketingInteractionsToUpdate, false);
+            Database.update(marketingInteractionsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!marketingCourseAppsToUpdate.isEmpty()){
-            Database.SaveResult[] sr = Database.update(marketingCourseAppsToUpdate, false);
+            Database.update(marketingCourseAppsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!marketingSegmentationToInsert.isEmpty()){
-            Database.SaveResult[] sr = Database.insert(marketingSegmentationToInsert, false);
+            Database.insert(marketingSegmentationToInsert, false, AccessLevel.SYSTEM_MODE);
         }   
         if(!marketingSegmentationToUpdate.isEmpty()){
-            Database.SaveResult[] sr = Database.update(marketingSegmentationToUpdate, false);
+            Database.update(marketingSegmentationToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
     }
 
@@ -324,7 +324,7 @@ public without sharing class ContactWithMatchingLeadHelper {
             for(Id leadId : leadsToConvertMap.keySet()){
                 leadsToConvert.add(leadsToConvertMap.get(leadId));
             }
-            Database.LeadConvertResult[] leadConvertResult = Database.convertLead(leadsToConvert, false); 
+            Database.convertLead(leadsToConvert, false); 
         }
     }
 

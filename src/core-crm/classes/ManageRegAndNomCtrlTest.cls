@@ -62,7 +62,6 @@ public with sharing class ManageRegAndNomCtrlTest {
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
@@ -88,7 +87,6 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Status__c = 'Pending';
             eoi.Course_Offering__c = cList[0].Id;
             insert eoi;
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
             ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
@@ -105,7 +103,6 @@ public with sharing class ManageRegAndNomCtrlTest {
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){    
             Test.startTest();
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
             ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'InvalidStatus', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
@@ -119,7 +116,6 @@ public with sharing class ManageRegAndNomCtrlTest {
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){    
             Test.startTest();
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
             ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Pending', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
@@ -141,7 +137,6 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Status__c = 'Pending';
             eoi.Course_Offering__c = cList[0].Id;
             insert eoi;
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
             ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
@@ -161,7 +156,6 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Email__c = 'con@rec123.com';
             eoi.Status__c = 'Pending';
             insert eoi;
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
             ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
@@ -175,7 +169,6 @@ public with sharing class ManageRegAndNomCtrlTest {
     static void updateRegistrationStatusTest(){  
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             hed__Course_Enrollment__c learner = [SELECT Id FROM hed__Course_Enrollment__c WITH SECURITY_ENFORCED LIMIT 1];
             Test.startTest();
@@ -235,7 +228,6 @@ public with sharing class ManageRegAndNomCtrlTest {
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
 
             List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Name, hed__Course__c, IsActive__c, Program_Offering__c, Registration_End_Date__c, hed__Capacity__c FROM hed__Course_Offering__c WITH SECURITY_ENFORCED];
@@ -263,7 +255,6 @@ public with sharing class ManageRegAndNomCtrlTest {
         update bypass;
         final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
         System.runAs(PORTAL_SYS_ADMIN){     
-            Id adminAcctId = [SELECT Id FROM Account WHERE Name = 'test rec Administrative Account' WITH SECURITY_ENFORCED].Id;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
 
             List<hed__Course_Offering__c> courseOfferings = [SELECT Id, Name, hed__Course__c, IsActive__c, Program_Offering__c, Registration_End_Date__c, hed__Capacity__c FROM hed__Course_Offering__c];

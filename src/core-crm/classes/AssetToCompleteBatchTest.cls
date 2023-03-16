@@ -104,7 +104,7 @@ public with sharing class AssetToCompleteBatchTest {
             Test.startTest();
 
             AssetToCompleteBatch batch = new AssetToCompleteBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             Test.stopTest();
 

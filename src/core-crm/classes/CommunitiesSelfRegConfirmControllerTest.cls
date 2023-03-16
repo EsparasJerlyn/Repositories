@@ -4,6 +4,6 @@
 @isTest public with sharing class CommunitiesSelfRegConfirmControllerTest {
     @isTest public static void testCommunitiesSelfRegConfirmController() { //NOPMD
         // Instantiate a new controller with all parameters in the page
-        CommunitiesSelfRegConfirmController controller = new CommunitiesSelfRegConfirmController();
+        CommunitiesSelfRegConfirmController controller = new CommunitiesSelfRegConfirmController(); // NOPMD
       }    
 }

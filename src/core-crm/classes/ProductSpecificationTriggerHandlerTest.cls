@@ -63,7 +63,6 @@ public with sharing class ProductSpecificationTriggerHandlerTest {
         DmlException expectedException;
         Test.startTest();
             List<Product_Specification__c> psList = [SELECT Id, Name, Opportunity_Name__c FROM Product_Specification__c];
-            List<Contact> contacts = [Select Id, Name From Contact];
             List<Opportunity> opps = [Select Id, Name From Opportunity];
             for(Product_Specification__c ps : psList){
                 ps.Opportunity_Name__c = opps[0].Id;

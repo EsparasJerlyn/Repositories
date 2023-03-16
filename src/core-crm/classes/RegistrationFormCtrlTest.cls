@@ -475,7 +475,6 @@ public with sharing class RegistrationFormCtrlTest {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     Test.startTest();
     System.runAs(PORTAL_SYS_ADMIN) {
-      Profile p = [SELECT Id FROM Profile WHERE Name = 'Corporate Partner' LIMIT 1];
       Id buyerGroup = [SELECT Id FROM BuyerGroup WHERE Name = 'OPE BuyerGroup' LIMIT 1].Id;
 
       List<Account> accounts;

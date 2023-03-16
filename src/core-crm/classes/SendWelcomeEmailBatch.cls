@@ -27,7 +27,7 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
          * and active enrollment
          * is student
          */
-        Date sevenDaysBefore = Date.today() + 7; 
+        Date sevenDaysBefore = Date.today() + 7; //NOPMD Used in string below for dynamic query
         String query = 
         'SELECT Id, hed__Contact__c ' + 
         'FROM hed__Course_Enrollment__c ' + 

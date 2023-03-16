@@ -64,10 +64,12 @@ public without sharing class RegistrationFormCtrl {
         if(userList[0].Profile.Name == 'Corporate Partner'){
           
           //Assign account to the BuyerGroup Member
-          Id assignBuyerGroupMember = createAdministrativeAccount( opeBuyerGroup[0].Id, 
-                                                                   userList[0].AccountId, 
-                                                                   userList[0].LastName, 
-                                                                   userList[0].FirstName);
+          createAdministrativeAccount(
+            opeBuyerGroup[0].Id, 
+            userList[0].AccountId, 
+            userList[0].LastName, 
+            userList[0].FirstName
+          );
         }
       }
       return userList;
@@ -521,7 +523,6 @@ public without sharing class RegistrationFormCtrl {
     RegistrationDataWrapper registrationData
   ) {
     //Query Ecommerece Learner Profile
-    String userId;
     String invalidChar = '[^0-9]';
     datetime myDate = datetime.now();
     String retURL;

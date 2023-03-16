@@ -404,7 +404,7 @@ public without sharing class ProductCtrl{
 
 		//Checks if Search Key is Empty
 		if (String.isNotEmpty(filterData.searchKey)){
-			String key = '%' + filterData.searchKey + '%';
+			String key = '%' + filterData.searchKey + '%'; // NOPMD
 			filterProductsQuery += ' AND (Name LIKE :key OR Description LIKE :key )';
 		}
 
@@ -866,10 +866,6 @@ public without sharing class ProductCtrl{
 		List<BuyerGroupPricebook>  bgpbList = new List<BuyerGroupPricebook>();
 		List<Asset> checkCBPublished = new List<Asset>();
 
-		String standardPriceBook = 'Standard Price Book';
-		String earlyBirdPricebook = 'Early Bird';
-		String freePricebook = 'Free';
-
 		Map<Id, Product_Request__c> productRequestList = new Map<Id, Product_Request__c>([
 			SELECT Id FROM Product_Request__c WHERE Product_Specification__c =: acctFilterDataWrapper.prodSpecId WITH SECURITY_ENFORCED
 		]);
@@ -1102,7 +1098,7 @@ public without sharing class ProductCtrl{
 			}
             //Checks if Search Key is Empty
             if(keyword != ''){
-                String key = '%' + keyword + '%';
+                String key = '%' + keyword + '%'; // NOPMD
                 getQuery += ' AND (Name LIKE :key OR Description LIKE :key )';
             }
 

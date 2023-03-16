@@ -108,7 +108,7 @@ public with sharing class BuyerGroupToCompleteBatchTest {
             Test.startTest();
 
             BuyerGroupToCompleteBatch batch = new BuyerGroupToCompleteBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             Test.stopTest();
 

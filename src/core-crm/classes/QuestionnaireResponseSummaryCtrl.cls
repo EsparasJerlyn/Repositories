@@ -119,9 +119,6 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
   @AuraEnabled(cacheable=false)
   public static void updateApplicationStatus(String qrsId, String qrsStatus, String reasonForRejection) {
     if (String.isNotBlank(qrsId)) {
-
-      Id cartDeliveryGroupId;
-
       List<Questionnaire_Response_Summary__c> qrs = [
         SELECT Id, Application_Status__c, Contact__c, 
         Contact__r.Registered_Email__c, Contact__r.Name,
@@ -165,12 +162,7 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
         //Cart_Payment__c updateCartPayment = new Cart_Payment__c(Id = cartPayment.Id, Payment_Status__c ='Aprroved');
         //update cart payment to invoiced after it has webcart and cartitems
         //update updateCartPayment;
-
-        Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-
-        String communityUrl = storeLinkSettings.Study_Store_Link__c != null?String.valueOf(storeLinkSettings.Study_Store_Link__c):'';
-
-
+        
         qrs[0].Payment_URL__c = paymentGatewayURLBuilder([Select Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c,
                                                     qrs[0].Contact__r.Registered_Email__c,
                                                     qrs[0].Contact__r.Name,

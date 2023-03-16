@@ -30,7 +30,6 @@ public without sharing class SendNewOfferingNotificationHelper {
         //final set of interest for notifcation
         Set<Id> interestEmailRecipientsSet = new Set<Id>();
 
-        Date today = System.today();
         DateTime dt = System.Now().addHours(-24);
 
         //get all expression of interests related to the course of the newly created offering
