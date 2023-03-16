@@ -11,6 +11,7 @@
       | julie.jane.alegre         | September 13, 2022    | DEPP-4270            | Created file                                 |
       | marygrace.li              | September 24, 2022    | DEPP-4414            | Customized user profile menu and logout      |
       | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
+      | eugene.andrew.abuan       | March 02, 2023        | DEPP-5266            | Added null checker for wiredContact          |
 */
 
 import { LightningElement, wire } from "lwc";
@@ -43,8 +44,8 @@ export default class CceLogout extends NavigationMixin(LightningElement) {
     @wire(getRecord, { recordId: userId, fields: CONTACT_FIELDS })
     wiredContact({ data }) {
         if(data){
-            this.firstName = data.fields.Contact.value.fields.FirstName.value;
-            this.lastName = data.fields.Contact.value.fields.LastName.value;
+            this.firstName = data.fields.Contact.value == null ? '' : data.fields.Contact.value.fields.FirstName.value;
+            this.lastName = data.fields.Contact.value == null ? '' : data.fields.Contact.value.fields.LastName.value;
             let contactName = this.firstName + ' ' + this.lastName;
 
             sessionStorage.setItem(STORED_CONTACTNAME,contactName);
