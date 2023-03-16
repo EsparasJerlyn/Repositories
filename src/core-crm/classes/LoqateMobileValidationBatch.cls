@@ -228,8 +228,7 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
      *
      * @param param1 The batch context.
      */
-    public void finish(Database.BatchableContext param1) {
-    }
+    public void finish(Database.BatchableContext param1) {}//NOPMD
 
 
     //for callout response

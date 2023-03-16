@@ -710,9 +710,9 @@ public without sharing class ProductCtrl{
 						continue;
 					}
 
-					if((filterData.minUnitPrice == null || filterData.minUnitPrice == 0) && (filterData.maxUnitPrice == null || (filterData.maxUnitPrice != null && filterData.maxUnitPrice >= 0))){//only include flexible product if min price is null or 0, and max price is null
-						//proceed
-					}else{
+					//do not include flexible product if min price is null or 0, and max price is null
+					if(!((filterData.minUnitPrice == null || filterData.minUnitPrice == 0) 
+						&& (filterData.maxUnitPrice == null || (filterData.maxUnitPrice != null && filterData.maxUnitPrice >= 0)))){
 						continue;
 					}
 				}else{

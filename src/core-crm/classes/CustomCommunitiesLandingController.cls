@@ -26,6 +26,6 @@ public with sharing class CustomCommunitiesLandingController {
         }   
     }
 
-     public CustomCommunitiesLandingController() {}
+     public CustomCommunitiesLandingController() {}//NOPMD
 
 }

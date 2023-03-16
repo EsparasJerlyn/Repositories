@@ -4,7 +4,7 @@
 public with sharing class ForgotPasswordController {
     public String username {get; set;}   
        
-    public ForgotPasswordController() {}
+    public ForgotPasswordController() {}//NOPMD
 	
   	public PageReference forgotPassword() {
   		boolean success = Site.forgotPassword(username);
