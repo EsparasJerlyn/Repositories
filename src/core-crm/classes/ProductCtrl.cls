@@ -20,6 +20,8 @@
  | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product list  |
  | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic        |
  | mary.grace.li             | December  21, 2022    | DEPP-4878            | Added product full detail url for SEO      |
+ | eugene.andrew.abuan       | February 28, 2023     | DEPP-5285 			| moved assestList in 
+ | eugene.andrew.abuan       | March 02, 2023        | DEPP-5266            | Added if condition in getProductsByCategory|
 
  */
 public without sharing class ProductCtrl{
@@ -900,13 +902,17 @@ public without sharing class ProductCtrl{
 			];
 		}
 		// Get Product Category Name
+        ProductCategoryProduct catName = new ProductCategoryProduct();
+        if(acctFilterDataWrapper.categoryId != null){
+             catName = [
+                SELECT Id, ProductCategory.Name, ProductId, ProductCategoryId
+                FROM ProductCategoryProduct
+                 WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
+                LIMIT 1
+            ];
+        }
 		String pbeName;
-		ProductCategoryProduct catName = [
-			SELECT Id, ProductCategory.Name, ProductId, ProductCategoryId
-			FROM ProductCategoryProduct
-			 WHERE ProductCategoryId = :acctFilterDataWrapper.categoryId
-			LIMIT 1
-		];
+
 		if(catName.ProductCategory.Name == 'Corporate Bundle'){
 			pbeName = 'Corporate Bundle%';
 		} else if(catName.ProductCategory.Name == 'QUTeX Learning Solutions'){
@@ -1007,7 +1013,6 @@ public without sharing class ProductCtrl{
 		if(!checkCBPublished.isEmpty() && catName.ProductCategory.Name == 'Corporate Bundle'){
 
 			isCBPublished = true;
-			prodData.assetList = checkCBPublished;
 
 			List<Associated_Products__c> getPublishedCB = [
 				SELECT Id, Name, Product_Request__r.Product_Request_Status__c, IsActive__c, Product__r.Name, Product__r.Id, Product__r.Product_Category__c
@@ -1038,15 +1043,17 @@ public without sharing class ProductCtrl{
 				SELECT Id, Name, Product_Request__r.Product_Request_Status__c, IsActive__c, Product__r.Name, Product__r.Id, Product__r.Product_Category__c
 				FROM Associated_Products__c
 				WHERE Product_Request__r.Product_Request_Status__c = 'Published' 
-				AND Product__r.Id IN :prodIds
 				AND Product_Request__r.Id =: bgpbList[0].BuyerGroup.Product_Request__c
 				AND Product_Request__r.RecordType.Name = 'Standing Offer Arrangement'
-				AND IsActive__c = true
 			];
 			Set<String> prodSOAIds = new Set<String>();
 			prodSOAIds = prodIdsCCE;
 			for(Associated_Products__c getIds : getPublishedSOA){
-				prodSOAIds.add(getIds.Product__r.Id);
+				if(getIds.IsActive__c == true){
+					prodSOAIds.add(getIds.Product__r.Id);
+				}else{
+					prodSOAIds.remove(getIds.Product__r.Id);
+				}
 			}
 
 		} else if(catName.ProductCategory.Name == 'Tailored Executive Education' || catName.ProductCategory.Name == 'Tailored Executive Program'){
@@ -1234,6 +1241,7 @@ public without sharing class ProductCtrl{
 
 	//Set values to wrapper
 	prodData.productList = prodWrapperList;
+	prodData.assetList = checkCBPublished;
 	return prodData;
 	}
 

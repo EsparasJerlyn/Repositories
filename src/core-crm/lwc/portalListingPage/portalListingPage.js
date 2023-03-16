@@ -14,6 +14,7 @@
 	  | keno.domienri.dico		  | September 28, 2022	  | DEPP-4459 & 4461	 | Remove Product Type Grouping and added search filter	  |
 	  | julie.jane.alegre         | December  12, 2022    | DEPP-4667            | Add Corporate Bundle info in product listing page      |
 	  | mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic                    |
+	  | eugene.andrew.abuan		  | February 28, 2023	  | DEPP-5285		     | Added checking for Assets and prodSpecs for CB		  |
  */
 
 	  import { LightningElement ,wire, track, api} from 'lwc';
@@ -171,10 +172,12 @@
 					}
 				});
 				options.sort((a,b)=>a.label.localeCompare(b.label));
-				this.prodSpecList = options;
-				this.prodSpecValue = options[0].value;
-				this.prodSpecId = this.prodSpecValue;
-				this.setParameters();
+				if(options.length){
+					this.prodSpecList = options;
+					this.prodSpecValue = options[0].value;
+					this.prodSpecId = this.prodSpecValue;
+					this.setParameters();
+				}
 			}    
 		}
 

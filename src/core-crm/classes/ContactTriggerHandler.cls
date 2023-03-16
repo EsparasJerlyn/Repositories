@@ -55,6 +55,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     // anywhere on the organization.
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems, null);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems);
+    setContactOwner((List<Contact>)newItems);
   }
 
   /**
@@ -213,7 +214,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
   private void createChildMCPersona(List<Contact> newContacts){
         List<Contact> childContacts = new List<Contact>();
-        Id sysAdUserId = [Select Id from User Where Name = 'Sys Admin Integration User' limit 1].Id;
 
         for(Contact con: newContacts){
             if(con.RecordTypeId == PERSON){
@@ -226,8 +226,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
                                                   Email_Opt_Out_DateTime__c = con.Work_Email_Opt_Out_DateTime__c,
                                                   Email_Opt_In_DateTime__c = con.Work_Email_Opt_In_DateTime__c,
                                                   Parent_Person_Contact__c = con.Id,
-                                                  Persona_Type__c = 'Work',
-                                                  OwnerId=sysAdUserId);
+                                                  Persona_Type__c = 'Work');
                     childContacts.add(conWork);
                 }
                 if(!String.isBlank(con.QUT_Learner_Email__c)){
@@ -239,8 +238,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
                                                      Email_Opt_Out_DateTime__c = con.Learner_Email_Opt_Out_DateTime__c,
                                                      Email_Opt_In_DateTime__c = con.Learner_Email_Opt_In_DateTime__c,
                                                      Parent_Person_Contact__c = con.Id,
-                                                     Persona_Type__c = 'QUT Learner',
-                                                     OwnerId=sysAdUserId);
+                                                     Persona_Type__c = 'QUT Learner');
                     childContacts.add(conLearner);
                 }
 
@@ -253,15 +251,14 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
                                                    Email_Opt_Out_DateTime__c = con.Staff_Email_Opt_Out_DateTime__c,
                                                    Email_Opt_In_DateTime__c = con.Staff_Email_Opt_In_DateTime__c,
                                                    Parent_Person_Contact__c = con.Id,
-                                                   Persona_Type__c = 'QUT Staff',
-                                                   OwnerId=sysAdUserId);
+                                                   Persona_Type__c = 'QUT Staff');
                     childContacts.add(conStaff);
                 }
             }
         }
 
         List<Database.SaveResult> insertResults = new List<Database.SaveResult>();
-        if(Schema.sObjectType.Contact.isCreateable()){
+        if(Schema.sObjectType.Contact.isCreateable() && !childContacts.isEmpty() ){
           insertResults = Database.insert(childContacts, false);
         }
         for (Database.SaveResult result : insertResults){
@@ -291,20 +288,38 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
 
       List<Contact> contactsToUpdate = new List<Contact>();
-      User u = new User();
+
+      Id sysAdIntegUserId;
+      User currentUser;
+      Id currentUserId = UserInfo.getUserId();
+
+      List<User> listOfOwners = new List<User>();
+
       if(Schema.sObjectType.User.isAccessible()){
-        u = [Select Id, Contact.hed__Primary_Organization__r.OwnerId, Profile.Name from User where id = :UserInfo.getUserId() LIMIT 1];
+        //query once, get current user and syss admin integration user id
+        for(User u: [ SELECT Id, Name, Contact.hed__Primary_Organization__r.OwnerId, Profile.Name
+                      FROM User 
+                      WHERE Id = :currentUserId 
+                      OR Name = 'Sys Admin Integration User']){
+          if(u.Id == currentUserId){
+            currentUser = u;
+          }else if(u.Name == 'Sys Admin Integration User'){
+            sysAdIntegUserId = u.Id;
+          }
+        }
       }
-  
+
       for (Contact c : contacts) {
-        if( u != null && u.Profile.Name == 'Corporate Partner' && c.RecordTypeId != MC_PERSONA){
-            contactsToUpdate.add(new Contact(Id = c.Id, OwnerId = u.Contact.hed__Primary_Organization__r.OwnerId));
+        if(c.Id == null && c.RecordtypeId == MC_PERSONA){//before insert and is mc persona
+            c.OwnerId = sysAdIntegUserId;
+        }else if(c.Id != null && currentUser.Profile.Name == 'Corporate Partner'){ //after insert and current user is corporate partner
+            contactsToUpdate.add(new Contact(Id = c.Id, OwnerId = currentUser.Contact.hed__Primary_Organization__r.OwnerId));
         }
       }
 
       List<Database.SaveResult> updateResults = new List<Database.SaveResult>();
 
-      if(Schema.sObjectType.Contact.isUpdateable()){
+      if(Schema.sObjectType.Contact.isUpdateable() && !contactsToUpdate.isEmpty()){
         updateResults = Database.update(contactsToUpdate, false);
       }
       
