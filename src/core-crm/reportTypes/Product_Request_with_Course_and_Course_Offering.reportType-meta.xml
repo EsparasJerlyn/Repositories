@@ -123,6 +123,11 @@
             <field>Unit_Module_Name__c</field>
             <table>Product_Request__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product_Specification__c.RecordType.DeveloperName</field>
+            <table>Product_Request__c</table>
+        </columns>
         <masterLabel>Product Requests</masterLabel>
     </sections>
     <sections>
