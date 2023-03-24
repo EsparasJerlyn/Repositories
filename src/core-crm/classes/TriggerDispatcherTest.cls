@@ -1,65 +1,87 @@
 @SuppressWarnings('sf:CommentRequired, sf:MethodNamingConventions')
 @isTest
 private class TriggerDispatcherTest {
+    @testSetup
+    static void setupMethod() {
+        TestDataFactory.generateTestUsers();
+    }
 
     @isTest static void should_dispatch_beforeInsert_event() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_INSERT);
-        System.assert(handler.beforeInsertCalled, 'Before insert should have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_INSERT);
+            System.assert(handler.beforeInsertCalled, 'Before insert should have been called');
+        }
     }
 
     @isTest static void should_dispatch_beforeUpdate_event() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_UPDATE);
-        System.assert(handler.beforeUpdateCalled, 'Before update should have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_UPDATE);
+            System.assert(handler.beforeUpdateCalled, 'Before update should have been called');
+        }
     }
 
     @isTest static void should_dispatch_beforeDelete_event() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_DELETE);
-        System.assert(handler.beforeDeleteCalled, 'Before delete should have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_DELETE);
+            System.assert(handler.beforeDeleteCalled, 'Before delete should have been called');
+        }
     }
 
     @isTest static void should_dispatch_afterInsert_event() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_INSERT);
-        System.assert(handler.afterInsertCalled, 'After insert should have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_INSERT);
+            System.assert(handler.afterInsertCalled, 'After insert should have been called');
+        }
     }
 
     @isTest static void should_dispatch_afterUpdate_event() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_UPDATE);
-        System.assert(handler.afterUpdateCalled, 'After update should have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_UPDATE);
+            System.assert(handler.afterUpdateCalled, 'After update should have been called');
+        }
     }
 
     @isTest static void should_dispatch_afterDelete_event() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_DELETE);
-        System.assert(handler.afterDeleteCalled, 'After delete should have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_DELETE);
+            System.assert(handler.afterDeleteCalled, 'After delete should have been called');
+        }
     }
 
     @isTest static void should_dispatch_afterUndelete_event() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_UNDELETE);
-        System.assert(handler.afterUndeleteCalled, 'After Undelete should have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            TriggerDispatcher.dispatch(handler, TriggerOperation.AFTER_UNDELETE);
+            System.assert(handler.afterUndeleteCalled, 'After Undelete should have been called');
+        }
     }
 
     @isTest static void should_bypass_a_disabled_handler() {
-        final MockTriggerHandler handler = new MockTriggerHandler();
-        handler.isDisabled = true;
-        TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_INSERT);
-        System.assert(!handler.beforeInsertCalled, 'Before Insert should not have been called');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler = new MockTriggerHandler();
+            handler.isDisabled = true;
+            TriggerDispatcher.dispatch(handler, TriggerOperation.BEFORE_INSERT);
+            System.assert(!handler.beforeInsertCalled, 'Before Insert should not have been called');
+        }
     }
 
     @isTest static void should_dispatch_events_to_multiple_handlers() {
-        final MockTriggerHandler handler1 = new MockTriggerHandler();
-        final MockTriggerHandler handler2 = new MockTriggerHandler();
-        final List<Object> handlers = new List<Object>();
-        handlers.add(handler1);
-        handlers.add(handler2);
-        TriggerDispatcher.dispatch(handlers, TriggerOperation.AFTER_INSERT);
-        System.assert(handler1.afterInsertCalled, 'After Insert should have been called in a multiple handler scenario');
-        System.assert(handler2.afterInsertCalled, 'After Insert should have been called in a multiple handler scenario');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            final MockTriggerHandler handler1 = new MockTriggerHandler();
+            final MockTriggerHandler handler2 = new MockTriggerHandler();
+            final List<Object> handlers = new List<Object>();
+            handlers.add(handler1);
+            handlers.add(handler2);
+            TriggerDispatcher.dispatch(handlers, TriggerOperation.AFTER_INSERT);
+            System.assert(handler1.afterInsertCalled, 'After Insert should have been called in a multiple handler scenario');
+            System.assert(handler2.afterInsertCalled, 'After Insert should have been called in a multiple handler scenario');
+        }
     }
 
 

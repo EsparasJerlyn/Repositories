@@ -17,9 +17,9 @@ public with sharing class GroupBookingFormCtrlTest {
 
   @testSetup
   static void setupMethod() {
-    //create account
-    
+
     TestDataFactory.generateTestUsers();
+    //create account
     Test.startTest();
     User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
     List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -322,100 +322,107 @@ public with sharing class GroupBookingFormCtrlTest {
 
   @isTest
   static void saveBookingTest(){
+    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+      Test.startTest();
+      Contact newContact = new Contact(
+        Email ='testemail12@email.com', 
+        FirstName ='tetfirstnam2e', 
+        lastname ='lastnametes2tda', 
+        Birthdate = Date.Today().addYears(-15),
+        hed__AlternateEmail__c = 'testemail12@email.com',
+        hed__Preferred_Email__c = 'Alternate Email'
+      );
+      insert newContact;
 
-    Test.startTest();
-    Contact newContact = new Contact(
-      Email ='testemail12@email.com', 
-      FirstName ='tetfirstnam2e', 
-      lastname ='lastnametes2tda', 
-      Birthdate = Date.Today().addYears(-15),
-      hed__AlternateEmail__c = 'testemail12@email.com',
-      hed__Preferred_Email__c = 'Alternate Email'
-    );
-    insert newContact;
+      Contact newContact1 = new Contact(  
+        Registered_Email__c ='testemail@email1.com', 
+        FirstName ='tetfirstname', 
+        lastname ='lastnametestda', 
+        Birthdate = Date.Today().addYears(-15),
+        hed__AlternateEmail__c = 'testemail@email1.com',
+        hed__Preferred_Email__c = 'Alternate Email'
+      );
 
-    Contact newContact1 = new Contact(  
-      Registered_Email__c ='testemail@email1.com', 
-      FirstName ='tetfirstname', 
-      lastname ='lastnametestda', 
-      Birthdate = Date.Today().addYears(-15),
-      hed__AlternateEmail__c = 'testemail@email1.com',
-      hed__Preferred_Email__c = 'Alternate Email'
-    );
+      Map<String,Contact> participantsMap = new Map<String, Contact>();
+      GroupBookingFormCtrl.FileUpload fileLoad = new GroupBookingFormCtrl.FileUpload();
+      List<GroupBookingFormCtrl.FileUpload> fileLoadList = new List<GroupBookingFormCtrl.FileUpload>();
+      Map<String,String> fileUploadMap = new Map<String,String>();
+      participantsMap.put('PARTICIPANT 1',newContact1);
 
-    Map<String,Contact> participantsMap = new Map<String, Contact>();
-    GroupBookingFormCtrl.FileUpload fileLoad = new GroupBookingFormCtrl.FileUpload();
-    List<GroupBookingFormCtrl.FileUpload> fileLoadList = new List<GroupBookingFormCtrl.FileUpload>();
-    Map<String,String> fileUploadMap = new Map<String,String>();
-    participantsMap.put('PARTICIPANT 1',newContact1);
+      String courseOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
+      List<Related_Answer__c> relatedAnswerList = [SELECT Id,Questionnaire__c FROM Related_Answer__c LIMIT 2];
+      Map<String,List<Answer__c>> answerMap = new Map<String,List<Answer__c>>();
+      List<Answer__c> answerList = new List<Answer__c>();
+      Answer__c newAnswer;
+      for(Related_Answer__c relatedA: relatedAnswerList){
+          newAnswer = new Answer__c(
+                  Response__c = relatedA.Id,
+                  Related_Answer__c = relatedA.Id
+          );
+          answerList.add(newAnswer);
 
-    String courseOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-    List<Related_Answer__c> relatedAnswerList = [SELECT Id,Questionnaire__c FROM Related_Answer__c LIMIT 2];
-    Map<String,List<Answer__c>> answerMap = new Map<String,List<Answer__c>>();
-    List<Answer__c> answerList = new List<Answer__c>();
-    Answer__c newAnswer;
-    for(Related_Answer__c relatedA: relatedAnswerList){
-        newAnswer = new Answer__c(
-                Response__c = relatedA.Id,
-                Related_Answer__c = relatedA.Id
-        );
-        answerList.add(newAnswer);
+          fileLoad = new GroupBookingFormCtrl.FileUpload();
+          fileLoad.Base64 = 'Test Content';
+          fileLoad.FileName = relatedA.Id;
+          fileLoad.RelatedAnswerId = relatedA.Id;
+          fileLoadList.add(fileLoad);
+      }
+      answerMap.put('PARTICIPANT 1', answerList);
+      fileUploadMap.put('PARTICIPANT 1',JSON.serialize(fileLoadList));
 
-        fileLoad = new GroupBookingFormCtrl.FileUpload();
-        fileLoad.Base64 = 'Test Content';
-        fileLoad.FileName = relatedA.Id;
-        fileLoad.RelatedAnswerId = relatedA.Id;
-        fileLoadList.add(fileLoad);
+      
+
+      GroupBookingFormCtrl.saveBooking(participantsMap,courseOfferingId, relatedAnswerList,answerMap,fileUploadMap,false);
+
+      Test.stopTest();
+
+      System.assert(![SELECT Id FROM Contact LIMIT 1].isEmpty(),'No contact created');
     }
-    answerMap.put('PARTICIPANT 1', answerList);
-    fileUploadMap.put('PARTICIPANT 1',JSON.serialize(fileLoadList));
-
-    
-
-    GroupBookingFormCtrl.saveBooking(participantsMap,courseOfferingId, relatedAnswerList,answerMap,fileUploadMap,false);
-
-    Test.stopTest();
-
-    System.assert(![SELECT Id FROM Contact LIMIT 1].isEmpty(),'No contact created');
   }
 
   @isTest
   static void addCartItemsTest(){
-    Product2 product = [SELECT Id, Name FROM Product2 LIMIT 1];
-    hed__Course_Offering__c offering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
-    PricebookEntry pbEntry = [SELECT Id, UnitPrice FROM PricebookEntry Limit 1];
-    WebCart cart = [SELECT Id, OwnerId FROM WebCart WHERE Status = 'Active' LIMIT 1];
-    List<Contact> contacts = [SELECT Id FROM Contact LIMIT 2];
+    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+      Product2 product = [SELECT Id, Name FROM Product2 LIMIT 1];
+      hed__Course_Offering__c offering = [SELECT Id FROM hed__Course_Offering__c LIMIT 1];
+      PricebookEntry pbEntry = [SELECT Id, UnitPrice FROM PricebookEntry Limit 1];
+      WebCart cart = [SELECT Id, OwnerId FROM WebCart WHERE Status = 'Active' LIMIT 1];
+      List<Contact> contacts = [SELECT Id FROM Contact LIMIT 2];
 
-    Test.startTest();
+      Test.startTest();
 
-    GroupBookingFormCtrl.addCartItems(product.Id,product.Name, false,offering.Id ,pbEntry.Id,pbEntry.UnitPrice,cart.OwnerId,contacts,cart.Id);
+      GroupBookingFormCtrl.addCartItems(product.Id,product.Name, false,offering.Id ,pbEntry.Id,pbEntry.UnitPrice,cart.OwnerId,contacts,cart.Id);
 
-    Test.stopTest();
-    System.assert(![SELECT Id FROM CartItem WHERE Contact__c =: contacts[0].Id].isEmpty(),'no cartitems linked to contact created');
+      Test.stopTest();
+      System.assert(![SELECT Id FROM CartItem WHERE Contact__c =: contacts[0].Id].isEmpty(),'no cartitems linked to contact created');
+    }
   }
 
 
   @isTest
   static void removeCartItemsTest(){
-    CartItem cartItem = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Cart.Status = 'Active' LIMIT 1];
-    Id ownerId = cartItem.Cart.OwnerId;
-    Id cartItemId = cartItem.Id;
-    Test.startTest();
+    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+      CartItem cartItem = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Cart.Status = 'Active' LIMIT 1];
+      Id ownerId = cartItem.Cart.OwnerId;
+      Id cartItemId = cartItem.Id;
+      Test.startTest();
 
-    GroupBookingFormCtrl.removeCartItems(ownerId);
+      GroupBookingFormCtrl.removeCartItems(ownerId);
 
-    Test.stopTest();
-    List<CartItem> deletedCartItems = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Id=: cartItemId];
-    System.assert(deletedCartItems.isEmpty(),'no cartitems deleted');
+      Test.stopTest();
+      List<CartItem> deletedCartItems = [SELECT Id, Cart.OwnerId FROM CartItem WHERE Id=: cartItemId];
+      System.assert(deletedCartItems.isEmpty(),'no cartitems deleted');
+    }
   }
 
   @isTest
   static void getAvailableSeatsTest(){
-    String courseOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
-    Test.startTest();
-    Decimal availableSeats = GroupBookingFormCtrl.getAvailableSeats(courseOfferingId, false);
-    Test.stopTest();
-    System.assert(availableSeats > 0,'No available seats');
+    System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+      String courseOfferingId = [SELECT Id FROM hed__Course_Offering__c LIMIT 1].Id;
+      Test.startTest();
+      Decimal availableSeats = GroupBookingFormCtrl.getAvailableSeats(courseOfferingId, false);
+      Test.stopTest();
+      System.assert(availableSeats > 0,'No available seats');
+    }
   }
 }

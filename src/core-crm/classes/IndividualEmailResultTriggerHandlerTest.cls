@@ -14,37 +14,45 @@
 
 @isTest
 public without sharing class IndividualEmailResultTriggerHandlerTest {
+    @testSetup static void setup() {
+        // Generate test users.
+        TestDataFactory.generateTestUsers();
+    }
 
     @isTest
     public static void testInsertIER() {
-        Test.startTest();
-        et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
-        insert sendDefinition;
+        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+            Test.startTest();
+            et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
+            insert sendDefinition;
 
-        et4ae5__IndividualEmailResult__c individualEmailResult = new et4ae5__IndividualEmailResult__c();
-        individualEmailResult.Name = 'Test';
-        individualEmailResult.et4ae5__SendDefinition__c = sendDefinition.Id;
-        Database.SaveResult saveResult =  Database.insert(individualEmailResult);
-        Test.stopTest();
-        System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
+            et4ae5__IndividualEmailResult__c individualEmailResult = new et4ae5__IndividualEmailResult__c();
+            individualEmailResult.Name = 'Test';
+            individualEmailResult.et4ae5__SendDefinition__c = sendDefinition.Id;
+            Database.SaveResult saveResult =  Database.insert(individualEmailResult);
+            Test.stopTest();
+            System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
+        }
     }
 
     @isTest
     public static void testUpdateIER() {
-        et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
-        insert sendDefinition;
+        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+            et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
+            insert sendDefinition;
 
-        et4ae5__IndividualEmailResult__c individualEmailResult = new et4ae5__IndividualEmailResult__c();
-        individualEmailResult.Name = 'Test';
-        individualEmailResult.et4ae5__SendDefinition__c = sendDefinition.Id;
-        insert individualEmailResult;
+            et4ae5__IndividualEmailResult__c individualEmailResult = new et4ae5__IndividualEmailResult__c();
+            individualEmailResult.Name = 'Test';
+            individualEmailResult.et4ae5__SendDefinition__c = sendDefinition.Id;
+            insert individualEmailResult;
 
-        Test.startTest();
-		List<et4ae5__IndividualEmailResult__c> IER = [SELECT Id FROM et4ae5__IndividualEmailResult__c];
-        Database.SaveResult[] saveResultList = Database.update(IER);
-        Test.stopTest();
-        for(Database.SaveResult saveResult : saveResultList) {
-            System.assert(saveResult.isSuccess(), 'A record was not successfully updated.');
+            Test.startTest();
+            List<et4ae5__IndividualEmailResult__c> IER = [SELECT Id FROM et4ae5__IndividualEmailResult__c];
+            Database.SaveResult[] saveResultList = Database.update(IER);
+            Test.stopTest();
+            for(Database.SaveResult saveResult : saveResultList) {
+                System.assert(saveResult.isSuccess(), 'A record was not successfully updated.');
+            }
         }
     }
 }
