@@ -11,6 +11,8 @@
       | angelika.j.s.galang       | September 3, 2021     | DEP1-156     | Created file                                                | 
       | angelika.j.s.galang       | September 8, 2021     | DEP1-157,172 | Added error message for conversion and validation handler   | 
       | kathy.cornejo             | May 31, 2022          | DEPP-2729    | Pilot 1 Optimisations                                       | 
+      | eccarius.munoz            | March 28, 2023        | DEPP-5325    | Updated for Contact Layout only. Transferred under Contact  |                                       
+      |                           |                       |              | Details Tab. Same functionality, changes are for UI only.   |
       
  */
 
@@ -18,6 +20,9 @@ import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { publish, MessageContext } from 'lightning/messageService';
+import { loadStyle } from "lightning/platformResourceLoader";
+
+import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import STATUSES_CHANNEL from '@salesforce/messageChannel/StatusesMessageChannel__c';
 import LEAD_SCHEMA from '@salesforce/schema/Lead';
 import LWC_Error_General from '@salesforce/label/c.LWC_Error_General';
@@ -32,6 +37,7 @@ const STR_AU = 'Australia (+61)';
 const STR_NZ = 'New Zealand (+64)';
 const FIELD_MAPPING_API_NAME = 'Field_Mapping__c';
 const VALID_STATUSES = [STR_VALID.toUpperCase(),'Active','connected|Network confirmed connection'];
+const SECTION_TITLE = 'CONTACT VERIFICATION';
 const LOCALE_MAP = {
     [STR_AU] : 'AU',
     [STR_NZ] : 'NZ'
@@ -45,11 +51,11 @@ export default class ContactInformationValidation extends LightningElement {
     fieldsToValidate = [];
     isLoading;
     disableEditButton;
-    
+
     /**
      * getter for UI properties
      */
-     get disableValidateButton(){
+    get disableValidateButton(){
         return this.fieldsToValidate.length == 0 ? true : false;
     }
 
@@ -60,13 +66,25 @@ export default class ContactInformationValidation extends LightningElement {
     }
 
     get fieldSize(){
-        return this.disableEditButton ? '4' : '8';
+        return this.disableEditButton ? '4' : '6';
+    }
+
+    get statusFieldSize(){
+        return this.disableEditButton ? '4' : '6';
+    }
+
+    get statusBorderBottomClass(){
+        return this.disableEditButton ? '' : 'slds-border_bottom';
     }
 
     get statusClass(){
         return this.disableEditButton ? 
-            'slds-align-middle' : 
-            'slds-align-bottom';
+            'slds-align-middle': 
+            'slds-align-bottom slds-p-right_small slds-p-left_medium';
+    }
+
+    get sectionTitle(){
+        return SECTION_TITLE;
     }
 
     //for LMS
@@ -121,6 +139,10 @@ export default class ContactInformationValidation extends LightningElement {
 
     connectedCallback(){
         this.publishMessage();
+    }
+
+    renderedCallback() {
+        Promise.all([loadStyle(this, customSR + "/QUTCRMCSS.css")]);
     }
 
     /**

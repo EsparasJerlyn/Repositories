@@ -2,16 +2,24 @@
  * @description lwc for address information validation
  * @author Accenture
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | roy.nino.s.regala         | September 3, 2021     | DEP1-170,169,159,263 | Created file                 | 
-      |                           |                       |                      |                              | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                              |
+      |---------------------------|-----------------------|----------------------|-------------------------------------------------------------|
+      | roy.nino.s.regala         | September 3, 2021     | DEP1-170,169,159,263 | Created file                                                | 
+      | eccarius.munoz            | March 31, 2023        | DEPP-5326            | Updated for Contact Layout only. Transferred under Contact  |                                       
+      |                           |                       |                      | Details Tab. Same functionality, changes are for UI only.   |
+      |                           |                       |                      |                                                             | 
  */
 import { LightningElement, api, wire } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { getPicklistValues,getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getRecordNotifyChange } from 'lightning/uiRecordApi';
+import { refreshApex } from '@salesforce/apex';
+import { loadStyle } from "lightning/platformResourceLoader";
+
 import getLoqateMetaData from '@salesforce/apex/AddressInformationValidationCtrl.getLoqateMetaData';
 import getHedAddress from '@salesforce/apex/AddressInformationValidationCtrl.getHedAddress'
 import upsertAddress from '@salesforce/apex/AddressInformationValidationCtrl.upsertHedAddress';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import customSR from "@salesforce/resourceUrl/QUTInternalCSS";
 import HED_ID from '@salesforce/schema/hed__Address__c.Id';
 import HED_CITY from '@salesforce/schema/hed__Address__c.hed__MailingCity__c';
 import HED_STREET from '@salesforce/schema/hed__Address__c.hed__MailingStreet__c';
@@ -23,10 +31,6 @@ import HED_TYPE from '@salesforce/schema/hed__Address__c.hed__Address_Type__c';
 import HED_VALIDATE from '@salesforce/schema/hed__Address__c.Validated__c';
 import HED_UNIQUE_ID from '@salesforce/schema/hed__Address__c.Unique_ID__c';
 import HED_ADDRESS from '@salesforce/schema/hed__Address__c';
-import { getPicklistValues,getObjectInfo } from 'lightning/uiObjectInfoApi';
-import { getRecordNotifyChange } from 'lightning/uiRecordApi';
-import { refreshApex } from '@salesforce/apex';
-
 
 const BUTTON_UPDATE = 'Update'
 const BUTTON_ADD = 'Add'
@@ -40,6 +44,9 @@ const SUCCESS_VARIANT = 'success'
 const SAVE_SUCCESS = 'Address saved.'
 const ADDRESS_SUFFIX = ' Address'
 const ERROR_MSG =  'An error has been encountered. Please contact your Administrator: '
+const SECTION_TITLE = 'ADDRESS VERIFICATION';
+const UPD_ADDRESS_SELECTION_LBL = 'Update Address Selection';
+const UNVERIFIED_ADDRESS_LBL = 'Enter Unverified Address';
 
 export default class LoqateAddressInformationValidation extends LightningElement {
     mapAddress = [];
@@ -64,7 +71,7 @@ export default class LoqateAddressInformationValidation extends LightningElement
     buttonLabel = BUTTON_UPDATE;
     wiredAddresses;
     addressSuffix = ADDRESS_SUFFIX;
-    hasUnverifiedAddress = false;
+    hasUnverifiedAddress = false;   
 
     //gets api mapping from custom metadata
     connectedCallback() {
@@ -78,6 +85,10 @@ export default class LoqateAddressInformationValidation extends LightningElement
         .catch(error =>{
             this.showToast(ERROR_TITLE, ERROR_MSG + error,ERROR_VARIANT);
         });
+    }
+
+    renderedCallback() {
+        Promise.all([loadStyle(this, customSR + "/QUTCRMCSS.css")]);
     }
 
     //gets the hed__Address__c associated to the record on the record page
@@ -123,6 +134,18 @@ export default class LoqateAddressInformationValidation extends LightningElement
     //disables the update button if user didnt input an address
     get buttonDisable(){
         return this.selectedAddressName || this.hasUnverifiedAddress? false : true;
+    }
+
+    get sectionTitle(){
+        return SECTION_TITLE;
+    }
+
+    get updAddSelectionLabel(){
+        return UPD_ADDRESS_SELECTION_LBL;
+    }
+
+    get unverifiedAddLabel(){
+        return UNVERIFIED_ADDRESS_LBL;
     }
 
     //shows and store the user's address selection

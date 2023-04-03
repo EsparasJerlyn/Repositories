@@ -1,0 +1,13 @@
+.customAccordion .slds-accordion__summary-heading .slds-button {
+    color: #706e6b !important;
+    background: var(--slds-g-color-neutral-base-95, var(--lwc-colorBackground,rgb(243, 243, 243)));
+}
+    
+.customAccordion .slds-accordion__summary-heading .slds-button:focus{
+    text-decoration: none !important;
+    box-shadow: var(--lwc-shadowButtonFocus,0 0 3px #0176d3) !important;
+}
+
+.customAccordion button.section-control.slds-button.slds-button_reset.slds-accordion__summary-action span {
+    color: #181818 !important;
+}

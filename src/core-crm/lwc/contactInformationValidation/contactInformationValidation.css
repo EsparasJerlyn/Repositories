@@ -1,9 +1,4 @@
-.title-text{
-    color:#003b6f;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.width-expanded{
-    width: 100%;
+.accordion-section-label{
+    --sds-c-accordion-heading-font-size : medium;
+    background-color: white;
 }
