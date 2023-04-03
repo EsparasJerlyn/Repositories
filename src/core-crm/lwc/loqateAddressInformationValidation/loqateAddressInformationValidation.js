@@ -109,6 +109,7 @@ export default class LoqateAddressInformationValidation extends LightningElement
                 }
             });
             this.mapAddress = tempData;
+            this.mapAddress.sort((a,b)=>a.type.localeCompare(b.type));
             this.setupOptions(this.fieldApiMapping);
             this.noAddress = this.mapAddress.length === 0 && this.multpleAddressType === false?true:false;
             this.isLoading = false;
