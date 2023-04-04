@@ -13,6 +13,7 @@
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | updated matching logic                         |
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
       | roy.nino.s.regala              | Oct 20, 2022          | DEPP-4672              | Removed mobile number criteria for matching    |
+      | roy.nino.s.regala              | Mar 3, 2022           | DEPP-5327              | Update lead's last name if unknown             |
  */
 
 public without sharing class MarketingStagingTriggerHelper{
@@ -96,7 +97,7 @@ public without sharing class MarketingStagingTriggerHelper{
                             OR QUT_Student_ID__c IN:studentIdMap.keySet())]);
 
         leadMatches = new Map<Id,Lead>([
-                        SELECT Id, Email, Mobile_No_Locale__c,
+                        SELECT Id, Email, Mobile_No_Locale__c, LastName, 
                         hed__Birth_Date__c, LeadMobile_Locale__c
                         FROM Lead
                         WHERE (Email IN:emailMap.keySet())]);
@@ -251,11 +252,34 @@ public without sharing class MarketingStagingTriggerHelper{
 
         if(!contactsToUpsertMap.keySet().isEmpty()){
             Database.upsert(contactsToUpsertMap.values(),false);
+
+            List<Database.UpsertResult> contactsToUpsertMapResult = Database.upsert(contactsToUpsertMap.values(),false);
+
+            for (Database.UpsertResult result : contactsToUpsertMapResult){
+                if (!result.isSuccess() && !result.isCreated()){
+                    Logger.error('Error in upserting contacts').setDatabaseResult(result);
+                }            
+            }
+            if(Logger.getBufferSize() > 0){
+                Logger.saveLog();                
+            }
+            
         }
 
         if(!leadsToUpsertMap.keySet().isEmpty()){
             Database.upsert(leadsToUpsertMap.values(),false);
 
+            List<Database.UpsertResult> leadsToUpsertMapResult = Database.upsert(leadsToUpsertMap.values(),false);
+
+            for (Database.UpsertResult result : leadsToUpsertMapResult){
+                if (!result.isSuccess() && !result.isCreated()){
+                    Logger.error('Error in upserting leads').setDatabaseResult(result);
+                }            
+            }
+            if(Logger.getBufferSize() > 0){
+                Logger.saveLog();                
+            }
+            
             for(String leadKey: leadsToUpsertMap.keySet()){
                 //if linked to marketingstaging create new marketing records 
                 //and link to the lead
@@ -335,6 +359,17 @@ public without sharing class MarketingStagingTriggerHelper{
         if(!marSegmentationToUpsertMap.keySet().isEmpty()){
             Database.upsert(marSegmentationToUpsertMap.values(),false);
 
+            List<Database.UpsertResult> marSegmentationToUpsertMapResult = Database.upsert(marSegmentationToUpsertMap.values(),false);
+
+            for (Database.UpsertResult result : marSegmentationToUpsertMapResult){
+                if (!result.isSuccess() && !result.isCreated()){
+                    Logger.error('Error in upserting marketingsegmentation').setDatabaseResult(result);
+                }            
+            }
+            if(Logger.getBufferSize() > 0){
+                Logger.saveLog();                
+            }
+
             for(String segKey: marSegmentationToUpsertMap.keySet()){
                 if(newMap.containsKey(segKey)){
                     //create marketing new interaction records
@@ -382,15 +417,42 @@ public without sharing class MarketingStagingTriggerHelper{
         }
 
         if(!marInteractionToInsertMap.keySet().isEmpty()){
-            Database.upsert(marInteractionToInsertMap.values(),false);
+            List<Database.UpsertResult> marInteractionToInsertMapResult = Database.upsert(marInteractionToInsertMap.values(),false);
+
+            for (Database.UpsertResult result : marInteractionToInsertMapResult){
+                if (!result.isSuccess() && !result.isCreated()){
+                    Logger.error('Error in upserting marketingsegmentation').setDatabaseResult(result);
+                }            
+            }
+            if(Logger.getBufferSize() > 0){
+                Logger.saveLog();                
+            }
         }
 
         if(!marCourseAppToUpsertMap.keySet().isEmpty()){
-            Database.upsert(marCourseAppToUpsertMap.values(),false);
+            List<Database.UpsertResult> marCourseAppToUpsertMapResult = Database.upsert(marCourseAppToUpsertMap.values(),false);
+
+            for (Database.UpsertResult result : marCourseAppToUpsertMapResult){
+                if (!result.isSuccess() && !result.isCreated()){
+                    Logger.error('Error in upserting marketingcourseapplication').setDatabaseResult(result);
+                }            
+            }
+            if(Logger.getBufferSize() > 0){
+                Logger.saveLog();                
+            }
         }
 
         if(!marStageToUpdateMap.keySet().isEmpty()){
-            Database.update(marStageToUpdateMap.values(),false);
+            List<Database.SaveResult> marStageToUpdateMapResult = Database.update(marStageToUpdateMap.values(),false);
+
+            for (Database.SaveResult result : marStageToUpdateMapResult){
+                if (!result.isSuccess()){
+                    Logger.error('Error in updating martketiingstaging').setDatabaseResult(result);
+                }            
+            }
+            if(Logger.getBufferSize() > 0){
+                Logger.saveLog();                
+            }
         }
 
     }
