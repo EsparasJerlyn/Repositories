@@ -11,7 +11,7 @@
       | eccarius.karl.munoz            | January 30, 2023      | DEPP-4684              | Created file                                                       |
       |                                |                       |                        |                                                                    |
  */
-public with sharing class GroupRegistrationHelper {
+public without sharing class GroupRegistrationHelper {
 
     private static final String RT_CONTACT_PERSON = System.Label.RT_Contact_Person;
     private static final Id RT_CONTACT_PERSON_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get(RT_CONTACT_PERSON).getRecordTypeId();
@@ -281,7 +281,7 @@ public with sharing class GroupRegistrationHelper {
                 insert newWebCart;
             }
         }else{
-            throw new AuraHandledException('Please make sure to enable the contact as Partner User');
+            throw new AuraHandledException('Please ensure Corporate Portal Administrator is enabled access to the portal before registering contacts.');
         }
         return newWebCart;
     }

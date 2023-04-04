@@ -16,7 +16,7 @@
         <apexClass>BuyerGroupMemberRelatedListCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
+    <classAccesses> 
         <apexClass>CceManageRegistrationSectionCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>

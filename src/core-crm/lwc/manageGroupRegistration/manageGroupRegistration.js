@@ -203,6 +203,7 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                 return hasErrors || this.hasRowError;
             }).then((res) => {
                 let response;
+                let errorMessage;
                 if(!res){
                     let promoId = null;
                     if(this.promotionId){
@@ -225,10 +226,11 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                         }
                     }).catch(error => {
                         response = 'Failed';
+                        errorMessage = error.body && error.body.message?error.body.message:'';
                         console.error('Failure Error: ' + JSON.stringify(error));
                     }).finally(()=>{
                         const bulkRegisterEvent = new CustomEvent('bulkregister', {
-                            detail: response
+                            detail: {'response':response,'errorMessage':errorMessage}
                         });
                         this.contactList = [];
                         this.processing = false;
