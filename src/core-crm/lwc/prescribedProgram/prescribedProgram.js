@@ -214,12 +214,12 @@ export default class PrescribedProgram extends NavigationMixin(
     this.productDetails = this.product.productDetails;
     this.programModules = this.product.programModules;
     this.priceBookEntries = this.product.priceBookEntryList;
-    this.showOverview = true;
-    this.showEvolveWithQUTeX  = true;
-    this.showWhoShouldParticipate  = true;
-    this.showCoreConcepts  = true;
-    this.showMoreDetails  = true;
-    this.showProgramModules = true;
+    this.showOverview = this.product.productDetails.Overview__c ? true : false;
+    this.showEvolveWithQUTeX = this.product.productDetails.Evolve_with_QUTeX__c ? true : false;
+    this.showWhoShouldParticipate = this.product.productDetails.Who_Should_Participate__c ? true : false;
+    this.showCoreConcepts = this.product.productDetails.Core_Concepts__c ? true : false;
+    this.showMoreDetails = this.product.productDetails.More_Details__c ? true : false;
+    this.showProgramModules = this.product.programModules ? true : false;
     this.professionalDevelopmentModuleDescription =
       "Each " +
       this.productDetails.Name +
