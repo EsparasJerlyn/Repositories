@@ -71,6 +71,7 @@ const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration
 const PROD_CATEG_TAILORED = 'Tailored Executive Program';
 const PROD_CATEG_SOA = 'QUTeX Learning Solutions';
 const DATE_OPTIONS = { year: 'numeric', month: '2-digit', day: '2-digit' };
+const ENABLED_PARTNER_REQUIRED = 'Please ensure Corporate Portal Administrator is enabled access to the portal before registering contacts.';
 
 export default class ManageRegistrationSection extends NavigationMixin(LightningElement) {
 
@@ -642,6 +643,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     handleGroupRegister(){
         this.isGroupRegister = true;
         this.isAddContact = false;
+        this.isCreateContact = false;
+        this.isEditContact = false;
     }
 
     handleSaveResponse(){
@@ -688,9 +691,11 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     }
 
     handleBulkRegistrationResponse(event){
-        if(event.detail === 'Success'){
+        if(event.detail.response === 'Success'){
             this.generateToast(SUCCESS_TITLE, 'Bulk Registration Successful', SUCCESS_VARIANT);
             refreshApex(this.tableData);
+        }else if(event.detail.response === 'Failed' && event.detail.errorMessage === ENABLED_PARTNER_REQUIRED){     
+            this.generateToast('Error.',ENABLED_PARTNER_REQUIRED,'error');
         }else{
             this.generateToast('Error.',LWC_Error_General,'error');
         }
@@ -753,6 +758,8 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 }
                 this.isModalOpen = false;
                 this.isCreateContact = false;
+                this.isEditContact = false;
+                this.isAddContact = false;
             }
         })
         .finally(()=>{
@@ -761,7 +768,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         .catch(error =>{
             if( error && 
                 error.body && 
-                error.body.message == 'Please make sure to enable the contact as Partner User'){
+                error.body.message == ENABLED_PARTNER_REQUIRED){
                     this.generateToast('Error.', error.body.message ,'error');
             }
             else if(error &&
@@ -778,9 +785,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     }
     
     handleClearAfterSave(){
-        this.saveInProgress = false;
-        this.isEditContact = false;
-        this.isAddContact = false;            
+        this.saveInProgress = false;            
         this.isLoading = false;
         this.contactId = '';
         this.contactSearchItems = [];

@@ -61,7 +61,7 @@ public without sharing class ManageRegistrationSectionHelper{
                     newWebCart = CorporateBundleAndSOAHelper.createCCEWebCart(corporateUser[0]);
                     commerceUser = corporateUser[0].Id;
                }else{
-                    throw new AuraHandledException('Please make sure to enable the contact as Partner User');
+                    throw new AuraHandledException('Please ensure Corporate Portal Administrator is enabled access to the portal before registering contacts.');
                }
           }else{
                //try to create new contact

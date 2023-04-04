@@ -34,43 +34,41 @@ public with sharing class GroupRegistrationCtrl {
     @AuraEnabled
     public static String bulkRegister(RegistrationDetails registrationDetails){
         String response = '';
-        try {
-            mapRegistrationDetails(registrationDetails);
-            GroupRegistrationHelper.upsertContacts(registrationDetailsParams.contactList);
-            if(!String.isBlank(registrationDetailsParams.priceBookEntryId)){  
-                if(registrationDetailsParams.isCorporateBundlePricing || registrationDetailsParams.isSOAPricing){   
-                    List<User> corporateUser = CorporateBundleAndSOAHelper.getCorporateUser(registrationDetailsParams.priceBookEntry.PriceBook2Id);  
+        
+        mapRegistrationDetails(registrationDetails);
+        GroupRegistrationHelper.upsertContacts(registrationDetailsParams.contactList);
+        if(!String.isBlank(registrationDetailsParams.priceBookEntryId)){  
+            if(registrationDetailsParams.isCorporateBundlePricing || registrationDetailsParams.isSOAPricing){   
+                List<User> corporateUser = CorporateBundleAndSOAHelper.getCorporateUser(registrationDetailsParams.priceBookEntry.PriceBook2Id);  
 
-                    WebCart newWebCart = GroupRegistrationHelper.createCCEWebCart(corporateUser); 
-                    List<WebCart> cceWebCarts = new List<WebCart>();
-                    cceWebCarts.add(newWebCart);
+                WebCart newWebCart = GroupRegistrationHelper.createCCEWebCart(corporateUser); 
+                List<WebCart> cceWebCarts = new List<WebCart>();
+                cceWebCarts.add(newWebCart);
 
-                    Map<Id,CartDeliveryGroup> cartDeliveryGroupMap = GroupRegistrationHelper.createCartDeliveryGroups(cceWebCarts);
-                    CartDeliveryGroup cartDeliveryGroup = cartDeliveryGroupMap.get(newWebCart.Id);
+                Map<Id,CartDeliveryGroup> cartDeliveryGroupMap = GroupRegistrationHelper.createCartDeliveryGroups(cceWebCarts);
+                CartDeliveryGroup cartDeliveryGroup = cartDeliveryGroupMap.get(newWebCart.Id);
 
-                    Map<Id,Id> contactAndCartItemMap = createCCECartItems(newWebCart.Id, cartDeliveryGroup.Id);
+                Map<Id,Id> contactAndCartItemMap = createCCECartItems(newWebCart.Id, cartDeliveryGroup.Id);
 
-                    GroupRegistrationHelper.closeWebCarts(cceWebCarts);
+                GroupRegistrationHelper.closeWebCarts(cceWebCarts);
 
-                    List<hed__Course_Enrollment__c> courseConnectionList = createCBSOACourseConnections(registrationDetailsParams.contactList, newWebCart.Id, contactAndCartItemMap);
+                List<hed__Course_Enrollment__c> courseConnectionList = createCBSOACourseConnections(registrationDetailsParams.contactList, newWebCart.Id, contactAndCartItemMap);
 
-                    GroupRegistrationHelper.createProductLedgers(courseConnectionList, registrationDetailsParams.priceBookEntryId, registrationDetailsParams.isCorporateBundlePricing);
-                }else{
-                    Map<Id,User> userMap = GroupRegistrationHelper.createUsers(registrationDetailsParams.contactList);   
-                    Map<Id,WebCart> webCartMap = GroupRegistrationHelper.createWebCarts(registrationDetailsParams.contactList, userMap.values());      
-                    Map<Id,CartDeliveryGroup> cartDeliveryGroupMap = GroupRegistrationHelper.createCartDeliveryGroups(webCartMap.values());
-                    Map<Id,GroupRegistrationHelper.ContactAndCartId> contactAndCartMap = createCartItems(userMap, webCartMap, cartDeliveryGroupMap);
-                    GroupRegistrationHelper.closeWebCarts(webCartMap.values());
-                    createCourseConnections(contactAndCartMap);
-                }
+                GroupRegistrationHelper.createProductLedgers(courseConnectionList, registrationDetailsParams.priceBookEntryId, registrationDetailsParams.isCorporateBundlePricing);
             }else{
-                createCourseConnectionsTailored(registrationDetailsParams.contactList);
+                Map<Id,User> userMap = GroupRegistrationHelper.createUsers(registrationDetailsParams.contactList);   
+                Map<Id,WebCart> webCartMap = GroupRegistrationHelper.createWebCarts(registrationDetailsParams.contactList, userMap.values());      
+                Map<Id,CartDeliveryGroup> cartDeliveryGroupMap = GroupRegistrationHelper.createCartDeliveryGroups(webCartMap.values());
+                Map<Id,GroupRegistrationHelper.ContactAndCartId> contactAndCartMap = createCartItems(userMap, webCartMap, cartDeliveryGroupMap);
+                GroupRegistrationHelper.closeWebCarts(webCartMap.values());
+                createCourseConnections(contactAndCartMap);
             }
-
-            response = 'Success';
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+        }else{
+            createCourseConnectionsTailored(registrationDetailsParams.contactList);
         }
+
+        response = 'Success';
+
         return response;
     }
 
