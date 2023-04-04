@@ -8,7 +8,9 @@
  * @history
  *    | Developer                 | Date                  | JIRA     | Change Summary                  |
       |---------------------------|-----------------------|----------|---------------------------------|
-      | roy.nino.s.regala         | May 31, 2022          | DEPP-2105| Created file                    | 
+      | roy.nino.s.regala         | May 31, 2022          | DEPP-2105| Created file                    |
+      | rhea.b.torres             | March 03, 2023        | DEPP-5098| Log DML errors using            |
+      |                           |                       |          | NebulaLogger                    |   
 */
 
 public with sharing class LoqateMobileValidationBatch implements Database.Batchable<SObject>, Database.AllowsCallouts{
@@ -79,29 +81,30 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
      * @param objectList The objects to process.
      */
     public void execute(Database.BatchableContext context, List<sObject> objectList) {
+
+        String endPointAU;
+        String endPointNZ;
+
+        String auResponse;
+        String nzResponse;
+
+        endPointAU = ENDPOINT_START;  
+        endPointAU += 'au' + STR_PHONE;
+        endPointNZ = ENDPOINT_START;  
+        endPointNZ += 'nz' + STR_PHONE;
+
+
+        String auPayLoadStr;
+        String nzPayLoadStr;
+        PayLoad auPayLoadClass;
+        PayLoad nzPayLoadClass;
+        List<Payload> auPayLoadList = new List<PayLoad>();
+        List<Payload> nzPayLoadList = new List<PayLoad>();
+        List<sObject> auRecords = new List<sObject>();
+        List<sObject> nzRecords = new List<sObject>();
+        List<sObject> objectsToUpdate = new List<sObject>();
+        
         try{
-            String endPointAU;
-            String endPointNZ;
-
-            String auResponse;
-            String nzResponse;
-
-            endPointAU = ENDPOINT_START;  
-            endPointAU += 'au' + STR_PHONE;
-            endPointNZ = ENDPOINT_START;  
-            endPointNZ += 'nz' + STR_PHONE;
-
-
-            String auPayLoadStr;
-            String nzPayLoadStr;
-            PayLoad auPayLoadClass;
-            PayLoad nzPayLoadClass;
-            List<Payload> auPayLoadList = new List<PayLoad>();
-            List<Payload> nzPayLoadList = new List<PayLoad>();
-            List<sObject> auRecords = new List<sObject>();
-            List<sObject> nzRecords = new List<sObject>();
-            List<sObject> objectsToUpdate = new List<sObject>();
-            
             //filter nz and au
             for(sObject obj: objectList){
                 if(LOCALE_MAP.get((String)obj.get(queryMapping.get('mobileLocale'))) == 'AU'){
@@ -140,11 +143,20 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
             }
 
             if(!objectsToUpdate.isEmpty()){
-                update objectsToUpdate;
+                Database.SaveResult[] srList = Database.update(objectsToUpdate, false);
+                for (Database.SaveResult result : srList){
+                    if (!result.isSuccess()){
+                      Logger.error('Database update error ').setDatabaseResult(result);
+                    }            
+                }
             }
             
         }catch(Exception e){
-            System.debug(LoggingLevel.DEBUG, 'Error Processing Request!'+ e.getStackTraceString());//NOPMD
+            Logger.error('Exception caught in execute in class LoqateMobileValidationBatch.').setExceptionDetails(e);
+        }finally{
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
         
     }
