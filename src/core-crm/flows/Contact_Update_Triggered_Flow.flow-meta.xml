@@ -228,7 +228,7 @@
         </rules>
         <rules>
             <name>Yes_Mobile_Is_Changed</name>
-            <conditionLogic>2 AND (4 OR 5) AND (1 OR 3 OR 6)</conditionLogic>
+            <conditionLogic>2 AND (4 OR 5) AND (1 OR 3 OR (6 AND 7 ) )</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Mobile_No_Locale__c</leftValueReference>
                 <operator>IsChanged</operator>
@@ -266,6 +266,13 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record__Prior.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.MobilePhone</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>

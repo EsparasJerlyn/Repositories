@@ -9,7 +9,7 @@
  *    | Developer                 | Date                  | JIRA     | Change Summary                  |
       |---------------------------|-----------------------|----------|---------------------------------|
       | roy.nino.s.regala         | November 03, 2021     | DEPP-735 | Created file                    | 
-      |                           |                       |          |                                 |
+      |                             |                       |          |                                 |
 */
 @isTest
 private class Contact_Update_Triggered_FlowTest {
