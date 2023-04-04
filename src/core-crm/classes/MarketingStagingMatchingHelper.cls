@@ -165,16 +165,19 @@ public without sharing class MarketingStagingMatchingHelper{
             finalMaping = LEAD_FIELDS_UPDATE;
 
                 //check if current lead in loop has its birthdate populated
-            if( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
-                MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__Birth_Date__c == null){
-                    finalMaping.put('hed__Birth_Date__c','Birthdate__c');
-                }
+            if( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).hed__Birth_Date__c == null){
+                finalMaping.put('hed__Birth_Date__c','Birthdate__c');
+            }
 
             //check if current lead in loop has its contact mobile locale populated
-            if( MarketingStagingTriggerHelper.leadMatches.containsKey(oldLeadId) &&
-                MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).Mobile_No_Locale__c == null){
+            if( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).Mobile_No_Locale__c == null){
                 finalMaping.put('LeadMobile_Locale__c','MarketingStaging_Mobile_Locale__c');
                 finalMaping.put('Mobile_No_Locale__c','Mobile__c');
+            }
+
+            //check if current lead in loop has a LastName of Unkown
+            if( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).LastName.toLowercase() == 'unknown'){
+                finalMaping.put('LastName','Last_Name__c');
             }
             
         }else{
@@ -299,8 +302,7 @@ public without sharing class MarketingStagingMatchingHelper{
                                                 OR Contact__c IN: contactMatches)
                                                 AND ( QTAC_Matching_Criteria__c IN: qtacMatchingList
                                                 OR SAMS_Matching_Criteria__c IN: samsMatchingList
-                                                OR Studylink_Matching_Criteria__c IN: studylinkMatchingList  
-                                                )]){
+                                                OR Studylink_Matching_Criteria__c IN: studylinkMatchingList)]){
         //create a contact map against the marketing segmentation records 
             if(marCourApp.Contact__c != null){
                 if(!marketingClass.contactAppMap.containsKey(marCourApp.Contact__c)){
