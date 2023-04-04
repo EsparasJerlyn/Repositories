@@ -147,7 +147,7 @@ public with sharing class GroupRegistrationCtrlTest {
             registrationDetails.prescribedProgram = true;
             registrationDetails.discountAmount = 0;
             registrationDetails.promotionId = null;
-            registrationDetails.offeringId = offerings[0].Id;
+            registrationDetails.offeringId = offerings[0].Id; 
             registrationDetails.contacts = contactList;
             registrationDetails.priceBookEntryId = null;
             
