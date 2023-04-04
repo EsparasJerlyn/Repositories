@@ -79,19 +79,19 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 			String description = 'Description';
 			String descriptionValue = p[0].Description;
 			String overview = 'Overview';
-			String overviewValue = insertInlineStyleToHtmlElement(p[0].Overview__c, 'img', 'width:100%');
+			String overviewValue = removeImgElementsFromHtml(p[0].Overview__c);
 			overviewValue = insertInlineStyleToHtmlElement(overviewValue, 'p', 'margin:0');
 			String evolve = 'Evolve with QUTeX';
-			String evolveValue = insertInlineStyleToHtmlElement(p[0].Evolve_with_QUTeX__c, 'img', 'width:100%');
+			String evolveValue = removeImgElementsFromHtml(p[0].Evolve_with_QUTeX__c);
 			evolveValue = insertInlineStyleToHtmlElement(evolveValue, 'p', 'margin:0');
 			String participate = 'Who Should Participate?';
-			String participateValue = insertInlineStyleToHtmlElement(p[0].Who_Should_Participate__c, 'img', 'width:100%');
+			String participateValue = removeImgElementsFromHtml(p[0].Who_Should_Participate__c);
 			participateValue = insertInlineStyleToHtmlElement(participateValue, 'p', 'margin:0');
 			String concepts = 'Core Concepts';
-			String conceptsValue = insertInlineStyleToHtmlElement(p[0].Core_Concepts__c, 'img', 'width:100%');
+			String conceptsValue = removeImgElementsFromHtml(p[0].Core_Concepts__c);
 			conceptsValue = insertInlineStyleToHtmlElement(conceptsValue, 'p', 'margin:0');
 			String moredetails = 'More Details';
-			String moredetailsValue = insertInlineStyleToHtmlElement(p[0].More_Details__c, 'img', 'width:100%');
+			String moredetailsValue = removeImgElementsFromHtml(p[0].More_Details__c);
 			moredetailsValue = insertInlineStyleToHtmlElement(moredetailsValue, 'p', 'margin:0');
 	
 			// Set Email Params
@@ -162,25 +162,36 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 		String result = '';
 
 		// if html is blank, skip everything and return empty string
-		if(!String.isBlank(html)) {
-			// if insertTo and styletoInsert is blank, skip everything and return html as is
-			if(!String.isBlank(insertTo) && !String.isBlank(styleToInsert)) {
-				String splitAt = '<' + insertTo;
-				styleToInsert = 'style="' + styleToInsert + '"';
-				List<String> choppedHtml = html.split(splitAt);
-				Boolean isFirstElement = html.substring(0, splitAt.length() - 1) == splitAt;
-				for(Integer i = 0; i < choppedHtml.size(); i++) {
-					if(i == 0 && !isFirstElement) {
-						result = choppedHtml[i];
-						continue;
-					}
-					result += splitAt + ' ' + styleToInsert + ' ' + choppedHtml[i];
+		if(!String.isBlank(html) && !String.isBlank(insertTo) && !String.isBlank(styleToInsert)) {
+			String splitAt = '<' + insertTo;
+			styleToInsert = 'style="' + styleToInsert + '"';
+			List<String> choppedHtml = html.split(splitAt);
+			Boolean isFirstElement = html.substring(0, splitAt.length() - 1) == splitAt;
+			for(Integer i = 0; i < choppedHtml.size(); i++) {
+				if(i == 0 && !isFirstElement) {
+					result = choppedHtml[i];
+					continue;
 				}
-			} else {
-				result = html;
+				result += splitAt + ' ' + styleToInsert + ' ' + choppedHtml[i];
 			}
+		} else {
+			result = html;
 		}
 		return result;
+	}
+
+	/**
+	 * @function
+	 * @param {String} html The html code with elements you want to insert inline styling to.
+	 * @return {String}
+	 * @description Remove any img elements in the html passed in as a string
+	 */
+	private static String removeImgElementsFromHtml(String html) {
+		if(String.isNotBlank(html)) {
+			html = html.replaceAll('<img(.*?)>', ''); // remove img elements
+			html = html.replaceAll('</img>', ''); // remove img end tags in case html string is using it
+		}
+		return html;
 	}
 
 	public class SelfRegistrationParams{
