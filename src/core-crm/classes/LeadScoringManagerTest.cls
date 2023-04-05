@@ -21,8 +21,10 @@ public without sharing class LeadScoringManagerTest {
 
     @isTest
     public static void testOneContactMatch() {
+        Contact contact;
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Contact contact = new Contact(FirstName = 'Test1',
+            
+            contact = new Contact(FirstName = 'Test1',
                                         QUT_Student_ID__c='123456',
                                         LastName = 'Test1 LastName',
                                         Email = 'Test1@email.com',
@@ -38,6 +40,8 @@ public without sharing class LeadScoringManagerTest {
             individualEmailResult.et4ae5__SendDefinition__c = sendDefinition.Id;
             individualEmailResult.Primary_Contact__c = contact.Id;
             insert individualEmailResult;
+
+            Test.startTest();
 
             Marketing_Staging__c marketingStaging = new Marketing_Staging__c();
             marketingStaging.First_Name__c = 'Test1';
@@ -60,8 +64,6 @@ public without sharing class LeadScoringManagerTest {
             marketingStaging.Event_Name__c = 'TESTEVENTNAME1';
             insert marketingStaging;
 
-            Test.startTest();
-
             Marketing_Staging__c newMarketingStaging = new Marketing_Staging__c();
             newMarketingStaging.First_Name__c = 'Test1';
             newMarketingStaging.Last_Name__c = 'Test1 LastName';
@@ -82,30 +84,30 @@ public without sharing class LeadScoringManagerTest {
             newMarketingStaging.SPAD__c = 'TESTSPAD1';
             newMarketingStaging.Event_Name__c = 'TESTEVENTNAME1';
             insert newMarketingStaging;
-
             Test.stopTest();
-            
-            contact = [SELECT 
-                    Id, 
-                    Marketing_Segmentation_Score__c, 
-                    Marketing_Course_Application_Score__c, 
-                    Marketing_Interaction_Score__c, 
-                    IER_Score__c 
-                    FROM Contact 
-                    WHERE Id=:contact.Id
-                    LIMIT 1];
-            
-            System.assert(contact.Marketing_Segmentation_Score__c != null, 'Contact.Marketing_Segmentation_Score__c is empty.');
-            System.assert(contact.Marketing_Course_Application_Score__c != null, 'Contact.Marketing_Course_Application_Score__c is empty.');
-            System.assert(contact.Marketing_Interaction_Score__c != null, 'Contact.Marketing_Interaction_Score__c is empty.');
-            System.assert(contact.IER_Score__c != null, 'Contact.IER_Score__c is empty.');
         }
+        Contact resultingContactRecord = [SELECT 
+                                            Id, 
+                                            Marketing_Segmentation_Score__c, 
+                                            Marketing_Course_Application_Score__c, 
+                                            Marketing_Interaction_Score__c, 
+                                            IER_Score__c 
+                                            FROM Contact 
+                                            WHERE Id=:contact.Id
+                                            LIMIT 1];
+        
+        
+        System.assert(resultingContactRecord.Marketing_Segmentation_Score__c != null, 'Contact.Marketing_Segmentation_Score__c is empty.');
+        System.assert(resultingContactRecord.Marketing_Course_Application_Score__c != null, 'Contact.Marketing_Course_Application_Score__c is empty.');
+        System.assert(resultingContactRecord.Marketing_Interaction_Score__c != null, 'Contact.Marketing_Interaction_Score__c is empty.');
+        System.assert(resultingContactRecord.IER_Score__c != null, 'Contact.IER_Score__c is empty.');
     }
 
     @isTest
     public static void testOneLeadMatch() {
+        Lead lead;
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Lead lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
+            lead = new Lead(FirstName = 'Test1', LastName = 'Test1 LastName', Email = 'Test1@email.com', Company ='Test Company');
             insert lead;
 
             et4ae5__SendDefinition__c sendDefinition = new et4ae5__SendDefinition__c();
@@ -156,22 +158,21 @@ public without sharing class LeadScoringManagerTest {
             insert newMarketingStaging;
 
             Test.stopTest();
-            
-            lead = [SELECT 
-                    Id, 
-                    Marketing_Segmentation_Score__c, 
-                    Marketing_Course_Application_Score__c, 
-                    Marketing_Interaction_Score__c, 
-                    IER_Score__c 
-                    FROM Lead 
-                    WHERE Id=:lead.Id
-                    LIMIT 1];
-            
-            System.assert(lead.Marketing_Segmentation_Score__c != null, 'Lead.Marketing_Segmentation_Score__c is empty.');
-            System.assert(lead.Marketing_Course_Application_Score__c == null, 'Lead.Marketing_Course_Application_Score__c is not empty.');
-            System.assert(lead.Marketing_Interaction_Score__c != null, 'Lead.Marketing_Interaction_Score__c is empty.');
-            System.assert(lead.IER_Score__c != null, 'Lead.IER_Score__c is empty.');
         }
+        Lead resultingLeadRecord = [SELECT 
+                Id, 
+                Marketing_Segmentation_Score__c, 
+                Marketing_Course_Application_Score__c, 
+                Marketing_Interaction_Score__c, 
+                IER_Score__c 
+                FROM Lead 
+                WHERE Id=:lead.Id
+                LIMIT 1];
+
+        System.assert(resultingLeadRecord.Marketing_Segmentation_Score__c != null, 'Lead.Marketing_Segmentation_Score__c is empty.');
+        System.assert(resultingLeadRecord.Marketing_Course_Application_Score__c == null, 'Lead.Marketing_Course_Application_Score__c is not empty.');
+        System.assert(resultingLeadRecord.Marketing_Interaction_Score__c != null, 'Lead.Marketing_Interaction_Score__c is empty.');
+        System.assert(resultingLeadRecord.IER_Score__c != null, 'Lead.IER_Score__c is empty.');
     }
 
     @isTest
