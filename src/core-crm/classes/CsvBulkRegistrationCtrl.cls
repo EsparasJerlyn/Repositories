@@ -13,12 +13,7 @@
 public with sharing class CsvBulkRegistrationCtrl {
 
     	@AuraEnabled(cacheable=true)
-        public static ConnectApi.ManagedContentVersion GetCMSContentDataByName(
-            String contentNames,
-            String communityId,
-            String contentType, 
-            String language
-        ) {
+        public static ConnectApi.ManagedContentVersion GetCMSContentDataByName(CMSContentDataFilter filter) {
             ConnectApi.ManagedContentVersion returnList;
             try {
                 Integer pageNo = 0;
@@ -26,7 +21,7 @@ public with sharing class CsvBulkRegistrationCtrl {
                 while (!contentFound) {
                     ConnectApi.ManagedContentVersionCollection contentList;
                     if(!Test.isRunningTest()){
-                        contentList = ConnectApi.ManagedContent.getManagedContentByTopics(communityId, null, pageNo, null, language, contentType);
+                        contentList = ConnectApi.ManagedContent.getManagedContentByTopics(filter.communityId, null, pageNo, null, filter.language, filter.contentType);
                     }
                     // Use Total 
                     if (contentList == null || contentList.total < 1 ) {
@@ -35,7 +30,7 @@ public with sharing class CsvBulkRegistrationCtrl {
         
                     for (ConnectApi.ManagedContentVersion c : contentList.items) {
                         //Boolean cnIndex = (c.title == contentNames);
-                        if (c.title == contentNames) {  returnList = c ;
+                        if (c.title == filter.contentNames) {  returnList = c ;
                                 contentFound = true;
                                 break;
                         }
@@ -80,25 +75,22 @@ public with sharing class CsvBulkRegistrationCtrl {
         return lstAccsToInsert;    
     }
     
-       public class FieldDataType {
-            @AuraEnabled
-            public String FirstName;
-            @AuraEnabled
-            public String LastName;
-            @AuraEnabled
-            public String Email;
-            // @AuraEnabled
-            // public String Suffix;
-            @AuraEnabled
-            public String MobileLocale;
-            @AuraEnabled
-            public String MobilePhone;
-            @AuraEnabled
-            public String Birthdate;
-            @AuraEnabled
-            public String DietaryRequirement;
-            @AuraEnabled
-            public String AccessibilityRequirement;
-       }
-    
+    public class FieldDataType {
+        @AuraEnabled public String FirstName;
+        @AuraEnabled public String LastName;
+        @AuraEnabled public String Email;
+        // @AuraEnabled public String Suffix;
+        @AuraEnabled public String MobileLocale;
+        @AuraEnabled public String MobilePhone;
+        @AuraEnabled public String Birthdate;
+        @AuraEnabled public String DietaryRequirement;
+        @AuraEnabled public String AccessibilityRequirement;
+    }
+
+    public class CMSContentDataFilter {
+        @AuraEnabled public String contentNames { get; set; }
+        @AuraEnabled public String communityId { get; set; }
+        @AuraEnabled public String contentType { get; set; }
+        @AuraEnabled public String language { get; set; }
+    }
 }

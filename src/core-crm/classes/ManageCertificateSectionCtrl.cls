@@ -207,14 +207,16 @@ public with sharing class ManageCertificateSectionCtrl {
                               };
                               pdfContentMap.putAll(createPDF(id, certDetails, attachTemplate));
                               Blob pdfContent = pdfContentMap.get(id).VersionData;
-                              Messaging.SingleEmailMessage mail = emailBuilder(certDetails.contactEmail, mailSubject, coverTemplate.HtmlValue, coverEmailParams);
+                              Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+                              msg.setToAddresses(new String[]{certDetails.contactEmail});
+                              msg.setSubject(mailSubject);
+                              msg.setHtmlBody(EmailHelper.setBodyValues(coverTemplate.HtmlValue, coverEmailParams, true));
+                              msg.setOrgWideEmailAddressId(owea[0].Id);
+                              msg.setTreatTargetObjectAsRecipient(false);
+                              msg.setUseSignature(false);
                               Messaging.EmailFileAttachment attachment = attachmentBuilder(type + '.pdf', pdfContent);  
-                              mail.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });          
-                              if(!owea.isEmpty()){
-                                   mail.setOrgWideEmailAddressId(owea[0].Id);
-                               }
-                                          
-                              emailList.add(mail);  
+                              msg.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });          
+                              emailList.add(msg);  
                          }
      
                          insert pdfContentMap.values();
@@ -361,18 +363,6 @@ public with sharing class ManageCertificateSectionCtrl {
           }
           
           return attach;
-     }
-    
-     private static Messaging.SingleEmailMessage emailBuilder(String email, String subject, String emailHtml, Map<String,String> emailContent){
-          Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-          mail.setUseSignature(false);
-          mail.setToAddresses(new String[]{email});
-          mail.setSubject(subject);
-          String body = emailHtml;
-          body = setBodyValues(body, emailContent);
-          body = EmailHelper.addHeaderAndFooter(body);
-          mail.setHtmlBody(body);
-          return mail;
      }
 
      private static EmailTemplate getEmailTemplate(String name){  

@@ -212,13 +212,13 @@ public with sharing class ProductOfferingCtrl {
     ){
         
         String fields = 'Id, Name, Maximum_Participants__c, Minimum_Participants__c ';
-        sObject parentRecord = CustomLayoutCtrl.getParentRecord(
-            productRequestId,
-            parentInfo.get('field'),
-            parentInfo.get('objectType'),
-            fields,
-            new Map<String,String>()
-        );
+        CustomLayoutCtrl.GetRecordFilter filter = new CustomLayoutCtrl.GetRecordFilter();
+        filter.parentId = productRequestId;
+        filter.parentField = parentInfo.get('field');
+        filter.childObjectType = parentInfo.get('objectType');
+        filter.fields = fields;
+        filter.grandChildInfo = new Map<String,String>();
+        sObject parentRecord = CustomLayoutCtrl.getParentRecord(filter);
 
         Id parentId = parentRecord?.Id;
 

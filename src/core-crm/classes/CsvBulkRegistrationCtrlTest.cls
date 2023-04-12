@@ -30,7 +30,12 @@ public class CsvBulkRegistrationCtrlTest {
             String communityId = communityIds[0].NetworkId;
             Test.startTest();
             ConnectApi.ManagedContentVersion contentData= new ConnectApi.ManagedContentVersion();
-            contentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',communityId,'cms_document','en_US');
+            CsvBulkRegistrationCtrl.CMSContentDataFilter filter = new CsvBulkRegistrationCtrl.CMSContentDataFilter();
+            filter.contentNames = 'Fake Name';
+            filter.communityId = communityId;
+            filter.contentType = 'cms_document';
+            filter.language = 'en_US';
+            contentData = CsvBulkRegistrationCtrl.GetCMSContentDataByName(filter);
             if(contentData!=null){
             String contentKey =  contentData.contentKey;
             System.assertEquals(contentKey,null, 'contentKey is not equal to NULL');
@@ -48,7 +53,12 @@ public class CsvBulkRegistrationCtrlTest {
             String fakecommunityId = '98098EWQ';
             Test.startTest();
             ConnectApi.ManagedContentVersion contentData= new ConnectApi.ManagedContentVersion();
-            contentData= CsvBulkRegistrationCtrl.GetCMSContentDataByName('Fake Name',fakecommunityId,'cms_doc','en_US');
+            CsvBulkRegistrationCtrl.CMSContentDataFilter filter = new CsvBulkRegistrationCtrl.CMSContentDataFilter();
+            filter.contentNames = 'Fake Name';
+            filter.communityId = fakecommunityId;
+            filter.contentType = 'cms_doc';
+            filter.language = 'en_US';
+            contentData = CsvBulkRegistrationCtrl.GetCMSContentDataByName(filter);
             if(contentData!=null){
             String contentKey =  contentData.contentKey;
             System.assertEquals(contentKey,null,'contentKey is not equal to NULL');

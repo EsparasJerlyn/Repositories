@@ -47,7 +47,12 @@ private class B2BGetInfoTest {
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             
             Test.startTest();
-            ConnectApi.CartItem result = B2BGetInfo.addToCart(communityId, '', '1', account.Id);
+            B2BGetInfo.WishlistDetails details = new B2BGetInfo.WishlistDetails();
+            details.communityId = communityId;
+            details.productId = '';
+            details.quantity = '1';
+            details.effectiveAccountId = account.Id;
+            ConnectApi.CartItem result = B2BGetInfo.addToCart(details);
             ConnectApi.CartSummary resultSummary = B2BGetInfo.getCartSummary(communityId,account.Id);
             Test.stopTest();
             
@@ -64,7 +69,12 @@ private class B2BGetInfoTest {
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
         
             Test.startTest();
-            ConnectApi.Wishlist result = B2BGetInfo.createAndAddToList(communityId,prd.Id,'Wishlist Test',account.Id);
+            B2BGetInfo.WishlistDetails details = new B2BGetInfo.WishlistDetails();
+            details.communityId = communityId;
+            details.productId = prd.Id;
+            details.wishlistName = 'Wishlist Test';
+            details.effectiveAccountId = account.Id;
+            ConnectApi.Wishlist result = B2BGetInfo.createAndAddToList(details);
             Test.stopTest();
             
             System.assertEquals(true, result == null, 'result is not null');
@@ -78,7 +88,12 @@ private class B2BGetInfoTest {
             String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
             
             Test.startTest();
-            ConnectApi.CartItem result = B2BGetInfo.addToCart(communityId, '', '1', account.Id);
+            B2BGetInfo.WishlistDetails details = new B2BGetInfo.WishlistDetails();
+            details.communityId = communityId;
+            details.productId = '';
+            details.quantity = '1';
+            details.effectiveAccountId = account.Id;
+            ConnectApi.CartItem result = B2BGetInfo.addToCart(details);
             ConnectApi.CartSummary resultSummary = B2BGetInfo.getOrCreateActiveCartSummary(communityId,account.Id);
             Test.stopTest();
             

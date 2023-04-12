@@ -306,12 +306,12 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     
     handleSearch(event){
         this.searchInProgress = true;
-        getSearchedProductRequests({
+        getSearchedProductRequests({ searchParameters: {
+            filterPRList: this.currentChildren,
             filterString: event.detail.filterString,
-            filterPRList:this.currentChildren,
-            prodSpecRecordType:this.prodSpecData.recordType,
+            prodSpecRecordType: this.prodSpecData.recordType,
             isSOA: this.isParentSOA
-        })
+        }})
         .then(result =>{
             if(result){
                 this.lookupItemsFormatted = result.map(item => {
@@ -549,13 +549,13 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         //if corporate bundle need to create these records
         if (this.isCorporateBundleSelected || this.isSOASelected) {
             // Get Product Category Id
-            createBuyerGroupAndEntitlement({
+            createBuyerGroupAndEntitlement({ details: {
                 productRequestId: this.prodReqId,
                 accountId: this.primaryAccountId, 
                 accountName: this.primaryAccountName,
                 isCorporateBundle: this.isCorporateBundleSelected,
                 isSoa: this.isSOASelected
-            })
+            }})
             .then((result) => {
                 //code
             })

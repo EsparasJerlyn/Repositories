@@ -272,21 +272,15 @@ public without sharing class SendNewOfferingNotificationHelper {
                     interestId
                 );
 
-                objEmail = EmailHelper.emailBuilder(
-                  expresionOfInterestMap.get(interestId).Contact__r.Registered_Email__c,
-                  expresionOfInterestMap.get(interestId).Product__r.Name,
-                  emailTemplateList[0].HTMLValue,
-                  emailContent,
-                  null,
-                  null,
-                  true
-                );
-
-                if (!owea.isEmpty()) {
-                    objEmail.setOrgWideEmailAddressId(owea[0].Id);
-                }
-
-                lstEmails.add(objEmail);
+                Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+                msg.setToAddresses(new String[]{expresionOfInterestMap.get(interestId).Contact__r.Registered_Email__c});
+                msg.setSubject(expresionOfInterestMap.get(interestId).Product__r.Name);
+                msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplateList[0].HTMLValue, emailContent, true));
+                msg.setOrgWideEmailAddressId(owea[0].Id);
+                msg.setSaveAsActivity(true);
+                msg.setTreatTargetObjectAsRecipient(false);
+                msg.setUseSignature(false);
+                lstEmails.add(msg);
                 //make sure email is not null
             }
         }

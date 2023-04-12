@@ -44,7 +44,12 @@ private class CustomLayoutCtrlTest {
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
-            Id courseId = CustomLayoutCtrl.getChildRecordId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, new Map<String,String>());
+            CustomLayoutCtrl.GetRecordFilter filter = new CustomLayoutCtrl.GetRecordFilter();
+            filter.parentId = pr?.Id;
+            filter.parentField = COURSE_PR_FIELD;
+            filter.childObjectType = COURSE_API_NAME;
+            filter.grandChildInfo = new Map<String,String>();
+            Id courseId = CustomLayoutCtrl.getChildRecordId(filter);
             Test.stopTest();
             System.assertEquals(course?.Id, courseId, 'Course Id did not match expected.');
         }
@@ -56,7 +61,13 @@ private class CustomLayoutCtrlTest {
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
-            sObject courseRecord = CustomLayoutCtrl.getParentRecord(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, 'Id ', new Map<String,String>());
+            CustomLayoutCtrl.GetRecordFilter filter = new CustomLayoutCtrl.GetRecordFilter();
+            filter.parentId = pr?.Id;
+            filter.parentField = COURSE_PR_FIELD;
+            filter.childObjectType = COURSE_API_NAME;
+            filter.fields = 'Id ';
+            filter.grandChildInfo = new Map<String,String>();
+            sObject courseRecord = CustomLayoutCtrl.getParentRecord(filter);
 
             Test.stopTest();
             System.assertEquals(courseRecord?.Id, course.Id, 'Course did not match expected.');
@@ -72,7 +83,12 @@ private class CustomLayoutCtrlTest {
             grandChild.put('objectApiName',PRODUCT_API_NAME);
             grandChild.put('conditionField',PRODUCT_COURSE_FIELD);
             Test.startTest();
-            Id productId = CustomLayoutCtrl.getChildRecordId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, grandChild);
+            CustomLayoutCtrl.GetRecordFilter filter = new CustomLayoutCtrl.GetRecordFilter();
+            filter.parentId = pr?.Id;
+            filter.parentField = COURSE_PR_FIELD;
+            filter.childObjectType = COURSE_API_NAME;
+            filter.grandChildInfo = grandChild;
+            Id productId = CustomLayoutCtrl.getChildRecordId(filter);
             Test.stopTest();
             System.assertEquals(product?.Id, productId, 'Product Id did not match expected.');
         }
@@ -87,7 +103,13 @@ private class CustomLayoutCtrlTest {
             grandChild.put('objectApiName',PRODUCT_API_NAME);
             grandChild.put('conditionField',PRODUCT_COURSE_FIELD);
             Test.startTest();
-            sObject productRecord = CustomLayoutCtrl.getParentRecord(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME,'Id ', grandChild);
+            CustomLayoutCtrl.GetRecordFilter filter = new CustomLayoutCtrl.GetRecordFilter();
+            filter.parentId = pr?.Id;
+            filter.parentField = COURSE_PR_FIELD;
+            filter.childObjectType = COURSE_API_NAME;
+            filter.fields = 'Id ';
+            filter.grandChildInfo = grandChild;
+            sObject productRecord = CustomLayoutCtrl.getParentRecord(filter);
             Test.stopTest();
             System.assertEquals(productRecord?.Id, product.Id, 'Product Id did not match expected.');
         }

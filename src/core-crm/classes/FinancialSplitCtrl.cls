@@ -43,20 +43,9 @@ public with sharing class FinancialSplitCtrl {
     * @return Id of Child
     */
     @AuraEnabled(cacheable=true)
-    public static Id getParentId(
-        String parentId,
-        String parentField, 
-        String childObjectType, 
-        Map<String,String> grandChildInfo
-    ){  
-        String field = 'Id ';
-        return CustomLayoutCtrl.getParentRecord(
-            parentId,
-            parentField,
-            childObjectType,
-            field,
-            grandChildInfo
-        )?.Id;
+    public static Id getParentId(CustomLayoutCtrl.GetRecordFilter filter){  
+        filter.fields = 'Id ';
+        return CustomLayoutCtrl.getParentRecord(filter)?.Id;
     }
 
     /**

@@ -500,23 +500,19 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
           };
 
           // Build the Email
-          Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-            procCrsEnroll.hed__Contact__r.Registered_Email__c,
-            subject,
-            emailTemplate.HtmlValue,
-            emailParams,
-            procCrsEnroll.Id,
-            procCrsEnroll.hed__Contact__c,
-            true
-          );
-
-          // Set Org Wide Email Address
-          if (!owea.isEmpty()) {
-            mail.setOrgWideEmailAddressId(owea[0].Id);
-          }
-
+          Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+          msg.setToAddresses(new String[]{procCrsEnroll.hed__Contact__r.Registered_Email__c});
+          msg.setSubject(subject);
+          msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate.HtmlValue, emailParams, true));
+          msg.setOrgWideEmailAddressId(owea[0]?.Id);
+          msg.setWhatId(procCrsEnroll.Id);
+          msg.setTargetObjectId(procCrsEnroll.hed__Contact__c);
+          msg.setSaveAsActivity(true);
+          msg.setTreatTargetObjectAsRecipient(false);
+          msg.setUseSignature(false);
+          
           // Add Email to List
-          sendEmailList.add(mail);
+          sendEmailList.add(msg);
         }
       }
     }

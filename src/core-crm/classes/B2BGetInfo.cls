@@ -99,25 +99,20 @@
   * @param @param effectiveAccountId ID of the account for which the request is made. If null, defaults to the account ID for the context user.
   */   
   @AuraEnabled
-  public static ConnectApi.CartItem addToCart(
-    String communityId,
-    String productId,
-    String quantity,
-    String effectiveAccountId
-  ) {
+  public static ConnectApi.CartItem addToCart(WishlistDetails details) {
     // Lookup the webstore ID associated with the community
-    String webstoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+    String webstoreId = B2BUtils.resolveCommunityIdToWebstoreId(details.communityId);
 
     ConnectApi.CartItemInput cartInput = new ConnectApi.CartItemInput();
-    cartInput.productId = productId;
-    cartInput.quantity = quantity;
+    cartInput.productId = details.productId;
+    cartInput.quantity = details.quantity;
     cartInput.type = ConnectApi.CartItemType.PRODUCT;
 
     if(Test.isRunningTest()){
       return null;
     }else{
       //https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_CommerceCart_static_methods.htm#apex_ConnectAPI_CommerceCart_static_methods
-      return ConnectApi.CommerceCart.addItemToCart(webstoreId, effectiveAccountId, 'active', cartInput);}
+      return ConnectApi.CommerceCart.addItemToCart(webstoreId, details.effectiveAccountId, 'active', cartInput);}
     }
 
   /**
@@ -125,25 +120,20 @@
   * @param communityId The Id of the community from which the call originated
   * @param productId The Id of the product
   * @param wishlistName The Name of the wishlist
-  * @param @param effectiveAccountId ID of the account for which the request is made. If null, defaults to the account ID for the context user.
+  * @param ]effectiveAccountId ID of the account for which the request is made. If null, defaults to the account ID for the context user.
   */    
   @AuraEnabled
-  public static ConnectApi.Wishlist createAndAddToList(
-    String communityId,
-    String productId,
-    String wishlistName,
-    String effectiveAccountId
-  ) {
+  public static ConnectApi.Wishlist createAndAddToList(WishlistDetails details) {
     // Lookup the webstore ID associated with the community
-    String webstoreId = B2BUtils.resolveCommunityIdToWebstoreId(communityId);
+    String webstoreId = B2BUtils.resolveCommunityIdToWebstoreId(details.communityId);
 
     // Store the product in a WishlistItemInput to pass to the Wishlist
     ConnectApi.WishlistItemInput wishlistItemInput = new ConnectApi.WishlistItemInput();
-    wishlistItemInput.productId = productId;
+    wishlistItemInput.productId = details.productId;
 
     //Create a wishlistInput to be created
     ConnectApi.WishlistInput wishlistInput = new ConnectApi.WishlistInput();
-    wishlistInput.name = wishlistName;
+    wishlistInput.name = details.wishlistName;
     wishlistInput.products = new List<ConnectApi.WishlistItemInput>{
       wishlistItemInput
     };
@@ -152,7 +142,7 @@
       return null;
     }else{ 
       //https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_ConnectAPI_CommerceWishlist_static_methods.htm#apex_ConnectAPI_CommerceWishlist_static_methods    
-      return ConnectApi.CommerceWishlist.createWishlist(webstoreId,effectiveAccountId, wishlistInput);}
+      return ConnectApi.CommerceWishlist.createWishlist(webstoreId, details.effectiveAccountId, wishlistInput);}
   }
 
   /**
@@ -194,5 +184,13 @@
         Limit 1];
 
     return currentUser;
+  }
+
+  public class WishlistDetails {
+    public String communityId { get; set; }
+    public String productId { get; set; }
+    public String wishlistName { get; set; }
+    public String quantity { get; set; }
+    public String effectiveAccountId { get; set; }
   }
 }

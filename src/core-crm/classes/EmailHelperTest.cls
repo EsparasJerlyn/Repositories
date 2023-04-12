@@ -9,12 +9,30 @@
       | kenodomienri.dico@qut.edu.au   | April 7, 2022         | DEPP-1479              | Created file                 |
       | marygrace.li@qut.edu.au        | July 20, 2022         | DEPP-3085              | Added addHeaderAndFooterTest |
       | rhea.b.torres                  | October 2, 2022       | DEPP-3399              | Raised apex test coverage    |
+      | alexander.cadalin              | March 23, 2023        | n/a                    | PMD - ExcessiveParameterList |
  */
 @isTest
 public with sharing class EmailHelperTest {
 
     @testSetup static void setupMethod() {
         TestDataFactory.generateTestUsers();
+    }
+
+    @isTest
+    static void setBodyValuesTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String body = 'Dear {LastName}, {FirstName}. Hello. Welcome. Thank you. Good bye, {FirstName}.';
+            Map<String, String> params = new Map<String, String>{
+                '{LastName}' => 'Smithers',
+                '{FirstName}' => 'Dei'
+            };
+            Test.startTest();
+            String htmlBody = EmailHelper.setBodyValues(body, params, true);
+            Test.stopTest();
+            String bodyHardCoded = 'Dear Smithers, Dei. Hello. Welcome. Thank you. Good bye, Dei.';
+            String htmlBodyExpected = EmailHelper.addHeaderAndFooter(bodyHardCoded);
+            System.assertEquals(htmlBodyExpected, htmlBody, 'The values set in the html body is incorrect.');
+        }
     }
 
     @isTest
@@ -29,82 +47,6 @@ public with sharing class EmailHelperTest {
             Test.stopTest();
             System.assert(result != null, 'result is null');
             System.assert(result.length() > 0, 'result is empty');
-        }
-    }
-
-    @isTest
-    static void attachementBuilderTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Messaging.EmailFileAttachment result;
-            String fileName = 'myAttachment';
-            String emailHtml = '<body>Please see attachment.</body>';
-            Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
-            Test.startTest();
-            result = EmailHelper.attachementBuilder(fileName,emailHtml,emailContent);
-            Test.stopTest();
-            System.assert(result != null, 'result is null');
-        }
-    }
-
-    @isTest
-    static void emailBuilderTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Messaging.SingleEmailMessage mail;
-            String subject = 'Welcome to ABC Corp';
-            String email = 'Welcome Email';
-            String emailHtml = '<body>Please see attachment.</body>';
-            Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
-            Test.startTest();
-            mail = EmailHelper.emailBuilder(email,subject,emailHtml,emailContent,null,null,true);
-            Test.stopTest();
-            System.assert(mail != null, 'no mail is created');
-        }
-    }
-
-    @isTest
-    static void emailBuilderWithOWEATest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Messaging.SingleEmailMessage mail;
-            List<String> emailAddresses = new List<String>{'testMail01@test.com', 'testMail02@test.com'};
-            String subject = 'Welcome to ABC Corp';
-            String emailHtml = '<body>Please see attachment.</body>';
-            Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
-            Test.startTest();
-            Id owea = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = 'QUTeX' LIMIT 1]?.Id;
-            mail = EmailHelper.emailBuilder(emailAddresses,subject,emailHtml,emailContent,String.valueOf(owea));
-            Test.stopTest();
-            System.assert(mail != null, 'no mail is created');
-        }
-    }
-
-    @isTest
-    static void emailBuilderNoBannerTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Messaging.SingleEmailMessage mail;
-            String subject = 'Welcome to ABC Corp';
-            String email = 'Welcome Email';
-            String emailHtml = '<body>Please see attachment.</body>';
-            Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
-            Test.startTest();
-            mail = EmailHelper.emailBuilderNoBanner(email,subject,emailHtml,emailContent);
-            Test.stopTest();
-            System.assert(mail != null, 'no mail is created');
-        }
-    }
-
-    @isTest	
-    static void emailBuilderNoBannerWithOWEATest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Messaging.SingleEmailMessage mail;
-            List<String> emailAddresses = new List<String>{'testMail01@test.com', 'testMail02@test.com'};
-            String subject = 'Welcome to ABC Corp';
-            String emailHtml = '<body>Please see attachment.</body>';
-            Map<String,String> emailContent = new Map<String, String>{'LastName' => 'Loreen','FirstName' => 'Red'};
-            Test.startTest();
-            Id owea = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = 'QUTeX' LIMIT 1]?.Id;
-            mail = EmailHelper.emailBuilderNoBanner(emailAddresses,subject,emailHtml,emailContent,String.valueOf(owea));
-            Test.stopTest();
-            System.assert(mail != null, 'no mail is created');
         }
     }
 }

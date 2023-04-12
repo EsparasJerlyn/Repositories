@@ -75,7 +75,12 @@ public with sharing class AddressInformationValidationCtrl {
      */
     @AuraEnabled(cacheable=true)
     public static List<AddressObject> searchAddress(String searchValue, String country) {
-        return createRequest(searchValue, 'fullAddress', country , 'lookup'); 
+        Request r = new Request();
+        r.searchValue = searchValue;
+        r.filter = 'fullAddress';
+        r.country = country;
+        r.requestType = 'lookup';
+        return createRequest(r); 
     }
 
     /**
@@ -86,7 +91,12 @@ public with sharing class AddressInformationValidationCtrl {
      */
     @AuraEnabled(cacheable=true)
     public static AddressObject getDetails(String searchValue, String country){
-        return createRequest(searchValue, 'id', country, 'retrieve')[0];
+        Request r = new Request();
+        r.searchValue = searchValue;
+        r.filter = 'id';
+        r.country = country;
+        r.requestType = 'retrieve';
+        return createRequest(r)[0];
     }
 
     /**
@@ -97,14 +107,14 @@ public with sharing class AddressInformationValidationCtrl {
      * @param requestType - request type (look up/retrieve)
      * @return list of address object response from loqate
      */
-    public static List<AddressObject> createRequest(String searchValue, String filter, String country, String requestType){
+    public static List<AddressObject> createRequest(Request req){
         try {
             List<AddressObject> addressObjectList = new List<AddressObject>{};
             Wrapper serviceWrapper = new Wrapper();
-            if(!String.isEmpty(searchValue) && !String.isEmpty(country)){
+            if(!String.isEmpty(req.searchValue) && !String.isEmpty(req.country)){
                 serviceWrapper = createWrapper('searchAddress'); 
-                serviceWrapper.body = '{"payload": [{ "'+filter+'": "'+searchValue+'", "country": "'+country+'"} ]}';
-                string res = doCallout('/harmony/rest/address/'+requestType+'','POST', serviceWrapper.body);
+                serviceWrapper.body = '{"payload": [{ "'+req.filter+'": "'+req.searchValue+'", "req.country": "'+req.country+'"} ]}';
+                string res = doCallout('/harmony/rest/address/'+req.requestType+'','POST', serviceWrapper.body);
                 Map<String,Object> result = (Map<String,Object>)JSON.deserializeUntyped(res);
                 string respStr = JSON.serialize(result);
                 serviceWrapper.result = (ResponseResult) JSON.deserialize(respStr, ResponseResult.class);
@@ -192,48 +202,36 @@ public with sharing class AddressInformationValidationCtrl {
      * @description wrapper for address object
      */
     public class AddressObject {
-        @AuraEnabled
-        public string fullAddress;
-        @AuraEnabled
-        public string country;
-        @AuraEnabled
-        public string postcode;
-        @AuraEnabled
-        public string street;
-        @AuraEnabled
-        public string street2;
-        @AuraEnabled
-        public string streetNumber;
-        @AuraEnabled
-        public string id;
-        @AuraEnabled
-        public string state;
-        @AuraEnabled
-        public string city;
-        @AuraEnabled
-        public string locality;
-        @AuraEnabled
-        public string province;
-        @AuraEnabled
-        public string buildingName;
-        @AuraEnabled
-        public string lotNumber;
-        @AuraEnabled
-        public string subdwelling;
-        @AuraEnabled
-        public string postal;
+        @AuraEnabled public string fullAddress;
+        @AuraEnabled public string country;
+        @AuraEnabled public string postcode;
+        @AuraEnabled public string street;
+        @AuraEnabled public string street2;
+        @AuraEnabled public string streetNumber;
+        @AuraEnabled public string id;
+        @AuraEnabled public string state;
+        @AuraEnabled public string city;
+        @AuraEnabled public string locality;
+        @AuraEnabled public string province;
+        @AuraEnabled public string buildingName;
+        @AuraEnabled public string lotNumber;
+        @AuraEnabled public string subdwelling;
+        @AuraEnabled public string postal;
     }
 
     /**
      * @description olds data to maps sObjects to hed__Address__c from custom meta data
      */
     public class AddressMetadata {
-        @AuraEnabled
-        public string fieldApiMapping;
-        @AuraEnabled
-        public string countryMapping;
-        @AuraEnabled
-        public string addressLookup;
+        @AuraEnabled public string fieldApiMapping;
+        @AuraEnabled public string countryMapping;
+        @AuraEnabled public string addressLookup;
     }
-        
+    
+    private class Request {
+        public String searchValue { get; set; }
+        public String filter { get; set; }
+        public String country { get; set; }
+        public String requestType { get; set; }
+    }
 }

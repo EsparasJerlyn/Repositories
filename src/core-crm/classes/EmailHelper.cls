@@ -10,6 +10,7 @@
       | marygrace.li@qut.edu.au        | April 4, 2022         | DEPP-1479              | Created file                             |
       | angelika.j.s.galang            | April 22, 2022        | DEPP-2156              | Added documentation and modified methods |
       | marygrace.li@qut.edu.au        | July 20, 2022         | DEPP-3085              | Added new method for email w/o banner    |
+      | alexander.cadalin              | March 23, 2023        | n/a                    | PMD - ExcessiveParameterList             |
  */
 public class EmailHelper {
 
@@ -24,7 +25,7 @@ public class EmailHelper {
     * @param params - parameters to be updated with values
     * @return string containing updated email body
     */
-    private static String setBodyValues(
+    public static String setBodyValues(
         String body,
         Map<String,String> params,
         Boolean setHeaderAndFooter
@@ -64,137 +65,5 @@ public class EmailHelper {
             '<!--[if mso]></td></tr></table></center><![endif]-->';
 
         return emailHeaderTag + emailBody + emailFooterTag;
-    }
-
-    /**
-    * @description attaches pdf file to email
-    * @param fileName - name of the file attachment
-    * @param emailHtml - body of the email
-    * @param emailContent - parameters to be updated with values
-    * @return email file attachment
-    */
-    public static Messaging.EmailFileAttachment attachementBuilder(
-        String fileName,
-        String emailHtml,
-        Map<String,String> emailContent
-    ){
-        Messaging.EmailFileAttachment attach = new Messaging.EmailFileAttachment();
-        attach.setContentType('application/pdf');
-        attach.setFileName(fileName);
-        attach.setInline(true);
-        String body=emailHtml;
-        body=setBodyValues(body,emailContent,false);
-        attach.Body = Blob.toPDF(body);
-        return attach;
-    }
-
-    /**
-    * @description creates email content
-    * @param email - email address of recipient
-    * @param subject - subject of the email
-    * @param emailHtml - body of the email
-    * @param emailContent - parameters to be updated with values
-    * @return single email message
-    */
-    public static Messaging.SingleEmailMessage emailBuilder(
-        String email,
-        String subject,
-        String emailHtml,
-        Map<String,String> emailContent,
-        Id whatId,
-        Id targetObjectId,
-        Boolean isSetAsActivity
-    ){
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        mail.setUseSignature(false);
-        mail.setToAddresses(new string[]{email});
-        mail.setSubject(subject);
-        String body=emailHtml;
-        body=setBodyValues(body,emailContent,true);
-        mail.setHtmlBody(body);
-        mail.setWhatId(whatId);
-        mail.setTargetObjectId(targetObjectId);
-        mail.setSaveAsActivity(isSetAsActivity);
-        mail.setTreatTargetObjectAsRecipient(false);
-
-        return mail;
-    }
-
-    /**
-    * @description creates email content
-    * @param email - email address of recipient
-    * @param subject - subject of the email
-    * @param emailHtml - body of the email
-    * @param emailContent - parameters to be updated with values
-    * @return single email message
-    */
-    public static Messaging.SingleEmailMessage emailBuilderNoBanner(
-        String email,
-        String subject,
-        String emailHtml,
-        Map<String,String> emailContent
-    ){
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        mail.setUseSignature(false);
-        mail.setToAddresses(new string[]{email});
-        mail.setSubject(subject);
-        String body=emailHtml;
-        body=setBodyValues(body,emailContent,false);
-        mail.setHtmlBody(body);
-        return mail;
-    }
-
-    /**
-    * @description creates email content with org wide email sender
-    * @param emailAddresses - list of email addresses of recipients
-    * @param subject - subject of the email
-    * @param emailHtml - body of the email
-    * @param emailContent - parameters to be updated with values
-    * @param orgWideEmailId - org wide email address id
-    * @return single email message
-    */
-    public static Messaging.SingleEmailMessage emailBuilder(
-        List<String> emailAddresses,
-        String subject,
-        String emailHtml,
-        Map<String,String> emailContent,
-        String orgWideEmailId
-    ){
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        mail.setUseSignature(false);
-        mail.setToAddresses(emailAddresses);
-        mail.setSubject(subject);
-        mail.setHtmlBody(setBodyValues(emailHtml,emailContent,true));
-        if(!String.isBlank(orgWideEmailId)){
-            mail.setOrgWideEmailAddressId(orgWideEmailId);
-        }
-        return mail;
-    }
-
-    /**
-    * @description creates email content with org wide email sender without header/footer
-    * @param emailAddresses - list of email addresses of recipients
-    * @param subject - subject of the email
-    * @param emailHtml - body of the email
-    * @param emailContent - parameters to be updated with values
-    * @param orgWideEmailId - org wide email address id
-    * @return single email message
-    */
-    public static Messaging.SingleEmailMessage emailBuilderNoBanner(
-        List<String> emailAddresses,
-        String subject,
-        String emailHtml,
-        Map<String,String> emailContent,
-        String orgWideEmailId
-    ){
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        mail.setUseSignature(false);
-        mail.setToAddresses(emailAddresses);
-        mail.setSubject(subject);
-        mail.setHtmlBody(setBodyValues(emailHtml,emailContent,false));
-        if(!String.isBlank(orgWideEmailId)){
-            mail.setOrgWideEmailAddressId(orgWideEmailId);
-        }
-        return mail;
     }
 }

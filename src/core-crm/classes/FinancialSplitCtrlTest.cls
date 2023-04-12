@@ -54,7 +54,12 @@ private class FinancialSplitCtrlTest {
             Product_Request__c pr = [SELECT Id FROM Product_Request__c LIMIT 1];
             hed__Course__c course = [SELECT Id FROM hed__Course__c LIMIT 1];
             Test.startTest();
-            Id courseId = FinancialSplitCtrl.getParentId(pr?.Id, COURSE_PR_FIELD, COURSE_API_NAME, new Map<String,String>());
+            CustomLayoutCtrl.GetRecordFilter filter = new CustomLayoutCtrl.GetRecordFilter();
+            filter.parentId = pr?.Id;
+            filter.parentField = COURSE_PR_FIELD;
+            filter.childObjectType = COURSE_API_NAME;
+            filter.grandChildInfo = new Map<String,String>();
+            Id courseId = FinancialSplitCtrl.getParentId(filter);
             Test.stopTest();
             System.assertEquals(course?.Id, courseId, 'Course Id did not match expected.');
         }

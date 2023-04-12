@@ -149,6 +149,15 @@ export default class CreateRecordUI extends LightningElement {
     hasBottomLayout = false;
     isChildOfPresc;
 
+    get recordFilterWrapper() {
+        return { 
+            parentId: this.recordId,
+            parentField: this.parentCondition,
+            childObjectType: this.objectType,
+            grandChildInfo: this.grandChildData
+        }
+    };
+
     //decides if user has access to this feature
     get hasAccess(){
         return HAS_PERMISSION;
@@ -249,12 +258,7 @@ export default class CreateRecordUI extends LightningElement {
     }
 
     //gets child record id
-    @wire(getChildRecordId, { 
-        parentId : '$recordId', 
-        parentField : '$parentCondition', 
-        childObjectType : '$objectType', 
-        grandChildInfo : '$grandChildData'
-    })
+    @wire(getChildRecordId, { filter: '$recordFilterWrapper' })
     handleGetChildRecordId(result){
         if(result.data){
             this.childRecordId = result.data;

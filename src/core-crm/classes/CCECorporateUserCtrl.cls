@@ -226,7 +226,7 @@ public without sharing class CCECorporateUserCtrl {
      * @return <Id> - userId
      */
     @AuraEnabled
-    public static Id enableCCECorporateUserForOPE(String recordId, String contactFirstName, String contactLastName, String email){
+    public static Id enableCCECorporateUserForOPE(ContactDetails conDetails){
         Savepoint savePoint = Database.setSavepoint();
         Id userId;
         try {
@@ -235,12 +235,12 @@ public without sharing class CCECorporateUserCtrl {
             List<User> usersToCreate = new List<User>();
             User commerceUser = new User();
             commerceUser.IsActive = true;
-            commerceUser.Username = email + '.cce';
-            commerceUser.Email = email;
-            commerceUser.LastName = contactLastName;
-            commerceUser.FirstName = contactFirstName;
-            commerceUser.ContactId = recordId;
-            commerceUser.alias = contactFirstName.substring(0, 1) + contactLastName.substring(0, 2);
+            commerceUser.Username = conDetails.email + '.cce';
+            commerceUser.Email = conDetails.email;
+            commerceUser.LastName = conDetails.contactFirstName;
+            commerceUser.FirstName = conDetails.contactFirstName;
+            commerceUser.ContactId = conDetails.recordId;
+            commerceUser.alias = conDetails.contactFirstName.substring(0, 1) + conDetails.contactFirstName.substring(0, 2);
             commerceUser.LanguageLocaleKey = 'en_US';
             commerceUser.localesidkey = 'en_AU';
             commerceUser.emailEncodingKey = 'UTF-8';
@@ -349,19 +349,19 @@ public without sharing class CCECorporateUserCtrl {
      * @return <String>
      */
     @AuraEnabled    
-    public static String createExtManagedAcct(Id accountId, Id primaryBusinessAcctId, String accountName, Id userId){
+    public static String createExtManagedAcct(ExternalAccountDetails extAccDetails){
         List<DelegatedAccount> delegatedAcctList = [
             SELECT Id 
             FROM DelegatedAccount 
-            WHERE TargetId =: primaryBusinessAcctId
-            AND ManagedById =: userId WITH SECURITY_ENFORCED];
+            WHERE TargetId =: extAccDetails.primaryBusinessAcctId
+            AND ManagedById =: extAccDetails.userId WITH SECURITY_ENFORCED];
         if(delegatedAcctList.isEmpty()){
             DelegatedAccount delegatedAcct = new DelegatedAccount();
-            delegatedAcct.TargetId = primaryBusinessAcctId;
-            delegatedAcct.ManagedById = userId;
+            delegatedAcct.TargetId = extAccDetails.primaryBusinessAcctId;
+            delegatedAcct.ManagedById = extAccDetails.userId;
             delegatedAcct.AccessBuyFor = true;
-            delegatedAcct.Name = accountName;
-            //delegatedAcct.ParentId = primaryBusinessAcctId;
+            delegatedAcct.Name = extAccDetails.accountName;
+            //delegatedAcct.ParentId = extAccDetails.primaryBusinessAcctId;
             insert delegatedAcct;
         }
         return 'Success';
@@ -439,51 +439,45 @@ public without sharing class CCECorporateUserCtrl {
     }   
 
     public class ValidateContactInputResponse{
-        @AuraEnabled
-        public Boolean isSuccess;
-        @AuraEnabled
-        public String errorMessage;
+        @AuraEnabled public Boolean isSuccess { get; set; }
+        @AuraEnabled public String errorMessage { get; set; }
     }
 
     public class CorporateUserDetails{
-        @AuraEnabled
-        public String contactId;        
-        @AuraEnabled
-        public String email;
-        @AuraEnabled
-        public String contactLastName;
-        @AuraEnabled
-        public String contactFirstName;
-        @AuraEnabled
-        public Boolean hasOpeUser;
-        @AuraEnabled
-        public String accountId;
-        @AuraEnabled
-        public String primaryBusinessAcctId;
-        @AuraEnabled
-        public String accountName;
-        @AuraEnabled
-        public String userId;
-        @AuraEnabled
-        public Boolean isNoUpdateNeeded;
-        @AuraEnabled
-        public Boolean isSuccess;
-        @AuraEnabled
-        public String errorMessage;
+        @AuraEnabled public String contactId { get; set; }        
+        @AuraEnabled public String email { get; set; }
+        @AuraEnabled public String contactLastName { get; set; }
+        @AuraEnabled public String contactFirstName { get; set; }
+        @AuraEnabled public Boolean hasOpeUser { get; set; }
+        @AuraEnabled public String accountId { get; set; }
+        @AuraEnabled public String primaryBusinessAcctId { get; set; }
+        @AuraEnabled public String accountName { get; set; }
+        @AuraEnabled public String userId { get; set; }
+        @AuraEnabled public Boolean isNoUpdateNeeded { get; set; }
+        @AuraEnabled public Boolean isSuccess { get; set; }
+        @AuraEnabled public String errorMessage { get; set; }
     }
     /* contact, portalAccessType, isCreateUser, userId, hasCCEUser, hasOpeUser */
     public class UserAccessWrapper{
-        @AuraEnabled
-        public Contact contact;
-        @AuraEnabled
-        public String portalAccessType;
-        @AuraEnabled
-        public Boolean isCreateUser;
-        @AuraEnabled
-        public Id userId;
-        @AuraEnabled
-        public Boolean hasCCEUser;
-        @AuraEnabled
-        public Boolean hasOpeUser;
+        @AuraEnabled public Contact contact { get; set; }
+        @AuraEnabled public String portalAccessType { get; set; }
+        @AuraEnabled public Boolean isCreateUser { get; set; }
+        @AuraEnabled public Id userId { get; set; }
+        @AuraEnabled public Boolean hasCCEUser { get; set; }
+        @AuraEnabled public Boolean hasOpeUser { get; set; }
+    }
+
+    public class ContactDetails {
+        @AuraEnabled public String recordId { get; set; }
+        @AuraEnabled public String contactFirstName { get; set; }
+        @AuraEnabled public String contactLastName { get; set; }
+        @AuraEnabled public String email { get; set; }
+    }
+
+    public class ExternalAccountDetails {
+        @AuraEnabled public Id accountId { get; set; }
+        @AuraEnabled public Id primaryBusinessAcctId { get; set; }
+        @AuraEnabled public String accountName { get; set; }
+        @AuraEnabled public Id userId { get; set; }
     }
 }
