@@ -55,7 +55,7 @@ stages:
         timeoutInMinutes: 600
         pool:
           vmImage: "ubuntu-latest"
-        container: adammbest/sfdx:1.2
+        container: qutinohmonton/inohsfdx:test
         environment: "IT1JunCI"
         variables:
           - group: IT1JunCI
