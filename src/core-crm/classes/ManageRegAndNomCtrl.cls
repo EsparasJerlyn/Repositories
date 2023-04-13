@@ -400,7 +400,8 @@ public without sharing class ManageRegAndNomCtrl {
                     //Check Existing Learner
                     List<hed__Course_Enrollment__c> existingCourseConnectionList = [
                         SELECT Id FROM hed__Course_Enrollment__c WHERE hed__Status__c = 'Active' AND hed__Contact__c =: contactId 
-                           AND (hed__Course_Offering__c =: contactInfo.Course_Offering__c OR Program_Offering__c =: contactInfo.Program_Offering__c) LIMIT 1];
+                        AND ( ( hed__Course_Offering__c =: contactInfo.Course_Offering__c AND Program_Offering__c = null) OR (Program_Offering__c =: contactInfo.Program_Offering__c AND hed__Course_Offering__c = null) ) LIMIT 1];
+
 
                     if(!existingCourseConnectionList.isEmpty()){
                         response.isSuccess = false;
