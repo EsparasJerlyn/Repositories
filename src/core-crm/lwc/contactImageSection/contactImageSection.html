@@ -1,0 +1,76 @@
+<template>
+    <c-logger></c-logger>
+    <lightning-record-edit-form object-api-name={objectApiName} onsubmit={handleSubmit} record-id={recordId}>
+        <lightning-layout>    
+            <lightning-layout-item size="4" class="slds-m-left_xx-large">
+                <template if:false={showUploadPhoto}>
+                    <div class="custom-contact-image">
+                        <img src={defaultLogo}>
+                    </div>
+                </template> 
+                <template if:true={showUploadPhoto}>
+                    <div class="custom-contact-image" onclick={previewHandler}>
+                        <lightning-formatted-rich-text value={contactImage} title="View Photo"></lightning-formatted-rich-text>
+                    </div>
+                </template> 
+                    <lightning-file-upload
+                        label-hidden
+                        name="fileUploader"
+                        accept={acceptedFormats}
+                        record-id={recordId}
+                        onuploadfinished={handleUploadFinished}
+                        multiple
+                    ></lightning-file-upload>
+                <template if:true={showLoadingSpinner}>
+                    <lightning-spinner alternative-text="Uploading......" size="medium"></lightning-spinner>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item size="8" class="slds-m-left_xx-large slds-m-top_large">
+                <lightning-layout>
+                    <lightning-layout-item size="7" class="slds-p-left_x-large">
+                        <lightning-input-field variant="label-inline" field-name="QUT_Lead__c" disabled="true" class="custom-checkbox-right-label slds-m-left_xx-large"></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="7">
+                        <lightning-input-field variant="label-inline" field-name="QUT_Donor__c" disabled="true" class="custom-checkbox-right-label slds-m-right_xx-large"></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout>
+                    <lightning-layout-item size="7" class="slds-p-left_x-large">
+                        <lightning-input-field variant="label-inline" field-name="QUT_Applicant__c" disabled="true" class="custom-checkbox-right-label slds-m-left_xx-large"></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="7">
+                        <lightning-input-field variant="label-inline" field-name="QUT_Partner__c" disabled="true" class="custom-checkbox-right-label slds-m-right_xx-large"></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout>
+                    <lightning-layout-item size="7" class="slds-p-left_x-large">
+                        <lightning-input-field variant="label-inline" field-name="QUT_Student__c" disabled="true" class="custom-checkbox-right-label slds-m-left_xx-large"></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="7">
+                        <lightning-input-field variant="label-inline" field-name="QUT_Staff__c" disabled="true" class="custom-checkbox-right-label slds-m-right_xx-large"></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout>
+                    <lightning-layout-item size="7" class="slds-p-left_x-large">
+                        <lightning-input-field variant="label-inline" field-name="QUT_Alumnus__c" disabled="true" class="custom-checkbox-right-label slds-m-left_xx-large"></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-record-edit-form>
+    <template if:true={isModalOpen}>
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAction}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                    </button>
+                    <div class="slds-align_absolute-center">
+                        <lightning-formatted-rich-text value={contactImage} ></lightning-formatted-rich-text>
+                    </div>
+                </header>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

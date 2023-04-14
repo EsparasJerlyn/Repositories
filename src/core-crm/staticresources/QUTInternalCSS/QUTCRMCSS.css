@@ -11,3 +11,8 @@
 .customAccordion button.section-control.slds-button.slds-button_reset.slds-accordion__summary-action span {
     color: #181818 !important;
 }
+.custom-checkbox-right-label .slds-form-element_horizontal .slds-form-element__control{
+    padding-left: 0 !important;
+    margin-left: -35px;
+    
+}
