@@ -57,26 +57,26 @@
                                     class="slds-m-right_small" 
                                     variant="brand"
                                     type="submit" 
-                                    label="SAVE">
+                                    label="Save">
                                 </lightning-button>
                                 <lightning-button
                                     if:true={disableEditButton} 
                                     variant="Neutral" 
-                                    label="CANCEL" 
+                                    label="Cancel" 
                                     onclick={handleCancelButton}>
                                 </lightning-button>
                                 <lightning-button
                                     if:false={disableEditButton}
                                     class="slds-m-right_small"
                                     variant="brand"
-                                    label="VALIDATE" 
+                                    label="Validate" 
                                     onclick={handleValidateButton}
                                     disabled={disableValidateButton}>
                                 </lightning-button>
                                 <lightning-button   
                                     if:false={disableEditButton}
                                     variant="Neutral"
-                                    label="EDIT" 
+                                    label="Edit" 
                                     onclick={handleEditButton}>
                                 </lightning-button>
                             </div>

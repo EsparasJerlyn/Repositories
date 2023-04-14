@@ -34,7 +34,7 @@
 
                 <lightning-layout multiple-rows="true" class="slds-p-top_small">
                     <lightning-layout-item class="slds-m-horizontal_xx-small" size="7">
-                        <lightning-input type="checkbox" label={unverifiedAddLabel} name="checkbox" onclick={handleOnClick}></lightning-input>
+                        <lightning-input type="checkbox" label={unverifiedAddLabel} name="checkbox" onclick={handleOnClick} class="custom-checkbox-label"></lightning-input>
                         <template if:true={unverified}>
                             <lightning-input-address
                                 street-label="Street"
@@ -70,7 +70,7 @@
                                             </div>
                                         </template>
                                         <template if:true={multpleAddressType}>
-                                            <div class="slds-m-vertical_medium slds-text-title_caps">
+                                            <div class="slds-m-vertical_medium custom-field-label-upper">
                                                 {mapKey.type} {addressSuffix}
                                             </div>
                                         </template>
