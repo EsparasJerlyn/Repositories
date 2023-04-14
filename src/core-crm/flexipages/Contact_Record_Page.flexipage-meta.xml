@@ -86,7 +86,7 @@
                 <identifier>RecordBirthdateField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-ca0064eb-51be-44f0-bc2b-7994e78998fa</name>
+        <name>Facet-5cbccaf7-7ed3-40b4-ad4b-a151d634b5ec</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -120,7 +120,7 @@
                 <identifier>RecordATSI_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-4588a2ae-ea92-4343-ad50-fbb3d4b8a593</name>
+        <name>Facet-1221b753-6dac-462a-abe7-1edb381d372b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -128,23 +128,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-ca0064eb-51be-44f0-bc2b-7994e78998fa</value>
+                    <value>Facet-5cbccaf7-7ed3-40b4-ad4b-a151d634b5ec</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column</identifier>
+                <identifier>flexipage_column4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-4588a2ae-ea92-4343-ad50-fbb3d4b8a593</value>
+                    <value>Facet-1221b753-6dac-462a-abe7-1edb381d372b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column2</identifier>
+                <identifier>flexipage_column5</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-1516fee7-0367-4283-9609-507b597cf5df</name>
+        <name>Facet-1353e95f-dead-4182-85fa-ce022f6de2ed</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -172,7 +172,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Registered_Email__c</fieldItem>
                 <identifier>RecordRegistered_Email_cField</identifier>
@@ -185,7 +185,7 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-a8819abe-7f0d-4573-b618-99cbf8710de1</name>
+        <name>Facet-eff27c10-68b6-4b25-b9ad-8e2af8869635</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -209,7 +209,7 @@
                 <identifier>RecordQUT_Staff_Email_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-aac8471c-a65f-4c4f-bddc-17fa9f3ad734</name>
+        <name>Facet-ed0105ad-7dd8-4de2-b85f-8230cfe310c4</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -217,23 +217,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-a8819abe-7f0d-4573-b618-99cbf8710de1</value>
+                    <value>Facet-eff27c10-68b6-4b25-b9ad-8e2af8869635</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column3</identifier>
+                <identifier>flexipage_column6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-aac8471c-a65f-4c4f-bddc-17fa9f3ad734</value>
+                    <value>Facet-ed0105ad-7dd8-4de2-b85f-8230cfe310c4</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column4</identifier>
+                <identifier>flexipage_column7</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-e888b09b-67ce-4dd7-967d-bf13c6a7d2e5</name>
+        <name>Facet-31d86276-cac4-49f9-82bd-8141e54f4380</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -241,7 +241,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.QUT_Identity_ID__c</fieldItem>
                 <identifier>RecordQUT_Identity_ID_cField</identifier>
@@ -280,7 +280,7 @@
                 <identifier>RecordQUT_Employee_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-9ce8a180-d7d9-4ece-81d2-a69f0a7bba4d</name>
+        <name>Facet-1690bb37-6912-495d-8cc1-bfbc803894cd</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -291,7 +291,7 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.LinkedIn_Profile_URL__c</fieldItem>
-                <identifier>RecordLinkedIn_Profile_URL_cField</identifier>
+                <identifier>RecordLinkedIn_Profile_URL_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -314,7 +314,7 @@
                 <identifier>Recordhed_Deceased_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-971364dc-ffdd-4ded-bb0a-323a0377b4f2</name>
+        <name>Facet-e5da54a2-d010-4e66-a2fe-49e8c93d74ae</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -322,23 +322,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-9ce8a180-d7d9-4ece-81d2-a69f0a7bba4d</value>
+                    <value>Facet-1690bb37-6912-495d-8cc1-bfbc803894cd</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column5</identifier>
+                <identifier>flexipage_column8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-971364dc-ffdd-4ded-bb0a-323a0377b4f2</value>
+                    <value>Facet-e5da54a2-d010-4e66-a2fe-49e8c93d74ae</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column6</identifier>
+                <identifier>flexipage_column9</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-c1774a58-ff22-4094-8a07-f3450dc0bde2</name>
+        <name>Facet-b6bde133-8ae3-4a4b-b1a2-0886d52db979</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -352,28 +352,28 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-1516fee7-0367-4283-9609-507b597cf5df</value>
+                    <value>Facet-1353e95f-dead-4182-85fa-ce022f6de2ed</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>CONTACT SUMMARY</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection</identifier>
+                <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-e888b09b-67ce-4dd7-967d-bf13c6a7d2e5</value>
+                    <value>Facet-31d86276-cac4-49f9-82bd-8141e54f4380</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>CONTACT INFORMATION</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection2</identifier>
+                <identifier>flexipage_fieldSection4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -392,14 +392,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-c1774a58-ff22-4094-8a07-f3450dc0bde2</value>
+                    <value>Facet-b6bde133-8ae3-4a4b-b1a2-0886d52db979</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>IDENTITY INFORMATION</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection3</identifier>
+                <identifier>flexipage_fieldSection5</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -427,7 +427,7 @@
                 <identifier>RecordCompany_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-c0b6b550-7fae-4409-9d90-7507e55c135f</name>
+        <name>Facet-a860bfd6-2f82-4a3c-b542-d52bc56a0a77</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -438,7 +438,7 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.LinkedIn_Profile_URL__c</fieldItem>
-                <identifier>RecordLinkedIn_Profile_URL_cField2</identifier>
+                <identifier>RecordLinkedIn_Profile_URL_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -451,7 +451,7 @@
                 <identifier>RecordPosition_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-5e863734-12dd-49a4-b8bf-b4bf8247f6fc</name>
+        <name>Facet-919a2ed5-816a-4e98-bfa4-35e53f7c013b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -459,23 +459,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-c0b6b550-7fae-4409-9d90-7507e55c135f</value>
+                    <value>Facet-a860bfd6-2f82-4a3c-b542-d52bc56a0a77</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column7</identifier>
+                <identifier>flexipage_column</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-5e863734-12dd-49a4-b8bf-b4bf8247f6fc</value>
+                    <value>Facet-919a2ed5-816a-4e98-bfa4-35e53f7c013b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column8</identifier>
+                <identifier>flexipage_column2</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-f27f9f39-34a9-43c8-9eb5-b761aee9bb6c</name>
+        <name>Facet-674fbe9b-c5cb-4aa9-b246-049bc9bc844d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -483,14 +483,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-f27f9f39-34a9-43c8-9eb5-b761aee9bb6c</value>
+                    <value>Facet-674fbe9b-c5cb-4aa9-b246-049bc9bc844d</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>PROFESSION</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection4</identifier>
+                <identifier>flexipage_fieldSection</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -511,7 +511,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Opportunities__r</value>
+                    <value>Opportunities</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
