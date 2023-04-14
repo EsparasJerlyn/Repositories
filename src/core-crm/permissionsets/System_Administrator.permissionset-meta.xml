@@ -9,6 +9,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>Industry_Engagement</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>International_Student_Recruitment</application>
         <visible>true</visible>
     </applicationVisibilities>
