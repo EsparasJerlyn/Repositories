@@ -370,9 +370,14 @@ public with sharing class GroupBookingFormCtrlTest {
       answerMap.put('PARTICIPANT 1', answerList);
       fileUploadMap.put('PARTICIPANT 1',JSON.serialize(fileLoadList));
 
-      
-
-      GroupBookingFormCtrl.saveBooking(participantsMap,courseOfferingId, relatedAnswerList,answerMap,fileUploadMap,false);
+      GroupBookingFormCtrl.SaveBookingDetails details = new GroupBookingFormCtrl.SaveBookingDetails();
+      details.participants = participantsMap;
+      details.offeringId = courseOfferingId;
+      details.relatedAnswer = relatedAnswerList;
+      details.answerMap = answerMap;
+      details.fileUpload = fileUploadMap;
+      details.isPrescribed = false;
+      GroupBookingFormCtrl.saveBooking(details);
 
       Test.stopTest();
 
@@ -391,7 +396,16 @@ public with sharing class GroupBookingFormCtrlTest {
 
       Test.startTest();
 
-      GroupBookingFormCtrl.addCartItems(product.Id,product.Name, false,offering.Id ,pbEntry.Id,pbEntry.UnitPrice,cart.OwnerId,contacts,cart.Id);
+      GroupBookingFormCtrl.CartItemDetails details = new GroupBookingFormCtrl.CartItemDetails();
+      details.productId = product.Id;
+      details.productName = product.Name;
+      details.isPrescribed = false;
+      details.offeringId = offering.Id;
+      details.pricebookEntryId = pbEntry.Id;
+      details.pricebookUnitPrice = pbEntry.UnitPrice;
+      details.contacts = contacts;
+      details.cartId = cart.Id;
+      GroupBookingFormCtrl.addCartItems(details);
 
       Test.stopTest();
       System.assert(![SELECT Id FROM CartItem WHERE Contact__c =: contacts[0].Id].isEmpty(),'no cartitems linked to contact created');

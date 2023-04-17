@@ -288,16 +288,16 @@ public without sharing class ManageRegAndNomCtrl {
      * @return String
      */
     @AuraEnabled
-    public static RegistrationNominationUpdateResponse updateRegistrationOrNominationStatus(String id, String registrationStatus, Boolean isRegistrations, Expression_of_Interest__c contactInfo, String mobileNumber, String businessOrgAccount){
+    public static RegistrationNominationUpdateResponse updateRegistrationOrNominationStatus(StudentDetails details){
         
         Savepoint savePoint = Database.setSavepoint();
         RegistrationNominationUpdateResponse response = new RegistrationNominationUpdateResponse();
 
         //Handling for Manage Registration Update
-        if(isRegistrations){
+        if(details.isRegistrations){
             hed__Course_Enrollment__c studentToUpdate = new hed__Course_Enrollment__c();
-            studentToUpdate.Id = id;
-            studentToUpdate.hed__Status__c = registrationStatus;
+            studentToUpdate.Id = details.id;
+            studentToUpdate.hed__Status__c = details.registrationStatus;
 
             try {
                 update studentToUpdate;
@@ -310,7 +310,7 @@ public without sharing class ManageRegAndNomCtrl {
 
         } else {  
             //Handling for Manage Nomination Update
-            PriceBookEntry priceBookEntry = getPriceBookEntry(contactInfo.Pricebook_Entry_ID__c);
+            PriceBookEntry priceBookEntry = getPriceBookEntry(details.contactInfo.Pricebook_Entry_ID__c);
             BuyerGroupPricebook buyerGrpPriceBook = getBuyerGrpPriceBook(priceBookEntry.Pricebook2Id);
             Asset asset = getAsset(buyerGrpPriceBook.BuyerGroup.Product_Request__c);
             if(priceBookEntry.Id != null && asset != null){
@@ -325,38 +325,38 @@ public without sharing class ManageRegAndNomCtrl {
             Id contactId;
             List<Expression_of_Interest__c> studentToUpdateList = new List<Expression_of_Interest__c>();
             studentToUpdateList.add(new Expression_of_Interest__c(
-                Id = id, 
-                Status__c = registrationStatus)
+                Id = details.id, 
+                Status__c = details.registrationStatus)
             );
 
             List<Contact> contactListToAdd = new List<Contact>();
             List<Contact> contactListToUpdate = new List<Contact>();
             List<Contact> contactListParam = new List<Contact>();            
-            if(registrationStatus == 'Approved'){      
+            if(details.registrationStatus == 'Approved'){      
 
-                if(!validateOfferingCapacity(contactInfo.Course_Offering__c, contactInfo.Program_Offering__c)){
+                if(!validateOfferingCapacity(details.contactInfo.Course_Offering__c, details.contactInfo.Program_Offering__c)){
                     response.isSuccess = false;
                     response.errorMessage = 'Registration is full. Please contact QUTeX for any further assistance.';
                     return response;
                 }
 
-                if(!validateOfferingRegistration(contactInfo.Course_Offering__c, contactInfo.Program_Offering__c)){
+                if(!validateOfferingRegistration(details.contactInfo.Course_Offering__c, details.contactInfo.Program_Offering__c)){
                     response.isSuccess = false;
                     response.errorMessage = 'Registration is closed. Please contact QUTeX for any further assistance.';
                     return response;
                 }
 
                 Contact contact = new Contact();
-                contact.FirstName = contactInfo.First_Name__c;
-                contact.LastName = contactInfo.Last_Name__c;
-                contact.Email = contactInfo.Email__c;
-                contact.Registered_Email__c = contactInfo.Email__c;
-                contact.Birthdate = contactInfo.Birthdate__c;
-                contact.Accessibility_Requirement__c = String.isNotBlank(contactInfo.Accessibility_Requirement__c) ? contactInfo.Accessibility_Requirement__c : '';
-                contact.Dietary_Requirement__c = String.isNotBlank(contactInfo.Dietary_Requirement__c) ? contactInfo.Dietary_Requirement__c : '';
-                contact.MobilePhone = mobileNumber;
-                contact.Mobile_No_Locale__c = contactInfo.Mobile__c != null ? contactInfo.Mobile__c : '';
-                contact.ContactMobile_Locale__c = contactInfo.Mobile_Locale__c;
+                contact.FirstName = details.contactInfo.First_Name__c;
+                contact.LastName = details.contactInfo.Last_Name__c;
+                contact.Email = details.contactInfo.Email__c;
+                contact.Registered_Email__c = details.contactInfo.Email__c;
+                contact.Birthdate = details.contactInfo.Birthdate__c;
+                contact.Accessibility_Requirement__c = String.isNotBlank(details.contactInfo.Accessibility_Requirement__c) ? details.contactInfo.Accessibility_Requirement__c : '';
+                contact.Dietary_Requirement__c = String.isNotBlank(details.contactInfo.Dietary_Requirement__c) ? details.contactInfo.Dietary_Requirement__c : '';
+                contact.MobilePhone = details.mobileNumber;
+                contact.Mobile_No_Locale__c = details.contactInfo.Mobile__c != null ? details.contactInfo.Mobile__c : '';
+                contact.ContactMobile_Locale__c = details.contactInfo.Mobile_Locale__c;
                 contact.RecordTypeId = RT_CONTACT_PERSON_ID;
                 contactListParam.add(contact);
 
@@ -365,12 +365,12 @@ public without sharing class ManageRegAndNomCtrl {
                 for(RegistrationMatchingHelper.ContactMatchingResponse contactValidated: contactsValidated){
                     if(!contactValidated.isPartialMatch && contactValidated.isEmailMatch){
                         Contact con = contactValidated.contactRecord;
-                        con.MobilePhone = mobileNumber;
-                        con.Mobile_No_Locale__c = contactInfo.Mobile__c;
-                        con.ContactMobile_Locale__c = contactInfo.Mobile_Locale__c;
-                        con.Dietary_Requirement__c = contactInfo.Dietary_Requirement__c;
-                        con.Accessibility_Requirement__c = contactInfo.Accessibility_Requirement__c;
-                        con.Registered_Email__c = contactInfo.Email__c;
+                        con.MobilePhone = details.mobileNumber;
+                        con.Mobile_No_Locale__c = details.contactInfo.Mobile__c;
+                        con.ContactMobile_Locale__c = details.contactInfo.Mobile_Locale__c;
+                        con.Dietary_Requirement__c = details.contactInfo.Dietary_Requirement__c;
+                        con.Accessibility_Requirement__c = details.contactInfo.Accessibility_Requirement__c;
+                        con.Registered_Email__c = details.contactInfo.Email__c;
                         contactListToUpdate.add(con);
                     }
                     else if(contactValidated.isPartialMatch && !contactValidated.isEmailMatch){
@@ -400,7 +400,7 @@ public without sharing class ManageRegAndNomCtrl {
                     //Check Existing Learner
                     List<hed__Course_Enrollment__c> existingCourseConnectionList = [
                         SELECT Id FROM hed__Course_Enrollment__c WHERE hed__Status__c = 'Active' AND hed__Contact__c =: contactId 
-                        AND ( ( hed__Course_Offering__c =: contactInfo.Course_Offering__c AND Program_Offering__c = null) OR (Program_Offering__c =: contactInfo.Program_Offering__c AND hed__Course_Offering__c = null) ) LIMIT 1];
+                        AND ( ( hed__Course_Offering__c =: details.contactInfo.Course_Offering__c AND Program_Offering__c = null) OR (Program_Offering__c =: details.contactInfo.Program_Offering__c AND hed__Course_Offering__c = null) ) LIMIT 1];
 
 
                     if(!existingCourseConnectionList.isEmpty()){
@@ -409,22 +409,22 @@ public without sharing class ManageRegAndNomCtrl {
                         return response;
                     }
 
-                    Id webCartId = getWebCartId(businessOrgAccount);
+                    Id webCartId = getWebCartId(details.businessOrgAccount);
                     Id cartDeliveryGrpId = getCartDeliveryGrpId(webCartId);
                     Product2 product = getProductDetails(
-                        contactInfo.Course_Offering__c, 
-                        contactInfo.Program_Offering__c
-                    );
-                    Decimal cartItemTotalPrice = getCartItemTotalPrice(
-                        webCartId, 
-                        cartDeliveryGrpId,
-                        product,
-                        contactId,
-                        contactInfo.Course_Offering__c,
-                        contactInfo.Program_Offering__c,
-                        priceBookEntry
+                        details.contactInfo.Course_Offering__c, 
+                        details.contactInfo.Program_Offering__c
                     );
 
+                    CartItemDetails cartDetails = new CartItemDetails();
+                    cartDetails.webCartId = webCartId;
+                    cartDetails.cartDeliveryGrpId = cartDeliveryGrpId;
+                    cartDetails.product = product;
+                    cartDetails.contactId = contactId;
+                    cartDetails.courseOfferingId = details.contactInfo.Course_Offering__c;
+                    cartDetails.programOfferingId = details.contactInfo.Program_Offering__c;
+                    cartDetails.priceBookEntry = priceBookEntry;
+                    Decimal cartItemTotalPrice = getCartItemTotalPrice(cartDetails);
 
                     //Updates Cart Payment to create Learner via trigger on Approved Cart Payment
                     Id cartPaymentId = [SELECT Id, Cart_Payment__c FROM WebCart WHERE Id =: webCartId LIMIT 1].Cart_Payment__c;
@@ -594,27 +594,19 @@ public without sharing class ManageRegAndNomCtrl {
     /**
      * Creates Cart Item
      */
-    private static Decimal getCartItemTotalPrice(
-        Id webCartId, 
-        Id cartDeliveryGrpId,
-        Product2 product,
-        Id contactId,
-        Id courseOfferingId,
-        Id programOfferingId,
-        PriceBookEntry priceBookEntry
-    ){
+    private static Decimal getCartItemTotalPrice(CartItemDetails details){
         Decimal cartItemTotalPrice = 0;
         List<CartItem> cartItemList = new List<CartItem>();
         CartItem cartItem = new CartItem();
-        cartItem.CartId = webCartId;
-        cartItem.CartDeliveryGroupId = cartDeliveryGrpId;
-        cartItem.Name = product.Name;
-        cartItem.Contact__c = contactId;
-        cartItem.Product2Id = product.Id;
-        cartItem.Course_Offering__c = courseOfferingId;
-        cartItem.Program_Offering__c = programOfferingId;
-        cartItem.Pricebook_Entry_ID__c = priceBookEntry?.Id;
-        cartItem.TotalPrice = priceBookEntry?.UnitPrice;
+        cartItem.CartId = details.webCartId;
+        cartItem.CartDeliveryGroupId = details.cartDeliveryGrpId;
+        cartItem.Name = details.product.Name;
+        cartItem.Contact__c = details.contactId;
+        cartItem.Product2Id = details.product.Id;
+        cartItem.Course_Offering__c = details.courseOfferingId;
+        cartItem.Program_Offering__c = details.programOfferingId;
+        cartItem.Pricebook_Entry_ID__c = details.priceBookEntry?.Id;
+        cartItem.TotalPrice = details.priceBookEntry?.UnitPrice;
         cartItem.Quantity = 1;
         cartItem.Type = 'Product';
         cartItemList.add(cartItem);
@@ -819,4 +811,29 @@ public without sharing class ManageRegAndNomCtrl {
         public String birthday{ get; set; }
     }
     
+    public class StudentDetails {
+        @AuraEnabled 
+        public String id { get; set; }
+        @AuraEnabled 
+        public String registrationStatus { get; set; }
+        @AuraEnabled 
+        public Boolean isRegistrations { get; set; }
+        @AuraEnabled 
+        public Expression_of_Interest__c contactInfo { get; set; }
+        @AuraEnabled 
+        public String mobileNumber { get; set; }
+        @AuraEnabled 
+        public String businessOrgAccount { get; set; }
+    }
+
+    private class CartItemDetails {
+        public Id webCartId { get; set; }
+        public Id cartDeliveryGrpId { get; set; }
+        public Product2 product { get; set; }
+        public Id contactId { get; set; }
+        public Id courseOfferingId { get; set; }
+        public Id programOfferingId { get; set; }
+        public PriceBookEntry priceBookEntry { get; set; }
+    }
+
 }

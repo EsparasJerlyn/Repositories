@@ -26,15 +26,7 @@ public without sharing class GroupBookingFormCtrl {
  * @param forApplication - flag for checking if only for application
  */
 @AuraEnabled
-public static List<Contact> saveBooking(
-  Map<String,Contact> participants,
-  String offeringId,
-  List<Related_Answer__c> relatedAnswer,
-  Map<String,List<Answer__c>> answerMap,
-  Map<String,String> fileUpload,
-  Boolean isPrescribed
-) {
-
+public static List<Contact> saveBooking(SaveBookingDetails details) {
   Map<String, String> cvToRelatedAnswerMap = new Map<String, String>();
   List<ContentDocumentLink> contentDocLinkListToInsert = new List<ContentDocumentLink>();
   List<ContentVersion> cvListToInsertList = new List<ContentVersion>();
@@ -45,28 +37,27 @@ public static List<Contact> saveBooking(
 
   Map<Id, Answer__c> answersToUpdate = new Map<Id, Answer__c>();
 
-
-  for(Contact con: participants.values()){
+  for(Contact con: details.participants.values()){
     if(con.Id == null){
       con.RecordTypeId = RT_CONTACT_PERSON_ID; //recordtype id
       con.Email = con.Registered_Email__c;//if contact is new copy over registered email to email field
     }
   }
 
-  if(!participants.keySet().isEmpty()){
-      upsert participants.values();
+  if(!details.participants.keySet().isEmpty()){
+      upsert details.participants.values();
   }
 
-  for (Related_Answer__c relatedA : relatedAnswer) {
+  for (Related_Answer__c relatedA : details.relatedAnswer) {
       questionnaireId = relatedA.Questionnaire__c; //always one questionnaire(registration questions)
       break;
   }
 
   List<FileUpload> parsedFileUpload;
 
-  for(String stringKey : fileUpload.keySet()){
+  for(String stringKey : details.fileUpload.keySet()){
       parsedFileUpload = new List<FileUpload>();
-      parsedFileUpload.addALL((List<FileUpload>) JSON.deserialize(fileUpload.get(stringKey), List<FileUpload>.class));
+      parsedFileUpload.addALL((List<FileUpload>) JSON.deserialize(details.fileUpload.get(stringKey), List<FileUpload>.class));
 
       for (FileUpload file : parsedFileUpload) {
           ContentVersion cv = createContentVersion(file.Base64, file.FileName);
@@ -77,16 +68,16 @@ public static List<Contact> saveBooking(
 
   Questionnaire_Response_Summary__c qResSummary;
   
-for(String key: participants.keySet()){
+for(String key: details.participants.keySet()){
       qResSummary = new Questionnaire_Response_Summary__c();
       qResSummary.Questionnaire__c = questionnaireId;
-      if(isPrescribed){
-          qResSummary.Program_Offering__c = offeringId;
+      if(details.isPrescribed){
+          qResSummary.Program_Offering__c = details.offeringId;
       }else{
-          qResSummary.Course_Offering__c = offeringId;
+          qResSummary.Course_Offering__c = details.offeringId;
       }
       qResSummary.Registration_Status__c = 'Confirmed';
-      qResSummary.Contact__c = participants.get(key).Id;
+      qResSummary.Contact__c = details.participants.get(key).Id;
       questionnaireSummaryToInsertMap.put(key,qResSummary);
   }
 
@@ -94,8 +85,8 @@ for(String key: participants.keySet()){
     insert questionnaireSummaryToInsertMap.values();
   }
 
-  for(String key: answerMap.keySet()){
-      for(Answer__c ans: answerMap.get(key)){
+  for(String key: details.answerMap.keySet()){
+      for(Answer__c ans: details.answerMap.get(key)){
           ans.Questionnaire_Response_Summary__c = questionnaireSummaryToInsertMap.get(key).Id;
           relatedAnswerToAnswerMap.put(ans.Related_Answer__c + key, ans);
       }
@@ -146,7 +137,7 @@ for(String key: participants.keySet()){
     update answersToUpdate.values();
   }
 
-  return participants.values();
+  return details.participants.values();
 }
 
 private static ContentVersion createContentVersion(String base64, String filename) {
@@ -167,44 +158,34 @@ private static ContentVersion createContentVersion(String base64, String filenam
  * @param pricebookEntryId The Pricebook Entry Id of the selected Price on UI.
  */
 @AuraEnabled
-public static void addCartItems(
-  String productId,
-  String productName,
-  boolean isPrescribed,
-  String offeringId,
-  String pricebookEntryId,
-  Decimal pricebookUnitPrice,
-  String userId,
-  List<Contact> contacts,
-  String cartId
-) {
+public static void addCartItems(CartItemDetails details) {
     List<CartItem> cartItemsToInsert = new List<CartItem>();
 
     // Get Current User Active Cart Delivery Group
     Id cartDeliveryGroupId = [
       SELECT Id, Name, CreatedDate, LastModifiedDate, CartId
       FROM CartDeliveryGroup
-      WHERE CartId = :cartId
+      WHERE CartId = :details.cartId
     ]
     .Id;
 
     // Set Cart Item to be inserted
-    for(Contact con: contacts){
+    for(Contact con: details.contacts){
           CartItem cItem = new CartItem();
-          cItem.CartId = cartId;
+          cItem.CartId = details.cartId;
           cItem.CartDeliveryGroupId = cartDeliveryGroupId;
-          cItem.Name = productName;
+          cItem.Name = details.productName;
           cItem.Contact__c = con.Id;
-          cItem.Product2Id = productId;
-          if (!isPrescribed) {
-              cItem.Course_Offering__c = offeringId;
+          cItem.Product2Id = details.productId;
+          if (!details.isPrescribed) {
+              cItem.Course_Offering__c = details.offeringId;
           } else{
-              cItem.Program_Offering__c = offeringId;
+              cItem.Program_Offering__c = details.offeringId;
           }
-          cItem.Pricebook_Entry_ID__c = pricebookEntryId;
+          cItem.Pricebook_Entry_ID__c = details.pricebookEntryId;
           cItem.Quantity = 1;
           cItem.Type = 'Product';
-          cItem.TotalPrice = priceBookUnitPrice;
+          cItem.TotalPrice = details.pricebookUnitPrice;
           cartItemsToInsert.add(cItem);
     }
 
@@ -260,5 +241,25 @@ public static void addCartItems(
       public String FileName;
       @AuraEnabled
       public String RelatedAnswerId; 
+  }
+
+  public class SaveBookingDetails {
+    @AuraEnabled public Map<String,Contact> participants { get; set; }
+    @AuraEnabled public String offeringId { get; set; }
+    @AuraEnabled public List<Related_Answer__c> relatedAnswer { get; set; }
+    @AuraEnabled public Map<String,List<Answer__c>> answerMap { get; set; }
+    @AuraEnabled public Map<String,String> fileUpload { get; set; }
+    @AuraEnabled public Boolean isPrescribed { get; set; }
+  }
+
+  public class CartItemDetails {
+    @AuraEnabled public String productId { get; set; }
+    @AuraEnabled public String productName { get; set; }
+    @AuraEnabled public boolean isPrescribed { get; set; }
+    @AuraEnabled public String offeringId { get; set; }
+    @AuraEnabled public String pricebookEntryId { get; set; }
+    @AuraEnabled public Decimal pricebookUnitPrice { get; set; }
+    @AuraEnabled public List<Contact> contacts { get; set; }
+    @AuraEnabled public String cartId { get; set; }
   }
 }

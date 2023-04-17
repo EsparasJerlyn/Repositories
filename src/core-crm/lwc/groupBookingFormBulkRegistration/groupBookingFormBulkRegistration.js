@@ -806,27 +806,26 @@ paymentOptionButtons(){
                     composed: true
                 })
             );
-            return saveBooking({
+            return saveBooking({ details : {
                 participants:this.contactMap,
                 offeringId:this.selectedOffering,
                 relatedAnswer:this.responseData2,
                 answerMap:this.answerMap,
                 fileUpload:this.fileUploadMap,
                 isPrescribed: this.isPrescribed
-            })
+            }})
         })
         .then((result)=>{
-            return addCartItems({
+            return addCartItems({ details : {
                 productId:this.productId,
                 productName:this.productCourseName,
                 isPrescribed:this.isPrescribed,
                 offeringId:this.selectedOffering,
                 pricebookEntryId:this.priceBookEntry,
                 pricebookUnitPrice:this.amount,
-                userId:this.userId,
                 contacts:result,
                 cartId:this.cartId,
-            })
+            }})
         })
         .then(()=>{
             this.dispatchEvent(

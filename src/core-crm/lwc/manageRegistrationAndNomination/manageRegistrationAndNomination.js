@@ -220,14 +220,14 @@ export default class ManageRegistrationAndNomination extends LightningElement {
         if(!this.selectedStudent.isRegistrations){
             mobileNumber = this.combineLocaleAndNumber(this.selectedStudent.contactMobileLocale, this.selectedStudent.contactMobile);
         }
-        updateRegistrationOrNominationStatus({
+        updateRegistrationOrNominationStatus({ details : {
             id: this.selectedStudent.id,
             registrationStatus: this.choosedStatus,
             isRegistrations: this.selectedStudent.isRegistrations,
             contactInfo : contactInformation,
             mobileNumber : mobileNumber,
             businessOrgAccount : this.selectedStudent.businessAccount
-        })
+        }})
         .then(result =>{
             if(result){ 
                 if(!this.selectedStudent.isRegistrations){

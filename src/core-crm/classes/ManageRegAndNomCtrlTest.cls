@@ -65,7 +65,14 @@ public with sharing class ManageRegAndNomCtrlTest {
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = expOfInterestList[0].Id;
+            details.registrationStatus = 'Approved';
+            details.isRegistrations = false;
+            details.contactInfo = expOfInterestList[0];
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to Update Nomination status.');
         }
@@ -88,8 +95,15 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Course_Offering__c = cList[0].Id;
             insert eoi;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = eoi.Id;
+            details.registrationStatus = 'Approved';
+            details.isRegistrations = false;
+            details.contactInfo = eoi;
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to Update Nomination status.');
         }
@@ -105,7 +119,14 @@ public with sharing class ManageRegAndNomCtrlTest {
             Test.startTest();
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'InvalidStatus', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = expOfInterestList[0].Id;
+            details.registrationStatus = 'InvalidStatus';
+            details.isRegistrations = false;
+            details.contactInfo = expOfInterestList[0];
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(!response.isSuccess, 'Should not be able to update record with invalid status.');
         }
@@ -118,7 +139,14 @@ public with sharing class ManageRegAndNomCtrlTest {
             Test.startTest();
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Pending', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = expOfInterestList[0].Id;
+            details.registrationStatus = 'Pending';
+            details.isRegistrations = false;
+            details.contactInfo = expOfInterestList[0];
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to Update Nomination status.');
         }
@@ -138,8 +166,15 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Course_Offering__c = cList[0].Id;
             insert eoi;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = eoi.Id;
+            details.registrationStatus = 'Approved';
+            details.isRegistrations = false;
+            details.contactInfo = eoi;
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(!response.isSuccess, 'Incorrect validation of contact information.');
         }
@@ -157,8 +192,15 @@ public with sharing class ManageRegAndNomCtrlTest {
             eoi.Status__c = 'Pending';
             insert eoi;
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = eoi.Id;
+            details.registrationStatus = 'Approved';
+            details.isRegistrations = false;
+            details.contactInfo = eoi;
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(eoi.Id, 'Approved', false, eoi, '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(!response.isSuccess, 'Incorrect validation of contact information.');
         }
@@ -171,8 +213,15 @@ public with sharing class ManageRegAndNomCtrlTest {
         System.runAs(PORTAL_SYS_ADMIN){     
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             hed__Course_Enrollment__c learner = [SELECT Id FROM hed__Course_Enrollment__c WITH SECURITY_ENFORCED LIMIT 1];
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = learner.Id;
+            details.registrationStatus = 'Active';
+            details.isRegistrations = true;
+            details.contactInfo = new Expression_of_Interest__c();
+            details.mobileNumber = '';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
             Test.startTest();
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(learner.Id, 'Active', true, new Expression_of_Interest__c(), '', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(response.isSuccess, 'Failed to update Registration status.');
         }
@@ -242,7 +291,14 @@ public with sharing class ManageRegAndNomCtrlTest {
 
             Test.startTest();
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = expOfInterestList[0].Id;
+            details.registrationStatus = 'Approved';
+            details.isRegistrations = false;
+            details.contactInfo = expOfInterestList[0];
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             Test.stopTest();
             System.assert(!response.isSuccess, 'Registration should be closed.');
         }
@@ -275,7 +331,14 @@ public with sharing class ManageRegAndNomCtrlTest {
 
             Test.startTest();
             List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
-            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(expOfInterestList[0].Id, 'Approved', false, expOfInterestList[0], '61412345678', String.valueOf(businessOrgAcctId));
+            ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
+            details.id = expOfInterestList[0].Id;
+            details.registrationStatus = 'Approved';
+            details.isRegistrations = false;
+            details.contactInfo = expOfInterestList[0];
+            details.mobileNumber = '61412345678';
+            details.businessOrgAccount = String.valueOf(businessOrgAcctId);
+            ManageRegAndNomCtrl.RegistrationNominationUpdateResponse response = ManageRegAndNomCtrl.updateRegistrationOrNominationStatus(details);
             
             Test.stopTest();
             System.assert(!response.isSuccess, 'Registration already full capacity.');

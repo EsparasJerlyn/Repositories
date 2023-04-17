@@ -484,10 +484,16 @@ public with sharing class RegistrationFormCtrlTest {
       }
       insert accounts;
 
-      Id withAdministrativeAccount = RegistrationFormCtrl.createAdministrativeAccount(buyerGroup, accounts[0].Id, 'lastName', 'firstName');
+      RegistrationFormCtrl.AdminAccountDetails adminAcc = new RegistrationFormCtrl.AdminAccountDetails();
+      adminAcc.buyerGroupId = buyerGroup;
+      adminAcc.accountId = accounts[0].Id;
+      adminAcc.lastName = 'lastName';
+      adminAcc.firstName = 'firstName';
+      Id withAdministrativeAccount = RegistrationFormCtrl.createAdministrativeAccount(adminAcc);
       System.assert(withAdministrativeAccount != null , 'No administrative records, buyer accouunt, and buyer group member records was created');
 
-      Id withoutAdministrativeAccount = RegistrationFormCtrl.createAdministrativeAccount(buyerGroup, null, 'lastName', 'firstName');
+      adminAcc.accountId = null;
+      Id withoutAdministrativeAccount = RegistrationFormCtrl.createAdministrativeAccount(adminAcc);
       System.assert(withoutAdministrativeAccount != null , 'No administrative records, buyer accouunt, and buyer group member records was created');
     }
     Test.stopTest();
