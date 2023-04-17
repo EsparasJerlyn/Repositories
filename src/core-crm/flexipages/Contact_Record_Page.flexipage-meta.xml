@@ -744,34 +744,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Marketing_Segmentation__c</fieldItem>
-                <identifier>RecordMarketing_Segmentation_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-9b694a47-45b8-4631-ac06-48eb3b9fe8ca</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-9b694a47-45b8-4631-ac06-48eb3b9fe8ca</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-c0c1284e-74fe-4ddc-a714-eaca220144ee</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.HasOptedOutOfEmail</fieldItem>
                 <identifier>RecordHasOptedOutOfEmailField</identifier>
             </fieldInstance>
@@ -949,19 +921,33 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Marketing_Segmentation__c</fieldItem>
+                <identifier>RecordMarketing_Segmentation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-9b694a47-45b8-4631-ac06-48eb3b9fe8ca</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-c0c1284e-74fe-4ddc-a714-eaca220144ee</value>
+                    <name>body</name>
+                    <value>Facet-9b694a47-45b8-4631-ac06-48eb3b9fe8ca</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>MARKETING SEGMENTATION</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection2</identifier>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
             </componentInstance>
         </itemInstances>
+        <name>Facet-c0c1284e-74fe-4ddc-a714-eaca220144ee</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -974,6 +960,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-c0c1284e-74fe-4ddc-a714-eaca220144ee</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>MARKETING SEGMENTATION</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -994,7 +994,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
-                    <value>STUDY INTERESTS AND SEGMENTATION DETAILS</value>
+                    <value>STUDY INTERESTS AND MARKETING PREFERENCES</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>

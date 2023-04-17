@@ -244,5 +244,4 @@ export default class LoqateAddressInformationValidation extends LightningElement
             })
         );
     }
-
 }

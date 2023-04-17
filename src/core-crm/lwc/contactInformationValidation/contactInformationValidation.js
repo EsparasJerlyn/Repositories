@@ -310,7 +310,7 @@ export default class ContactInformationValidation extends LightningElement {
                 this.generateToast('Success!',this.fieldsToValidate.length + ' field/s validated.','success');
             }
         })
-        .catch(error => {
+        .catch(() => {
             this.generateToast('Error.',LWC_Error_General,'error');
         })
         .finally(() => {

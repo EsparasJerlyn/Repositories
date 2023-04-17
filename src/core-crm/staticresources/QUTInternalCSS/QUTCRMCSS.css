@@ -15,7 +15,11 @@
 .custom-checkbox-right-label .slds-form-element_horizontal .slds-form-element__control{
     padding-left: 0 !important;
     margin-left: -35px;
-    
+}
+
+.custom-checkbox-label .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+    font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol') !important;
+    font-size: 12px !important;
 }
 
 .custom-field-label{
@@ -29,7 +33,4 @@
     text-transform:uppercase !important;
 }
 
-.custom-checkbox-label .slds-checkbox .slds-checkbox__label .slds-form-element__label{
-    font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol') !important;
-    font-size: 12px !important;
-}
+
