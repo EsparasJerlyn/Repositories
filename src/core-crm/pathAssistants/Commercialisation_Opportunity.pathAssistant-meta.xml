@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Commercialisation Opportunity</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;em&gt;This ‘Collaboration’ stage enables you to engage with the organisations or industry partners for research commercialisation&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Collaborate</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;em&gt;The &amp;#39;Contract&amp;#39; stage signifies that the client has accepted the proposal and is ready to formalise agreement with a Contract with QUT.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use the Contracts Lifecycle Management System (CLMS) to create and manage the contract process.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Contract</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;em&gt;This ‘Negotiate’ stage enables you to engage and negotiate with the organisations or industry partners for research commercialisation deal.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use Negotiation outcome field to capture the outcome of this stage&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Negotiate</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Commercialisation</recordTypeName>
+</PathAssistant>
