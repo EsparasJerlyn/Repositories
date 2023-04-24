@@ -172,7 +172,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Registered_Email__c</fieldItem>
                 <identifier>RecordRegistered_Email_cField</identifier>
