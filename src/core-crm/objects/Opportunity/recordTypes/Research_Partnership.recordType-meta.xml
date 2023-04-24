@@ -3,6 +3,7 @@
     <fullName>Research_Partnership</fullName>
     <active>true</active>
     <businessProcess>Research Partnership</businessProcess>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create Research Partnership opportunity to support research and research training initiatives</description>
     <label>Research Partnership</label>
     <picklistValues>

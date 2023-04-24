@@ -3,6 +3,7 @@
     <fullName>International_Projects_Unit</fullName>
     <active>true</active>
     <businessProcess>International Projects Unit</businessProcess>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create an opportunity to explore international development and training initiatives.</description>
     <label>International Projects Unit</label>
     <picklistValues>

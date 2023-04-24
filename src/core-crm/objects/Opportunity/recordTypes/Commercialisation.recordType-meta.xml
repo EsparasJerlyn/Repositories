@@ -3,6 +3,7 @@
     <fullName>Commercialisation</fullName>
     <active>true</active>
     <businessProcess>Commercialisation</businessProcess>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create Commercialisation opportunity to protect and commercialise the university&apos;s intellectual property, including the licensing agreements and university start-ups.</description>
     <label>Commercialisation</label>
     <picklistValues>
