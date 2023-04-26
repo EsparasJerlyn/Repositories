@@ -13,7 +13,7 @@
       | eugene.andrew.abuan       | May 12, 2022          | DEPP-1979            | Added logic to make price editable           |
       | eugene.andrew.abuan       | July 13, 2022         | DEPP-3376            |Changed onmouse events to ondrag              |
       | eugene.andrew.abuan       | March 02, 2023        | DEPP-5266            | Removed toggleActiveThumb function           |
-
+      | sebastianne.k.trias       | March 29, 2023        | DEPP-5348            | Add setEndValue Method                       |
  */
 import { LightningElement, api,track } from 'lwc';
 
@@ -217,10 +217,12 @@ export default class Slider extends LightningElement {
 
     //handles when the slider stops moving
     onMouseUp(event) {
-        this.isMoving = false;
-        this.newchanges = 1;
-        this.onChangeValue();
-        event.preventDefault(); 
+        if(this.isMoving){
+            this.isMoving = false;
+            this.newchanges = 1;
+            this.onChangeValue();
+            event.preventDefault(); 
+        }
     }
 
    //Function that sets the thumb values that can be visible in screen
@@ -285,6 +287,16 @@ export default class Slider extends LightningElement {
     //handles pencil icon for end price
     handleEditEnd(){
         this.inputClass.end = 'input-button input-button-edit';
+    }
+    
+    // function that sets the end value
+    @api setEndValue(value){   
+        this.newchanges = 1;
+        this._end = parseInt(value);
+        this._max = parseInt(value);
+        this._endValueInPixels = this.convertValueToPixels(this.end);
+        this.setThumb('end', this._endValueInPixels);
+        this.setRange(this._endValueInPixels, this._startValueInPixels);
     }
 
     //function that sets the default values back to 0 and 5000

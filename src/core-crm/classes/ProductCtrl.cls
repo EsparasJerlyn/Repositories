@@ -397,6 +397,7 @@ public without sharing class ProductCtrl{
 		String deliveryTypeValue = '';
 		String productTypeValue = '';
 		String prodSortBy = filterData.sortBy;
+		Decimal maxFilterEndPrice = 5000;
 
 		// Dynamic Query that matches the selected filter
 		String filterProductsQuery = 'SELECT Id, Name, Course__c, Program_Plan__c, Publishing_Start_date__c, Program_Plan__r.Program_Delivery_Structure__c ';
@@ -488,6 +489,10 @@ public without sharing class ProductCtrl{
 
 			if(filterData.maxUnitPrice != null && data.UnitPrice > filterData.maxUnitPrice){
 				continue;
+			}
+
+			if( maxFilterEndPrice < data.UnitPrice){
+				maxFilterEndPrice = data.UnitPrice;
 			}
 
 			filteredProductMap.put(data.Product2Id, allInputProductMap.get(data.Product2Id));
@@ -756,6 +761,7 @@ public without sharing class ProductCtrl{
 		}
 
 		prodData.listFilteredProductId = filteredProductId;
+		prodData.maxFilterEndPrice = maxFilterEndPrice;
 
 		return prodData;
 	}
@@ -1275,6 +1281,8 @@ public without sharing class ProductCtrl{
 	public class FilterData{
 		@AuraEnabled
 		public List<Id> listFilteredProductId;
+		@AuraEnabled
+		public Decimal maxFilterEndPrice;
 	}
 
 	/**
