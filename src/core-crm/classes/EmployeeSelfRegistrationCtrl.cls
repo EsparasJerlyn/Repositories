@@ -90,9 +90,6 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 			String concepts = 'Core Concepts';
 			String conceptsValue = removeImgElementsFromHtml(p[0].Core_Concepts__c);
 			conceptsValue = insertInlineStyleToHtmlElement(conceptsValue, 'p', 'margin:0');
-			String moredetails = 'More Details';
-			String moredetailsValue = removeImgElementsFromHtml(p[0].More_Details__c);
-			moredetailsValue = insertInlineStyleToHtmlElement(moredetailsValue, 'p', 'margin:0');
 	
 			// Set Email Params
 			Map<String, String> emailParams = new Map<String, String>{
@@ -109,8 +106,6 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 				'{participate_value}' => String.isEmpty(participateValue)? '': participateValue,
 				'{concepts}' => String.isEmpty(conceptsValue)? '': concepts,
 				'{concepts_value}' => String.isEmpty(conceptsValue)? '': conceptsValue,
-				'{moredetails}'	=> String.isEmpty(moredetailsValue)? '': moredetails,
-				'{moredetails_value}' => String.isEmpty(moredetailsValue)? '': moredetailsValue,
 				'{employeeSelfRegistrationEmailLink}' => employeeSelfRegistrationSettings.EmployeeSelfRegistrationLink__c != null ? 
 														String.valueOf(employeeSelfRegistrationSettings.EmployeeSelfRegistrationLink__c) 
 														+ '?id=' + String.valueOf(selfRegistrationParams.selectedOffering) 

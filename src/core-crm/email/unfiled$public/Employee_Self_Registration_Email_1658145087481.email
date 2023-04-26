@@ -40,16 +40,11 @@
 					<td><strong>{concepts}</strong></td>
 					<td>{concepts_value}</td>
 				</tr>
-				<tr style='vertical-align: top;'>
-					<td><strong>{moredetails}</strong></td>
-					<td>{moredetails_value}</td>
-				</tr>
-			
 		</table>
 
 		<br />
 		
-		<p><a href="{employeeSelfRegistrationEmailLink}">Click to Register</a></p>
+		<p><a href="{employeeSelfRegistrationEmailLink}">Click to Nominate</a></p>
 
 		<p>&nbsp;</p>
 
