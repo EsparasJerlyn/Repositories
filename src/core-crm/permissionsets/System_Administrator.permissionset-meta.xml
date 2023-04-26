@@ -15610,17 +15610,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Application__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>QTAC_Preference__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Faculty__c</field>
+        <field>QTAC_Preference__c.QTAC_Application__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>QTAC_Preference__c.QTAC_Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -15635,32 +15635,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Offer_Exists__c</field>
+        <field>QTAC_Preference__c.QTAC_Offer_Exists__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Offer_Lapse_Date__c</field>
+        <field>QTAC_Preference__c.QTAC_Offer_Lapse_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Offer_Start_Date__c</field>
+        <field>QTAC_Preference__c.QTAC_Offer_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Offer_Status_Date__c</field>
+        <field>QTAC_Preference__c.QTAC_Offer_Status_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Offer_Status__c</field>
+        <field>QTAC_Preference__c.QTAC_Offer_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>QTAC_Preference__c.Preference_Number__c</field>
+        <field>QTAC_Preference__c.QTAC_Preference_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -15671,6 +15671,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>QTAC_Preference__c.QTAC_Program_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>QTAC_Preference__c.QTAC_Offer_Round__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

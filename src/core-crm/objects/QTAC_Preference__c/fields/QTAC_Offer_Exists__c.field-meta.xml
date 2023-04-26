@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Offer_Exists__c</fullName>
+    <fullName>QTAC_Offer_Exists__c</fullName>
     <description>Whether an offer exists for this preference.</description>
     <externalId>false</externalId>
-    <label>Offer Exists</label>
+    <label>QTAC Offer Exists</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>

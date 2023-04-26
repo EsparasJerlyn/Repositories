@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Preference_Number__c</fullName>
+    <fullName>QTAC_Preference_Number__c</fullName>
     <description>The preference order assigned to the QTAC program by applicant.</description>
     <externalId>false</externalId>
-    <label>Preference Number</label>
+    <label>QTAC Preference Number</label>
     <precision>1</precision>
     <required>false</required>
     <scale>0</scale>
