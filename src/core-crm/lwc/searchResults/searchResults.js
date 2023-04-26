@@ -103,6 +103,7 @@ export default class SearchResults extends NavigationMixin(LightningElement) {
   hasPageNo;
   urlPageNumber = 1;
   urlValid;
+  setSliderMaxValue = true;
 
 
 //url search filter
@@ -908,6 +909,19 @@ renderedCallback() {
        this.productListIds = [];
        this.totalItemCount = result.listFilteredProductId.length;
        this.hasMorePages = this.totalItemCount > PAGE_SIZE;
+
+       let url =  window.location.href;
+       let params = getParams(url);
+       let mostProductPrice = result.maxFilterEndPrice;
+
+       if(this.setSliderMaxValue){
+        let initialMaxPriceValue = params.pricingto ? params.pricingto : mostProductPrice;
+        this.template.querySelector('c-slider').setEndValue(initialMaxPriceValue);
+       }
+
+       if(!isNaN(params.pricingto) || result.listFilteredProductId.length > 0){
+        this.setSliderMaxValue = false;
+       }
 
        let arrBySix = [];
        let count = 1;
