@@ -170,7 +170,7 @@ public without sharing class ProductDetailsCtrl {
 				// Course Offering counter for Delivery
 				Map<String, Integer> deliveryCountMap = new Map<String, Integer>();
 				List<AggregateResult> countList = [
-					SELECT Count(Id) counter, Delivery_Type__c
+					SELECT Count(Id) counter, Delivery_Type__c, hed__Start_Date__c
 					FROM hed__Course_Offering__c
 					WHERE
 						Registration_Start_Date__c <= TODAY
@@ -179,19 +179,21 @@ public without sharing class ProductDetailsCtrl {
 						AND IsActive__c = TRUE
 						AND Available_Seats__c > 0
 						AND hed__Course__c = :productOnPage.Course__c
-					GROUP BY Delivery_Type__c
+					GROUP BY Delivery_Type__c, hed__Start_Date__c
+					ORDER BY hed__Start_Date__c
 				];
+
+				List<String> delivList = productOnPage.Delivery__c.split(';');
+				List <String> checkDuplicateDelivList = new List<String>();
+
 				for (AggregateResult count : countList) {
 					deliveryCountMap.put( (String) count.get('Delivery_Type__c'), (Integer) count.get('counter') );
-				}
-
-				// Display Delivery Options w/ Course Offerings
-				List<String> delivList = productOnPage.Delivery__c.split(';');
-				for (String deliv : delivList) {
-					if (deliveryCountMap.get(deliv) > 0) {
+					// Display Delivery Options w/ Course Offerings
+					if ( (deliveryCountMap.get( (String) count.get('Delivery_Type__c')) > 0) && !checkDuplicateDelivList.contains( (String) count.get('Delivery_Type__c')) && delivList.contains( (String) count.get('Delivery_Type__c'))) {
+						checkDuplicateDelivList.add( (String) count.get('Delivery_Type__c'));
 						DeliveryWrapper delivWrapper = new DeliveryWrapper();
-						delivWrapper.label = deliv;
-						delivWrapper.value = deliv;
+						delivWrapper.label = (String) count.get('Delivery_Type__c');
+						delivWrapper.value = (String) count.get('Delivery_Type__c');
 						delivWrapperList.add(delivWrapper);
 					}
 				}
