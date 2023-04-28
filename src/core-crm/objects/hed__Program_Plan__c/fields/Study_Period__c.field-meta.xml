@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Study_Period__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Populated by integration from SAMS</description>
+    <externalId>false</externalId>
+    <label>Study Period</label>
+    <referenceTo>hed__Term__c</referenceTo>
+    <relationshipLabel>Program Plans</relationshipLabel>
+    <relationshipName>Program_Plans</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
