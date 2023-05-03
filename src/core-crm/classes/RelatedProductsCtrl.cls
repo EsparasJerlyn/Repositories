@@ -81,9 +81,8 @@ public with sharing class RelatedProductsCtrl {
                Start_Date__c, End_Date__c, Available_On_Cart__c,
                     (    SELECT Id, UnitPrice, Pricebook2.IsStandard, Discount__c 
                          FROM PricebookEntries 
-                         WHERE (Pricebook2.IsStandard = true  
-                         OR (Pricebook2Id =: priceBookId 
-                         AND IsActive = true))) 
+                         WHERE Pricebook2.IsStandard = true  
+                         OR Pricebook2Id =: priceBookId ) 
                FROM Product2 
                WHERE Id IN: productToAsocProdMap.keySet() 
                OR Course__r.ProductRequestID__c IN: cceProductsSet
