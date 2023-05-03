@@ -3,7 +3,6 @@
 node_modules/
 dist/
 
-
 # Log files
 *.log
 
@@ -26,9 +25,7 @@ Thumbs.db
 *.mov
 *.wmv
 
-
 #Salesforce DX Specific
-
 .sfpowerscripts
 artifacts
 .sfdx
@@ -36,3 +33,9 @@ buildresult.json
 .DS_Store
 .github/workflows/validate.yml
 .npmrc
+
+#Others
+jsconfig.json
+
+#PMD related
+.pmdCache

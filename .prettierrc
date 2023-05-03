@@ -1,14 +1,51 @@
 {
   "trailingComma": "none",
-  "tabWidth": 4,
+  "endOfLine": "lf",
+  "useTabs": false,
+  "tabWidth": 2,
   "overrides": [
     {
+      "files": "*.{cls,apexc,trigger}",
+      "options": {
+        "printWidth": 100,
+        "useTabs": false,
+        "tabWidth": 4,
+        "apexInsertFinalNewline": true
+      }
+    },
+    {
+      "files": "*.apex",
+      "options": {
+        "printWidth": 100,
+        "useTabs": false,
+        "tabWidth": 4,
+        "apexInsertFinalNewline": true,
+        "parser": "apex-anonymous"
+      }
+    },
+    {
       "files": "**/lwc/**/*.html",
-      "options": { "parser": "lwc" }
+      "options": {
+        "parser": "lwc",
+        "bracketSameLine": true
+      }
     },
     {
       "files": "*.{cmp,page,component}",
-      "options": { "parser": "html" }
+      "options": { "parser": "html", "bracketSameLine": true }
+    },
+    {
+      "files": "*-meta.xml",
+      "options": {
+        "semi": false,
+        "tabWidth": 4,
+        "useTabs": false,
+        "bracketSameLine": true,
+        "xmlSelfClosingSpace": false,
+        "embeddedLanguageFormatting": "off",
+        "xmlWhitespaceSensitivity": "strict",
+        "parser": "xml"
+      }
     }
   ]
 }
