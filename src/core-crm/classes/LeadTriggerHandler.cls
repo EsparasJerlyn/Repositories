@@ -25,7 +25,6 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
     }
 
-    
     /**
      * @description performs beforeUpdate event for Lead object
      * @param newItems - Map of Lead.Trigger.newMap
@@ -39,7 +38,6 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
     }
 
-    
     /**
      * @description indicates it the trigger is disabled
      * @return disabled bypass

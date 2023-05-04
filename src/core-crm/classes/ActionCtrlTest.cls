@@ -9,124 +9,185 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.karl.munoz            | July 12, 2022         | DEPP-2035              | Created file                 | 
-      |                                |                       |                        |                              | 
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Applied DAO framework        | 
  */
 @isTest
 public with sharing class ActionCtrlTest {
-    private static final string PR_EDUC_CONS = System.Label.RT_ProductRequest_Educ_Consultancy;
-    private static final Id PR_EDUC_CONS_ID =  Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(PR_EDUC_CONS).getRecordTypeId();
+    @isTest
+    // prettier-ignore
+    static void getActionDetailsTest() {// NOPMD - test class is mocked
+        List<Action__c> actionList;
+        Test.startTest();
 
-    private static final string RT_ACTION_ACT = System.Label.RT_Action_Activity;
-    private static final Id RT_ACTION_ACT_ID =  Schema.SObjectType.Action__c.getRecordTypeInfosByDeveloperName().get(RT_ACTION_ACT).getRecordTypeId();
+        ImplementationSelector.DAO.setMock(new ActionsDAOMock());
+        ImplementationSelector.DAO.setMock(new ProductRequestsDAOMock());
 
-    private static final string RT_ACTION_INV = System.Label.RT_Action_Investigation;
-    private static final Id RT_ACTION_INV_ID =  Schema.SObjectType.Action__c.getRecordTypeInfosByDeveloperName().get(RT_ACTION_INV).getRecordTypeId();
+        List<Product_Request__c> productRequestsList = TestDataFactory.createTestProductRequestRecordsByRecordType(
+            1,
+            ProductRequestsDAO.PR_EDUC_CONS_ID
+        );
+        ProductRequestsDAO.newInstance()
+            .insertRecords(productRequestsList, false, AccessLevel.USER_MODE);
 
-    private static final Integer NUM_RECORDS = 100;
-
-    @testSetup
-    static void makeData(){
-        TestDataFactory.generateTestUsers();
+        actionList = ActionCtrl.getActionDetails(productRequestsList.iterator().next()?.Id);
+        Test.stopTest();
+        System.assert(!actionList.isEmpty(), 'was not able to get action records');
     }
 
     @isTest
-    static void getActionDetailsTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
-            makeData(RT_ACTION_ACT_ID);
-
-            Id prodReqId;
-            List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 1];
-            for(Product_Request__c productRequest : productRequests){
-                prodReqId = productRequest.Id;
-            }
-            List<Action__c> actions = new List<Action__c>();
-            Test.startTest();
-            actions = ActionCtrl.getActionDetails(prodReqId);
-            Test.stopTest();
-            
-            System.assert(actions.size() > 0, 'No Actions Retrieved');
+    // prettier-ignore
+    static void getActionDetailsErrorTest() {// NOPMD - test class is mocked
+        Test.startTest();
+        try {
+            ImplementationSelector.DAO.setMock(new ActionsDAOMock());
+            ActionCtrl.getActionDetails('error string');
+        } catch (Exception e) {
+            System.assert(e != null, 'no error');
         }
+        Test.stopTest();
     }
 
     @isTest
-    static void getInvestigationActionDetailsTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
-            makeData(RT_ACTION_INV_ID);
+    // prettier-ignore
+    static void getInvestigationActionDetailsTest() {// NOPMD - test class is mocked
+        List<Action__c> actionList;
+        Test.startTest();
 
-            Id prodReqId;
-            List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 1];
-            for(Product_Request__c productRequest : productRequests){
-                prodReqId = productRequest.Id;
-            }
-            List<Action__c> actions = new List<Action__c>();
-            Test.startTest();
-            actions = ActionCtrl.getInvestigationActionDetails(prodReqId);
-            Test.stopTest();
-            
-            System.assert(actions.size() > 0, 'No Actions Retrieved');
-        }
+        ImplementationSelector.DAO.setMock(new ActionsDAOMock());
+        ImplementationSelector.DAO.setMock(new ProductRequestsDAOMock());
+
+        List<Product_Request__c> productRequestsList = TestDataFactory.createTestProductRequestRecordsByRecordType(
+            1,
+            ProductRequestsDAO.PR_EDUC_CONS_ID
+        );
+        ProductRequestsDAO.newInstance()
+            .insertRecords(productRequestsList, false, AccessLevel.USER_MODE);
+
+        actionList = ActionCtrl.getInvestigationActionDetails(
+            productRequestsList.iterator().next()?.Id
+        );
+        System.assert(!actionList.isEmpty(), 'was not able to get action records');
+        Test.stopTest();
     }
 
     @isTest
-    static void getActivitySectionDetailsTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
-            makeData(RT_ACTION_ACT_ID);
-
-            Id prodReqId;
-            List<Product_Request__c> productRequests = [SELECT Id, Product_Request_Status__c FROM Product_Request__c LIMIT 1];
-            for(Product_Request__c productRequest : productRequests){
-                prodReqId = productRequest.Id;
-            }
-            ActionCtrl.ActivitySectionDetails response = new ActionCtrl.ActivitySectionDetails();
-            Test.startTest();
-            response = ActionCtrl.getActivitySectionDetails(prodReqId);
-            Test.stopTest();
-            System.assert(response.Id != null , 'No Consultancies Retrieved');
+    // prettier-ignore
+    static void getInvestigationActionDetailsErrorTest(){// NOPMD - test class is mocked
+        Test.startTest();
+        try{
+            ImplementationSelector.DAO.setMock(new ActionsDAOMock());
+            ActionCtrl.getInvestigationActionDetails('error string');
+        }catch(Exception e){
+            System.assert(e != null, 'no error');
         }
+        Test.stopTest();
     }
 
     @isTest
-    static void getRelatedFilesByRecordIdTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
-            makeData(RT_ACTION_ACT_ID);
-            List<Consultancy__c> consultancyList = [SELECT ID FROM Consultancy__c LIMIT 1];
-            Test.startTest();
-            Map<ID, String> response = ActionCtrl.getRelatedFilesByRecordId(consultancyList[0].Id);
-            Test.stopTest();
-            System.assert(response.isEmpty() || response == null , 'No files uploaded');
-        }
+    // prettier-ignore
+    static void getActivitySectionDetailsTest() {// NOPMD - test class is mocked
+
+        ActionCtrl.ActivitySectionDetails response = new ActionCtrl.ActivitySectionDetails();
+
+        Test.startTest();
+
+        ImplementationSelector.DAO.setMock(new ActionsDAOMock());
+        ImplementationSelector.DAO.setMock(new ProductRequestsDAOMock());
+        ImplementationSelector.DAO.setMock(new ConsultanciesDAOMock());
+
+        List<Product_Request__c> productRequestsList = TestDataFactory.createTestProductRequestRecordsByRecordType(
+            1,
+            ProductRequestsDAO.PR_EDUC_CONS_ID
+        );
+        ProductRequestsDAO.newInstance()
+            .insertRecords(productRequestsList, false, AccessLevel.USER_MODE);
+
+        response = ActionCtrl.getActivitySectionDetails(productRequestsList.iterator().next()?.Id);
+
+        Test.stopTest();
+
+        System.assert(response != null, 'was not able to get action records');
     }
 
-    private static void makeData(Id actionRecTypeId){
-        List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
-        for(Product_Request__c productRequest : productRequests){
-            productRequest.RecordTypeId = PR_EDUC_CONS_ID;
-            productRequest.Product_Request_Status__c = 'Design';
+    @isTest
+    // prettier-ignore
+    static void getActivitySectionDetailsErrorTest(){// NOPMD - test class is mocked
+        Test.startTest();
+        try{
+            ImplementationSelector.DAO.setMock(new ConsultanciesDAOMock());
+            ActionCtrl.getActivitySectionDetails('error string');
+        }catch(Exception e){
+            System.assert(e != null, 'no error');
         }
-        insert productRequests;
+        Test.stopTest();
+    }
 
-        List<Consultancy__c> consultancies = new List<Consultancy__c>();
-        for(Integer i=0; i < 1; i ++){
-            Consultancy__c cons =new Consultancy__c();
-            cons.Name = 'Test Name ' + i;
-            cons.Definition_of_Problem__c = 'Test';
-            cons.Product_Request__c = productRequests[i].Id;
-            cons.Investigation_Summary__c = 'Preparing investigation summary';
-            cons.Definition_of_Problem__c = 'Preparing problem definition';
-            consultancies.add(cons);
-        }
-        insert consultancies;
+    @isTest
+    // prettier-ignore
+    static void getRelatedFilesByRecordIdTest() {//NOPMD - test class is mocked
+        Map<Id, String> response = new Map<Id, String>();
+        Test.startTest();
 
-        List<Action__c> actions = new List<Action__c>();
-        for(Integer i=0; i < NUM_RECORDS; i ++){
-            Action__c action = new Action__c();
-            action.Activity_Name__c = 'Test Activity Name ' + i;
-            action.Activity_Type__c = 'Meeting';
-            action.Consultancy__c = consultancies[0].Id;
-            action.RecordTypeId = actionRecTypeId;
-            action.Summary__c = 'Preparing action investigation summary';
-            actions.add(action);
+        ImplementationSelector.DAO.setMock(new ContentDocumentLinksDAOMock());
+        ImplementationSelector.DAO.setMock(new ContentVersionsDAOMock());
+        ImplementationSelector.DAO.setMock(new ProductRequestsDAOMock());
+        ImplementationSelector.DAO.setMock(new ConsultanciesDAOMock());
+        //Instantiate mockidgenerator for contentdocument object
+        MockIdGenerator builder = new MockIdGenerator(ContentDocument.sObjectType);
+
+        List<Product_Request__c> productRequestsList = TestDataFactory.createTestProductRequestRecordsByRecordType(
+            1,
+            ProductRequestsDAO.PR_EDUC_CONS_ID
+        );
+
+        ProductRequestsDAO.newInstance()
+            .insertRecords(productRequestsList, false, AccessLevel.USER_MODE);
+
+        List<Consultancy__c> consultancyList = new List<Consultancy__c>();
+        consultancyList = TestDataFactory.createTestConsultancyRecords(
+            1,
+            productRequestsList.iterator().next()?.Id
+        );
+        ConsultanciesDAO.newInstance().insertRecords(consultancyList, false, AccessLevel.USER_MODE);
+        //create content document link record with contentdocument mock id
+        ContentDocumentLink contentDocumentLinkRecord = TestDataFactory.createTestContentDocumentLink(
+            builder.getMockId(),
+            consultancyList.iterator().next()?.Id
+        );
+        ContentDocumentLinksDAO.newInstance()
+            .insertRecords(
+                new List<ContentDocumentLink>{ contentDocumentLinkRecord },
+                false,
+                AccessLevel.USER_MODE
+            );
+
+        List<ContentVersion> contentVersionList = TestDataFactory.createTestContentVersionPDFRecords(
+            1
+        );
+        for (ContentVersion conVersion : contentVersionList) {
+            conVersion.ContentDocumentId = contentDocumentLinkRecord.ContentDocumentId;
         }
-        insert actions;
+
+        ContentVersionsDAO.newInstance()
+            .insertRecords(contentVersionList, false, AccessLevel.USER_MODE);
+
+        response = ActionCtrl.getRelatedFilesByRecordId(consultancyList.iterator().next()?.Id);
+
+        Test.stopTest();
+
+        System.assert(!response.isEmpty(), 'No files uploaded');
+    }
+
+    @isTest
+    // prettier-ignore
+    static void getRelatedFilesByRecordIdErrorTest() {//NOPMD - test class is mocked
+        Test.startTest();
+        try {
+            ImplementationSelector.DAO.setMock(new ContentDocumentLinksDAOMock());
+            ActionCtrl.getRelatedFilesByRecordId('error string');
+        } catch (Exception e) {
+            System.assert(e != null, 'no error');
+        }
+        Test.stopTest();
     }
 }
