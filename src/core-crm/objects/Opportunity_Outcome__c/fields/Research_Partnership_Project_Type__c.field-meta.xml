@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Research_Partnership_Project_Type__c</fullName>
+    <description>The type of project for a Research Partnership Opportunity Outcome.</description>
+    <externalId>false</externalId>
+    <label>Research Partnership Project Type</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Grant</fullName>
+                <default>false</default>
+                <label>Grant</label>
+            </value>
+            <value>
+                <fullName>Commercial Research</fullName>
+                <default>false</default>
+                <label>Commercial Research</label>
+            </value>
+            <value>
+                <fullName>Consultancy</fullName>
+                <default>false</default>
+                <label>Consultancy</label>
+            </value>
+            <value>
+                <fullName>Multifaceted Partnership</fullName>
+                <default>false</default>
+                <label>Multifaceted Partnership</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

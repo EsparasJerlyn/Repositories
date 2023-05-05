@@ -36,6 +36,7 @@ buildresult.json
 
 #Others
 jsconfig.json
+config.json
 
 #PMD related
 .pmdCache

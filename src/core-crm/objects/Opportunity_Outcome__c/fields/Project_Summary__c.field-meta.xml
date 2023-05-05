@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Project_Summary__c</fullName>
+    <description>Summary/description of the Project.</description>
+    <externalId>false</externalId>
+    <label>Project Summary</label>
+    <length>500</length>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>
