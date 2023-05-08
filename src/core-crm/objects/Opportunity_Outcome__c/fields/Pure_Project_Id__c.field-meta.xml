@@ -9,6 +9,7 @@
     <relationshipLabel>Opportunity Outcomes</relationshipLabel>
     <relationshipName>Opportunity_Outcomes</relationshipName>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
