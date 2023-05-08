@@ -408,7 +408,7 @@
         <apexClass>Buyer_Group_Product_CategoryTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>Case_Clear_Closure_FieldsFlowTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1447,7 +1447,7 @@
     <classAccesses>
         <apexClass>PromotionDiscountCtrl</apexClass>
         <enabled>true</enabled>
-     </classAccesses>
+    </classAccesses>
     <classAccesses>
         <apexClass>PublishingEndDateBatch</apexClass>
         <enabled>true</enabled>
@@ -11737,7 +11737,7 @@
         <editable>true</editable>
         <field>Leave_of_Absence__c.Migration_Key__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Leave_of_Absence__c.Return_Confirmed__c</field>
@@ -20210,6 +20210,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Application__c.App_Condition_Verification_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Application__c.Application_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -20227,7 +20232,7 @@
         <editable>true</editable>
         <field>hed__Application__c.Application_Status__c</field>
         <readable>true</readable>
-    </fieldPermissions>   
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Application__c.Applied_Attendance__c</field>
@@ -20245,12 +20250,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Application__c.Applied_Program__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Application__c.Assessment_Result__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Application__c.Course_Allocability_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.Deferred_Study_Period__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -20275,12 +20290,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Application__c.Is_Education_Distruption_Applicant__c</field>
+        <field>hed__Application__c.Is_Education_Disruption_Applicant__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Application__c.Is_Elite_Athelete_Applicant__c</field>
+        <field>hed__Application__c.Is_Elite_Athlete_Applicant__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -20315,6 +20330,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Application__c.Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Application__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -20330,7 +20350,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Application__c.Offer_Lapse_date__c</field>
+        <field>hed__Application__c.Offer_Lapse_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.Offer_Response_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -20385,9 +20410,49 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Application__c.Study_Link_ApplicantID__c</field>
+        <field>hed__Application__c.StudyLink_Offered_Program_Name__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_Program_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_Program_Faculty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_Program_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_Program_Location__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_Program_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_Program_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_Offered_Program_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Application__c.StudyLink_ApplicantID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Application__c.hed__Applicant_Decision_Date__c</field>
@@ -25946,6 +26011,18 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Application__c.SAMS</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Application__c.StudyLink</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>hed__Attribute__c.hed__Credential</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -26043,6 +26120,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Events</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

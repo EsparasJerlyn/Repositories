@@ -16,6 +16,15 @@
         <members>QTAC_Preference__c.Offer_Start_Date__c</members>
         <members>QTAC_Preference__c.Offer_Lapse_date__c</members>
         <!-- (End) DEPP-5556 -->
+        <!-- (Start) DEPP-5555 -->
+        <members>hed__Application__c.Application_Source__c</members>
+        <members>hed__Application__c.Offer_Condition__c</members>
+        <members>hed__Application__c.QTAC_Offer_Round__c</members>
+        <members>hed__Application__c.Defered_Study_Period__c</members>
+        <members>hed__Application__c.Is_Education_Distruption_Applicant__c</members>
+        <members>hed__Application__c.Is_Elite_Athelete_Applicant__c</members>
+        <members>hed__Application__c.Study_Link_ApplicantID__c</members>
+        <!-- (End) DEPP-5555-->
         <name>CustomField</name>
     </types>
     <types>

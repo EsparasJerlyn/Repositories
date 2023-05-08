@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Offered_Program_Plan__c</fullName>
+    <fullName>Applied_Program__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Course offered in response to study application.</description>
+    <description>The academic course or major the applicant is applying to.</description>
     <externalId>false</externalId>
-    <label>Offered Program</label>
-    <referenceTo>hed__Program_Plan__c</referenceTo>
-    <relationshipLabel>Applications</relationshipLabel>
-    <relationshipName>Applications</relationshipName>
+    <label>Applied Program</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Applications (Applied Program)</relationshipLabel>
+    <relationshipName>Applications1</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

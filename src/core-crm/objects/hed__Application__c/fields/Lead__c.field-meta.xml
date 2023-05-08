@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Offered_Program_Plan__c</fullName>
+    <fullName>Lead__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Course offered in response to study application.</description>
+    <description>Pre submission applications that do not have sufficient details for contact matching</description>
     <externalId>false</externalId>
-    <label>Offered Program</label>
-    <referenceTo>hed__Program_Plan__c</referenceTo>
+    <label>Lead</label>
+    <referenceTo>Lead</referenceTo>
     <relationshipLabel>Applications</relationshipLabel>
     <relationshipName>Applications</relationshipName>
     <required>false</required>

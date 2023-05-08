@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Is_Education_Distruption_Applicant__c</fullName>
+    <fullName>Is_Education_Disruption_Applicant__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Indicating if applicant is qualified for EAS due to education being disrupted</description>
     <externalId>false</externalId>
-    <label>Education Distruption Applicant</label>
+    <label>Education Disruption Applicant</label>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
