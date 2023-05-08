@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Reason_Comment__c</fullName>
+    <description>Allows a business user to enter some comments about why the Engagement closed.</description>
+    <externalId>false</externalId>
+    <label>Closed Reason Comment</label>
+    <length>500</length>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>
