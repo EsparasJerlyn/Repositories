@@ -15715,6 +15715,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Project_Milestone__c.Opportunity_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Project_Milestone__c.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
