@@ -9,6 +9,7 @@
     <relationshipLabel>Project Milestones</relationshipLabel>
     <relationshipName>Project_Milestones</relationshipName>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
