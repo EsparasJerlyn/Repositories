@@ -33,4 +33,14 @@
     text-transform:uppercase !important;
 }
 
+.custom-contact-image span p img {
+    width: 200px !important;
+    height: 200px !important;
+}
+
+.custom-modal-image span p img {
+    width: 400px !important;
+    height: 400px !important;
+  }
+
 
