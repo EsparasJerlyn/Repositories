@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Loss_Reason__c</fullName>
+    <description>The reason the Opportunity was lost.</description>
     <externalId>false</externalId>
     <label>Loss Reason</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
@@ -56,6 +58,26 @@
                 <fullName>Client Cancelled: Change of mind</fullName>
                 <default>false</default>
                 <label>Client Cancelled: Change of mind</label>
+            </value>
+            <value>
+                <fullName>Client Rejected</fullName>
+                <default>false</default>
+                <label>Client Rejected</label>
+            </value>
+            <value>
+                <fullName>No Funding</fullName>
+                <default>false</default>
+                <label>No Funding</label>
+            </value>
+            <value>
+                <fullName>Change of Mind</fullName>
+                <default>false</default>
+                <label>Change of Mind</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
