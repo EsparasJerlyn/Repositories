@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Research_Commercialisation_Project</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create and manage Licence, Options and Assignment project.</description>
     <label>Research Commercialisation Project</label>
     <picklistValues>

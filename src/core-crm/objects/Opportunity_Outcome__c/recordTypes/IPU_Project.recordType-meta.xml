@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>IPU_Project</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create and manage IPU Project.</description>
     <label>IPU Project</label>
     <picklistValues>

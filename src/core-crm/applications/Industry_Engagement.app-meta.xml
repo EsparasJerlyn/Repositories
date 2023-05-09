@@ -15,9 +15,17 @@
     <navType>Console</navType>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
+    <tabs>Engagement__c</tabs>
     <tabs>standard-Opportunity</tabs>
+    <tabs>Opportunity_Outcome__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
+        <mappings>
+            <tab>Engagement__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Opportunity_Outcome__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>

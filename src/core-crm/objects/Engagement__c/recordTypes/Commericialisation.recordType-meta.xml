@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Commericialisation</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create Commercialisation Engagement to identify and assess research before its ready for commercialisation.</description>
     <label>Commericialisation</label>
     <picklistValues>

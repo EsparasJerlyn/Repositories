@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Research_Partnership</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create Research Partnership Engagement to identify new opportunities with industry partners to support research and research training initiatives.</description>
     <label>Research Partnership</label>
     <picklistValues>
