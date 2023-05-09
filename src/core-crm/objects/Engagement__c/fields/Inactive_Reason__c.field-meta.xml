@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Inactive_Reason__c</fullName>
+    <description>The reason the Engagement became inactive.</description>
     <externalId>false</externalId>
     <label>Inactive Reason</label>
     <required>false</required>
