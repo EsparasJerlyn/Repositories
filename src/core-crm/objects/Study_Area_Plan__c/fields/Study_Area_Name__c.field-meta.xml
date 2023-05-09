@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Study_Area__c</fullName>
-    <description>Lookup Study Area Name</description>
+    <fullName>Study_Area_Name__c</fullName>
+    <description>Lookup study area name</description>
     <externalId>false</externalId>
-    <label>Study Area</label>
+    <label>Study Area Name</label>
     <referenceTo>Study_Area__c</referenceTo>
     <relationshipLabel>Study Area Plans</relationshipLabel>
     <relationshipName>Study_Area_Plans</relationshipName>
