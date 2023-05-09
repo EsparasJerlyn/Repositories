@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expense_Type__c</fullName>
+    <description>The type of expense.</description>
+    <externalId>false</externalId>
+    <label>Expense Type</label>
+    <required>true</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Airfare</fullName>
+                <default>false</default>
+                <label>Airfare</label>
+            </value>
+            <value>
+                <fullName>Transport (exc. Airfare)</fullName>
+                <default>false</default>
+                <label>Transport (exc. Airfare)</label>
+            </value>
+            <value>
+                <fullName>Meals</fullName>
+                <default>false</default>
+                <label>Meals</label>
+            </value>
+            <value>
+                <fullName>Accommodation</fullName>
+                <default>false</default>
+                <label>Accommodation</label>
+            </value>
+            <value>
+                <fullName>Stationery</fullName>
+                <default>false</default>
+                <label>Stationery</label>
+            </value>
+            <value>
+                <fullName>Workshop Facilitation</fullName>
+                <default>false</default>
+                <label>Workshop Facilitation</label>
+            </value>
+            <value>
+                <fullName>Procurement</fullName>
+                <default>false</default>
+                <label>Procurement</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
