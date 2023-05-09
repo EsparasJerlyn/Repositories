@@ -26302,6 +26302,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Engagement__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Events</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -26327,6 +26331,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Marketing_Staging__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Opportunity_Outcome__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
