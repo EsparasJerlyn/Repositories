@@ -5725,6 +5725,16 @@
         <field>Project_Milestone__c.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+      <fieldPermissions>
+        <editable>true</editable>
+        <field>Pure_Project__c.Engagement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Pure_Project__c.Opportunity_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Pure_Project__c.Opportunity__c</field>
