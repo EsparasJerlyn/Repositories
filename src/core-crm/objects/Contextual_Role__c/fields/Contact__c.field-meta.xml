@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Provides a lookup to the Contact Object to capture an Organisation playing a role in the business process.
+
+Note that a Contextual Role record can ONLY be about a Contact OR about an Account. No record should ever have both Contact_Id__c and Organisation_Account_Id__c populated on the same row.</description>
+    <externalId>false</externalId>
+    <label>Contact</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Contextual Roles</relationshipLabel>
+    <relationshipName>Contextual_Roles</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
