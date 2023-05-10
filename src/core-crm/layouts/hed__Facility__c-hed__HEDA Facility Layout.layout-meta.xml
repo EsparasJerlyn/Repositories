@@ -74,6 +74,9 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
+        <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
         <fields>hed__Facility_Type__c</fields>
         <fields>hed__Capacity__c</fields>
