@@ -239,11 +239,7 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-609ecf9d-e75a-4d70-91e0-21726ea18cfe</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
+                </componentInstanceProperties>                
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>TERM SUMMARY</value>

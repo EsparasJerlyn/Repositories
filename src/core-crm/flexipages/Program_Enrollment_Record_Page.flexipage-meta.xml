@@ -236,10 +236,6 @@
                     <value>Facet-65efed33-42e2-4286-a73f-e82c73ac4fa2</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Program Enrollment Summary</value>
                 </componentInstanceProperties>

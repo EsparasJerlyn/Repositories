@@ -181,10 +181,6 @@
                     <value>Facet-748017fd-d1ac-4e1d-af0e-83625d83f197</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>QTAC PREFERENCE SUMMARY</value>
                 </componentInstanceProperties>
