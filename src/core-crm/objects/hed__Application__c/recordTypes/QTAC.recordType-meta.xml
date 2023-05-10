@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>QTAC</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Application_Compact_layout</compactLayoutAssignment>
     <label>QTAC</label>
     <picklistValues>
         <picklist>Application_Method__c</picklist>
