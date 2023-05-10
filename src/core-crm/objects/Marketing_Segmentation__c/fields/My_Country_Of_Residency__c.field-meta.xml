@@ -5,7 +5,7 @@
 
 Indicates the country an international student is living in.</description>
     <externalId>false</externalId>
-    <label>My Country Of Residency</label>
+    <label>My Country Of Residency</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
