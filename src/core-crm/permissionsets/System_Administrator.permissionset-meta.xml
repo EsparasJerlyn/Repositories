@@ -27371,6 +27371,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Study_Area__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>trailheadapp__Badge__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
