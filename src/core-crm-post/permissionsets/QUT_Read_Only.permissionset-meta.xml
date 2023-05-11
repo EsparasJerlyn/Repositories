@@ -5484,11 +5484,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>QTAC_Preference__c.QTAC_Application__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>QTAC_Preference__c.QTAC_Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6381,12 +6376,7 @@
         <editable>false</editable>
         <field>Study_Area__c.Migration_Key__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Study_Area__c.Study_Area_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Area__c.Study_Area_End_Date__c</field>
@@ -6396,12 +6386,7 @@
         <editable>false</editable>
         <field>Study_Area__c.Study_Area_Long_Name__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Study_Area__c.Study_Area_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Area__c.Study_Area_Stage__c</field>
@@ -6415,11 +6400,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Area__c.Study_Area_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Study_Area__c.Study_Area_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
