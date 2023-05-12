@@ -1,4 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-   
+    <layoutAssignments>
+        <layout>Contextual_Role__c-Contextual Role - Engagement Role Page Layout</layout>
+        <recordType>Contextual_Role__c.Engagement_Role</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contextual_Role__c-Contextual Role - Opportunity Outcome Role Page Layout</layout>
+        <recordType>Contextual_Role__c.Opportunity_Outcome_Role</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contextual_Role__c-Contextual Role - Opportunity Role Page Layout</layout>
+        <recordType>Contextual_Role__c.Opportunity_Role</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Dividend Summary Page Layout</layout>
+        <recordType>Finance_Summary__c.Dividend_Summary</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - QUT Finance System Page Layout</layout>
+        <recordType>Finance_Summary__c.QUT_Finance_System</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Valuation Page Layout</layout>
+        <recordType>Finance_Summary__c.Valuation</recordType>
+    </layoutAssignments> <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Board_Meeting_Minutes</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Shareholder_and_Constitution_Amendment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Standard</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Expense__c-Expense Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Course Financial Split Page Layout</layout>
+        <recordType>Financial_Split__c.Course_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Funding Body Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Funding_Body</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Funding Body Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Funding_Body</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Application__c-IP Management Application Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Project_Milestone__c-Project Milestone Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Pure_Project__c-Pure Project Page Layout</layout>
+    </layoutAssignments>
+        <layoutAssignments>
+        <layout>Risk__c-Risk Page Layout</layout>
+    </layoutAssignments>
 </Profile>
