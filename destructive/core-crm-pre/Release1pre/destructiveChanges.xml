@@ -43,5 +43,11 @@
         <members>Study_Area_Plan__c.Study_Area__c</members>
         <name>CustomField</name>
     </types>
+    <types>
+        <!--Start DEPP-5479-->
+        <members>Engagement__c.Commericialisation</members>
+        <!--End DEPP-5479-->
+        <name>RecordType</name>
+    </types>
     <version>52.0</version>
 </Package>

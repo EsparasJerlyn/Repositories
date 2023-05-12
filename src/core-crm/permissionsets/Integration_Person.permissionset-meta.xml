@@ -9257,6 +9257,18 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Document__c.Board_Meeting_Minutes</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Document__c.Shareholder_and_Constitution_Amendment</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Document__c.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Finance_Summary__c.Dividend_Summary</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -9268,8 +9280,32 @@
         <recordType>Finance_Summary__c.Valuation</recordType>
         <visible>true</visible>
     </recordTypeVisibilities> 
+        <recordTypeVisibilities>
+        <recordType>Financial_Split__c.Course_Financial_Split</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Financial_Split__c.Opportunity_Funding_Body</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Funding_Body</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Opportunity.Commercialisation</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Opportunity.International_Projects_Unit</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Opportunity.QUTex_CCE</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Opportunity.Research_Partnership</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -9441,7 +9477,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Engagement__c.Commericialisation</recordType>
+        <recordType>Engagement__c.Commercialisation</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

@@ -4,5 +4,5 @@
     <entityName>Engagement__c</entityName>
     <fieldName>Stage_Name__c</fieldName>
     <masterLabel>Commercialisation Engagement</masterLabel>
-    <recordTypeName>Commericialisation</recordTypeName>
+    <recordTypeName>Commercialisation</recordTypeName>
 </PathAssistant>

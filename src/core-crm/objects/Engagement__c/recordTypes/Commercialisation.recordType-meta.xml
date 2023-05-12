@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Commericialisation</fullName>
+    <fullName>Commercialisation</fullName>
     <active>true</active>
     <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create Commercialisation Engagement to identify and assess research before its ready for commercialisation.</description>
-    <label>Commericialisation</label>
+    <label>Commercialisation</label>
     <picklistValues>
         <picklist>Assessment_Outcome__c</picklist>
         <values>
