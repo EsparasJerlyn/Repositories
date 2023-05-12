@@ -46,7 +46,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.QTAC_Application__c</fieldItem>
                 <identifier>RecordQTAC_Application_cField</identifier>

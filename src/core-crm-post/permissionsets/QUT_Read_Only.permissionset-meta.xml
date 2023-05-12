@@ -5484,6 +5484,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>QTAC_Preference__c.QTAC_Application__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>QTAC_Preference__c.QTAC_Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
