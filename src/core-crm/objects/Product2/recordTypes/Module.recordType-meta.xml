@@ -10,6 +10,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Cairns Classroom</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Canberra Classroom</fullName>
             <default>false</default>
         </values>
