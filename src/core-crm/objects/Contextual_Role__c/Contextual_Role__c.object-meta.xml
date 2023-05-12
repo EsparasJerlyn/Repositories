@@ -144,7 +144,7 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <description>The Contextual Role object stores data about the participants (both people and organisations) and the role/s they have played or are playing in a business process. Contextual Role object data differs from Affiliation Object data as it captures: a) data about each participant and the role they’re playing in given a business process and b) it can also support capturing where a contact has a relationship with an organisation within the context of the given business process. It differs from Affiliation Object records in that Affiliation does not support capturing any context around the business process that might have applied to the Affiliation record.</description>
-    <enableActivities>false</enableActivities>
+    <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
