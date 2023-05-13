@@ -55,7 +55,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Study_Area_No__c</fieldItem>
                 <identifier>RecordStudy_Area_No_cField</identifier>
@@ -99,7 +99,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Study_Area_Code__c</fieldItem>
                 <identifier>RecordStudy_Area_Code_cField</identifier>
@@ -109,7 +109,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Study_Area_Version__c</fieldItem>
                 <identifier>RecordStudy_Area_Version_cField</identifier>

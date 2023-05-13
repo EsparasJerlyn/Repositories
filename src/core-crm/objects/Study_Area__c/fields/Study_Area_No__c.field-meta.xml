@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Study Area Number</label>
     <length>13</length>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

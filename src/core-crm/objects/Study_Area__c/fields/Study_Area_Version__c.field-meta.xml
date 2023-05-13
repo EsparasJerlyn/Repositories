@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Study Area Version</label>
     <precision>13</precision>
-    <required>true</required>
+    <required>false</required>
     <scale>0</scale>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>

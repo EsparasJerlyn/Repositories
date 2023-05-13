@@ -6367,12 +6367,22 @@
     </fieldPermissions>    
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Area__c.Study_Area_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Area__c.Study_Area_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Area__c.Study_Area_Long_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Area__c.Study_Area_No__c</field>
         <readable>true</readable>
     </fieldPermissions>    
     <fieldPermissions>
@@ -6390,6 +6400,11 @@
         <field>Study_Area__c.Study_Area_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Area__c.Study_Area_Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>  
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Area_Plan__c.Enrollment_Start_Date__c</field>
