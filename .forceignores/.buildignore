@@ -20,3 +20,7 @@ src-env-specific-alias-post
 *README.md
 
 src/frameworks/trigger-framework/sample
+
+**/ExclusivityType.field-meta.xml
+**/PromotionTarget-Promotion Target Layout.layout-meta.xml
+**/BuyerGroup-Buyer Group Layout.layout-meta.xml

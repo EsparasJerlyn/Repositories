@@ -20,3 +20,8 @@ Default_Navigation.navigationMenu-meta.xml
 Default_Navigation1.navigationMenu-meta.xml
 **/installedPackages/**
 **/customindex/**
+
+# Summer 23'
+**/ExclusivityType.field-meta.xml
+**/PromotionTarget-Promotion Target Layout.layout-meta.xml
+**/BuyerGroup-Buyer Group Layout.layout-meta.xml
