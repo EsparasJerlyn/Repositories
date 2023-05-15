@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Engagement_is_Required</fullName>
+    <active>true</active>
+    <description>Ensures that engagement is populated if record type is Engagement Role.</description>
+    <errorConditionFormula>AND (
+        RecordType.DeveloperName = &apos;Engagement_Role&apos;,
+        ISBLANK(Engagement__c)
+        )</errorConditionFormula>
+    <errorDisplayField>Engagement__c</errorDisplayField>
+    <errorMessage>Please ensure engagement is populated if record type is Engagement Role.</errorMessage>
+</ValidationRule>

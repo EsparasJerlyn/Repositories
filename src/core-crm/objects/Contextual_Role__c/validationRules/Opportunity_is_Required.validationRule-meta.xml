@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_is_Required</fullName>
+    <active>true</active>
+    <description>Ensures that Opportunity is populated if record type is Opportunity Role.</description>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;Opportunity_Role&apos;,
+ISBLANK(Opportunity__c)
+)</errorConditionFormula>
+    <errorDisplayField>Opportunity__c</errorDisplayField>
+    <errorMessage>Please ensure Opportunity is populated if record type is Opportunity Role.</errorMessage>
+</ValidationRule>
