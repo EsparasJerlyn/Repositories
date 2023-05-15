@@ -4,10 +4,28 @@
     <description>PURE CLMS Contract Status.</description>
     <externalId>false</externalId>
     <label>Pure CLMS Contract Status</label>
-    <length>40</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Contract Negotiation</fullName>
+                <default>false</default>
+                <label>Contract Negotiation</label>
+            </value>
+            <value>
+                <fullName>Internally Approved</fullName>
+                <default>false</default>
+                <label>Internally Approved</label>
+            </value>
+            <value>
+                <fullName>Terminated</fullName>
+                <default>false</default>
+                <label>Terminated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>
