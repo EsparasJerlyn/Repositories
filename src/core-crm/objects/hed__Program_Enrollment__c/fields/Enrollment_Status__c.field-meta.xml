@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Visa_Effective_Date__c</fullName>
-    <description>The Effective Date of the visa that grants entry to Australia</description>
+    <fullName>Enrollment_Status__c</fullName>
+    <description>The Enrollment Status as per SAMS status</description>
     <externalId>false</externalId>
-    <label>Visa Effective Date</label>
+    <label>Enrollment Status</label>
+    <length>80</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Date</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

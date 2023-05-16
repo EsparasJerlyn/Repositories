@@ -185,7 +185,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Program_Plan__c</fieldItem>
                 <identifier>Recordhed_Program_Plan_cField</identifier>
