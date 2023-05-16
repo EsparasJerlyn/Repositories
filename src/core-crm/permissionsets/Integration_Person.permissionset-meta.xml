@@ -2132,11 +2132,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Term__c.Year__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>International_Tier__c.IsActive__c</field>
         <readable>true</readable>
     </fieldPermissions>

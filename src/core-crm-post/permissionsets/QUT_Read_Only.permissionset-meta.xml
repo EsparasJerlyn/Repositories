@@ -9923,11 +9923,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Term__c.Year__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>hed__Test_Score__c.hed__Credentialing_Identifier__c</field>
         <readable>true</readable>
     </fieldPermissions>
