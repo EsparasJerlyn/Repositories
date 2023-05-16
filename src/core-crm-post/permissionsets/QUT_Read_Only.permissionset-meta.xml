@@ -2993,16 +2993,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Leave_of_Absence__c.hed_Program_Enrollment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Leave_of_Absence__c.Leave_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Leave_of_Absence__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3019,11 +3009,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Leave_of_Absence__c.Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Leave_of_Absence__c.Student__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

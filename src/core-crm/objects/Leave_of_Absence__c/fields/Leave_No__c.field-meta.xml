@@ -5,9 +5,10 @@
     <externalId>false</externalId>
     <label>Leave No</label>
     <precision>3</precision>
-    <required>false</required>
+    <required>true</required>
     <scale>0</scale>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Number</type>
     <unique>false</unique>

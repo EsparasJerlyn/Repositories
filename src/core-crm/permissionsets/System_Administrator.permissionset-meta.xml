@@ -11925,16 +11925,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Leave_of_Absence__c.hed_Program_Enrollment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Leave_of_Absence__c.Leave_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Leave_of_Absence__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -11951,11 +11941,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Leave_of_Absence__c.Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Leave_of_Absence__c.Student__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -26689,6 +26674,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Knowledge__kav</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Leave_of_Absence__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
