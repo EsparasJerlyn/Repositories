@@ -7838,6 +7838,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Application__c.BirthDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Application__c.Citizenship_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Application__c.Citizenship_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Application__c.Course_Allocability_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7878,6 +7893,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Application__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Application__c.Is_English_language_Difficulty_Applicant__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7889,6 +7909,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Application__c.Is_First_In_Family_Applicant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Application__c.FirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Application__c.Indigenous_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7908,7 +7938,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Application__c.LastName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Application__c.Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Application__c.MiddleName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7919,6 +7959,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Application__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Application__c.Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7963,7 +8008,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Application__c.Pathway_Principle_Program__c</field>
+        <field>hed__Application__c.Pathway_Principal_Program__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

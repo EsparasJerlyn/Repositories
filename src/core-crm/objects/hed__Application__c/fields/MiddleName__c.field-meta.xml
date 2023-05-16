@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>StudyLink_ApplicantID__c</fullName>
-    <description>The unique identifier of the applicant in StudyLink system</description>
+    <fullName>MiddleName__c</fullName>
+    <description>The applicant’s middle name</description>
     <externalId>false</externalId>
-    <label>StudyLink Applicant ID</label>
-    <length>20</length>
+    <label>Middle Name</label>
+    <length>40</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

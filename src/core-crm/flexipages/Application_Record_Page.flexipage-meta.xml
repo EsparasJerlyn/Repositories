@@ -99,7 +99,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Applicant__c</fieldItem>
                 <identifier>Recordhed_Applicant_cField</identifier>
@@ -109,7 +109,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Applied_Program__c</fieldItem>
                 <identifier>RecordApplied_Program_cField</identifier>
@@ -355,7 +355,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Pathway_Principle_Program__c</fieldItem>
+                <fieldItem>Record.Pathway_Principal_Program__c</fieldItem>
                 <identifier>RecordPathway_Principle_Program_cField2</identifier>
             </fieldInstance>
         </itemInstances>
@@ -577,7 +577,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Applicant__c</fieldItem>
                 <identifier>Recordhed_Applicant_cField2</identifier>
@@ -1089,7 +1089,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Applicant__c</fieldItem>
                 <identifier>Recordhed_Applicant_cField3</identifier>
@@ -1099,7 +1099,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Applied_Program__c</fieldItem>
                 <identifier>RecordApplied_Program_cField2</identifier>
