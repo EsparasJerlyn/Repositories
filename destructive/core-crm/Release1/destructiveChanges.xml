@@ -21,6 +21,9 @@
         <members>hed__Course__c.Enrolment_Rules__c</members>
         <members>hed__Program_Plan__c.Enrolment_Rulesv2__c</members>
         <!--DEPP-5205 END  -->
+        <!--DEPP-5638 START-->
+        <members>Opportunity.Memo_Endorsed__c</members>
+        <!--DEPP-5638 START-->
         <name>CustomField</name>
     </types>
     <types>

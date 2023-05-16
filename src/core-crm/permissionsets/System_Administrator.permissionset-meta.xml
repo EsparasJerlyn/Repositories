@@ -14610,7 +14610,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Opportunity.Memo_Endorsed__c</field>
+        <field>Opportunity.Memo_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -1283,17 +1283,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Memo_Endorsed__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Negotiation_Outcome__c</picklist>
         <values>
             <fullName>Successful</fullName>
