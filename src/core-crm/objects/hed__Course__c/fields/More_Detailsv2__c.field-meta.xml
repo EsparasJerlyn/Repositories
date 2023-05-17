@@ -5,6 +5,8 @@
     <label>More Details</label>
     <length>75000</length>
     <trackTrending>false</trackTrending>
+    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>25</visibleLines>
 </CustomField>

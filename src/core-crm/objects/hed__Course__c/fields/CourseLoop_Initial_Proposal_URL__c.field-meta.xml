@@ -4,8 +4,8 @@
     <externalId>false</externalId>
     <label>CourseLoop Initial Proposal URL</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Url</type>
 </CustomField>

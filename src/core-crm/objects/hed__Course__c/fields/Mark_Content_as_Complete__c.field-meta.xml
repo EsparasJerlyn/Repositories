@@ -4,8 +4,9 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <label>Mark Content as Complete</label>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackFeedHistory>false</trackFeedHistory>    
+    <trackHistory>true</trackHistory>
+    <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

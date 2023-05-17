@@ -5,6 +5,8 @@
     <label>Delivery Support</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>MultiselectPicklist</type>
     <valueSet>
         <restricted>true</restricted>

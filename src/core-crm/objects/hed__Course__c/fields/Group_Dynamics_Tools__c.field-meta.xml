@@ -5,6 +5,8 @@
     <label>Group Dynamics Tools</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

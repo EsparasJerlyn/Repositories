@@ -5,6 +5,8 @@
     <label>Unit Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>true</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

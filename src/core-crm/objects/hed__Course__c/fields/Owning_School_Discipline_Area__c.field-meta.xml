@@ -23,5 +23,7 @@
     <relationshipName>Courses</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>true</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>Lookup</type>
 </CustomField>
