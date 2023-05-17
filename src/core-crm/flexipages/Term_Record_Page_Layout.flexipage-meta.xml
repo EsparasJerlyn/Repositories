@@ -48,6 +48,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Year__c</fieldItem>
+                <identifier>RecordYear_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Teaching_Census_Date__c</fieldItem>
                 <identifier>RecordTeaching_Census_Date_cField</identifier>
             </fieldInstance>
@@ -96,10 +106,30 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Start_Date__c</fieldItem>
                 <identifier>Recordhed_Start_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Study_Period_Type__c</fieldItem>
+                <identifier>RecordStudy_Period_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Study_Period_Type_Code__c</fieldItem>
+                <identifier>RecordStudy_Period_Type_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-60b007f7-ff85-4e94-ac3f-39d556cb4089</name>
@@ -130,7 +160,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Type__c</fieldItem>
                 <identifier>Recordhed_Type_cField</identifier>
@@ -190,7 +220,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__End_Date__c</fieldItem>
                 <identifier>Recordhed_End_Date_cField</identifier>
