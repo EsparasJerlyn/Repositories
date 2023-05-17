@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Enrollment_Stage__c</fullName>
-    <description>The Enrollment Stage as per SAMS stages</description>
+    <description>The enrollment stage as per SAMS stages</description>
     <externalId>false</externalId>
     <label>Enrollment Stage</label>
     <length>80</length>
