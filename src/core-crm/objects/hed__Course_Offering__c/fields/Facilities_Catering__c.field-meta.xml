@@ -5,6 +5,8 @@
     <inlineHelpText>The venue, catering and facilities were satisfactory.</inlineHelpText>
     <label>Facilities / Catering</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

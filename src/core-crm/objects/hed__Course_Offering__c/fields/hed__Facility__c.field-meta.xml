@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>hed__Term__c</fullName>
+    <fullName>hed__Facility__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <description>Lookup to the Term record that represents when this Course Offering takes place.</description>
+    <description>The Facility associated with the Course Offering.</description>
     <externalId>false</externalId>
-    <label>Term</label>
-    <referenceTo>hed__Term__c</referenceTo>
+    <inlineHelpText>The Facility where this Course Offering will take place.</inlineHelpText>
+    <label>Facility</label>
+    <referenceTo>hed__Facility__c</referenceTo>
     <relationshipLabel>Course Offerings</relationshipLabel>
     <relationshipName>Course_Offerings</relationshipName>
-    <relationshipOrder>1</relationshipOrder>
-    <reparentableMasterDetail>true</reparentableMasterDetail>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>MasterDetail</type>
-    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    <type>Lookup</type>
 </CustomField>

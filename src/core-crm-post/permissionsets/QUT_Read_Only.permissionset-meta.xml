@@ -8638,7 +8638,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course_Offering__c.Checkout_Cart_Items_Count__c</field>
+        <field>hed__Course_Offering__c.Delivery_Mode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8649,6 +8654,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Offering__c.Available_Seats__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Checkout_Cart_Items_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8688,7 +8698,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Course_Offering__c.Primary_Delivery_Platform__c</field>
+        <field>hed__Course_Offering__c.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8708,7 +8723,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.LMS_Integration_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.LMS_Quality__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Minimum_Participants__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8724,6 +8754,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>hed__Course_Offering__c.Peer_Engagement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.Primary_Delivery_Platform__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8768,6 +8803,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.hed__Capacity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.hed__End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8778,7 +8818,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.hed__Faculty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.hed__Section_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Offering__c.hed__Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course_Offering__c.hed__Time_Block__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

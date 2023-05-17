@@ -21475,6 +21475,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.Delivery_Mode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.Migration_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.Administrative_Support__c</field>
         <readable>true</readable>
     </fieldPermissions>

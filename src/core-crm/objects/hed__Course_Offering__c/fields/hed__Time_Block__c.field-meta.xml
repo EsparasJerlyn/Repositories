@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Program_Offering__c</fullName>
+    <fullName>hed__Time_Block__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Linked the course offering to the Program offering for Prescribed
-    Program.</description>
+    <deprecated>false</deprecated>
+    <description>Lookup to the Time Block record that represents the start and end times for this Course Offering.</description>
     <externalId>false</externalId>
-    <label>Program Offering</label>
-    <referenceTo>Program_Offering__c</referenceTo>
+    <label>Time Block</label>
+    <referenceTo>hed__Time_Block__c</referenceTo>
     <relationshipLabel>Course Offerings</relationshipLabel>
-    <relationshipName>Course_Offerings</relationshipName>
+    <relationshipName>Time_Blocks</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

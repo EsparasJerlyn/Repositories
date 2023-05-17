@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>LMS Integration Status</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
