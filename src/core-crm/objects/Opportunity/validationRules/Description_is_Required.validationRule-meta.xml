@@ -4,6 +4,7 @@
     <active>true</active>
     <description>Description is required to update Stage</description>
     <errorConditionFormula>AND (
+    RecordType.DeveloperName =&quot;QUTex_CCE&quot;,
     ISCHANGED( StageName ),
     ISPICKVAL( PRIORVALUE(StageName), &apos;Qualify&apos; ),
     ISPICKVAL( StageName , &apos;Proposal&apos; ),
