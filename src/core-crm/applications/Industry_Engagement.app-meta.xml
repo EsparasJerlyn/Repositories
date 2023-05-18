@@ -69,6 +69,42 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>IPU_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.IPU_Project</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IPU_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.IPU_Project</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IPU_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.IPU_Project</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IPU_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.IPU_Project</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Research_Engagement_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Engagement__c</pageOrSobjectType>
