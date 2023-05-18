@@ -4,12 +4,11 @@
     <description>The course number that identifies the course in SAMS</description>
     <externalId>false</externalId>
     <label>Program Number</label>
-    <precision>7</precision>
+    <length>7</length>
     <required>false</required>
-    <scale>0</scale>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>
