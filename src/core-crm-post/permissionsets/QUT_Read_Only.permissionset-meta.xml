@@ -5651,6 +5651,11 @@
         <field>Related_Product_Request__c.Product_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions> 
+        <editable>false</editable>
+        <field>Risk__c.Mitigation_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Risk__c.Opportunity__c</field>
