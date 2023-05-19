@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IPU_Proposal_Outcome_Date_is_Required</fullName>
+    <active>true</active>
+    <description>Ensures that Proposal Outcome Date is populated in order to move to Contract stage.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;International_Projects_Unit&apos;,
+ISCHANGED(StageName),
+ISPICKVAL(PRIORVALUE(StageName), &apos;Submitted&apos;),
+ISPICKVAL(StageName , &apos;Contract&apos;),
+ISBLANK(Proposal_Outcome_Date__c)
+)</errorConditionFormula>
+    <errorDisplayField>Proposal_Outcome_Date__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IPU_Proposal_Outcome_is_Required</fullName>
+    <active>true</active>
+    <description>Ensures that Proposal Outcome is Accepted in order to move to Contract stage.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;International_Projects_Unit&apos;,
+ISCHANGED(StageName),
+ISPICKVAL(PRIORVALUE(StageName), &apos;Submitted&apos;),
+ISPICKVAL(StageName , &apos;Contract&apos;),
+NOT(ISPICKVAL(Proposal_Outcome__c, &apos;Accepted&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>Proposal_Outcome__c</errorDisplayField>
+    <errorMessage>Proposal Outcome must be accepted to proceed.</errorMessage>
+</ValidationRule>
