@@ -161,7 +161,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>On-Hold</fullName>
+            <fullName>On Hold</fullName>
             <default>false</default>
         </values>
     </picklistValues>

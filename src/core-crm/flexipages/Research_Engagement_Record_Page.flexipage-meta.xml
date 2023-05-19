@@ -478,7 +478,7 @@
                     <criteria>
                         <leftValue>{!Record.Stage_Name__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>On-Hold</rightValue>
+                        <rightValue>On Hold</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

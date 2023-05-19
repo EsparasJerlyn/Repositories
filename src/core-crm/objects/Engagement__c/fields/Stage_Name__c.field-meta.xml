@@ -33,9 +33,9 @@
                 <label>Development</label>
             </value>
             <value>
-                <fullName>On-Hold</fullName>
+                <fullName>On Hold</fullName>
                 <default>false</default>
-                <label>On-Hold</label>
+                <label>On Hold</label>
             </value>
             <value>
                 <fullName>Commercialisation Ready</fullName>
