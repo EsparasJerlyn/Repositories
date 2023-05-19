@@ -1253,6 +1253,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Engagement__c.Engagement_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Engagement__c.Engagement_Priority__c</field>
         <readable>true</readable>
