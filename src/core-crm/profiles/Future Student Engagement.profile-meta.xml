@@ -10,4 +10,8 @@
         <layout>Task-Nurture</layout>
         <recordType>Task.Nurture</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
 </Profile>
