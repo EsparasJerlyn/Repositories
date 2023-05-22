@@ -33,6 +33,12 @@
         <name>FlexiPage</name>
     </types>
     <types>
+        <!--Start DEPP-5392-->
+        <members>New_Document_Standard_Record_Type_Custom.xml</members>
+        <!--End DEPP-5392-->
+        <name>Flow</name>
+    </types>
+    <types>
         <!--DEPP-4625 / DEPP-4223-->
         <members>Case-International Enquiry Layout</members>
         <!--DEPP-4625/ DEPP-4223 end-->
