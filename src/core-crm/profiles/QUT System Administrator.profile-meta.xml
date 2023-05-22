@@ -100,5 +100,8 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Promotion-promotion Layout</layout>
-    </layoutAssignments>          
+    </layoutAssignments>
+     <layoutAssignments>
+        <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
+    </layoutAssignments>       
 </Profile>
