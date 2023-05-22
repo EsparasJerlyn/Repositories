@@ -6,6 +6,7 @@
     <label>Start-Up Company Description</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
