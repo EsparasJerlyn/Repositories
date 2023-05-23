@@ -44,6 +44,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     @api recordForOpe;
     @api isSaving = false;
     @api standardHeaderLabel;
+    @api showDefaultRecordType;
 
     objectLabel = '';
     recordTypeId;
@@ -81,7 +82,7 @@ export default class CustomCreateEditRecord extends LightningElement {
     get modalHeader(){
         let _modalHeader;
 
-        if(this.standardHeaderLabel){
+        if(this.standardHeaderLabel && this.showDefaultRecordType){
             if(this.objectRecordTypeInfo){
                 let prefix = 'New';
                 if(this.editTempData){
