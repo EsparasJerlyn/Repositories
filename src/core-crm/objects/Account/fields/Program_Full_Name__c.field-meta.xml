@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Program_Full_Name__c</fullName>
-    <description>Full title of the course or StudyLink Package as per SAMS or StudyLink from integration</description>
+    <description>Full title of the Course or Studylink Package as per SAMS from Integration</description>
     <externalId>false</externalId>
     <label>Program Full Name</label>
     <length>255</length>

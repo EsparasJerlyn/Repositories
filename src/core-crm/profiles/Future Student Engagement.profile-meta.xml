@@ -30,6 +30,10 @@
         <recordType>Task.Nurture</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
     </layoutAssignments>
      <layoutAssignments>
