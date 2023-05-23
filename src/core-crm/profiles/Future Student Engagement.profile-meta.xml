@@ -7,6 +7,25 @@
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Default</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Faculty</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Task-Nurture</layout>
         <recordType>Task.Nurture</recordType>
     </layoutAssignments>

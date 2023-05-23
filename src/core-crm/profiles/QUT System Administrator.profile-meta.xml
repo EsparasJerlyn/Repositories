@@ -52,6 +52,17 @@
         <layout>CartItem-Cart Item Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Default</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Course__c-OPE Activity Page Layout</layout>
         <recordType>hed__Course__c.Activity</recordType>
     </layoutAssignments>

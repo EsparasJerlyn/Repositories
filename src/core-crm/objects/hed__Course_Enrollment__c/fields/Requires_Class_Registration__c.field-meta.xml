@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requires_Class_Registration__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>There are units that do not offer choice of sessions for class registration and student are automatically registered for their class. This flag indicates if class registration action is required by student.</description>
+    <externalId>false</externalId>
+    <label>Requires Class Registration</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
