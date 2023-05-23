@@ -9645,6 +9645,10 @@
         <recordType>hed__Program_Plan__c.Program</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>hed__Course__c</tab>
         <visibility>Visible</visibility>

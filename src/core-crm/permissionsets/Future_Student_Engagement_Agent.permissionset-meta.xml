@@ -3215,6 +3215,10 @@
         <recordType>Contact.Person</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>hed__Application__c</tab>
         <visibility>Available</visibility>

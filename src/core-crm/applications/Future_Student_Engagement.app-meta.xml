@@ -10,7 +10,43 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
 	<isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Future Student Engagement</label>
-    <navType>Console</navType>
+    <navType>Console</navType> 
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+     </profileActionOverrides>
      <profileActionOverrides>
         <actionName>View</actionName>
         <content>Academic_Program_Record_Page</content>
