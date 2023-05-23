@@ -129,6 +129,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RegisteredLearnersCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ProductManagementCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1509,6 +1513,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.Total_Number_of_Registered_Learners__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.hed__Capacity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.hed__Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
