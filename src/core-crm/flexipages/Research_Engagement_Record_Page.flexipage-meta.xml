@@ -773,7 +773,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Name</fieldItem>
                 <identifier>RecordNameField3</identifier>
@@ -783,7 +783,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Engagement_Source__c</fieldItem>
                 <identifier>RecordEngagement_Source_cField3</identifier>
@@ -793,7 +793,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Engagement_Summary__c</fieldItem>
                 <identifier>RecordEngagement_Summary_cField</identifier>
@@ -817,7 +817,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Engagement_Priority__c</fieldItem>
                 <identifier>RecordEngagement_Priority_cField3</identifier>
@@ -855,7 +855,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Stage_Name__c</fieldItem>
                 <identifier>RecordStage_Name_cField3</identifier>
@@ -865,7 +865,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Inactive_Reason_Comment__c</fieldItem>
                 <identifier>RecordInactive_Reason_Comment_cField3</identifier>
@@ -879,7 +879,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Inactive_Reason__c</fieldItem>
                 <identifier>RecordInactive_Reason_cField3</identifier>
