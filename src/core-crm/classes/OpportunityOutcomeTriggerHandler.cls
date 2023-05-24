@@ -10,7 +10,7 @@
  */
 public with sharing class OpportunityOutcomeTriggerHandler implements Disableable, BeforeInsert {
     public void beforeInsert(List<Sobject> newItems) {
-        OpportunityOutcomeCodeCtrl.generateOpportunityOutcomeCode((List<Opportunity_Outcome__c>)newItems);
+        CodeGeneratorService.generateCodeForOpportunityOutcomeRecords((List<Opportunity_Outcome__c>)newItems);
         OpportunityOutcomeProjectNameCtrl.generateProjectName((List<Opportunity_Outcome__c>)newItems);
     }
     
