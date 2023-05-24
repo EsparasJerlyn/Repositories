@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file
+      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -20,7 +21,13 @@ public class ImplementationSelector {
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,
             ContentVersion.SObjectType => ContentVersionsDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
+            Engagement__c.SObjectType => EngagementsDAO.class,
+            Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
             Lead.SObjectType => LeadsDAO.class,
+            Opportunity.SObjectType => OpportunitiesDAO.class,
+            Opportunity_Code_Auto_Number__c.SobjectType => OpportunityCodeAutoNumbersDAO.class,
+            Opportunity_Outcome__c.SobjectType => OpportunityOutcomesDAO.class,
+            Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Product2.SObjectType => ProductsDAO.class
         }

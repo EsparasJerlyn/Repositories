@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Code</label>
     <length>20</length>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

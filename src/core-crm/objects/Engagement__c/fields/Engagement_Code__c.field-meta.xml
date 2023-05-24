@@ -4,7 +4,10 @@
     <description>A unique, business formatted code to identify an Opportunity record in the system.</description>
     <externalId>false</externalId>
     <label>Engagement Code</label>
+    <length>20</length>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
-    <type>AutoNumber</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>
