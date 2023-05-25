@@ -157,7 +157,7 @@
     <label>Engagement</label>
     <nameField>
         <label>Engagement Name</label>
-        <trackHistory>false</trackHistory>
+        <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Engagements</pluralLabel>

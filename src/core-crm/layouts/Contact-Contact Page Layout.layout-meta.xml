@@ -456,7 +456,15 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <relatedList>hed__Application__c.hed__Applicant__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <relatedList>hed__Attendance_Event__c.hed__Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>hed__Program_Enrollment__c.hed__Contact__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
