@@ -145,7 +145,7 @@
     <deploymentStatus>Deployed</deploymentStatus>
     <deprecated>false</deprecated>
     <description>Links Courses to an Academic Program to create a path for students to follow. An Academic Program can list multiple Courses, and a Course can be associated with multiple Academic Programs.</description>
-    <enableActivities>false</enableActivities>
+    <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
@@ -162,6 +162,7 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Program Plans</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>hed__Account__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__Start_Date__c</searchResultsAdditionalFields>

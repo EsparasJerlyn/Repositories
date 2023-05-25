@@ -941,6 +941,7 @@
     <tabs>Product_Request__c</tabs>
     <tabs>Product_Specification__c</tabs>
     <tabs>hed__Program_Plan__c</tabs>
+    <tabs>hed__Course_Offering__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>QUTeX_CCE_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -949,6 +950,9 @@
         </mappings>
         <mappings>
             <tab>Product_Specification__c</tab>
+        </mappings>
+        <mappings>
+            <tab>hed__Course_Offering__c</tab>
         </mappings>
         <mappings>
             <tab>hed__Program_Plan__c</tab>

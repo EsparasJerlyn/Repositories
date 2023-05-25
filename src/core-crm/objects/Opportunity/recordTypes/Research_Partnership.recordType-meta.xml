@@ -1223,39 +1223,19 @@
     <picklistValues>
         <picklist>Loss_Reason__c</picklist>
         <values>
-            <fullName>Client Cancelled%3A Change of mind</fullName>
+            <fullName>Change of Mind</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Client Cancelled%3A Funding change</fullName>
+            <fullName>Client Rejected</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Client Rejected%3A Contract Terms</fullName>
+            <fullName>No Funding</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Client Rejected%3A Declined to give a reason</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Client Rejected%3A Price</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Client Rejected%3A QUT Solution not a fit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>No-Bid %3A Faculty Decision</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>No-Bid %3A QUTeX %26 Faculty Decision</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>No-Bid %3A QUTeX Decision</fullName>
+            <fullName>Other</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1455,7 +1435,19 @@
     <picklistValues>
         <picklist>Type</picklist>
         <values>
-            <fullName>CCE Corporate Partner</fullName>
+            <fullName>Commercial Research</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultancy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multifaceted Partnership</fullName>
             <default>false</default>
         </values>
     </picklistValues>

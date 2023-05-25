@@ -76,7 +76,8 @@ public class TestDataFactory {
         'QUT_Digital_Communication_Officer',
         'QUT_ISR_Communications_Manager',
         'QUT_ISR_Student_Enquiries_Communications_Officer',
-        'QUT_ISR_Student_Adviser'
+        'QUT_ISR_Student_Adviser',
+        'QUT_IE_Partnership_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -1769,6 +1770,21 @@ public class TestDataFactory {
         return studentAdviser;
     }
 
+    /**
+     * @description Method for ISR Student Adviser
+     * @param void
+     * @return ISR Student Adviser
+     */
+    public static User getQUTIEPartnershipManager() {
+        User pm = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_IE_Partnership_Manager%'
+            LIMIT 1
+        ];
+        return pm;
+    }
+
     class TestUserGenerator {
         private Map<String, Id> groupMap;
         private Map<String, Id> profileMap;
@@ -2380,6 +2396,20 @@ public class TestDataFactory {
                 roleName = 'QUTeX Super User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
                 publicGroups = 'CCE Product Design,OPE Product Design';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }  else if (name == 'QUT_IE_Partnership_Manager') {
+                userName = 'QUT_IE_Partnership_Manager';
+                profileName = 'Industry Engagement';
+                roleName = 'Partnership Manager';
+                permSets = 'Business_Development_Base';
+                publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = false;

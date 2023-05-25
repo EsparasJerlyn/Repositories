@@ -81,6 +81,22 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
+            <controllingFieldValue>Discontinued</controllingFieldValue>
+            <valueName>Client Rejected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Discontinued</controllingFieldValue>
+            <valueName>No Funding</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Discontinued</controllingFieldValue>
+            <valueName>Change of Mind</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Discontinued</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>Closed Lost</controllingFieldValue>
             <valueName>No-Bid : Faculty Decision</valueName>
         </valueSettings>
