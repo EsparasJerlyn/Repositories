@@ -831,7 +831,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Engagement_Code__c</fieldItem>
                 <identifier>RecordEngagement_Code_cField3</identifier>
