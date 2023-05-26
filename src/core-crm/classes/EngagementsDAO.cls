@@ -10,8 +10,8 @@
       | alexnder.cadalin               |  May 17, 2023         | DEPP-5594              | added methods
  */
 public inherited sharing class EngagementsDAO extends DmlBase implements IEngagementsDAO {
-    public static final Id RT_ENG_RCE_ID = Schema.SObjectType.Engagement__c.getRecordTypeInfosByDeveloperName().get('Commercialisation').getRecordTypeId();
-    public static final Id RT_ENG_RPE_ID = Schema.SObjectType.Engagement__c.getRecordTypeInfosByDeveloperName().get('Research_Partnership').getRecordTypeId();
+    public static final Id COMMERCIALISATION_RECTYPE_ID = Schema.SObjectType.Engagement__c.getRecordTypeInfosByDeveloperName().get('Commercialisation').getRecordTypeId();
+    public static final Id RESEARCHPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Engagement__c.getRecordTypeInfosByDeveloperName().get('Research_Partnership').getRecordTypeId();
 
     public Schema.SObjectType getSObjectType() {
         return Engagement__c.SObjectType;

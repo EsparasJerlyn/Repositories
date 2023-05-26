@@ -19,7 +19,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
             CloseDate = System.today() + 50, 
             OwnerId = TestDataFactory.getProgramAdminUser().Id
         );
-        Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = Opportunity_Outcome_Code_Auto_Number__c.getOrgDefaults();
+        Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         oppOutcomeCodeAutoNum.Research_Partnership_Project__c = 1;
         oppOutcomeCodeAutoNum.IPU_Project__c = 1;
         oppOutcomeCodeAutoNum.Research_Commercialisation_Project__c = 1;
@@ -30,7 +30,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     @isTest
     private static void createRPPRecord() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RT_OPPTYOC_RPP_ID);
+            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
             Opportunity_Outcome__c opptyOutcomeFinal = [SELECT Id, Project_Name__c FROM Opportunity_Outcome__c LIMIT 1];
@@ -43,7 +43,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     @isTest
     private static void createINPRecord() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RT_OPPTYOC_INP_ID);
+            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
             Opportunity_Outcome__c opptyOutcomeFinal = [SELECT Id, Project_Name__c FROM Opportunity_Outcome__c LIMIT 1];
@@ -56,7 +56,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     @isTest
     private static void createRCPRecord() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RT_OPPTYOC_RCP_ID);
+            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
             Opportunity_Outcome__c opptyOutcomeFinal = [SELECT Id, Project_Name__c FROM Opportunity_Outcome__c LIMIT 1];
@@ -69,7 +69,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     @isTest
     private static void createRCCRecord() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RT_OPPTYOC_RCC_ID);
+            Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.STARTUP_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
             Opportunity_Outcome__c opptyOutcomeFinal = [SELECT Id, Project_Name__c FROM Opportunity_Outcome__c LIMIT 1];

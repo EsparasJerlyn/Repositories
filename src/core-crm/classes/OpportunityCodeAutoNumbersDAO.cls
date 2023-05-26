@@ -17,4 +17,8 @@ public inherited sharing class OpportunityCodeAutoNumbersDAO extends DmlBase imp
     public static IOpportunityCodeAutoNumbersDAO newInstance() {
         return (IOpportunityCodeAutoNumbersDAO) ImplementationSelector.DAO.newInstance(Opportunity_Code_Auto_Number__c.SObjectType);
     }
+
+    public static Opportunity_Code_Auto_Number__c getOrganizationalDefaults() {
+        return Opportunity_Code_Auto_Number__c.getOrgDefaults();
+    }
 }

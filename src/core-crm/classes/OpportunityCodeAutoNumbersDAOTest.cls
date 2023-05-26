@@ -38,4 +38,15 @@ private class OpportunityCodeAutoNumbersDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getOrganizationalDefaults() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            System.assert(
+                OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults() == new Opportunity_Code_Auto_Number__c(),
+                'Org defaults is not a new instance of the setting'
+            );
+        }
+    }
 }

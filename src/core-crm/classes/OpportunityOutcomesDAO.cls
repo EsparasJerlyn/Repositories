@@ -9,10 +9,10 @@
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | Created file
  */
 public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements IOpportunityOutcomesDAO {
-    public static final Id RT_OPPTYOC_RPP_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Partnership_Project').getRecordTypeId();
-    public static final Id RT_OPPTYOC_INP_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('IPU_Project').getRecordTypeId();
-    public static final Id RT_OPPTYOC_RCP_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Commercialisation_Project').getRecordTypeId();
-    public static final Id RT_OPPTYOC_RCC_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('StartUp').getRecordTypeId();
+    public static final Id RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Partnership_Project').getRecordTypeId();
+    public static final Id IPUPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('IPU_Project').getRecordTypeId();
+    public static final Id RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Commercialisation_Project').getRecordTypeId();
+    public static final Id STARTUP_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('StartUp').getRecordTypeId();
 
     public Schema.SObjectType getSObjectType() {
         return Opportunity_Outcome__c.SObjectType;

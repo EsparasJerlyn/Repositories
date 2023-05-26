@@ -13,7 +13,7 @@ public with sharing class OpportunityTriggerHandlerTest {
     @testSetup
     static void setup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
-        Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+        Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
         opptyCodeAutoNum.International_Projects_Unit__c = 1;
         opptyCodeAutoNum.Research_Partnership__c = 1;
@@ -36,10 +36,10 @@ public with sharing class OpportunityTriggerHandlerTest {
                 generateBatchOpportunityRecords(
                     1, 
                     'Commercialisation Sample', 
-                    OpportunitiesDAO.RT_OPPTY_RCO_ID),
+                    OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Opportunity opptyFinal = OpportunitiesDAO.newInstance().getRecordsSortByOpportunityCodeAsc()[0];
             System.assert(String.isNotBlank(opptyFinal.Opportunity_Code__c), 'Blank RCO code on record.');
@@ -56,10 +56,10 @@ public with sharing class OpportunityTriggerHandlerTest {
                 generateBatchOpportunityRecords(
                     100, 
                     'Commercialisation Sample', 
-                    OpportunitiesDAO.RT_OPPTY_RCO_ID),
+                    OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             List<Opportunity> opptiesFinal = OpportunitiesDAO.newInstance().getRecordsSortByOpportunityCodeAsc();
             Integer counter = 1;
@@ -80,10 +80,10 @@ public with sharing class OpportunityTriggerHandlerTest {
                 generateBatchOpportunityRecords(
                     1, 
                     'Commercialisation Sample', 
-                    OpportunitiesDAO.RT_OPPTY_INPO_ID),
+                    OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Opportunity opptyFinal = OpportunitiesDAO.newInstance().getRecordsSortByOpportunityCodeAsc()[0];
             System.assert(String.isNotBlank(opptyFinal.Opportunity_Code__c), 'Blank INPO code on record.');
@@ -100,10 +100,10 @@ public with sharing class OpportunityTriggerHandlerTest {
                 generateBatchOpportunityRecords(
                     100, 
                     'Commercialisation Sample', 
-                    OpportunitiesDAO.RT_OPPTY_INPO_ID),
+                    OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             List<Opportunity> opptiesFinal = OpportunitiesDAO.newInstance().getRecordsSortByOpportunityCodeAsc();
             Integer counter = 1;
@@ -124,10 +124,10 @@ public with sharing class OpportunityTriggerHandlerTest {
                 generateBatchOpportunityRecords(
                     1, 
                     'Commercialisation Sample', 
-                    OpportunitiesDAO.RT_OPPTY_RPO_ID),
+                    OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Opportunity opptyFinal = OpportunitiesDAO.newInstance().getRecordsSortByOpportunityCodeAsc()[0];
             System.assert(String.isNotBlank(opptyFinal.Opportunity_Code__c), 'Blank RPO code on record.');
@@ -144,10 +144,10 @@ public with sharing class OpportunityTriggerHandlerTest {
                 generateBatchOpportunityRecords(
                     100, 
                     'Commercialisation Sample', 
-                    OpportunitiesDAO.RT_OPPTY_RPO_ID),
+                    OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             List<Opportunity> opptiesFinal = OpportunitiesDAO.newInstance().getRecordsSortByOpportunityCodeAsc();
             Integer counter = 1;
@@ -164,13 +164,13 @@ public with sharing class OpportunityTriggerHandlerTest {
     private static void createComboRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Opportunity> oppties = new List<Opportunity>();
-            oppties.addAll(generateBatchOpportunityRecords(30, 'RCO - ', OpportunitiesDAO.RT_OPPTY_RCO_ID));
-            oppties.addAll(generateBatchOpportunityRecords(35, 'INPO - ', OpportunitiesDAO.RT_OPPTY_INPO_ID));
-            oppties.addAll(generateBatchOpportunityRecords(40, 'RPO - ', OpportunitiesDAO.RT_OPPTY_RPO_ID));
+            oppties.addAll(generateBatchOpportunityRecords(30, 'RCO - ', OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID));
+            oppties.addAll(generateBatchOpportunityRecords(35, 'INPO - ', OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID));
+            oppties.addAll(generateBatchOpportunityRecords(40, 'RPO - ', OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID));
             // Randomizing the list would make this test more interesting.
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(oppties, false, AccessLevel.USER_MODE);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             List<Opportunity> opptiesRCOFinal = OpportunitiesDAO.newInstance().getRecordsWithLikeOpportunityCodeSortAsc('RCO:_____');
             List<Opportunity> opptiesINPOFinal = OpportunitiesDAO.newInstance().getRecordsWithLikeOpportunityCodeSortAsc('INPO:_____');

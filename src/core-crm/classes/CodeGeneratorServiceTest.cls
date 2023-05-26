@@ -13,7 +13,7 @@ public class CodeGeneratorServiceTest {
 	@testSetup
     static void setup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
-        Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+        Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
         opptyCodeAutoNum.International_Projects_Unit__c = 1;
         opptyCodeAutoNum.Research_Partnership__c = 1;
@@ -22,7 +22,7 @@ public class CodeGeneratorServiceTest {
             false, 
             AccessLevel.USER_MODE
             );
-        Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = Opportunity_Outcome_Code_Auto_Number__c.getOrgDefaults();
+        Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         oppOutcomeCodeAutoNum.Research_Partnership_Project__c = 1;
         oppOutcomeCodeAutoNum.IPU_Project__c = 1;
         oppOutcomeCodeAutoNum.Research_Commercialisation_Project__c = 1;
@@ -32,7 +32,7 @@ public class CodeGeneratorServiceTest {
             false, 
             AccessLevel.USER_MODE
             );
-        Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+        Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         engCodeAutoNum.Commercialisation__c = 1;
         engCodeAutoNum.Research_Partnership__c = 1;
         EngagementCodeAutoNumbersDAO.newInstance().upsertRecords(
@@ -49,10 +49,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createOpptyRCORecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Opportunity> newItems = generateBatchOpportunityRecords(100, 'RCO', OpportunitiesDAO.RT_OPPTY_RCO_ID);
+            List<Opportunity> newItems = generateBatchOpportunityRecords(100, 'RCO', OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateOpportunityCodeForOpportunityRecords(newItems);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Opportunity newItem : newItems) {
@@ -69,10 +69,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createOpptyINPORecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Opportunity> newItems = generateBatchOpportunityRecords(100, 'RCO', OpportunitiesDAO.RT_OPPTY_INPO_ID);
+            List<Opportunity> newItems = generateBatchOpportunityRecords(100, 'RCO', OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateOpportunityCodeForOpportunityRecords(newItems);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Opportunity newItem : newItems) {
@@ -89,10 +89,10 @@ public class CodeGeneratorServiceTest {
 	@isTest
     private static void createOpptyRPORecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Opportunity> newItems = generateBatchOpportunityRecords(100, 'RCO', OpportunitiesDAO.RT_OPPTY_RPO_ID);
+            List<Opportunity> newItems = generateBatchOpportunityRecords(100, 'RCO', OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateOpportunityCodeForOpportunityRecords(newItems);
-            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = Opportunity_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Opportunity newItem : newItems) {
@@ -116,10 +116,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createOpptyOutcRPPORecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'RPP', OpportunityOutcomesDAO.RT_OPPTYOC_RPP_ID);
+            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'RPP', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
-            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = Opportunity_Outcome_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Opportunity_Outcome__c newItem : newItems) {
@@ -136,10 +136,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createOpptyOutcINPRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'INP', OpportunityOutcomesDAO.RT_OPPTYOC_INP_ID);
+            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'INP', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
-            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = Opportunity_Outcome_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Opportunity_Outcome__c newItem : newItems) {
@@ -156,10 +156,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createOpptyOutcRCPRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'RCP', OpportunityOutcomesDAO.RT_OPPTYOC_RCP_ID);
+            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'RCP', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
-            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = Opportunity_Outcome_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Opportunity_Outcome__c newItem : newItems) {
@@ -176,10 +176,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createOpptyOutcRCCRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'RCC', OpportunityOutcomesDAO.RT_OPPTYOC_RCC_ID);
+            List<Opportunity_Outcome__c> newItems = generateBatchOpportunityOutcomeRecords(100, 'RCC', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateCodeForOpportunityOutcomeRecords(newItems);
-            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = Opportunity_Outcome_Code_Auto_Number__c.getOrgDefaults();
+            Opportunity_Outcome_Code_Auto_Number__c opptyOutcCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Opportunity_Outcome__c newItem : newItems) {
@@ -202,10 +202,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createEngagementRCERecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Engagement__c> newItems = generateBatchEngagementRecords(100, 'RCE', EngagementsDAO.RT_ENG_RCE_ID);
+            List<Engagement__c> newItems = generateBatchEngagementRecords(100, 'RCE', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateEngagementCodeForEngagementRecords(newItems);
-            Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+            Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Engagement__c newItem : newItems) {
@@ -222,10 +222,10 @@ public class CodeGeneratorServiceTest {
     @isTest
     private static void createEngagementRPERecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Engagement__c> newItems = generateBatchEngagementRecords(100, 'RPE', EngagementsDAO.RT_ENG_RPE_ID);
+            List<Engagement__c> newItems = generateBatchEngagementRecords(100, 'RPE', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID);
             Test.startTest();
             CodeGeneratorService.generateEngagementCodeForEngagementRecords(newItems);
-            Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+            Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Integer count = 1;
             for(Engagement__c newItem : newItems) {

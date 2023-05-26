@@ -17,4 +17,8 @@ public inherited sharing class OpportunityOutcomeCodeAutoNumbersDAO extends DmlB
     public static IOpportunityOutcomeCodeAutoNumbersDAO newInstance() {
         return (IOpportunityOutcomeCodeAutoNumbersDAO) ImplementationSelector.DAO.newInstance(Opportunity_Outcome_Code_Auto_Number__c.SObjectType);
     }
+
+    public static Opportunity_Outcome_Code_Auto_Number__c getOrganizationalDefaults() {
+        return Opportunity_Outcome_Code_Auto_Number__c.getOrgDefaults();
+    }
 }

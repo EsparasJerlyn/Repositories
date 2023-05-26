@@ -13,7 +13,7 @@ public with sharing class EngagementTriggerHandlerTest {
 	@testSetup
     static void setup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
-        Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+        Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         engCodeAutoNum.Commercialisation__c = 1;
         engCodeAutoNum.Research_Partnership__c = 1;
         EngagementCodeAutoNumbersDAO.newInstance().upsertRecords(
@@ -29,11 +29,11 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(1, 'Commercialisation Sample', EngagementsDAO.RT_ENG_RCE_ID),
+                    generateBatchEngagementRecords(1, 'Commercialisation Sample', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
-            Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+            Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Engagement__c engFinal = EngagementsDAO.newInstance().getRecordsSortByEngagementCodeAsc()[0];
             System.assert(String.isNotBlank(engFinal.Engagement_Code__c), 'Blank RCE code on record.');
@@ -48,11 +48,11 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(100, 'Commercialisation Sample', EngagementsDAO.RT_ENG_RCE_ID),
+                    generateBatchEngagementRecords(100, 'Commercialisation Sample', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
-            Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+            Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             List<Engagement__c> engsFinal = EngagementsDAO.newInstance().getRecordsSortByEngagementCodeAsc();
             Integer counter = 1;
@@ -71,11 +71,11 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(1, 'Research Partnership Sample', EngagementsDAO.RT_ENG_RPE_ID),
+                    generateBatchEngagementRecords(1, 'Research Partnership Sample', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
-            Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+            Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             Engagement__c engFinal = EngagementsDAO.newInstance().getRecordsSortByEngagementCodeAsc()[0];
             System.assert(String.isNotBlank(engFinal.Engagement_Code__c), 'Blank RPE code on record.');
@@ -90,11 +90,11 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(100, 'Research Partnership Sample', EngagementsDAO.RT_ENG_RPE_ID),
+                    generateBatchEngagementRecords(100, 'Research Partnership Sample', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
-            Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+            Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             List<Engagement__c> engsFinal = EngagementsDAO.newInstance().getRecordsSortByEngagementCodeAsc();
             Integer counter = 1;
@@ -111,11 +111,11 @@ public with sharing class EngagementTriggerHandlerTest {
     private static void createComboRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Engagement__c> engs = new List<Engagement__c>();
-            engs.addAll(generateBatchEngagementRecords(30, 'RCE - ', EngagementsDAO.RT_ENG_RCE_ID));
-            engs.addAll(generateBatchEngagementRecords(40, 'RPE - ', EngagementsDAO.RT_ENG_RPE_ID));
+            engs.addAll(generateBatchEngagementRecords(30, 'RCE - ', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID));
+            engs.addAll(generateBatchEngagementRecords(40, 'RPE - ', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID));
             Test.startTest();
             EngagementsDAO.newInstance().insertRecords(engs, false, AccessLevel.USER_MODE);
-            Engagement_Code_Auto_Number__c engCodeAutoNum = Engagement_Code_Auto_Number__c.getOrgDefaults();
+            Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
             List<Engagement__c> engsRCEFinal = EngagementsDAO.newInstance().getRecordsWithLikeEngagementCodeSortAsc('RCE:_____');
             List<Engagement__c> engsRPEFinal = EngagementsDAO.newInstance().getRecordsWithLikeEngagementCodeSortAsc('RPE:_____');
