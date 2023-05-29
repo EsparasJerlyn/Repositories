@@ -33,7 +33,7 @@ public with sharing class OpportunityTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(
-                generateBatchOpportunityRecords(
+                TestDataFactory.createTestOpportunityRecords(
                     1, 
                     'Commercialisation Sample', 
                     OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID),
@@ -53,7 +53,7 @@ public with sharing class OpportunityTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(
-                generateBatchOpportunityRecords(
+                TestDataFactory.createTestOpportunityRecords(
                     100, 
                     'Commercialisation Sample', 
                     OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID),
@@ -77,7 +77,7 @@ public with sharing class OpportunityTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(
-                generateBatchOpportunityRecords(
+                TestDataFactory.createTestOpportunityRecords(
                     1, 
                     'Commercialisation Sample', 
                     OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID),
@@ -97,7 +97,7 @@ public with sharing class OpportunityTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(
-                generateBatchOpportunityRecords(
+                TestDataFactory.createTestOpportunityRecords(
                     100, 
                     'Commercialisation Sample', 
                     OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID),
@@ -121,7 +121,7 @@ public with sharing class OpportunityTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(
-                generateBatchOpportunityRecords(
+                TestDataFactory.createTestOpportunityRecords(
                     1, 
                     'Commercialisation Sample', 
                     OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
@@ -141,7 +141,7 @@ public with sharing class OpportunityTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(
-                generateBatchOpportunityRecords(
+                TestDataFactory.createTestOpportunityRecords(
                     100, 
                     'Commercialisation Sample', 
                     OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
@@ -164,9 +164,9 @@ public with sharing class OpportunityTriggerHandlerTest {
     private static void createComboRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Opportunity> oppties = new List<Opportunity>();
-            oppties.addAll(generateBatchOpportunityRecords(30, 'RCO - ', OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID));
-            oppties.addAll(generateBatchOpportunityRecords(35, 'INPO - ', OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID));
-            oppties.addAll(generateBatchOpportunityRecords(40, 'RPO - ', OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID));
+            oppties.addAll(TestDataFactory.createTestOpportunityRecords(30, 'RCO - ', OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID));
+            oppties.addAll(TestDataFactory.createTestOpportunityRecords(35, 'INPO - ', OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID));
+            oppties.addAll(TestDataFactory.createTestOpportunityRecords(40, 'RPO - ', OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID));
             // Randomizing the list would make this test more interesting.
             Test.startTest();
             OpportunitiesDAO.newInstance().insertRecords(oppties, false, AccessLevel.USER_MODE);
@@ -201,22 +201,4 @@ public with sharing class OpportunityTriggerHandlerTest {
     /**
      * TEST STOP: CodeGeneratorService.generateOpportunityCodeForOpportunityRecords()
      */
-    
-    /**
-     * Generate a list of opportunity records based on the amount of records needed, the general name to be used, and the record type.
-     */
-    private static List<Opportunity> generateBatchOpportunityRecords(Integer size, String name, Id recordTypeId) {
-        List<Opportunity> oppties = new List<Opportunity>();
-        for(Integer i = 1; i <= size; i++) {
-            oppties.add(
-                new Opportunity(
-                    Name = name + ' ' + String.valueOf(i), 
-                    StageName = 'Qualify', 
-                    CloseDate = System.today() + 50, 
-                    RecordTypeId = recordTypeId
-                )
-            );
-        }
-        return oppties;
-    }
 }

@@ -30,7 +30,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(1, 'Research Partnership Project Sample', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(1, 'Research Partnership Project Sample', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -48,7 +48,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(100, 'Research Partnership Project Sample', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(100, 'Research Partnership Project Sample', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -70,7 +70,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(1, 'IPU Project Sample', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(1, 'IPU Project Sample', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -88,7 +88,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(100, 'IPU Project Sample', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(100, 'IPU Project Sample', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -110,7 +110,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(1, 'Research Commercialisation Project Sample', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(1, 'Research Commercialisation Project Sample', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -128,7 +128,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(100, 'Research Commercialisation Project Sample', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(100, 'Research Commercialisation Project Sample', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -150,7 +150,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(1, 'Start-Up Sample', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(1, 'Start-Up Sample', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -168,7 +168,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(
-                generateBatchOpportunityOutcomeRecords(100, 'Start-Up Sample', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID),
+                TestDataFactory.createTestOpportunityOutcomeRecords(100, 'Start-Up Sample', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID),
                 false,
                 AccessLevel.USER_MODE
                 );
@@ -189,10 +189,10 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
     private static void createComboRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
-            oppOutcomes.addAll(generateBatchOpportunityOutcomeRecords(10, 'RPP', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID));
-            oppOutcomes.addAll(generateBatchOpportunityOutcomeRecords(15, 'INP', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID));
-            oppOutcomes.addAll(generateBatchOpportunityOutcomeRecords(20, 'RCP', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID));
-            oppOutcomes.addAll(generateBatchOpportunityOutcomeRecords(25, 'RCC', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID));
+            oppOutcomes.addAll(TestDataFactory.createTestOpportunityOutcomeRecords(10, 'RPP', OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID));
+            oppOutcomes.addAll(TestDataFactory.createTestOpportunityOutcomeRecords(15, 'INP', OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID));
+            oppOutcomes.addAll(TestDataFactory.createTestOpportunityOutcomeRecords(20, 'RCP', OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID));
+            oppOutcomes.addAll(TestDataFactory.createTestOpportunityOutcomeRecords(25, 'RCC', OpportunityOutcomesDAO.STARTUP_RECTYPE_ID));
             Test.startTest();
             OpportunityOutcomesDAO.newInstance().insertRecords(oppOutcomes, false, AccessLevel.USER_MODE);
             Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
@@ -202,27 +202,5 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
             System.assertEquals(21, oppOutcomeCodeAutoNum.Research_Commercialisation_Project__c, 'Incorrect latest RCP code auto-number value.');
             System.assertEquals(26, oppOutcomeCodeAutoNum.Start_Up__c, 'Incorrect latest RCC code auto-number value.');
         }
-    }
-    
-    private static List<Opportunity_Outcome__c> generateBatchOpportunityOutcomeRecords(Integer size, String name, Id recordTypeId) {
-        List<Opportunity> oppty = new List<Opportunity>();
-        oppty.add(new Opportunity(
-            Name = 'Sample Opportunity ' + System.now(),
-            StageName = 'Qualify',
-            CloseDate = System.today() + 50
-        ));
-        OpportunitiesDAO.newInstance().insertRecords(oppty, false, AccessLevel.USER_MODE);
-        List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
-        for(Integer i = 1; i <= size; i++) {
-            oppOutcomes.add(
-                new Opportunity_Outcome__c(
-                    Company_Name__c = 'Sample Company', 
-                    Opportunity__c = oppty[0].Id, 
-                    Project_Name__c = oppty[0].Name,
-                    RecordTypeId = recordTypeId
-                )
-            );
-        }
-        return oppOutcomes;
     }
 }

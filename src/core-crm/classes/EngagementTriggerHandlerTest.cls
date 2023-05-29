@@ -29,7 +29,7 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(1, 'Commercialisation Sample', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID),
+                    TestDataFactory.createTestEngagementRecords(1, 'Commercialisation Sample', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
@@ -48,7 +48,7 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(100, 'Commercialisation Sample', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID),
+                    TestDataFactory.createTestEngagementRecords(100, 'Commercialisation Sample', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
@@ -71,7 +71,7 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(1, 'Research Partnership Sample', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
+                    TestDataFactory.createTestEngagementRecords(1, 'Research Partnership Sample', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
@@ -90,7 +90,7 @@ public with sharing class EngagementTriggerHandlerTest {
             Test.startTest();
             EngagementsDAO.newInstance().
                 insertRecords(
-                    generateBatchEngagementRecords(100, 'Research Partnership Sample', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
+                    TestDataFactory.createTestEngagementRecords(100, 'Research Partnership Sample', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID),
                     false, 
                     AccessLevel.USER_MODE
                 );
@@ -111,8 +111,8 @@ public with sharing class EngagementTriggerHandlerTest {
     private static void createComboRecords() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Engagement__c> engs = new List<Engagement__c>();
-            engs.addAll(generateBatchEngagementRecords(30, 'RCE - ', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID));
-            engs.addAll(generateBatchEngagementRecords(40, 'RPE - ', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID));
+            engs.addAll(TestDataFactory.createTestEngagementRecords(30, 'RCE - ', EngagementsDAO.COMMERCIALISATION_RECTYPE_ID));
+            engs.addAll(TestDataFactory.createTestEngagementRecords(40, 'RPE - ', EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID));
             Test.startTest();
             EngagementsDAO.newInstance().insertRecords(engs, false, AccessLevel.USER_MODE);
             Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
@@ -134,15 +134,5 @@ public with sharing class EngagementTriggerHandlerTest {
             System.assertEquals(31, engCodeAutoNum.Commercialisation__c, 'Incorrect latest RCE code auto-number value.');
             System.assertEquals(41, engCodeAutoNum.Research_Partnership__c, 'Incorrect latest RPE code auto-number value.');
         }
-    }
-    
-    private static List<Engagement__c> generateBatchEngagementRecords(Integer size, String summary, Id recordTypeId) {
-        List<Engagement__c> engs = new List<Engagement__c>();
-        for(Integer i = 1; i <= size; i++) {
-            engs.add(
-                new Engagement__c(Engagement_Summary__c = summary + i, RecordTypeId = recordTypeId)
-            );
-        }
-        return engs;
     }
 }
