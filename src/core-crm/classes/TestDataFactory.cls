@@ -331,6 +331,72 @@ public class TestDataFactory {
     }
 
     /**
+     * Generate a list of opportunity records based on the amount of records needed, 
+     * the general name to be used, and the record type.
+     */
+    public static List<Opportunity> createTestOpportunityRecords(
+        Integer size, 
+        String name, 
+        Id recordTypeId
+    ) {
+        List<Opportunity> oppties = new List<Opportunity>();
+        for(Integer i = 1; i <= size; i++) {
+            oppties.add(
+                new Opportunity(
+                    Name = name + ' ' + String.valueOf(i), 
+                    StageName = 'Qualify', 
+                    CloseDate = System.today() + 50, 
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return oppties;
+    }
+
+    /**
+     * Generate a list of opportunity outcome records based on the amount of records needed, 
+     * the general name to be used, and record type
+     */
+    public static List<Opportunity_Outcome__c> createTestOpportunityOutcomeRecords(
+        Integer size, 
+        String name, 
+        Id recordTypeId
+    ) {
+        List<Opportunity> oppty = new List<Opportunity>();
+        oppty.add(new Opportunity(
+            Name = 'Sample Opportunity ' + System.now(),
+            StageName = 'Qualify',
+            CloseDate = System.today() + 50
+        ));
+        OpportunitiesDAO.newInstance().insertRecords(oppty, false, AccessLevel.USER_MODE);
+        List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
+        for(Integer i = 1; i <= size; i++) {
+            oppOutcomes.add(
+                new Opportunity_Outcome__c(
+                    Company_Name__c = 'Sample Company', 
+                    Opportunity__c = oppty[0].Id, 
+                    Project_Name__c = oppty[0].Name,
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return oppOutcomes;
+    }
+
+    /**
+     * Generate a list of engagement records based on the amount of records needed, summary, and record type
+     */
+    public static List<Engagement__c> createTestEngagementRecords(Integer size, String summary, Id recordTypeId) {
+        List<Engagement__c> engs = new List<Engagement__c>();
+        for(Integer i = 1; i <= size; i++) {
+            engs.add(
+                new Engagement__c(Engagement_Summary__c = summary + i, RecordTypeId = recordTypeId)
+            );
+        }
+        return engs;
+    }
+
+    /**
      * @description Method for creating "Closed Won" Opportunity records
      * @param numOpps - number of Opportunities to be created
      * @param accId - Id of related Account

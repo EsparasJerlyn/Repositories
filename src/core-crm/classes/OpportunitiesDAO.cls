@@ -10,9 +10,9 @@
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
-    public static final Id RT_OPPTY_RCO_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Commercialisation').getRecordTypeId();
-    public static final Id RT_OPPTY_INPO_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('International_Projects_Unit').getRecordTypeId();
-    public static final Id RT_OPPTY_RPO_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Research_Partnership').getRecordTypeId();
+    public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Commercialisation').getRecordTypeId();
+    public static final Id INTERNATIONALPROJECTSUNIT_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('International_Projects_Unit').getRecordTypeId();
+    public static final Id RESEARCHPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Research_Partnership').getRecordTypeId();
 
     public Schema.SObjectType getSObjectType() {
         return Opportunity.SObjectType;

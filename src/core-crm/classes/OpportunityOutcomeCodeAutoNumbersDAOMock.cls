@@ -20,4 +20,12 @@ public inherited sharing class OpportunityOutcomeCodeAutoNumbersDAOMock extends 
         super(new Map<Id, Opportunity_Outcome_Code_Auto_Number__c>(), Schema.Opportunity_Outcome_Code_Auto_Number__c.SObjectType);
         this.opportunityOutcomesCodeAutoNumMap = (Map<Id, Opportunity_Outcome_Code_Auto_Number__c>) super.records;
     }
+
+    public Opportunity_Outcome_Code_Auto_Number__c getOrganizationalDefaults() {
+        if(opportunityOutcomesCodeAutoNumMap.isEmpty()) {
+            return new Opportunity_Outcome_Code_Auto_Number__c();
+        } else {
+            return opportunityOutcomesCodeAutoNumMap.values()[0];
+        }
+    }
 }

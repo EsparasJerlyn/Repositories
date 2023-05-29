@@ -20,4 +20,12 @@ public inherited sharing class EngagementCodeAutoNumbersDAOMock extends DmlBaseM
         super(new Map<Id, Engagement_Code_Auto_Number__c>(), Schema.Engagement_Code_Auto_Number__c.SObjectType);
         this.engagementCodeAutoNumMap = (Map<Id, Engagement_Code_Auto_Number__c>) super.records;
     }
+
+    public Engagement_Code_Auto_Number__c getOrganizationalDefaults() {
+        if(engagementCodeAutoNumMap.isEmpty()) {
+            return new Engagement_Code_Auto_Number__c();
+        } else {
+            return engagementCodeAutoNumMap.values()[0];
+        }
+    }
 }

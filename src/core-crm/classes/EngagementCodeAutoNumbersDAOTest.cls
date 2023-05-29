@@ -38,4 +38,16 @@ private class EngagementCodeAutoNumbersDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getOrganizationalDefaults() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            System.assert(
+                EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults() == new Engagement_Code_Auto_Number__c(),
+                'Org defaults is not a new instance of the setting'
+            );
+        }
+        Test.stopTest();
+    }
 }

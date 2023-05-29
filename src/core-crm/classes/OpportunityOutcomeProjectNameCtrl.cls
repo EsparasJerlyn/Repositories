@@ -11,10 +11,10 @@
 public with sharing class OpportunityOutcomeProjectNameCtrl {
 	public static void generateProjectName(List<Opportunity_Outcome__c> newItems) {
         Map<Id, String> recordTypeToPrefixMap = new Map<Id, String>();
-        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.RT_OPPTYOC_RPP_ID, 'RPP');
-        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.RT_OPPTYOC_INP_ID, 'INP');
-        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.RT_OPPTYOC_RCP_ID, 'RCP');
-        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.RT_OPPTYOC_RCC_ID, 'RCC');
+        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID, 'RPP');
+        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID, 'INP');
+        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID, 'RCP');
+        recordTypeToPrefixMap.put(OpportunityOutcomesDAO.STARTUP_RECTYPE_ID, 'RCC');
         Set<Id> opptyIdSet = getOpptyIdsFromOpptyOutcomes(newItems);
         Map<Id, Opportunity> opptyMap = new Map<Id, Opportunity>([SELECT Id, Name FROM Opportunity WHERE Id IN :opptyIdSet]);
         for(Opportunity_Outcome__c newItem : newItems) {

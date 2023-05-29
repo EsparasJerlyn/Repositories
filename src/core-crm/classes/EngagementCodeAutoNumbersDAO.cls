@@ -17,4 +17,8 @@ public inherited sharing class EngagementCodeAutoNumbersDAO extends DmlBase impl
     public static IEngagementCodeAutoNumbersDAO newInstance() {
         return (IEngagementCodeAutoNumbersDAO) ImplementationSelector.DAO.newInstance(Engagement_Code_Auto_Number__c.SObjectType);
     }
+
+    public static Engagement_Code_Auto_Number__c getOrganizationalDefaults() {
+        return Engagement_Code_Auto_Number__c.getOrgDefaults();
+    }
 }

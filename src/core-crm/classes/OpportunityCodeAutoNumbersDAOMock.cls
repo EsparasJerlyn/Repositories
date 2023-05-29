@@ -20,4 +20,12 @@ public inherited sharing class OpportunityCodeAutoNumbersDAOMock extends DmlBase
         super(new Map<Id, Opportunity_Code_Auto_Number__c>(), Schema.Opportunity_Code_Auto_Number__c.SObjectType);
         this.opportunityCodeAutoNumMap = (Map<Id, Opportunity_Code_Auto_Number__c>) super.records;
     }
+
+    public Opportunity_Code_Auto_Number__c getOrganizationalDefaults() {
+        if(opportunityCodeAutoNumMap.isEmpty()) {
+            return new Opportunity_Code_Auto_Number__c();
+        } else {
+            return opportunityCodeAutoNumMap.values()[0];
+        }
+    }
 }
