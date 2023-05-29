@@ -59,4 +59,14 @@ private class OpportunitiesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getRecordsBySetName() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance().getRecordsBySetName(new Set<String>{''});
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList is not empty');
+        }
+        Test.stopTest();
+    }
 }

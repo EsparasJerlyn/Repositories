@@ -43,7 +43,8 @@ private class OpportunityOutcomesDAOTest {
     static void getRecordsSortByCodeAscTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance().getRecordsSortByCodeAsc();
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getRecordsSortByCodeAsc();
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
         }
         Test.stopTest();
@@ -53,7 +54,28 @@ private class OpportunityOutcomesDAOTest {
     static void getRecordsWithLikeCodeSortAscTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance().getRecordsWithLikeCodeSortAsc('');
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getRecordsWithLikeCodeSortAsc('');
+            System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
+        }
+        Test.stopTest();
+    }
+    @isTest
+    static void getRecordsWithEqualEndDate() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getRecordsWithEqualEndDate(System.today());
+            System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
+        }
+        Test.stopTest();
+    }
+    @isTest
+    static void getRecordsWithNotEqualEndDate() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getRecordsWithNotEqualEndDate(System.today());
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
         }
         Test.stopTest();

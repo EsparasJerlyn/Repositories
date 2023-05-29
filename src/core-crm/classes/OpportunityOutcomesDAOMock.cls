@@ -28,4 +28,22 @@ public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock im
     public List<Opportunity_Outcome__c> getRecordsWithLikeCodeSortAsc(String codeIsLike) {
         return opportunityOutcomesMap.values();
     }
+    public List<Opportunity_Outcome__c> getRecordsWithEqualEndDate(Date endDate){
+        List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
+        for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
+            if(endDate == record.End_Date__c){
+                opportunityOutcomeList.add(record);
+            }
+        }
+        return opportunityOutcomeList;
+    }
+    public List<Opportunity_Outcome__c> getRecordsWithNotEqualEndDate(Date endDate){
+        List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
+        for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
+            if(endDate != record.End_Date__c){
+                opportunityOutcomeList.add(record);
+            }
+        }
+        return opportunityOutcomeList;
+    }
 }

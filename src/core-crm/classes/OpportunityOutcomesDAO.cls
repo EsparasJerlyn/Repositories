@@ -7,13 +7,14 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | Created file
+      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method
  */
 public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements IOpportunityOutcomesDAO {
     public static final Id RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Partnership_Project').getRecordTypeId();
     public static final Id IPUPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('IPU_Project').getRecordTypeId();
     public static final Id RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Commercialisation_Project').getRecordTypeId();
     public static final Id STARTUP_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('StartUp').getRecordTypeId();
-
+    public static final String COMPLETED_STAGE = 'Completed';
     public Schema.SObjectType getSObjectType() {
         return Opportunity_Outcome__c.SObjectType;
     }
@@ -38,6 +39,23 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
             WHERE Code__c LIKE :codeIsLike 
             WITH SYSTEM_MODE 
             ORDER BY Code__c ASC
+            ];
+    }
+
+    public List<Opportunity_Outcome__c> getRecordsWithEqualEndDate(Date endDate) {
+        return [
+            SELECT Id, Stage_Name__c 
+            FROM Opportunity_Outcome__c 
+            WHERE End_Date__c =: endDate 
+            WITH USER_MODE 
+            ];
+    }
+    public List<Opportunity_Outcome__c> getRecordsWithNotEqualEndDate(Date endDate) {
+        return [
+            SELECT Id, Stage_Name__c 
+            FROM Opportunity_Outcome__c 
+            WHERE End_Date__c !=: endDate 
+            WITH USER_MODE 
             ];
     }
 }
