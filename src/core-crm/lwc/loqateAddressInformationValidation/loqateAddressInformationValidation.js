@@ -46,9 +46,10 @@ const SAVE_SUCCESS = "Address saved.";
 const ADDRESS_SUFFIX = " Address";
 const ERROR_MSG =
   "An error has been encountered. Please contact your Administrator: ";
-const SECTION_TITLE = "Address Verification";
 const UPD_ADDRESS_SELECTION_LBL = "Update Address Selection";
 const UNVERIFIED_ADDRESS_LBL = "Enter Unverified Address";
+const CONTACT_ADDRESS_VERIFICATION_SECTION_HEADER = "Address Verification";
+const LEAD_ADDRESS_VERIFICATION_SECTION_HEADER = "Lead Address Verification";
 
 export default class LoqateAddressInformationValidation extends LightningElement {
   mapAddress = [];
@@ -150,7 +151,12 @@ export default class LoqateAddressInformationValidation extends LightningElement
   }
 
   get sectionTitle() {
-    return SECTION_TITLE;
+    switch(this.objectApiName){ 
+      case 'Lead': 
+        return LEAD_ADDRESS_VERIFICATION_SECTION_HEADER;
+      default : 
+        return CONTACT_ADDRESS_VERIFICATION_SECTION_HEADER;
+    }
   }
 
   get updAddSelectionLabel() {

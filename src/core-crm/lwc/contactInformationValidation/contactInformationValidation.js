@@ -30,6 +30,8 @@ import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import getMapping from "@salesforce/apex/ContactInformationValidationCtrl.getMapping";
 import validateFields from "@salesforce/apex/ContactInformationValidationCtrl.validateFields";
 
+const CONTACT_VERIFICATION_SECTION_HEADER = "Contact Verification";
+const LEAD_VERIFICATION_SECTION_HEADER = "Lead Contact Verification";
 const STR_NONE = "None";
 const STR_NOT_VALID = "Not Valid";
 const STR_VALID = "Valid";
@@ -42,7 +44,6 @@ const VALID_STATUSES = [
   "Active",
   "connected|Network confirmed connection"
 ];
-const SECTION_TITLE = "Contact Verification";
 const LOCALE_MAP = {
   [STR_AU]: "AU",
   [STR_NZ]: "NZ"
@@ -93,7 +94,12 @@ export default class ContactInformationValidation extends LightningElement {
   }
 
   get sectionTitle() {
-    return SECTION_TITLE;
+    switch(this.objectApiName){ 
+      case 'Lead': 
+        return LEAD_VERIFICATION_SECTION_HEADER;
+      default : 
+        return CONTACT_VERIFICATION_SECTION_HEADER;
+    }
   }
 
   //for LMS
