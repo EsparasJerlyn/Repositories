@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RP_Viable_Validation</fullName>
+    <active>true</active>
+    <description>Checks if Viable is equal to Yes before moving the stage to Submitted</description>
+    <errorConditionFormula>AND (
+   RecordType.DeveloperName =&quot;Research_Partnership&quot;,
+   ISCHANGED(StageName),
+   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Project Scoping&quot;),
+   ISPICKVAL(StageName, &quot;Submitted&quot;),
+   NOT(ISPICKVAL(Viable__c, &quot;Yes&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Viable__c</errorDisplayField>
+    <errorMessage>Opportunity should be viable in order to progress to next stage.</errorMessage>
+</ValidationRule>
