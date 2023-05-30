@@ -24,6 +24,10 @@
         <!--DEPP-5638 START-->
         <members>Opportunity.Memo_Endorsed__c</members>
         <!--DEPP-5638 START-->
+        <!-- (Start) DEPP-5775 -->
+        <members>IP_Management__c.IP_Management_Name__c</members>
+        <members>IP_Management__c.Outcome_Summary__c</members>
+        <!-- (End) DEPP-5775 -->
         <name>CustomField</name>
     </types>
     <types>
