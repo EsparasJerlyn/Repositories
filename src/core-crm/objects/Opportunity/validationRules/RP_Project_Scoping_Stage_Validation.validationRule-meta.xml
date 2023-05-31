@@ -2,14 +2,14 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>RP_Project_Scoping_Stage_Validation</fullName>
     <active>true</active>
-    <description>Ensures that user can only progress to the next stage which is Project Scoping or mark the Opportunity as Discontinue.</description>
+    <description>Checks the values selected in the Project Scoping stage for Research Partnership opportunity.</description>
     <errorConditionFormula>AND(
-    RecordType.DeveloperName = &apos;Research_Partnership&apos;,
-    ISCHANGED(StageName),
-    ISPICKVAL( PRIORVALUE(StageName) ,&apos;Identify&apos;),
-    NOT(ISPICKVAL(StageName,&apos;Project Scoping&apos;)),
-    NOT(ISPICKVAL(StageName,&apos;Discontinued&apos;))
+   RecordType.DeveloperName =&quot;Research_Partnership&quot;,
+   ISCHANGED(StageName),
+   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Project Scoping&quot;),
+   NOT(ISPICKVAL( StageName , &apos;Submitted&apos;)),
+   NOT(ISPICKVAL( StageName , &apos;Discontinued&apos;))
 )</errorConditionFormula>
     <errorDisplayField>StageName</errorDisplayField>
-    <errorMessage>You can only progress to the next stage which is Project Scoping or mark the Opportunity as Discontinued</errorMessage>
+    <errorMessage>You can only progress to the next stage which is Submitted or mark the Opportunity as Discontinued.</errorMessage>
 </ValidationRule>

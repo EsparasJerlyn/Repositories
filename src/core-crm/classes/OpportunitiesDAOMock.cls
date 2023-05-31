@@ -29,4 +29,14 @@ public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implemen
     public List<Opportunity> getRecordsWithLikeOpportunityCodeSortAsc(String codeIsLike) {
         return opportunitiesMap.values();
     }
+
+    public List<Opportunity> getRecordsBySetName(Set<String> names) {
+        List<Opportunity> opportunityList = new List<Opportunity>();
+        for (Opportunity record: opportunitiesMap.values()){
+            if(names.contains(record.Name)){
+                opportunityList.add(record);
+            }
+        }
+        return opportunityList;
+    } 
 }

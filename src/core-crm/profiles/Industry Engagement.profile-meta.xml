@@ -62,7 +62,7 @@
     <layoutAssignments>
         <layout>Pure_Project__c-Pure Project Page Layout</layout>
     </layoutAssignments>
-        <layoutAssignments>
+    <layoutAssignments>
         <layout>Risk__c-Risk Page Layout</layout>
     </layoutAssignments>
 </Profile>

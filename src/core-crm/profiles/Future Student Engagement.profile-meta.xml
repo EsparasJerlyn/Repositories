@@ -3,6 +3,10 @@
     <custom>true</custom>
     <userLicense>Salesforce</userLicense>
     <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Case-International Enquiry Layout2</layout>
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
@@ -30,10 +34,6 @@
         <recordType>Task.Nurture</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.Academic_Program</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
     </layoutAssignments>
      <layoutAssignments>
@@ -43,5 +43,8 @@
      <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
 </Profile>

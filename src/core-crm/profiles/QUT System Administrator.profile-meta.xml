@@ -119,4 +119,7 @@
      <layoutAssignments>
         <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
     </layoutAssignments>       
+    <layoutAssignments>
+        <layout>Risk__c-Risk Page Layout</layout>
+    </layoutAssignments>
 </Profile>

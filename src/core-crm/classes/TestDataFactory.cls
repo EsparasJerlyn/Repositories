@@ -37,6 +37,8 @@
       | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings           |
       | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records              |
       | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification  |
+	  | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                            |
+		
 */
 
 @isTest
@@ -77,7 +79,8 @@ public class TestDataFactory {
         'QUT_ISR_Communications_Manager',
         'QUT_ISR_Student_Enquiries_Communications_Officer',
         'QUT_ISR_Student_Adviser',
-        'QUT_IE_Partnership_Manager'
+        'QUT_IE_Partnership_Manager',
+        'QUT_Operations_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -1760,6 +1763,21 @@ public class TestDataFactory {
         ];
         return partnershipManager;
     }
+ 	
+    /**
+     * @description Method for creating Partnership Manager
+     * @param void
+     * @return operationsManager - Operations Manager
+     */
+    public static User getOperationsManager() {
+        User operationsManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Operations_Manager%'
+            LIMIT 1
+        ];
+        return operationsManager;
+    }
 
     /**
      * @description Method for creating Learning Designer
@@ -1850,6 +1868,7 @@ public class TestDataFactory {
         ];
         return pm;
     }
+    
 
     class TestUserGenerator {
         private Map<String, Id> groupMap;
@@ -2152,6 +2171,7 @@ public class TestDataFactory {
         );
         insert ths;
     }
+    
 
     /**
      * @description Method for loading EDA Triggers from static resource
@@ -2484,6 +2504,20 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'QUT_Operations_Manager') {
+                userName = 'QUT_Operations_Manager';
+                profileName = 'Industry Engagement';
+                roleName = 'Operations Manager';
+                permSets = 'Business_Development_Base';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
             /** START - Creation of  Marketing Users */
             else if (name == 'QUT_Marketing_Manager') {
@@ -2634,5 +2668,52 @@ public class TestDataFactory {
                 contactId = conId;
             }
         }
+    }
+    
+     /**
+     * @description Method for creating test Opportunity records
+     * @return opp - Opportunity created
+	*/
+    public static List<Opportunity> createOpportunityRecords(Integer numOfRecords, String name, String stage){
+      List<Opportunity> opportunityList = new List<Opportunity>();
+      for (Integer i = 0; i < numOfRecords; i++) {
+            opportunityList.add(
+                new Opportunity(
+                    Name = name + '  ' + i,
+                    StageName = stage,
+                    CloseDate = System.today() + 30
+                )
+            );
+        }
+        return opportunityList;
+    }
+     /**
+     * @description Method for creating test Opportunity Outcome records
+     * @return oppOutcomes - List of Opportunity Outcomes created
+	*/
+      public static List<Opportunity_Outcome__c> createOpportunityOutcome(
+        Integer numOfOppOutcome,
+        Id recordTypeId,
+        Id opportunityID
+    ) {
+        String companyName = 'Test Company';
+        String code = 'OO';
+        String projectName = 'Test Project';
+        List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
+
+        for (Integer i = 0; i < numOfOppOutcome; i++) {
+            oppOutcomes.add(
+                new Opportunity_Outcome__c(
+                    Company_Name__c = companyName + '  ' + i,
+                    Code__c = code,
+                    Opportunity__c = opportunityID,
+                    Project_Name__c = projectName+ ' ' + i,
+                    Start_Date__c = System.today() - 10,
+                    End_Date__c = System.today() + i,
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return oppOutcomes;
     }
 }
