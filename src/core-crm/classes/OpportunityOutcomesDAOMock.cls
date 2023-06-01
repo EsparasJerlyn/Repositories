@@ -46,4 +46,13 @@ public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock im
         }
         return opportunityOutcomeList;
     }
+    public List<Opportunity_Outcome__c> getRecordsWithStartDate(Date startDate){
+        List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
+        for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
+            if(startDate == record.Start_Date__c){
+                opportunityOutcomeList.add(record);
+            }
+        }
+        return opportunityOutcomeList;
+    }
 }

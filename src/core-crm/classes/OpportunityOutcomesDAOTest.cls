@@ -80,4 +80,14 @@ private class OpportunityOutcomesDAOTest {
         }
         Test.stopTest();
     }
+    @isTest
+    static void getRecordsWithStartDate() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getRecordsWithStartDate(System.today());
+            System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
+        }
+        Test.stopTest();
+    }
 }

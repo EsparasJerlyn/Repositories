@@ -14,4 +14,6 @@ public interface IOpportunityOutcomesDAO extends DmlInterface {
      List<Opportunity_Outcome__c> getRecordsWithLikeCodeSortAsc(String codeIsLike);
      List<Opportunity_Outcome__c> getRecordsWithEqualEndDate(Date endDate);
      List<Opportunity_Outcome__c> getRecordsWithNotEqualEndDate(Date endDate);
+     List<Opportunity_Outcome__c> getRecordsWithStartDate(Date startDate);
+
 }

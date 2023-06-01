@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RP_Proposal_Outcome_should_be_Accepted</fullName>
+    <active>true</active>
+    <description>Proposal Outcome should be accepted when changing the stage to Contract</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Research_Partnership&apos;,
+ISCHANGED(StageName),
+ISPICKVAL( StageName , &apos;Contract&apos;),
+NOT(ISPICKVAL( Proposal_Outcome__c , &apos;Accepted&apos;))  
+)</errorConditionFormula>
+    <errorDisplayField>Proposal_Outcome__c</errorDisplayField>
+    <errorMessage>Proposal outcome must be accepted in order to progress to the contract stage</errorMessage>
+</ValidationRule>

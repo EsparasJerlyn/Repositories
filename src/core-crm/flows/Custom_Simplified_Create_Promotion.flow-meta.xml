@@ -466,6 +466,7 @@
         </connector>
         <fields>
             <name>Create_Percentage_Discount_Promotion_Section1</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Create_Percentage_Discount_Promotion_Section1_Column1</name>
@@ -487,6 +488,7 @@
         </fields>
         <fields>
             <name>Create_Percentage_Discount_Promotion_Section2</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Create_Percentage_Discount_Promotion_Section2_Column1</name>
@@ -535,6 +537,7 @@
         </fields>
         <fields>
             <name>Create_Percentage_Discount_Promotion_Section3</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Create_Percentage_Discount_Promotion_Section3_Column1</name>
@@ -565,6 +568,7 @@
         </fields>
         <fields>
             <name>Create_Percentage_Discount_Promotion_Section4</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Create_Percentage_Discount_Promotion_Section4_Column1</name>
@@ -705,6 +709,7 @@
         <allowPause>true</allowPause>
         <fields>
             <name>Error_Screen_Section1</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Error_Screen_Section1_Column1</name>
@@ -745,6 +750,7 @@
         </connector>
         <fields>
             <name>Preview_Screen_0_Section1</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Preview_Screen_0_Section1_Column1</name>
@@ -766,6 +772,7 @@
         </fields>
         <fields>
             <name>Preview_Screen_0_Section2</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Preview_Screen_0_Section2_Column1</name>
@@ -875,6 +882,7 @@
         <allowPause>false</allowPause>
         <fields>
             <name>Promotion_Created_Section1</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Promotion_Created_Section1_Column1</name>
@@ -915,6 +923,7 @@
         </connector>
         <fields>
             <name>Select_Promotions_Segments_to_Assign_Section1</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Select_Promotions_Segments_to_Assign_Section1_Column1</name>
