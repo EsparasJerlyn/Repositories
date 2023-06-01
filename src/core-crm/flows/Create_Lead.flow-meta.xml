@@ -280,6 +280,7 @@
         </fields>
         <fields>
             <name>Create_Lead_Section1</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Create_Lead_Section1_Column1</name>
@@ -402,6 +403,7 @@
         </fields>
         <fields>
             <name>Create_Lead_Section2</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Create_Lead_Section2_Column1</name>
