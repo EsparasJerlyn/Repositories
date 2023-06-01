@@ -3658,6 +3658,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Marketing_Interaction__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Program_Offering__c</tab>
         <visibility>Available</visibility>
     </tabSettings>
