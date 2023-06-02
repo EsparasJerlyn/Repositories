@@ -10,5 +10,5 @@
     <openType>sidebar</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>
-    <url>/flow/Create_Standard_Type_Document?opportunityId={!Opportunity.Id}&amp;retURL=/{!Opportunity.Id}</url>
+    <url>/lightning/cmp/c__flowContainer</url>
 </WebLink>

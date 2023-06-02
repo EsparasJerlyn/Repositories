@@ -6,8 +6,8 @@
     <externalId>false</externalId>
     <label>Opportunity Outcome</label>
     <referenceTo>Opportunity_Outcome__c</referenceTo>
-    <relationshipLabel>IP Managements</relationshipLabel>
-    <relationshipName>IP_Managements</relationshipName>
+    <relationshipLabel>IP Management Relationships</relationshipLabel>
+    <relationshipName>IP_Management_Relationships</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
