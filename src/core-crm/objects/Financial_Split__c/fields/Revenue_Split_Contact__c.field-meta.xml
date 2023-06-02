@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Revenue_Split_Contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup to the Contact that is the recipient of the revenue split.</description>
+    <externalId>false</externalId>
+    <label>Revenue Split Contact</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Financial Splits</relationshipLabel>
+    <relationshipName>Financial_Splits_Revenue_Split_Contact</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
