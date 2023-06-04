@@ -20,4 +20,8 @@
         <value>0</value>
     </filters>
     <label>My Opportunities - PROPOSAL</label>
+    <sharedTo>
+        <role>System_Administrator</role>
+        <roleAndSubordinatesInternal>QUTeX_Leadership</roleAndSubordinatesInternal>
+    </sharedTo>
 </ListView>

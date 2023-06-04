@@ -72,5 +72,15 @@
         <!--End DEPP-4925-->
         <name>QuickAction</name>
     </types>
+    <types>
+        <members>Opportunity.ClosingNextMonth</members>
+        <members>Opportunity.ClosingThisMonth</members>
+        <members>Opportunity.My_Closed_Opportunities</members>
+        <members>Opportunity.My_Open_Opportunities</members>
+        <members>Opportunity.NewThisWeek</members>
+        <members>Opportunity.Won</members>
+        <members>Opportunity.Default_Opportunity_Pipeline</members>
+        <name>ListView</name>
+    </types>
     <version>52.0</version>
 </Package>
