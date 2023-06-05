@@ -73,6 +73,12 @@
         <name>QuickAction</name>
     </types>
     <types>
+        <!--Start DEPP-5406-->
+        <members>Document__c.CreateOpportunityOutcomeDocument</members>
+        <!--End DEPP-5406-->
+        <name>WebLink</name>
+    </types>
+    <types>
         <members>Opportunity.ClosingNextMonth</members>
         <members>Opportunity.ClosingThisMonth</members>
         <members>Opportunity.My_Closed_Opportunities</members>
