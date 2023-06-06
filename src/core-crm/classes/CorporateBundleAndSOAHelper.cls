@@ -12,7 +12,7 @@
       | kathy.cornejo             | Sep 15, 2022          | DEPP-4309            | Added logic for Tailored            |
 
  */
-public with sharing class CorporateBundleAndSOAHelper {
+public without sharing class CorporateBundleAndSOAHelper {
     
 
      /**
