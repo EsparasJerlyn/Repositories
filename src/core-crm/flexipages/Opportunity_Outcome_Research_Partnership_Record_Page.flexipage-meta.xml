@@ -288,10 +288,6 @@
                     <value>Facet-c46afb4d-c027-4967-951f-14215a3a5e51</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
@@ -323,10 +319,6 @@
                     <value>Facet-b4b96566-d229-4ed9-a54d-e115d7b8eb01</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Summary</value>
                 </componentInstanceProperties>
@@ -341,10 +333,6 @@
                     <value>Facet-3015d517-87f6-4025-8578-1ffcbd40a6df</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Stage Management</value>
                 </componentInstanceProperties>
@@ -357,10 +345,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-3f8e5e10-a46d-4569-a9a4-2d3f9d6eda7a</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>

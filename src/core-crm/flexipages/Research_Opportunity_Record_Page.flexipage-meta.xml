@@ -272,11 +272,7 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-ed7c7d8f-5483-4202-9ba6-2a4c92f669a0</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
+                </componentInstanceProperties>                
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>Opportunity Summary</value>
@@ -290,11 +286,7 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-2a160523-2ec7-4c51-8c09-f8031725a345</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
+                </componentInstanceProperties>                
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>Stage Management</value>
@@ -308,11 +300,7 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-914e8ba1-4f96-45e2-94ef-a67f7a4d65b9</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
+                </componentInstanceProperties>                
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>System Information</value>
@@ -734,11 +722,7 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-1qfdw327kl8</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
+                </componentInstanceProperties>                
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>Opportunity Summary</value>
@@ -752,11 +736,7 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-rp82xcattua</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
+                </componentInstanceProperties>                
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>Stage Management</value>
@@ -770,10 +750,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-dv8okbgb826</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -984,10 +960,6 @@
                     <value>Facet-a0d8b696-2db5-419e-ab77-5074176135c9</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Scoping</value>
                 </componentInstanceProperties>
@@ -1002,10 +974,6 @@
                     <value>Facet-2b590f6e-3e48-4ce8-8046-0b03e4688ba8</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Proposal Details</value>
                 </componentInstanceProperties>
@@ -1018,10 +986,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-eb76602a-4bf0-408d-8c58-2a5217bcb0fa</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1446,10 +1410,6 @@
                     <value>Facet-lz9ycfz9jy</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Opportunity Summary</value>
                 </componentInstanceProperties>
@@ -1464,10 +1424,6 @@
                     <value>Facet-2ncocfjkdh5</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Stage Management</value>
                 </componentInstanceProperties>
@@ -1480,10 +1436,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-tjmqakjv0t</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1694,10 +1646,6 @@
                     <value>Facet-f43709fb-4beb-4ad9-9edb-1b0a4a388438</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Scoping</value>
                 </componentInstanceProperties>
@@ -1712,10 +1660,6 @@
                     <value>Facet-y2nuk8ognmi</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Proposal Details</value>
                 </componentInstanceProperties>
@@ -1728,10 +1672,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-c6bcae8c-f0b3-48e4-a81d-fd7c7e0afcba</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1866,10 +1806,6 @@
                     <value>Facet-95ca536e-6054-48b2-bf92-7f47b92a04ee</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Proposal Outcome</value>
                 </componentInstanceProperties>
@@ -1882,10 +1818,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-wqqc4dj9yco</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -2324,10 +2256,6 @@
                     <value>Facet-alyiq6uy8t</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Opportunity Summary</value>
                 </componentInstanceProperties>
@@ -2342,10 +2270,6 @@
                     <value>Facet-nw5m7ml6l0r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Stage Management</value>
                 </componentInstanceProperties>
@@ -2358,10 +2282,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-8ohwmjbfes7</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -2572,10 +2492,6 @@
                     <value>Facet-68dfcfd2-35e9-440c-9cd4-376870f4f5c2</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Scoping</value>
                 </componentInstanceProperties>
@@ -2590,10 +2506,6 @@
                     <value>Facet-8fb3d2f8-538f-4ce2-899c-a73f29da58a4</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Proposal Details</value>
                 </componentInstanceProperties>
@@ -2606,10 +2518,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-2c15febf-7cd7-4ee2-aa8c-d1c4b429147d</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -2744,10 +2652,6 @@
                     <value>Facet-cbo62ey87nf</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Proposal Outcome</value>
                 </componentInstanceProperties>
@@ -2760,10 +2664,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-n56pacmwi5d</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -3230,10 +3130,6 @@
                     <value>Facet-1mpga03bqm</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Opportunity Summary</value>
                 </componentInstanceProperties>
@@ -3248,10 +3144,6 @@
                     <value>Facet-x0n5si7kjr</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Stage Management</value>
                 </componentInstanceProperties>
@@ -3264,10 +3156,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-i7fv4kjawal</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -3478,10 +3366,6 @@
                     <value>Facet-d6f1ca05-d520-4bb1-af2b-2b85949af5ac</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Scoping</value>
                 </componentInstanceProperties>
@@ -3496,10 +3380,6 @@
                     <value>Facet-186ebd1a-b1b9-48cb-a83d-5e0ed2b24165</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Details</value>
                 </componentInstanceProperties>
@@ -3512,10 +3392,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-955d78f5-7542-4b72-97e7-3169a369049e</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -3986,10 +3862,6 @@
                     <value>Facet-9p71mt0f794</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Opportunity Summary</value>
                 </componentInstanceProperties>
@@ -4004,10 +3876,6 @@
                     <value>Facet-8qksmdjsw6f</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Stage Management</value>
                 </componentInstanceProperties>
@@ -4020,10 +3888,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-6k2w17kwbjq</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -4234,10 +4098,6 @@
                     <value>Facet-glr8kw78bgs</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Scoping</value>
                 </componentInstanceProperties>
@@ -4252,10 +4112,6 @@
                     <value>Facet-bz856kjvoms</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Project Details</value>
                 </componentInstanceProperties>
@@ -4268,10 +4124,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-z0mx8xgik1</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
