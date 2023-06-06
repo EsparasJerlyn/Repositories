@@ -681,15 +681,81 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>CustomButton.Document__c.CreateOpportunityDocument</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>RECORDTYPE|EQUALS|[&quot;Standard&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity_Outcome__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Documents__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Title__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_URL__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Start_Date__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_End_Date__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Status__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Documents</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Hello. I am a ✨&lt;strong style=&quot;font-family: serif; color: rgb(255, 217, 0);&quot;&gt;placeholder component &lt;/strong&gt;✨. My sole purpose is to prevent Salesforce from automatically removing this tab. An empty tab is a pointless tab and Salesforce automatically removes these tabs into oblivion. You can safely remove me if you are ready to replace me with the required components for this tab. If not, please do not remove me as it may lead to this tab being removed once you hit Save.&lt;/p&gt;</value>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText4</identifier>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-koi30acf5s</name>
@@ -1312,15 +1378,81 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>CustomButton.Document__c.CreateOpportunityDocument</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>RECORDTYPE|EQUALS|[&quot;Standard&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity_Outcome__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Documents__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Title__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_URL__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Start_Date__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_End_Date__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Document_Status__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Documents</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Hello. I am a ✨&lt;strong style=&quot;font-family: serif; color: rgb(255, 217, 0);&quot;&gt;placeholder component &lt;/strong&gt;✨. My sole purpose is to prevent Salesforce from automatically removing this tab. An empty tab is a pointless tab and Salesforce automatically removes these tabs into oblivion. You can safely remove me if you are ready to replace me with the required components for this tab. If not, please do not remove me as it may lead to this tab being removed once you hit Save.&lt;/p&gt;</value>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText6</identifier>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2bqa5hp714i</name>

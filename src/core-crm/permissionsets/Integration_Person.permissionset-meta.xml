@@ -2030,6 +2030,16 @@
         <field>Financial_Split__c.Program_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Financial_Split__c.Revenue_Split_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Financial_Split__c.Revenue_Split_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
         <field>hed__Term__c.Admit_On_Offer_Acceptance_CutOff_Date__c</field>
@@ -9466,7 +9476,27 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Account_Revenue_Financial_Split</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Contact_Revenue_Financial_Split</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Financial_Split__c.Opportunity_Outcome_Funding_Body</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management_Relationship__c.IP_Engagement_Relationship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Outcome_Relationship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

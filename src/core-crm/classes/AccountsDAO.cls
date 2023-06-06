@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 24, 2023        | DEPP-5567              | Created File                 | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
+      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
+      | roy.nino.s.regala              | April 24, 2023        | DEPP-5567              | Created File                               | 
+      | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added getAccountBySetNamesWithLimit method |
  */
 public inherited sharing class AccountsDAO extends DmlBase implements IAccountsDAO {
     public static final String ACCT_BUSINESS_ORG = System.label.RT_Account_Business_Org;
@@ -42,6 +43,18 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
             FROM Account
             WHERE Name IN :accountNames
             WITH USER_MODE
+        ];
+    }
+    
+    public List<Account> getAccountBySetNamesWithLimit(Set<String> accountNames,Integer recordsCount) {
+        return [
+            SELECT
+            Id,
+            Name
+            FROM Account
+            WHERE Name IN :accountNames
+            WITH USER_MODE
+            LIMIT :recordsCount
         ];
     }
 }
