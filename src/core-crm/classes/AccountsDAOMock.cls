@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created File                 | 
+      | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added new account method     |
  */
 @isTest
 public inherited sharing class AccountsDAOMock extends DmlBaseMock implements IAccountsDAO {
@@ -43,6 +44,22 @@ public inherited sharing class AccountsDAOMock extends DmlBaseMock implements IA
             }
         }
 
+        return accountList;
+    }
+    
+    public List<Account> getAccountBySetNamesWithLimit(Set<String> accountNames,Integer recordsCount) {
+        List<Account> accountList = new List<Account>();
+        
+        for (Account record : accountMap.values()) {
+            if (accountNames.contains(record.Name)) {
+                accountList.add(record);
+            }
+            
+             if (accountList.size() == recordsCount) {
+                break;
+            }
+        }
+               
         return accountList;
     }
 }

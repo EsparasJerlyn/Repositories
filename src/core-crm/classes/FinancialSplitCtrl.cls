@@ -6,18 +6,12 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA     | Change Summary                  |
-      |---------------------------|-----------------------|----------|---------------------------------|
-      | angelika.j.s.galang       | February 3, 2021      | DEPP-1257| Created file                    | 
-      |                           |                       |          |                                 | 
-*/
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | angelika.j.s.galang            | February 3, 2021      | DEPP-1257              | Created File                 |
+      | mark.j.mahilum                 | June 01,2023          | DEPP-5687              | Methods converted to DAO     |              
+ */
 public with sharing class FinancialSplitCtrl {
-    
-    private static final String FINANCIAL_SPLIT_API_NAME = Financial_Split__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
-    private static final String FINANCIAL_SPLIT_FIELDS = 
-        'Id,Account_Code__c,Account_GL_Code__c,Account_Name__c,CreatedDate,' +
-        'IsActive__c,Participating_School_Name__c,Participating_School_Name__r.Name,' +
-        'Percentage_split__c';
 
     /**
     * @description Method for getting the Id QUTeX Account
@@ -25,13 +19,13 @@ public with sharing class FinancialSplitCtrl {
     * @return Id of QUTeX Account
     */
     @AuraEnabled(cacheable=true)
-    public static Id getQutexId(String qutex){
-        return [
-            SELECT Id
-            FROM Account
-            WHERE Name =: qutex
-            LIMIT 1
-        ]?.Id;
+    public static Id getQutexId(String qutex){ 
+        
+        return AccountsDAO.newInstance()
+            .getAccountBySetNamesWithLimit(new Set<String>{ (String) qutex },1)
+            .iterator()
+            .next()
+            ?.Id;
     }
 
     /**
@@ -56,13 +50,8 @@ public with sharing class FinancialSplitCtrl {
     */
     @AuraEnabled(cacheable=true)
     public static List<Financial_Split__c> getFinancialSplits(String relatedParentField,Id relatedParentId){
-        List<SObject> records = Database.query(
-            'SELECT ' + String.escapeSingleQuotes(FINANCIAL_SPLIT_FIELDS) + 
-            ' FROM ' + String.escapeSingleQuotes(FINANCIAL_SPLIT_API_NAME) + 
-            ' WHERE ' + String.escapeSingleQuotes(relatedParentField) + 
-            ' = \'' + String.escapeSingleQuotes(relatedParentId) + 
-            '\' ORDER BY CreatedDate ASC'
-        );
+        
+        List<SObject> records = FinancialSplitsDAO.newInstance().getFinancialSplitsRecords(relatedParentField,relatedParentId);
         return (List<Financial_Split__c>) records;
     }
 
@@ -72,8 +61,12 @@ public with sharing class FinancialSplitCtrl {
     */
     @AuraEnabled
     public static void upsertFinancialSplits(List<Financial_Split__c> financialSplits){  
-        if(!financialSplits.isEmpty()){
-            upsert financialSplits;
+        
+        if(!financialSplits.isEmpty()){          
+            for(Financial_Split__c record : financialSplits){
+                record.RecordTypeId = FinancialSplitsDAO.COURSE_FINANCIAL_SPLIT_RECORDTYPEID;
+            }
+            FinancialSplitsDAO.newInstance().upsertRecords(financialSplits,false,AccessLevel.USER_MODE);
         }
     }
 }

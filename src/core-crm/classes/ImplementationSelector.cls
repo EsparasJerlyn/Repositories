@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                            |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------|
+      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                              |
+      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects                            |
+      | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split  |
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -23,6 +24,7 @@ public class ImplementationSelector {
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
             Opportunity_Code_Auto_Number__c.SobjectType => OpportunityCodeAutoNumbersDAO.class,
