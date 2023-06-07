@@ -3,6 +3,7 @@
     <fullName>Inactive_Reason_Comment__c</fullName>
     <description>Allows a business user to enter some comments about why the Engagement became inactive.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Allows a business user to enter some comments about why the Engagement became inactive.</inlineHelpText>
     <label>Inactive Reason Comment</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

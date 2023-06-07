@@ -3,6 +3,7 @@
     <fullName>Due_Diligence_Outcome_Summary__c</fullName>
     <description>Business entered supporting/additional comments about the due diligence outcome.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Business entered supporting/additional comments about the due diligence outcome.</inlineHelpText>
     <label>Due Diligence Outcome Summary</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

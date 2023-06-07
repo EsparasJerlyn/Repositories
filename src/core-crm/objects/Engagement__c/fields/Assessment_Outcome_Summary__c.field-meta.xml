@@ -3,6 +3,7 @@
     <fullName>Assessment_Outcome_Summary__c</fullName>
     <description>Assessment stage summary</description>
     <externalId>false</externalId>
+    <inlineHelpText>Assessment stage summary.</inlineHelpText>
     <label>Assessment Outcome Summary</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

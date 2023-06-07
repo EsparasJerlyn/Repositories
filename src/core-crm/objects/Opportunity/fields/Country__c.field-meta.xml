@@ -3,6 +3,7 @@
     <fullName>Country__c</fullName>
     <description>The Country/Jurisdiction the Opportunity falls under.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The Country/Jurisdiction the Opportunity falls under.</inlineHelpText>
     <label>Country</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

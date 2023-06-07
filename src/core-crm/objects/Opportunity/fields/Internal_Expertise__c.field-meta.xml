@@ -3,6 +3,7 @@
     <fullName>Internal_Expertise__c</fullName>
     <description>Indicates that QUT has internal expertise to support the Opportunity.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates that QUT has internal expertise to support the Opportunity.</inlineHelpText>
     <label>Internal Expertise</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

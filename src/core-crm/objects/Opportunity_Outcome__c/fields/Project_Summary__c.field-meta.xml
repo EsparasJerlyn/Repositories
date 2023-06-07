@@ -3,6 +3,7 @@
     <fullName>Project_Summary__c</fullName>
     <description>Summary/description of the Project.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Summary/description of the Project.</inlineHelpText>
     <label>Project Summary</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

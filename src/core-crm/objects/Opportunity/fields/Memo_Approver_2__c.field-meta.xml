@@ -4,6 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Captures that the memo has been approved by the 2nd authorised QUT staff member.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Captures that the memo has been approved by the 2nd authorised QUT staff member.</inlineHelpText>
     <label>Memo Approver 2</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Opportunities2</relationshipName>

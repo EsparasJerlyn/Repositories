@@ -3,6 +3,7 @@
     <fullName>End_Date__c</fullName>
     <description>Project end date.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Project end date.</inlineHelpText>
     <label>End Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

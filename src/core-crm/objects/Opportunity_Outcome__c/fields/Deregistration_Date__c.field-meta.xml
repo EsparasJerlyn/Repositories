@@ -3,6 +3,7 @@
     <fullName>Deregistration_Date__c</fullName>
     <description>The date the Start-Up Company was de-registered.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The date the Startup Company was de-registered.</inlineHelpText>
     <label>Deregistration Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

@@ -3,6 +3,7 @@
     <fullName>Stage_Name__c</fullName>
     <description>Identifies the stage in the lifecycle of the Engagement business process that the Engagement is up to/moving through.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Identifies the stage in the lifecycle of the Engagement business process that the Engagement is up to/moving through.</inlineHelpText>
     <label>Stage</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

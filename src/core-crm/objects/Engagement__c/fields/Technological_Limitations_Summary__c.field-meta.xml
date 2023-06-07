@@ -3,6 +3,7 @@
     <fullName>Technological_Limitations_Summary__c</fullName>
     <description>Technological Limitations summary.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Technological Limitations summary.</inlineHelpText>
     <label>Technological Limitations Summary</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

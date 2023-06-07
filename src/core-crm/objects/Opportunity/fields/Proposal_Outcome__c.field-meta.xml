@@ -3,6 +3,7 @@
     <fullName>Proposal_Outcome__c</fullName>
     <description>The outcome of the proposal</description>
     <externalId>false</externalId>
+    <inlineHelpText>The outcome of the proposal</inlineHelpText>
     <label>Proposal Outcome</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

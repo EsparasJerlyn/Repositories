@@ -3,6 +3,7 @@
     <fullName>Negotiation_Outcome__c</fullName>
     <description>Indicates if negotiations have been successful.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates if negotiations have been successful.</inlineHelpText>
     <label>Negotiation Outcome</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

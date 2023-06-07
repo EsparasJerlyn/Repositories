@@ -3,6 +3,7 @@
     <fullName>Project_Name__c</fullName>
     <description>The business entered name/title for the Project Opportunity Outcome. The field value has a business defined format.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Field value to be copied from associated Opportunity, with the exception of the 1st three characters.</inlineHelpText>
     <label>Project Name</label>
     <length>80</length>
     <required>false</required>

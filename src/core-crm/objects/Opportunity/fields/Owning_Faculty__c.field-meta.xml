@@ -3,6 +3,7 @@
     <fullName>Owning_Faculty__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>The QUT Faculty leading the Opportunity.</inlineHelpText>
     <label>Owning Faculty</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Opportunities</relationshipLabel>

@@ -3,6 +3,10 @@
     <fullName>Opportunity_Code__c</fullName>
     <description>A unique, business formatted code to identify an Opportunity record in the system.</description>
     <externalId>false</externalId>
+    <inlineHelpText>System to auto-generate a unique code in the below pattern. The number should increment sequentially starting from 00001.
+Where Opportunity Record Type = ‘Research Partnership’ THEN RPO:00001
+Where Opportunity Record Type = ‘International Projects Unit’ THEN INPO:00001
+Where Opportunity Record Type = ‘Commercialisation&apos; THEN RCO:00001</inlineHelpText>
     <label>Opportunity Code</label>
     <length>20</length>
     <required>false</required>

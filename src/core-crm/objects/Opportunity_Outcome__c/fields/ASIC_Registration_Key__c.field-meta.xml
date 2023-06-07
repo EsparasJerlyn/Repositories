@@ -3,6 +3,7 @@
     <fullName>ASIC_Registration_Key__c</fullName>
     <description>The ASIC Registration Key.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The ASIC Registration Key.</inlineHelpText>
     <label>ASIC Registration Key</label>
     <length>80</length>
     <required>false</required>

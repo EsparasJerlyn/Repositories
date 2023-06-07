@@ -3,6 +3,7 @@
     <fullName>Engagement_Priority__c</fullName>
     <description>The business priority for the Engagement</description>
     <externalId>false</externalId>
+    <inlineHelpText>The business priority for the Engagement.</inlineHelpText>
     <label>Engagement Priority</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

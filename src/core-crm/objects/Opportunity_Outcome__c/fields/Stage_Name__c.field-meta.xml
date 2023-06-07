@@ -3,6 +3,7 @@
     <fullName>Stage_Name__c</fullName>
     <description>The business process stages that Opportunity Outcomes progress through.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The business process stages that Opportunity Outcomes progress through.</inlineHelpText>
     <label>Stage</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

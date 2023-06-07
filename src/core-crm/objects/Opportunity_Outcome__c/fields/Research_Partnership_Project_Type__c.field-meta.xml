@@ -3,6 +3,7 @@
     <fullName>Research_Partnership_Project_Type__c</fullName>
     <description>The type of project for a Research Partnership Opportunity Outcome.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The type of project for a Research Partnership Opportunity Outcome.</inlineHelpText>
     <label>Research Partnership Project Type</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

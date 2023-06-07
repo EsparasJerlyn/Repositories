@@ -3,6 +3,7 @@
     <fullName>Start_Date__c</fullName>
     <description>Project start date.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Project start date.</inlineHelpText>
     <label>Start Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

@@ -4,6 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Lookup to associated Pure Project record.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Lookup to associated Pure Project record.</inlineHelpText>
     <label>Pure Project ID</label>
     <referenceTo>Pure_Project__c</referenceTo>
     <relationshipLabel>Opportunities</relationshipLabel>

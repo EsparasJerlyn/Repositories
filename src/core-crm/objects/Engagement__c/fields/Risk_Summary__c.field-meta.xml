@@ -3,6 +3,7 @@
     <fullName>Risk_Summary__c</fullName>
     <description>Risk summary.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Risk summary.</inlineHelpText>
     <label>Risk Summary</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

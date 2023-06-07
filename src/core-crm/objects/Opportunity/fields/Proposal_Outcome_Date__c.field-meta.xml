@@ -3,6 +3,7 @@
     <fullName>Proposal_Outcome_Date__c</fullName>
     <description>The date the proposal outcome is/was recorded.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The date the proposal outcome is/was recorded.</inlineHelpText>
     <label>Proposal Outcome Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

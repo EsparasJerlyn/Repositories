@@ -3,6 +3,7 @@
     <fullName>Memo_Status__c</fullName>
     <description>Indicates the status of the Memo.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates the status of the Memo.</inlineHelpText>
     <label>Memo Status</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

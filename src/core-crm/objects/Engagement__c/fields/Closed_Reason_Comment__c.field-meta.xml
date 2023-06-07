@@ -3,6 +3,7 @@
     <fullName>Closed_Reason_Comment__c</fullName>
     <description>Allows a business user to enter some comments about why the Engagement closed.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Allows a business user to enter some comments about why the Engagement closed.</inlineHelpText>
     <label>Closed Reason Comment</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

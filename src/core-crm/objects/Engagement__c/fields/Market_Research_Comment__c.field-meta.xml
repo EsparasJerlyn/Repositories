@@ -3,6 +3,7 @@
     <fullName>Market_Research_Comment__c</fullName>
     <description>Additional comments about the market research.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Additional comments about the market research.</inlineHelpText>
     <label>Market Research Comment</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

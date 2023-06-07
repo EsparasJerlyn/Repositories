@@ -3,6 +3,7 @@
     <fullName>Technology_Readiness_Comment__c</fullName>
     <description>Additional comments about the technology readiness.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Additional comments about the technology readiness.</inlineHelpText>
     <label>Technology Readiness Comment</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

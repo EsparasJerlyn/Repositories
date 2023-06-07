@@ -3,6 +3,7 @@
     <fullName>Negotiation_Summary__c</fullName>
     <description>Supporting information about the negotiations.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Supporting information about the negotiations.</inlineHelpText>
     <label>Negotiation Summary</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

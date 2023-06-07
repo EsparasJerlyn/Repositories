@@ -3,6 +3,7 @@
     <fullName>Revenue_From_Sale__c</fullName>
     <description>Amount of revenue of sale of Start-Up Company.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Amount of revenue of sale of Start-Up Company.</inlineHelpText>
     <label>Revenue From Sale</label>
     <precision>18</precision>
     <required>false</required>

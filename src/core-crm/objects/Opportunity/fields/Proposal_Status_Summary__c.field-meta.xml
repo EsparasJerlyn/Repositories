@@ -3,6 +3,7 @@
     <fullName>Proposal_Status_Summary__c</fullName>
     <description>Summary/explanation of the proposal status.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Summary/explanation of the proposal status.</inlineHelpText>
     <label>Proposal Status Summary</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

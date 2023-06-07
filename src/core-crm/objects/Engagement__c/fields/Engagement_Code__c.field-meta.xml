@@ -3,6 +3,9 @@
     <fullName>Engagement_Code__c</fullName>
     <description>A unique, business formatted code to identify an Opportunity record in the system.</description>
     <externalId>false</externalId>
+    <inlineHelpText>System to auto-generate a unique code in the below pattern. The number should increment sequentially starting from 00001.
+    Where Engagement Record Type = ‘Research Partnership’ THEN RPE:00001
+    Where Engagement Record Type = ‘Commercialisation&apos; THEN RCE:00001</inlineHelpText>
     <label>Engagement Code</label>
     <length>20</length>
     <required>false</required>

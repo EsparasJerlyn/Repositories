@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Commercialisation_Strategy_Summary__c</fullName>
     <externalId>false</externalId>
+    <inlineHelpText>Commercialisation Strategy summary.</inlineHelpText>
     <label>Commercialisation Strategy Summary</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>
