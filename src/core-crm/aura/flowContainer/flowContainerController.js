@@ -1,78 +1,71 @@
+/**
+ * @description A dynamic container for flows with a standard look and feel ui
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------|
+ *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                   |
+ */
 ({
   init: function (component, event) {
-    // Find the component whose aura:id is "flowData"
-    var flow = component.find("flowData");
-    var isList = false;
-    var object;
-    var recordId;
-    var opportunityRecordId;
-    var engagementRecordId;
-    var opportunityOutcomeRecordId;
+    const flow = component.find("flowData");
+    const flowApiName = component.get("v.flowApiName");
+    const inputVariables = component.get("v.inputVariables");
 
-    //List page
-    if (window.location.href.indexOf("list") > -1) {
-      isList = true;
-      object = window.location.pathname.split("/")[3]; //ex.lightning/o/Opportunity/list'
-   
-    //view  page 
-    }else{
-      var pageRef = component.get("v.pageReference");
-      var state = pageRef.state.ws; //ex. lightning/r/Opportunity/0069t000005J1drAAC/view
-      var obj = state.split('/')[3]; 
-      recordId = state.split('/')[4];
-     
-      if(obj === "Opportunity"){
-        opportunityRecordId = recordId;
-      }else if(obj === "Engagement__c"){
-        engagementRecordId = recordId;
-      }else if(obj === "Opportunity_Outcome__c"){
-        opportunityOutcomeRecordId = recordId;
-      }
-    }
-
-    var inputVariables =[
-      {
-        name : "opportunityId",
-        type : "String",
-        value : opportunityRecordId ? opportunityRecordId : '' 
-      },
-      {
-        name : "engagementId",
-        type : "String",
-        value : engagementRecordId ?  engagementRecordId : ''
-      },
-      {
-        name : "opportunityOutcomeId",
-        type : "String",
-        value : opportunityOutcomeRecordId ? opportunityOutcomeRecordId : '' 
-      }
-    ]
-
-    // In that component, start your flow. Reference the flow's API Name.
-    if(isList){
-      if(object === "Opportunity"){
-        flow.startFlow("New_Opportunity");
-      }else if(object === "Engagement__c"){
-        flow.startFlow("New_Engagement");
-      }
-    }else{
-      flow.startFlow("Create_Standard_Type_Document", inputVariables);
+    // Start the flow with input variables if they are provided
+    if (inputVariables && inputVariables.length > 0) {
+      flow.startFlow(flowApiName, inputVariables);
+    } else {
+      flow.startFlow(flowApiName);
     }
   },
   handleStatusChange: function (component, event) {
-    let outputVariables = event.getParam("outputVariables");
-      if (outputVariables && outputVariables.length > 0) {
-          let outputVar = outputVariables.find(e => e.name === 'modalTitle');
-          if (outputVar) {
-              component.set("v.modalTitle", outputVar.value);
-          }
+    // Get the status parameter from the event
+    const status = event.getParam("status");
+
+    if (status === "STARTED") {
+      // Retrieve outputVariables set from flow
+      const outputVariables = event.getParam("outputVariables") || [];
+      const outputVar = outputVariables.find((e) => e.name === "modalTitle");
+      if (outputVar) {
+        // Set the modalTitle attribute on the component
+        component.set("v.modalTitle", outputVar.value);
       }
-    // close workspace tab when flow status is finished
-    if(event.getParam("status") === "FINISHED") {
-        $A.enqueueAction(component.get("c.closeFocusedTab"));
+
+      // Get the workspace API component
+      const workspaceAPI = component.find("workspace");
+      workspaceAPI
+        .getTabInfo()
+        .then(function (response) {
+          // Get the ID of the focused tab
+          const focusedTabId = response.tabId;
+          // Get the modalTitle from the component
+          const modalTitle = component.get("v.modalTitle");
+          // Set the tab label and icon using the modalTitle
+          workspaceAPI.setTabLabel({
+            tabId: focusedTabId,
+            label: modalTitle
+          });
+          workspaceAPI.setTabIcon({
+            tabId: focusedTabId,
+            icon: "standard:record_create",
+            iconAlt: modalTitle
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else if (status === "FINISHED") {
+      // Get the closeTab action from the component
+      const closeFocusedTabAction = component.get("c.closeTab");
+      // Enqueue the action to close the workspace tab
+      $A.enqueueAction(closeFocusedTabAction);
     }
   },
-  closeFocusedTab: function (component) {
+  closeTab: function (component) {
     // close workspace tab when close button is clicked
     var workspaceAPI = component.find("workspace");
     workspaceAPI
