@@ -4058,17 +4058,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity_Outcome__c.StartUp_ABN__c</field>
+        <field>Opportunity_Outcome__c.Startup_ABN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity_Outcome__c.StartUp_Company_Description__c</field>
+        <field>Opportunity_Outcome__c.Startup_Company_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity_Outcome__c.StartUp_Summary__c</field>
+        <field>Opportunity_Outcome__c.Startup_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

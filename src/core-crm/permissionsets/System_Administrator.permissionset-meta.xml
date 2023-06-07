@@ -14890,17 +14890,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Opportunity_Outcome__c.StartUp_ABN__c</field>
+        <field>Opportunity_Outcome__c.Startup_ABN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Opportunity_Outcome__c.StartUp_Company_Description__c</field>
+        <field>Opportunity_Outcome__c.Startup_Company_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Opportunity_Outcome__c.StartUp_Summary__c</field>
+        <field>Opportunity_Outcome__c.Startup_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -26524,7 +26524,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Opportunity_Outcome__c.StartUp</recordType>
+        <recordType>Opportunity_Outcome__c.Startup</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
