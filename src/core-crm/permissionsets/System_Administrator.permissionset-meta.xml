@@ -26784,6 +26784,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Facilitator_Bio__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Engagement__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -26853,6 +26857,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Session__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Study_Area_Plan__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
