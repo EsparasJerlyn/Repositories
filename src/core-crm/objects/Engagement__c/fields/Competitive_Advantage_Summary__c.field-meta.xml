@@ -3,6 +3,7 @@
     <fullName>Competitive_Advantage_Summary__c</fullName>
     <description>Competitive advantage summary</description>
     <externalId>false</externalId>
+    <inlineHelpText>Competitive advantage summary</inlineHelpText>
     <label>Competitive Advantage Summary</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

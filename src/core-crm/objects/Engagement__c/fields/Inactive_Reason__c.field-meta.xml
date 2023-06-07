@@ -3,6 +3,7 @@
     <fullName>Inactive_Reason__c</fullName>
     <description>The reason the Engagement became inactive.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The reason the Engagement became inactive.</inlineHelpText>
     <label>Inactive Reason</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

@@ -3,6 +3,7 @@
     <fullName>Engagement_Summary__c</fullName>
     <description>A summary/description of the Engagement being undertaken.</description>
     <externalId>false</externalId>
+    <inlineHelpText>A summary/description of the Engagement being undertaken.</inlineHelpText>
     <label>Engagement Summary</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

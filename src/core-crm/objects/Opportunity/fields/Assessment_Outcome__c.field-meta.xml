@@ -3,6 +3,7 @@
     <fullName>Assessment_Outcome__c</fullName>
     <description>Indicates whether the Assessment is successful or not.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates whether the Assessment is successful or not.</inlineHelpText>
     <label>Assessment Outcome</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

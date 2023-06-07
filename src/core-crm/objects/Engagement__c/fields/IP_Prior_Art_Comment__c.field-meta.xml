@@ -3,6 +3,7 @@
     <fullName>IP_Prior_Art_Comment__c</fullName>
     <description>Additional comments about the IP Prior Art.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Additional comments about the IP Prior Art.</inlineHelpText>
     <label>IP Prior Art Comment</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

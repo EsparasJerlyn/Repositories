@@ -3,6 +3,7 @@
     <fullName>Closed_Reason__c</fullName>
     <description>The reason the Commercialisation Engagement closed.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The reason the Commercialisation Engagement closed.</inlineHelpText>
     <label>Closed Reason</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

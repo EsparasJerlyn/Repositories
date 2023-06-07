@@ -3,6 +3,7 @@
     <fullName>Proposal_Outcome_Comments__c</fullName>
     <description>Additional information about the proposal outcome.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Additional information about the proposal outcome.</inlineHelpText>
     <label>Proposal Outcome Comments</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

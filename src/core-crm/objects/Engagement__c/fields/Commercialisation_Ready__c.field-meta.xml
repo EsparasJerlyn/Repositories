@@ -3,6 +3,7 @@
     <fullName>Commercialisation_Ready__c</fullName>
     <description>Indicates the IP is ready for commercialisation.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates the IP is ready for commercialisation.</inlineHelpText>
     <label>Commercialisation Ready</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

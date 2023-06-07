@@ -3,6 +3,7 @@
     <fullName>Assessment_Supporting_Comment__c</fullName>
     <description>Additional description of the assessment outcome.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Additional description of the assessment outcome.</inlineHelpText>
     <label>Assessment Supporting Comment</label>
     <length>255</length>
     <required>false</required>

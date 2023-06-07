@@ -3,6 +3,7 @@
     <fullName>Viable__c</fullName>
     <description>Identifies if the Project is going to be viable or not.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Identifies if the Project is going to be viable or not.</inlineHelpText>
     <label>Viable</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

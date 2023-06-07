@@ -3,6 +3,7 @@
     <fullName>Decommissioned_Reason__c</fullName>
     <description>The business entered reason why the project was decommissioned.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The business entered reason why the project was decommissioned.</inlineHelpText>
     <label>Decommissioned Reason</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

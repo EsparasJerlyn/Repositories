@@ -3,6 +3,7 @@
     <fullName>StartUp_ABN__c</fullName>
     <description>The ABN of the Start-Up Company.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The ABN of the Startup Company.</inlineHelpText>
     <label>Start-Up ABN</label>
     <length>20</length>
     <required>false</required>

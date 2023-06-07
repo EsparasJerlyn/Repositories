@@ -3,6 +3,7 @@
     <fullName>Deregistration_Reason__c</fullName>
     <description>The Reason the Start-Up Company was de-registered.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The Reason the Startup Company was de-registered.</inlineHelpText>
     <label>Deregistration Reason</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

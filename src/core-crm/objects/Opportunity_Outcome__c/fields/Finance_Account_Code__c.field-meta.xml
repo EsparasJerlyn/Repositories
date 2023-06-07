@@ -3,6 +3,7 @@
     <fullName>Finance_Account_Code__c</fullName>
     <description>The GL Account Code that relates to/is being used to support the Project financials.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The GL Account Code that relates to/is being used to support the Project financials.</inlineHelpText>
     <label>Finance Account Code</label>
     <length>80</length>
     <required>false</required>

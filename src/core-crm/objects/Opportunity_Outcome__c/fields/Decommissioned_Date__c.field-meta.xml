@@ -3,6 +3,7 @@
     <fullName>Decommissioned_Date__c</fullName>
     <description>The date the project is/was decommissioned.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The date the project is/was decommissioned.</inlineHelpText>
     <label>Decommissioned Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

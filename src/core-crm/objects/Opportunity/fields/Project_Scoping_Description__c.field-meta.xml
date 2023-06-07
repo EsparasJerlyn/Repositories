@@ -3,6 +3,7 @@
     <fullName>Project_Scoping_Description__c</fullName>
     <description>Information about the Project Scoping stage for a Research Partnership Opportunity.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Information about the Project Scoping stage for a Research Partnership Opportunity.</inlineHelpText>
     <label>Project Scoping Description</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

@@ -3,6 +3,7 @@
     <fullName>Due_Diligence_Outcome__c</fullName>
     <description>The outcome of the due diligence phase of the business process.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The outcome of the due diligence phase of the business process.</inlineHelpText>
     <label>Due Diligence Outcome</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

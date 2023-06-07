@@ -3,6 +3,7 @@
     <fullName>Engagement_Source__c</fullName>
     <description>The source event/interaction that prompted the Engagement to be happen.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The source event/interaction that prompted the Engagement to be happen.</inlineHelpText>
     <label>Engagement Source</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

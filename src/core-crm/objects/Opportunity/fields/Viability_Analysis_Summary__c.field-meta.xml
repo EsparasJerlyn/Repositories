@@ -3,6 +3,7 @@
     <fullName>Viability_Analysis_Summary__c</fullName>
     <description>Explanation/description about the viability of the project.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Explanation/description about the viability of the project.</inlineHelpText>
     <label>Viability Analysis Summary</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

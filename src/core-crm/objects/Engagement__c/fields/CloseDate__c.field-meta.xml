@@ -3,6 +3,7 @@
     <fullName>CloseDate__c</fullName>
     <description>The date the Commercialisation Engagement was closed.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The date the Commercialisation Engagement was closed.</inlineHelpText>
     <label>Close Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

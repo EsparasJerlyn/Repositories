@@ -3,6 +3,7 @@
     <fullName>Finalise_Legal_Agreement__c</fullName>
     <description>Indicates if legal agreements have been finalised.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates if legal agreements have been finalised.</inlineHelpText>
     <label>Finalise Legal Agreement</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

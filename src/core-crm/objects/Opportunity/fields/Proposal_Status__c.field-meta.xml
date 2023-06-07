@@ -3,6 +3,7 @@
     <fullName>Proposal_Status__c</fullName>
     <description>The status of the proposal that has been developed for the Opportunity.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The status of the proposal that has been developed for the Opportunity.</inlineHelpText>
     <label>Proposal Status</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

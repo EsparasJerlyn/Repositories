@@ -3,6 +3,7 @@
     <fullName>StartUp_Company_Description__c</fullName>
     <description>Description of the Start-Up Company.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Description of the Startup Company.</inlineHelpText>
     <label>Start-Up Company Description</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

@@ -3,6 +3,7 @@
     <fullName>Risk_Identified__c</fullName>
     <description>Indicates if any risks have been identified.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates if any risks have been identified.</inlineHelpText>
     <label>Risk Identified</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

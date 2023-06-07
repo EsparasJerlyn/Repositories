@@ -4,6 +4,7 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <description>Lookup to associated Opportunity.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Lookup to associated Opportunity.</inlineHelpText>
     <label>Opportunity</label>
     <referenceTo>Opportunity</referenceTo>
     <relationshipLabel>Opportunity Outcomes</relationshipLabel>

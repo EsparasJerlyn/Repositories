@@ -3,6 +3,7 @@
     <fullName>Commercialisation_Ready_Summary__c</fullName>
     <description>Commercialisation readiness summary.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Commercialisation readiness summary.</inlineHelpText>
     <label>Commercialisation Ready Summary</label>
     <length>1000</length>
     <securityClassification>Official</securityClassification>

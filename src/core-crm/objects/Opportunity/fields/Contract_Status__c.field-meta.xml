@@ -3,6 +3,7 @@
     <fullName>Contract_Status__c</fullName>
     <description>The status of the Contract in CLMS.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The status of the Contract in CLMS.</inlineHelpText>
     <label>Contract Status</label>
     <length>40</length>
     <required>false</required>

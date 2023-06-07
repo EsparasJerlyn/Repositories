@@ -3,6 +3,7 @@
     <fullName>Sustainability_Transformation_Output__c</fullName>
     <description>Allows business user to add commentary around the sustainability and transformational aspects of the International Projects Unit Project.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Allows business user to add commentary around the sustainability and transformational aspects of the International Projects Unit Project.</inlineHelpText>
     <label>Sustainability and Transformation Output</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

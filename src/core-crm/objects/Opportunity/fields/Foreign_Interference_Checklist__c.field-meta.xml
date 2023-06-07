@@ -3,6 +3,7 @@
     <fullName>Foreign_Interference_Checklist__c</fullName>
     <description>Indicates if the foreign interference checklist is completed.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Indicates if the foreign interference checklist is completed.</inlineHelpText>
     <label>Foreign Interference Checklist</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

@@ -3,6 +3,10 @@
     <fullName>Code__c</fullName>
     <description>A unique, business formatted code to identify a Project being managed under an Opportunity Outcome.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Where record type = Research Partnership Project THEN format should be: RPP-00001
+Where record type = IPU Project THEN format should be: INP-00001
+Where record type = Research Commercialisation Project THEN format should be: RCP-00001
+Where record type = StartUp THEN format should be: RCC-00001</inlineHelpText>
     <label>Code</label>
     <length>20</length>
     <required>false</required>

@@ -4,6 +4,7 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <description>Lookup to associated Engagement.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Lookup to associated Engagement.</inlineHelpText>
     <label>Engagement</label>
     <referenceTo>Engagement__c</referenceTo>
     <relationshipLabel>Opportunities</relationshipLabel>
