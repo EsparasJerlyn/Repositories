@@ -4,5 +4,5 @@
     <entityName>Opportunity_Outcome__c</entityName>
     <fieldName>Stage_Name__c</fieldName>
     <masterLabel>Start-Up Opportunity Outcome</masterLabel>
-    <recordTypeName>StartUp</recordTypeName>
+    <recordTypeName>Startup</recordTypeName>
 </PathAssistant>
