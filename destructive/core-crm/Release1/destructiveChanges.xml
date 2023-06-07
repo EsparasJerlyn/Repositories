@@ -42,6 +42,9 @@
         <!--DEPP-5055-->
         <members>Opportunity_Record_Page.flexipage-meta.xml</members>
         <!--DEPP-5055 end-->
+        <!--DEPP-5433-->
+        <members>Opportunity_Outcome_Research_Partnership_Record_Page</members>
+        <!--DEPP-5433 end-->
         <name>FlexiPage</name>
     </types>
     <types>
