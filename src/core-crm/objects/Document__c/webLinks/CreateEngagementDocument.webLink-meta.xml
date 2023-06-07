@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>CreateOpportunityDocument</fullName>
+    <fullName>CreateEngagementDocument</fullName>
     <availability>online</availability>
     <displayType>massActionButton</displayType>
     <encodingKey>UTF-8</encodingKey>
@@ -10,5 +10,5 @@
     <openType>sidebar</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>
-    <url>/lightning/cmp/c__newOpportunityDocument</url>
+    <url>/lightning/cmp/c__newEngagementDocument</url>
 </WebLink>
