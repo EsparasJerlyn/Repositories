@@ -46,6 +46,50 @@
         <recordType>Account.University_Department</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Document__c-Document - Board Meeting Minutes Page Layout</layout>
+        <recordType>Document__c.Board_Meeting_Minutes</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document - Shareholder and Constitution Amendment Page Layout</layout>
+        <recordType>Document__c.Shareholder_and_Constitution_Amendment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Standard</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Dividend Summary Page Layout</layout>
+        <recordType>Finance_Summary__c.Dividend_Summary</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - QUT Finance System Page Layout</layout>
+        <recordType>Finance_Summary__c.QUT_Finance_System</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Valuation Page Layout</layout>
+        <recordType>Finance_Summary__c.Valuation</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Course Financial Split Page Layout</layout>
+        <recordType>Financial_Split__c.Course_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Funding Body Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Funding_Body</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Funding Body Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Funding_Body</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Account Revenue FS Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Account_Revenue_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Contact Revenue FS Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Contact_Revenue_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>WebCart-Cart Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -101,6 +145,21 @@
     <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Engagement Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Engagement_Relationship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Opportunity Outcome Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Outcome_Relationship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Opportunity Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Coupon-Coupon Layout</layout>

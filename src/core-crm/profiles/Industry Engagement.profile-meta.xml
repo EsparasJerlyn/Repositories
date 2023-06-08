@@ -23,12 +23,13 @@
     <layoutAssignments>
         <layout>Finance_Summary__c-Finance Summary - Valuation Page Layout</layout>
         <recordType>Finance_Summary__c.Valuation</recordType>
-    </layoutAssignments> <layoutAssignments>
-        <layout>Document__c-Document Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document - Board Meeting Minutes Page Layout</layout>
         <recordType>Document__c.Board_Meeting_Minutes</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Document__c-Document Page Layout</layout>
+        <layout>Document__c-Document - Shareholder and Constitution Amendment Page Layout</layout>
         <recordType>Document__c.Shareholder_and_Constitution_Amendment</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -51,10 +52,30 @@
         <recordType>Financial_Split__c.Opportunity_Outcome_Funding_Body</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Account Revenue FS Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Account_Revenue_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Contact Revenue FS Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Contact_Revenue_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>IP_Management_Application__c-IP Management Application Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>IP_Management__c-IP Management Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Engagement Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Engagement_Relationship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Opportunity Outcome Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Outcome_Relationship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Opportunity Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Project_Milestone__c-Project Milestone Page Layout</layout>

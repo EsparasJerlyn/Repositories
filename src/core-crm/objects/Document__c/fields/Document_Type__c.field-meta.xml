@@ -4,7 +4,7 @@
     <description>The document type.</description>
     <externalId>false</externalId>
     <label>Document Type</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

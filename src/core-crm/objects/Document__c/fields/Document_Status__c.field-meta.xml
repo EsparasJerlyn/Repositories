@@ -4,7 +4,7 @@
     <description>The document status.</description>
     <externalId>false</externalId>
     <label>Document Status</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
