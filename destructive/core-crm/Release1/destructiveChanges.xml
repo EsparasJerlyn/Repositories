@@ -36,6 +36,9 @@
 		<members>IP_Management__c.Opportunity__c</members>
 		<members>IP_Management__c.Opportunity_Outcome__c</members>
 		<!-- End DEPP-5832-->
+        <!-- Start DEPP-5850-->
+        <members>hed__Term__c.Location__c</members>
+        <!-- End DEPP-5850-->
         <name>CustomField</name>
     </types>
     <types>
