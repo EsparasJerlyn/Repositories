@@ -254,10 +254,14 @@
     <tabs>Engagement__c</tabs>
     <tabs>standard-Opportunity</tabs>
     <tabs>Opportunity_Outcome__c</tabs>
+    <tabs>IP_Management__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
             <tab>Engagement__c</tab>
+        </mappings>
+        <mappings>
+            <tab>IP_Management__c</tab>
         </mappings>
         <mappings>
             <tab>Opportunity_Outcome__c</tab>
