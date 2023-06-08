@@ -36,12 +36,18 @@
 		<members>IP_Management__c.Opportunity__c</members>
 		<members>IP_Management__c.Opportunity_Outcome__c</members>
 		<!-- End DEPP-5832-->
+        <!-- Start DEPP-5850-->
+        <members>hed__Term__c.Location__c</members>
+        <!-- End DEPP-5850-->
         <name>CustomField</name>
     </types>
     <types>
         <!--DEPP-5055-->
         <members>Opportunity_Record_Page.flexipage-meta.xml</members>
         <!--DEPP-5055 end-->
+        <!--DEPP-5433-->
+        <members>Opportunity_Outcome_Research_Partnership_Record_Page</members>
+        <!--DEPP-5433 end-->
         <name>FlexiPage</name>
     </types>
     <types>
@@ -71,12 +77,6 @@
         <members>Contact.Enable_Partner_Portal_Access</members>
         <!--End DEPP-4925-->
         <name>QuickAction</name>
-    </types>
-    <types>
-        <!--Start DEPP-5406-->
-        <members>Document__c.CreateOpportunityOutcomeDocument</members>
-        <!--End DEPP-5406-->
-        <name>WebLink</name>
     </types>
     <types>
         <members>Opportunity.ClosingNextMonth</members>

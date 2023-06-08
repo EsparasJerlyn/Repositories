@@ -314,7 +314,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>CustomButton.Document__c.CreateOpportunityDocument</value>
+                            <value>CustomButton.Document__c.CreateEngagementDocument</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -753,7 +753,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>CustomButton.Document__c.CreateOpportunityDocument</value>
+                            <value>CustomButton.Document__c.CreateEngagementDocument</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1191,7 +1191,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>CustomButton.Document__c.CreateOpportunityDocument</value>
+                            <value>CustomButton.Document__c.CreateEngagementDocument</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

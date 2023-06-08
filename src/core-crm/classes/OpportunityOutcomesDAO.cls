@@ -13,7 +13,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     public static final Id RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Partnership_Project').getRecordTypeId();
     public static final Id IPUPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('IPU_Project').getRecordTypeId();
     public static final Id RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Research_Commercialisation_Project').getRecordTypeId();
-    public static final Id STARTUP_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('StartUp').getRecordTypeId();
+    public static final Id STARTUP_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName().get('Startup').getRecordTypeId();
     public static final String COMPLETED_STAGE = 'Completed';
     public static final String NEW_STAGE = 'New';
     public Schema.SObjectType getSObjectType() {

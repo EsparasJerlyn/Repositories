@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Deregistration_Reason__c</fullName>
-    <description>The Reason the Start-Up Company was de-registered.</description>
+    <description>The Reason the Startup Company was de-registered.</description>
     <externalId>false</externalId>
     <inlineHelpText>The Reason the Startup Company was de-registered.</inlineHelpText>
     <label>Deregistration Reason</label>
