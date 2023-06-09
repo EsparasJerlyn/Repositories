@@ -78,7 +78,7 @@
         <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Project_Milestone__c-Project Milestone Page Layout</layout>
+        <layout>Milestone__c-Milestone Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Pure_Project__c-Pure Project Page Layout</layout>

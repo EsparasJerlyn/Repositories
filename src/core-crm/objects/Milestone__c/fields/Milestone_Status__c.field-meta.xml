@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Project_Milestone_Status__c</fullName>
+    <fullName>Milestone_Status__c</fullName>
     <description>Status of the milestone.</description>
     <externalId>false</externalId>
-    <label>Project Milestone Status</label>
+    <label>Milestone Status</label>
     <required>true</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>

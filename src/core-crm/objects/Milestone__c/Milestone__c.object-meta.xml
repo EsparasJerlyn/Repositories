@@ -129,7 +129,7 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Project_Milestone_Record_Page</content>
+        <content>Milestone_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
@@ -137,7 +137,7 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Project_Milestone_Record_Page</content>
+        <content>Milestone_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
@@ -149,7 +149,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>The Project Milestone data object stores information different milestones identified as important indicators around how a business process is progressing.</description>
+    <description>The Milestone data object stores information different milestones identified as important indicators around how a business process is progressing.</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -160,14 +160,12 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Project Milestone</label>
+    <label>Milestone</label>
     <nameField>
-        <label>Project Milestone Name</label>
-        <description>The business entered name of the milestone.</description>
-        <securityClassification>Official</securityClassification>
+        <label>Milestone Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Project Milestones</pluralLabel>
+    <pluralLabel>Milestones</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

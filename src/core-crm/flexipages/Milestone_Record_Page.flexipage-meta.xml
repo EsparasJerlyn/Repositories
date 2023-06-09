@@ -158,8 +158,8 @@
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Project Milestone Record Page</masterLabel>
-    <sobjectType>Project_Milestone__c</sobjectType>
+    <masterLabel>Milestone Record Page</masterLabel>
+    <sobjectType>Milestone__c</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
         <properties>

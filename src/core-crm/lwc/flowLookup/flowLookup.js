@@ -35,8 +35,6 @@ const ACTIONS = {
   }
 };
 
-const LOGGER = this.template.querySelector("c-logger");
-
 export default class FlowLookup extends NavigationMixin(LightningElement) {
   /* PUBLIC PROPERTIES */
   @api objectName;
@@ -203,6 +201,8 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         (value) => !this.records.some((record) => record.value == value)
       );
       if (unqueriedValues.length) {
+        const logger = this.template.querySelector("c-logger");
+
         // String objectName, String fieldsToReturn, List<String> idsToRetrieve
         getRecordsFromIds({
           objectName: this.objectName,
@@ -214,8 +214,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
             this.addNewRecordAction();
           })
           .catch((error) => {
-            LOGGER.error(JSON.stringify(error));
-            LOGGER.saveLog();
+            if (logger) {
+              logger.error(JSON.stringify(error));
+              logger.saveLog();
+            }
           })
           .finally(() => {
             this.isLoading = false;
@@ -291,6 +293,8 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   // Get the recently viewed records
   getRecentlyViewed() {
     this.isLoading = true;
+    const logger = this.template.querySelector("c-logger");
+
     getRecentlyViewed({
       objectName: this.objectName,
       fieldsToReturn: this.visibleFields_ToDisplayNames,
@@ -304,8 +308,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         }
       })
       .catch((error) => {
-        LOGGER.error(JSON.stringify(error));
-        LOGGER.saveLog();
+        if (logger) {
+          logger.error(JSON.stringify(error));
+          logger.saveLog();
+        }
       })
       .finally(() => {
         this.isLoading = false;
@@ -316,6 +322,8 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   // This will then populate the dropdown with the records that match the whereClause
   getRecords() {
     this.isLoading = true;
+    const logger = this.template.querySelector("c-logger");
+
     getRecords({
       objectName: this.objectName,
       fieldsToReturn: this.visibleFields_ToDisplayNames,
@@ -327,8 +335,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         this.addNewRecordAction();
       })
       .catch((error) => {
-        LOGGER.error(JSON.stringify(error));
-        LOGGER.saveLog();
+        if (logger) {
+          logger.error(JSON.stringify(error));
+          logger.saveLog();
+        }
       })
       .finally(() => {
         this.isLoading = false;
@@ -340,6 +350,8 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       this.resetRecentlyViewed();
     } else {
       this.isLoading = true;
+      const logger = this.template.querySelector("c-logger");
+
       search({
         searchTerm: searchText,
         objectName: this.objectName,
@@ -358,8 +370,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
           this.addNewRecordAction();
         })
         .catch((error) => {
-          LOGGER.error(JSON.stringify(error));
-          LOGGER.saveLog();
+          if (logger) {
+            logger.error(JSON.stringify(error));
+            logger.saveLog();
+          }
         })
         .finally(() => {
           this.isLoading = false;
@@ -378,13 +392,17 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
 
     return apexResults.map((record) => {
       if (!labelField) {
+        const logger = this.template.querySelector("c-logger");
+
         let nonIdFields = Object.keys(record).filter(
           (fieldName) => fieldName != "Id"
         );
 
         if (nonIdFields.length !== 1) {
-          LOGGER.error("Error: expected exactly one other field");
-          LOGGER.saveLog();
+          if (logger) {
+            logger.error("Error: expected exactly one other field");
+            logger.saveLog();
+          }
         }
         labelField = nonIdFields[0];
 
@@ -492,6 +510,8 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
 
   handleCustomAction(event) {
     if (event.detail === ACTIONS.NEW_RECORD.value) {
+      const logger = this.template.querySelector("c-logger");
+
       // Call the new record modal
       newRecordModal
         .open({
@@ -526,8 +546,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
           }
         })
         .catch((error) => {
-          LOGGER.error(JSON.stringify(error));
-          LOGGER.saveLog();
+          if (logger) {
+            logger.error(JSON.stringify(error));
+            logger.saveLog();
+          }
         });
     }
   }
