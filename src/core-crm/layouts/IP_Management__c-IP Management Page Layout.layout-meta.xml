@@ -12,36 +12,73 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>IP Management Summary</label>
+        <label>Prosecution Summary</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>IP_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>IP_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Parent_IP_Management_Id__c</field>
+            </layoutItems>
+        </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Parent_IP_Management_Id__c</field>
+                <behavior>Required</behavior>
+                <field>Country__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>IP_Description__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Stage Management</label>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Stage_Name__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Granted_Date__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>IP_Description__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>IP_Type__c</field>
+                <field>Granted_Comment__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Country__c</field>
+                <field>Lapsed_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Lapsed_Comment__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Rejected_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Rejected_Comment__c</field>
             </layoutItems>
         </layoutColumns>
-        <style>TwoColumnsLeftToRight</style>
+        <style>OneColumn</style>
     </layoutSections>
     <layoutSections>
         <customLabel>true</customLabel>

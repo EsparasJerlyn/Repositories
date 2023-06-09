@@ -52,7 +52,10 @@
         <connector>
             <targetReference>Update</targetReference>
         </connector>
-        <filterFormula>AND({!$Record.RecordType.DeveloperName} = &quot;IPU_Project&quot;,NOT(ISBLANK({!$Record.End_Date__c}))  , NOT(ISNULL({!$Record.End_Date__c})))</filterFormula>
+        <filterFormula>AND(
+    NOT(ISBLANK({!$Record.End_Date__c})),
+    NOT(ISNULL({!$Record.End_Date__c}))
+)</filterFormula>
         <object>Opportunity_Outcome__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>

@@ -22370,7 +22370,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Facility__c.External_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Facility__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Facility__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -23111,6 +23121,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Term__c.Last_Offer_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Term__c.Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -20,18 +20,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Finance_Summary_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Dividend__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Opportunity_Outcome__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Year__c</field>
@@ -117,7 +109,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9t0000040nst</masterLabel>
+        <masterLabel>00h9h000000wXJo</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

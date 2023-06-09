@@ -9,7 +9,7 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
 	<isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
-    <label>Future Student Engagement</label>
+    <label>Future Student Nurturing</label>
     <navType>Console</navType> 
     <profileActionOverrides>
         <actionName>View</actionName>

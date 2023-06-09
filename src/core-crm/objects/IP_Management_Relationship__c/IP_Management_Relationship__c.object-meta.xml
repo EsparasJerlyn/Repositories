@@ -157,7 +157,7 @@
     <label>IP Management Relationship</label>
     <nameField>
         <displayFormat>IPMR-{000000}</displayFormat>
-        <label>IP Management Relationship Name</label>
+        <label>IP Management Relationship</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>IP Management Relationships</pluralLabel>
