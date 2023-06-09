@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 24, 2023        |DEPP-5567               | Created File                 | 
-      | mark.j.mahilum                 | June 01, 2023         |DEPP-5687               | Added new test method        |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
+ *    | roy.nino.s.regala              | April 24, 2023        |DEPP-5567               | Created File                        |
+ *    | mark.j.mahilum                 | June 1, 2023          |DEPP-5687               | Added new test method               |
+ *    | ryan.j.a.dela.cruz             | June 5, 2023          |DEPP-5687               | Added getAccountIdByABNTest method  |
  */
 @isTest
 public with sharing class AccountsDAOTest {
@@ -40,6 +41,17 @@ public with sharing class AccountsDAOTest {
     }
 
     @isTest
+    static void getAccountIdByABNTest() {
+        Test.startTest();
+        ImplementationSelector.DAO.setMock(new AccountsDAOMock());
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Account account = AccountsDAO.newInstance().getAccountIdByABN('');
+            System.assert(account != null, 'Account not found');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -50,12 +62,13 @@ public with sharing class AccountsDAOTest {
         }
         Test.stopTest();
     }
-    
+
     @isTest
     static void getAccountBySetNamesWithLimitTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            List<Account> accountList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String>(),1);
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountBySetNamesWithLimit(new Set<String>(), 1);
             System.assert(accountList.isEmpty(), 'accountList is not empty');
         }
         Test.stopTest();

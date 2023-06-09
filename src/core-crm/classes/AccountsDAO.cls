@@ -1,14 +1,15 @@
 /**
  * @description DAO Class for Account Object. Contains soql and constants related to the Account object.
- * 
+ *
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
-      | roy.nino.s.regala              | April 24, 2023        | DEPP-5567              | Created File                               | 
-      | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added getAccountBySetNamesWithLimit method |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
+ *    | roy.nino.s.regala              | April 24, 2023        | DEPP-5567              | Created File                               |
+ *    | mark.j.mahilum                 | June 1, 2023          | DEPP-5687              | Added getAccountBySetNamesWithLimit method |
+ *    | ryan.j.a.dela.cruz             | June 5, 2023          | DEPP-5385              | Added getAccountIdByABN method             |
  */
 public inherited sharing class AccountsDAO extends DmlBase implements IAccountsDAO {
     public static final String ACCT_BUSINESS_ORG = System.label.RT_Account_Business_Org;
@@ -45,16 +46,27 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
             WITH USER_MODE
         ];
     }
-    
-    public List<Account> getAccountBySetNamesWithLimit(Set<String> accountNames,Integer recordsCount) {
+
+    public List<Account> getAccountBySetNamesWithLimit(
+        Set<String> accountNames,
+        Integer recordsCount
+    ) {
         return [
-            SELECT
-            Id,
-            Name
+            SELECT Id, Name
             FROM Account
             WHERE Name IN :accountNames
             WITH USER_MODE
             LIMIT :recordsCount
+        ];
+    }
+
+    public Account getAccountIdByABN(String abn) {
+        return [
+            SELECT Id
+            FROM Account
+            WHERE ABN__c = :abn AND RecordTypeId = :ACCT_BUSINESS_ORG_ID
+            WITH USER_MODE
+            LIMIT 1
         ];
     }
 }
