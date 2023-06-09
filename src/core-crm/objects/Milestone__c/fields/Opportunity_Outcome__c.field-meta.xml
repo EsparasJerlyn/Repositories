@@ -6,8 +6,7 @@
     <externalId>false</externalId>
     <label>Opportunity Outcome</label>
     <referenceTo>Opportunity_Outcome__c</referenceTo>
-    <relationshipLabel>Project Milestones</relationshipLabel>
-    <relationshipName>Project_Milestones</relationshipName>
+    <relationshipName>Milestones</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>

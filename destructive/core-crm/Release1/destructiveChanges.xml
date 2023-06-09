@@ -45,12 +45,21 @@
         <name>CustomField</name>
     </types>
     <types>
+        <!--Start DEPP-5837-->
+        <members>Project_Milestone__c</members>
+        <!--End DEPP-5837-->
+        <name>CustomObject</name>
+    </types>
+    <types>
         <!--DEPP-5055-->
         <members>Opportunity_Record_Page.flexipage-meta.xml</members>
         <!--DEPP-5055 end-->
         <!--DEPP-5433-->
         <members>Opportunity_Outcome_Research_Partnership_Record_Page</members>
         <!--DEPP-5433 end-->
+        <!--Start DEPP-5837-->
+        <members>Project_Milestone_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-5837-->
         <name>FlexiPage</name>
     </types>
     <types>
