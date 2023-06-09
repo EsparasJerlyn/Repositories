@@ -9,6 +9,14 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>Future_Student_Configuration</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>Future_Student_Nurturing</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>Industry_Engagement</application>
         <visible>true</visible>
     </applicationVisibilities>
