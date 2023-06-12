@@ -26803,6 +26803,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+        <tab>IP_Management__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Credential__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>

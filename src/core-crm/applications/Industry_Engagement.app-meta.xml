@@ -249,6 +249,38 @@
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IP_Management_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IP_Management_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IP_Management_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IP_Management_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>Engagement__c</tabs>
