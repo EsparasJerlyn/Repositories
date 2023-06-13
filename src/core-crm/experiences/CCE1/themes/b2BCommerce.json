@@ -107,6 +107,14 @@
       "type" : "region"
     }, {
       "components" : [ {
+        "componentAttributes" : {
+          "config" : { }
+        },
+        "componentName" : "forceCommunity:managedContent",
+        "id" : "85bb2fa7-fa4c-4373-aaf2-63b4598fffdb",
+        "renditionMap" : { },
+        "type" : "component"
+      }, {
         "componentAttributes" : { },
         "componentName" : "c:moreInfo",
         "id" : "9c6ff5d1-df07-45a5-a22c-c970e206a112",
