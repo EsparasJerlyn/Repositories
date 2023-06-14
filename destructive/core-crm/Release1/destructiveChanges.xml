@@ -100,5 +100,11 @@
         <members>Opportunity.Default_Opportunity_Pipeline</members>
         <name>ListView</name>
     </types>
+        <types>
+        <!--(Start) DEPP-5917 -->
+        <members>Engagement__c.Engagement_Summary_is_Required</members>
+        <!-- (End) DEPP-5917 -->
+        <name>ValidationRule</name>
+    </types>
     <version>52.0</version>
 </Package>
