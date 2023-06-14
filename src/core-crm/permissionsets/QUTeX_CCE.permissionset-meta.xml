@@ -723,6 +723,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>hed__Term__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Leave_of_Absence__c</tab>
         <visibility>Visible</visibility>
     </tabSettings> 
