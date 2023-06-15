@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_Interaction__c</fullName>
+    <description>The component score attributed due to clicking on a marketing email link</description>
+    <externalId>false</externalId>
+    <label>Email Interaction</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

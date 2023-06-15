@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Score_Detail__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The breakdown of lead scoring by category aggregates.</description>
+    <externalId>false</externalId>
+    <label>Lead Score Detail</label>
+    <referenceTo>Lead_Score_Detail__c</referenceTo>
+    <relationshipLabel>Contacts</relationshipLabel>
+    <relationshipName>Contacts</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>
