@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>The Parent Category the sub category belongs to. This would be null for category record types</description>
     <externalId>false</externalId>
-    <inlineHelpText>Only allows Category record type</inlineHelpText>
+    <inlineHelpText>The Category the scoring for this Sub Category will be added to</inlineHelpText>
     <label>Parent Category</label>
     <lookupFilter>
         <active>true</active>

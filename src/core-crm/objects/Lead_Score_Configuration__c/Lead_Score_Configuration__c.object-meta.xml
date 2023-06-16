@@ -162,7 +162,7 @@
     <label>Lead Score Configuration</label>
     <nameField>
         <label>Name</label>
-        <trackHistory>false</trackHistory>
+        <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Lead Score Configurations</pluralLabel>
