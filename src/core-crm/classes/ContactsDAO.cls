@@ -4,9 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                                   |
+      | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added new method checkWorkEmailFlowInputExist  |
+
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
     /**
@@ -59,6 +61,20 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH USER_MODE
             LIMIT :recordsCount
+        ];
+    }
+
+    public List<Contact> checkWorkEmailFlowInputExist(String emailInput){
+        return [
+            SELECT Id, Work_Email__c,QUT_Learner_Email__c, Email, QUT_Staff_Email__c
+            FROM Contact
+            WHERE RecordTypeId = :PERSON_RECORDTYPE_ID 
+            AND (Work_Email__c =: emailInput
+            OR Email=: emailInput
+            OR QUT_Learner_Email__c =: emailInput
+            OR QUT_Staff_Email__c =: emailInput)
+            WITH SECURITY_ENFORCED
+            LIMIT 1 
         ];
     }
 }

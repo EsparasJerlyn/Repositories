@@ -256,7 +256,11 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   @api
   validate() {
     // If it is not valid then return error message and isValid = false
-    if (this.required && !this.values.length) {
+    if (
+      this.required &&
+      (this.values.length === 0 ||
+        (this.values.length === 1 && this.values[0] === ""))
+    ) {
       return {
         isValid: false,
         errorMessage: this.messageWhenValueMissing

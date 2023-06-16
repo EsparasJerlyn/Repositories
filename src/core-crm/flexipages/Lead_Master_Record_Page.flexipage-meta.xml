@@ -9,6 +9,22 @@
                         <valueListItems>
                             <value>Edit</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Convert</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Can_Be_Converted__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Lead_Type__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Learner</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -293,6 +309,10 @@
                     <value>Facet-f527e436-6747-44c5-9cb0-e2410126285c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Lead Summary</value>
                 </componentInstanceProperties>
@@ -307,6 +327,10 @@
                     <value>Facet-d94c7ed5-24ce-4989-bd93-420f9f24e3e7</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Lead Company Information</value>
                 </componentInstanceProperties>
@@ -319,6 +343,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-29f60c18-ba80-4667-85b8-cdd80e5f73b7</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -587,6 +615,10 @@
                     <value>Facet-ae52e7f8-eb72-48c8-ab84-fd755be8db65</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Marketing Consent</value>
                 </componentInstanceProperties>
@@ -599,6 +631,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-a6f5d685-80fe-4c1f-aac3-052d36ac2d41</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>

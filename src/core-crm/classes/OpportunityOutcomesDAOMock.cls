@@ -7,6 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | created file
+      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
+      | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
  */
 @isTest
 public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock implements IOpportunityOutcomesDAO {
@@ -50,6 +52,24 @@ public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock im
         List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
         for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
             if(startDate == record.Start_Date__c){
+                opportunityOutcomeList.add(record);
+            }
+        }
+        return opportunityOutcomeList;
+    }
+    public List<Opportunity_Outcome__c> getRecordsWithPastDateAsDecommissionedDate(){
+        List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
+        for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
+            if(record.Decommissioned_Date__c <= System.today()){
+                opportunityOutcomeList.add(record);
+            }
+        }
+        return opportunityOutcomeList;
+    }
+    public List<Opportunity_Outcome__c> getRecordsWithFutureDateAsDecommissionedDate(){
+        List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
+        for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
+            if(record.Decommissioned_Date__c > System.today()){
                 opportunityOutcomeList.add(record);
             }
         }

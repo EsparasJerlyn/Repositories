@@ -167,7 +167,12 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>IP Managements</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>IP_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Stage_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>OWNER.FIRST_NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject> 

@@ -53,6 +53,42 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Commercialisation_Engagement_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement__c</pageOrSobjectType>
+        <recordType>Engagement__c.Commercialisation</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commercialisation_Engagement_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement__c</pageOrSobjectType>
+        <recordType>Engagement__c.Commercialisation</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commercialisation_Engagement_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement__c</pageOrSobjectType>
+        <recordType>Engagement__c.Commercialisation</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commercialisation_Engagement_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement__c</pageOrSobjectType>
+        <recordType>Engagement__c.Commercialisation</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>IPU_Opportunity_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Opportunity</pageOrSobjectType>
@@ -233,21 +269,35 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Research_Engagement_Record_Page</content>
+        <content>IP_Management_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Engagement__c</pageOrSobjectType>
-        <recordType>Engagement__c.Research_Partnership</recordType>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Research_Engagement_Record_Page</content>
+        <content>IP_Management_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Engagement__c</pageOrSobjectType>
-        <recordType>Engagement__c.Research_Partnership</recordType>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IP_Management_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>IP_Management_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>IP_Management__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
     </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>

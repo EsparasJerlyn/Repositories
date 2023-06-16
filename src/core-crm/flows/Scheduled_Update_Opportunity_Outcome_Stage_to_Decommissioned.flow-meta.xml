@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <decisions>
+        <name>Check_if_Decommisioned_Reason_is_not_blank</name>
+        <label>Check if Decommisioned Reason is not blank</label>
+        <locationX>182</locationX>
+        <locationY>252</locationY>
+        <defaultConnectorLabel>Is blank</defaultConnectorLabel>
+        <rules>
+            <name>Decommisioned_Reason_not_Blank</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Decommissioned_Reason__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Decommissioned_Date__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_to_Decommisioned</targetReference>
+            </connector>
+            <label>Decommissioned Reason not Blank</label>
+        </rules>
+    </decisions>
+    <description>Scheduled flow to update opportunity outcome to decommissioned</description>
+    <environments>Default</environments>
+    <interviewLabel>Scheduled Update Opportunity Outcome Stage to Decommissioned {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Scheduled Update Opportunity Outcome Stage to Decommissioned</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_to_Decommisioned</name>
+        <label>Update to Decommisioned</label>
+        <locationX>50</locationX>
+        <locationY>360</locationY>
+        <inputAssignments>
+            <field>End_Date__c</field>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Stage_Name__c</field>
+            <value>
+                <stringValue>Decommissioned</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_if_Decommisioned_Reason_is_not_blank</targetReference>
+        </connector>
+        <object>Opportunity_Outcome__c</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2023-06-08</startDate>
+            <startTime>00:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

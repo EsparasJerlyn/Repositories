@@ -54,6 +54,18 @@ public without sharing class FlowLookupControllerTest {
     }
 
     @isTest
+    public static void getRecentlyViewedWithZeroRecordsToReturnTest() {
+        List<SObject> records = FlowLookupController.getRecentlyViewed(
+            'Account',
+            'Name',
+            0,
+            'Name = \'Test\''
+        );
+
+        System.assertEquals(0, records.size(), 'No records should be returned in this test case');
+    }
+
+    @isTest
     public static void getObjectIconTest() {
         String objectIcon = FlowLookupController.getObjectIcon('Account');
 
@@ -66,6 +78,18 @@ public without sharing class FlowLookupControllerTest {
             'Account',
             'Name',
             5,
+            'Name LIKE \'%Test%\''
+        );
+
+        System.assertEquals(0, records.size(), 'No records should be returned in this test case');
+    }
+
+    @isTest
+    public static void getRecordsDefaultReturnTest() {
+        List<SObject> records = FlowLookupController.getRecords(
+            'Account',
+            'Name',
+            0,
             'Name LIKE \'%Test%\''
         );
 

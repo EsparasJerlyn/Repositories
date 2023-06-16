@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Engagement_Priority_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
+ISCHANGED(Stage_Name__c),
+ISPICKVAL(PRIORVALUE(Stage_Name__c), &quot;Disclosure&quot;),
+ISPICKVAL(Stage_Name__c, &quot;Evaluation&quot;),
+ISPICKVAL(Engagement_Priority__c, &quot;&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Engagement_Priority__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>
