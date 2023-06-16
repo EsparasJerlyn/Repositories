@@ -2765,6 +2765,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>Pure_Project__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>Milestone__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -3052,4 +3061,4 @@
         <enabled>true</enabled>
         <name>TransactionalEmailSend</name>
     </userPermissions>
-</PermissionSet>
+</PermissionSet> 
