@@ -4,9 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                       |
+      |--------------------------------|-----------------------|------------------------|--------------------------------------|
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                         |   
+      | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist   |
+
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {
@@ -51,6 +53,21 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
 
             if (contactList.size() == recordsCount) {
                 break;
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> checkWorkEmailFlowInputExist(String emailInput){
+        List<Contact> contactList = new List<Contact>();
+        for(Contact record : contactsMap.values()){
+            if(
+                record.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
+                (emailInput.contains(record.Email) ||
+                emailInput.contains(record.Work_Email__c) ||
+                emailInput.contains(record.QUT_Learner_Email__c) ||
+                emailInput.contains(record.QUT_Staff_Email__c))){
+                contactList.add(record);
             }
         }
         return contactList;

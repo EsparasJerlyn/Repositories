@@ -597,6 +597,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactSyncFlowTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -650,6 +658,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Contact_Work_Email_Triggered_FlowTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+        <classAccesses>
+        <apexClass>ContactsDAOMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactsDAOTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1018,6 +1038,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>HandlerConfigProvider</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IContactsDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

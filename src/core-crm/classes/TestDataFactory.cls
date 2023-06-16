@@ -1876,9 +1876,9 @@ public class TestDataFactory {
     }
 
     /**
-     * @description Method for ISR Student Adviser
+     * @description Method for QUT Industry Engagement Partnership Manager
      * @param void
-     * @return ISR Student Adviser
+     * @return IE Partnership Manager
      */
     public static User getQUTIEPartnershipManager() {
         User pm = [
