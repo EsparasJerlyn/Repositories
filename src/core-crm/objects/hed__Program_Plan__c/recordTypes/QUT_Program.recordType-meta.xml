@@ -44,6 +44,38 @@
             <fullName>Virtual Classroom</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Non-Supervised Candadature</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>All</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Block</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multi Modal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not entered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unknown</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>PP_Design_Form_Status__c</picklist>
