@@ -229,6 +229,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AppDefinitionsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AppDefinitionsDAOTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AppDefinitionsDAOMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AssetToCompleteBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -664,7 +676,7 @@
         <apexClass>ContactsDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-        <classAccesses>
+    <classAccesses>
         <apexClass>ContactsDAOMock</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -793,6 +805,22 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DmlBase</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DmlBaseMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DmlBaseTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DmlBaseMockTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DocuSignContentVersionTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -802,6 +830,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Docusign_Status_Triggered_FlowTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DynamicDataTableCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DynamicDataTableCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1049,6 +1085,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IAppDefinitionsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ImplementationSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ImplementationSelectorTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IndividualEmailResultTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1058,6 +1106,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Individual_Copies_to_Contact_LeadTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IUserAppInfosDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1310,6 +1362,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MockHttpResponseGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MockIdGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MockIdGeneratorTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1774,6 +1834,26 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Update_Product_from_CourseTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserInfoService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserInfoServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserAppInfosDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserAppInfosDAOTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserAppInfosDAOMock</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -8028,10 +8108,10 @@
         <apexClass>trailheadapp__UserTrailmixUpsertBatch_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
-         <apexClass>Update_Opp_CloseDate_FlowTest</apexClass>
+    <classAccesses>
+        <apexClass>Update_Opp_CloseDate_FlowTest</apexClass>
         <enabled>true</enabled>
-    </classAccesses> 
+    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Country_Locale_Metadata__mdt</name>
@@ -12200,7 +12280,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead_Score_Detail__c.Total_Lead_Score__c</field>        
+        <field>Lead_Score_Detail__c.Total_Lead_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -16503,7 +16583,7 @@
         <field>Milestone__c.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-      <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Pure_Project__c.Engagement__c</field>
         <readable>true</readable>
@@ -16647,7 +16727,7 @@
         <editable>true</editable>
         <field>QTAC_Preference__c.QTAC_Application__c</field>
         <readable>true</readable>
-    </fieldPermissions>   
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>QTAC_Preference__c.QTAC_Faculty__c</field>
@@ -16993,7 +17073,7 @@
         <field>Related_Product_Request__c.Program__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions> 
+    <fieldPermissions>
         <editable>true</editable>
         <field>Risk__c.Mitigation_Plan__c</field>
         <readable>true</readable>
@@ -22678,7 +22758,7 @@
         <field>hed__Facility__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>hed__Facility__c.Migration_ID__c</field>
         <readable>true</readable>
@@ -23668,7 +23748,7 @@
         <field>Study_Area__c.Study_Area_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
-   <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Area_Plan__c.Enrollment_Start_Date__c</field>
         <readable>true</readable>
@@ -24572,7 +24652,7 @@
         <object>Expense__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-     <objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
@@ -26790,8 +26870,8 @@
     <recordTypeVisibilities>
         <recordType>Finance_Summary__c.Valuation</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>    
-      <recordTypeVisibilities>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Financial_Split__c.Course_Financial_Split</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -27107,7 +27187,7 @@
         <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-     <recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

@@ -17,6 +17,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AppDefinitionsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CompanyInformationValidationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -33,6 +37,30 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DmlBase</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DynamicDataTableCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DynamicQueryService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IAppDefinitionsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IUserAppInfosDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ImplementationSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IAccountsDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -46,6 +74,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>FlowLookupHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserAppInfosDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserInfoService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <description>Give base access for Business Development processes.</description>
@@ -3299,7 +3335,7 @@
         <field>Risk__c.Opportunity__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Pure_Project__c.Engagement__c</field>
         <readable>true</readable>
@@ -4809,7 +4845,7 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>hed__Program_Enrollment__c</object>
         <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>    
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
@@ -4914,7 +4950,7 @@
     <recordTypeVisibilities>
         <recordType>Financial_Split__c.Opportunity_Outcome_Funding_Body</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>   
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>hed__Application__c.QTAC</recordType>
         <visible>true</visible>
@@ -4926,7 +4962,7 @@
     <recordTypeVisibilities>
         <recordType>hed__Application__c.StudyLink</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities> 
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>IP_Management_Relationship__c.IP_Engagement_Relationship</recordType>
         <visible>true</visible>

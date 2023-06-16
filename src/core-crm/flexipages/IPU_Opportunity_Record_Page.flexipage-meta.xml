@@ -439,15 +439,296 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
+                    <name>dynamicDataTableInput</name>
+                    <value>Academic Team</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                    <value>Edit_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                    <value>New_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>Opportunity Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;School&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Is                        Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;},{&quot;label&quot;:&quot;Is Approved&quot;,&quot;fieldName&quot;:&quot;Role_Is_Approved__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>Contextual_Role_Group__c = &apos;Academic Team&apos;</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Academics Involved</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Contextual_Role__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;By the power vested upon me by the Great Developers, I, Textus McPlaceholder, shall prevent this tab from disappearing into the void. I shall hold this tab until the Chosen Component Ones&apos; destined arrival!&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Viva La Placeholders!&lt;/p&gt;</value>
+                    <name>showNewButton</name>
+                    <value>true</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText32</identifier>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                    <value>Edit_Financial_Split</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                    <value>New_Financial_Split</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>Opportunity Funding Body</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Funding_Body__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Amount&quot;,&quot;fieldName&quot;:&quot;Funding_Body_Contribution_Amount__c&quot;,&quot;type&quot;:&quot;currency&quot;},{&quot;label&quot;:&quot;Is                        Active&quot;,&quot;fieldName&quot;:&quot;IsActive__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>RecordType.DeveloperName = &apos;Opportunity_Funding_Body&apos;</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Funding Bodies</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Financial_Split__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                    <value>Partners</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                    <value>Edit_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                    <value>New_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>Opportunity Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contextual  Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Email&quot;,&quot;fieldName&quot;:&quot;Contact_Work_Email__c&quot;,&quot;type&quot;:&quot;email&quot;},{&quot;label&quot;:&quot;Mobile&quot;,&quot;fieldName&quot;:&quot;Contact_MobilePhone__c&quot;,&quot;type&quot;:&quot;phone&quot;},{&quot;label&quot;:&quot;Acount&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Is                        Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>Contextual_Role_Group__c = &apos;Partners&apos;</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Partners</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Contextual_Role__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                    <value>Training Team</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                    <value>Edit_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                    <value>New_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>Opportunity Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contextual Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Is                       Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>Contextual_Role_Group__c = &apos;Training Team&apos;</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Training Team</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Contextual_Role__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e118d7cf-1bfb-4c8f-ad2f-0f582560b26b</name>
@@ -762,7 +1043,9 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in this tab will be available when you reach the Assessment stage.&lt;/span&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in
+                        this tab will be available when you reach the Assessment
+                        stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
@@ -1277,7 +1560,9 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in this tab will be available when you reach the Development stage.&lt;/span&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in
+                        this tab will be available when you reach the Development
+                        stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText2</identifier>
@@ -1657,7 +1942,9 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in this tab will be available when you reach the Submitted stage.&lt;/span&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in
+                        this tab will be available when you reach the Submitted
+                        stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText3</identifier>
@@ -1795,7 +2082,9 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in this tab will be available when you reach the Contract stage.&lt;/span&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Information in
+                        this tab will be available when you reach the Contract
+                        stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText4</identifier>
@@ -1832,7 +2121,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;By the power vested upon me by the Great Developers, I, Textus McPlaceholder, shall prevent this tab from disappearing into the void. I shall hold this tab until the Chosen Component Ones&apos; destined arrival!&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Viva La Placeholders!&lt;/p&gt;</value>
+                    <value>&lt;p&gt;By the power vested upon me by the Great Developers, I, Textus
+                        McPlaceholder, shall prevent this tab from disappearing into the void. I
+                        shall hold this tab until the Chosen Component Ones&apos; destined
+                        arrival!&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Viva La
+                        Placeholders!&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText37</identifier>

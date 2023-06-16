@@ -9,6 +9,7 @@
       | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                              |
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects                            |
       | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split  |
+      | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo      |
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -16,6 +17,7 @@ public class ImplementationSelector {
         new Map<SObjectType, Type>{
             Account.SObjectType => AccountsDAO.class,
             Action__c.SObjectType => ActionsDAO.class,
+            AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             Contact.SObjectType => ContactsDAO.class,
@@ -31,7 +33,8 @@ public class ImplementationSelector {
             Opportunity_Outcome__c.SobjectType => OpportunityOutcomesDAO.class,
             Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
-            Product2.SObjectType => ProductsDAO.class
+            Product2.SObjectType => ProductsDAO.class,
+            UserAppInfo.SObjectType => UserAppInfosDAO.class
         }
     );
 
