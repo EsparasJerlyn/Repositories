@@ -4586,6 +4586,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Created_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management_Relationship__c.Engagement__c</field>
         <readable>true</readable>
@@ -4598,6 +4603,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management_Relationship__c.Opportunity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Owner__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Record_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Related_Record_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Stage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
@@ -5005,6 +5030,10 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>IP_Management__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>IP_Management_Relationship__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

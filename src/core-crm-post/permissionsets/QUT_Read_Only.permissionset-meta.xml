@@ -11258,6 +11258,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>IP_Management_Relationship__c.Created_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>IP_Management_Relationship__c.Engagement__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -11269,6 +11274,26 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>IP_Management_Relationship__c.Opportunity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Owner__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Record_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Related_Record_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Stage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -13233,6 +13258,18 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <recordTypeVisibilities>
+        <recordType>IP_Management_Relationship__c.IP_Engagement_Relationship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Outcome_Relationship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Contact.Person</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -13322,6 +13359,10 @@
     </tabSettings>
     <tabSettings>
         <tab>hed__Program_Enrollment__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>IP_Management_Relationship__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
