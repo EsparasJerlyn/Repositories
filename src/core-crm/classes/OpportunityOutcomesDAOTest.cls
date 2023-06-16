@@ -7,12 +7,14 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | created file
+      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
+      | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
  */
 @isTest
 private class OpportunityOutcomesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin','QUT_Operations_Manager' });
     }
 
     @isTest
@@ -86,6 +88,26 @@ private class OpportunityOutcomesDAOTest {
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithStartDate(System.today());
+            System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
+        }
+        Test.stopTest();
+    }
+    @isTest
+    static void getRecordsWithFutureDateAsDecommissionedDate() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getOperationsManager()) {
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getRecordsWithFutureDateAsDecommissionedDate();
+            System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
+        }
+        Test.stopTest();
+    }
+    @isTest
+    static void getRecordsWithPastDateAsDecommissionedDate() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getOperationsManager()) {
+            List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
+                .getRecordsWithPastDateAsDecommissionedDate();
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
         }
         Test.stopTest();
