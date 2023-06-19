@@ -185,7 +185,7 @@ export default class DynamicDataTable extends NavigationMixin(
 
         //if show edit button is checked, add edit action to the datatable
         this.finalColumns = this.showEditButton
-          ? this.addActionsToColumn(result.dataTableColumns)
+          ? this.addActionsToColumn(result.dataTableColumns, result.recordCount)
           : result.dataTableColumns;
         this.recordCount = result.recordCount;
       })
@@ -250,11 +250,15 @@ export default class DynamicDataTable extends NavigationMixin(
     this.finalSObjectDataList = parseData;
   }
 
-  addActionsToColumn(columns) {
+  addActionsToColumn(columns, recordCount) {
     let customActions = [{ label: "Edit", name: "edit" }];
     return [
       ...columns,
-      { type: "action", typeAttributes: { rowActions: customActions } }
+      {
+        type: "action",
+        typeAttributes: { rowActions: customActions },
+        cellAttributes: { class: recordCount > 10 ? "slds-float_left" : "" }
+      }
     ];
   }
   /*DATATABLE CONFIGURATION END*/
