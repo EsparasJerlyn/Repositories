@@ -11368,7 +11368,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>IP_Management_Relationship__c.Stage__c</field>
+        <field>IP_Management_Relationship__c.Stage_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

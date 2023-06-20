@@ -25,6 +25,9 @@
         <members>hed__Application__c.Is_Elite_Athelete_Applicant__c</members>
         <members>hed__Application__c.Study_Link_ApplicantID__c</members>
         <!-- (End) DEPP-5555-->
+        <!-- (Start) DEPP-5920 -->
+        <members>IP_Management_Relationship__c.Stage__c</members>
+        <!-- (End) DEPP-5920 -->
         <name>CustomField</name>
     </types>
     <types>
