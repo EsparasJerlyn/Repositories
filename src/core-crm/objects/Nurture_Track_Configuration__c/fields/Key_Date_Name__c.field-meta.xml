@@ -3,7 +3,7 @@
     <fullName>Key_Date_Name__c</fullName>
     <description>The Name of the Key date used to offset by
 
-Note that key date is baked into the logic of the track and is not changeable this filed is purely for context</description>
+Note that key date is baked into the logic of the track and is not changeable. This field is purely for context</description>
     <externalId>false</externalId>
     <label>Key Date Name</label>
     <length>150</length>

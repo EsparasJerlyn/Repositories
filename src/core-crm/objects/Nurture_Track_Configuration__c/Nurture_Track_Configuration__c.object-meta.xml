@@ -157,7 +157,7 @@
     <nameField>
         <displayFormat>NTC-{0000}</displayFormat>
         <label>Name</label>
-        <trackHistory>false</trackHistory>
+        <trackHistory>true</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Nurture Track Configuration</pluralLabel>
