@@ -5,7 +5,12 @@
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>Description</label>
-        <layoutColumns/>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Role</field>
+            </layoutItems>
+        </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
     <layoutSections>
@@ -63,6 +68,9 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <miniLayout>
+        <fields>Role</fields>
+    </miniLayout>
     <relatedLists>
         <fields>Pricebook2</fields>
         <fields>Priority</fields>
