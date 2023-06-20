@@ -17,8 +17,12 @@
     <tabs>standard-Lead</tabs>
     <tabs>standard-Case</tabs>
     <tabs>standard-report</tabs>
+    <tabs>Nurture_Track_Configuration__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
+        <mappings>
+            <tab>Nurture_Track_Configuration__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>

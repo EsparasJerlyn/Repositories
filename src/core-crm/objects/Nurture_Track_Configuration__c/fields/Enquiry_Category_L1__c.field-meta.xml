@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enquiry_Category_L1__c</fullName>
+    <description>The level 1 enquiry categories selected for inclusion in cadence entry/exit criteria</description>
+    <externalId>false</externalId>
+    <label>Enquiry Category L1</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Entry requirements &amp; study pathways</fullName>
+                <default>false</default>
+                <label>Entry requirements &amp; study pathways</label>
+            </value>
+            <value>
+                <fullName>Course information</fullName>
+                <default>false</default>
+                <label>Course information</label>
+            </value>
+            <value>
+                <fullName>Applying for a course</fullName>
+                <default>false</default>
+                <label>Applying for a course</label>
+            </value>
+            <value>
+                <fullName>My application and offer</fullName>
+                <default>false</default>
+                <label>My application and offer</label>
+            </value>
+            <value>
+                <fullName>My enrolment</fullName>
+                <default>false</default>
+                <label>My enrolment</label>
+            </value>
+            <value>
+                <fullName>Fees, costs and scholarships</fullName>
+                <default>false</default>
+                <label>Fees, costs and scholarships</label>
+            </value>
+            <value>
+                <fullName>Student life</fullName>
+                <default>false</default>
+                <label>Student life</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>
