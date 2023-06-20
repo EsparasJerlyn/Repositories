@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------|
       | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Created File                               |
+      | kenneth.f.alsay                | June 14, 2023         | DEPP-5434              | Added all other record types               |
  */
 public inherited sharing class FinancialSplitsDAO extends DmlBase implements IFinancialSplitsDAO {
     
@@ -18,6 +19,10 @@ public inherited sharing class FinancialSplitsDAO extends DmlBase implements IFi
         'Percentage_split__c';
     public static final String RECORDTYPE_DEVELOPERNAME = 'Course Financial Split';
     public static final String COURSE_FINANCIAL_SPLIT_RECORDTYPEID = Schema.SObjectType.Financial_Split__c.getRecordTypeInfosByName().get(RECORDTYPE_DEVELOPERNAME).getRecordTypeId();
+    public static final String OPPORTUNITY_FUNDING_BODY_RECORDTYPEID = Schema.SObjectType.Financial_Split__c.getRecordTypeInfosByDeveloperName().get('Opportunity_Funding_Body').getRecordTypeId();
+    public static final String OPPORTUNITY_OUTCOME_FUNDING_BODY_RECORDTYPEID = Schema.SObjectType.Financial_Split__c.getRecordTypeInfosByDeveloperName().get('Opportunity_Outcome_Funding_Body').getRecordTypeId();
+    public static final String OPPORTUNITY_OUTCOME_CONTACT_REVENUE_FINANCIAL_SPLIT_RECORDTYPEID = Schema.SObjectType.Financial_Split__c.getRecordTypeInfosByDeveloperName().get('Opportunity_Outcome_Contact_Revenue_Financial_Split').getRecordTypeId();
+    public static final String OPPORTUNITY_OUTCOME_ACCOUNT_REVENUE_FINANCIAL_SPLIT_RECORDTYPEID = Schema.SObjectType.Financial_Split__c.getRecordTypeInfosByDeveloperName().get('Opportunity_Outcome_Account_Revenue_Financial_Split').getRecordTypeId();
     public static final String RECORDTYPEID = 'RecordTypeId';
     
     public static IFinancialSplitsDAO newInstance()

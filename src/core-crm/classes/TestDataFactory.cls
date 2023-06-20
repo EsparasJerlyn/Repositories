@@ -4,40 +4,41 @@
  * @author Accenture
  *
 * @history
-*     | Developer                 | Date                  | JIRA                | Change Summary                                                   |
-      |---------------------------|-----------------------|---------------------|------------------------------------------------------------------|
-      | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170        | Created file                                                     |
-      | angelika.j.s.galang       | September 3, 2021     | DEP1-156            | Added comments & method for creating user and getting profile id |
-      | angelika.j.s.galang       | September 16, 2021    | DEP1-22             | Added method for creating Opportunity                            |
-      | roy.nino.s.regala         | October 4,2021        | DEPP-40,42          | Added method for Product Request and Product Specification       |
-      | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms     |
-      | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                       |
-      | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                           |
-      | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course     |
-      | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                      |
-      | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                        |
-      | john.bo.a.pineda          | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                   |
-      | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                   |
-      | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2 |
-      | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                             |
-      | john.bo.a.pineda          | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                |
-      | john.bo.a.pineda          | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                    |
-      | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                      |
-      | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                          |
-      | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer |
-      | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest              |
-      | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                      |
-      | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary      |
-      | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                    |
-      | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                |
-      | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                 |
-      | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                             |
-      | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                 |
-      | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification         |
-      | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings           |
-      | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records              |
-      | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification  |
-	  | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                            |
+*     | Developer                 | Date                  | JIRA                | Change Summary                                                          |
+      |---------------------------|-----------------------|---------------------|-------------------------------------------------------------------------|
+      | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170        | Created file                                                            |
+      | angelika.j.s.galang       | September 3, 2021     | DEP1-156            | Added comments & method for creating user and getting profile id        |
+      | angelika.j.s.galang       | September 16, 2021    | DEP1-22             | Added method for creating Opportunity                                   |
+      | roy.nino.s.regala         | October 4,2021        | DEPP-40,42          | Added method for Product Request and Product Specification              |
+      | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms            |
+      | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                              |
+      | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                                  |
+      | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course            |
+      | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                             |
+      | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                               |
+      | john.bo.a.pineda          | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                          |
+      | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                          |
+      | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2        |
+      | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                                    |
+      | john.bo.a.pineda          | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                       |
+      | john.bo.a.pineda          | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                           |
+      | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                             |
+      | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                                 |
+      | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer        |
+      | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest                     |
+      | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                             |
+      | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary             |
+      | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                           |
+      | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                       |
+      | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                        |
+      | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                                    |
+      | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                        |
+      | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification                |
+      | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings                  |
+      | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records                     |
+      | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification         |
+	  | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                   |
+      | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role |
 		
 */
 
@@ -365,6 +366,34 @@ public class TestDataFactory {
                     StageName = 'Qualify',
                     CloseDate = System.today() + 50,
                     RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return oppties;
+    }
+
+    /**
+     * Generate a list of opportunity records based on the amount of records needed,
+     * the general name to be used, the stage name and the record type.
+     */
+    public static List<Opportunity> createTestOpportunityWithStageRecords(
+        Integer size,
+        String name,
+        Id recordTypeId,
+        String stage,
+        Id account,
+        String description
+    ) {
+        List<Opportunity> oppties = new List<Opportunity>();
+        for (Integer i = 1; i <= size; i++) {
+            oppties.add(
+                new Opportunity(
+                    Name = name + ' ' + String.valueOf(i),
+                    StageName = stage,
+                    CloseDate = System.today() + 50,
+                    RecordTypeId = recordTypeId,
+                    AccountId = account,
+                    Description = description
                 )
             );
         }
@@ -1461,6 +1490,33 @@ public class TestDataFactory {
 
         for (Integer i = 0; i < numFinSplits; i++) {
             finSplits.add(new Financial_Split__c(Course__c = courseId));
+        }
+
+        return finSplits;
+    }
+
+    /**
+     * @description Method for creating test Financial Split records
+     * @param numFinSplits number of financial splits
+     * @param courseId id of related course
+     * @param optty id of related opportunity
+     * @return finSplits - list of financial splits
+     */
+    public static List<Financial_Split__c> createTestFinancialSplitRecordsForOpportunity(
+        Integer numFinSplits,
+        Id oppty,
+        Id accountId
+    ) {
+        List<Financial_Split__c> finSplits = new List<Financial_Split__c>();
+
+        for (Integer i = 0; i < numFinSplits; i++) {
+            finSplits.add(
+                new Financial_Split__c(
+                    Opportunity__c = oppty,
+                    Funding_Body__c = accountId,
+                    RecordTypeId = FinancialSplitsDAO.OPPORTUNITY_FUNDING_BODY_RECORDTYPEID
+                )
+            );
         }
 
         return finSplits;
@@ -2738,5 +2794,32 @@ public class TestDataFactory {
             );
         }
         return oppOutcomes;
+    }
+
+    /**
+     * @description Method for creating test Contextual Role records related to
+     * provided opportunity
+     * @return conRoles - List of Contextual Roles created
+     */
+    public static List<Contextual_Role__c> createContextualRolesForOpportunity(
+        Integer numOfConRoles,
+        Id recordTypeId,
+        Id opportunityId,
+        Id accountId,
+        String conRoleGroup
+    ) {
+        List<Contextual_Role__c> conRoles = new List<Contextual_Role__c>();
+
+        for (Integer i = 0; i < numOfConRoles; i++) {
+            conRoles.add(
+                new Contextual_Role__c(
+                    RecordTypeId = recordTypeId,
+                    Opportunity__c = opportunityId,
+                    Account__c = accountId,
+                    Contextual_Role_Group__c = conRoleGroup
+                )
+            );
+        }
+        return conRoles;
     }
 }
