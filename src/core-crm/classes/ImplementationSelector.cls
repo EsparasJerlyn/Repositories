@@ -10,6 +10,7 @@
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects                            |
       | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split  |
       | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo      |
+      | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Added Object mapping for Contextual Role  |
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -23,6 +24,7 @@ public class ImplementationSelector {
             Contact.SObjectType => ContactsDAO.class,
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,
             ContentVersion.SObjectType => ContentVersionsDAO.class,
+            Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,

@@ -4585,14 +4585,24 @@
         <field>hed__Relationship__c.hed__Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>IP_Management_Relationship__c.Created_Date__c</field>
+      <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management_Relationship__c.Engagement__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>IP_Management_Relationship__c.Engagement__c</field>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.IP_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.IP_Stage_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.IP_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4607,12 +4617,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>IP_Management_Relationship__c.Owner__c</field>
+        <field>IP_Management_Relationship__c.Record_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>IP_Management_Relationship__c.Record_Type__c</field>
+        <field>IP_Management_Relationship__c.Related_Created_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Relationship__c.Related_Owner__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4622,7 +4637,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>IP_Management_Relationship__c.Stage__c</field>
+        <field>IP_Management_Relationship__c.Related_Stage_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

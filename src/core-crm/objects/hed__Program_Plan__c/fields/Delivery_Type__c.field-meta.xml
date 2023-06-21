@@ -33,9 +33,9 @@
                 <label>Online</label>
             </value>
             <value>
-                <fullName>Non-Supervised Candadature</fullName>
+                <fullName>Non-Supervised Candidature</fullName>
                 <default>false</default>
-                <label>Non-Supervised Candadature</label>
+                <label>Non-Supervised Candidature</label>
             </value>
             <value>
                 <fullName>All</fullName>

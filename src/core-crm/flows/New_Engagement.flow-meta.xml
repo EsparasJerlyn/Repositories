@@ -5,7 +5,7 @@
         <name>Error_Action</name>
         <label>Error Action</label>
         <locationX>1106</locationX>
-        <locationY>2654</locationY>
+        <locationY>2954</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -70,7 +70,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Engagement_RecordType</targetReference>
+            <targetReference>Engagement_Stage_Decision</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -87,7 +87,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Engagement_RecordType</targetReference>
+            <targetReference>Engagement_Stage_Decision</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -104,6 +104,38 @@
         </assignmentItems>
         <connector>
             <targetReference>Collect_Contact_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Engagement_Stage_Commercialisation</name>
+        <label>Assign Engagement Stage Commercialisation</label>
+        <locationX>314</locationX>
+        <locationY>2438</locationY>
+        <assignmentItems>
+            <assignToReference>EngagementStage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Disclosure</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Engagement_RecordType</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Engagement_Stage_Research_Partnership</name>
+        <label>Assign Engagement Stage Research Partnership</label>
+        <locationX>578</locationX>
+        <locationY>2438</locationY>
+        <assignmentItems>
+            <assignToReference>EngagementStage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Engagement_RecordType</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -187,6 +219,31 @@
             <targetReference>Is_Create_Contact_Selected</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>Engagement_Stage_Decision</name>
+        <label>Engagement Stage Decision</label>
+        <locationX>446</locationX>
+        <locationY>2330</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Engagement_Stage_Research_Partnership</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Research Partnership</defaultConnectorLabel>
+        <rules>
+            <name>Commercialisation</name>
+            <conditionLogic>1</conditionLogic>
+            <conditions>
+                <leftValueReference>Select_a_Record_Type</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Commercialisation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Engagement_Stage_Commercialisation</targetReference>
+            </connector>
+            <label>Commercialisation</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Is_Account_Created_or_Select_from_Existing</name>
         <label>Is Account Created or Select from Existing</label>
@@ -423,7 +480,7 @@
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
         <locationX>446</locationX>
-        <locationY>2546</locationY>
+        <locationY>2846</locationY>
         <connector>
             <targetReference>Detail_Page_Navigationn</targetReference>
         </connector>
@@ -473,7 +530,7 @@
         <name>Create_Engagement_Record</name>
         <label>Create Engagement Record</label>
         <locationX>446</locationX>
-        <locationY>2438</locationY>
+        <locationY>2738</locationY>
         <assignRecordIdToReference>EngagementId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role_Record</targetReference>
@@ -503,7 +560,7 @@
         <inputAssignments>
             <field>Stage_Name__c</field>
             <value>
-                <stringValue>Active</stringValue>
+                <elementReference>EngagementStage</elementReference>
             </value>
         </inputAssignments>
         <object>Engagement__c</object>
@@ -547,7 +604,7 @@
         <inputAssignments>
             <field>MobilePhone</field>
             <value>
-                <elementReference>Mobile</elementReference>
+                <elementReference>MobilePhone.value</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -634,7 +691,7 @@
         <name>Get_Engagement_RecordType</name>
         <label>Get Engagement RecordType</label>
         <locationX>446</locationX>
-        <locationY>2330</locationY>
+        <locationY>2630</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Engagement_Record</targetReference>
@@ -929,12 +986,6 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>defaultValueInput</name>
-                <value>
-                    <elementReference>AccountNameAssignment</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
                 <name>disabled</name>
                 <value>
                     <booleanValue>true</booleanValue>
@@ -950,6 +1001,18 @@
                 <name>label</name>
                 <value>
                     <stringValue>Account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>leftIconName</name>
+                <value>
+                    <stringValue>standard:account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>rightIconName</name>
+                <value>
+                    <stringValue>utility:close</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1026,7 +1089,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>ContextualRoleObjectforFields.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
@@ -1117,15 +1179,24 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>Mobile</name>
-            <dataType>String</dataType>
-            <fieldText>Mobile</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-            <validationRule>
-                <errorMessage>&lt;p&gt;You have entered an invalid format.&lt;/p&gt;</errorMessage>
-                <formulaExpression>REGEX( {!Mobile} ,&quot;^[0-9]*$&quot;)</formulaExpression>
-            </validationRule>
+            <name>MobilePhone</name>
+            <extensionName>flowruntime:phone</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Mobile</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>pattern</name>
+                <value>
+                    <stringValue>^(\+)?(?:[0-9] ?(?:-)?){3,14}[0-9]$</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -1139,7 +1210,6 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>ContextualRoleObjectforFields.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
@@ -1202,7 +1272,7 @@
         <name>Error</name>
         <label>Error</label>
         <locationX>1106</locationX>
-        <locationY>2762</locationY>
+        <locationY>3062</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1244,12 +1314,12 @@
             <targetReference>Assign_Modal_Title</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <subflows>
         <name>Detail_Page_Navigationn</name>
         <label>Detail Page Navigationn</label>
         <locationX>446</locationX>
-        <locationY>2654</locationY>
+        <locationY>2954</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
@@ -1288,6 +1358,13 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>EngagementStage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>modalTitle</name>

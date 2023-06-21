@@ -4,12 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
-      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method
-
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------|
+      | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                           |
+      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                          |
+      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method       |
+      | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method  |
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Commercialisation').getRecordTypeId();
@@ -51,4 +51,14 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
             WITH USER_MODE
             ];
     }
+
+    public List<Opportunity> getRecordsLikeName(String name, boolean wildCardBeforeName, String wildCard) {
+		name = wildCardBeforeName ? (wildCard + name) : (name + wildCard);                
+        return [
+            SELECT Id 
+            FROM Opportunity 
+            WHERE Name LIKE :name 
+            WITH USER_MODE
+        ];
+    } 
 }

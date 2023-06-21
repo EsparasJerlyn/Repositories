@@ -1,10 +1,378 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Logs an error for every create/get method</description>
+        <name>Error_Action</name>
+        <label>Error Action</label>
+        <locationX>1370</locationX>
+        <locationY>2243</locationY>
+        <actionName>FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Save_Log</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Create Opportunity Outcome</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>loggingLevelName</name>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error in Create Opportunity Outcome Flow</stringValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>1370</locationX>
+        <locationY>2351</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+    </actionCalls>
     <apiVersion>56.0</apiVersion>
+    <assignments>
+        <name>Assign_Financial_Splits_to_Collection</name>
+        <label>Assign Financial Splits to Collection</label>
+        <locationX>666</locationX>
+        <locationY>1319</locationY>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Account_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Account_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Account_GL_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Account_GL_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Account_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Account_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Course__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Course__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.External_Key__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.External_Key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Funding_Body__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Funding_Body__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Funding_Body_Contribution_Amount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Funding_Body_Contribution_Amount__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.IsActive__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.IsActive__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Migration_Key__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Migration_Key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Opportunity_Outcome__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewOpportunityOutcomeId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ESBIntegrationUserId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Participating_School_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Participating_School_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Percentage_split__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Percentage_split__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Program_Plan__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Program_Plan__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OpportuntyOutcomeFundingBodyRecordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Revenue_Split_Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Revenue_Split_Account__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitRecord.Revenue_Split_Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Financial_Split_from_Opportunity_Loop.Revenue_Split_Contact__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FinancialSplitCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FinancialSplitRecord</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Financial_Split_from_Opportunity_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Partners_to_Collection</name>
+        <label>Assign Partners to Collection</label>
+        <locationX>666</locationX>
+        <locationY>1835</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ESBIntegrationUserId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Opportunity_Outcome__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewOpportunityOutcomeId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OpportunityOutcomeRoleId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Account__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Contact__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Contact_MobilePhone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Contact_MobilePhone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Contact_Related_Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Contact_Related_Account__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Contact_Work_Email__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Contact_Work_Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Contextual_Role__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Contextual_Role__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Loop_Contextual_Roles.Contextual_Role_Description__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Contextual_Role_Description__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Contextual_Role_Group__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Contextual_Role_Group__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Is_QUT_Internal_Participant__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Is_QUT_Internal_Participant__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.IsDeleted</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.IsDeleted</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Role_Is_Active__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Role_Is_Active__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleRecord.Role_Is_Approved__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Contextual_Roles.Role_Is_Approved__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewContextualRolesCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ContextualRoleRecord</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Contextual_Roles</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>What_is_the_Record_Type</name>
+        <label>What is the Record Type?</label>
+        <locationX>578</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IPU</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International_Projects_Unit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_IPU_Project_Record_Type</targetReference>
+            </connector>
+            <label>IPU</label>
+        </rules>
+        <rules>
+            <name>Research_Partnership</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research_Partnership</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Research_Partnership_Project_Record_Id</targetReference>
+            </connector>
+            <label>Research Partnership</label>
+        </rules>
+    </decisions>
     <description>Create Opportunity Outcome when Opportunity is Executed</description>
     <environments>Default</environments>
     <interviewLabel>Opportunity - Create Opportunity Outcome</interviewLabel>
     <label>Opportunity - Create Opportunity Outcome</label>
+    <loops>
+        <name>Financial_Split_from_Opportunity_Loop</name>
+        <label>Financial Split from Opportunity Loop</label>
+        <locationX>578</locationX>
+        <locationY>1211</locationY>
+        <collectionReference>Get_Financial_Split_Records</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Financial_Splits_to_Collection</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Contextual_Roles</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Contextual_Roles</name>
+        <label>Loop Contextual Roles</label>
+        <locationX>578</locationX>
+        <locationY>1727</locationY>
+        <collectionReference>Get_Contextual_Roles</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Partners_to_Collection</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Create_Financial_Split</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -25,11 +393,42 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
+        <name>Create_Contextual_Roles_for_New_Opportunity_Outcome</name>
+        <label>Create Contextual Roles for New Opportunity Outcome</label>
+        <locationX>578</locationX>
+        <locationY>2135</locationY>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>NewContextualRolesCollection</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Financial_Split</name>
+        <label>Create Financial Split</label>
+        <locationX>578</locationX>
+        <locationY>2027</locationY>
+        <connector>
+            <targetReference>Create_Contextual_Roles_for_New_Opportunity_Outcome</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>FinancialSplitCollection</inputReference>
+    </recordCreates>
+    <recordCreates>
         <description>Create a new opportunity outcome when opportunity is executed</description>
         <name>Create_Opportunity_Outcome</name>
         <label>Create Opportunity Outcome</label>
-        <locationX>176</locationX>
-        <locationY>431</locationY>
+        <locationX>578</locationX>
+        <locationY>671</locationY>
+        <connector>
+            <targetReference>Get_New_Opportunity_Outcome</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>Opportunity__c</field>
             <value>
@@ -57,7 +456,7 @@
         <inputAssignments>
             <field>RecordTypeId</field>
             <value>
-                <elementReference>IPUProjectRecordTypeId</elementReference>
+                <elementReference>RecordType</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -76,15 +475,131 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
+        <name>Get_Contextual_Roles</name>
+        <label>Get Contextual Roles</label>
+        <locationX>578</locationX>
+        <locationY>1511</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Opportunity_Outcome_Role_Record_Type</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>1 AND (2 OR 3 OR 4 OR 5)</filterLogic>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Contextual_Role_Group__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Partners</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Contextual_Role_Group__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Contributors</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Contextual_Role_Group__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Academic Team</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Contextual_Role_Group__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Training Team</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Contextual_Role__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ESB_Integration_User_Id</name>
+        <label>Get ESB Integration User Id</label>
+        <locationX>578</locationX>
+        <locationY>887</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Financial_Split_Records</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>FirstName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ESB</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LastName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Integration User</stringValue>
+            </value>
+        </filters>
+        <object>User</object>
+        <outputAssignments>
+            <assignToReference>ESBIntegrationUserId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Financial_Split_Records</name>
+        <label>Get Financial Split Records</label>
+        <locationX>578</locationX>
+        <locationY>995</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Opportunity_Outcome_Funding_Bodies_RecordId</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Financial_Split__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <description>Get Record Type ID of IPU Project from Developer Name</description>
         <name>Get_IPU_Project_Record_Type</name>
         <label>Get IPU Project Record Type</label>
-        <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Opportunity_Outcome</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>
@@ -95,18 +610,141 @@
         </filters>
         <object>RecordType</object>
         <outputAssignments>
-            <assignToReference>IPUProjectRecordTypeId</assignToReference>
+            <assignToReference>RecordType</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_New_Opportunity_Outcome</name>
+        <label>Get New Opportunity Outcome</label>
+        <locationX>578</locationX>
+        <locationY>779</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_ESB_Integration_User_Id</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <object>Opportunity_Outcome__c</object>
+        <outputAssignments>
+            <assignToReference>NewOpportunityOutcomeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Opportunity_Outcome_Funding_Bodies_RecordId</name>
+        <label>Get Opportunity Outcome Funding Bodies RecordId</label>
+        <locationX>578</locationX>
+        <locationY>1103</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Financial_Split_from_Opportunity_Loop</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity_Outcome_Funding_Body</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Financial_Split__c</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>OpportuntyOutcomeFundingBodyRecordId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Opportunity_Outcome_Role_Record_Type</name>
+        <label>Get Opportunity Outcome Role Record Type</label>
+        <locationX>578</locationX>
+        <locationY>1619</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Contextual_Roles</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity_Outcome_Role</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Contextual_Role__c</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>OpportunityOutcomeRoleId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <description>Get Record Type ID of Research Partnership Project from Developer Name</description>
+        <name>Get_Research_Partnership_Project_Record_Id</name>
+        <label>Get Research Partnership Project Record Id</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_Opportunity_Outcome</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Research_Partnership_Project</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>RecordType</assignToReference>
             <field>Id</field>
         </outputAssignments>
     </recordLookups>
     <start>
-        <locationX>50</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_IPU_Project_Record_Type</targetReference>
+            <targetReference>What_is_the_Record_Type</targetReference>
         </connector>
         <filterFormula>AND(
-    {!$Record.RecordType.DeveloperName} = &apos;International_Projects_Unit&apos;,
+    OR({!$Record.RecordType.DeveloperName} = &apos;International_Projects_Unit&apos;,{!$Record.RecordType.DeveloperName} = &apos;Research_Partnership&apos;),
     ISPICKVAL({!$Record.StageName}, &apos;Executed&apos;)
 )</filterFormula>
         <object>Opportunity</object>
@@ -115,11 +753,70 @@
     </start>
     <status>Active</status>
     <variables>
-        <description>Get IPU Project Record Type ID</description>
-        <name>IPUProjectRecordTypeId</name>
+        <name>ContextualRoleRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contextual_Role__c</objectType>
+    </variables>
+    <variables>
+        <name>ESBIntegrationUserId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>true</isInput>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>FinancialSplitCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Financial_Split__c</objectType>
+    </variables>
+    <variables>
+        <name>FinancialSplitRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Financial_Split__c</objectType>
+    </variables>
+    <variables>
+        <name>NewContextualRolesCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contextual_Role__c</objectType>
+    </variables>
+    <variables>
+        <name>NewOpportunityOutcomeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OpportunityOutcomeRoleId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OpportuntyOutcomeFundingBodyRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RecordType</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>

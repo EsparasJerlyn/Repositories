@@ -42,6 +42,11 @@
 		<members>IP_Management__c.Opportunity__c</members>
 		<members>IP_Management__c.Opportunity_Outcome__c</members>
 		<!-- End DEPP-5832-->
+        <!-- Start DEPP-5937 -->
+        <members>IP_Management_Relationship___c.Stage_Name__c</members>
+        <members>IP_Management_Relationship___c.Owner__c</members>
+        <members>IP_Management_Relationship___c.Created_Date__c</members>
+        <!-- End DEPP-5937 -->
         <name>CustomField</name>
     </types>
     <types>

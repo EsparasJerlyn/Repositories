@@ -4,7 +4,7 @@
     <description>The type of milestone being recorded.</description>
     <externalId>false</externalId>
     <label>Milestone Type</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

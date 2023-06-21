@@ -9,6 +9,7 @@
       | alexander.cadalin              | May 17, 2023          | DEPP-5594              | created file
       | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
       | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
+      | kenneth.f.alsay                | June 19, 2023         | DEPP-5434,5399         | added getRecordsWithOpportunity method
  */
 @isTest
 public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock implements IOpportunityOutcomesDAO {
@@ -57,6 +58,17 @@ public inherited sharing class OpportunityOutcomesDAOMock extends DmlBaseMock im
         }
         return opportunityOutcomeList;
     }
+
+    public List<Opportunity_Outcome__c> getRecordsWithOpportunity(List<Id> opportunityList) {
+        List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
+        for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
+            if(opportunityList.contains(record.Opportunity__c)){
+                opportunityOutcomeList.add(record);
+            }
+        }
+        return opportunityOutcomeList;
+    }
+
     public List<Opportunity_Outcome__c> getRecordsWithPastDateAsDecommissionedDate(){
         List<Opportunity_Outcome__c> opportunityOutcomeList = new List<Opportunity_Outcome__c>();
         for (Opportunity_Outcome__c record: opportunityOutcomesMap.values()){
