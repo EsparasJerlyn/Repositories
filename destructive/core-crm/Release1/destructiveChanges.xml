@@ -109,6 +109,9 @@
         <!--(Start) DEPP-5917 -->
         <members>Engagement__c.Engagement_Summary_is_Required</members>
         <!-- (End) DEPP-5917 -->
+        <!--(Start) DEPP-5947 -->
+        <members>Opportunity_Outcome__c.IPU_Opportunity_Outcome_Lock_Opportunity</members>
+        <!-- (End) DEPP-5947 -->
         <name>ValidationRule</name>
     </types>
     <version>52.0</version>

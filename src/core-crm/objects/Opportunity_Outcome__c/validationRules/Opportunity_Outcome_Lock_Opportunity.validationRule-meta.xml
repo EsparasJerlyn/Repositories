@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>IPU_Opportunity_Outcome_Lock_Opportunity</fullName>
+    <fullName>Opportunity_Outcome_Lock_Opportunity</fullName>
     <active>true</active>
     <description>Restrict to update field</description>
-    <errorConditionFormula>AND( ISCHANGED(   Opportunity__c ),  ISPICKVAL( Stage_Name__c , &quot;Completed&quot;))</errorConditionFormula>
+    <errorConditionFormula>AND( ISCHANGED(   Opportunity__c ),  OR(ISPICKVAL( Stage_Name__c , &quot;Completed&quot;),ISPICKVAL( Stage_Name__c , &quot;Decommissioned&quot;)))</errorConditionFormula>
     <errorDisplayField>Opportunity__c</errorDisplayField>
     <errorMessage>This record is already locked.</errorMessage>
 </ValidationRule>
