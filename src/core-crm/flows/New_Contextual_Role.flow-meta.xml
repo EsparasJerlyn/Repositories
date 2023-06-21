@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1106</locationX>
+        <locationX>1634</locationX>
         <locationY>758</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -41,7 +41,7 @@
     <assignments>
         <name>Assign_Contextual_Role_Independent_Fields</name>
         <label>Assign Contextual Role Independent Fields</label>
-        <locationX>446</locationX>
+        <locationX>710</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
@@ -130,10 +130,42 @@
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Assign_Variables_For_Contributors</name>
+        <label>Assign Variables For Contributors</label>
+        <locationX>842</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>RoleIsActive</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Active4</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Variables_For_Research</name>
+        <label>Assign Variables For Research</label>
+        <locationX>1106</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>RoleIsActive</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Active5</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>446</locationX>
+        <locationX>710</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -181,6 +213,36 @@
             </connector>
             <label>Is Training Team?</label>
         </rules>
+        <rules>
+            <name>Is_Contributors</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Contributors</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Contributors_Screen</targetReference>
+            </connector>
+            <label>Is Contributors</label>
+        </rules>
+        <rules>
+            <name>Is_Research_Centre</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research Centre</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Research_Centre_Screen</targetReference>
+            </connector>
+            <label>Is Research Centre</label>
+        </rules>
     </decisions>
     <environments>Default</environments>
     <formulas>
@@ -222,7 +284,7 @@
     <recordCreates>
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
-        <locationX>446</locationX>
+        <locationX>710</locationX>
         <locationY>650</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
@@ -472,9 +534,125 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Contributors_Screen</name>
+        <label>Contributors Screen</label>
+        <locationX>842</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Assign_Variables_For_Contributors</targetReference>
+        </connector>
+        <fields>
+            <name>Contextual_Role_Summary4</name>
+            <fieldText>Contextual Role Summary</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Contextual_Role_Summary4_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ContributorsContactLookUp</name>
+                    <dataTypeMappings>
+                        <typeName>T</typeName>
+                        <typeValue>Contact</typeValue>
+                    </dataTypeMappings>
+                    <extensionName>c:flowLookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>objectName</name>
+                        <value>
+                            <stringValue>Contact</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>iconName</name>
+                        <value>
+                            <stringValue>standard:contact</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Contact</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageWhenValueMissing</name>
+                        <value>
+                            <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>placeholder</name>
+                        <value>
+                            <stringValue>Select Contact...</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <outputParameters>
+                        <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
+                </fields>
+                <fields>
+                    <name>Is_Active4</name>
+                    <dataType>Boolean</dataType>
+                    <defaultValue>
+                        <booleanValue>true</booleanValue>
+                    </defaultValue>
+                    <fieldText>Is Active</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Contextual_Role_Summary4_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>1106</locationX>
+        <locationX>1634</locationX>
         <locationY>866</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -655,6 +833,122 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Research_Centre_Screen</name>
+        <label>Research Centre Screen</label>
+        <locationX>1106</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Assign_Variables_For_Research</targetReference>
+        </connector>
+        <fields>
+            <name>Contextual_Role_Summary5</name>
+            <fieldText>Contextual Role Summary</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Contextual_Role_Summary5_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ResearchAccountLookup</name>
+                    <dataTypeMappings>
+                        <typeName>T</typeName>
+                        <typeValue>Account</typeValue>
+                    </dataTypeMappings>
+                    <extensionName>c:flowLookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>objectName</name>
+                        <value>
+                            <stringValue>Account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>iconName</name>
+                        <value>
+                            <stringValue>standard:account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageWhenValueMissing</name>
+                        <value>
+                            <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>placeholder</name>
+                        <value>
+                            <stringValue>Select Account...</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>RecordType.DeveloperName = &apos;University_Department&apos;</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <outputParameters>
+                        <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Contextual_Role_Summary5_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>space</name>
+                    <fieldText>&lt;p&gt; &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Is_Active5</name>
+                    <dataType>Boolean</dataType>
+                    <defaultValue>
+                        <booleanValue>true</booleanValue>
+                    </defaultValue>
+                    <fieldText>Is Active</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Training_Team_Screen</name>
         <label>Training Team Screen</label>
         <locationX>578</locationX>
@@ -666,10 +960,11 @@
             <targetReference>Assign_Training_Team_Variables</targetReference>
         </connector>
         <fields>
-            <name>Training_Team_Screen_Section1</name>
+            <name>Contextual_Role_Summary3</name>
+            <fieldText>Contextual Role Summary</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
-                <name>Training_Team_Screen_Section1_Column1</name>
+                <name>Contextual_Role_Summary3_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>TrainingTeamContactLookup</name>
@@ -747,7 +1042,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>Training_Team_Screen_Section1_Column2</name>
+                <name>Contextual_Role_Summary3_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
@@ -763,14 +1058,14 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <regionContainerType>SectionWithHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>320</locationX>
+        <locationX>584</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Contextual_Role_Independent_Fields</targetReference>
