@@ -160,6 +160,10 @@
                     <value>Facet-87410b28-e86f-4f72-bf97-d74ac6e5ffa2</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Study Area Summary</value>
                 </componentInstanceProperties>

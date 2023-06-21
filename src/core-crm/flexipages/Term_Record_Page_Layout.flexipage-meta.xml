@@ -261,8 +261,12 @@
                     <value>Facet-609ecf9d-e75a-4d70-91e0-21726ea18cfe</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
-                    <value>TERM SUMMARY</value>
+                    <value>Term Summary</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>

@@ -283,6 +283,10 @@
                     <value>Facet-c8b4a1fc-4bef-4002-bdb9-ab23c6985b51</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Course Connection Summary</value>
                 </componentInstanceProperties>
@@ -295,6 +299,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-c4ad3ec7-a9e5-443e-80d6-b477ad6a6eb7</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>

@@ -5522,6 +5522,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Opportunity_Outcome__c.Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opportunity_Outcome__c.Company_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
