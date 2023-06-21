@@ -62,6 +62,16 @@
                 <identifier>RecordApproved_Flag_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Student__c</fieldItem>
+                <identifier>RecordStudent_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-418df490-79cf-4c0e-a1ba-9fe48aec82b8</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -94,6 +104,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Return_Confirmed__c</fieldItem>
                 <identifier>RecordReturn_Confirmed_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed_Program_Enrollment__c</fieldItem>
+                <identifier>Recordhed_Program_Enrollment_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-55bbc18c-1f1e-4393-8e8f-6163f8c849c2</name>
@@ -129,6 +149,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-70783a74-36e6-461c-b971-01df757ab84c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>

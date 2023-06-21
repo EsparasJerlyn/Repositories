@@ -438,6 +438,10 @@
                     <value>Facet-12a112f7-bee1-45c2-9ce2-25b8dbd82b28</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Course Offering Summary</value>
                 </componentInstanceProperties>
@@ -450,6 +454,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-bcf920fa-c6e3-48a8-b85e-545a0e7c9709</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -520,6 +528,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-6e3d49cd-ec17-45ee-b378-bc13fd0447e7</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -896,6 +908,10 @@
                     <value>Facet-78546488-0eb3-4e0b-9fb4-d3c039feffa4</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Course Offering Summary</value>
                 </componentInstanceProperties>
@@ -908,6 +924,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-k3m81ib0puc</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>

@@ -203,6 +203,10 @@
                     <value>Facet-a3e91338-2a50-4918-8418-1ce66d018b00</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Course Summary</value>
                 </componentInstanceProperties>

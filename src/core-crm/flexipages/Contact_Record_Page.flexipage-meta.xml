@@ -355,6 +355,10 @@
                     <value>Facet-1353e95f-dead-4182-85fa-ce022f6de2ed</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Contact Summary</value>
                 </componentInstanceProperties>
@@ -367,6 +371,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-31d86276-cac4-49f9-82bd-8141e54f4380</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -393,6 +401,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-b6bde133-8ae3-4a4b-b1a2-0886d52db979</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -484,6 +496,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-674fbe9b-c5cb-4aa9-b246-049bc9bc844d</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1121,6 +1137,10 @@
                     <value>Facet-94378776-3b2e-4e28-bf5a-6f2f55b7fab5</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Marketing Consent</value>
                 </componentInstanceProperties>
@@ -1133,6 +1153,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-c0c1284e-74fe-4ddc-a714-eaca220144ee</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>

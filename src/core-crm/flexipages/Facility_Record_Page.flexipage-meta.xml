@@ -111,6 +111,10 @@
                     <value>Facet-49312035-3ff3-4efb-93a1-129fdc15d97b</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Facility Summary</value>
                 </componentInstanceProperties>

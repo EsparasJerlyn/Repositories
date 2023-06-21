@@ -171,6 +171,10 @@
                     <value>Facet-3271a6d9-b210-42d0-bbd8-d2db2a22cf53</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Program Plan Summary</value>
                 </componentInstanceProperties>

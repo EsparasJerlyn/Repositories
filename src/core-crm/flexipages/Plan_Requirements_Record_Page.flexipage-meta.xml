@@ -111,6 +111,10 @@
                     <value>Facet-c6b96de3-5248-4005-8216-70e79252a5d5</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Plan Requirements Summary</value>
                 </componentInstanceProperties>
