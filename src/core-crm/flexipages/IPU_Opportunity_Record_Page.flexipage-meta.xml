@@ -476,7 +476,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;School&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Is                        Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;},{&quot;label&quot;:&quot;Is Approved&quot;,&quot;fieldName&quot;:&quot;Role_Is_Approved__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;School&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;},{&quot;label&quot;:&quot;Is Approved&quot;,&quot;fieldName&quot;:&quot;Role_Is_Approved__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
@@ -549,7 +549,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Funding_Body__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Amount&quot;,&quot;fieldName&quot;:&quot;Funding_Body_Contribution_Amount__c&quot;,&quot;type&quot;:&quot;currency&quot;},{&quot;label&quot;:&quot;Is                        Active&quot;,&quot;fieldName&quot;:&quot;IsActive__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Funding_Body__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Amount&quot;,&quot;fieldName&quot;:&quot;Funding_Body_Contribution_Amount__c&quot;,&quot;type&quot;:&quot;currency&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;IsActive__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
@@ -623,7 +623,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contextual  Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Email&quot;,&quot;fieldName&quot;:&quot;Contact_Work_Email__c&quot;,&quot;type&quot;:&quot;email&quot;},{&quot;label&quot;:&quot;Mobile&quot;,&quot;fieldName&quot;:&quot;Contact_MobilePhone__c&quot;,&quot;type&quot;:&quot;phone&quot;},{&quot;label&quot;:&quot;Acount&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Is                        Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contextual  Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Email&quot;,&quot;fieldName&quot;:&quot;Contact_Work_Email__c&quot;,&quot;type&quot;:&quot;email&quot;},{&quot;label&quot;:&quot;Mobile&quot;,&quot;fieldName&quot;:&quot;Contact_MobilePhone__c&quot;,&quot;type&quot;:&quot;phone&quot;},{&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
@@ -697,7 +697,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contextual Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Is                       Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contextual Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
