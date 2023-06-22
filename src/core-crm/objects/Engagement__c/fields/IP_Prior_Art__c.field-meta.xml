@@ -7,6 +7,7 @@
     <label>IP Prior Art</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
