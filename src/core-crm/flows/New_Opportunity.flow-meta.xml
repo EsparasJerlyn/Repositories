@@ -4,12 +4,12 @@
         <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>2338</locationX>
-        <locationY>2726</locationY>
+        <locationX>490</locationX>
+        <locationY>2006</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Error</targetReference>
+            <targetReference>Save_Log</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -38,11 +38,23 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
+    <actionCalls>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>490</locationX>
+        <locationY>2114</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Error</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+    </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>
         <name>Assign_Contextual_Role_RecordType</name>
         <label>Assign Contextual Role RecordType</label>
-        <locationX>1678</locationX>
+        <locationX>1810</locationX>
         <locationY>1274</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleObjectforFields.RecordTypeId</assignToReference>
@@ -135,7 +147,7 @@
             <assignToReference>AccountId</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>ResearchPartnershipAccountLookupLWC.selectedRecordIdOutput</elementReference>
+                <elementReference>AccountLookupLWC.selectedRecordIdOutput</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -149,7 +161,7 @@
             <assignToReference>AccountNameAssignment</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>ResearchPartnershipAccountLookupLWC.selectedRecordOutput.Name</elementReference>
+                <elementReference>AccountLookupLWC.selectedRecordOutput.Name</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -159,7 +171,7 @@
     <assignments>
         <name>AssignSelectedContactId</name>
         <label>AssignSelectedContactId</label>
-        <locationX>2074</locationX>
+        <locationX>2206</locationX>
         <locationY>2162</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
@@ -169,9 +181,16 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Research_Partnership_Opportunity</targetReference>
+            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
         </connector>
     </assignments>
+    <constants>
+        <name>CommercialisationText</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Commercialisation</stringValue>
+        </value>
+    </constants>
     <constants>
         <name>DefaultRecordTypeSelected</name>
         <dataType>String</dataType>
@@ -221,7 +240,7 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_0</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>1678</locationX>
+        <locationX>1810</locationX>
         <locationY>1598</locationY>
         <defaultConnector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
@@ -271,7 +290,7 @@
     <decisions>
         <name>Is_Create_New_Contact_Selected</name>
         <label>Is Create New Contact Selected?</label>
-        <locationX>1678</locationX>
+        <locationX>1810</locationX>
         <locationY>2054</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedContactId</targetReference>
@@ -291,6 +310,43 @@
                 <targetReference>Get_Person_RecordType</targetReference>
             </connector>
             <label>Is Selected</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Record_Type_Research_Partnership_Or_Commercialisation</name>
+        <label>Is Record Type Research Partnership Or Commercialisation</label>
+        <locationX>1810</locationX>
+        <locationY>2510</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Research_Partnership</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>ResearchPartnershipText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Research_Partnership_Opportunity</targetReference>
+            </connector>
+            <label>Research Partnership</label>
+        </rules>
+        <rules>
+            <name>Commercialisation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CommercialisationText</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Commercialisation_Opportunity</targetReference>
+            </connector>
+            <label>Commercialisation</label>
         </rules>
     </decisions>
     <decisions>
@@ -315,8 +371,8 @@
             <label>International Projects Unit</label>
         </rules>
         <rules>
-            <name>Research_Partnership</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Research_Partnership_or_Commercialisation_0</name>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>SelectedRecordTypeName</leftValueReference>
                 <operator>EqualTo</operator>
@@ -324,10 +380,17 @@
                     <elementReference>ResearchPartnershipText</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CommercialisationText</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_Opportunity_Contextual_Role_Record_Id</targetReference>
             </connector>
-            <label>Research Partnership</label>
+            <label>Research Partnership or Commercialisation</label>
         </rules>
     </decisions>
     <decisions>
@@ -352,8 +415,8 @@
             <label>International Projects Unit</label>
         </rules>
         <rules>
-            <name>Research_Partnership_0</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Research_Partnership_Or_Commercialisation</name>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>SelectedRecordTypeName</leftValueReference>
                 <operator>EqualTo</operator>
@@ -361,10 +424,17 @@
                     <elementReference>ResearchPartnershipText</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CommercialisationText</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>AssignHeaderTitlePartners</targetReference>
             </connector>
-            <label>Research Partnership</label>
+            <label>Research Partnership Or Commercialisation</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -496,7 +566,7 @@
         <description>Create New Account Record if Create New Account is selected</description>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>1282</locationX>
+        <locationX>1414</locationX>
         <locationY>1814</locationY>
         <assignRecordIdToReference>AccountId</assignRecordIdToReference>
         <connector>
@@ -593,14 +663,54 @@
         <object>Account</object>
     </recordCreates>
     <recordCreates>
+        <name>Create_Commercialisation_Opportunity</name>
+        <label>Create Commercialisation Opportunity</label>
+        <locationX>1810</locationX>
+        <locationY>2618</locationY>
+        <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Contextual_Role</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>CurrentDatePlusSixMonths</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>Opportunity_Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>SelectedRecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>Collaborate</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
-        <locationX>1678</locationX>
-        <locationY>2618</locationY>
+        <locationX>1810</locationX>
+        <locationY>2858</locationY>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -657,7 +767,6 @@
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -735,11 +844,11 @@
     <recordCreates>
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
-        <locationX>1282</locationX>
+        <locationX>1414</locationX>
         <locationY>2270</locationY>
         <assignRecordIdToReference>ContactId</assignRecordIdToReference>
         <connector>
-            <targetReference>Create_Research_Partnership_Opportunity</targetReference>
+            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -792,8 +901,8 @@
     <recordCreates>
         <name>Create_Research_Partnership_Opportunity</name>
         <label>Create Research Partnership Opportunity</label>
-        <locationX>1678</locationX>
-        <locationY>2510</locationY>
+        <locationX>1282</locationX>
+        <locationY>2618</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -817,7 +926,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>Opportunity_Name_RP</elementReference>
+                <elementReference>Opportunity_Name</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -843,7 +952,7 @@
     <recordLookups>
         <name>Get_Account_Record_Type</name>
         <label>Get Account Record Type</label>
-        <locationX>1282</locationX>
+        <locationX>1414</locationX>
         <locationY>1706</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -907,7 +1016,7 @@
     <recordLookups>
         <name>Get_Opportunity_Contextual_Role_Record_Id</name>
         <label>Get Opportunity Contextual Role Record Id</label>
-        <locationX>1678</locationX>
+        <locationX>1810</locationX>
         <locationY>1166</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -976,7 +1085,7 @@
         <description>Gets the Person recordtype for contact.</description>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>1282</locationX>
+        <locationX>1414</locationX>
         <locationY>2162</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1102,7 +1211,7 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>ResearchPartnershipAccountLookupLWC</name>
+            <name>AccountLookupLWC</name>
             <dataTypeMappings>
                 <typeName>T</typeName>
                 <typeValue>Account</typeValue>
@@ -1149,7 +1258,7 @@
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
-                <conditionLogic>and</conditionLogic>
+                <conditionLogic>1 AND (2 OR 3)</conditionLogic>
                 <conditions>
                     <leftValueReference>Create_New_Account</leftValueReference>
                     <operator>EqualTo</operator>
@@ -1162,6 +1271,13 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <elementReference>ResearchPartnershipText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>CommercialisationText</elementReference>
                     </rightValue>
                 </conditions>
             </visibilityRule>
@@ -1273,7 +1389,7 @@
     <screens>
         <name>Collect_Contact_Details</name>
         <label>Collect Contact Details</label>
-        <locationX>1678</locationX>
+        <locationX>1810</locationX>
         <locationY>1382</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1550,7 +1666,7 @@
     <screens>
         <name>Collect_Opportunity_Details</name>
         <label>Collect Opportunity Details</label>
-        <locationX>1678</locationX>
+        <locationX>1810</locationX>
         <locationY>1490</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1564,11 +1680,28 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Opportunity_Name_RP</name>
+            <name>Opportunity_Name</name>
             <dataType>String</dataType>
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>ResearchPartnershipText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>CommercialisationText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Opportunity_Type</name>
@@ -1577,6 +1710,16 @@
             <fieldText>Type</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>ResearchPartnershipText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Opportunity_Amount</name>
@@ -1585,6 +1728,16 @@
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
             <scale>0</scale>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>ResearchPartnershipText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -1634,8 +1787,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>2338</locationX>
-        <locationY>2834</locationY>
+        <locationX>490</locationX>
+        <locationY>2222</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
         <allowPause>false</allowPause>
@@ -1685,7 +1838,7 @@
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
         <locationX>1656</locationX>
-        <locationY>3158</locationY>
+        <locationY>3098</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
