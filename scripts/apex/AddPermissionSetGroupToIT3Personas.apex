@@ -18,7 +18,7 @@ List<User> users = [SELECT Id, Name, UserRole.DeveloperName FROM User WHERE Prof
 for(User user : users){
     if(user.UserRole.DeveloperName == 'Partnership_Manager'){
         newAssignmentList.add(new PermissionSetAssignment(
-            PermissionSetGroupId = operationMngrPermSetGrp.Id,
+            PermissionSetGroupId = partnershipMngrPermSetGrp.Id,
             AssigneeId = user.Id)
         );
         System.debug('Adding ' + partnershipMngrPermSetGrp.DeveloperName + ' to ' + user.Name);
