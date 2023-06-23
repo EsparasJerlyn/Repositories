@@ -5,23 +5,18 @@
     <fieldName>Status</fieldName>
     <masterLabel>Lead</masterLabel>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;strong&gt;&lt;em&gt;CCE Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;A Lead that has been assigned to you will appear here. When you are ready to make contact, move to the ‘Engaging’ stage.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Learner Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;The assigned stage is not applicable to Learner Leads.&lt;/em&gt;&lt;/p&gt;</info>
         <picklistValueName>Assigned</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;strong&gt;&lt;em&gt;CCE Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;As you engage, enter further details about the client, the company they represent and a brief description of their interest in the QUTeX product or service. Ensure that you complete all fields and validate the company information, the contact details and address. &lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;When ready to progress the opportunity, ‘Convert’ this lead. Move this lead to the ‘Nurturing’ stage if the client is not ready to proceed.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Learner Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;As a Lead further engages with QUT and their lead score increases, they will progress through stages across to engaging to provide a visual indication.&lt;/em&gt;&lt;/p&gt;</info>
         <picklistValueName>Engaging</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;strong&gt;&lt;em&gt;CCE Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;A lead is a prospective client that does not have an existing QUT account and may be interested in a QUTeX product or service. Enter initial details about the client to enable you to make further contact. Move this record to the ‘Engaging’ stage when you start interacting with the client.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Learner Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;A lead is a potential future student that does not currently have enough detail for us to create a contact record in the system that has shown interest in enrolling at QUT. Initial details are captured during their interactions to enable us to start nurturing them.&lt;/em&gt;&lt;/p&gt;</info>
         <picklistValueName>New</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;strong&gt;&lt;em&gt;CCE Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;The ‘Nurturing’ stage indicates that the client is not ready to move forward. Continue to build a relationship and when they’re ready to proceed with an opportunity, ‘Convert’ this lead.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Learner Lead: &lt;/em&gt;&lt;/strong&gt;&lt;em&gt;As a Lead further engages with QUT and their lead score increases, they will progress through stages across to nurturing to provide a visual indication.&lt;/em&gt;&lt;/p&gt;</info>
         <picklistValueName>Nurturing</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;b&gt;&lt;i&gt;Congratulations! &lt;/i&gt;&lt;/b&gt;&lt;i&gt;Now it’s time to convert the lead record to an opportunity. Then, continue the qualification process with your new contact.&lt;/i&gt;&lt;/p&gt;</info>
         <picklistValueName>Qualified</picklistValueName>
     </pathAssistantSteps>
     <recordTypeName>__MASTER__</recordTypeName>
