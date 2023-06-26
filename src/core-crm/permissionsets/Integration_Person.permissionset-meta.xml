@@ -10159,6 +10159,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>hed__Plan_Requirement__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>hed__Program_Enrollment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
