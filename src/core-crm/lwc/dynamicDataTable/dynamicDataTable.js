@@ -17,6 +17,14 @@ import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import getCurrentUserNavigationType from "@salesforce/apex/UserInfoService.getCurrentUserNavigationType";
 import { isValidUrl, transformObject } from "c/lwcUtility";
+import {
+  subscribe,
+  unsubscribe,
+  onError,
+  setDebugFlag,
+  isEmpEnabled
+} from "lightning/empApi";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 export default class DynamicDataTable extends NavigationMixin(
   LightningElement
 ) {
@@ -38,6 +46,7 @@ export default class DynamicDataTable extends NavigationMixin(
   @api editActionType;
   @api editScreenFlowApiName;
   @api dynamicDataTableInput = "";
+  @api channelName = "/event/Dynamic_Datatable_Event__e";
 
   @track finalSObjectDataList = [];
   @track finalColumns = [];
@@ -49,6 +58,7 @@ export default class DynamicDataTable extends NavigationMixin(
   rowLimit = 10;
   recordCount = 0;
   dataTableIsLoading = false;
+  subscription = {};
 
   /* GETTERS START */
   get enableInfiniteLoading() {
@@ -102,13 +112,72 @@ export default class DynamicDataTable extends NavigationMixin(
     // Returns a map of record type Ids
     if (this.objectInfo && this.objectInfo.data) {
       return this.objectInfo.data.label;
+    } else {
+      return "";
     }
   }
   /* GETTERS END */
 
+  /*PLATFORM EVENT LOGIC START*/
+  handleSubscribe() {
+    subscribe(this.channelName, -1, this.refreshData).then((response) => {
+      this.subscription = response;
+    });
+  }
+
+  registerErrorListener() {
+    onError((error) => {
+      const logger = this.template.querySelector("c-logger");
+      if (logger) {
+        logger.error(JSON.stringify(error));
+        logger.saveLog();
+      }
+    });
+  }
+
+  refreshData = (response) => {
+    let obj = JSON.parse(JSON.stringify(response));
+    let objData = obj.data.payload;
+    if (
+      objData.Parent_Id__c == this.recordId &&
+      objData.Dynamic_Datatable_Input__c == this.dynamicDataTableInput &&
+      this.isConsoleApp
+    ) {
+      this.showToast(
+        this.relatedObjectLabel + " was created.",
+        "success",
+        "dismissable"
+      );
+      //only refresh data if in console app/new tab
+      //refresh the specific table by checking the dynamicdatatableinput and parentid
+      this.handleRefreshData();
+    }
+  };
+
+  unsubscribeToMessageChannel() {
+    unsubscribe(this.subscription, (response) => {});
+  }
+
+  disconnectedCallback() {
+    this.unsubscribeToMessageChannel();
+  }
+
+  showToast(title, variant, mode) {
+    const evt = new ShowToastEvent({
+      title: title,
+      variant: variant,
+      mode: mode
+    });
+    this.dispatchEvent(evt);
+  }
+
+  /*PLATFORM EVENT LOGIC END*/
+
   /*SERVER CALLS START */
   connectedCallback() {
     this.loadData(this.setParameters());
+    this.registerErrorListener();
+    this.handleSubscribe();
   }
 
   navigationType;
@@ -374,7 +443,6 @@ export default class DynamicDataTable extends NavigationMixin(
             value: this.recordTypeId ? this.recordTypeId : ""
           }
         ],
-        modalTitle: "New " + this.relatedObjectLabel,
         flowApiName: this.newScreenFlowApiName
       }
     };

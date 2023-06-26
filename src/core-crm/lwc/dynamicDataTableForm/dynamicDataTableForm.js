@@ -27,6 +27,7 @@ export default class DynamicDataTableForm extends LightningElement {
   @api screenFlowApiName;
   @api recordTypeId;
   @api dynamicDataTableInput;
+  modalHeader = '';
 
   @api show() {
     this.showModal = true;
@@ -48,7 +49,7 @@ export default class DynamicDataTableForm extends LightningElement {
   }
   get header() {
     return this.isNew()
-      ? `New ${this.sobjectLabel}`
+      ? this.modalHeader
       : `Edit ${this.recordName}`;
   }
 
@@ -99,6 +100,12 @@ export default class DynamicDataTableForm extends LightningElement {
   }
 
   handleStatusChange(event) {
+    if (event.detail.status === "STARTED") {
+      let outputVariables = event.detail.outputVariables;
+      let ouputVar = outputVariables?outputVariables.find((e) => e.name === "modalTitle"):{};
+        this.modalHeader = ouputVar?ouputVar.value:'New ' + this.sobjectLabel;
+    }
+
     if (event.detail.status === "FINISHED") {
       const message = `${
         this.isNew() ? this.sobjectLabel : this.recordName

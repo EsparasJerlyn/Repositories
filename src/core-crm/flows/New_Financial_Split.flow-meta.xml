@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>440</locationX>
-        <locationY>350</locationY>
+        <locationX>704</locationX>
+        <locationY>458</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -38,6 +38,22 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
+    <assignments>
+        <name>Assign_Modal_Title</name>
+        <label>Assign Modal Title</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Financial Split</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Funding_Body_Screen</targetReference>
+        </connector>
+    </assignments>
     <environments>Default</environments>
     <formulas>
         <name>ParentOpportunityId</name>
@@ -75,7 +91,10 @@
         <name>Create_Funding_Body</name>
         <label>Create Funding Body</label>
         <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
+        <connector>
+            <targetReference>Fire_Dynamic_Data_Table_Event</targetReference>
+        </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -118,11 +137,41 @@
         <object>Financial_Split__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>Fire_Dynamic_Data_Table_Event</name>
+        <label>Fire Dynamic Data Table Event</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Dynamic_Datatable_Input__c</field>
+            <value>
+                <elementReference>DynamicDataTableInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Message__c</field>
+            <value>
+                <stringValue>New Financial Split Created</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Parent_Id__c</field>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Dynamic_Datatable_Event__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>440</locationX>
-        <locationY>458</locationY>
+        <locationX>704</locationX>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -138,7 +187,7 @@
         <name>Funding_Body_Screen</name>
         <label>Funding Body Screen</label>
         <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationY>242</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -260,7 +309,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Funding_Body_Screen</targetReference>
+            <targetReference>Assign_Modal_Title</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -270,6 +319,13 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>modalTitle</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>ParentId</name>

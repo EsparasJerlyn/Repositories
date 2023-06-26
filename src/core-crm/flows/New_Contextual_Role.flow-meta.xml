@@ -3,12 +3,12 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1634</locationX>
-        <locationY>758</locationY>
+        <locationX>3130</locationX>
+        <locationY>1358</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Error</targetReference>
+            <targetReference>Roll_Back_Records</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -39,9 +39,25 @@
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
+        <name>Assign_Academic_Modal_Title</name>
+        <label>Assign Academic Modal Title</label>
+        <locationX>1810</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contextual Role</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Academics_Involved_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Contextual_Role_Independent_Fields</name>
         <label>Assign Contextual Role Independent Fields</label>
-        <locationX>710</locationX>
+        <locationX>1634</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
@@ -62,15 +78,119 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Training_Team_Variables</name>
-        <label>Assign Training Team Variables</label>
-        <locationX>578</locationX>
+        <name>Assign_Contributor_Modal_Title</name>
+        <label>Assign Contributor Modal Title</label>
+        <locationX>1546</locationX>
         <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contextual Role</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Contributors_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Partner_Modal_Title</name>
+        <label>Assign Partner Modal Title</label>
+        <locationX>1018</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contextual Role</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Partner_Account_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Research_Engagement_Contributor_Modal_Title</name>
+        <label>Assign Research Engagement Contributor Modal Title</label>
+        <locationX>314</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contributor</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Research_Engagement_Partner</name>
+        <label>Assign Research Engagement Partner Modal Title</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Partner</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Research_Modal_Title</name>
+        <label>Assign Research Modal Title</label>
+        <locationX>2338</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contextual Role</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Research_Centre_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Training_Team_Modal_Title</name>
+        <label>Assign Training Team Modal Title</label>
+        <locationX>2074</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contextual Role</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Training_Team_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Variables_For_Academic</name>
+        <label>Assign Variables For Academic</label>
+        <locationX>1810</locationX>
+        <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Is_Active3</elementReference>
+                <elementReference>Is_Active</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RoleIsApproved</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Approved</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -78,10 +198,26 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Variable_for_Partners</name>
-        <label>Assign Variable for Partners</label>
-        <locationX>314</locationX>
-        <locationY>458</locationY>
+        <name>Assign_Variables_For_Contributors</name>
+        <label>Assign Variables For Contributors</label>
+        <locationX>1546</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>RoleIsActive</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Active4</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Variables_for_Partners</name>
+        <label>Assign Variables for Partners</label>
+        <locationX>1018</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -108,49 +244,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Variables_For_Academic</name>
-        <label>Assign Variables For Academic</label>
-        <locationX>50</locationX>
-        <locationY>458</locationY>
-        <assignmentItems>
-            <assignToReference>RoleIsActive</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Is_Active</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>RoleIsApproved</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Is_Approved</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Variables_For_Contributors</name>
-        <label>Assign Variables For Contributors</label>
-        <locationX>842</locationX>
-        <locationY>458</locationY>
-        <assignmentItems>
-            <assignToReference>RoleIsActive</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Is_Active4</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Variables_For_Research</name>
         <label>Assign Variables For Research</label>
-        <locationX>1106</locationX>
-        <locationY>458</locationY>
+        <locationX>2338</locationX>
+        <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -162,27 +259,28 @@
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Assign_Variables_For_Training_Team</name>
+        <label>Assign Variables For Training Team</label>
+        <locationX>2074</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>RoleIsActive</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Is_Active3</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>710</locationX>
+        <locationX>1634</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Is_Academics_Involved</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>DynamicDataTableInput</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Academic Team</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Academics_Involved_Screen</targetReference>
-            </connector>
-            <label>Is Academics Involved?</label>
-        </rules>
         <rules>
             <name>Is_Partners</name>
             <conditionLogic>and</conditionLogic>
@@ -194,24 +292,9 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Partner_Account_Screen</targetReference>
+                <targetReference>Check_Partner_Parent</targetReference>
             </connector>
-            <label>Is Partners?</label>
-        </rules>
-        <rules>
-            <name>Is_Training_Team</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>DynamicDataTableInput</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Training Team</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Training_Team_Screen</targetReference>
-            </connector>
-            <label>Is Training Team?</label>
+            <label>Is Partners</label>
         </rules>
         <rules>
             <name>Is_Contributors</name>
@@ -224,9 +307,39 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Contributors_Screen</targetReference>
+                <targetReference>Check_Contributor_Parent</targetReference>
             </connector>
             <label>Is Contributors</label>
+        </rules>
+        <rules>
+            <name>Is_Academics_Involved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Academic Team</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Academic_Modal_Title</targetReference>
+            </connector>
+            <label>Is Academics Involved</label>
+        </rules>
+        <rules>
+            <name>Is_Training_Team</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Training Team</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Training_Team_Modal_Title</targetReference>
+            </connector>
+            <label>Is Training Team</label>
         </rules>
         <rules>
             <name>Is_Research_Centre</name>
@@ -239,9 +352,111 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Research_Centre_Screen</targetReference>
+                <targetReference>Assign_Research_Modal_Title</targetReference>
             </connector>
             <label>Is Research Centre</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Contributor_Parent</name>
+        <label>Check Contributor Parent</label>
+        <locationX>1414</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Contributor_Modal_Title</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Engagement2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Engagement__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <isGoTo>true</isGoTo>
+                <targetReference>Get_Parent_Engagement_Record</targetReference>
+            </connector>
+            <label>Is Engagement</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Engagement_RecordType</name>
+        <label>Check Engagement RecordType</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Research_Partner</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Engagement_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research_Partnership</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Partners</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Research_Engagement_Partner</targetReference>
+            </connector>
+            <label>Is Research Partner</label>
+        </rules>
+        <rules>
+            <name>Is_Research_Contributor</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Engagement_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research_Partnership</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Contributors</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Research_Engagement_Contributor_Modal_Title</targetReference>
+            </connector>
+            <label>Is Research Contributor</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Partner_Parent</name>
+        <label>Check Partner Parent</label>
+        <locationX>666</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Partner_Modal_Title</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Engagement</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Engagement__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Parent_Engagement_Record</targetReference>
+            </connector>
+            <label>Is Engagement</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -284,8 +499,11 @@
     <recordCreates>
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
-        <locationX>710</locationX>
-        <locationY>650</locationY>
+        <locationX>1634</locationX>
+        <locationY>1250</locationY>
+        <connector>
+            <targetReference>Fire_Dynamic_Data_Table_Event</targetReference>
+        </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -352,11 +570,75 @@
         <object>Contextual_Role__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>Fire_Dynamic_Data_Table_Event</name>
+        <label>Fire Dynamic Data Table Event</label>
+        <locationX>1634</locationX>
+        <locationY>1358</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Dynamic_Datatable_Input__c</field>
+            <value>
+                <elementReference>DynamicDataTableInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Message__c</field>
+            <value>
+                <stringValue>New Contextual Role Created</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Parent_Id__c</field>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Dynamic_Datatable_Event__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>Get_Parent_Engagement_Record</name>
+        <label>Get Parent Engagement Record</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Engagement_RecordType</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Engagement__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordRollbacks>
+        <name>Roll_Back_Records</name>
+        <label>Roll Back Records</label>
+        <locationX>3130</locationX>
+        <locationY>1466</locationY>
+        <connector>
+            <targetReference>Error</targetReference>
+        </connector>
+    </recordRollbacks>
     <screens>
         <name>Academics_Involved_Screen</name>
         <label>Academics Involved Screen</label>
-        <locationX>50</locationX>
-        <locationY>350</locationY>
+        <locationX>1810</locationX>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -536,8 +818,8 @@
     <screens>
         <name>Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>842</locationX>
-        <locationY>350</locationY>
+        <locationX>1546</locationX>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -652,8 +934,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>1634</locationX>
-        <locationY>866</locationY>
+        <locationX>3130</locationX>
+        <locationY>1574</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -668,13 +950,13 @@
     <screens>
         <name>Partner_Account_Screen</name>
         <label>Partner Account Screen</label>
-        <locationX>314</locationX>
-        <locationY>350</locationY>
+        <locationX>1018</locationX>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Assign_Variable_for_Partners</targetReference>
+            <targetReference>Assign_Variables_for_Partners</targetReference>
         </connector>
         <fields>
             <name>Contextual_Role_Summary2</name>
@@ -835,8 +1117,8 @@
     <screens>
         <name>Research_Centre_Screen</name>
         <label>Research Centre Screen</label>
-        <locationX>1106</locationX>
-        <locationY>350</locationY>
+        <locationX>2338</locationX>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -951,13 +1233,13 @@
     <screens>
         <name>Training_Team_Screen</name>
         <label>Training Team Screen</label>
-        <locationX>578</locationX>
-        <locationY>350</locationY>
+        <locationX>2074</locationX>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Assign_Training_Team_Variables</targetReference>
+            <targetReference>Assign_Variables_For_Training_Team</targetReference>
         </connector>
         <fields>
             <name>Contextual_Role_Summary3</name>
@@ -1065,13 +1347,45 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>584</locationX>
+        <locationX>1508</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Contextual_Role_Independent_Fields</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>Call_Complex_Contextual_Role_Flow</name>
+        <label>Call Complex Contextual Role Flow</label>
+        <locationX>50</locationX>
+        <locationY>782</locationY>
+        <flowName>New_Contextual_Role_Complex</flowName>
+        <inputAssignments>
+            <name>DynamicDataTableInput</name>
+            <value>
+                <elementReference>DynamicDataTableInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>ParentId</name>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>ParentObjectApiName</name>
+            <value>
+                <elementReference>ParentObjectApiName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecordTypeId</name>
+            <value>
+                <elementReference>RecordTypeId</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
     <variables>
         <name>ContextualRoleToCreate</name>
         <dataType>SObject</dataType>
@@ -1086,6 +1400,13 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>modalTitle</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <description>Id of the Parent Record the contextual role would be linked to.</description>
