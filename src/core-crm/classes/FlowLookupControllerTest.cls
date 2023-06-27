@@ -18,6 +18,16 @@ public class FlowLookupControllerTest {
         TestDataFactory.generateTestUsers(
             new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
         );
+        Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance()
+            .getOrganizationalDefaults();
+        engCodeAutoNum.Commercialisation__c = 1;
+        engCodeAutoNum.Research_Partnership__c = 1;
+        EngagementCodeAutoNumbersDAO.newInstance()
+            .upsertRecords(
+                new List<Engagement_Code_Auto_Number__c>{ engCodeAutoNum },
+                false,
+                AccessLevel.USER_MODE
+            );
     }
 
     @isTest
