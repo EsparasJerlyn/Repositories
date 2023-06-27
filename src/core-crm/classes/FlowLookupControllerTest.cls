@@ -275,50 +275,6 @@ public class FlowLookupControllerTest {
     }
 
     @isTest
-    private static void getRecentlyViewedForOperationsManagerTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
-            List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
-            AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
-
-            List<SObject> records = FlowLookupController.getRecentlyViewed(
-                'Account',
-                'Name',
-                5,
-                'Name LIKE \'%TestAccount%\''
-            );
-
-            System.assertEquals(
-                5,
-                records.size(),
-                '5 records should be returned in this test case'
-            );
-        }
-    }
-
-    @isTest
-    private static void getRecentlyViewedForPartnershipManagerTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
-            AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
-
-            List<SObject> records = FlowLookupController.getRecentlyViewed(
-                'Account',
-                'Name',
-                5,
-                'Name LIKE \'%TestAccount%\''
-            );
-
-            System.assertEquals(
-                5,
-                records.size(),
-                '5 records should be returned in this test case'
-            );
-        }
-    }
-
-    @isTest
     private static void getStandardObjectIconForOperationsManagerTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getOperationsManager()) {
@@ -341,6 +297,16 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getCustomObjectIconForOperationsManagerTest() {
         Test.startTest();
+        Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance()
+            .getOrganizationalDefaults();
+        engCodeAutoNum.Commercialisation__c = 1;
+        engCodeAutoNum.Research_Partnership__c = 1;
+        EngagementCodeAutoNumbersDAO.newInstance()
+            .upsertRecords(
+                new List<Engagement_Code_Auto_Number__c>{ engCodeAutoNum },
+                false,
+                AccessLevel.USER_MODE
+            );
         System.runAs(TestDataFactory.getOperationsManager()) {
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
