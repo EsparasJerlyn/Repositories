@@ -18,6 +18,27 @@ public class FlowLookupControllerTest {
         TestDataFactory.generateTestUsers(
             new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
         );
+        Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        opptyCodeAutoNum.Commercialisation__c = 1;
+        opptyCodeAutoNum.International_Projects_Unit__c = 1;
+        opptyCodeAutoNum.Research_Partnership__c = 1;
+        OpportunityCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Opportunity_Code_Auto_Number__c>{opptyCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+            );
+            
+        Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        oppOutcomeCodeAutoNum.Research_Partnership_Project__c = 1;
+        oppOutcomeCodeAutoNum.IPU_Project__c = 1;
+        oppOutcomeCodeAutoNum.Research_Commercialisation_Project__c = 1;
+        oppOutcomeCodeAutoNum.Start_Up__c = 1;
+        OpportunityOutcomeCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Opportunity_Outcome_Code_Auto_Number__c>{oppOutcomeCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+            );
+
         Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         engCodeAutoNum.Commercialisation__c = 1;
