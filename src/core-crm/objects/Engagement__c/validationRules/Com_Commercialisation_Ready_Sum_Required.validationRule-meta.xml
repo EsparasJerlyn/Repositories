@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Commercialisation_Ready_Sum_Required</fullName>
+    <active>true</active>
+    <description>Checks if the Commercialisation Ready Summary field of the Engagement of Commercialisation record type is blank when changing the stage from Development to Commercialisation Ready.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
+ISCHANGED(Stage_Name__c),
+ISPICKVAL(PRIORVALUE(Stage_Name__c), &quot;Development&quot;),
+ISPICKVAL(Stage_Name__c, &quot;Commercialisation Ready&quot;),
+ISBLANK(Commercialisation_Ready_Summary__c)
+)</errorConditionFormula>
+    <errorDisplayField>Commercialisation_Ready_Summary__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>
