@@ -9,66 +9,109 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
  *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
  *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                 |
+ *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | ABN Field Form Validation                    |
  */
 import { LightningElement, api, track } from "lwc";
 import checkABNExists from "@salesforce/apex/AccountCtrl.checkABNExists";
+import { loadStyle } from "lightning/platformResourceLoader";
+import CustomFlowCSS from "@salesforce/resourceUrl/CustomFlowCSS";
 
 export default class ABNCheckComponent extends LightningElement {
   @api ABN;
   @track abnExists = false;
   @track errorMessage = "";
   messageValue = "ABN should be unique.";
+  isException = false;
   timer;
 
-  handleABNChange(event) {
-    const abnValue = event.target.value;
-    const abnInput = this.template.querySelector("lightning-input");
+  beforeUnloadHandler(event) {
+    window.sessionStorage.removeItem("customCSSLoaded");
+  }
 
-    // Clear previous timer
-    clearTimeout(this.timer);
+  connectedCallback() {
+    window.addEventListener(
+      "beforeunload",
+      this.beforeUnloadHandler.bind(this)
+    );
 
-    // Check if abnValue has a value
-    if (abnValue) {
-      // Set a new timer to wait for user to finish typing
-      this.timer = setTimeout(() => {
-        // Call Apex method to check if ABN already exists
-        checkABNExists({ abn: abnValue })
-          .then((result) => {
-            this.abnExists = result;
-            if (this.abnExists) {
-              this.errorMessage = this.messageValue;
-              abnInput.setCustomValidity(this.errorMessage);
-            } else {
-              this.errorMessage = "";
-              abnInput.setCustomValidity("");
-            }
-            abnInput.reportValidity();
+    // Retrieve the session value
+    const sessionValue = window.sessionStorage.getItem("customCSSLoaded");
+    const logger = this.template.querySelector("c-logger");
 
-            // Update the @api ABN property
-            this.ABN = abnValue;
-          })
-          .catch((error) => {
-            // Handle error and set error message
-            this.errorMessage = error.message || "An error occurred";
-            abnInput.setCustomValidity(this.errorMessage);
-            abnInput.reportValidity();
-          });
-      }, 300); // Adjust the debounce delay (in milliseconds) as needed
+    if (sessionValue) {
+      // If the session value is available, assign it to this.customCSSLoaded
+      this.customCSSLoaded = JSON.parse(sessionValue);
     } else {
-      // Clear the error message, reset custom validity, and update ABN
-      this.errorMessage = "";
-      abnInput.setCustomValidity("");
-      abnInput.reportValidity();
-      this.ABN = abnValue;
+      // If the session value is not available, load the CSS
+      loadStyle(this, CustomFlowCSS)
+        .then(() => {
+          this.customCSSLoaded = true;
+          console.log("Custom CSS Loaded");
+          // Store the value in the session
+          window.sessionStorage.setItem(
+            "customCSSLoaded",
+            JSON.stringify(this.customCSSLoaded)
+          );
+        })
+        .catch((error) => {
+          if (logger) {
+            logger.error(JSON.stringify(error));
+            logger.saveLog();
+          }
+        });
     }
   }
 
+  // Handle ABN input change event
+  handleABNChange(event) {
+    const abnValue = event.target.value;
+
+    clearTimeout(this.timer);
+
+    if (abnValue) {
+      // Set a timer to wait for user to finish typing
+      this.timer = setTimeout(() => {
+        this.checkABN(abnValue);
+      }, 300);
+    } else {
+      // Clear error message when ABN input is empty
+      this.clearErrorMessage();
+    }
+
+    this.ABN = abnValue; // Update ABN value
+  }
+
+  // Check if ABN already exists
+  checkABN(abnValue) {
+    checkABNExists({ abn: abnValue })
+      .then((result) => {
+        this.abnExists = result;
+        this.errorMessage = this.abnExists ? this.messageValue : "";
+        this.isException = false;
+      })
+      .catch((error) => {
+        this.errorMessage = error.message || "An error occurred";
+        this.isException = true;
+      });
+  }
+
+  // Clear error message
+  clearErrorMessage() {
+    this.errorMessage = "";
+  }
+
+  // Validate the ABN input
   @api
   validate() {
     if (this.errorMessage === this.messageValue) {
       return {
         isValid: false,
-        errorMessage: "Please enter a unique ABN value."
+        errorMessage: this.messageValue
+      };
+    } else if (this.isException) {
+      return {
+        isValid: false,
+        errorMessage: this.errorMessage
       };
     } else {
       return {

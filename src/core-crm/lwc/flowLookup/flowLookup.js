@@ -215,7 +215,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
           })
           .catch((error) => {
             if (logger) {
-              logger.error(JSON.stringify(error));
+              logger.error(
+                "flowLookup [getRecordsFromIds method]: ",
+                JSON.stringify(error)
+              );
               logger.saveLog();
             }
           })
@@ -313,7 +316,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       })
       .catch((error) => {
         if (logger) {
-          logger.error(JSON.stringify(error));
+          logger.error(
+            "flowLookup [getRecentlyViewed method]: ",
+            JSON.stringify(error)
+          );
           logger.saveLog();
         }
       })
@@ -340,7 +346,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       })
       .catch((error) => {
         if (logger) {
-          logger.error(JSON.stringify(error));
+          logger.error(
+            "flowLookup [getRecords method]: ",
+            JSON.stringify(error)
+          );
           logger.saveLog();
         }
       })
@@ -375,7 +384,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         })
         .catch((error) => {
           if (logger) {
-            logger.error(JSON.stringify(error));
+            logger.error("flowLookup [search method]: ", JSON.stringify(error));
             logger.saveLog();
           }
         })
@@ -402,12 +411,6 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
           (fieldName) => fieldName != "Id"
         );
 
-        if (nonIdFields.length !== 1) {
-          if (logger) {
-            logger.error("Error: expected exactly one other field");
-            logger.saveLog();
-          }
-        }
         labelField = nonIdFields[0];
 
         // Check if the label is a lookup field
@@ -551,7 +554,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         })
         .catch((error) => {
           if (logger) {
-            logger.error(JSON.stringify(error));
+            logger.error(
+              "flowLookup [newRecordModal method]: ",
+              JSON.stringify(error)
+            );
             logger.saveLog();
           }
         });

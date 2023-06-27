@@ -9,8 +9,11 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
  *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
  *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                 |
+ *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Lookup Form Validation                       |
  */
 import { LightningElement, api, track } from "lwc";
+import { loadStyle } from "lightning/platformResourceLoader";
+import CustomFlowCSS from "@salesforce/resourceUrl/CustomFlowCSS";
 import {
   KEYS,
   setValuesFromMultipleInput,
@@ -181,11 +184,6 @@ export default class OptionSelector extends LightningElement {
   /* PUBLIC FUNCTIONS */
   @api
   reportValidity() {
-    if (!this.required || this.selectedOptions.length) {
-      this.setCustomValidity();
-    } else {
-      this.setCustomValidity(this.messageWhenValueMissing);
-    }
     return !this.errorMessage;
   }
 
@@ -206,8 +204,44 @@ export default class OptionSelector extends LightningElement {
     this.errorMessage = errorMessage;
   }
 
+  beforeUnloadHandler(event) {
+    window.sessionStorage.removeItem("customCSSLoaded");
+  }
+
   /* LIFECYCLE HOOKS */
   connectedCallback() {
+    window.addEventListener(
+      "beforeunload",
+      this.beforeUnloadHandler.bind(this)
+    );
+
+    // Retrieve the session value
+    const sessionValue = window.sessionStorage.getItem("customCSSLoaded");
+    const logger = this.template.querySelector("c-logger");
+
+    if (sessionValue) {
+      // If the session value is available, assign it to this.customCSSLoaded
+      this.customCSSLoaded = JSON.parse(sessionValue);
+    } else {
+      // If the session value is not available, load the CSS
+      loadStyle(this, CustomFlowCSS)
+        .then(() => {
+          this.customCSSLoaded = true;
+          console.log("Custom CSS Loaded");
+          // Store the value in the session
+          window.sessionStorage.setItem(
+            "customCSSLoaded",
+            JSON.stringify(this.customCSSLoaded)
+          );
+        })
+        .catch((error) => {
+          if (logger) {
+            logger.error(JSON.stringify(error));
+            logger.saveLog();
+          }
+        });
+    }
+
     window.addEventListener("resize", () => {
       this.resizePillContainer();
     });
@@ -314,7 +348,7 @@ export default class OptionSelector extends LightningElement {
 
   get computedFormElementClass() {
     return (
-      "slds-form-element slds-p-bottom_small" +
+      "slds-form-element slds-m-bottom_x-small" +
       (this.errorMessage ? " slds-has-error" : "")
     );
   }
