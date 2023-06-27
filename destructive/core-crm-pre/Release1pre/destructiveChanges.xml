@@ -65,6 +65,13 @@
         <!--End DEPP-5788-->
         <name>PermissionSetGroup</name>
     </types>
+
+    <types>
+        <!--Start DEPP-5946-->
+        <members>CCE_Lead_Path</members>
+        <!--End DEPP-5946-->
+        <name>PathAssistant</name>
+    </types>
     
     <version>52.0</version>
 </Package>

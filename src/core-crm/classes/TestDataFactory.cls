@@ -2570,7 +2570,7 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Partnership Manager';
                 permSets = 'Business_Development_Base';
-                publicGroups = '';
+                publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = false;
@@ -2584,7 +2584,7 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Operations Manager';
                 permSets = 'Business_Development_Base';
-                publicGroups = '';
+                publicGroups = 'Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = false;

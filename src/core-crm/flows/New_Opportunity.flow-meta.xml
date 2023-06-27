@@ -33,7 +33,7 @@
         <inputParameters>
             <name>message</name>
             <value>
-                <stringValue>Error in New Opportunity </stringValue>
+                <stringValue>Error in New Opportunity Screen Flow</stringValue>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -184,6 +184,38 @@
             <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
         </connector>
     </assignments>
+    <choices>
+        <name>CommercialResearchChoice</name>
+        <choiceText>Commercial Research</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Commercial Research</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>ConsultancyChoice</name>
+        <choiceText>Consultancy</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Consultancy</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>GrantChoice</name>
+        <choiceText>Grant</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Grant</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>MultifacetedPartnershipChoice</name>
+        <choiceText>Multifaceted Partnership</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Multifaceted Partnership</stringValue>
+        </value>
+    </choices>
     <constants>
         <name>CommercialisationText</name>
         <dataType>String</dataType>
@@ -522,14 +554,6 @@
         <sortField>Name</sortField>
         <sortOrder>Asc</sortOrder>
         <valueField>Name</valueField>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>TypePicklist</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Type</picklistField>
-        <picklistObject>Opportunity</picklistObject>
     </dynamicChoiceSets>
     <environments>Default</environments>
     <formulas>
@@ -1483,7 +1507,7 @@
             <inputParameters>
                 <name>label</name>
                 <value>
-                    <stringValue>Existing Contact...</stringValue>
+                    <stringValue>Existing Contact</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -1705,7 +1729,10 @@
         </fields>
         <fields>
             <name>Opportunity_Type</name>
-            <choiceReferences>TypePicklist</choiceReferences>
+            <choiceReferences>GrantChoice</choiceReferences>
+            <choiceReferences>CommercialResearchChoice</choiceReferences>
+            <choiceReferences>ConsultancyChoice</choiceReferences>
+            <choiceReferences>MultifacetedPartnershipChoice</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Type</fieldText>
             <fieldType>DropdownBox</fieldType>

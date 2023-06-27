@@ -5,7 +5,6 @@
     <columns>OPPORTUNITY.RECORDTYPE</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
     <columns>CORE.USERS.FULL_NAME</columns>
-    <columns>OPPORTUNITY.AMOUNT</columns>
     <columns>OPPORTUNITY.CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <filters>

@@ -8,6 +8,21 @@
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Application Layout</layout>
+        <recordType>hed__Application__c.SAMS</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-hed__EDA Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Task-Nurture</layout>
         <recordType>Task.Nurture</recordType>
     </layoutAssignments>

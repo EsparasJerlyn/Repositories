@@ -60,6 +60,21 @@
         <recordType>Financial_Split__c.Opportunity_Outcome_Contact_Revenue_Financial_Split</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Application Layout</layout>
+        <recordType>hed__Application__c.SAMS</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-hed__EDA Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>IP_Management_Application__c-IP Management Application Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

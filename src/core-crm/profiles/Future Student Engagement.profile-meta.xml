@@ -11,6 +11,21 @@
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Application Layout</layout>
+        <recordType>hed__Application__c.SAMS</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-hed__EDA Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -30,10 +45,6 @@
         <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Task-Nurture</layout>
-        <recordType>Task.Nurture</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
     </layoutAssignments>
      <layoutAssignments>
@@ -46,5 +57,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Nurture</layout>
+        <recordType>Task.Nurture</recordType>
     </layoutAssignments>
 </Profile>

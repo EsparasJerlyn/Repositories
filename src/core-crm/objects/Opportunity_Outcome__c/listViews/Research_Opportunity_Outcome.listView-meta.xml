@@ -12,7 +12,7 @@
         <operation>equals</operation>
         <value>Opportunity_Outcome__c.Research_Partnership_Project</value>
     </filters>
-    <label>Research Opportunity Outcome</label>
+    <label>Research Partnership Opportunity Outcome</label>
     <sharedTo>
         <group>Research_Operations_Manager</group>
         <group>Research_Partnership_Manager</group>

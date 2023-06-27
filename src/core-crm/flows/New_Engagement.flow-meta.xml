@@ -9,7 +9,7 @@
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Error</targetReference>
+            <targetReference>Save_Log</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -33,10 +33,22 @@
         <inputParameters>
             <name>message</name>
             <value>
-                <stringValue>Error in New Engagement </stringValue>
+                <stringValue>Error in New Engagement Screen Flow</stringValue>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>1106</locationX>
+        <locationY>3062</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Error</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>
@@ -539,6 +551,12 @@
             <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
+        <inputAssignments>
+            <field>Engagement_Priority__c</field>
+            <value>
+                <elementReference>Engagement_Priority</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <field>Engagement_Summary__c</field>
             <value>
@@ -1064,7 +1082,7 @@
             <inputParameters>
                 <name>label</name>
                 <value>
-                    <stringValue>Existing Contact...</stringValue>
+                    <stringValue>Existing Contact</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -1272,7 +1290,7 @@
         <name>Error</name>
         <label>Error</label>
         <locationX>1106</locationX>
-        <locationY>3062</locationY>
+        <locationY>3170</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1314,7 +1332,7 @@
             <targetReference>Assign_Modal_Title</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <subflows>
         <name>Detail_Page_Navigationn</name>
         <label>Detail Page Navigationn</label>

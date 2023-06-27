@@ -64,17 +64,18 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         ];
     }
 
-    public List<Contact> checkWorkEmailFlowInputExist(String emailInput){
+    public List<Contact> checkWorkEmailFlowInputExist(String emailInput) {
         return [
-            SELECT Id, Work_Email__c,QUT_Learner_Email__c, Email, QUT_Staff_Email__c
+            SELECT Id, Work_Email__c, QUT_Learner_Email__c, Email, QUT_Staff_Email__c
             FROM Contact
-            WHERE RecordTypeId = :PERSON_RECORDTYPE_ID 
-            AND (Work_Email__c =: emailInput
-            OR Email=: emailInput
-            OR QUT_Learner_Email__c =: emailInput
-            OR QUT_Staff_Email__c =: emailInput)
-            WITH SECURITY_ENFORCED
-            LIMIT 1 
+            WHERE
+                RecordTypeId = :PERSON_RECORDTYPE_ID
+                AND (Work_Email__c = :emailInput
+                OR Email = :emailInput
+                OR QUT_Learner_Email__c = :emailInput
+                OR QUT_Staff_Email__c = :emailInput)
+            WITH USER_MODE
+            LIMIT 1
         ];
     }
 }

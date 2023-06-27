@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Closed_Reason_Comment_is_Required</fullName>
+    <active>true</active>
+    <description>Ensures that Closed Reason Comment is populated before moving the stage to Closed</description>
+    <errorConditionFormula>AND (
+RecordType.DeveloperName =&quot;Commercialisation&quot;,
+ISCHANGED( Stage_Name__c ),
+ISPICKVAL(Stage_Name__c , &quot;Closed&quot;),
+ISBLANK( Closed_Reason_Comment__c)
+)</errorConditionFormula>
+    <errorDisplayField>Closed_Reason_Comment__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>
