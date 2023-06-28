@@ -774,7 +774,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(23, 43, 77); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; background-color: rgba(235, 236, 240, 0.04); font-size: 16px;&quot;&gt;Information in this tab will be available when you reach the Negotiate stage.&lt;/span&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); background-color: rgba(235, 236, 240, 0.04); font-size: 16px;&quot;&gt;Information in this tab will be available when you reach the Negotiate stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText3</identifier>
@@ -963,7 +963,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(23, 43, 77); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; background-color: rgba(235, 236, 240, 0.04); font-size: 16px;&quot;&gt;Information in this tab will be available when you reach the Contract stage.&lt;/span&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;span style=&quot;font-size: 16px; background-color: rgba(235, 236, 240, 0.04); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;Information in this tab will be available when you reach the Contract stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText4</identifier>
