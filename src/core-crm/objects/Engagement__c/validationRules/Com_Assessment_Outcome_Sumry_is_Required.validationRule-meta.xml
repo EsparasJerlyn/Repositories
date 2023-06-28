@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Assessment_Outcome_Sumry_is_Required</fullName>
+    <active>true</active>
+    <description>Checks if Assessment Outcome Summary field has value when moving an Engagement with Commercialisation record type from Evaluation to Development stage.</description>
+    <errorConditionFormula>AND (
+    RecordType.DeveloperName =&quot;Commercialisation&quot;,
+    ISCHANGED(Stage_Name__c),
+    ISPICKVAL( PRIORVALUE(Stage_Name__c) ,&quot;Evaluation&quot;),
+    ISPICKVAL(Stage_Name__c, &quot;Development&quot;),
+    ISBLANK(Assessment_Outcome_Summary__c)
+)</errorConditionFormula>
+    <errorDisplayField>Assessment_Outcome_Summary__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

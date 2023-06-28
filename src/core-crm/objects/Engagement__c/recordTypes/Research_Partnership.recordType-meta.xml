@@ -8,11 +8,11 @@
     <picklistValues>
         <picklist>Assessment_Outcome__c</picklist>
         <values>
-            <fullName>No</fullName>
+            <fullName>Successful</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Yes</fullName>
+            <fullName>Unsuccessful</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -1297,6 +1297,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Staff_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Staff_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9113,6 +9118,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management__c.IP_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management_Relationship__c.Is_Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
