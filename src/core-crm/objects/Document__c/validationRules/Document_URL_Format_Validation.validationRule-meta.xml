@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_URL_Format_Validation</fullName>
+    <active>true</active>
+    <description>Validate if URL is in correct format.</description>
+    <errorConditionFormula>NOT(REGEX( Document_URL__c, &quot;^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*?)?$&quot;))</errorConditionFormula>
+    <errorDisplayField>Document_URL__c</errorDisplayField>
+    <errorMessage>This value doesn&apos;t follow the required pattern. Try a different format or contact your admin for help.</errorMessage>
+</ValidationRule>

@@ -1,11 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionCalls>
+        <description>Logs an error for every create/get method</description>
+        <name>Error_Action</name>
+        <label>Error Action</label>
+        <locationX>402</locationX>
+        <locationY>782</locationY>
+        <actionName>FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Save_Log</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>New Document</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>loggingLevelName</name>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error in New Document Screen Flow</stringValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <description>Saves any pending log entry</description>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>402</locationX>
+        <locationY>890</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+    </actionCalls>
     <apiVersion>56.0</apiVersion>
+    <assignments>
+        <description>Assign error message to error flow screen</description>
+        <name>Assign_Error_Message_Text</name>
+        <label>Assign Error Message Text</label>
+        <locationX>930</locationX>
+        <locationY>1298</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessageText</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>You don’t have the right permission to create or edit this record</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Error_Message_Screen</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <name>AssignOpportunityId</name>
         <label>AssignOpportunityId</label>
-        <locationX>176</locationX>
-        <locationY>158</locationY>
+        <locationX>930</locationX>
+        <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>docVar.Opportunity__c</assignToReference>
             <operator>Assign</operator>
@@ -35,10 +100,205 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>NewDocumentScreen</targetReference>
+            <targetReference>Check_Record_Id_Decision</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <description>Check if record id is not null</description>
+        <name>Check_Record_Id_Decision</name>
+        <label>Check Record Id Decision</label>
+        <locationX>930</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>NewDocumentScreen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Proceed to Create Document</defaultConnectorLabel>
+        <rules>
+            <name>Is_Opportunity</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>opportunityId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_User_Role_for_Opportunity_Decision</targetReference>
+            </connector>
+            <label>Is Opportunity</label>
+        </rules>
+        <rules>
+            <name>Is_Engagement</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>engagementId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_User_Role_for_Engagement_Decision</targetReference>
+            </connector>
+            <label>Is Engagement</label>
+        </rules>
+        <rules>
+            <name>Is_Opportunity_Outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>opportunityOutcomeId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_User_Role_for_Opportunity_Outcome_Decision</targetReference>
+            </connector>
+            <label>Is Opportunity Outcome</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if  VP Business Development, Executive Director Industry Engagement and Operations Manager have access to Engagement</description>
+        <name>Check_User_Role_for_Engagement_Decision</name>
+        <label>Check User Role for Engagement Decision</label>
+        <locationX>1018</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>NewDocumentScreen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Proceed to Create Document</defaultConnectorLabel>
+        <rules>
+            <name>Check_User_Role_for_Engagement</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Operations Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Executive Director Industry Engagement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>VP Business Development</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Error_Message_Text</targetReference>
+            </connector>
+            <label>Check User Role for Engagement</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if  VP Business Development, Executive Director Industry Engagement and Operations Manager have access to Opportunity</description>
+        <name>Check_User_Role_for_Opportunity_Decision</name>
+        <label>Check User Role for Opportunity Decision</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>NewDocumentScreen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Proceed to Create Document</defaultConnectorLabel>
+        <rules>
+            <name>Check_User_Role_for_Opportunity</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Operations Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Executive Director Industry Engagement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>VP Business Development</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Error_Message_Text</targetReference>
+            </connector>
+            <label>Check User Role for Opportunity</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if  VP Business Development, Executive Director Industry Engagement and Partnership Manager have access to Opportunity Outcome</description>
+        <name>Check_User_Role_for_Opportunity_Outcome_Decision</name>
+        <label>Check User Role for Opportunity Outcome Decision</label>
+        <locationX>1458</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>NewDocumentScreen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Proceed to Create Document</defaultConnectorLabel>
+        <rules>
+            <name>Check_User_Role_for_Opportunity_Outcome</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Partnership Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Executive Director Industry Engagement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>VP Business Development</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Error_Message_Text</targetReference>
+            </connector>
+            <label>Check User Role for Opportunity Outcome</label>
+        </rules>
+    </decisions>
     <description>Replaces the default creation of Document object on the Document Related List to always create Documents with Standard Record Type.</description>
+    <dynamicChoiceSets>
+        <name>Document_Status_Picklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Document_Status__c</picklistField>
+        <picklistObject>Document__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>Document_Type_Picklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Document_Type__c</picklistField>
+        <picklistObject>Document__c</picklistObject>
+    </dynamicChoiceSets>
     <environments>Default</environments>
     <interviewLabel>Create Standard Type Document {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create Standard Type Document</label>
@@ -64,8 +324,11 @@
     <recordCreates>
         <name>CreateNewDocument</name>
         <label>CreateNewDocument</label>
-        <locationX>176</locationX>
-        <locationY>518</locationY>
+        <locationX>138</locationX>
+        <locationY>674</locationY>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>Description__c</field>
             <value>
@@ -93,43 +356,43 @@
         <inputAssignments>
             <field>Document_Status__c</field>
             <value>
-                <elementReference>docVar.Document_Status__c</elementReference>
+                <elementReference>Document_Status</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Document_Title__c</field>
             <value>
-                <elementReference>docVar.Document_Title__c</elementReference>
+                <elementReference>Document_Title</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Document_Type__c</field>
             <value>
-                <elementReference>docVar.Document_Type__c</elementReference>
+                <elementReference>Document_Type</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Document_URL__c</field>
             <value>
-                <elementReference>Document_URL</elementReference>
+                <elementReference>Document_URL.value</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Engagement__c</field>
             <value>
-                <elementReference>docVar.Engagement__c</elementReference>
+                <elementReference>engagementId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Opportunity_Outcome__c</field>
             <value>
-                <elementReference>docVar.Opportunity_Outcome__c</elementReference>
+                <elementReference>opportunityOutcomeId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Opportunity__c</field>
             <value>
-                <elementReference>docVar.Opportunity__c</elementReference>
+                <elementReference>opportunityId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -144,12 +407,16 @@
     <recordLookups>
         <name>GetStandardRecordTypeID</name>
         <label>GetStandardRecordTypeID</label>
-        <locationX>176</locationX>
-        <locationY>398</locationY>
+        <locationX>138</locationX>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CreateNewDocument</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>SobjectType</field>
@@ -172,16 +439,38 @@
         </outputAssignments>
     </recordLookups>
     <screens>
+        <name>Error_Message_Screen</name>
+        <label>Error Message Screen</label>
+        <locationX>930</locationX>
+        <locationY>1406</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Error_Message_Text</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(255, 0, 32);&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color: rgb(234, 0, 30);&quot;&gt;{!ErrorMessageText}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Closed</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>NewDocumentScreen</name>
         <label>NewDocumentScreen</label>
-        <locationX>176</locationX>
-        <locationY>278</locationY>
-        <allowBack>true</allowBack>
+        <locationX>138</locationX>
+        <locationY>458</locationY>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
             <targetReference>GetStandardRecordTypeID</targetReference>
         </connector>
+        <fields>
+            <name>Display_Error_Message</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30);&quot;&gt;{!ErrorMessageText}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>Document_Summary</name>
             <fieldText>Document Summary</fieldText>
@@ -190,34 +479,36 @@
                 <name>Document_Summary_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Opportunity__c</objectFieldReference>
+                    <name>Document_Title</name>
+                    <dataType>String</dataType>
+                    <fieldText>Document Title</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30);&quot;&gt;Limit should be 80 characters only.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>LEN({!Document_Title}) &lt;=80</formulaExpression>
+                    </validationRule>
+                </fields>
+                <fields>
+                    <name>Document_Type</name>
+                    <choiceReferences>Document_Type_Picklist</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Document Type</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Document_Title__c</objectFieldReference>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Document_Type__c</objectFieldReference>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>docVar.Document_Start_Date__c</objectFieldReference>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Document_Status__c</objectFieldReference>
+                    <name>Document_Status</name>
+                    <choiceReferences>Document_Status_Picklist</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Document Status</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -231,39 +522,43 @@
                 <name>Document_Summary_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Engagement__c</objectFieldReference>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Opportunity_Outcome__c</objectFieldReference>
-                </fields>
-                <fields>
                     <name>Document_URL</name>
-                    <dataType>String</dataType>
-                    <fieldText>Document URL</fieldText>
-                    <fieldType>InputField</fieldType>
+                    <extensionName>flowruntime:url</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Document URL</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>pattern</name>
+                        <value>
+                            <stringValue>^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>docVar.Document_Date__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>docVar.Document_End_Date__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>docVar.Description__c</objectFieldReference>
                 </fields>
@@ -283,7 +578,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>50</locationX>
+        <locationX>804</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>AssignOpportunityId</targetReference>
@@ -300,6 +595,13 @@
     </variables>
     <variables>
         <name>engagementId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorMessageText</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -335,6 +637,13 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>SelectedObjects</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>standardRecordTypeId</name>
