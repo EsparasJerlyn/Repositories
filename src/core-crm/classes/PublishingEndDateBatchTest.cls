@@ -134,7 +134,7 @@ public with sharing class PublishingEndDateBatchTest {
             Test.startTest();
 
             PublishingEndDateBatch batch = new PublishingEndDateBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             Test.stopTest();
 
@@ -163,7 +163,7 @@ public with sharing class PublishingEndDateBatchTest {
             Test.startTest();
 
             PublishingEndDateBatch batch = new PublishingEndDateBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             Test.stopTest();
 
@@ -198,7 +198,7 @@ public with sharing class PublishingEndDateBatchTest {
             Test.startTest();
 
             PublishingEndDateBatch batch = new PublishingEndDateBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'PublishingEndDateBatch'].isEmpty() , 'PublishingEndDate Job was not executed');
 

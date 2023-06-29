@@ -4,8 +4,8 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <label>Is Curriculum Approved</label>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

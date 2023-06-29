@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Work_Email__c</fullName>
+    <description>Where the Contextual Role record is capturing a data about a DEP Contact, the Contact’s Work Email address needs to be displayed.</description>
+    <externalId>false</externalId>
+    <formula>Contact__r.Work_Email__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Contact Work Email</label>
+    <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

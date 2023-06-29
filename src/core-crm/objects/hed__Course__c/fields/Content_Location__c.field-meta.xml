@@ -5,5 +5,7 @@
     <label>Content Location</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>TextArea</type>
 </CustomField>

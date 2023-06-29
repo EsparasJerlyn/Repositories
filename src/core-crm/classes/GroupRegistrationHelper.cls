@@ -132,9 +132,9 @@ public without sharing class GroupRegistrationHelper {
             if (!result.isSuccess()){
                 Logger.error('Error in Inserting Buyer Accounts').setDatabaseResult(result);
             }            
-            if(Logger.getBufferSize() < 0){
-                Logger.saveLog();                
-            }
+        }
+        if(Logger.getBufferSize() > 0){
+            Logger.saveLog();                
         }
     }
 
@@ -148,9 +148,9 @@ public without sharing class GroupRegistrationHelper {
             if (!result.isSuccess()){
                 Logger.error('Error in Inserting Buyer Group Members').setDatabaseResult(result);
             }            
-            if(Logger.getBufferSize() < 0){
-                Logger.saveLog();                
-            }
+        }
+        if(Logger.getBufferSize() < 0){
+            Logger.saveLog();                
         }
     }
 

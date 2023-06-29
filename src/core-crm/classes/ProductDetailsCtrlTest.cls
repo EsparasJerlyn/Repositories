@@ -28,7 +28,7 @@ public class ProductDetailsCtrlTest{
 
   private static final String CATEGORY_OPE = 'Product Catalogue';
   private static final string studentRT = System.Label.RT_CourseConnection_Student;
-  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
+  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
   private static final String rtProdRequestActivity = System.Label.RT_ProductRequest_Activity;
   private static final Id studentRecTypeId = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get(studentRT).getRecordTypeId();
   private static final Id opeActProdReqRecType = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(rtProdRequestActivity).getRecordTypeId();
@@ -200,7 +200,6 @@ public class ProductDetailsCtrlTest{
   @isTest 
   static void testGetCCEProductRelatedRecordsTEE(){
     final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-		DmlException expectedException;
 
     BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
           bypass.Bypass__c = false; 
@@ -227,10 +226,6 @@ public class ProductDetailsCtrlTest{
 			List<BuyerGroup> bGroup = [
 				SELECT Id, Name FROM BuyerGroup
 				WHERE Id = :bgm[0].BuyerGroupId
-			];
-
-			List<CommerceEntitlementPolicy> cePolicy = [
-				SELECT Id, Name FROM CommerceEntitlementPolicy
 			];
 
       Contact cceContact = new Contact(
@@ -276,12 +271,6 @@ public class ProductDetailsCtrlTest{
 			List<Account> accUniv = [SELECT Id, RecordTypeId 
 				FROM Account
 				WHERE RecordTypeId =: ACCT_UNIV_DEP_ID
-			];
-
-			List<User> user = [
-				SELECT Id, Name, ContactId, AccountId
-				FROM User
-				WHERE AccountId = :accBusinessOrg[0].Id
 			];
 
 			// Create BuyerGroupMember
@@ -499,11 +488,6 @@ public class ProductDetailsCtrlTest{
 			}
 			insert ceProdPres;
 
-			List<ProductCategoryProduct> pcpList = [
-				SELECT Id, Name, ProductId, CatalogId, ProductCategory.Name, Product.Name, ProductCategoryId
-				FROM ProductCategoryProduct
-			];
-
       Id singleProdId = [
           SELECT Id
           FROM Product2
@@ -544,9 +528,6 @@ public class ProductDetailsCtrlTest{
 
   @isTest
   static void testGetCCEProductRelatedRecordsCB(){
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-		DmlException expectedException;
-
     BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
           bypass.Bypass__c = false; 
           update bypass;
@@ -607,21 +588,9 @@ public class ProductDetailsCtrlTest{
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
 
-      List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
-				FROM Account 
-				WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID
-				AND CreatedById = :PROGRAM_ADMIN.Id
-			];
-
 			List<Account> accUniv = [SELECT Id, RecordTypeId 
 				FROM Account
 				WHERE RecordTypeId =: ACCT_UNIV_DEP_ID
-			];
-
-			List<User> user = [
-				SELECT Id, Name, ContactId, AccountId
-				FROM User
-				WHERE AccountId = :accounts[0].Id
 			];
 
 			// Create CommerceEntitlementBuyerGroup
@@ -923,11 +892,6 @@ public class ProductDetailsCtrlTest{
 			}
 			insert priceBookEntryListCCE;
 
-      List<PricebookEntry> checkPBEntry = [
-        SELECT Id, Pricebook2.Name, Pricebook2Id, Product2.Name, Product2Id
-        FROM PricebookEntry
-      ];
-
       Id singleProdId = [
         SELECT Id, Pricebook2.Name, Pricebook2Id, Product2.Name, Product2Id
         FROM PricebookEntry
@@ -971,9 +935,6 @@ public class ProductDetailsCtrlTest{
 
   @isTest
   static void testGetCCEProductRelatedRecordsSOA(){
-    final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
-		DmlException expectedException;
-
     BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
           bypass.Bypass__c = false; 
           update bypass;
@@ -1033,22 +994,10 @@ public class ProductDetailsCtrlTest{
 
       CCECorporateUserCtrl.CorporateUserDetails enableResponse = new CCECorporateUserCtrl.CorporateUserDetails();
       enableResponse = CCECorporateUserCtrl.enablePortalUser(cceContact.Id,CATEGORY_OPE);
-      System.debug(LoggingLevel.DEBUG, JSON.serializePretty(enableResponse));//NOPMD
-      List<Account> accBusinessOrg = [SELECT Id, RecordTypeId 
-				FROM Account 
-				WHERE RecordTypeId = :BUSINESS_ACC_RECTYPEID
-				AND CreatedById = :PROGRAM_ADMIN.Id
-			];
-
+      
 			List<Account> accUniv = [SELECT Id, RecordTypeId 
 				FROM Account
 				WHERE RecordTypeId =: ACCT_UNIV_DEP_ID
-			];
-
-			List<User> user = [
-				SELECT Id, Name, ContactId, AccountId
-				FROM User
-				WHERE AccountId = :accounts[0].Id
 			];
 
 			// Create CommerceEntitlementBuyerGroup
@@ -1350,11 +1299,6 @@ public class ProductDetailsCtrlTest{
 			}
 			insert priceBookEntryListCCE;
 
-      List<PricebookEntry> checkPBEntry = [
-        SELECT Id, Pricebook2.Name, Pricebook2Id, Product2.Name, Product2Id
-        FROM PricebookEntry
-      ];
-
       Id singleProdId = [
         SELECT Id, Pricebook2.Name, Pricebook2Id, Product2.Name, Product2Id
         FROM PricebookEntry
@@ -1406,10 +1350,6 @@ public class ProductDetailsCtrlTest{
       WHERE RecordTypeId = :ACCT_UNIV_DEP_ID
       AND Organization_Unit_Level__c = '2'
     ];
-
-     Product_Request__c productRequest = [SELECT Id, Name
-                                      FROM Product_Request__c
-                                      LIMIT 1];
 
     List<Product_Request__c> progProdReq = TestDataFactory.createTestProductRequestRecords(10);
     progProdReq[0].RecordTypeId = opeProgProdReqId;
@@ -1471,10 +1411,6 @@ public class ProductDetailsCtrlTest{
       WHERE RecordTypeId = :ACCT_UNIV_DEP_ID
       AND Organization_Unit_Level__c = '2'
     ];
-
-     Product_Request__c productRequest = [SELECT Id, Name
-                                      FROM Product_Request__c
-                                      LIMIT 1];
 
     List<Product_Request__c> progProdReq = TestDataFactory.createTestProductRequestRecords(10);
     progProdReq[0].RecordTypeId = opeProgProdReqId;
@@ -1759,6 +1695,7 @@ public class ProductDetailsCtrlTest{
 
       List<Contact> contacts = TestDataFactory.createTestContactRecords(numberOfRecords);
       for (Integer i = 0; i < contacts.size(); i++){
+        contacts[i].Salutation = 'DR';
         contacts[i].Email = 'testIdeaFormUser' + i + '@mailinator.com';
       }
       insert contacts;
@@ -1833,8 +1770,6 @@ public class ProductDetailsCtrlTest{
     System.runAs(TestDataFactory.getProgramAdminUser()){
       Test.startTest();
       Map<String, Object> returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(produtRequestForProgramPlan.Id);
-
-      ProductDetailsCtrl.childProduct childProductList = new ProductDetailsCtrl.childProduct();
 
       System.assert(returnMap != null, 'Unable to retrieve data related to Product Request');
       System.assert(returnMap.get('productType') == 'Prescribed Program', 'Unable to retrieve data related to Product Request');
@@ -1914,9 +1849,6 @@ public class ProductDetailsCtrlTest{
   static void testSaveContactData(){
     System.runAs(TestDataFactory.getProgramAdminUser()){
       createRecord(opeActProdReqRecType);
-      String prodReqId = [SELECT Id
-                    FROM Product_Request__c
-                    LIMIT 1].Id;
       Test.startTest();
       List<Account> acct = TestDataFactory.createTestAccountRecords(1);
       insert acct;
@@ -1936,9 +1868,6 @@ public class ProductDetailsCtrlTest{
   static void testGetContactAccountId(){
     System.runAs(TestDataFactory.getProgramAdminUser()){
       createRecord(opeActProdReqRecType);
-      String prodReqId = [SELECT Id
-                    FROM Product_Request__c
-                    LIMIT 1].Id;
       Test.startTest();
       List<Account> acct = TestDataFactory.createTestAccountRecords(1);
       insert acct;
@@ -1956,9 +1885,6 @@ public class ProductDetailsCtrlTest{
   static void testGetUserContactDetails(){
     System.runAs(TestDataFactory.getProgramAdminUser()){
       createRecord(opeActProdReqRecType);
-      String prodReqId = [SELECT Id
-                    FROM Product_Request__c
-                    LIMIT 1].Id;
       Test.startTest();
       List<Contact> con = TestDataFactory.createTestContactRecords(1);
       insert con;
@@ -1973,9 +1899,6 @@ public class ProductDetailsCtrlTest{
   static void testGetUserCartDetails(){
     System.runAs(TestDataFactory.getProgramAdminUser()){
       createRecord(opeActProdReqRecType);
-      String prodReqId = [SELECT Id
-                    FROM Product_Request__c
-                    LIMIT 1].Id;
       Test.startTest();
       List<Account> acct = TestDataFactory.createTestAccountRecords(1);
       insert acct;
@@ -1995,9 +1918,6 @@ public class ProductDetailsCtrlTest{
   static void testGetPricebookEntryPrice(){
     System.runAs(TestDataFactory.getProgramAdminUser()){
       createRecord(opeActProdReqRecType);
-      String prodReqId = [SELECT Id
-                    FROM Product_Request__c
-                    LIMIT 1].Id;
       Test.startTest();
       PricebookEntry pricebookentry = [SELECT Id
                                  FROM PricebookEntry
@@ -2045,9 +1965,6 @@ public class ProductDetailsCtrlTest{
       BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
           bypass.Bypass__c = false; 
           update bypass;
-          String communityId = [SELECT Id
-                          FROM  Network 
-                      WHERE Name = 'CCE' AND Status = 'Live'].Id;
         
       String effectiveAccountId = [SELECT Id
                              FROM Account
@@ -2124,7 +2041,7 @@ public class ProductDetailsCtrlTest{
         courseOffering
       );
 
-      List<Product_Ledger__c> prodLegder = TestDataFactory.createTestProductLedgerRecords(
+      TestDataFactory.createTestProductLedgerRecords(
         1,
         courseEnrol[0].Id,
         assetRecord.Id
@@ -2145,10 +2062,7 @@ public class ProductDetailsCtrlTest{
       BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
           bypass.Bypass__c = false;
           update bypass;
-      String communityId = [SELECT Id
-                      FROM  Network 
-                      WHERE Name = 'CCE' AND Status = 'Live'].Id;
-        
+      
       String effectiveAccountId = [SELECT Id
                              FROM Account
                              WHERE CreatedById = :TestDataFactory.getProgramAdminUser().Id
@@ -2165,11 +2079,7 @@ public class ProductDetailsCtrlTest{
       insert newPBE;
         
         
-      String productId = prod.Id;
       String productRequest = prod.Course__r.ProductRequestID__c;
-      String productName = prod.Name;
-      String pricebookEntryId = newPBE.Id;
-      String pricebookUnitPrice =String.valueOf(newPBE.UnitPrice);
       BuyerGroup bgToInsert = new BuyerGroup(Name = 'CORPO', Product_Request__c = productRequest);     
       insert bgToInsert;
         
@@ -2187,7 +2097,6 @@ public class ProductDetailsCtrlTest{
       );
       
       insert assetRecord;
-      Asset ar = ProductDetailsCtrl.assetRecordData(newPBE.Pricebook2Id);
       Test.stopTest();
       system.assert(true, 'Transaction Failed!');
     }
@@ -2200,9 +2109,6 @@ public class ProductDetailsCtrlTest{
           BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() LIMIT 1];
           bypass.Bypass__c = false;
           update bypass;
-          String communityId = [SELECT Id
-                          FROM  Network 
-                      WHERE Name = 'CCE' AND Status = 'Live'].Id;
         
       String effectiveAccountId = [SELECT Id
                              FROM Account

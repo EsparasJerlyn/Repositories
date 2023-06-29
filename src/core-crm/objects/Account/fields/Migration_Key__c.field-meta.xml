@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Migration_Key__c</fullName>
+    <caseSensitive>false</caseSensitive>
     <description>For migrated records only: the system from which the record was migrated and the business identifier of the record in that system.</description>
     <externalId>true</externalId>
     <label>Migration Key</label>
@@ -10,5 +11,5 @@
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Text</type>
-    <unique>false</unique>
+    <unique>true</unique>
 </CustomField>

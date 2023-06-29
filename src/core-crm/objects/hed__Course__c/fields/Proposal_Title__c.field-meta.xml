@@ -4,8 +4,8 @@
     <externalId>false</externalId>
     <label>Proposal Title</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>TextArea</type>
 </CustomField>

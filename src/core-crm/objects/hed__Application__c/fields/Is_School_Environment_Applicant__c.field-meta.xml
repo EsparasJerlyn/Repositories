@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_School_Environment_Applicant__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicating if applicant qualified for EAS due to school environment.</description>
+    <externalId>false</externalId>
+    <label>School Environment Applicant</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

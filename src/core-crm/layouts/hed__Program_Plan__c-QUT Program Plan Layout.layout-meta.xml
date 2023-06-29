@@ -189,10 +189,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Enrolment_Rulesv2__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Early_Exit_Options__c</field>
             </layoutItems>
             <layoutItems>

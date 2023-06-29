@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Commercialisation_Ready_is_Yes</fullName>
+    <active>true</active>
+    <description>Checks if the Engagement of Commercialisation record type is Commercialisation Ready when changing stage from Development to Commercialisation Ready.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
+ISCHANGED(Stage_Name__c),
+ISPICKVAL(PRIORVALUE(Stage_Name__c), &quot;Development&quot;),
+ISPICKVAL(Stage_Name__c, &quot;Commercialisation Ready&quot;),
+NOT(ISPICKVAL(Commercialisation_Ready__c, &quot;Yes&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Commercialisation_Ready__c</errorDisplayField>
+    <errorMessage>The engagement must be commercialisation ready.</errorMessage>
+</ValidationRule>

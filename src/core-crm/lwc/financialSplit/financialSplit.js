@@ -172,17 +172,21 @@ export default class FinancialSplit extends LightningElement {
             this.isStatusCompleted;
     }
     
+    get recordFilter() { 
+        return {
+            parentId : this.recordId,
+            parentField : this.childInfo.parentField,
+            childObjectType : this.childInfo.childObjectType,
+            grandChildInfo : {}
+        }
+    }
+
     //gets product request details
     @wire(getRecord, { recordId: '$recordId', fields: [PR_RT_DEV_NAME] })
     productRequest;
 
     //gets related parent id (either Course/Program Plan)
-    @wire(getParentId, { 
-        parentId : '$recordId', 
-        parentField : '$childInfo.parentField', 
-        childObjectType : '$childInfo.childObjectType', 
-        grandChildInfo : {}
-    })
+    @wire(getParentId, { filter: '$recordFilter'})
     handleGetParentId(result){
         if(result.data){
             this.parentId = result.data;

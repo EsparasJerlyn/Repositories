@@ -5,6 +5,8 @@
     <label>Outcomes</label>
     <length>1000</length>
     <trackTrending>false</trackTrending>
+    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>25</visibleLines>
 </CustomField>

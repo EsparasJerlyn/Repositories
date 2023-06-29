@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_EAS_Applicant__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicating if applicant qualifies for Educational Access Scheme (EAS) is assistance given for eligibility of applicant for the applied study.</description>
+    <externalId>false</externalId>
+    <label>EAS Applicant</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

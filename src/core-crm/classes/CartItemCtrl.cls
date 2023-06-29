@@ -36,7 +36,6 @@ public without sharing class CartItemCtrl {
   public static CartItemsData getCartItemsByCart(String cartId, String userId) {
     //instantiate variables
     List<CartItem> cartItemList = new List<CartItem>();
-    List<Answer__c> answerList = new List<Answer__c>();
     List<Related_Answer__c> relatedAnswersList = new List<Related_Answer__c>();
     Map<Id, PricebookEntry> pbEntryMapStandard = new Map<Id, PricebookEntry>();
     Date earlyBirdDatePlusToday;
@@ -520,7 +519,6 @@ public without sharing class CartItemCtrl {
     Map<Id, PricebookEntry> cartItemPbeMap = new Map<Id, PricebookEntry>();
     Map<Id, PricebookEntry> cartItemPbeActualMap = new Map<Id, PricebookEntry>();
     List<Promotion> promotionList = new List<Promotion>();
-    List<Coupon> couponList = new List<Coupon>();
     List<DiscountData> discountData = new List<DiscountData>();
 
     //retrieve cart items
@@ -998,9 +996,6 @@ public without sharing class CartItemCtrl {
       ContentDocumentLink cdl;
       Answer__c updateAnswer;
       for (ContentVersion cv : newContentVersionList) {
-        String test = relatedAnswerToAnswerMap.get(
-          cvToRelatedAnswerMap.get(cv.Title)
-        );
         cdl = new ContentDocumentLink(
           ContentDocumentId = cv.ContentDocumentId,
           LinkedEntityId = relatedAnswerToAnswerMap.get(

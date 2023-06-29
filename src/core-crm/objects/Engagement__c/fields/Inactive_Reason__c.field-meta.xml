@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Inactive_Reason__c</fullName>
+    <description>The reason the Engagement became inactive.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The reason the Engagement became inactive.</inlineHelpText>
+    <label>Inactive Reason</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Opportunity</fullName>
+                <default>false</default>
+                <label>No Opportunity</label>
+            </value>
+            <value>
+                <fullName>Opportunity Executed</fullName>
+                <default>false</default>
+                <label>Opportunity Executed</label>
+            </value>
+            <value>
+                <fullName>No Funding Identified</fullName>
+                <default>false</default>
+                <label>No Funding Identified</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

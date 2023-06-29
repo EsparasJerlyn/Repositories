@@ -115,7 +115,7 @@ public with sharing class AssetToPublishBatchTest {
             Test.startTest();
 
             AssetToPublishBatch batch = new AssetToPublishBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             Test.stopTest();
 

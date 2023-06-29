@@ -57,6 +57,7 @@ public without sharing class ProductDetailsCtrl {
 		public static final String CORPORATE_BUNDLE = 'Corporate Bundle';
 		public static final String TAILORED_EXECUTIVE_EDUCATION = 'Tailored Executive Education';
 		public static final String TAILORED_EXECUTIVE_PROGRAM = 'Tailored Executive Program';
+		private static List<String> FACILITATOR_TITLE = System.Label.LWC_List_FacilitatorTitle.split(',');
 
 	/**
 	 * @description fetches course offerings and pricebooks related to the product
@@ -235,9 +236,12 @@ public without sharing class ProductDetailsCtrl {
 
 			// Get sequence on Program Plan
 			List<hed__Plan_Requirement__c> programPlanRequirementList = [
-				SELECT Id, hed__Course__c, hed__Sequence__c
+				SELECT Id, 
+				hed__Course__c, 
+				hed__Sequence__c
 				FROM hed__Plan_Requirement__c
 				WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
+				AND IsActive__c = TRUE
 				ORDER BY hed__Sequence__c 
 				];
 	
@@ -259,8 +263,6 @@ public without sharing class ProductDetailsCtrl {
 
 					if(courseIdWithPlanSet.contains(childProd.Course__c)){
 						childProductMap.put(childProd.Course__c, childProd);
-					}else{
-						childProductList.add(childProd);
 					}
 				}
 
@@ -271,10 +273,7 @@ public without sharing class ProductDetailsCtrl {
 					}
 				}
 			}
-			else{
-				childProductList = childProdList;
-			}
-
+			
 			// Flexible-Program
 			Map<Id, Date> cProdDateMap = new Map<Id, Date>();
 			if (
@@ -643,9 +642,12 @@ public without sharing class ProductDetailsCtrl {
 	
 				// Get sequence on Program Plan
 				List<hed__Plan_Requirement__c> programPlanRequirementList = [
-					SELECT Id, hed__Course__c, hed__Sequence__c
+					SELECT Id, 
+					hed__Course__c,
+					hed__Sequence__c
 					FROM hed__Plan_Requirement__c
 					WHERE hed__Program_Plan__c = :productOnPage.Program_Plan__c
+					AND IsActive__c = TRUE
 					ORDER BY hed__Sequence__c 
 					];
 		
@@ -667,8 +669,6 @@ public without sharing class ProductDetailsCtrl {
 	
 						if(courseIdWithPlanSet.contains(childProd.Course__c)){
 							childProductMap.put(childProd.Course__c, childProd);
-						}else{
-							childProductList.add(childProd);
 						}
 					}
 	
@@ -678,9 +678,7 @@ public without sharing class ProductDetailsCtrl {
 						}
 					}
 				}
-				else{
-					childProductList = childProdList;
-				}
+			
 	
 				// Flexible-Program
 				Map<Id, Date> cProdDateMap = new Map<Id, Date>();
@@ -796,6 +794,7 @@ public without sharing class ProductDetailsCtrl {
 							Id,
 							hed__Contact__c,
 							hed__Contact__r.Name,
+							toLabel(hed__Contact__r.Salutation),
 							Facilitator_Bio__r.Professional_Bio__c,
 							hed__Contact__r.Contact_Image__c,
 							hed__Primary__c
@@ -935,6 +934,9 @@ public without sharing class ProductDetailsCtrl {
 						facilitatorWrapper facilWrapper = new facilitatorWrapper();
 						// Facilitator Name
 						facilWrapper.facilitatorName = cEnroll.hed__Contact__r.Name;
+						if(FACILITATOR_TITLE.contains(cEnroll.hed__Contact__r.Salutation)){
+							facilWrapper.facilitatorName = cEnroll.hed__Contact__r.Salutation + ' ' + cEnroll.hed__Contact__r.Name;
+						}
 						// Facilitator Bio
 						facilWrapper.facilitatorBio = cEnroll.Facilitator_Bio__r.Professional_Bio__c;
 						// Facilitator Image
@@ -1069,8 +1071,6 @@ public without sharing class ProductDetailsCtrl {
 				insert cItem;
 			}
 		} catch (Exception e) {
-			// system.debug(e);
-			// system.debug('Error on ProductDetailsCtrl.addToCartItem');
 			AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			throw auraEx;
 		}
@@ -1235,10 +1235,11 @@ public without sharing class ProductDetailsCtrl {
 			cartWrapper.externalId = externalId;
 
 		} catch (Exception e) {
-			System.debug(LoggingLevel.DEBUG, e);//NOPMD
-			System.debug(LoggingLevel.DEBUG, 'error on ProductDetailsCtrl.insertLearnerInfo');//NOPMD
-			// AuraHandledException auraEx = new AuraHandledException(e.getMessage());
-			// throw auraEx;
+			Logger.error('error on ProductDetailsCtrl.insertLearnerInfo').setExceptionDetails(e);
+		} finally {
+			if(Logger.getBufferSize() > 0) {
+				Logger.saveLog();
+			}
 		}
 
 		return cartWrapper;
@@ -1274,7 +1275,11 @@ public without sharing class ProductDetailsCtrl {
 				webcart.Status = 'Closed';
 				UPDATE webcart;
 			}catch(Exception e){
-				System.debug(LoggingLevel.DEBUG, (e));//NOPMD
+				Logger.error('error on updating Webcart').setExceptionDetails(e);
+			} finally {
+				if(Logger.getBufferSize() > 0) {
+					Logger.saveLog();
+				}
 			}
 			
 			//get cart and course info through cart item
@@ -1531,9 +1536,6 @@ public without sharing class ProductDetailsCtrl {
 			ContentDocumentLink cdl;
 			Answer__c updateAnswer;
 			for (ContentVersion cv : newContentVersionList) {
-				String test = relatedAnswerToAnswerMap.get(
-					cvToRelatedAnswerMap.get(cv.Title)
-				);
 				cdl = new ContentDocumentLink(
 					ContentDocumentId = cv.ContentDocumentId,
 					LinkedEntityId = relatedAnswerToAnswerMap.get(
@@ -1768,14 +1770,19 @@ public without sharing class ProductDetailsCtrl {
 		List<ModuleWrapper> modules = new List<ModuleWrapper>();
 		try {
 			List<hed__Plan_Requirement__c> programPlanRequirements = [
-				SELECT Id, hed__Course__c, hed__Sequence__c
+				SELECT Id, 
+				hed__Course__c, 
+				hed__Sequence__c
 				FROM hed__Plan_Requirement__c
 				WHERE hed__Program_Plan__c = :programPlanId
-				AND hed__Course__c IN ( SELECT Id FROM hed__Course__c WHERE ProductRequestID__r.Product_Request_Status__c = 'Published' )
+				AND IsActive__c = TRUE
+				AND hed__Course__c IN ( 
+					SELECT Id 
+					FROM hed__Course__c 
+					WHERE ProductRequestID__r.Product_Request_Status__c = 'Published' )
 				ORDER BY hed__Sequence__c
 			];
 			Map<Decimal, Id> coursesInPlanRequirements = new Map<Decimal, Id>();
-			// System.debug('programPlanRequirements: ' + programPlanRequirements);
 			for (
 				hed__Plan_Requirement__c programPlanRequirement : programPlanRequirements
 			) {
@@ -1784,7 +1791,6 @@ public without sharing class ProductDetailsCtrl {
 					programPlanRequirement.hed__Course__c
 				);
 			}
-			// System.debug('coursesInPlanRequirements: ' + coursesInPlanRequirements);
 			List<Product2> courseProducts = [
 				SELECT
 					Id,
@@ -1823,11 +1829,8 @@ public without sharing class ProductDetailsCtrl {
 				moduleWrapper.moreDetails = courseProduct.More_Details__c;
 				modules.add(moduleWrapper);
 			}
-			// System.debug('modules: ' + modules);
 			return modules;
 		} catch (Exception e) {
-			// system.debug(e);
-			// system.debug('Error on ProductDetailsCtrl.getProgramModules');
 			AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			throw auraEx;
 		}
@@ -1857,7 +1860,6 @@ public without sharing class ProductDetailsCtrl {
 					OR Registration_End_Date__c > TODAY)
 				ORDER BY Start_Date__c ASC
 			];
-			// System.debug('programOfferings: ' + programOfferings);
 			for (Program_Offering__c programOffering : programOfferings) {
 				ProgramOfferingWrapper programOfferingWrapper = new ProgramOfferingWrapper();
 				programOfferingWrapper.id = programOffering.Id;
@@ -1883,13 +1885,8 @@ public without sharing class ProductDetailsCtrl {
 					programOfferingWrapperList
 				);
 			}
-			// System.debug(
-			// 	'programDeliveryAndOfferingMap: ' + programDeliveryAndOfferingMap
-			// );
 			return programDeliveryAndOfferingMap;
 		} catch (Exception e) {
-			// system.debug(e);
-			// system.debug('Error on ProductDetailsCtrl.getProgramOfferings');
 			AuraHandledException auraEx = new AuraHandledException(e.getMessage());
 			throw auraEx;
 		}
@@ -1942,7 +1939,6 @@ public without sharing class ProductDetailsCtrl {
 	public static Map<String, Object> getProductDataRelatedToProductRequest(
 		String productRequestId
 	) {
-		// System.debug('productRequestId: ' + productRequestId);
 		Map<String, Object> returnMap = new Map<String, Object>();
 		String productType = '';
 		Id productId;
@@ -1954,7 +1950,6 @@ public without sharing class ProductDetailsCtrl {
 			WHERE Product_Request__c = :productRequestId
 		];
 		if (programPlans.size() > 0) {
-			// System.debug('Product is a program');
 			products = [
 				SELECT
 					Id,
@@ -1969,23 +1964,17 @@ public without sharing class ProductDetailsCtrl {
 					programPlans[0].Program_Delivery_Structure__c == 'Prescribed Program'
 				) {
 					productType = 'Prescribed Program';
-					//Call getProductRelatedRecords(productId);
 					prodDetailsData = getProductRelatedRecords(products[0].Id);
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('product', prodDetailsData);
 				} else if (
 					programPlans[0].Program_Delivery_Structure__c == 'Flexible Program'
 				) {
 					productType = 'Flexible Program';
-					//Call getProductRelatedRecords(productId);
-					// System.debug('productId: ' + productId);
 					prodDetailsData = getProductRelatedRecords(products[0].Id);
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('product', prodDetailsData);
 				}
 			}
 		} else {
-			// System.debug('Product is a Course');
 			List<hed__Course__c> courses = [
 				SELECT
 					Id,
@@ -2007,9 +1996,14 @@ public without sharing class ProductDetailsCtrl {
 				) {
 					productType = 'Prescribed Program Module';
 					List<hed__Plan_Requirement__c> programPlanRequirements = [
-						SELECT Id, hed__Course__c, hed__Sequence__c, hed__Program_Plan__c
+						SELECT Id, 
+						hed__Course__c, 
+						hed__Sequence__c, 
+						hed__Program_Plan__c
 						FROM hed__Plan_Requirement__c
-						WHERE hed__Course__c = :courses[0].Id
+						WHERE 
+						IsActive__c = TRUE
+						AND hed__Course__c = :courses[0].Id
 					];
 					Id programPlanId = programPlanRequirements[0].hed__Program_Plan__c;
 					Id parentProductId = [
@@ -2018,32 +2012,26 @@ public without sharing class ProductDetailsCtrl {
 						WHERE Program_Plan__c = :programPlanId
 					]
 					.Id;
-					// System.debug('parentProductId: ' + parentProductId);
 					//Call getProductRelatedRecords(productId);
 					prodDetailsData = getProductRelatedRecords(parentProductId);
 					List<ModuleWrapper> modules = prodDetailsData.moduleWrapperList;
-					// System.debug('modules: ' + modules);
 					for (ModuleWrapper module : modules) {
-						// System.debug('module: ' + module);
 						if (module.id == productId) {
 							returnMap.put('product', module);
 							break;
 						}
 					}
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('parent', prodDetailsData);
 				} else {
 					productType = 'Single Product';
 					//Call getProductRelatedRecords(productId);
 					prodDetailsData = getProductRelatedRecords(productId);
-					// System.debug('prodDetailsData: ' + prodDetailsData);
 					returnMap.put('product', prodDetailsData);
 				}
 			}
 		}
 		returnMap.put('productType', productType);
 		returnMap.put('productId', productId);
-		// System.debug('returnMap: ' + returnMap);
 		return returnMap;
 	}
 

@@ -30,7 +30,6 @@ public without sharing class SendNewOfferingNotificationHelper {
         //final set of interest for notifcation
         Set<Id> interestEmailRecipientsSet = new Set<Id>();
 
-        Date today = System.today();
         DateTime dt = System.Now().addHours(-24);
 
         //get all expression of interests related to the course of the newly created offering
@@ -273,44 +272,31 @@ public without sharing class SendNewOfferingNotificationHelper {
                     interestId
                 );
 
-                objEmail = EmailHelper.emailBuilder(
-                  expresionOfInterestMap.get(interestId).Contact__r.Registered_Email__c,
-                  expresionOfInterestMap.get(interestId).Product__r.Name,
-                  emailTemplateList[0].HTMLValue,
-                  emailContent,
-                  null,
-                  null,
-                  true
-                );
-
-                if (!owea.isEmpty()) {
-                    objEmail.setOrgWideEmailAddressId(owea[0].Id);
-                }
-
-                lstEmails.add(objEmail);
+                Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+                msg.setToAddresses(new String[]{expresionOfInterestMap.get(interestId).Contact__r.Registered_Email__c});
+                msg.setSubject(expresionOfInterestMap.get(interestId).Product__r.Name);
+                msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplateList[0].HTMLValue, emailContent, true));
+                msg.setOrgWideEmailAddressId(owea[0].Id);
+                msg.setSaveAsActivity(true);
+                msg.setTreatTargetObjectAsRecipient(false);
+                msg.setUseSignature(false);
+                lstEmails.add(msg);
                 //make sure email is not null
             }
         }
 
+        String errorLocation = 'On method sendOfferingNotification on class SendNewOfferingNewNotificationHelper: ';
         if (!lstEmails.isEmpty()) {
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(
-                lstEmails
-            );
-            // To Check whether Email is sent or not
-            if (results[0].success) {
-                System.debug(
-                    LoggingLevel.DEBUG,
-                    'The email was sent successfully.'
-                ); //NOPMD
-            } else {
-                System.debug(
-                    LoggingLevel.DEBUG,
-                    'The email failed to send: ' + results[0].errors[0].message
-                ); //NOPMD
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(lstEmails);
+            if(!results[0].success) {
+                Logger.error(errorLocation + 'The email failed to send: ' + results[0].errors[0].message);
             }
-            // To Check whether Email is sent or not
         } else {
-            System.debug(LoggingLevel.DEBUG, 'No emails to be sent'); //NOPMD
+            Logger.error(errorLocation + 'No emails to be sent.');
+        }
+
+        if(Logger.getBufferSize() > 0) {
+            Logger.saveLog();
         }
     }
 }

@@ -179,7 +179,13 @@ public with sharing class CceManageRegistrationSectionCtrlTest {
             );
             insert cartDeliveryGroup;
 
-            cartItemsToInsert.add(createCartItem(offeringId,cart.Id, soaPBEToInsert[0],false,cartDeliveryGroup.Id));
+            CartItemHelper.CartItemDetails details = new CartItemHelper.CartItemDetails();
+            details.offeringId = offeringId;
+            details.newWebCartId = cart.Id;
+            details.pbEntry = soaPBEToInsert[0];
+            details.prescribedProgram = false;
+            details.cartDeliveryGroupId = cartDeliveryGroup.Id;
+            cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             insert cartItemsToInsert;
             cartPayment.Payment_Status__c = 'Invoiced';
             update cartPayment;
@@ -221,24 +227,4 @@ public with sharing class CceManageRegistrationSectionCtrlTest {
         }
         Test.stopTest();
     }
-
-    private static CartItem createCartItem(Id offeringId, Id newWebCartId,  PricebookEntry pbEntry, Boolean prescribedProgram, Id cartDeliveryGroupId){
-
-        CartItem cartItem = new CartItem();
-        cartItem.CartId = newWebCartId;
-        cartItem.Name = 'Cart Item';
-        cartItem.CartDeliveryGroupId = cartDeliveryGroupId;
-        if(!prescribedProgram){
-            cartItem.Course_Offering__c = offeringId;
-        }else{
-            cartItem.Program_Offering__c = offeringId;
-        }
-        cartItem.Product2Id = pbEntry.Product2Id;
-        cartItem.Pricebook_Entry_ID__c = pbEntry.Id;
-        cartItem.Quantity = 1;
-        cartItem.TotalPrice = pbEntry.UnitPrice;
-        cartItem.Type = 'Product';
-        return cartItem;
-    }
-
 }

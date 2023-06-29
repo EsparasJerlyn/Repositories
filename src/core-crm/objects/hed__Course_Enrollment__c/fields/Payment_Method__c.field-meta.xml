@@ -5,6 +5,7 @@
     <externalId>false</externalId>
     <label>Payment Method</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -33,7 +34,7 @@
                 <label>No Charge</label>
             </value>
             <value>
-                <fullName>Contract</fullName> 
+                <fullName>Contract</fullName>
                 <default>false</default>
                 <label>Contract</label>
             </value>

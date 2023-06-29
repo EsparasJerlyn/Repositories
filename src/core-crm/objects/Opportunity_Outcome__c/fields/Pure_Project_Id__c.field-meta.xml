@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pure_Project_Id__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup to associated Pure Project record.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lookup to associated Pure Project record.</inlineHelpText>
+    <label>Pure Project ID</label>
+    <referenceTo>Pure_Project__c</referenceTo>
+    <relationshipLabel>Opportunity Outcomes</relationshipLabel>
+    <relationshipName>Opportunity_Outcomes</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -10,13 +10,13 @@
       |---------------------------|-----------------------|----------|---------------------------------|
       | roy.nino.s.regala         | May 31, 2022          | DEPP-2105| Created file                    |
       | rhea.b.torres             | March 03, 2023        | DEPP-5098| Log DML errors using            |
-      |                           |                       |          | NebulaLogger                    |   
+      |                           |                       |          | NebulaLogger                    |
 */
 
 public with sharing class LoqateMobileValidationBatch implements Database.Batchable<SObject>, Database.AllowsCallouts{
 
-    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
-    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe().getLocalName();
+    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String AU_LOCALE = 'Australia (+61)';
     private static final String NZ_LOCALE = 'New Zealand (+64)';
     private static final String NONE_STATUS = 'None';
@@ -88,9 +88,9 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
         String auResponse;
         String nzResponse;
 
-        endPointAU = ENDPOINT_START;  
+        endPointAU = ENDPOINT_START;
         endPointAU += 'au' + STR_PHONE;
-        endPointNZ = ENDPOINT_START;  
+        endPointNZ = ENDPOINT_START;
         endPointNZ += 'nz' + STR_PHONE;
 
 
@@ -103,7 +103,7 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
         List<sObject> auRecords = new List<sObject>();
         List<sObject> nzRecords = new List<sObject>();
         List<sObject> objectsToUpdate = new List<sObject>();
-        
+
         try{
             //filter nz and au
             for(sObject obj: objectList){
@@ -147,13 +147,14 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
                 for (Database.SaveResult result : srList){
                     if (!result.isSuccess()){
                       Logger.error('Database update error ').setDatabaseResult(result);
-                    }            
+                    }
                 }
             }
             
         }catch(Exception e){
-            Logger.error('Exception caught in execute in class LoqateMobileValidationBatch.').setExceptionDetails(e);
-        }finally{
+            Logger.error('Exception caught in execute in class LoqateMobileValidationBatch.')
+                .setExceptionDetails(e);
+        } finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
             }
@@ -186,8 +187,6 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
         }else{
             response = http.send(request);
         }
-        System.debug(LoggingLevel.DEBUG, 'HTTP REQUEST: '+payload);//NOPMD
-        System.debug(LoggingLevel.DEBUG, 'HTTP RESPONSE: '+response.getBody());//NOPMD
         if(response.getStatusCode() == 200) {
             return response.getBody();
         }else{
@@ -237,8 +236,7 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
      *
      * @param param1 The batch context.
      */
-    public void finish(Database.BatchableContext param1) {
-    }
+    public void finish(Database.BatchableContext param1) {}//NOPMD
 
 
     //for callout response

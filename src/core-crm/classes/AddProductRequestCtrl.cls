@@ -50,17 +50,17 @@ public with sharing class AddProductRequestCtrl {
      * @return list product request
      */
     @AuraEnabled(cacheable=true)
-    public static List<Product_Request__c> getSearchedProductRequests(String filterString, List<Product_Request__c> filterPRList, String prodSpecRecordType, Boolean isSOA){
-        filterString = '%' + filterString + '%';
+    public static List<Product_Request__c> getSearchedProductRequests(SearchProductRequestParameters searchParameters){
+        searchParameters.filterString = '%' + searchParameters.filterString + '%';
         
         List<Id> productRequestIds = new List<Id>();
 
         for(Product2 product: [ SELECT Id, Course__c, Course__r.ProductRequestID__c, IsActive
                                 FROM Product2 
-                                WHERE (Course__r.Name LIKE :filterString 
-                                OR Course__r.Name =:filterString)
-                                AND Course__r.ProductRequestID__c NOT IN: filterPRList
-                                AND Course__r.ProductRequestID__r.Product_Specification__r.RecordType.DeveloperName =: prodSpecRecordType
+                                WHERE (Course__r.Name LIKE :searchParameters.filterString 
+                                OR Course__r.Name =:searchParameters.filterString)
+                                AND Course__r.ProductRequestID__c NOT IN: searchParameters.filterPRList
+                                AND Course__r.ProductRequestID__r.Product_Specification__r.RecordType.DeveloperName =: searchParameters.prodSpecRecordType
                                 AND Course__r.ProductRequestID__r.OPE_Program_Plan_Type__c != 'Prescribed Program'
                                 AND IsActive = true
                                 ]){
@@ -69,13 +69,13 @@ public with sharing class AddProductRequestCtrl {
         }
 
         //add the programs only if searching for SOA
-        if(isSOA){
+        if(searchParameters.isSOA){
             for(Product2 product: [ SELECT Id, Name, IsActive, Program_Plan__r.Product_Request__c, Program_Plan__r.Product_Request__r.Id, Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName
                                     FROM Product2 
-                                    WHERE (Name LIKE :filterString 
-                                    OR Name =:filterString)
-                                    AND Program_Plan__r.Product_Request__r.Id NOT IN: filterPRList
-                                    AND Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName =: prodSpecRecordType
+                                    WHERE (Name LIKE :searchParameters.filterString 
+                                    OR Name =:searchParameters.filterString)
+                                    AND Program_Plan__r.Product_Request__r.Id NOT IN: searchParameters.filterPRList
+                                    AND Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName =: searchParameters.prodSpecRecordType
                                     AND IsActive = true 
                                     ]){
 
@@ -132,30 +132,24 @@ public with sharing class AddProductRequestCtrl {
      * @param accountName - Primary account name
      */
     @AuraEnabled
-    public static void createBuyerGroupAndEntitlement(
-        Id productRequestId,
-        String accountId, 
-        String accountName,
-        Boolean isCorporateBundle,
-        Boolean isSoa
-    ){
+    public static void createBuyerGroupAndEntitlement(BuyerGroupAndEntDetails details){
         BuyerGroup bg = new BuyerGroup();
 
-        if(isCorporateBundle) {
+        if(details.isCorporateBundle) {
             //create BuyerGroup
             BuyerGroup bgInsert = new BuyerGroup();
-            String accName = accountName;
+            String accName = details.accountName;
 
             if(accName.length() > 80) {
                 accName = accName.substring(0, 80);
             }
 
             bgInsert.Name = accName + ' ' + String.valueofGmt(System.now());
-            bgInsert.Product_Request__c = productRequestId;
+            bgInsert.Product_Request__c = details.productRequestId;
             insert bgInsert;
             bg = bgInsert;
-        } else if(isSoa) {
-            BuyerGroup bgQuery = [SELECT Id FROM BuyerGroup WHERE Product_Request__c = :productRequestId];
+        } else if(details.isSoa) {
+            BuyerGroup bgQuery = [SELECT Id FROM BuyerGroup WHERE Product_Request__c = :details.productRequestId];
             bg = bgQuery;
         }
 
@@ -163,14 +157,14 @@ public with sharing class AddProductRequestCtrl {
                                                         Id, Name, BuyerGroupId, BuyerId
                                                     FROM 
                                                         BuyerGroupMember 
-                                                    WHERE BuyerId =: accountId
+                                                    WHERE BuyerId =: details.accountId
                                                         AND BuyerGroupId = :bg.Id];
         //if BuyerGroupMember doesnt exist
         if(currentBgMemberList.size() == 0){
             //insert BuyerGroupMember
             BuyerGroupMember bgMemberInsert = new BuyerGroupMember();
             bgMemberInsert.BuyerGroupId = bg.Id;
-            bgMemberInsert.BuyerId = accountId;
+            bgMemberInsert.BuyerId = details.accountId;
             insert bgMemberInsert;
         }
 
@@ -188,7 +182,7 @@ public with sharing class AddProductRequestCtrl {
         commerceEntitlementInsert.CanViewPrice = true;
         commerceEntitlementInsert.CanViewProduct = true;
         commerceEntitlementInsert.IsActive = true;
-        commerceEntitlementInsert.Name = accountName + ' ' + String.valueofGmt(System.now());
+        commerceEntitlementInsert.Name = details.accountName + ' ' + String.valueofGmt(System.now());
         insert commerceEntitlementInsert;
 
         //insert CommerceEntitlementBuyerGroup
@@ -196,5 +190,20 @@ public with sharing class AddProductRequestCtrl {
         commerceEntitlementBgInsert.BuyerGroupId = bg.Id;
         commerceEntitlementBgInsert.PolicyId = commerceEntitlementInsert.Id;
         insert commerceEntitlementBgInsert;
+    }
+
+    public class SearchProductRequestParameters {
+        @AuraEnabled public List<Product_Request__c> filterPRList { get; set; }
+        @AuraEnabled public String filterString { get; set; }
+        @AuraEnabled public String prodSpecRecordType { get; set; }
+        @AuraEnabled public Boolean isSOA { get; set; }
+    }
+
+    public class BuyerGroupAndEntDetails {
+        @AuraEnabled public Id productRequestId { get; set; }
+        @AuraEnabled public String accountId { get; set; }
+        @AuraEnabled public String accountName { get; set; }
+        @AuraEnabled public Boolean isCorporateBundle { get; set; }
+        @AuraEnabled public Boolean isSoa { get; set; }
     }
 }

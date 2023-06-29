@@ -21,7 +21,7 @@
         <protected>false</protected>
         <shortDescription>DOC_Badge_Logo</shortDescription>
         <value>QUT_Badge_Logo</value>
-    </labels>
+</labels>
     <labels>
         <fullName>DOC_Email_Header</fullName>
         <categories>Document</categories>
@@ -125,6 +125,13 @@
         <protected>false</protected>
         <shortDescription>LWC_HelpText_StandardPriceBookRequired</shortDescription>
         <value>Please create first the standard pricing before creating pricing for non standard pricebooks.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_List_FacilitatorTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_FacilitatorTitle</shortDescription>
+        <value>Dr,Professor,Associate Professor,Adjunct Associate Professor,Adjunct Professor</value>
     </labels>
     <labels>
         <fullName>LWC_List_CCEChildFilter</fullName>
@@ -723,5 +730,21 @@
         <protected>false</protected>
         <shortDescription>RT_ProgramPlan_Program_Without_Pathway</shortDescription>
         <value>Program_Without_Pathway</value>
+    </labels>
+    <labels>
+        <fullName>Dedup_Mismatch_Personal_CRM_Error</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dedup_Mismatch_Personal_CRM_Error</shortDescription>
+        <value>The personal details do not match with the email provided. Please check the detail/s:</value>
+    </labels>
+    <labels>
+        <fullName>Dedup_Mismatch_Personal_Portal_Error</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dedup_Mismatch_Personal_CRM_Error</shortDescription>
+        <value>The personal details do not match with the email provided. Please check the detail/s or contact QUTeX:</value>
     </labels>
 </CustomLabels>

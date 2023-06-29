@@ -114,24 +114,18 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 			};
 	
 			// Build the Email
-			Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-				u.Contact.Work_Email__c,
-				subject,
-				emailTemplate.HtmlValue,
-				emailParams,
-				null,
-				null,
-				true
-			);
+			Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+			msg.setToAddresses(new String[]{u.Contact.Work_Email__c});
+			msg.setSubject(subject);
+			msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate.HtmlValue, emailParams, true));
+			msg.setOrgWideEmailAddressId(owea[0]?.Id);
+			msg.setSaveAsActivity(true);
+			msg.setTreatTargetObjectAsRecipient(false);
+			msg.setUseSignature(false);
 
-			// Set Org Wide Email Address
-			if (!owea.isEmpty()) {
-				mail.setOrgWideEmailAddressId(owea[0].Id);
-			}
-			
 			// Add Email to List
 			List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
-			sendEmailList.add(mail);
+			sendEmailList.add(msg);
 			
 			// Send Email List
 			Messaging.SendEmailResult[] serList = Messaging.sendEmail(sendEmailList);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IPU_Assessment_Outcome_is_Required</fullName>
+    <active>true</active>
+    <description>Checks if Assessment Outcome is successful before moving the stage to Development</description>
+    <errorConditionFormula>AND (
+   RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
+   ISCHANGED(StageName),
+   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Assessment&quot;),
+   ISPICKVAL(StageName, &quot;Development&quot;),
+   NOT(ISPICKVAL(Assessment_Outcome__c, &quot;Successful&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Assessment_Outcome__c</errorDisplayField>
+    <errorMessage>Please ensure Assessment Outcome is successful in order to move the opportunity to Development stage or mark it as Discontinued.</errorMessage>
+</ValidationRule>

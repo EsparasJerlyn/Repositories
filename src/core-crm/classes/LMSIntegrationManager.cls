@@ -17,14 +17,14 @@ public without sharing class LMSIntegrationManager {
     private static final String ENDPOINT_ESB_SAMS_REGISTER_LEARNER = System.Label.ESBSAMSRegisterLearner;
 
     public static void calloutLMSCourse(hed__Course__c course) {
-        HttpResponse response = doCallout(ENDPOINT_ESB_LMS_COURSE, 'POST', JSON.serialize(new LMSCourseWrapper(course)));
-
+        doCallout(ENDPOINT_ESB_LMS_COURSE, 'POST', JSON.serialize(new LMSCourseWrapper(course)));
+        
         course.LMS_Integration_Status__c = 'Sent';
         update course;
     }
 
     public static void calloutLMSCourseOffering(hed__Course_Offering__c courseOffering) {
-        HttpResponse response = doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOffering)));
+        doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOffering)));
 
         courseOffering.LMS_Integration_Status__c = 'Sent';
         update courseOffering;
@@ -38,13 +38,13 @@ public without sharing class LMSIntegrationManager {
             courseEnrollment.LMS_Integration_Status__c = 'Sent';
         }
 
-        HttpResponse response = doCallout(ENDPOINT_ESB_LMS_COURSE_ENROLLMENT, 'POST', JSON.serialize(new LMSCourseEnrollmentWrapper(courseEnrollmentList)));
+        doCallout(ENDPOINT_ESB_LMS_COURSE_ENROLLMENT, 'POST', JSON.serialize(new LMSCourseEnrollmentWrapper(courseEnrollmentList)));
 
         update courseEnrollments;
     }
 
     public static void calloutSAMSRegisterLearner(Contact contact) {
-        HttpResponse response = doCallout(ENDPOINT_ESB_SAMS_REGISTER_LEARNER, 'POST', JSON.serialize(new LearnerWrapper(contact)));
+        doCallout(ENDPOINT_ESB_SAMS_REGISTER_LEARNER, 'POST', JSON.serialize(new LearnerWrapper(contact)));
 
         contact.put('SAMS_Integration_Status__c', 'Sent');
         update contact;
@@ -72,10 +72,7 @@ public without sharing class LMSIntegrationManager {
         if (!Test.isRunningTest()) {
             response = http.send(request);
         }
-
-        System.debug(LoggingLevel.DEBUG, 'HTTP REQUEST: ' + payload);//NOPMD
-        System.debug(LoggingLevel.DEBUG, 'HTTP RESPONSE: ' + response.getBody());//NOPMD
-
+        
         return response;
     }
   

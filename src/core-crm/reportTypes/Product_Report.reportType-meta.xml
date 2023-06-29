@@ -484,11 +484,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Enrolment_Rules__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Resource_Details__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>

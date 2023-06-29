@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IP_Management_Code__c</fullName>
+    <description>Lookup to related IP Management record.</description>
+    <externalId>false</externalId>
+    <label>IP Management Code</label>
+    <referenceTo>IP_Management__c</referenceTo>
+    <relationshipLabel>IP Management Applications</relationshipLabel>
+    <relationshipName>IP_Management_Applications</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField> 

@@ -1,97 +1,88 @@
 <template>
-    <lightning-card>
-        <slot name="title" class="width-expanded">
-            <div class="slds-box slds-theme_shade slds-text-heading_medium slds-m-horizontal_medium title-text">
-                CONTACT INFORMATION
-            </div>
-        </slot>
-        
-        <div class="slds-m-top_large slds-m-horizontal_medium slds-text-align_center">
-            <lightning-spinner if:true={isLoading} alternative-text="Validating..." size="small"></lightning-spinner>
-        </div>
+        <lightning-accordion active-section-name="contactVerificationSection" allow-multiple-sections-open>
+            <lightning-accordion-section name="contactVerificationSection" label={sectionTitle} class="customAccordion accordion-section-label">
 
-        <!-- Column Headers -->
-        <lightning-layout class="slds-p-horizontal_medium">
-            <lightning-layout-item if:true={disableEditButton} size="4" padding="around-small">
-                <p>LOCALE</p>
-            </lightning-layout-item>
-            <lightning-layout-item size={fieldSize} padding="around-small">
-                <p>FIELD</p>
-            </lightning-layout-item>
-            <lightning-layout-item size="4" padding="around-small">
-                <p>STATUS</p>
-            </lightning-layout-item>
-        </lightning-layout>
-
-        <!-- Field Values -->
-        <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSaveButton} onsuccess={handleSuccess} onerror={handleError}>
-            <template for:each={fieldsMapping} for:item="fieldItem">
-                <lightning-layout key={fieldItem.apiName} multiple-rows="true" class="slds-p-horizontal_medium">
-                    <lightning-layout-item if:true={disableEditButton} size="4" class="slds-align-bottom" padding="around-small">
-                        <lightning-input-field
-                            variant="label-hidden" 
-                            field-name={fieldItem.localeField}>
-                        </lightning-input-field>
-                    </lightning-layout-item>
-                    <lightning-layout-item size={fieldSize} class="slds-align-bottom" padding="around-small">
-                        <span class="slds-form-element__label">
-                            {fieldItem.label}
-                        </span>
-                        <lightning-input-field
-                            if:true={disableEditButton} 
-                            variant="label-hidden" 
-                            field-name={fieldItem.apiNameNoLocale}>
-                        </lightning-input-field>
-                        <div if:false={disableEditButton} class="slds-border_bottom">
-                            <lightning-output-field
-                                variant="label-hidden"
-                                field-name={fieldItem.apiName}>
-                            </lightning-output-field>
-                        </div>
-                    </lightning-layout-item>
-                    <lightning-layout-item size="4" class={statusClass} padding="around-small">
-                        <lightning-output-field
-                            variant="label-hidden"
-                            field-name={fieldItem.statusValidationField}>
-                        </lightning-output-field>
-                    </lightning-layout-item>
-                </lightning-layout>
-            </template>
-
-            <!-- Footer with Buttons -->
-            <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-vertical_large">
-                <div class="slds-col slds-size_1-of-1 slds-text-align_center slds-m-top_large slds-border_top">
-                    <div class="slds-m-top_small">
-                        <lightning-button
-                            if:true={disableEditButton}
-                            class="slds-m-right_small" 
-                            variant="brand"
-                            type="submit" 
-                            label="SAVE">
-                        </lightning-button>
-                        <lightning-button
-                            if:true={disableEditButton} 
-                            variant="Neutral" 
-                            label="CANCEL" 
-                            onclick={handleCancelButton}>
-                        </lightning-button>
-                        <lightning-button
-                            if:false={disableEditButton}
-                            class="slds-m-right_small"
-                            variant="brand"
-                            label="VALIDATE" 
-                            onclick={handleValidateButton}
-                            disabled={disableValidateButton}>
-                        </lightning-button>
-                        <lightning-button   
-                            if:false={disableEditButton}
-                            variant="Neutral"
-                            label="EDIT" 
-                            onclick={handleEditButton}>
-                        </lightning-button>
-                    </div>
+                <div class="slds-m-top_small slds-m-horizontal_medium slds-text-align_center">
+                    <lightning-spinner if:true={isLoading} alternative-text="Validating..." size="small"></lightning-spinner>
                 </div>
-            </div>
-        </lightning-record-edit-form>
-    </lightning-card>
+                
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSaveButton} onsuccess={handleSuccess} onerror={handleError}>
+                    <template for:each={fieldsMapping} for:item="fieldItem">
+                        <lightning-layout key={fieldItem.apiName} multiple-rows="true" class="slds-m-vertical_xx-small">
+                            <lightning-layout-item if:true={disableEditButton} size="4" class="slds-align-bottom slds-p-right_small">
+                                <span class="slds-form-element__label">
+                                    {fieldItem.localeLabel}
+                                </span>
+                                <lightning-input-field
+                                    variant="label-hidden" 
+                                    field-name={fieldItem.localeField}>
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size={fieldSize} class="slds-align-bottom slds-p-right_small slds-p-left_xx-small">
+                                <span class="slds-form-element__label">
+                                    {fieldItem.label}
+                                </span>
+                                <lightning-input-field
+                                    if:true={disableEditButton} 
+                                    variant="label-hidden" 
+                                    field-name={fieldItem.apiNameNoLocale}>
+                                </lightning-input-field>
+                                <div if:false={disableEditButton} class="slds-border_bottom">
+                                    <lightning-output-field
+                                        variant="label-hidden"
+                                        field-name={fieldItem.apiName}>
+                                    </lightning-output-field>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size={statusFieldSize} class={statusClass}>
+                                <span class="slds-form-element__label">
+                                    {fieldItem.statusLabel}
+                                </span>
+                                <div class={statusBorderBottomClass}>
+                                    <lightning-output-field
+                                        variant="label-hidden"
+                                        field-name={fieldItem.statusValidationField}>
+                                    </lightning-output-field>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+
+                    <!-- Footer with Buttons -->
+                    <div class="slds-grid slds-gutters slds-m-horizontal_medium slds-m-top_small">
+                        <div class="slds-col slds-size_1-of-1 slds-text-align_center">
+                            <div class="slds-m-top_small">
+                                <lightning-button
+                                    if:true={disableEditButton}
+                                    class="slds-m-right_small" 
+                                    variant="brand"
+                                    type="submit" 
+                                    label="Save">
+                                </lightning-button>
+                                <lightning-button
+                                    if:true={disableEditButton} 
+                                    variant="Neutral" 
+                                    label="Cancel" 
+                                    onclick={handleCancelButton}>
+                                </lightning-button>
+                                <lightning-button
+                                    if:false={disableEditButton}
+                                    class="slds-m-right_small"
+                                    variant="brand"
+                                    label="Validate" 
+                                    onclick={handleValidateButton}
+                                    disabled={disableValidateButton}>
+                                </lightning-button>
+                                <lightning-button   
+                                    if:false={disableEditButton}
+                                    variant="Neutral"
+                                    label="Edit" 
+                                    onclick={handleEditButton}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-record-edit-form>
+            </lightning-accordion-section>
+        </lightning-accordion>
 </template>

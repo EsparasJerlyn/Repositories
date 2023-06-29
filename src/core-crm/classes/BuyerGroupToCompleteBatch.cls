@@ -95,7 +95,11 @@ public class BuyerGroupToCompleteBatch implements Database.Batchable<sObject>
             }
 
         }catch(Exception e){
-           System.debug(LoggingLevel.WARN, 'BuyerGroupToCompleteBatch Error: ' + e.getMessage());//NOPMD
+           Logger.error('Exception caught in method execute in Apex class BuyerGroupToCompleteBatch.').setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
        
     }  

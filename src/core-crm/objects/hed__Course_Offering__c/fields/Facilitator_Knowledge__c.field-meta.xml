@@ -5,6 +5,8 @@
     <inlineHelpText>The facilitator/s were knowledgeable on the subject and kept the course alive and interesting.</inlineHelpText>
     <label>Facilitator Knowledge</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

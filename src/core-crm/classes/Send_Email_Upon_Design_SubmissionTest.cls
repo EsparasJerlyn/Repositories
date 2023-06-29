@@ -183,7 +183,6 @@ private class Send_Email_Upon_Design_SubmissionTest {
                 course[i].Collaboration_with_External_Organisation__c = 'Yes';
                 course[i].Content__c = 'test';
                 course[i].Resource_Details__c = 'test';
-                course[i].Enrolment_Rules__c = 'test';
                 course[i].Minimum_Participants__c = 10;
                 course[i].Maximum_Participants__c = 100;
                 course[i].Delivery_Support_v2__c = 'Catering';

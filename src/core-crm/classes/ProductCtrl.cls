@@ -407,7 +407,7 @@ public without sharing class ProductCtrl{
 
 		//Checks if Search Key is Empty
 		if (String.isNotEmpty(filterData.searchKey)){
-			String key = '%' + filterData.searchKey + '%';
+			String key = '%' + filterData.searchKey + '%'; // NOPMD
 			filterProductsQuery += ' AND (Name LIKE :key OR Description LIKE :key )';
 		}
 
@@ -436,7 +436,7 @@ public without sharing class ProductCtrl{
 		//Checks if ProductType is Empty
 		if (filterData.productType.size() > 0){
 			for (String val : filterData.productType){
-				productTypeValue += '\'' + val + '\' ' + ',';
+				productTypeValue += '\'' + String.escapeSingleQuotes(val) + '\' ' + ',';
 			}
 			productTypeValue = productTypeValue.substring(0, productTypeValue.length() - 1);
 			filterProductsQuery +=
@@ -449,7 +449,8 @@ public without sharing class ProductCtrl{
 		}
 
 		//Queries based on Product objects
-		filterDataList = Database.query(filterProductsQuery);
+		filterDataList = Database.query(filterProductsQuery); //NOPMD
+		// Complex query. Single quote escape handled prior to this line.
 
 		List<Product2> filteredProductList = new List<Product2>();
 		Map<Id, Product2> allInputProductMap = new Map<Id, Product2>(filterDataList);
@@ -716,9 +717,9 @@ public without sharing class ProductCtrl{
 						continue;
 					}
 
-					if((filterData.minUnitPrice == null || filterData.minUnitPrice == 0) && (filterData.maxUnitPrice == null || (filterData.maxUnitPrice != null && filterData.maxUnitPrice >= 0))){//only include flexible product if min price is null or 0, and max price is null
-						//proceed
-					}else{
+					//do not include flexible product if min price is null or 0, and max price is null
+					if(!((filterData.minUnitPrice == null || filterData.minUnitPrice == 0) 
+						&& (filterData.maxUnitPrice == null || (filterData.maxUnitPrice != null && filterData.maxUnitPrice >= 0)))){
 						continue;
 					}
 				}else{
@@ -872,10 +873,6 @@ public without sharing class ProductCtrl{
 		List<ProductWrapper> prodWrapperList = new List<ProductWrapper>();
 		List<BuyerGroupPricebook>  bgpbList = new List<BuyerGroupPricebook>();
 		List<Asset> checkCBPublished = new List<Asset>();
-
-		String standardPriceBook = 'Standard Price Book';
-		String earlyBirdPricebook = 'Early Bird';
-		String freePricebook = 'Free';
 
 		Map<Id, Product_Request__c> productRequestList = new Map<Id, Product_Request__c>([
 			SELECT Id FROM Product_Request__c WHERE Product_Specification__c =: acctFilterDataWrapper.prodSpecId WITH SECURITY_ENFORCED
@@ -1114,7 +1111,7 @@ public without sharing class ProductCtrl{
 			}
             //Checks if Search Key is Empty
             if(keyword != ''){
-                String key = '%' + keyword + '%';
+                String key = '%' + keyword + '%'; // NOPMD
                 getQuery += ' AND (Name LIKE :key OR Description LIKE :key )';
             }
 

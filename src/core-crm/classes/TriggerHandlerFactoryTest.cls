@@ -2,18 +2,27 @@
 @SuppressWarnings('PMD.ApexDoc, sf:CommentRequired, sf:MethodNamingConventions')
 private class TriggerHandlerFactoryTest {
 
+    @testSetup
+    static void setupMethod() {
+        TestDataFactory.generateTestUsers();
+    }
+
     @isTest
     private static void should_return_instances_of_handlers() {
-        TriggerHandlerFactory.setConfigProvider((HandlerConfigProvider) new MockHandlerConfigProvider());
-        final List<Object> handlers = TriggerHandlerFactory.getHandlersForSObjectType('Mock');
-        System.assert(handlers[0] instanceOf MockHandler, 'Instance returned not of the right type');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            TriggerHandlerFactory.setConfigProvider((HandlerConfigProvider) new MockHandlerConfigProvider());
+            final List<Object> handlers = TriggerHandlerFactory.getHandlersForSObjectType('Mock');
+            System.assert(handlers[0] instanceOf MockHandler, 'Instance returned not of the right type');
+        }
     }
 
     @isTest
     private static void should_return_empty_list_when_config_invalid() {
-        TriggerHandlerFactory.setConfigProvider((HandlerConfigProvider) new MockInvalidHandlerConfigProvider());
-        final List<Object> handlers = TriggerHandlerFactory.getHandlersForSObjectType('Mock');
-        System.assert(handlers.isEmpty(), 'Instance returned not of the right type');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            TriggerHandlerFactory.setConfigProvider((HandlerConfigProvider) new MockInvalidHandlerConfigProvider());
+            final List<Object> handlers = TriggerHandlerFactory.getHandlersForSObjectType('Mock');
+            System.assert(handlers.isEmpty(), 'Instance returned not of the right type');
+        }
     }
 
     /**
@@ -22,10 +31,12 @@ private class TriggerHandlerFactoryTest {
      */
     @isTest
     private static void should_not_throw_excpetion_when_using_custom_metadata_provider() {
-        try {
-            TriggerHandlerFactory.getHandlersForSObjectType('NotARealObject');
-        } catch (Exception ex) {
-            System.assert(ex == null, 'An Exception Should have been thrown');
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            try {
+                TriggerHandlerFactory.getHandlersForSObjectType('NotARealObject');
+            } catch (Exception ex) {
+                System.assert(ex == null, 'An Exception Should have been thrown');
+            }
         }
     }
 

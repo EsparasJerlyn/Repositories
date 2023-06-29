@@ -99,11 +99,11 @@ export default class OpeProgramStructure extends LightningElement {
             courseTemp.recordUrl = '/' + course.Id;
             courseTemp.name = course.Name;
             courseTemp.sequence = course.hed__Plan_Requirements__r?course.hed__Plan_Requirements__r[0].hed__Sequence__c:'';
+            courseTemp.isactive = course.hed__Plan_Requirements__r?course.hed__Plan_Requirements__r[0].IsActive__c:true;
             let childPlanRequirement = this.formatPlanRequirementData(course.hed__Plan_Requirements__r, course , tableTemp.length + 1);
             if(childPlanRequirement.length > 0){
                 tableTemp = [...childPlanRequirement, ...tableTemp];
             }
-
             coursesDataTemp=[courseTemp , ...coursesDataTemp];
         });
         this.tableData = this.sortMap(tableTemp);
@@ -134,6 +134,7 @@ export default class OpeProgramStructure extends LightningElement {
                 newItem.recordtype = course.RecordType?course.RecordType.Name:'';
                 newItem.coursename = course.Name;
                 newItem.courseid = course.Id;
+                newItem.isactive = item.IsActive__c;
                 return newItem;
             });
         }else{

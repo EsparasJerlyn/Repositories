@@ -220,7 +220,7 @@ export default class InvestigationSection extends LightningElement {
              "url":`/sfc/servlet.shepherd/document/download/${item}`
             }));
         }).catch(()=>{
-            this.filesList = undefined; 
+            this.filesList = []; 
         })
     }
 

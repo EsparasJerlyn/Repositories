@@ -6,4 +6,24 @@
         <default>false</default>
         <label>CCE Corporate Partner</label>
     </standardValue>
+    <standardValue>
+        <fullName>Grant</fullName>
+        <default>false</default>
+        <label>Grant</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Commercial Research</fullName>
+        <default>false</default>
+        <label>Commercial Research</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Consultancy</fullName>
+        <default>false</default>
+        <label>Consultancy</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Multifaceted Partnership</fullName>
+        <default>false</default>
+        <label>Multifaceted Partnership</label>
+    </standardValue>
 </StandardValueSet>

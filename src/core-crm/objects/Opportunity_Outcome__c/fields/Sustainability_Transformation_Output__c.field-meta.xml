@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sustainability_Transformation_Output__c</fullName>
+    <description>Allows business user to add commentary around the sustainability and transformational aspects of the International Projects Unit Project.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Allows business user to add commentary around the sustainability and transformational aspects of the International Projects Unit Project.</inlineHelpText>
+    <label>Sustainability and Transformation Output</label>
+    <length>500</length>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

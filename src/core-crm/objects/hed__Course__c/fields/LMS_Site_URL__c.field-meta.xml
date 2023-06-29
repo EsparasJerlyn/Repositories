@@ -5,5 +5,7 @@
     <label>LMS Site URL</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>true</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>Url</type>
 </CustomField>

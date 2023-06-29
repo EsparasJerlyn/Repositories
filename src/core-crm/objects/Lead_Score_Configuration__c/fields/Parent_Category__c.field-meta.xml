@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Parent_Category__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The Parent Category the sub category belongs to. This would be null for category record types</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Category the scoring for this Sub Category will be added to</inlineHelpText>
+    <label>Parent Category</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Lead_Score_Configuration__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Category</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Lead_Score_Configuration__c</referenceTo>
+    <relationshipLabel>Lead Score Configurations</relationshipLabel>
+    <relationshipName>Lead_Score_Configurations</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

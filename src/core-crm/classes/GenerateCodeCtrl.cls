@@ -256,37 +256,36 @@ public with sharing class GenerateCodeCtrl {
     }
     
     @AuraEnabled
-    public static String updateCodeGenerator(String recordType, String recordId, Integer recordNumber, String recordCode, String prodSpecsRecordType){
-        
+    public static String updateCodeGenerator(CodeGenDetails details){   
         String response = '';
-        if(recordType == 'Activity'){
-            if(prodSpecsRecordType != 'OPE'){
+        if(details.recordType == 'Activity'){
+            if(details.prodSpecsRecordType != 'OPE'){
               
                 List<CCE_Activity_Code_Generator__c> codeGenList = new List<CCE_Activity_Code_Generator__c>();
                 codeGenList.add(new CCE_Activity_Code_Generator__c(
-                    Id = recordId,
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId,
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
             }else{
                 List<Activity_Code_Generator__c> codeGenList = new List<Activity_Code_Generator__c>();
                 codeGenList.add(new Activity_Code_Generator__c(
-                    Id = recordId,
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId,
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
             }
         }
 
-        if(recordType == 'Module'){
-            if(prodSpecsRecordType != 'OPE'){
+        if(details.recordType == 'Module'){
+            if(details.prodSpecsRecordType != 'OPE'){
                 List<CCE_Module_Code_Generator__c> codeGenList = new List<CCE_Module_Code_Generator__c>();
                 codeGenList.add(new CCE_Module_Code_Generator__c(
-                    Id = recordId, 
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId, 
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
 
@@ -294,112 +293,112 @@ public with sharing class GenerateCodeCtrl {
 
                 List<Module_Code_Generator__c> codeGenList = new List<Module_Code_Generator__c>();
                 codeGenList.add(new Module_Code_Generator__c(
-                    Id = recordId, 
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId, 
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
 
             }
         }
 
-        if(recordType == 'Short_Course'){
-            if(prodSpecsRecordType != 'OPE'){
+        if(details.recordType == 'Short_Course'){
+            if(details.prodSpecsRecordType != 'OPE'){
                 List<CCE_Short_Course_Code_Generator__c> codeGenList = new List<CCE_Short_Course_Code_Generator__c>();
                 codeGenList.add(new CCE_Short_Course_Code_Generator__c(
-                    Id = recordId, 
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId, 
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
 
             }else{
                 List<Short_Course_Code_Generator__c> codeGenList = new List<Short_Course_Code_Generator__c>();
                 codeGenList.add(new Short_Course_Code_Generator__c(
-                    Id = recordId, 
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId, 
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
             }
            
         }
 
-        if(recordType == 'Program'){
-            if(prodSpecsRecordType != 'OPE'){
+        if(details.recordType == 'Program'){
+            if(details.prodSpecsRecordType != 'OPE'){
                 List<CCE_Program_Code_Generator__c> codeGenList = new List<CCE_Program_Code_Generator__c>();
                     codeGenList.add(new CCE_Program_Code_Generator__c(
-                    Id = recordId, 
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId, 
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
             }else{
                 List<Program_Code_Generator__c> codeGenList = new List<Program_Code_Generator__c>();
                 codeGenList.add(new Program_Code_Generator__c(
-                    Id = recordId, 
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId, 
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
             }
         }
 
-        if(recordType == 'Unit'){
+        if(details.recordType == 'Unit'){
             List<CCE_Unit_Code_Generator__c> codeGenList = new List<CCE_Unit_Code_Generator__c>();
             codeGenList.add(new CCE_Unit_Code_Generator__c(
-                Id = recordId, 
-                Number__c = recordNumber,
-                Name = recordCode
+                Id = details.recordId, 
+                Number__c = details.recordNumber,
+                Name = details.recordCode
             ));
             update codeGenList;
         }  
 
-        if(recordType == 'Group_Coaching'){
+        if(details.recordType == 'Group_Coaching'){
             List<CCE_Coaching_Code_Generator__c> codeGenList = new List<CCE_Coaching_Code_Generator__c>();
             codeGenList.add(new CCE_Coaching_Code_Generator__c(
-                Id = recordId, 
-                Number__c = recordNumber,
-                Name = recordCode
+                Id = details.recordId, 
+                Number__c = details.recordNumber,
+                Name = details.recordCode
             ));
             update codeGenList;
         }
 
-        if(recordType == 'Diagnostic_Tool'){
+        if(details.recordType == 'Diagnostic_Tool'){
             List<CCE_Diagnostic_Tool_Code_Generator__c> codeGenList = new List<CCE_Diagnostic_Tool_Code_Generator__c>();
             codeGenList.add(new CCE_Diagnostic_Tool_Code_Generator__c(
-                Id = recordId, 
-                Number__c = recordNumber,
-                Name = recordCode
+                Id = details.recordId, 
+                Number__c = details.recordNumber,
+                Name = details.recordCode
             ));
             update codeGenList;
         }
     
-        if(recordType == 'Individual_Coaching'){
+        if(details.recordType == 'Individual_Coaching'){
             List<CCE_Individual_Coaching_Code_Generator__c> codeGenList = new List<CCE_Individual_Coaching_Code_Generator__c>();
             codeGenList.add(new CCE_Individual_Coaching_Code_Generator__c(
-                Id = recordId, 
-                Number__c = recordNumber,
-                Name = recordCode
+                Id = details.recordId, 
+                Number__c = details.recordNumber,
+                Name = details.recordCode
             ));
             update codeGenList;
         }
         
-        if(recordType == 'Program_Without_Pathway') {
-            if(prodSpecsRecordType != 'OPE') {
+        if(details.recordType == 'Program_Without_Pathway') {
+            if(details.prodSpecsRecordType != 'OPE') {
                 List<CCE_PWP_Code_Generator__c> codeGenList = new List<CCE_PWP_Code_Generator__c>();
                 codeGenList.add(new CCE_PWP_Code_Generator__c(
-                    Id = recordId,
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId,
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
             } else {
                 List<PWP_Code_Generator__c> codeGenList = new List<PWP_Code_Generator__c>();
                 codeGenList.add(new PWP_Code_Generator__c(
-                    Id = recordId,
-                    Number__c = recordNumber,
-                    Name = recordCode
+                    Id = details.recordId,
+                    Number__c = details.recordNumber,
+                    Name = details.recordCode
                 ));
                 update codeGenList;
             }
@@ -427,21 +426,21 @@ public with sharing class GenerateCodeCtrl {
     }
 
     public class CourseProgramDetails{
-        @AuraEnabled
-        public String recordId;
-        @AuraEnabled
-        public String recordType;
-        @AuraEnabled
-        public String recordCode;
-        @AuraEnabled
-        public Decimal recordNumber;
-        @AuraEnabled
-        public String recordProgCourseName;
-        @AuraEnabled
-        public String recordProdReqName;
-        @AuraEnabled
-        public String recordProdReqId;
-        @AuraEnabled
-        public String productSpecsRT;
+        @AuraEnabled public String recordId;
+        @AuraEnabled public String recordType;
+        @AuraEnabled public String recordCode;
+        @AuraEnabled public Decimal recordNumber;
+        @AuraEnabled public String recordProgCourseName;
+        @AuraEnabled public String recordProdReqName;
+        @AuraEnabled public String recordProdReqId;
+        @AuraEnabled public String productSpecsRT;
     } 
+
+    public class CodeGenDetails {
+        @AuraEnabled public String recordType { get; set; }
+        @AuraEnabled public String recordId { get; set; }
+        @AuraEnabled public Integer recordNumber { get; set; }
+        @AuraEnabled public String recordCode { get; set; }
+        @AuraEnabled public String prodSpecsRecordType { get; set; }
+    }
 }

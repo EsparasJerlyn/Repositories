@@ -13,6 +13,7 @@
  *    | alexander.cadalin              | June 22, 2022         | DEPP-3056              | + before insert,update        |
  *    |                                |                       |                        | + detectDuplicatesInEmails    |
  *    |                                |                       |                        | - global dupes handlers       |
+ *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | added LeadService helper class| 
  */
 
 public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate {
@@ -23,9 +24,9 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
      */
     public void beforeInsert(List<SObject> newItems) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
+        LeadService.updateLearnerLeadStatus((List<Lead>) newItems, null);
     }
 
-    
     /**
      * @description performs beforeUpdate event for Lead object
      * @param newItems - Map of Lead.Trigger.newMap
@@ -37,9 +38,9 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
     ) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+        LeadService.updateLearnerLeadStatus((List<Lead>) newItems.values(), null);
     }
 
-    
     /**
      * @description indicates it the trigger is disabled
      * @return disabled bypass

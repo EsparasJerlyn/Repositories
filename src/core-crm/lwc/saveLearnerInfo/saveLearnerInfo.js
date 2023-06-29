@@ -19,6 +19,7 @@
 import { LightningElement, api } from "lwc";
 import categoryBulkRegistration from "@salesforce/apex/ProductDetailsCtrl.categoryBulkRegistration";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import DEDUP_PERSONAL_MISMATCH from "@salesforce/label/c.Dedup_Mismatch_Personal_Portal_Error";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin } from "lightning/navigation";
 import BasePath from "@salesforce/community/basePath";
@@ -158,7 +159,7 @@ export default class SaveLearnerInfo extends NavigationMixin(LightningElement) {
                 rowsValidation[index + 1]={
                   title: 'We found an error.',
                   messages: [
-                    'Your personal details do not match with the email provided. Please check your details or contact QUTeX.'
+                    DEDUP_PERSONAL_MISMATCH + ' ' + elementTemp.fieldsMismatch
                   ]
                 };
 

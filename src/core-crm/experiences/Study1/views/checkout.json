@@ -1,6 +1,7 @@
 {
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
   "id" : "99aa8c8a-4439-4d5a-bb0c-d7d70e096c22",
   "label" : "Checkout",
   "regions" : [ {

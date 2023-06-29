@@ -33,7 +33,7 @@ public with sharing class CommunitiesLandingController {
         }
     
         // Code we will invoke on page load
-     	return new PageReference (landingUrl);
+     	return new PageReference (EncodingUtil.urlEncode(landingUrl, 'UTF-8'));
     }
          
 }

@@ -41,6 +41,7 @@ public with sharing class Populate_affiliation_role_FlowTest {
      */
     @testSetup
     private static void setup() {
+        TestDataFactory.generateTestUsers();
         // Configuration setup
         TestDataFactory.loadEDATriggers();
         TestDataFactory.configureAffiliationMapping();
@@ -61,29 +62,31 @@ public with sharing class Populate_affiliation_role_FlowTest {
      * @description Retrieve accounts records created in @testSetup method
      */
     private static void retrieveAccounts() {
-        // Select accounts records
-        List<Account> accounts = [Select id, RecordType.DeveloperName from Account where RecordTypeId in (:ACCOUNT_RECORD_TYPE_ID_UNIVERSITY_DEPARTMENT, :ACCOUNT_RECORD_TYPE_ID_BUSINESS_ORGANIZATION, :ACCOUNT_RECORD_TYPE_ID_ADMINISTRATIVE)];
-        
-        List<Account> universityDepartments = new List<Account>();
-        List<Account> businessOrganizations = new List<Account>();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            // Select accounts records
+            List<Account> accounts = [Select id, RecordType.DeveloperName from Account where RecordTypeId in (:ACCOUNT_RECORD_TYPE_ID_UNIVERSITY_DEPARTMENT, :ACCOUNT_RECORD_TYPE_ID_BUSINESS_ORGANIZATION, :ACCOUNT_RECORD_TYPE_ID_ADMINISTRATIVE)];
+            
+            List<Account> universityDepartments = new List<Account>();
+            List<Account> businessOrganizations = new List<Account>();
 
-        // group account records by record type
-        for (Account a : accounts) {
-            if (a.RecordType.DeveloperName == ACCOUNT_RECORD_TYPE_DEVELOPER_NAME_UNIVERSITY_DEPARTMENT) {
-                universityDepartments.add(a);
-            } else if (a.RecordType.DeveloperName == ACCOUNT_RECORD_TYPE_DEVELOPER_NAME_BUSINESS_ORGANIZATION) {
-                businessOrganizations.add(a);
-            } else if (a.RecordType.DeveloperName == ACCOUNT_RECORD_TYPE_DEVELOPER_NAME_ADMINISTRATIVE) {
-                administrativeAccount = a;
+            // group account records by record type
+            for (Account a : accounts) {
+                if (a.RecordType.DeveloperName == ACCOUNT_RECORD_TYPE_DEVELOPER_NAME_UNIVERSITY_DEPARTMENT) {
+                    universityDepartments.add(a);
+                } else if (a.RecordType.DeveloperName == ACCOUNT_RECORD_TYPE_DEVELOPER_NAME_BUSINESS_ORGANIZATION) {
+                    businessOrganizations.add(a);
+                } else if (a.RecordType.DeveloperName == ACCOUNT_RECORD_TYPE_DEVELOPER_NAME_ADMINISTRATIVE) {
+                    administrativeAccount = a;
+                }
             }
-        }
-        
-        // Set static variable to account records;
-        universityDepartment = universityDepartments.get(0);
-        anotherUniversityDepartment = universityDepartments.get(1);
+            
+            // Set static variable to account records;
+            universityDepartment = universityDepartments.get(0);
+            anotherUniversityDepartment = universityDepartments.get(1);
 
-        businessOrganization = businessOrganizations.get(0);
-        anotherBusinessOrganization = businessOrganizations.get(1);
+            businessOrganization = businessOrganizations.get(0);
+            anotherBusinessOrganization = businessOrganizations.get(1);
+        }
     }
 
     /**
@@ -91,26 +94,28 @@ public with sharing class Populate_affiliation_role_FlowTest {
      */
     @isTest
     private static void shouldPopulateRoleWhenInsertContact() {
-        // prepare test data
-        retrieveAccounts();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            // prepare test data
+            retrieveAccounts();
 
-        Contact c = TestDataFactory.createTestContactRecords(1).get(0);
-        c.Primary_Department__c = universityDepartment.id;
-        c.hed__Primary_Organization__c = businessOrganization.id;
+            Contact c = TestDataFactory.createTestContactRecords(1).get(0);
+            c.Primary_Department__c = universityDepartment.id;
+            c.hed__Primary_Organization__c = businessOrganization.id;
 
-        // test
-        Test.startTest();
-        insert c;
-        Test.stopTest();
-        
-        // verify
-        hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id limit 1];
-        System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
-        System.assertEquals(AFFILIATION_ROLE_FACULTY, affiliation.hed__role__c, 'Role should be Faculty'); // The flow populated the role
-        
-        affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :businessOrganization.id];
-        System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow
-        System.assertEquals(AFFILIATION_ROLE_EMPLOYEE, affiliation.hed__role__c, 'Role should be Employee'); // The flow populated the role
+            // test
+            Test.startTest();
+            insert c;
+            Test.stopTest();
+            
+            // verify
+            hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id limit 1];
+            System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
+            System.assertEquals(AFFILIATION_ROLE_FACULTY, affiliation.hed__role__c, 'Role should be Faculty'); // The flow populated the role
+            
+            affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :businessOrganization.id];
+            System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow
+            System.assertEquals(AFFILIATION_ROLE_EMPLOYEE, affiliation.hed__role__c, 'Role should be Employee'); // The flow populated the role
+        }
     }
 
     /**
@@ -118,26 +123,28 @@ public with sharing class Populate_affiliation_role_FlowTest {
      */
     @isTest
     private static void shouldPopulateRoleWhenUpdateContact() {
-        // prepare test data
-        retrieveAccounts();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            // prepare test data
+            retrieveAccounts();
 
-        Contact c = new Contact(lastname = 'L');
-        insert c;
+            Contact c = new Contact(lastname = 'L');
+            insert c;
 
-        // test
-        Test.startTest();
-        c.Primary_Department__c = universityDepartment.id;
-        c.hed__Primary_Organization__c = businessOrganization.id;
-        update c;
-        Test.stopTest();
-        
-        // verify
-        hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id limit 1];
-        System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
-        System.assertEquals(AFFILIATION_ROLE_FACULTY, affiliation.hed__role__c, 'Role should be faculty'); // The flow populated the role
+            // test
+            Test.startTest();
+            c.Primary_Department__c = universityDepartment.id;
+            c.hed__Primary_Organization__c = businessOrganization.id;
+            update c;
+            Test.stopTest();
+            
+            // verify
+            hed__affiliation__c affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :universityDepartment.id limit 1];
+            System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
+            System.assertEquals(AFFILIATION_ROLE_FACULTY, affiliation.hed__role__c, 'Role should be faculty'); // The flow populated the role
 
-        affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :businessOrganization.id];
-        System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
-        System.assertEquals(AFFILIATION_ROLE_EMPLOYEE, affiliation.hed__role__c, 'Role should be employee'); // The flow populated the role
+            affiliation = [select id, hed__role__c, hed__status__c from hed__affiliation__c where hed__contact__c = :c.id and hed__account__c = :businessOrganization.id];
+            System.assertNotEquals(null, affiliation, 'Affiliation should be created'); // Affiliation record created by eduation cloud instead of the flow 
+            System.assertEquals(AFFILIATION_ROLE_EMPLOYEE, affiliation.hed__role__c, 'Role should be employee'); // The flow populated the role
+        }
     }
 }

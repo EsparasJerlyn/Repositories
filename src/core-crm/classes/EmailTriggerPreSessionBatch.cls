@@ -157,7 +157,12 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                 }
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerPreSessionBatch.start ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method start in class EmailTriggerPreSessionBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
         return wrapperList;
@@ -168,7 +173,12 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
         try{
             EmailTriggerBatchHelper.sendEmailWithAttachment(records);
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerPreSessionBatch.execute ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method execute in class EmailTriggerPreSessionBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
     }

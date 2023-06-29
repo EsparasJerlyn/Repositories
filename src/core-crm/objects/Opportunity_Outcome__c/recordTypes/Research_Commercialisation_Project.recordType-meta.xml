@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Research_Commercialisation_Project</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
+    <description>Create and manage Licence, Options and Assignment project.</description>
+    <label>Research Commercialisation Project</label>
+    <picklistValues>
+        <picklist>Research_Commercialisation_Project_Type__c</picklist>
+        <values>
+            <fullName>Assignment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Licence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Options</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage_Name__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Decommissioned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Expired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

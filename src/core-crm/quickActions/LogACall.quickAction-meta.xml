@@ -19,5 +19,6 @@
     </quickActionLayout>
     <standardLabel>LogACall</standardLabel>
     <targetObject>Task</targetObject>
+    <targetRecordType>Task.Nurture</targetRecordType>
     <type>LogACall</type>
 </QuickAction>

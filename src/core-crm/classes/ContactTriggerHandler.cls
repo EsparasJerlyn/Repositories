@@ -204,9 +204,12 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactsToSendWelcomeEmailSet);
       }
     }catch(Exception e){
-      System.debug(LoggingLevel.WARN, 'ContactTriggerHandler Welcome email failed, Error: ' + e.getMessage());//NOPMD
+      Logger.error('Exception caught in method sendWelcomeEmail in class ContactTriggerHandler.').setExceptionDetails(e);
+    } finally {
+      if(Logger.getBufferSize() > 0) {
+        Logger.saveLog();
+      }
     }
-
   }
 
   private void createChildMCPersona(List<Contact> newContacts){
@@ -263,8 +266,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
             Logger.error('Error in Inserting Contact').setDatabaseResult(result);
           }            
         }
-        if(Logger.getBufferSize() < 0){
-            Logger.saveLog();                
+        if(Logger.getBufferSize() > 0){
+          Logger.saveLog();                
         }
       }
 
@@ -325,8 +328,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
           Logger.error('Error in Updating Contact').setDatabaseResult(result);
         }            
       }
-      if(Logger.getBufferSize() < 0){
-          Logger.saveLog();                
+      if(Logger.getBufferSize() > 0){
+        Logger.saveLog();                
       }
   }
 

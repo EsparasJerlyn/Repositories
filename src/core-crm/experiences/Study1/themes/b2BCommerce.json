@@ -79,11 +79,7 @@
         }, {
           "components" : [ {
             "componentAttributes" : {
-              "NavigationMenuEditorRefresh" : "",
-              "alignment" : "left",
-              "showAppLauncher" : false,
-              "showBackLabel" : false,
-              "showHomeLink" : false
+              "NavigationMenuEditorRefresh" : ""
             },
             "componentName" : "forceCommunity:multiLevelNavigation",
             "id" : "dd6b11e7-3d59-41d4-ac82-b2dbd57a1a1f",

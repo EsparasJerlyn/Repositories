@@ -7,31 +7,27 @@
     <inlineHelpText>The Contact&apos;s citizenship status.</inlineHelpText>
     <label>Citizenship Status</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>U.S. Citizen or U.S. National</fullName>
+                <fullName>International</fullName>
                 <default>false</default>
-                <label>U.S. Citizen or U.S. National</label>
+                <label>International</label>
             </value>
             <value>
-                <fullName>U.S. Dual Citizen</fullName>
+                <fullName>Domestic</fullName>
                 <default>false</default>
-                <label>U.S. Dual Citizen</label>
+                <label>Domestic</label>
             </value>
             <value>
-                <fullName>U.S. Permanent Resident</fullName>
+                <fullName>Other (Non-U.S.)</fullName>
                 <default>false</default>
-                <label>U.S. Permanent Resident</label>
-            </value>
-            <value>
-                <fullName>U.S. Refugee or Asylee</fullName>
-                <default>false</default>
-                <label>U.S. Refugee or Asylee</label>
+                <label>Other (Non-U.S.)</label>
             </value>
             <value>
                 <fullName>Temporary Resident</fullName>
@@ -39,9 +35,24 @@
                 <label>Temporary Resident</label>
             </value>
             <value>
-                <fullName>Other (Non-U.S.)</fullName>
+                <fullName>U.S. Refugee or Asylee</fullName>
                 <default>false</default>
-                <label>Other (Non-U.S.)</label>
+                <label>U.S. Refugee or Asylee</label>
+            </value>
+            <value>
+                <fullName>U.S. Permanent Resident</fullName>
+                <default>false</default>
+                <label>U.S. Permanent Resident</label>
+            </value>
+            <value>
+                <fullName>U.S. Dual Citizen</fullName>
+                <default>false</default>
+                <label>U.S. Dual Citizen</label>
+            </value>
+            <value>
+                <fullName>U.S. Citizen or U.S. National</fullName>
+                <default>false</default>
+                <label>U.S. Citizen or U.S. National</label>
             </value>
         </valueSetDefinition>
     </valueSet>

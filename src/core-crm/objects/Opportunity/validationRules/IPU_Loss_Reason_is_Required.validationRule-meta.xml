@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IPU_Loss_Reason_is_Required</fullName>
+    <active>true</active>
+    <description>Loss Reason is required when stage is discontinued</description>
+    <errorConditionFormula>AND(ISPICKVAL( StageName , &quot;Discontinued&quot;),  ISCHANGED( StageName ) ,ISBLANK(  TEXT( Loss_Reason__c ) ), NOT( $Profile.Name = &quot;Integration&quot;),
+RecordType.DeveloperName = &quot;International_Projects_Unit&quot;)</errorConditionFormula>
+    <errorDisplayField>Loss_Reason__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>

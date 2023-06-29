@@ -14,10 +14,8 @@
 */
 @isTest
 private class SetupRegistrationCtrlTest {
-  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe()
-    .getLocalName();
-  private static final String QUESTION_API_NAME = Question__c.SObjectType.getDescribe()
-    .getLocalName();
+  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+  private static final String QUESTION_API_NAME = Question__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
   private static User currentUser = TestDataFactory.createUserRecords(
       1,
       'QUTeX'

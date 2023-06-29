@@ -407,11 +407,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>hed__Course__c.Enrolment_Rules__c</field>
-            <table>hed__Course_Offering__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>hed__Course__c.Evolve_with_QUTeXv2__c</field>
             <table>hed__Course_Offering__c</table>
         </columns>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Study_Area_Type__c</fullName>
+    <description>The description of the type of Study Area defined in SAMS.</description>
+    <externalId>false</externalId>
+    <label>Study Area Type</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Undergraduate Major</fullName>
+                <default>false</default>
+                <label>Undergraduate Major</label>
+            </value>
+            <value>
+                <fullName>Postgraduate Major</fullName>
+                <default>false</default>
+                <label>Postgraduate Major</label>
+            </value>
+            <value>
+                <fullName>Study Area A Unit Sets (Historical Only)</fullName>
+                <default>false</default>
+                <label>Study Area A Unit Sets (Historical Only)</label>
+            </value>
+            <value>
+                <fullName>Undergraduate Second Major</fullName>
+                <default>false</default>
+                <label>Undergraduate Second Major</label>
+            </value>
+            <value>
+                <fullName>Postgraduate Second Major</fullName>
+                <default>false</default>
+                <label>Postgraduate Second Major</label>
+            </value>
+            <value>
+                <fullName>Undergraduate Minor</fullName>
+                <default>false</default>
+                <label>Undergraduate Minor</label>
+            </value>
+            <value>
+                <fullName>Postgraduate Minor</fullName>
+                <default>false</default>
+                <label>Postgraduate Minor</label>
+            </value>
+            <value>
+                <fullName>UG Study Area Extension</fullName>
+                <default>false</default>
+                <label>UG Study Area Extension</label>
+            </value>
+            <value>
+                <fullName>PG Study Area Extension</fullName>
+                <default>false</default>
+                <label>PG Study Area Extension</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

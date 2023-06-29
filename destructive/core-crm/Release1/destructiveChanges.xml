@@ -14,16 +14,64 @@
         <name>ApexClass</name>
     </types>
     <types>
+    <!--DEPP-5673 Satrt-->
+        <members>Future_Student_Engagement.app-meta.xml</members>
+    <!-- DEPP-5673 End-->
+        <name>application</name>
+    </types>
+    <types>
         <!--DEPP-4144-->
         <members>Consultancy__c.Publish_to_the_Portal__c</members>
         <!--DEPP-4144 end-->
+        <!--DEPP-5205 START-->
+        <members>hed__Course__c.Enrolment_Rules__c</members>
+        <members>hed__Program_Plan__c.Enrolment_Rulesv2__c</members>
+        <!--DEPP-5205 END  -->
+        <!--DEPP-5638 START-->
+        <members>Opportunity.Memo_Endorsed__c</members>
+        <!--DEPP-5638 START-->
+        <!-- (Start) DEPP-5775 -->
+        <members>IP_Management__c.IP_Management_Name__c</members>
+        <members>IP_Management__c.Outcome_Summary__c</members>
+        <!-- (End) DEPP-5775 -->
+        <!-- Start DEPP-5776-->
+        <members>IP_Management_Application__c.IP_Management__c</members>
+        <!-- End DEPP-5776-->
+		<!-- Start DEPP-5832-->
+		<members>IP_Management__c.Engagement__c</members>
+		<members>IP_Management__c.Opportunity__c</members>
+		<members>IP_Management__c.Opportunity_Outcome__c</members>
+		<!-- End DEPP-5832-->
+        <!-- Start DEPP-5937 -->
+        <members>IP_Management_Relationship___c.Stage_Name__c</members>
+        <members>IP_Management_Relationship___c.Owner__c</members>
+        <members>IP_Management_Relationship___c.Created_Date__c</members>
+        <!-- End DEPP-5937 -->
         <name>CustomField</name>
+    </types>
+    <types>
+        <!--Start DEPP-5837-->
+        <members>Project_Milestone__c</members>
+        <!--End DEPP-5837-->
+        <name>CustomObject</name>
     </types>
     <types>
         <!--DEPP-5055-->
         <members>Opportunity_Record_Page.flexipage-meta.xml</members>
         <!--DEPP-5055 end-->
+        <!--DEPP-5433-->
+        <members>Opportunity_Outcome_Research_Partnership_Record_Page</members>
+        <!--DEPP-5433 end-->
+        <!--Start DEPP-5837-->
+        <members>Project_Milestone_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-5837-->
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <!--Start DEPP-5392-->
+        <members>New_Document_Standard_Record_Type_Custom.xml</members>
+        <!--End DEPP-5392-->
+        <name>Flow</name>
     </types>
     <types>
         <!--DEPP-4625 / DEPP-4223-->
@@ -46,6 +94,25 @@
         <members>Contact.Enable_Partner_Portal_Access</members>
         <!--End DEPP-4925-->
         <name>QuickAction</name>
+    </types>
+    <types>
+        <members>Opportunity.ClosingNextMonth</members>
+        <members>Opportunity.ClosingThisMonth</members>
+        <members>Opportunity.My_Closed_Opportunities</members>
+        <members>Opportunity.My_Open_Opportunities</members>
+        <members>Opportunity.NewThisWeek</members>
+        <members>Opportunity.Won</members>
+        <members>Opportunity.Default_Opportunity_Pipeline</members>
+        <name>ListView</name>
+    </types>
+        <types>
+        <!--(Start) DEPP-5917 -->
+        <members>Engagement__c.Engagement_Summary_is_Required</members>
+        <!-- (End) DEPP-5917 -->
+        <!--(Start) DEPP-5947 -->
+        <members>Opportunity_Outcome__c.IPU_Opportunity_Outcome_Lock_Opportunity</members>
+        <!-- (End) DEPP-5947 -->
+        <name>ValidationRule</name>
     </types>
     <version>52.0</version>
 </Package>

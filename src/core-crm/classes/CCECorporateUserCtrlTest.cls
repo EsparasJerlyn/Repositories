@@ -69,7 +69,6 @@ public with sharing class CCECorporateUserCtrlTest {
             Contact contact = [SELECT Id FROM Contact LIMIT 1];
             Test.startTest();
             CCECorporateUserCtrl.CorporateUserDetails enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_CCE);
-            String response;
             if(enableResponse.userId != null){
                 enableResponse = CCECorporateUserCtrl.enablePortalUser(contact.Id, CATEGORY_OPE);
             }
@@ -83,7 +82,12 @@ public with sharing class CCECorporateUserCtrlTest {
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Contact contact = [SELECT Id, FirstName, LastName, Registered_Email__c FROM Contact LIMIT 1];
             Test.startTest();
-            Id enableResponse = CCECorporateUserCtrl.enableCCECorporateUserForOPE(contact.Id, contact.FirstName, contact.LastName, contact.Registered_Email__c);
+            CCECorporateUserCtrl.ContactDetails conDetails = new CCECorporateUserCtrl.ContactDetails();
+            conDetails.recordId = contact.Id;
+            conDetails.contactFirstName = contact.FirstName;
+            conDetails.contactLastName = contact.LastName;
+            conDetails.email = contact.Registered_Email__c;
+            Id enableResponse = CCECorporateUserCtrl.enableCCECorporateUserForOPE(conDetails);
             String response;
             if(enableResponse != null){
                 response = CCECorporateUserCtrl.disableCCECorporateUser(contact.Id);
@@ -98,8 +102,18 @@ public with sharing class CCECorporateUserCtrlTest {
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Contact contact = [SELECT Id, FirstName, LastName, Registered_Email__c, AccountId, hed__Primary_Organization__c, hed__Primary_Organization__r.Name FROM Contact LIMIT 1];
             Test.startTest();
-            Id enableResponse = CCECorporateUserCtrl.enableCCECorporateUserForOPE(contact.Id, contact.FirstName, contact.LastName, contact.Registered_Email__c);
-            String extManageAcct = CCECorporateUserCtrl.createExtManagedAcct(contact.AccountId, contact.hed__Primary_Organization__c, contact.hed__Primary_Organization__r.Name, enableResponse);
+            CCECorporateUserCtrl.ContactDetails conDetails = new CCECorporateUserCtrl.ContactDetails();
+            conDetails.recordId = contact.Id;
+            conDetails.contactFirstName = contact.FirstName;
+            conDetails.contactLastName = contact.LastName;
+            conDetails.email = contact.Registered_Email__c;
+            Id enableResponse = CCECorporateUserCtrl.enableCCECorporateUserForOPE(conDetails);
+            CCECorporateUserCtrl.ExternalAccountDetails extAccDetails = new CCECorporateUserCtrl.ExternalAccountDetails();
+            extAccDetails.accountId = contact.AccountId;
+            extAccDetails.primaryBusinessAcctId = contact.hed__Primary_Organization__c;
+            extAccDetails.accountName = contact.hed__Primary_Organization__r.Name;
+            extAccDetails.userId = enableResponse;
+            String extManageAcct = CCECorporateUserCtrl.createExtManagedAcct(extAccDetails);
             Test.stopTest();
             System.assertEquals('Success', extManageAcct, 'Enable and disable user failed.');
         }

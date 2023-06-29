@@ -8,12 +8,13 @@
 private class Individual_Copies_to_Contact_LeadTest {
    
     @testSetup static void setupMethod() {
+        TestDataFactory.generateTestUsers();
         insert(TestDataFactory.createTestContactRecords(1));
 		insert(TestDataFactory.createTestLeadRecords(1));
         insert(TestDataFactory.createTestIndividualRecords(1));
 
         Lead lead = [SELECT Id, IndividualId FROM Lead];
-        Contact contact = [SELECT Id, IndividualId FROM Contact];
+        Contact contact = [SELECT Id, IndividualId FROM Contact LIMIT 1];
         Individual individual = [SELECT Id FROM Individual];
         
         lead.IndividualId = individual.Id;
@@ -25,29 +26,30 @@ private class Individual_Copies_to_Contact_LeadTest {
 
     @isTest
     private static void updateIndividualRecord(){
+         System.runAs(TestDataFactory.getMarketingCloudUser()) {
+            DateTime currentTime = System.now();
 
-        DateTime currentTime = System.now();
+            Individual individual = [SELECT Id, HasOptedOutSolicit, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Individual];
+            
+            Test.startTest();
 
-        Individual individual = [SELECT Id, HasOptedOutSolicit, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Individual];
-        
-        Test.startTest();
+            individual.HasOptedOutSolicit = true;
+            individual.Dont_Market_DateTime__c = currentTime;
+            individual.Dont_Market_Reason__c = 'Dont_Market_Reason';
+            update individual;
+            
+            Test.stopTest();
 
-        individual.HasOptedOutSolicit = true;
-        individual.Dont_Market_DateTime__c = currentTime;
-        individual.Dont_Market_Reason__c = 'Dont_Market_Reason';
-        update individual;
-        
-        Test.stopTest();
+            Lead lead = [SELECT Id, IndividualId, Dont_Market__c, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Lead];
+            Contact contact = [SELECT Id, IndividualId, Dont_Market__c, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Contact LIMIT 1];
 
-        Lead lead = [SELECT Id, IndividualId, Dont_Market__c, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Lead];
-        Contact contact = [SELECT Id, IndividualId, Dont_Market__c, Dont_Market_DateTime__c, Dont_Market_Reason__c FROM Contact];
-
-        System.assertEquals(true, lead.Dont_Market__c, 'Dont_Market__c should be updated');
-        System.assertEquals(currentTime, lead.Dont_Market_DateTime__c, 'Dont_Market_DateTime__c should be updated');
-        System.assertEquals('Dont_Market_Reason', lead.Dont_Market_Reason__c, 'Dont_Market_Reason__c should be updated');
-        System.assertEquals(true, contact.Dont_Market__c, 'Dont_Market__c should be updated');
-        System.assertEquals(currentTime, contact.Dont_Market_DateTime__c, 'Dont_Market_DateTime__c should be updated');
-        System.assertEquals('Dont_Market_Reason', contact.Dont_Market_Reason__c, 'Dont_Market_Reason__c should be updated');
+            System.assertEquals(true, lead.Dont_Market__c, 'Dont_Market__c should be updated');
+            System.assertEquals(currentTime, lead.Dont_Market_DateTime__c, 'Dont_Market_DateTime__c should be updated');
+            System.assertEquals('Dont_Market_Reason', lead.Dont_Market_Reason__c, 'Dont_Market_Reason__c should be updated');
+            System.assertEquals(true, contact.Dont_Market__c, 'Dont_Market__c should be updated');
+            System.assertEquals(currentTime, contact.Dont_Market_DateTime__c, 'Dont_Market_DateTime__c should be updated');
+            System.assertEquals('Dont_Market_Reason', contact.Dont_Market_Reason__c, 'Dont_Market_Reason__c should be updated');
+         }
     }
 
 }

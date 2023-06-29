@@ -61,14 +61,10 @@ public with sharing class EmailTriggerBatchHelper {
         }
     }
 
-    private static Messaging.SingleEmailMessage buildMail(EmailWrapper emailWrapper,
-                                                    EmailTemplate emailTemplate,
-                                                    List<OrgWideEmailAddress> owea){
-        Messaging.SingleEmailMessage mail = null;
-
-        /**
-         * Set course connection fields in the email templates
-         **/
+    private static Messaging.SingleEmailMessage buildMail(EmailWrapper emailWrapper, EmailTemplate emailTemplate, List<OrgWideEmailAddress> owea){
+        Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+        
+        // Set course connection fields in the email templates
         String recordId = emailWrapper.recordId;
         String contactId = emailWrapper.contactId;
         String name = emailWrapper.name;
@@ -106,13 +102,17 @@ public with sharing class EmailTriggerBatchHelper {
             };
 
             //Build the email
-            mail = EmailHelper.emailBuilder(toAddress, subject, emailTemplate.HtmlValue, emailParams, (Id)recordId, (Id)contactId, true);
-
-            if(!owea.isEmpty()){
-                mail.setOrgWideEmailAddressId(owea[0].Id);
-            }
+            msg.setToAddresses(new String[]{toAddress});
+            msg.setSubject(subject);
+            msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate.HtmlValue, emailParams, true));
+            msg.setOrgWideEmailAddressId(owea[0]?.Id);
+            msg.setWhatId((Id)recordId);
+            msg.setTargetObjectId((Id)contactId);
+            msg.setSaveAsActivity(true);
+            msg.setTreatTargetObjectAsRecipient(false);
+            msg.setUseSignature(false);
         }
-        return mail;
+        return msg;
     }
 
     private static EmailTemplate resolveEmailTemplate(String emailTemplateIdStr, Map<Id,EmailTemplate> emailTemplateMap){

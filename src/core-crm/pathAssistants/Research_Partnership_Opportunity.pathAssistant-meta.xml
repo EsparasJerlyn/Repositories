@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Research Partnership Opportunity</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;em&gt;The &amp;#39;Contract&amp;#39; stage signifies that the client has accepted the proposal and is ready to formalise agreement with a Contract with QUT.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use the Contracts Lifecycle Management System (CLMS) to create and manage the contract process.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Contract</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;em&gt;This ‘Identify’ stage enables you to capture the opportunity with a new or existing industry partners to support research and research training initiatives.&lt;/em&gt;&lt;/p&gt;</info>
+        <picklistValueName>Identify</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;em&gt;This ‘Project Scoping’ stage allows you to capture the project scope, viability analysis.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Once, the project scoping and viability is completed proceed with proposal initial drafting, distribute your Proposal for internal review, feedback, and/or to the client for review and acceptance. Use the Proposal Status&amp;#39; and &amp;#39;Summary’ field to capture the status and key information around the proposal.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Project Scoping</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;em&gt;This ‘Submitted’ stage confirms that a Proposal or tender is submitted awaiting response.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use the Proposal Outcome and comments field to record the outcome of the Proposal Stage.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Submitted</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Research_Partnership</recordTypeName>
+</PathAssistant>

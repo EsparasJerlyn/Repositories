@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Assessment_Outcome_is_Successful</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
+ISCHANGED(Stage_Name__c),
+ISPICKVAL(PRIORVALUE(Stage_Name__c), &quot;Evaluation&quot;),
+ISPICKVAL(Stage_Name__c, &quot;Development&quot;),
+NOT(ISPICKVAL(Assessment_Outcome__c, &quot;Successful&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Assessment_Outcome__c</errorDisplayField>
+    <errorMessage>Assessment outcome must be successful</errorMessage>
+</ValidationRule>

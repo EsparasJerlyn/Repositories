@@ -59,7 +59,6 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
     {
         try{
             Logger.setParentLogTransactionId(this.originalTransactionId);
-            Logger.saveLog();
 
             Map<Id,Product_Request__c> productReqToUpdate = new Map<Id,Product_Request__c>();
             Set<Id> parentProdReqIds = new Set<Id>();
@@ -103,9 +102,13 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
 
         }catch(Exception e){
             Logger.error('Executing execute() method of PublishingEndDateBatch with Exception:').setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
-       
-    }  
+    }
+
     public void finish(Database.BatchableContext bc) {} //NOPMD
 
     private void updateProductSpecification(Set<Id> parentProductSpecsIds){
@@ -251,7 +254,7 @@ public class PublishingEndDateBatch implements Database.Batchable<sObject>
                 Logger.error('[PublishEndDateBatch.'+ methodName + '] Database Result: ').setDatabaseResult(sr);
             }
         }
-        if(Logger.getBufferSize() <0){
+        if(Logger.getBufferSize() > 0){
             Logger.saveLog();
         }
     }

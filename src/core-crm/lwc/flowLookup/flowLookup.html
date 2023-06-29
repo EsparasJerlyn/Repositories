@@ -1,0 +1,26 @@
+<template>
+  <c-logger></c-logger>
+  <c-flow-combobox
+    options={records}
+    label={label}
+    icon-size="small"
+    public-class={publicClass}
+    values={values}
+    custom-search-handler={handleSearchChange}
+    required={required}
+    disabled={disabled}
+    is-loading={isLoading}
+    exclude-sublabel-in-filter={excludeSublabelInFilter}
+    placeholder={placeholder}
+    field-level-help={fieldLevelHelp}
+    include-value-in-filter={includeValueInFilter}
+    onchange={handleComboboxChange}
+    right-icon={rightIconName}
+    left-icon={leftIconName}
+    oncustomaction={handleCustomAction}
+    debounce-delay={debounceDelay}
+    no-match-string={noMatchString}
+    message-when-value-missing={messageWhenValueMissing}
+    id="lookup">
+  </c-flow-combobox>
+</template>

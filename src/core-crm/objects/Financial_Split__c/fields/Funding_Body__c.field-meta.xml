@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Funding_Body__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup to the Funding Body Account record.</description>
+    <externalId>false</externalId>
+    <label>Funding Body</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Financial Splits (Funding Body)</relationshipLabel>
+    <relationshipName>Financial_Splits1</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

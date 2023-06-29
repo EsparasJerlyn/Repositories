@@ -49,6 +49,15 @@ export default class CustomSectionLayout extends LightningElement {
     layoutMapping = [];
     layoutItem = {};
 
+    get recordFilterWrapper() {
+        return { 
+            parentId: this.recordId,
+            parentField: this.parentCondition,
+            childObjectType: this.objectType,
+            grandChildInfo: this.grandChildData
+        }
+    };
+
     //decides if layout is a grandchild (2-object relationship traversal)
     get isGrandChild(){
         return this.objectApiName !== this.parentObjectApiName;
@@ -100,12 +109,7 @@ export default class CustomSectionLayout extends LightningElement {
     /**
      * gets child record id
      */
-    @wire(getChildRecordId, { 
-        parentId : '$recordId', 
-        parentField : '$parentCondition', 
-        childObjectType : '$objectType', 
-        grandChildInfo : '$grandChildData'
-    })
+    @wire(getChildRecordId, { filter: '$recordFilterWrapper' })
     handleGetChildRecordId(result){
         if(result.data){
             this.childRecordId = result.data;

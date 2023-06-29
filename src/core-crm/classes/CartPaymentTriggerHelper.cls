@@ -14,8 +14,6 @@
  */
 
 public without sharing class CartPaymentTriggerHelper{
-
-
     private static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student').getRecordTypeId();
     private static final Id STUDENT_PROGRAM_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByName().get('Student - Program').getRecordTypeId();
 
@@ -111,7 +109,6 @@ public without sharing class CartPaymentTriggerHelper{
             ]);
         }
         
-
         //get child course offering related to the program offerings
         if(!programOfferingIds.isEmpty()){
             getChildCourseOffering = [  
@@ -122,7 +119,6 @@ public without sharing class CartPaymentTriggerHelper{
             ];
         }
         
-
         for(hed__Course_Offering__c co: getChildCourseOffering){
             if(!programToChild.containsKey(co.Program_Offering__c)){
                 programToChild.put(
@@ -165,14 +161,12 @@ public without sharing class CartPaymentTriggerHelper{
         for(CartItem cItem: cartItemList){
             //only process cart items without existing course connections
             if(!cartItemToCourseconMap.containsKey(cItem.Id)){
-                courseConnectionToUpsert.putAll(
-                buildCourseConnection(
-                    cItem,
-                    cartPaymentMap.get(cItem.Cart.Cart_Payment__c),
-                    pricebookEntryMap,
-                    programToChild
-                    )
-                );
+                CourseConnDetails connectionDetails = new CourseConnDetails();
+                connectionDetails.cItem = cItem;
+                connectionDetails.payment = cartPaymentMap.get(cItem.Cart.Cart_Payment__c);
+                connectionDetails.pbEntryMap = pricebookEntryMap;
+                connectionDetails.programToChild = programToChild;
+                courseConnectionToUpsert.putAll(buildCourseConnection(connectionDetails));
             }
         }
 
@@ -182,7 +176,6 @@ public without sharing class CartPaymentTriggerHelper{
       
     }  
 
-
     /**
      * @description create/update existing course connection
      * @param cItem - cartItem
@@ -191,11 +184,11 @@ public without sharing class CartPaymentTriggerHelper{
      * @param programToChild - program offerings related to the cart item to child course offering map
      * @return finalCourseConMap - final course connection to upsert
      */
-    public static Map<String,hed__Course_Enrollment__c> buildCourseConnection(
-        CartItem cItem,
-        Cart_Payment__c payment, 
-        Map<Id,PriceBookEntry> pbEntryMap, 
-        Map<String,Set<String>> programToChild){
+    private static Map<String,hed__Course_Enrollment__c> buildCourseConnection(CourseConnDetails connectionDetails){
+        CartItem cItem = connectionDetails.cItem;
+        Cart_Payment__c payment = connectionDetails.payment;
+        Map<Id, PriceBookEntry> pbEntryMap = connectionDetails.pbEntryMap;
+        Map<String, Set<String>> programToChild = connectionDetails.programToChild;
 
         Map<String,hed__Course_Enrollment__c> finalCourseConMap = new Map<String,hed__Course_Enrollment__c>();
         hed__Course_Enrollment__c tempCourseEnrollment;
@@ -205,7 +198,6 @@ public without sharing class CartPaymentTriggerHelper{
 
         //update existing course connections
         //create new course connection records
-
         tempCourseEnrollment = new hed__Course_Enrollment__c();
         tempCourseEnrollment.hed__Contact__c = cItem.Contact__c;
         tempCourseEnrollment.hed__Status__c = 'Active';
@@ -215,6 +207,7 @@ public without sharing class CartPaymentTriggerHelper{
         tempCourseEnrollment.Paid_in_Full__c = cItem.CartId != null && (cItem.Cart.TotalAmount - discount) <= payment.Amount_Paid__c?'Yes':'No';
         tempCourseEnrollment.Cart_Item__c = cItem.Id;
         tempCourseEnrollment.Cart_ID__c = cItem.CartId;
+
         if( cItem.Pricebook_Entry_ID__c != null && 
             pbEntryMap.containsKey(cItem.Pricebook_Entry_ID__c) && 
             pbEntryMap.get(cItem.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
@@ -222,6 +215,7 @@ public without sharing class CartPaymentTriggerHelper{
         } else{
             tempCourseEnrollment.Is_Group_Registered__c = false;
         }
+
         if(cItem.Program_Offering__c != null){
             tempCourseEnrollment.Program_Offering__c = cItem.Program_Offering__c; 
             tempCourseEnrollment.RecordTypeId = STUDENT_PROGRAM_RECTYPEID;  
@@ -238,8 +232,8 @@ public without sharing class CartPaymentTriggerHelper{
                     tempCourseEnrollmentChild.Paid_in_Full__c = cItem.CartId != null && (cItem.Cart.TotalAmount - discount) <= payment.Amount_Paid__c?'Yes':'No';
                     tempCourseEnrollmentChild.Cart_Item__c = cItem.Id;
                     tempCourseEnrollmentChild.Cart_ID__c = cItem.CartId;
+                    
                     //check if current pricebook is for group booking
-                   
                     if( cItem.Pricebook_Entry_ID__c != null && 
                         pbEntryMap.get(cItem.Pricebook_Entry_ID__c).Pricebook2.Name == 'Group Booking'){
                         tempCourseEnrollmentChild.Is_Group_Registered__c = true;
@@ -260,5 +254,12 @@ public without sharing class CartPaymentTriggerHelper{
         finalCourseConMap.put(string.valueOf(cItem.Id) + offeringId, tempCourseEnrollment);
 
         return finalCourseConMap;
+    }
+
+    public class CourseConnDetails {
+        public CartItem cItem { get; set; }
+        public Cart_Payment__c payment { get; set; }
+        public Map<Id, PriceBookEntry> pbEntryMap { get; set; }
+        public Map<String, Set<String>> programToChild { get; set; }
     }
 }

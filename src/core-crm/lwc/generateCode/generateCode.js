@@ -80,13 +80,13 @@ export default class GenerateCode extends LightningElement {
             const recordInput = { fields };
             updateRecord(recordInput)
             .then(() => {  
-                updateCodeGenerator({
+                updateCodeGenerator({ 'details' : {
                     'recordType'    : this.courseAndProgDtls.recordType,
                     'recordId'      : result.recordId,
                     'recordNumber'  : result.recordNumber,
                     'recordCode'  : result.recordCode,
                     'prodSpecsRecordType' : this.courseAndProgDtls.productSpecsRT
-                }).then(result => {
+                }}).then(result => {
                     if(result === 'Success'){
                         this.displayDuplicateError = false;
                         this.generateToast(SUCCESS_TITLE, SUCCESS_MSG, SUCCESS_VARIANT);

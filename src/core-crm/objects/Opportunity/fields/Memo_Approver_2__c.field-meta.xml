@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Memo_Approver_2__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Captures that the memo has been approved by the 2nd authorised QUT staff member.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Captures that the memo has been approved by the 2nd authorised QUT staff member.</inlineHelpText>
+    <label>Memo Approver 2</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Opportunities2</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

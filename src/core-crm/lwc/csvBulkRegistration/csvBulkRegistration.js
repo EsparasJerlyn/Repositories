@@ -464,7 +464,12 @@ export default class ProductBulkRegistration extends NavigationMixin(
         });
     }
 
-    @wire(getResourceURL, {contentNames : CSV_NAME,communityId : COM_ID, contentType : CONTENT_TYPE, language : LANG})
+    @wire(getResourceURL, { filter: {
+        contentName: CSV_NAME,
+        communityId: COM_ID,
+        contentType: CONTENT_TYPE,
+        language: LANG
+    }})
     handleGetCourses({data,error}){
         if(data){
             this.csvUrl = "/cce/sfsites/c/cms/delivery/media/"+data.contentKey;

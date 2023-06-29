@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IPU_Assessment_Stage_Validation</fullName>
+    <active>true</active>
+    <description>Checks the values selected in the Assessment stage for IPU opportunity.</description>
+    <errorConditionFormula>AND(
+   RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
+   ISCHANGED(StageName),
+   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Assessment&quot;),
+   NOT(ISPICKVAL( StageName , &apos;Development&apos;)),
+   NOT(ISPICKVAL( StageName , &apos;Discontinued&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>You can only progress to the next stage which is Development or mark the Opportunity as Discontinued.</errorMessage>
+</ValidationRule>

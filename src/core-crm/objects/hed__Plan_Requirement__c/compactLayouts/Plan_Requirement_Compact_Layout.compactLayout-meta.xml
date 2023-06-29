@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Plan_Requirement_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>hed__Course__c</fields>
+    <fields>hed__Category__c</fields>
+    <fields>hed__Program_Plan__c</fields>
+    <fields>hed__Sequence__c</fields>
+    <label>Plan Requirement Compact Layout</label>
+</CompactLayout>

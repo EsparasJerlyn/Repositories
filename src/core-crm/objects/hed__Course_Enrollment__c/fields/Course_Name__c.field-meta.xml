@@ -6,6 +6,8 @@
     <formula>IF(ISBLANK( hed__Course_Offering__r.hed__Course__r.Name ),Program_Offering__r.hed_Program_Plan__r.Name, hed__Course_Offering__r.hed__Course__r.Name)</formula>
     <label>Course Name</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

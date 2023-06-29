@@ -35,7 +35,6 @@ public with sharing class InvalidateFieldValuesBatch implements Database.Batchab
             }
             aObject.fields.add(new AnField(fieldMap.get(field)));
         }
-        AnField anF = aObject.fields[0];
         this.generateQuery();
         Database.executeBatch(this);
     }

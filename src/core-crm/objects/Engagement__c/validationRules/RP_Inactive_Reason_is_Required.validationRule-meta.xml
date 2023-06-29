@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RP_Inactive_Reason_is_Required</fullName>
+    <active>true</active>
+    <description>Checks if Inactive Reason field has a value when stage is move to ‘Inactive’ during any stage of the engagement where record type is Research Partnership</description>
+    <errorConditionFormula>AND (
+    RecordType.DeveloperName =&quot;Research_Partnership&quot;,
+    ISCHANGED(Stage_Name__c),
+    ISPICKVAL(Stage_Name__c, &quot;Inactive&quot;),
+    ISBLANK(TEXT( Inactive_Reason__c ))
+)</errorConditionFormula>
+    <errorDisplayField>Inactive_Reason__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

@@ -1,0 +1,46 @@
+<aura:component
+  implements="flexipage:availableForAllPageTypes,lightning:actionOverride,force:lightningQuickAction,force:hasRecordId,lightning:isUrlAddressable"
+  access="global">
+  <lightning:workspaceAPI aura:id="workspace" />
+  <aura:attribute name="isModalOpen" type="boolean" default="true" />
+  <aura:attribute name="modalTitle" type="String" />
+
+  <!-- Declare the attribute to hold the flowApiName passed from other Aura -->
+  <aura:attribute name="flowApiName" type="String" />
+  <!-- Declare the attribute to hold the input variables passed from other Aura -->
+  <aura:attribute name="inputVariables" type="Object[]" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <div
+    class="slds-brand-band slds-brand-band_cover slds-brand-band_narrow_view_two forceBrandBand">
+    <aura:if isTrue="{!v.isModalOpen}">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1">
+        <header class="slds-modal__header">
+          <!-- <lightning:buttonIcon
+            iconName="utility:close"
+            onclick="{! c.closeFocusedTab }"
+            alternativeText="close"
+            variant="bare-inverse"
+            class="slds-modal__close" /> -->
+          <h2
+            id="modal-heading-01"
+            class="slds-text-heading_medium slds-hyphenate">
+            {!v.modalTitle}
+          </h2>
+        </header>
+        <div
+          class="slds-modal__content slds-p-bottom_x-small slds-is-relative modal-content"
+          id="modal-content-id-1">
+          <lightning:flow
+            aura:id="flowData"
+            onstatuschange="{!c.handleStatusChange}" />
+        </div>
+      </section>
+    </aura:if>
+  </div>
+</aura:component>
