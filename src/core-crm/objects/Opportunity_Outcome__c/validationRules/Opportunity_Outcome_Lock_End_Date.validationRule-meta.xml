@@ -4,8 +4,11 @@
     <active>true</active>
     <description>Restrict editing for End Date once Decommission details are populated</description>
     <errorConditionFormula>AND( 
-ISCHANGED( End_Date__c ) ,
-ISBLANK( PRIORVALUE(End_Date__c ) )  ,
+ OR(ISCHANGED( End_Date__c ) ,
+ISCHANGED( Decommissioned_Date__c ) ) 
+,
+NOT( ISBLANK( End_Date__c ) ), 
+ISBLANK (PRIORVALUE(End_Date__c)),
 NOT( ISBLANK( Decommissioned_Date__c ) ), 
 NOT( ISBLANK( Decommissioned_Reason__c ) ))</errorConditionFormula>
     <errorDisplayField>End_Date__c</errorDisplayField>
