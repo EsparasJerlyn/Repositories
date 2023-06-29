@@ -9,6 +9,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
  *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
  *    | roy.nino.s.regala         | June 14, 2023         | DEPP-5391            | Created file                                 |
+ *    | roy.nino.s.regala         | June 24, 2023         | DEPP-5411            | Added Visibility Check                       |
  */
 import { LightningElement, api, track, wire } from "lwc";
 import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableDataWrapper";
@@ -28,7 +29,8 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 export default class DynamicDataTable extends NavigationMixin(
   LightningElement
 ) {
-  @api icon;
+  /* TARGET CONFIG START */
+  @api icon; 
   @api relatedListLabel;
   @api parentRecord;
   @api relatedRecord;
@@ -47,18 +49,26 @@ export default class DynamicDataTable extends NavigationMixin(
   @api editScreenFlowApiName;
   @api dynamicDataTableInput = "";
   @api channelName = "/event/Dynamic_Datatable_Event__e";
+  @api visibilityByParent = "";
+  @api visibilityByUser = "";
+  /* TARGET CONFIG END */
 
+  /* DATATABLE VARIABLES START */
   @track finalSObjectDataList = [];
   @track finalColumns = [];
   @track objectInfo;
   @track sortBy;
   @track sortDirection;
+  /* DATATABLE VARIABLES END */
 
+  /*USER EXPERIENCE VARIABLES START */
   rowOffSet = 0;
   rowLimit = 10;
   recordCount = 0;
   dataTableIsLoading = false;
   subscription = {};
+  visibilityCheckResult = false;
+  /*USER EXPERIENCE VARIABLES END */
 
   /* GETTERS START */
   get enableInfiniteLoading() {
@@ -116,6 +126,12 @@ export default class DynamicDataTable extends NavigationMixin(
       return "";
     }
   }
+
+  get isShowNewButton(){
+    //if visiblity is controlled and show new button is checked
+    return this.visibilityCheckResult && this.showNewButton;
+  }
+
   /* GETTERS END */
 
   /*PLATFORM EVENT LOGIC START*/
@@ -201,6 +217,7 @@ export default class DynamicDataTable extends NavigationMixin(
     this.dataTableIsLoading = this.rowOffSet == 0 ? true : false;
     let paramsMap = {};
     paramsMap["recordId"] = this.recordId;
+    paramsMap["parentRecord"] = this.parentRecord;
     paramsMap["relatedRecord"] = this.relatedRecord;
     paramsMap["relatedField"] = this.relatedField;
     paramsMap["relatedListFields"] = this.relatedListFields;
@@ -211,6 +228,8 @@ export default class DynamicDataTable extends NavigationMixin(
     paramsMap["rowLimit"] = this.rowLimit;
     paramsMap["sortOrder"] = this.sortOrder;
     paramsMap["sortField"] = this.sortField;
+    paramsMap["visibilityByUser"] = this.visibilityByUser;
+    paramsMap["visibilityByParent"] = this.visibilityByParent;
     return paramsMap;
   }
 
@@ -253,10 +272,11 @@ export default class DynamicDataTable extends NavigationMixin(
         this.finalSObjectDataList = tempSObjectDataList;
 
         //if show edit button is checked, add edit action to the datatable
-        this.finalColumns = this.showEditButton
+        this.finalColumns = this.showEditButton && result.hasVisibility
           ? this.addActionsToColumn(result.dataTableColumns, result.recordCount)
           : result.dataTableColumns;
         this.recordCount = result.recordCount;
+        this.visibilityCheckResult = result.hasVisibility;
       })
       .catch((error) => {
         if (logger) {
@@ -320,16 +340,31 @@ export default class DynamicDataTable extends NavigationMixin(
   }
 
   addActionsToColumn(columns, recordCount) {
-    let customActions = [{ label: "Edit", name: "edit" }];
     return [
       ...columns,
       {
         type: "action",
-        typeAttributes: { rowActions: customActions },
+        typeAttributes: { rowActions: this.getRowActions },
         cellAttributes: { class: recordCount > 10 ? "slds-float_left" : "" }
       }
     ];
   }
+
+  getRowActions = (row, doneCallback) => {
+    let actions = [];
+    if (row["UserRecordAccess.HasEditAccess"] == true) {
+      actions.push({
+        label: "Edit",
+        name: "edit"
+      });
+    } else {
+      actions.push({
+        label: "No actions available",
+        disabled: true
+      });
+    }
+    doneCallback(actions);
+  };
   /*DATATABLE CONFIGURATION END*/
 
   /* ACTION HANDLERS START */

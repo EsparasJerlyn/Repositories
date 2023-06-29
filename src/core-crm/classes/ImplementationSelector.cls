@@ -38,6 +38,7 @@ public class ImplementationSelector {
             Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Product2.SObjectType => ProductsDAO.class,
+            Profile.SObjectType => ProfilesDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class
         }
     );

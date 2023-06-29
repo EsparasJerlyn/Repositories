@@ -41,16 +41,25 @@ private class DynamicDataTableCtrlTest {
             String filterValue = 'Test0';
             String filter = 'AND FirstName ' + ' = \'' + filterValue + '\'';
 
+            String parentfilterValue = 'TestAcount0';
+            String parentfilter = 'Name ' + ' = \'' + parentfilterValue + '\'';
+
+            String userfilterValue = 'Partnership_Manager';
+            String userfilter = 'UserRole.DeveloperName ' + ' = \'' + userfilterValue + '\'';
+
             Map<String, String> parameters = new Map<String, String>{
                 'recordId' => accountList[0].Id,
                 'relatedRecord' => 'Contact',
                 'relatedField' => 'AccountId',
+                'parentRecord' => 'Account',
                 'relatedListFields' => '[{"label":"Name","fieldName":"Name","type":"url"},{"label":"Account","fieldName":"Account.Name","type":"url"}]',
                 'relatedListFilters' => filter,
                 'rowOffSet' => '0',
                 'rowLimit' => '10',
                 'sortOrder' => 'DESC',
-                'sortField' => 'CreatedDate'
+                'sortField' => 'CreatedDate',
+                'visibilityByParent' => parentfilter,
+                'visibilityByUser' => userfilter
             };
 
             System.assert(
