@@ -95,15 +95,6 @@ private class OpportunitiesDAOTest {
         }
         Test.stopTest();
     }
-    @isTest
-    static void getRecordsByStageName() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
-                .getRecordsByStageName('');
-            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
-        }
-    }
 
     @isTest
     static void getRecordsLikeName() {
@@ -117,6 +108,16 @@ private class OpportunitiesDAOTest {
             System.assert(opptyListWildCardBefore.isEmpty(), 'opportunitiesList should not be empty');
         }
         Test.stopTest();
+    }
+
+     @isTest
+    static void getRecordsByStageName() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getRecordsByStageName('');
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
+        }
     }
 
     @isTest

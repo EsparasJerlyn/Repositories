@@ -41,15 +41,6 @@ public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implemen
         return opportunityList;
     }
 
-    public List<Opportunity> getRecordsByStageName(String stageName) {
-        List<Opportunity> opportunityList = new List<Opportunity>();
-        for (Opportunity record : opportunitiesMap.values()) {
-            if (record.StageName == stageName) {
-                opportunityList.add(record);
-            }
-        }
-        return opportunityList;
-    }
 
     public List<Opportunity> getRecordsLikeName(
         String name,
@@ -68,6 +59,16 @@ public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implemen
                 if ((record.Name).startsWith(name)) {
                     opportunityList.add(record);
                 }
+            }
+        }
+        return opportunityList;
+    }
+
+    public List<Opportunity> getRecordsByStageName(String stageName) {
+        List<Opportunity> opportunityList = new List<Opportunity>();
+        for (Opportunity record : opportunitiesMap.values()) {
+            if (record.StageName == stageName) {
+                opportunityList.add(record);
             }
         }
         return opportunityList;

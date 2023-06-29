@@ -58,14 +58,6 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
         ];
     }
 
-    public static List<Opportunity> getRecordsByStageName(String stageName) {
-        return [
-            SELECT Id
-            FROM Opportunity
-            WHERE StageName = :stageName
-            WITH USER_MODE
-        ];
-    }
 
     public List<Opportunity> getRecordsLikeName(
         String name,
@@ -77,6 +69,15 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
             SELECT Id
             FROM Opportunity
             WHERE Name LIKE :name
+            WITH USER_MODE
+        ];
+    }
+
+     public static List<Opportunity> getRecordsByStageName(String stageName) {
+        return [
+            SELECT Id
+            FROM Opportunity
+            WHERE StageName = :stageName
             WITH USER_MODE
         ];
     }

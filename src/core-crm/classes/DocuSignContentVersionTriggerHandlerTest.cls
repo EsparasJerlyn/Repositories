@@ -24,7 +24,8 @@ public class DocuSignContentVersionTriggerHandlerTest {
             
             List<ContentVersion> contentVersionRecords =TestDataFactory.createTestContentVersionRecords(1);
             Test.startTest();
-            insert contentVersionRecords;
+            ContentVersionsDAO.newInstance()
+            .insertRecords(contentVersionRecords, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             List<ContentVersion> contentVersions = [SELECT Id, Title FROM ContentVersion LIMIT 1];
@@ -40,7 +41,8 @@ public class DocuSignContentVersionTriggerHandlerTest {
     
         System.runAs(currentUser){ 
             List<ContentVersion> contentVersionRecords =TestDataFactory.createTestContentVersionRecords(1);
-            insert contentVersionRecords;
+            ContentVersionsDAO.newInstance()
+            .insertRecords(contentVersionRecords, false, AccessLevel.USER_MODE);
 
             Test.startTest();
             List<ContentVersion> updateContentVersions = new List<ContentVersion>();
@@ -49,7 +51,8 @@ public class DocuSignContentVersionTriggerHandlerTest {
                 contentVersionUpdate.Title = 'Proposal - General With Content_ALPHA ZENITH PTY LTD-test sample sample opportunity that may e123123123samplesample';
                 updateContentVersions.add(contentVersionUpdate);
             }            
-            update updateContentVersions;
+            ContentVersionsDAO.newInstance()
+            .updateRecords(updateContentVersions, false, AccessLevel.USER_MODE);
             Test.stopTest();
         }
            
