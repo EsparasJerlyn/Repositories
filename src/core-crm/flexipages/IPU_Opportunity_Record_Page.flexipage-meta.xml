@@ -10,6 +10,54 @@
                         <valueListItems>
                             <value>Edit</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>CustomButton.Opportunity.GenerateMemoDocusignGeneratedButton</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.StageName}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Development</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Memo_Approver_1__r.Email}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Memo_Approver_2__r.Email}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Opportunity.Generate_Memo</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND ( 2 OR 3 )</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.StageName}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Development</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Memo_Approver_1__r.Email}</leftValue>
+                                    <operator>EQUAL</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Memo_Approver_2__r.Email}</leftValue>
+                                    <operator>EQUAL</operator>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Submit</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.StageName}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Development</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1697,6 +1745,32 @@
                         <rightValue>Development</rightValue>
                     </criteria>
                 </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>ProcessSteps</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

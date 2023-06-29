@@ -7,6 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added getContentVersionByTitle|
+
  */
 @isTest
 public inherited sharing class ContentVersionsDAOMock extends DmlBaseMock implements IContentVersionsDAO {
@@ -40,6 +42,17 @@ public inherited sharing class ContentVersionsDAOMock extends DmlBaseMock implem
 
         for (ContentVersion record : contentVersionMap.values()) {
             if (contentVersionIds.contains(record.Id)) {
+                contentVersionList.add(record);
+            }
+        }
+
+        return contentVersionList;
+    }
+    public List<ContentVersion> getContentVersionByTitle(Set<String> titles) {
+        List<ContentVersion> contentVersionList = new List<ContentVersion>();
+
+        for (ContentVersion record : contentVersionMap.values()) {
+            if (titles.contains(record.Title)) {
                 contentVersionList.add(record);
             }
         }

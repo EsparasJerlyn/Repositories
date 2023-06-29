@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Memo Approver 2</name>
+    <style>none</style>
+    <subject>Tender Submission {!Opportunity.Name}</subject>
+    <textOnly>Hi {!Opportunity.Memo_Approver_2__c} ,
+
+Seeking approval on behalf of the International Projects Unit for the proposal to be submitted. We are finalising the bid documents, including the budget, attached with the email.
+
+Here is the link to the MEMO Document for your reference.
+{!Opportunity.Memo_PDF_URL__c}
+
+Please approve or provide feedback; if necessary.
+
+Thanks
+
+{!User.Username}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

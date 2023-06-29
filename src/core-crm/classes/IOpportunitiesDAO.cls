@@ -11,8 +11,10 @@
       | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method
  */
 public interface IOpportunitiesDAO extends DmlInterface {
-     List<Opportunity> getRecordsSortByOpportunityCodeAsc();
-     List<Opportunity> getRecordsWithLikeOpportunityCodeSortAsc(String codeIsLike);
-     List<Opportunity> getRecordsBySetName(Set<String> names);
-     List<Opportunity> getRecordsLikeName(String name, Boolean wildCardBeforeName, String wildCard);
+    List<Opportunity> getRecordsSortByOpportunityCodeAsc();
+    List<Opportunity> getRecordsWithLikeOpportunityCodeSortAsc(String codeIsLike);
+    List<Opportunity> getRecordsBySetName(Set<String> names);
+    List<Opportunity> getRecordsLikeName(String name, Boolean wildCardBeforeName, String wildCard);
+    List<Opportunity> getRecordsByStageName(String stageName);
+    List<Opportunity> getRecordsBySetIds(Set<Id> ids);
 }

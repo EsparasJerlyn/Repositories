@@ -12,9 +12,15 @@
       | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method  |
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
-    public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Commercialisation').getRecordTypeId();
-    public static final Id INTERNATIONALPROJECTSUNIT_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('International_Projects_Unit').getRecordTypeId();
-    public static final Id RESEARCHPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Research_Partnership').getRecordTypeId();
+    public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+        .get('Commercialisation')
+        .getRecordTypeId();
+    public static final Id INTERNATIONALPROJECTSUNIT_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+        .get('International_Projects_Unit')
+        .getRecordTypeId();
+    public static final Id RESEARCHPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+        .get('Research_Partnership')
+        .getRecordTypeId();
     public static final String IDENTIFY_STAGE = 'Identify';
     public Schema.SObjectType getSObjectType() {
         return Opportunity.SObjectType;
@@ -26,39 +32,61 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 
     public static List<Opportunity> getRecordsSortByOpportunityCodeAsc() {
         return [
-            SELECT Id, Opportunity_Code__c 
-            FROM Opportunity 
-            WITH SYSTEM_MODE 
+            SELECT Id, Opportunity_Code__c
+            FROM Opportunity
+            WITH SYSTEM_MODE
             ORDER BY Opportunity_Code__c ASC
-            ];
+        ];
     }
 
     public static List<Opportunity> getRecordsWithLikeOpportunityCodeSortAsc(String codeIsLike) {
         return [
-            SELECT Id, Opportunity_Code__c 
-            FROM Opportunity 
-            WHERE Opportunity_Code__c LIKE :codeIsLike 
-            WITH SYSTEM_MODE 
+            SELECT Id, Opportunity_Code__c
+            FROM Opportunity
+            WHERE Opportunity_Code__c LIKE :codeIsLike
+            WITH SYSTEM_MODE
             ORDER BY Opportunity_Code__c ASC
-            ];
+        ];
     }
 
     public static List<Opportunity> getRecordsBySetName(Set<String> names) {
         return [
-            SELECT Id 
-            FROM Opportunity 
-            WHERE Name IN: names 
-            WITH USER_MODE
-            ];
-    }
-
-    public List<Opportunity> getRecordsLikeName(String name, boolean wildCardBeforeName, String wildCard) {
-		name = wildCardBeforeName ? (wildCard + name) : (name + wildCard);                
-        return [
-            SELECT Id 
-            FROM Opportunity 
-            WHERE Name LIKE :name 
+            SELECT Id
+            FROM Opportunity
+            WHERE Name IN :names
             WITH USER_MODE
         ];
-    } 
+    }
+
+    public static List<Opportunity> getRecordsByStageName(String stageName) {
+        return [
+            SELECT Id
+            FROM Opportunity
+            WHERE StageName = :stageName
+            WITH USER_MODE
+        ];
+    }
+
+    public List<Opportunity> getRecordsLikeName(
+        String name,
+        boolean wildCardBeforeName,
+        String wildCard
+    ) {
+        name = wildCardBeforeName ? (wildCard + name) : (name + wildCard);
+        return [
+            SELECT Id
+            FROM Opportunity
+            WHERE Name LIKE :name
+            WITH USER_MODE
+        ];
+    }
+
+    public static List<Opportunity> getRecordsBySetIds(Set<Id> ids) {
+        return [
+            SELECT Id, Memo_Status__c, Memo_PDF_URL__c
+            FROM Opportunity
+            WHERE ID IN :ids
+            WITH USER_MODE
+        ];
+    }
 }
