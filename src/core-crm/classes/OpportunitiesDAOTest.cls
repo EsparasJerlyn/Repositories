@@ -5,10 +5,10 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file,
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
-	  | kenneth.f.alsay				   | June 20, 2023         | DEPP-5434, 5399        | added methods 
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file,
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
+ *    | kenneth.f.alsay				   | June 20, 2023         | DEPP-5434, 5399        | added methods 
  */
 @isTest
 private class OpportunitiesDAOTest {
@@ -102,15 +102,21 @@ private class OpportunitiesDAOTest {
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             List<Opportunity> opptyListWildCardAfter = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Opportunities', false, '%');
-            System.assert(opptyListWildCardAfter.isEmpty(), 'opportunitiesList should not be empty');
+            System.assert(
+                opptyListWildCardAfter.isEmpty(),
+                'opportunitiesList should not be empty'
+            );
             List<Opportunity> opptyListWildCardBefore = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Opportunities', true, '%');
-            System.assert(opptyListWildCardBefore.isEmpty(), 'opportunitiesList should not be empty');
+            System.assert(
+                opptyListWildCardBefore.isEmpty(),
+                'opportunitiesList should not be empty'
+            );
         }
         Test.stopTest();
     }
 
-     @isTest
+    @isTest
     static void getRecordsByStageName() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {

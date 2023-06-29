@@ -1,14 +1,14 @@
 /**
- * @description Mock DAO Class for Opportunity Object. 
+ * @description Mock DAO Class for Opportunity Object.
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
-      | kenneth.f.alsay                | June 19, 2023         | DEPP-5434,5399         | added getRecordsByStartingName method
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
+ *    | kenneth.f.alsay                | June 19, 2023         | DEPP-5434,5399         | added getRecordsByStartingName method
  */
 @isTest
 public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implements IOpportunitiesDAO {
@@ -40,7 +40,6 @@ public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implemen
         }
         return opportunityList;
     }
-
 
     public List<Opportunity> getRecordsLikeName(
         String name,

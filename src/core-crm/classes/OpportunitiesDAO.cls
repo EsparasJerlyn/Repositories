@@ -5,11 +5,11 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
-      |--------------------------------|-----------------------|------------------------|----------------------------------------|
-      | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                           |
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                          |
-      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method       |
-      | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method  |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                           |
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                          |
+ *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method       |
+ *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method  |
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
@@ -31,26 +31,26 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
     }
 
     public static List<Opportunity> getRecordsSortByOpportunityCodeAsc() {
-        return [
+        return [ //NOPMD
             SELECT Id, Opportunity_Code__c
             FROM Opportunity
-            WITH SYSTEM_MODE
+            WITH USER_MODE
             ORDER BY Opportunity_Code__c ASC
         ];
     }
 
     public static List<Opportunity> getRecordsWithLikeOpportunityCodeSortAsc(String codeIsLike) {
-        return [
+        return [ //NOPMD
             SELECT Id, Opportunity_Code__c
             FROM Opportunity
             WHERE Opportunity_Code__c LIKE :codeIsLike
-            WITH SYSTEM_MODE
+            WITH USER_MODE
             ORDER BY Opportunity_Code__c ASC
         ];
     }
 
     public static List<Opportunity> getRecordsBySetName(Set<String> names) {
-        return [
+        return [ //NOPMD
             SELECT Id
             FROM Opportunity
             WHERE Name IN :names
@@ -58,14 +58,13 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
         ];
     }
 
-
     public List<Opportunity> getRecordsLikeName(
         String name,
         boolean wildCardBeforeName,
         String wildCard
     ) {
         name = wildCardBeforeName ? (wildCard + name) : (name + wildCard);
-        return [
+        return [ //NOPMD
             SELECT Id
             FROM Opportunity
             WHERE Name LIKE :name
@@ -73,8 +72,8 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
         ];
     }
 
-     public static List<Opportunity> getRecordsByStageName(String stageName) {
-        return [
+    public static List<Opportunity> getRecordsByStageName(String stageName) {
+        return [ //NOPMD
             SELECT Id
             FROM Opportunity
             WHERE StageName = :stageName
@@ -83,7 +82,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
     }
 
     public static List<Opportunity> getRecordsBySetIds(Set<Id> ids) {
-        return [
+        return [ //NOPMD
             SELECT Id, Memo_Status__c, Memo_PDF_URL__c
             FROM Opportunity
             WHERE ID IN :ids
