@@ -6349,6 +6349,11 @@
         <editable>true</editable>
         <field>Milestone__c.Name</field>
         <readable>true</readable>
+    </fieldPermissions>    
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Milestone__c.Milestone_Type__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

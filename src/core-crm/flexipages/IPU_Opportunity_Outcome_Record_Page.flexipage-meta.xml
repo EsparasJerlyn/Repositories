@@ -1353,7 +1353,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>New</value>
+                            <value>CustomButton.Milestone__c.NewContractualMilestone</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1430,7 +1430,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>New</value>
+                            <value>CustomButton.Milestone__c.NewFinancialMilestone</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
