@@ -1,14 +1,14 @@
 /**
- * @description Mock DAO Class for Opportunity Object. 
+ * @description Mock DAO Class for Opportunity Object.
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
-      | kenneth.f.alsay                | June 19, 2023         | DEPP-5434,5399         | added getRecordsByStartingName method
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
+ *    | kenneth.f.alsay                | June 19, 2023         | DEPP-5434,5399         | added getRecordsByStartingName method
  */
 @isTest
 public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implements IOpportunitiesDAO {
@@ -33,29 +33,53 @@ public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implemen
 
     public List<Opportunity> getRecordsBySetName(Set<String> names) {
         List<Opportunity> opportunityList = new List<Opportunity>();
-        for (Opportunity record: opportunitiesMap.values()){
-            if(names.contains(record.Name)){
+        for (Opportunity record : opportunitiesMap.values()) {
+            if (names.contains(record.Name)) {
                 opportunityList.add(record);
             }
         }
         return opportunityList;
-    } 
+    }
 
-    public List<Opportunity> getRecordsLikeName(String name, boolean wildCardBeforeName, String wildCard) {
+    public List<Opportunity> getRecordsLikeName(
+        String name,
+        boolean wildCardBeforeName,
+        String wildCard
+    ) {
         List<Opportunity> opportunityList = new List<Opportunity>();
-        if(wildCardBeforeName){
-            for (Opportunity record: opportunitiesMap.values()){
-                if((record.Name).endsWith(name)){
+        if (wildCardBeforeName) {
+            for (Opportunity record : opportunitiesMap.values()) {
+                if ((record.Name).endsWith(name)) {
                     opportunityList.add(record);
                 }
             }
-        }else{
-            for (Opportunity record: opportunitiesMap.values()){
-                if((record.Name).startsWith(name)){
+        } else {
+            for (Opportunity record : opportunitiesMap.values()) {
+                if ((record.Name).startsWith(name)) {
                     opportunityList.add(record);
                 }
             }
-        }        
+        }
+        return opportunityList;
+    }
+
+    public List<Opportunity> getRecordsByStageName(String stageName) {
+        List<Opportunity> opportunityList = new List<Opportunity>();
+        for (Opportunity record : opportunitiesMap.values()) {
+            if (record.StageName == stageName) {
+                opportunityList.add(record);
+            }
+        }
+        return opportunityList;
+    }
+
+    public List<Opportunity> getRecordsBySetIds(Set<Id> ids) {
+        List<Opportunity> opportunityList = new List<Opportunity>();
+        for (Opportunity record : opportunitiesMap.values()) {
+            if (ids.contains(record.Id)) {
+                opportunityList.add(record);
+            }
+        }
         return opportunityList;
     }
 }

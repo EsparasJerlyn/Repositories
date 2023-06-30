@@ -191,6 +191,18 @@
         <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Opportunity-Industry Engagement Layout</layout>
+        <recordType>Opportunity.Commercialisation</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Industry Engagement Layout</layout>
+        <recordType>Opportunity.International_Projects_Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Industry Engagement Layout</layout>
+        <recordType>Opportunity.Research_Partnership</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Promotion-promotion Layout</layout>
     </layoutAssignments>
      <layoutAssignments>

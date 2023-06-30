@@ -6,7 +6,7 @@
         <name>Check_for_Decommissioned_Date</name>
         <label>Check for Decommissioned Date</label>
         <locationX>182</locationX>
-        <locationY>287</locationY>
+        <locationY>323</locationY>
         <defaultConnector>
             <targetReference>Update_Stage_to_Decommisioned</targetReference>
         </defaultConnector>
@@ -62,7 +62,7 @@
         <name>Update_End_Date</name>
         <label>Update End Date</label>
         <locationX>50</locationX>
-        <locationY>395</locationY>
+        <locationY>431</locationY>
         <inputAssignments>
             <field>End_Date__c</field>
         </inputAssignments>
@@ -73,7 +73,7 @@
         <name>Update_Stage_to_Decommisioned</name>
         <label>Update Stage to Decommisioned</label>
         <locationX>314</locationX>
-        <locationY>395</locationY>
+        <locationY>431</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Decommissioned_Date__c</field>
@@ -102,7 +102,7 @@
         <filterFormula>ISCHANGED({!$Record.Decommissioned_Date__c})</filterFormula>
         <object>Opportunity_Outcome__c</object>
         <recordTriggerType>Update</recordTriggerType>
-        <triggerType>RecordBeforeSave</triggerType>
+        <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>

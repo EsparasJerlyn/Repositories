@@ -52,7 +52,7 @@
         </action>
     </initialSubmissionActions>
     <label>Big/Risky/Different Proposal Approval NW</label>
-    <processOrder>1</processOrder>
+    <processOrder>2</processOrder>
     <recordEditability>AdminOnly</recordEditability>
     <showApprovalHistory>true</showApprovalHistory>
 </ApprovalProcess>

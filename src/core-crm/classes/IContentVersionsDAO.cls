@@ -11,4 +11,5 @@
 public interface IContentVersionsDAO extends DmlInterface {
     List<ContentVersion> getContentVersionBySetContentDocumentIds(Set<Id> contentDocumentIds);
     List<ContentVersion> getContentVersionBySetIds(Set<Id> contentVersionIds);
+    List<ContentVersion> getContentVersionByTitle(Set<String> titles);
 }

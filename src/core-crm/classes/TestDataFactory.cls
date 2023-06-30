@@ -970,6 +970,30 @@ public class TestDataFactory {
         return contentVersionList;
     }
 
+    /**
+     * @description Method for creating test ContentVersion records
+     * @param contentVersionNumber - number of ContentVersion to be created
+     * @return contentVersionList - list of ContentVersion created
+     */
+    public static List<ContentVersion> createTestContentVersionRecordsWithMemoTitle(
+        Integer contentVersionNumber
+    ) {
+        List<ContentVersion> contentVersionList = new List<ContentVersion>();
+
+        for (Integer i = 0; i < contentVersionNumber; i++) {
+            contentVersionList.add(
+                new ContentVersion(
+                    Title = 'QUT MEMO_Opportunity' +
+                        i,
+                    PathOnClient = 'test' + i,
+                    versiondata = EncodingUtil.base64Decode('Unit Test Attachment Body')
+                )
+            );
+        }
+
+        return contentVersionList;
+    }
+
     public static ContentDocumentLink createTestContentDocumentLink(
         Id contentDocumentId,
         Id linkedEntityId
