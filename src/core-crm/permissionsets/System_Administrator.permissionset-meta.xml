@@ -16679,6 +16679,11 @@
         <field>Milestone__c.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Milestone__c.Milestone_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Pure_Project__c.Engagement__c</field>
