@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RP_CLMS_Contract_ID_is_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &quot;Research_Partnership&quot;,
+ISCHANGED(StageName),
+OR(ISPICKVAL(StageName, &quot;Discontinued&quot;),
+AND(ISPICKVAL(StageName, &quot;Executed&quot;), 
+ISPICKVAL( Pure_Project_ID__r.Pure_CLMS_Contract_Status__c , &quot;Internally Approved&quot;))),
+ISBLANK(Pure_Project_ID__r.Pure_CLMS_Contract_Id__c)
+)</errorConditionFormula>
+    <errorMessage>CLMS Contract ID is a Mandatory Field</errorMessage>
+</ValidationRule>
