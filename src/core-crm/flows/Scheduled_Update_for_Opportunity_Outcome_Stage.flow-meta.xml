@@ -29,7 +29,7 @@
         <name>Scheduled_Update_for_Opportunity_Outcome_Stage</name>
         <label>Scheduled Update for Opportunity Outcome Stage</label>
         <locationX>176</locationX>
-        <locationY>276</locationY>
+        <locationY>252</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>End_Date__c</field>
@@ -43,6 +43,13 @@
             <operator>NotEqualTo</operator>
             <value>
                 <stringValue>Completed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>End_Date__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <inputAssignments>
@@ -62,7 +69,7 @@
         <object>Opportunity_Outcome__c</object>
         <schedule>
             <frequency>Daily</frequency>
-            <startDate>2023-05-22</startDate>
+            <startDate>2023-07-03</startDate>
             <startTime>00:00:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
