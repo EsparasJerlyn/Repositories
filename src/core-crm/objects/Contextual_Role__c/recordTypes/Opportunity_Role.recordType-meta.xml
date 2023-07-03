@@ -15,11 +15,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Faculty</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Partners</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Research Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>School</fullName>
             <default>false</default>
         </values>
         <values>
@@ -39,6 +47,10 @@
         </values>
         <values>
             <fullName>Co-Investigator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty</fullName>
             <default>false</default>
         </values>
         <values>
@@ -87,6 +99,10 @@
         </values>
         <values>
             <fullName>Researcher</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>School</fullName>
             <default>false</default>
         </values>
         <values>
