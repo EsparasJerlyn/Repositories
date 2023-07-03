@@ -39,6 +39,7 @@ public class ImplementationSelector {
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Product2.SObjectType => ProductsDAO.class,
             Profile.SObjectType => ProfilesDAO.class,
+            Pure_Project__c.SObjectType => PureProjectsDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class
         }
     );
