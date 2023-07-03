@@ -8,6 +8,7 @@
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
  *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                        |
  *    | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist  |
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new list for 5846 Methods     |
  */
 public interface IContactsDAO extends DmlInterface {
     List<Contact> getExistingPersonContactsWithMatchingEmails(
@@ -16,5 +17,13 @@ public interface IContactsDAO extends DmlInterface {
         String accessLevel
     );
     List<Contact> getPersonContactsWithLimit(Integer recordsCount);
-    List<Contact> checkWorkEmailFlowInputExist(String emailInput);
+    List<Contact> checkWorkEmailFlowInputExist(String emailInput);   
+    List<Contact> getContactsWithMatchingApplicationDetails(
+        ContactsDAO.QueryParamWrapper queryParam,
+        String accessLevel
+    );
+    List<Contact> getContactsWithMatchingEmails(
+        Set<String> applicationEmailsToMatch,
+        String accessLevel
+    );
 }

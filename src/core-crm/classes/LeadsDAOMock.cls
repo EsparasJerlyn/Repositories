@@ -6,7 +6,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
+      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method             |
  */
 @isTest
 public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILeadsDAO {
@@ -52,6 +53,24 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
             }
         }
 
+        return leadList;
+    }
+    
+    public List<Lead> getExistingUnconvertedLeads(
+        Set<String> emailsToMatch,
+        String accessLevel
+    ) {
+        List<Lead> leadList = new List<Lead>();
+        
+        for (Lead record : leadsMap.values()) {
+            if (
+                 (emailsToMatch.contains(record.Email) ||
+                  emailsToMatch.contains(record.Work_Email__c))
+            ) {
+                leadList.add(record);
+            }
+        }
+        
         return leadList;
     }
 }
