@@ -83,24 +83,25 @@ public with sharing class ApplicationService {
      * 
      * @param newItems The list of new StudyLink applications to process.
      */ 
-     public static void matchStudyLinkApplicationToContactORLead(List<hed__Application__c> newItems) {
+     private static void matchStudyLinkApplicationToContactORLead(List<hed__Application__c> newItems) {
          
          ContactsDAO.QueryParamWrapper applicationDetails = extractApplicationDetails(newItems);
          List<Contact> existingContacts = getContactsWithMatchingApplicationDetails(applicationDetails);
          ApplicationServiceHelper.mapOfContactIds = new Map<String, Set<Id>>();
+         List<hed__Application__c> updateApplicationList = new List<hed__Application__c>();
          
          if (!existingContacts.isEmpty()) {
              Map<String, Map<Id, Contact>> contactsMap = createContactsMap(existingContacts, newItems);
-             processMatchingContacts(newItems, contactsMap);
+             updateApplicationList = processMatchingContacts(newItems, contactsMap);
          } else {
-             ApplicationServiceHelper.processNonMatchingContacts(newItems);           
+             updateApplicationList = ApplicationServiceHelper.processNonMatchingContacts(newItems);          
          }
          
          addLogs(ApplicationServiceHelper.mapOfContactIds);
                  
-         if (Logger.getBufferSize() > 0) {
-             Logger.saveLog();
-         }
+         if(!updateApplicationList.isEmpty()){
+            ApplicationsDAO.newInstance().updateRecords(updateApplicationList, false, AccessLevel.SYSTEM_MODE);
+        }
      }
      
     /**
@@ -161,8 +162,9 @@ public with sharing class ApplicationService {
      * 
      * @param newItems    The list of hed__Application__c objects.
      * @param contactsMap The map of string keys to nested maps of Ids to Contact objects.
+     * @return updateApplicationList List of application records to update
      */     
-     public static void processMatchingContacts(List<hed__Application__c> newItems, Map<String, Map<Id, Contact>> contactsMap) {
+     private static List<hed__Application__c> processMatchingContacts(List<hed__Application__c> newItems, Map<String, Map<Id, Contact>> contactsMap) {
          List<hed__Application__c> nonMatchingApplication = new List<hed__Application__c>();
          List<hed__Application__c> updateApplicationList = new List<hed__Application__c>();
          
@@ -182,23 +184,27 @@ public with sharing class ApplicationService {
          }
          
          updateApplicationList.addAll(ApplicationServiceHelper.processNonMatchingContacts(nonMatchingApplication));  
-         ApplicationsDAO.newInstance().updateRecords(updateApplicationList, false, AccessLevel.SYSTEM_MODE);
+         return updateApplicationList;
      }
     
-    /**
-     * @description: Adds logs based on the provided contactsIdMap.
-     * 				The method iterates over the map and logs messages for multiple matches or email mismatches
-     * 				It also saves the logs if the buffer size of the Logger is greater than 0. 
-     * @param contactsIdMap A map of application keys to sets of contact IDs.                   
-     */     
-     private static void addLogs(Map<String, Set<Id>> contactsIdMap) {        
-         // Iterate over the map's key-value pairs
-         for (String key : contactsIdMap.keySet()) {                  
-             String errorMsg = 'Email already exists in system but name doesn’t match contact '+ contactsIdMap.get(key) + ' , please investigate for manual matching of records ' + key;
-             if(contactsIdMap.get(key).size() > 1){
-                 errorMsg = 'There has been multiple matches found for the following application '+ key + ' , please investigate for manual matching of records - contact ' + contactsIdMap.get(key);
-             }
-             Logger.info(errorMsg);
-         }
-     }    
+   /**
+    * @description: Adds logs based on the provided contactsIdMap.
+    * 				The method iterates over the map and logs messages for multiple matches or email mismatches
+    * 				It also saves the logs if the buffer size of the Logger is greater than 0. 
+    * @param contactsIdMap A map of application keys to sets of contact IDs.                   
+    */     
+    private static void addLogs(Map<String, Set<Id>> contactsIdMap) {        
+        // Iterate over the map's key-value pairs
+        for (String key : contactsIdMap.keySet()) {                  
+            String logMessage = 'Email already exists in system but name doesn’t match contact '+ contactsIdMap.get(key) + ' , please investigate for manual matching of records ' + key;
+            if(contactsIdMap.get(key).size() > 1){
+                logMessage = 'There has been multiple matches found for the following application '+ key + ' , please investigate for manual matching of records - contact ' + contactsIdMap.get(key);
+            }
+            Logger.info(logMessage).setRecord(key);
+        }
+                       
+        if (Logger.getBufferSize() > 0) {
+            Logger.saveLog();
+        }
+    }    
  }
