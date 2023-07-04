@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RP_Contract_Status_Terminated</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &quot;Research_Partnership&quot;,
+NOT(ISPICKVAL( Pure_Project_ID__r.Pure_CLMS_Contract_Status__c , &quot;Terminated&quot;)),
+NOT(ISPICKVAL(Pure_Project_ID__r.Pure_CLMS_Contract_Status__c ,&apos;&apos;)),
+ISPICKVAL(StageName, &apos;Discontinued&apos;),
+ISCHANGED(StageName)
+)</errorConditionFormula>
+    <errorMessage>Contract status must be Terminated</errorMessage>
+</ValidationRule>

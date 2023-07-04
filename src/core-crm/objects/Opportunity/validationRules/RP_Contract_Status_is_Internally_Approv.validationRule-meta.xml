@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RP_Contract_Status_is_Internally_Approv</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &quot;Research_Partnership&quot;,
+ISCHANGED(StageName),
+ISPICKVAL(StageName, &quot;Executed&quot;),
+NOT(ISPICKVAL( Pure_Project_ID__r.Pure_CLMS_Contract_Status__c , &quot;Internally Approved&quot;)),
+NOT(ISPICKVAL(Pure_Project_ID__r.Pure_CLMS_Contract_Status__c ,&apos;&apos;))
+)</errorConditionFormula>
+    <errorMessage>Contract status must be Internally Approved</errorMessage>
+</ValidationRule>

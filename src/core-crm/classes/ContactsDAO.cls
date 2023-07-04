@@ -4,10 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
-      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                                   |
-      | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added new method checkWorkEmailFlowInputExist  |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------           |
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                                              |
+      | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added new method checkWorkEmailFlowInputExist             |
+      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method getContactsWithMatchingApplicationDetails|
+      |                                |                       |                        | + and getContactsWithMatchingEmails                       |
 
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
@@ -78,4 +80,64 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             LIMIT 1
         ];
     }
+    
+    public static List<Contact> getContactsWithMatchingApplicationDetails(
+        QueryParamWrapper queryParam,
+        String accessLevel
+    ) {
+        Set<String> applicationEmailsToMatch = queryParam.emailsToMatch;
+        Set<String> applicationFirstNames = queryParam.firstNames;
+        Set<String> applicationLastNames = queryParam.lastNames;
+        Set<Date> applicationBirthdates = queryParam.birthdates;
+        return Database.query(
+            'SELECT  Id, Email, QUT_Learner_Email__c, QUT_Staff_Email__c, Work_Email__c, ' +
+            'FirstName, LastName, Birthdate ' +
+            'FROM Contact ' +
+            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+            'AND ((FirstName IN: applicationFirstNames ' +
+            'AND LastName IN: applicationLastNames ' +
+            'AND Birthdate IN: applicationBirthdates) ' +
+            'OR (FirstName IN: applicationFirstNames '+
+            'AND LastName IN: applicationLastNames '+
+            'AND (Email IN: applicationEmailsToMatch ' +
+            'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
+            'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
+            'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+    
+    public static List<Contact> getContactsWithMatchingEmails(
+        Set<String> applicationEmailsToMatch,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Email, QUT_Learner_Email__c, QUT_Staff_Email__c, Work_Email__c ' +
+            'FROM Contact ' +
+            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
+            'AND (Email IN: applicationEmailsToMatch ' +
+            'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
+            'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
+            'OR Work_Email__c IN: applicationEmailsToMatch) ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+   /**
+    * @Description:Wrapper Class that represents the extracted application details.
+    */  
+    public class QueryParamWrapper {
+        public Set<String> emailsToMatch;
+        public Set<String> firstNames;
+        public Set<String> lastNames;
+        public Set<Date> birthdates;
+        
+        public QueryParamWrapper() {
+            emailsToMatch = new Set<String>();
+            firstNames = new Set<String>();
+            lastNames = new Set<String>();
+            birthdates = new Set<Date>();
+        }
+    }     
 }

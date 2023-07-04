@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------|
+      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                 |
+      | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads |
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -45,5 +46,20 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             WITH USER_MODE
             LIMIT :recordsCount
         ];
+    }
+
+    public List<Lead> getExistingUnconvertedLeads(
+        Set<String> allEmailsToMatch,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Email, Work_Email__c, IsConverted ' +
+                'FROM Lead ' +
+                'WHERE IsConverted = FALSE ' +
+                'AND (Email IN: allEmailsToMatch ' +
+                'OR Work_Email__c IN: allEmailsToMatch) ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
+        );
     }
 }

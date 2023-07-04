@@ -4,11 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file,
- *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
- *    | kenneth.f.alsay				   | June 20, 2023         | DEPP-5434, 5399        | added methods 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                        |
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                       |
+ *    | kenneth.f.alsay                | June 20, 2023         | DEPP-5434, 5399        | added methods                       |
+ *    | ryan.j.a.dela.cruz             | June 20, 2023         | DEPP-5434, 5399        | Added pure project record creation  |
  */
 @isTest
 private class OpportunitiesDAOTest {
@@ -17,6 +18,15 @@ private class OpportunitiesDAOTest {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
         List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
+
+        // Create Pure Project records with Contract Negotiation status
+        List<Pure_Project__c> pureProjectList = TestDataFactory.createTestPureProjectRecords(
+            1,
+            'Test Pure Project',
+            'Contract Negotiation'
+        );
+        PureProjectsDAO.newInstance().insertRecords(pureProjectList, false, AccessLevel.USER_MODE);
+
         List<Opportunity> opportunityList = new List<Opportunity>();
         List<Opportunity> opptyListWildCardBefore = TestDataFactory.createTestOpportunityWithStageRecords(
             200,
@@ -24,6 +34,7 @@ private class OpportunitiesDAOTest {
             OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
+            pureProjectList[0].Id,
             'Test Description'
         );
         List<Opportunity> opptyListWildCardAfter = TestDataFactory.createTestOpportunityWithStageRecords(
@@ -32,6 +43,7 @@ private class OpportunitiesDAOTest {
             OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
+            pureProjectList[0].Id,
             'Test Description'
         );
         opportunityList.addAll(opptyListWildCardBefore);
