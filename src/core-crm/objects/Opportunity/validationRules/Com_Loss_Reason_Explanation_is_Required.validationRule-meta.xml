@@ -6,7 +6,6 @@
 RecordType.DeveloperName = &apos;Commercialisation&apos;,
 ISCHANGED(StageName),
 ISPICKVAL(StageName, &quot;Discontinued&quot;),
-NOT(ISPICKVAL(PRIORVALUE(StageName) ,&apos;Contract&apos;)),
 ISBLANK(Loss_Reason_Explanation__c)
 )</errorConditionFormula>
     <errorDisplayField>Loss_Reason_Explanation__c</errorDisplayField>
