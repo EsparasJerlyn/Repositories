@@ -53,6 +53,42 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Commercialisation_Project_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Research_Commercialisation_Project</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commercialisation_Project_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Research_Commercialisation_Project</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commercialisation_Project_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Research_Commercialisation_Project</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Commercialisation_Project_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Research_Commercialisation_Project</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Commercialisation_Engagement_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Engagement__c</pageOrSobjectType>
@@ -442,6 +478,42 @@
         <recordType>hed__Application__c.StudyLink</recordType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>StartUp_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Startup</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>StartUp_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Startup</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>StartUp_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Startup</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>StartUp_Opportunity_Outcome_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity_Outcome__c</pageOrSobjectType>
+        <recordType>Opportunity_Outcome__c.Startup</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
     </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>

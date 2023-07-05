@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>IE_Operations_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Risk records to Operations Manager with Read/Write access when under Opportunity Outcome</description>
+        <label>IE Operations Manager Share</label>
+        <sharedTo>
+            <role>Operations_Manager</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Opportunity_Outcome__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>IE_Partnership_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Risk records to Partnership Manager with Read/Write access when under Opportunity</description>
+        <label>IE Partnership Manager Share</label>
+        <sharedTo>
+            <role>Partnership_Manager</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Opportunity__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

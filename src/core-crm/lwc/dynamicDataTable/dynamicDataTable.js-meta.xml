@@ -101,6 +101,16 @@
                 label="Dynamic Data Table Inputs"
                 type="String"
                 description="Optional, text, pass any variables to flow or lwc. E.g. Academic Team. " />
+            <property
+                name="visibilityByParent"
+                label="Controlled Visibility By Parent"
+                type="String"
+                description="Optional, text, controls the visibility of new and edit buttons by parent records. E.g. Stage != 'Completed' " />
+            <property
+                name="visibilityByUser"
+                label="Controlled Visibility By User"
+                type="String"
+                description="Optional, text, controls the visibility of new and edit buttons by current user details. E.g. Role.Name != 'Partnership Manager' " />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

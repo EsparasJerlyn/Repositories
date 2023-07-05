@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | added getContentVersionByTitle
  */
 public inherited sharing class ContentVersionsDAO extends DmlBase implements IContentVersionsDAO {
     public static IContentVersionsDAO newInstance() {
@@ -35,6 +36,15 @@ public inherited sharing class ContentVersionsDAO extends DmlBase implements ICo
             SELECT ContentDocumentId, FileExtension, Title
             FROM ContentVersion
             WHERE Id IN :contentVersionIds
+            WITH USER_MODE
+        ];
+    }
+
+    public List<ContentVersion> getContentVersionByTitle(Set<String> titles) {
+        return [//NOPMD
+            SELECT ID, ContentDocumentId, FileExtension, Title
+            FROM ContentVersion
+            WHERE Title IN :titles
             WITH USER_MODE
         ];
     }

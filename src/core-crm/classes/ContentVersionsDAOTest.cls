@@ -6,7 +6,9 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
+      | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added getContentVersionByTitle|
+
  */
 @isTest
 public with sharing class ContentVersionsDAOTest {
@@ -21,7 +23,7 @@ public with sharing class ContentVersionsDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<ContentVersion> contentVersionList = ContentVersionsDAO.newInstance()
                 .getContentVersionBySetContentDocumentIds(new Set<Id>());
-            System.assert(contentVersionList.isEmpty(), 'contentVersionList is not empty');
+            System.assert(contentVersionList.isEmpty(), 'contentVersionList should not be empty');
         }
         Test.stopTest();
     }
@@ -32,7 +34,7 @@ public with sharing class ContentVersionsDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<ContentVersion> contentVersionList = ContentVersionsDAO.newInstance()
                 .getContentVersionBySetIds(new Set<Id>());
-            System.assert(contentVersionList.isEmpty(), 'contentVersionList is not empty');
+            System.assert(contentVersionList.isEmpty(), 'contentVersionList should not be empty');
         }
         Test.stopTest();
     }
@@ -48,4 +50,16 @@ public with sharing class ContentVersionsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getContentVersionByTitle() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<ContentVersion> contentVersionList = ContentVersionsDAO.newInstance()
+                .getContentVersionByTitle(new Set<String>());
+            System.assert(contentVersionList.isEmpty(), 'contentVersionList should not be empty');
+        }
+        Test.stopTest();
+    }
+
 }

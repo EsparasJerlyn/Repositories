@@ -6,7 +6,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
+      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new test method        |
  */
 @isTest
 public with sharing class LeadsDAOTest {
@@ -25,7 +26,7 @@ public with sharing class LeadsDAOTest {
                     new Set<Id>(),
                     'SYSTEM_MODE'
                 );
-            System.assert(leadList.isEmpty(), 'leadList is not empty');
+            System.assert(leadList.isEmpty(), 'leadList should not be empty');
         }
         Test.stopTest();
     }
@@ -35,7 +36,7 @@ public with sharing class LeadsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
-            System.assert(leadList.isEmpty(), 'leadList is not empty');
+            System.assert(leadList.isEmpty(), 'leadList should not be empty');
         }
         Test.stopTest();
     }
@@ -48,6 +49,20 @@ public with sharing class LeadsDAOTest {
                 new LeadsDAO().getSObjectType() == Lead.SObjectType,
                 'SObject is not Lead'
             );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getExistingUnconvertedLeadsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getExistingUnconvertedLeads(
+                    new Set<String>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(leadList.isEmpty(), 'leadList should not be empty');
         }
         Test.stopTest();
     }

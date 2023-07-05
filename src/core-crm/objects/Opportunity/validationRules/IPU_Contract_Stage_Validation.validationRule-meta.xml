@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IPU_Contract_Stage_Validation</fullName>
+    <active>true</active>
+    <description>Ensures that user can only progress to the next stage which is Executed or Discontinue.</description>
+    <errorConditionFormula>AND( 
+ RecordType.DeveloperName =&apos;International_Projects_Unit&apos;,
+ ISCHANGED(StageName),
+ ISPICKVAL( PRIORVALUE(StageName ), &apos;Contract&apos;),
+ NOT(ISPICKVAL( StageName , &apos;Executed&apos;)),
+ NOT(ISPICKVAL( StageName , &apos;Discontinued&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>You can only progress the opportunity to next stage i.e. Executed or Discontinued.</errorMessage>
+</ValidationRule>

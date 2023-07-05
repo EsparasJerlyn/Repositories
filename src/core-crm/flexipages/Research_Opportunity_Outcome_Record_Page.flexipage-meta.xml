@@ -709,6 +709,10 @@
                     <name>sortOrder</name>
                     <value>DESC</value>
                 </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable</identifier>
             </componentInstance>
@@ -782,6 +786,10 @@
                 <componentInstanceProperties>
                     <name>sortOrder</name>
                     <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
@@ -857,6 +865,10 @@
                     <name>sortOrder</name>
                     <value>DESC</value>
                 </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable3</identifier>
             </componentInstance>
@@ -929,6 +941,13 @@
                 <componentInstanceProperties>
                     <name>sortOrder</name>
                     <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable4</identifier>

@@ -14,7 +14,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>Contract Negotiation</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>Contract Negotiation</label>
             </value>
             <value>

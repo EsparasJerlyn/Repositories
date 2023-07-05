@@ -11,6 +11,8 @@
       | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split  |
       | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo      |
       | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Added Object mapping for Contextual Role  |
+      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added object mapping for Application      |
+      | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument  |                
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -22,6 +24,7 @@ public class ImplementationSelector {
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             Contact.SObjectType => ContactsDAO.class,
+            ContentDocument.SObjectType => ContentDocumentsDAO.class,
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,
             ContentVersion.SObjectType => ContentVersionsDAO.class,
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
@@ -29,6 +32,7 @@ public class ImplementationSelector {
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
+            hed__Application__c.SObjectType => ApplicationsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
             Opportunity_Code_Auto_Number__c.SobjectType => OpportunityCodeAutoNumbersDAO.class,
@@ -36,6 +40,8 @@ public class ImplementationSelector {
             Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Product2.SObjectType => ProductsDAO.class,
+            Profile.SObjectType => ProfilesDAO.class,
+            Pure_Project__c.SObjectType => PureProjectsDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class
         }
     );

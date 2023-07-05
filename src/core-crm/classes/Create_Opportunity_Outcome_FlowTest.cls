@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                 | Change Summary                  |
- *	  |--------------------------------|-----------------------|----------------------|---------------------------------|
- *    | kenneth.f.alsay                | June 14, 2023         | DEPP-5434, 5399      | Created file,added test methods |
- *    | ryan.j.a.dela.cruz             | June 19, 2023         | DEPP-5748            | Added assert messages, pmd fix  |
+ *    | Developer Email                | Date                  | JIRA                 | Change Summary                      |
+ *    |--------------------------------|-----------------------|----------------------|-------------------------------------|
+ *    | kenneth.f.alsay                | June 14, 2023         | DEPP-5434, 5399      | Created file,added test methods     |
+ *    | ryan.j.a.dela.cruz             | June 19, 2023         | DEPP-5748            | Added assert messages, pmd fix      |
+ *    | ryan.j.a.dela.cruz             | July 03, 2023         | DEPP-5390            | Added pure project record creation  |
  */
 @isTest
 public class Create_Opportunity_Outcome_FlowTest {
@@ -45,18 +46,29 @@ public class Create_Opportunity_Outcome_FlowTest {
             new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
         );
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            // * Create Opportunity records with IPU record type
+            // Create Pure Project records with Contract Negotiation status
+            List<Pure_Project__c> pureProjectList = TestDataFactory.createTestPureProjectRecords(
+                1,
+                'Test Pure Project',
+                'Internally Approved'
+            );
+            PureProjectsDAO.newInstance()
+                .insertRecords(pureProjectList, false, AccessLevel.USER_MODE);
+
+            // Create Opportunity records with IPU record type
             List<Opportunity> ipuOpportunityList = TestDataFactory.createTestOpportunityWithStageRecords(
                 200,
                 'Test IPU Opportunity',
                 OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
                 'Contract',
                 accountList[0].Id,
+                pureProjectList[0].Id,
                 'Test Description'
             );
             OpportunitiesDAO.newInstance()
                 .insertRecords(ipuOpportunityList, false, AccessLevel.USER_MODE);
-            // * Create Financial Split records related to above opportunities
+
+            // Create Financial Split records related to above opportunities
             List<Financial_Split__c> financialSplitList = new List<Financial_Split__c>();
             for (Opportunity opp : ipuOpportunityList) {
                 List<Financial_Split__c> tempList = TestDataFactory.createTestFinancialSplitRecordsForOpportunity(
@@ -68,7 +80,8 @@ public class Create_Opportunity_Outcome_FlowTest {
             }
             FinancialSplitsDAO.newInstance()
                 .insertRecords(financialSplitList, false, AccessLevel.USER_MODE);
-            // * Create Contextual Role records related to above opportunities
+
+            // Create Contextual Role records related to above opportunities
             List<Contextual_Role__c> contextualRolesList = new List<Contextual_Role__c>();
             for (Opportunity opp : ipuOpportunityList) {
                 List<Contextual_Role__c> partnerContextualRolesList = TestDataFactory.createContextualRolesForOpportunity(
@@ -101,18 +114,28 @@ public class Create_Opportunity_Outcome_FlowTest {
         }
 
         System.runAs(TestDataFactory.getOperationsManager()) {
-            // * Create Opportunity records with RP record type
+            // Create Pure Project records with Contract Negotiation status
+            List<Pure_Project__c> pureProjectList = TestDataFactory.createTestPureProjectRecords(
+                1,
+                'Test Pure Project',
+                'Internally Approved'
+            );
+            PureProjectsDAO.newInstance()
+                .insertRecords(pureProjectList, false, AccessLevel.USER_MODE);
+
+            // Create Opportunity records with RP record type
             List<Opportunity> rpOpportunityList = TestDataFactory.createTestOpportunityWithStageRecords(
                 200,
                 'Test RP Opportunity',
                 OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID,
                 'Contract',
                 accountList[0].Id,
+                pureProjectList[0].Id,
                 'Test Description'
             );
             OpportunitiesDAO.newInstance()
                 .insertRecords(rpOpportunityList, false, AccessLevel.USER_MODE);
-            // * Create Financial Split records related to above opportunities
+            // Create Financial Split records related to above opportunities
             List<Financial_Split__c> financialSplitList = new List<Financial_Split__c>();
             for (Opportunity opp : rpOpportunityList) {
                 List<Financial_Split__c> tempList = TestDataFactory.createTestFinancialSplitRecordsForOpportunity(
@@ -124,7 +147,7 @@ public class Create_Opportunity_Outcome_FlowTest {
             }
             FinancialSplitsDAO.newInstance()
                 .insertRecords(financialSplitList, false, AccessLevel.USER_MODE);
-            // * Create Contextual Role records related to above opportunities
+            // Create Contextual Role records related to above opportunities
             List<Contextual_Role__c> contextualRolesList = new List<Contextual_Role__c>();
             for (Opportunity opp : rpOpportunityList) {
                 List<Contextual_Role__c> partnerContextualRolesList = TestDataFactory.createContextualRolesForOpportunity(

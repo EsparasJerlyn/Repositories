@@ -63,6 +63,32 @@ private class DynamicQueryServiceTest {
     }
 
     @isTest
+    private static void getRecordWithFilterTest() {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            Test.startTest();
+            List<Account> accountList = new List<Account>();
+            accountList = AccountsDAO.newInstance()
+                .getAccountBySetNamesWithLimit(new Set<String>{ 'TestAccount0' }, 1);
+
+            String filterValue = 'TestAccount0';
+            String filter = 'Name ' + ' = \'' + filterValue + '\'';
+
+            Map<String, String> parametersMap = new Map<String, String>{
+                'recordId' => accountList[0].Id,
+                'sObjectApiName' => 'Account',
+                'filter' => filter
+            };
+
+            System.assert(
+                !DynamicQueryService.getRecordWithFilter(parametersMap).isEmpty(),
+                'no acocunt records queried'
+            );
+
+            Test.stopTest();
+        }
+    }
+
+    @isTest
     private static void getRelatedRecordsCountWithFilterTest() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();

@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created                      | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                      |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------------|
+      | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created                                             | 
+      | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added Query service for record query with filter    | 
  */
 
 public with sharing class DynamicQueryService {
@@ -54,6 +55,32 @@ public with sharing class DynamicQueryService {
             String.escapeSingleQuotes(parametersMap.get('rowOffSet'));
 
         return Database.query(relatedRecordsStringQuery); //NOPMD
+    }
+
+    /**
+     * Query records with filter
+     * @param parametersMap
+     * A map of string key and values
+     * Key value pair are as follows
+     * recordId(required) - record id of the record
+     * sObjectApiName(required) - object api name of the records to be queried(e.g. Contact)
+     * filter(required) - where clause of the filter(e.g. Stage != 'Completed')
+     * @return List of records queried
+     */
+    public static List<SObject> getRecordWithFilter(
+        Map<String, String> parametersMap
+    ){
+        String recordStringQuery =
+        'SELECT Id, Name FROM ' +
+        String.escapeSingleQuotes(parametersMap.get('sObjectApiName')) +
+        ' WHERE Id ' + 
+        ' = \'' +
+        String.escapeSingleQuotes(parametersMap.get('recordId')) +
+        '\'' +
+        ' ' +
+        'AND ' + parametersMap.get('filter') +
+        ' WITH USER_MODE ';
+        return Database.query(recordStringQuery); //NOPMD
     }
 
     /**

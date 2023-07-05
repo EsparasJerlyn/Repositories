@@ -6,7 +6,6 @@
 RecordType.DeveloperName = &apos;Research_Partnership&apos;,
 ISCHANGED(StageName),
 ISPICKVAL(StageName, &quot;Discontinued&quot;),
-NOT(ISPICKVAL(PRIORVALUE(StageName) ,&apos;Contract&apos;)),
 ISPICKVAL((Loss_Reason__c), &apos;&apos;)
 )</errorConditionFormula>
     <errorDisplayField>Loss_Reason__c</errorDisplayField>

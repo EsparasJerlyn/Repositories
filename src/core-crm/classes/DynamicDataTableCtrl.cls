@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created file                   |
+ *    | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added visibility check         |
  */
 public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many public methods
     /**
@@ -19,6 +20,7 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
      * Key value pair are as follows
      * Parent to child relationship(e.g. Account -> Contact):
      * recordId - record id of the parent record(e.g. AccountId)
+     * parentRecord - api name of the parent record(e.g. Account)
      * relatedRecord - object api name of the records to be queried(e.g. Contact)
      * relatedField - field api name of the lookup field(e.g. AccountId)
      * relatedListFields - JSON string that gives info on what the table should look like (e.g.[{"label":"Name","fieldName":"Name","type":"text"}])
@@ -27,7 +29,8 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
      * rowLimit - the limit of the query(e.g. 10)
      * sortOrder - the order of the query for sort(e.g. DESC)
      * sortField - the field used to order the query for sort(e.g. CreatedDate)
-     *
+     * visibilityByParent - filter for parent record(e.g Stage != 'Completed')
+     * visibilityByUser - filter for user record(e.g UserRole.DeveloperName = 'Partnership_Manager')
      * @return DataTableResponse   contains the table columns,rows and record count.
      */
     @AuraEnabled
@@ -64,6 +67,7 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             columnCount++;
         }
 
+        relatedFieldApiNames += ' UserRecordAccess.HasEditAccess';
         relatedFieldApiNames = relatedFieldApiNames.removeEnd(',');
 
         //finalize query parameters
@@ -80,8 +84,68 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         finalWrapper.recordCount = DynamicQueryService.getRelatedRecordsCountWithFilter(
             parametersMap
         );
+        finalWrapper.hasVisibility = true;
+
+        if (
+            //checks if current user is admin, visibility check is bypassed if admin
+            !ProfilesDAO.ADMIN_PROFILES.contains(
+                ProfilesDAO.newInstance()
+                    .getProfileRecordsBySetIds(new Set<Id>{ UserInfo.getProfileId() })
+                    .iterator()
+                    .next()
+                    .Name
+            )
+        ) {
+            finalWrapper.hasVisibility = getVisiblityCheckResult(tableWrapperParams);
+        }
 
         return finalWrapper;
+    }
+
+    /**
+     * Logic to check if user has visibility to new and edit buttons of the table
+     * @param paramsMap
+     * A map of string key and values
+     * contains the parameters to check the visibility of the edit and new buttons of the table
+     * Key value pair are as follows
+     * recordId - record id of the parent record
+     * parentRecord - api name of the parent record(e.g. Account)
+     * visibilityByParent - filter for parent record(e.g Stage != 'Completed')
+     * visibilityByUser - filter for user record(e.g UserRole.DeveloperName = 'Partnership_Manager')
+     *
+     * @return DataTableResponse   contains the table columns,rows and record count.
+     */
+    private static boolean getVisiblityCheckResult(Map<String, String> paramsMap) {
+        List<SObject> parentResult = new List<SObject>();
+        List<SObject> userResult = new List<SObject>();
+        boolean checkParentVisibility = false;
+        boolean checkUserVisibility = false;
+        Map<String, String> parametersMap = new Map<String, String>();
+
+        if (!String.isBlank(paramsMap.get('visibilityByParent'))) {
+            parametersMap.put('sObjectApiName', paramsMap.get('parentRecord'));
+            parametersMap.put('recordId', paramsMap.get('recordId'));
+            parametersMap.put('filter', paramsMap.get('visibilityByParent'));
+            parentResult = DynamicQueryService.getRecordWithFilter(parametersMap);
+            checkParentVisibility = true;
+        }
+
+        if (!String.isBlank(paramsMap.get('visibilityByUser'))) {
+            parametersMap.put('sObjectApiName', 'User');
+            parametersMap.put('recordId', String.escapeSingleQuotes(UserInfo.getUserId()));
+            parametersMap.put('filter', paramsMap.get('visibilityByUser'));
+            userResult = DynamicQueryService.getRecordWithFilter(parametersMap);
+            checkUserVisibility = true;
+        }
+
+        if (
+            (checkParentVisibility == true && parentResult.isEmpty()) ||
+            (checkUserVisibility == true && userResult.isEmpty())
+        ) {
+            return false; //dont give visibility
+        } else {
+            return true; //give visibility
+        }
     }
 
     private class DataTableColumns {
@@ -162,5 +226,7 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         public List<sObject> dataTableData { get; set; }
         @AuraEnabled
         public Integer recordCount { get; set; }
+        @AuraEnabled
+        public boolean hasVisibility { get; set; }
     }
 }

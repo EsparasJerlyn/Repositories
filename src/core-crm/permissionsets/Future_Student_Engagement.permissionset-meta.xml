@@ -4,6 +4,10 @@
         <application>Future_Student_Nurturing</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <applicationVisibilities>
+        <application>International_Student_Recruitment</application>
+        <visible>true</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>AddressInformationValidationCtrl</apexClass>
         <enabled>true</enabled>

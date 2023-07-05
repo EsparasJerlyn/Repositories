@@ -4,12 +4,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file,
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods
-	  | kenneth.f.alsay				   | June 20, 2023         | DEPP-5434, 5399        | added methods 
- */ 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                        |
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                       |
+ *    | kenneth.f.alsay                | June 20, 2023         | DEPP-5434, 5399        | added methods                       |
+ *    | ryan.j.a.dela.cruz             | June 20, 2023         | DEPP-5434, 5399        | Added pure project record creation  |
+ */
 @isTest
 private class OpportunitiesDAOTest {
     @testSetup
@@ -17,27 +18,37 @@ private class OpportunitiesDAOTest {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
         List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
+
+        // Create Pure Project records with Contract Negotiation status
+        List<Pure_Project__c> pureProjectList = TestDataFactory.createTestPureProjectRecords(
+            1,
+            'Test Pure Project',
+            'Contract Negotiation'
+        );
+        PureProjectsDAO.newInstance().insertRecords(pureProjectList, false, AccessLevel.USER_MODE);
+
         List<Opportunity> opportunityList = new List<Opportunity>();
         List<Opportunity> opptyListWildCardBefore = TestDataFactory.createTestOpportunityWithStageRecords(
-                200,
-                'Wildcard Opportunities',
-                OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
-                'Contract',
-                accountList[0].Id,
-                'Test Description'
-            );
+            200,
+            'Wildcard Opportunities',
+            OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
+            'Contract',
+            accountList[0].Id,
+            pureProjectList[0].Id,
+            'Test Description'
+        );
         List<Opportunity> opptyListWildCardAfter = TestDataFactory.createTestOpportunityWithStageRecords(
-                200,
-                'Opportunities wildcard',
-                OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
-                'Contract',
-                accountList[0].Id,
-                'Test Description'
-            );
+            200,
+            'Opportunities wildcard',
+            OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
+            'Contract',
+            accountList[0].Id,
+            pureProjectList[0].Id,
+            'Test Description'
+        );
         opportunityList.addAll(opptyListWildCardBefore);
         opportunityList.addAll(opptyListWildCardAfter);
         OpportunitiesDAO.newInstance().insertRecords(opportunityList, false, AccessLevel.USER_MODE);
-        
     }
 
     @isTest
@@ -68,8 +79,9 @@ private class OpportunitiesDAOTest {
     static void getRecordsSortByOpportunityCodeAscTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance().getRecordsSortByOpportunityCodeAsc();
-            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList is not empty');
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getRecordsSortByOpportunityCodeAsc();
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
         }
         Test.stopTest();
     }
@@ -78,8 +90,9 @@ private class OpportunitiesDAOTest {
     static void getRecordsWithLikeOpportunityCodeSortAscTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance().getRecordsWithLikeOpportunityCodeSortAsc('');
-            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList is not empty');
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getRecordsWithLikeOpportunityCodeSortAsc('');
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
         }
         Test.stopTest();
     }
@@ -88,20 +101,50 @@ private class OpportunitiesDAOTest {
     static void getRecordsBySetName() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance().getRecordsBySetName(new Set<String>{''});
-            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList is not empty');
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getRecordsBySetName(new Set<String>{ '' });
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
         }
         Test.stopTest();
     }
-    
+
     @isTest
     static void getRecordsLikeName() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Opportunity> opptyListWildCardAfter = OpportunitiesDAO.newInstance().getRecordsLikeName('Opportunities', false, '%');
-            System.assert(opptyListWildCardAfter.isEmpty(), 'opportunitiesList is not empty');
-            List<Opportunity> opptyListWildCardBefore = OpportunitiesDAO.newInstance().getRecordsLikeName('Opportunities', true, '%');
-            System.assert(opptyListWildCardBefore.isEmpty(), 'opportunitiesList is not empty');
+            List<Opportunity> opptyListWildCardAfter = OpportunitiesDAO.newInstance()
+                .getRecordsLikeName('Opportunities', false, '%');
+            System.assert(
+                opptyListWildCardAfter.isEmpty(),
+                'opportunitiesList should not be empty'
+            );
+            List<Opportunity> opptyListWildCardBefore = OpportunitiesDAO.newInstance()
+                .getRecordsLikeName('Opportunities', true, '%');
+            System.assert(
+                opptyListWildCardBefore.isEmpty(),
+                'opportunitiesList should not be empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getRecordsByStageName() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getRecordsByStageName('');
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
+        }
+    }
+
+    @isTest
+    static void getRecordsBySetIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getRecordsBySetIds(new Set<Id>());
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
         }
         Test.stopTest();
     }
