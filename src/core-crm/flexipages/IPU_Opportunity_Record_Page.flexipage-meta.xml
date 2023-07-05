@@ -2657,7 +2657,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Pure_Project_ID__c</fieldItem>
                 <identifier>RecordPure_Project_ID_cField2</identifier>
