@@ -80,7 +80,6 @@ public class Create_Opportunity_Outcome_FlowTest {
             }
             FinancialSplitsDAO.newInstance()
                 .insertRecords(financialSplitList, false, AccessLevel.USER_MODE);
-
             // Create Contextual Role records related to above opportunities
             List<Contextual_Role__c> contextualRolesList = new List<Contextual_Role__c>();
             for (Opportunity opp : ipuOpportunityList) {
@@ -112,7 +111,7 @@ public class Create_Opportunity_Outcome_FlowTest {
             ContextualRolesDAO.newInstance()
                 .insertRecords(contextualRolesList, false, AccessLevel.USER_MODE);
         }
-
+		
         System.runAs(TestDataFactory.getOperationsManager()) {
             // Create Pure Project records with Contract Negotiation status
             List<Pure_Project__c> pureProjectList = TestDataFactory.createTestPureProjectRecords(
@@ -135,18 +134,7 @@ public class Create_Opportunity_Outcome_FlowTest {
             );
             OpportunitiesDAO.newInstance()
                 .insertRecords(rpOpportunityList, false, AccessLevel.USER_MODE);
-            // Create Financial Split records related to above opportunities
-            List<Financial_Split__c> financialSplitList = new List<Financial_Split__c>();
-            for (Opportunity opp : rpOpportunityList) {
-                List<Financial_Split__c> tempList = TestDataFactory.createTestFinancialSplitRecordsForOpportunity(
-                    2,
-                    opp.Id,
-                    accountList[0].Id
-                );
-                financialSplitList.addAll(tempList);
-            }
-            FinancialSplitsDAO.newInstance()
-                .insertRecords(financialSplitList, false, AccessLevel.USER_MODE);
+            
             // Create Contextual Role records related to above opportunities
             List<Contextual_Role__c> contextualRolesList = new List<Contextual_Role__c>();
             for (Opportunity opp : rpOpportunityList) {
@@ -164,12 +152,20 @@ public class Create_Opportunity_Outcome_FlowTest {
                     accountList[0].Id,
                     'Contributors'
                 );
+                List<Contextual_Role__c> researchCentreContextualRolesList = TestDataFactory.createContextualRolesForOpportunity(
+                    2,
+                    ContextualRolesDAO.OPPORTUNITY_ROLE_RECTYPE_ID,
+                    opp.Id,
+                    accountList[0].Id,
+                    'Research Centre'
+                );
                 contextualRolesList.addAll(partnerContextualRolesList);
                 contextualRolesList.addAll(contributorsContextualRolesList);
+                contextualRolesList.addAll(researchCentreContextualRolesList);
             }
             ContextualRolesDAO.newInstance()
                 .insertRecords(contextualRolesList, false, AccessLevel.USER_MODE);
-        }
+        } 
     }
 
     @isTest
@@ -278,15 +274,6 @@ public class Create_Opportunity_Outcome_FlowTest {
                 400,
                 [
                     SELECT COUNT()
-                    FROM Financial_Split__c
-                    WHERE Opportunity_Outcome__c IN :opportunityOutcomeIds
-                ],
-                'Incorrect count of Financial_Split__c records'
-            );
-            System.assertEquals(
-                400,
-                [
-                    SELECT COUNT()
                     FROM Contextual_Role__c
                     WHERE
                         Opportunity_Outcome__c IN :opportunityOutcomeIds
@@ -305,7 +292,18 @@ public class Create_Opportunity_Outcome_FlowTest {
                 ],
                 'Incorrect count of Contextual_Role__c records for Contributors'
             );
+                        System.assertEquals(
+                400,
+                [
+                    SELECT COUNT()
+                    FROM Contextual_Role__c
+                    WHERE
+                        Opportunity_Outcome__c IN :opportunityOutcomeIds
+                        AND Contextual_Role_Group__c = 'Research Centre'
+                ],
+                'Incorrect count of Contextual_Role__c records for Research Centre'
+            );
         }
-        Test.stopTest();
+        Test.stopTest(); 
     }
 }

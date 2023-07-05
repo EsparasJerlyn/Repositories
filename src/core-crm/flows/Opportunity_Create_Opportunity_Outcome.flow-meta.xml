@@ -5,7 +5,7 @@
         <name>Error_Action</name>
         <label>Error Action</label>
         <locationX>1370</locationX>
-        <locationY>2243</locationY>
+        <locationY>2483</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -42,7 +42,7 @@
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>1370</locationX>
-        <locationY>2351</locationY>
+        <locationY>2591</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -51,8 +51,8 @@
     <assignments>
         <name>Assign_Financial_Splits_to_Collection</name>
         <label>Assign Financial Splits to Collection</label>
-        <locationX>666</locationX>
-        <locationY>1319</locationY>
+        <locationX>138</locationX>
+        <locationY>1427</locationY>
         <assignmentItems>
             <assignToReference>FinancialSplitRecord.Account_Code__c</assignToReference>
             <operator>Assign</operator>
@@ -187,7 +187,7 @@
         <name>Assign_Partners_to_Collection</name>
         <label>Assign Partners to Collection</label>
         <locationX>666</locationX>
-        <locationY>1835</locationY>
+        <locationY>2183</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleRecord.OwnerId</assignToReference>
             <operator>Assign</operator>
@@ -305,6 +305,31 @@
         </connector>
     </assignments>
     <decisions>
+        <name>Record_Type</name>
+        <label>Opportunity Outcome Record Type</label>
+        <locationX>578</locationX>
+        <locationY>995</locationY>
+        <defaultConnector>
+            <targetReference>Get_Contextual_Roles</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IPU_Opportunity</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International_Projects_Unit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Financial_Split_Records</targetReference>
+            </connector>
+            <label>IPU Opportunity</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>What_is_the_Record_Type</name>
         <label>What is the Record Type?</label>
         <locationX>578</locationX>
@@ -348,29 +373,29 @@
     <loops>
         <name>Financial_Split_from_Opportunity_Loop</name>
         <label>Financial Split from Opportunity Loop</label>
-        <locationX>578</locationX>
-        <locationY>1211</locationY>
+        <locationX>50</locationX>
+        <locationY>1319</locationY>
         <collectionReference>Get_Financial_Split_Records</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Assign_Financial_Splits_to_Collection</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Get_Contextual_Roles</targetReference>
+            <targetReference>Create_Financial_Split</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
         <name>Loop_Contextual_Roles</name>
         <label>Loop Contextual Roles</label>
         <locationX>578</locationX>
-        <locationY>1727</locationY>
+        <locationY>2075</locationY>
         <collectionReference>Get_Contextual_Roles</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Assign_Partners_to_Collection</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Create_Financial_Split</targetReference>
+            <targetReference>Create_Contextual_Roles_for_New_Opportunity_Outcome</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -396,7 +421,7 @@
         <name>Create_Contextual_Roles_for_New_Opportunity_Outcome</name>
         <label>Create Contextual Roles for New Opportunity Outcome</label>
         <locationX>578</locationX>
-        <locationY>2135</locationY>
+        <locationY>2375</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -405,10 +430,10 @@
     <recordCreates>
         <name>Create_Financial_Split</name>
         <label>Create Financial Split</label>
-        <locationX>578</locationX>
-        <locationY>2027</locationY>
+        <locationX>50</locationX>
+        <locationY>1619</locationY>
         <connector>
-            <targetReference>Create_Contextual_Roles_for_New_Opportunity_Outcome</targetReference>
+            <targetReference>Get_Contextual_Roles</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -478,7 +503,7 @@
         <name>Get_Contextual_Roles</name>
         <label>Get Contextual Roles</label>
         <locationX>578</locationX>
-        <locationY>1511</locationY>
+        <locationY>1859</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Opportunity_Outcome_Role_Record_Type</targetReference>
@@ -487,7 +512,7 @@
             <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
-        <filterLogic>1 AND (2 OR 3 OR 4 OR 5)</filterLogic>
+        <filterLogic>1 AND (2 OR 3 OR 4 OR 5 OR 6)</filterLogic>
         <filters>
             <field>Opportunity__c</field>
             <operator>EqualTo</operator>
@@ -523,6 +548,13 @@
                 <stringValue>Training Team</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>Contextual_Role_Group__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Research Centre</stringValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Contextual_Role__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -534,7 +566,7 @@
         <locationY>887</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Financial_Split_Records</targetReference>
+            <targetReference>Record_Type</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -564,8 +596,8 @@
     <recordLookups>
         <name>Get_Financial_Split_Records</name>
         <label>Get Financial Split Records</label>
-        <locationX>578</locationX>
-        <locationY>995</locationY>
+        <locationX>50</locationX>
+        <locationY>1103</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Opportunity_Outcome_Funding_Bodies_RecordId</targetReference>
@@ -644,8 +676,8 @@
     <recordLookups>
         <name>Get_Opportunity_Outcome_Funding_Bodies_RecordId</name>
         <label>Get Opportunity Outcome Funding Bodies RecordId</label>
-        <locationX>578</locationX>
-        <locationY>1103</locationY>
+        <locationX>50</locationX>
+        <locationY>1211</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Financial_Split_from_Opportunity_Loop</targetReference>
@@ -679,7 +711,7 @@
         <name>Get_Opportunity_Outcome_Role_Record_Type</name>
         <label>Get Opportunity Outcome Role Record Type</label>
         <locationX>578</locationX>
-        <locationY>1619</locationY>
+        <locationY>1967</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_Contextual_Roles</targetReference>
