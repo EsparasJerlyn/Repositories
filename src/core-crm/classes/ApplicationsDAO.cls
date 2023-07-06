@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
  *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
+ *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added getApplicationsByLeadIds             |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -34,6 +35,15 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             FROM hed__Application__c
             WHERE Id IN :applicationIds
             WITH USER_MODE
+        ];
+    }
+
+    public List<hed__Application__c> getApplicationsByLeadIds(Set<Id> leadIds) {
+        return [//NOPMD
+            SELECT Id, Lead__c, hed__Applicant__c
+            FROM hed__Application__c
+            WHERE Lead__c IN :leadIds
+            WITH SYSTEM_MODE
         ];
     }
 }

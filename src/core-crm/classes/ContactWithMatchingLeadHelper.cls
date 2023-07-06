@@ -6,20 +6,22 @@
  * @author Accenture
  * 
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary                      |
-      |---------------------------|-----------------------|----------------------|-------------------------------------|
-      | eccarius.munoz            | May 31, 2022          | DEPP-2281            | Created File                        |
-      |                           |                       |                      |                                     | 
-      | eccarius.munoz            | June 28, 2022         | DEPP-3235            | Modified exact match handling to    |
-      |                           |                       |                      | email and work email only.          |  
-      |                           |                       |                      |                                     |  
-      |                           |                       |                      | Modified handling of marketing seg- |  
-      |                           |                       |                      | mentation to always clone if        |  
-      |                           |                       |                      | there's any record(s) found.        |  
-      |                           |                       |                      |                                     | 
-      | eccarius.munoz            | June 29, 2022         | DEPP-3250            | Modified handling of marketing seg- | 
-      |                           |                       |                      | mentation.                          |   
-      |                           |                       |                      |                                     | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                              |
+      |---------------------------|-----------------------|----------------------|---------------------------------------------|
+      | eccarius.munoz            | May 31, 2022          | DEPP-2281            | Created File                                |
+      |                           |                       |                      |                                             | 
+      | eccarius.munoz            | June 28, 2022         | DEPP-3235            | Modified exact match handling to            |
+      |                           |                       |                      | email and work email only.                  |  
+      |                           |                       |                      |                                             |  
+      |                           |                       |                      | Modified handling of marketing seg-         |  
+      |                           |                       |                      | mentation to always clone if                |  
+      |                           |                       |                      | there's any record(s) found.                |  
+      |                           |                       |                      |                                             | 
+      | eccarius.munoz            | June 29, 2022         | DEPP-3250            | Modified handling of marketing seg-         | 
+      |                           |                       |                      | mentation.                                  |   
+      |                           |                       |                      |                                             |
+      | mark.j.mahilum            | July 03, 2023         | DEPP-5961            | Updated Marketing Course Application object |
+      |                           |                       |                      | and replaced by Application object          |
  */
 public without sharing class ContactWithMatchingLeadHelper {
 
@@ -56,7 +58,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         List<Lead> leads = new List<Lead>();
         List<Contact> contactList = new List<Contact>();
         List<Marketing_Interaction__c> marketingInteractions = new List<Marketing_Interaction__c>();
-        List<Marketing_Course_Application__c> marketingCourseApps = new List<Marketing_Course_Application__c>();
+        List<hed__Application__c> applicationRecords = new List<hed__Application__c>();
         List<Marketing_Segmentation__c> contactMarketingSegmentations = new List<Marketing_Segmentation__c>();
         List<Marketing_Segmentation__c> marketingSegmentations = new List<Marketing_Segmentation__c>();
 
@@ -116,18 +118,18 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
         }
 
-        Map<Id, List<Marketing_Course_Application__c>> marketingCourseAppsMap = new Map<Id, List<Marketing_Course_Application__c>>();
+        Map<Id, List<hed__Application__c>> applicationMap = new Map<Id, List<hed__Application__c>>();
         if(!leadIdSet.isEmpty()){
-            marketingCourseApps = [SELECT Id, Lead__c, Contact__c FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIdSet];
+            applicationRecords = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIdSet);           
         }
         
-        for(Marketing_Course_Application__c mca : marketingCourseApps){
-            if(marketingCourseAppsMap.containsKey(mca.Lead__c)){
-                marketingCourseAppsMap.get(mca.Lead__c).add(mca);
+        for(hed__Application__c app : applicationRecords){
+            if(applicationMap.containsKey(app.Lead__c)){
+                applicationMap.get(app.Lead__c).add(app);
             }else{
-                List<Marketing_Course_Application__c> mcaList = new List<Marketing_Course_Application__c>();
-                mcaList.add(mca);
-                marketingCourseAppsMap.put(mca.Lead__c, mcaList);
+                List<hed__Application__c> appList = new List<hed__Application__c>();
+                appList.add(app);
+                applicationMap.put(app.Lead__c, appList);
             }
         }
 
@@ -154,7 +156,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         
         List<Contact> contactsToUpdate = new List<Contact>();
         List<Marketing_Interaction__c> marketingInteractionsToUpdate = new List<Marketing_Interaction__c>();
-        List<Marketing_Course_Application__c> marketingCourseAppsToUpdate = new List<Marketing_Course_Application__c>();
+        List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();
         List<Marketing_Segmentation__c> marketingSegmentationToInsert = new List<Marketing_Segmentation__c>();
         List<Marketing_Segmentation__c> marketingSegmentationToUpdate = new List<Marketing_Segmentation__c>();
         
@@ -177,13 +179,13 @@ public without sharing class ContactWithMatchingLeadHelper {
                     marketingInteractionsToUpdate.add(marketingInteraction);
                 }
             }            
-            if(marketingCourseAppsMap.containsKey(lead.Id)){
-                for(Marketing_Course_Application__c m : marketingCourseAppsMap.get(lead.Id)){
-                    Marketing_Course_Application__c marketingCourseApp = new Marketing_Course_Application__c(
-                        Id = m.Id,
-                        Contact__c = contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id
+            if(applicationMap.containsKey(lead.Id)){
+                for(hed__Application__c app : applicationMap.get(lead.Id)){
+                    hed__Application__c appRec = new hed__Application__c(
+                        Id = app.Id,
+                        hed__Applicant__c = contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id
                     );
-                    marketingCourseAppsToUpdate.add(marketingCourseApp);
+                    applicationToUpdate.add(appRec);
                 }
             }
             
@@ -219,8 +221,8 @@ public without sharing class ContactWithMatchingLeadHelper {
         if(!marketingInteractionsToUpdate.isEmpty()){
             Database.update(marketingInteractionsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
-        if(!marketingCourseAppsToUpdate.isEmpty()){
-            Database.update(marketingCourseAppsToUpdate, false, AccessLevel.SYSTEM_MODE);
+        if(!applicationToUpdate.isEmpty()){
+            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!marketingSegmentationToInsert.isEmpty()){
             Database.insert(marketingSegmentationToInsert, false, AccessLevel.SYSTEM_MODE);

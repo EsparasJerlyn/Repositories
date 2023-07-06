@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------|
       | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                               |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds      |
  */
 @isTest
 public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implements IApplicationsDAO {
@@ -28,6 +29,18 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
 
         for (hed__Application__c record : applicationMap.values()) {
             if (applicationIds.contains(record.Id)) {
+                applicationList.add(record);
+            }
+        }
+
+        return applicationList;
+    }
+
+    public List<hed__Application__c> getApplicationsByLeadIds(Set<Id> leadIds) {
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+
+        for (hed__Application__c record : applicationMap.values()) {
+            if (leadIds.contains(record.Lead__c)) {
                 applicationList.add(record);
             }
         }

@@ -4,10 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                            |
-      |--------------------------------|-----------------------|------------------------|-------------------------------------------|
-      | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created IApplicationDAO cls         	 	|
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
+      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
+      | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                               |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added list getApplicationsByLeadIds        |
  */
 public interface IApplicationsDAO extends DmlInterface{
     List<hed__Application__c> getApplicationsBySetIds(Set<Id> applicationIds);
+    List<hed__Application__c> getApplicationsByLeadIds(Set<Id> leadIds);
 }

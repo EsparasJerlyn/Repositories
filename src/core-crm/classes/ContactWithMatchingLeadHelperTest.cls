@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | June 1, 2022          | DEPP-2281              | creates test class           |
       | eccarius.munoz                 | June 28, 2022         | DEPP-3235              | Sets test records to 100     |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Updated test class reference |
  */
 @isTest
 public with sharing class ContactWithMatchingLeadHelperTest {
@@ -68,17 +69,17 @@ public with sharing class ContactWithMatchingLeadHelperTest {
         insert leads;
 
         List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
-        List<Marketing_Course_Application__c> marketingCourseAppList = new List<Marketing_Course_Application__c>();
+        List<hed__Application__c> appList = new List<hed__Application__c>();
         List<Marketing_Segmentation__c> marketingSegmentationList = new List<Marketing_Segmentation__c>();
         List<Contact> contactList = new List<Contact>();
         for(Integer i = 0; i < recNum; i++){
             marketingInteractionList.add(new Marketing_Interaction__c(Lead__c = leads[i].Id));
-            marketingCourseAppList.add(new Marketing_Course_Application__c(Lead__c = leads[i].Id));
+            appList.add(new hed__Application__c(Lead__c = leads[i].Id));
             marketingSegmentationList.add(new Marketing_Segmentation__c(Lead__c = leads[i].Id));
             contactList.add(new Contact(FirstName = 'MC Test', LastName = 'MC Record', Email = 'mctest@record.com', Company_Name__c = 'mcTestCompany', Marketing_Segmentation_Score__c = 80, RecordTypeId = MC_PERSONA, Parent_Person_Lead__c = leads[i].Id));
         }
         insert marketingInteractionList;
-        insert marketingCourseAppList;
+        ApplicationsDAO.newInstance().insertRecords(appList, false, AccessLevel.SYSTEM_MODE);
         insert marketingSegmentationList;
         insert contactList;
     }
@@ -119,7 +120,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             }
 
             List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];
-            List<Marketing_Course_Application__c> mktCourseAppContacts = [SELECT Contact__r.Id FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIds];
+            List<hed__Application__c> appContacts = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds); 
             List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
             List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
 
@@ -128,8 +129,8 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             for(Marketing_Interaction__c mi : mktInteractionContacts){
                 System.assert(contactsMap.containsKey(mi.Contact__r.Id), 'Marketing Interaction was not updated.');
             }
-            for(Marketing_Course_Application__c mca : mktCourseAppContacts){
-                System.assert(contactsMap.containsKey(mca.Contact__r.Id), 'Marketing Course Application was not updated.');
+            for(hed__Application__c app : appContacts){
+                System.assert(contactsMap.containsKey(app.hed__Applicant__c), 'Application was not updated.');
             }
             for(Marketing_Segmentation__c ms : mktSegContacts){
                 System.assert(contactsMap.containsKey(ms.Contact__r.Id), 'Marketing Segmentation was not updated.');
@@ -175,7 +176,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             }
 
             List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];
-            List<Marketing_Course_Application__c> mktCourseAppContacts = [SELECT Contact__r.Id FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIds];
+            List<hed__Application__c> appContacts = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds); 
             List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
             List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
 
@@ -184,8 +185,8 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             for(Marketing_Interaction__c mi : mktInteractionContacts){
                 System.assert(contactsMap.containsKey(mi.Contact__r.Id), 'Marketing Interaction was not updated.');
             }
-            for(Marketing_Course_Application__c mca : mktCourseAppContacts){
-                System.assert(contactsMap.containsKey(mca.Contact__r.Id), 'Marketing Course Application was not updated.');
+            for(hed__Application__c app : appContacts){
+                System.assert(contactsMap.containsKey(app.hed__Applicant__c), 'Application was not updated.');
             }
             for(Marketing_Segmentation__c ms : mktSegContacts){
                 System.assert(contactsMap.containsKey(ms.Contact__r.Id), 'Marketing Segmentation was not updated.');
