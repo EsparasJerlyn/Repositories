@@ -159,7 +159,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>milestoneRecord.Name</elementReference>
+                <elementReference>Milestone_Name</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -225,9 +225,15 @@
                 <name>Milestone_Summary_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>milestoneRecord.Name</objectFieldReference>
+                    <name>Milestone_Name</name>
+                    <dataType>String</dataType>
+                    <fieldText>Milestone Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30);&quot;&gt;Limit should be 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>NOT(LEN({!Milestone_Name}) &gt; 80)</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
