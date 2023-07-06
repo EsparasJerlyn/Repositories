@@ -5,10 +5,10 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | Created file
-      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
-      | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | Created file
+ *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
+ *    | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
  */
 public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements IOpportunityOutcomesDAO {
     public static final Id RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName()
@@ -37,7 +37,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     }
 
     public static List<Opportunity_Outcome__c> getRecordsSortByCodeAsc() {
-        return [
+        return [ //NO PMD
             SELECT Id, Code__c
             FROM Opportunity_Outcome__c
             WITH SYSTEM_MODE
@@ -46,7 +46,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     }
 
     public static List<Opportunity_Outcome__c> getRecordsWithLikeCodeSortAsc(String codeIsLike) {
-        return [
+        return [ //NO PMD
             SELECT Id, Code__c
             FROM Opportunity_Outcome__c
             WHERE Code__c LIKE :codeIsLike
@@ -56,7 +56,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     }
 
     public List<Opportunity_Outcome__c> getRecordsWithEqualEndDate(Date endDate) {
-        return [
+        return [ //NO PMD
             SELECT Id, Stage_Name__c
             FROM Opportunity_Outcome__c
             WHERE End_Date__c = :endDate
@@ -65,7 +65,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     }
 
     public List<Opportunity_Outcome__c> getRecordsWithNotEqualEndDate(Date endDate) {
-        return [
+        return [ //NO PMD
             SELECT Id, Stage_Name__c
             FROM Opportunity_Outcome__c
             WHERE End_Date__c != :endDate
@@ -74,16 +74,16 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     }
 
     public List<Opportunity_Outcome__c> getRecordsWithStartDate(Date startDate) {
-        return [
+        return [ //NO PMD
             SELECT Id, Stage_Name__c
             FROM Opportunity_Outcome__c
-            WHERE End_Date__c = :startDate
+            WHERE Start_Date__c = :startDate
             WITH USER_MODE
         ];
     }
 
     public List<Opportunity_Outcome__c> getRecordsWithOpportunity(List<Id> opportunityList) {
-        return [
+        return [ //NO PMD
             SELECT Id, Opportunity__c
             FROM Opportunity_Outcome__c
             WHERE Opportunity__c IN :opportunityList
@@ -92,7 +92,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     }
 
     public List<Opportunity_Outcome__c> getRecordsWithPastDateAsDecommissionedDate() {
-        return [
+        return [ //NO PMD
             SELECT Id, Stage_Name__c, End_Date__c, Decommissioned_Date__c, Decommissioned_Reason__c
             FROM Opportunity_Outcome__c
             WHERE Decommissioned_Date__c <= :System.today()
@@ -101,7 +101,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     }
 
     public List<Opportunity_Outcome__c> getRecordsWithFutureDateAsDecommissionedDate() {
-        return [
+        return [ //NO PMD
             SELECT Id, Stage_Name__c, End_Date__c, Decommissioned_Date__c, Decommissioned_Reason__c
             FROM Opportunity_Outcome__c
             WHERE Decommissioned_Date__c > :System.today()

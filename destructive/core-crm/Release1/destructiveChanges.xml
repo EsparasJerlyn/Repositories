@@ -71,6 +71,9 @@
         <!--Start DEPP-5392-->
         <members>New_Document_Standard_Record_Type_Custom.xml</members>
         <!--End DEPP-5392-->
+        <!--Start DEPP-5995-->
+        <members>Update_Opportunity_Outcome_to_New.flow-meta.xml</members>
+        <!--End DEPP-5995-->
         <name>Flow</name>
     </types>
     <types>

@@ -5,11 +5,8 @@
         <description>Check value of decommissioned date</description>
         <name>Check_for_Decommissioned_Date</name>
         <label>Check for Decommissioned Date</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>323</locationY>
-        <defaultConnector>
-            <targetReference>Update_Stage_to_Decommisioned</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Greater_than_current_date</name>
@@ -32,6 +29,28 @@
                 <targetReference>Update_End_Date</targetReference>
             </connector>
             <label>Is Greater than current date</label>
+        </rules>
+        <rules>
+            <name>Is_Lesser_than_current_date</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Decommissioned_Date__c</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Decommissioned_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Stage_to_Decommisioned</targetReference>
+            </connector>
+            <label>Is Lesser than current date</label>
         </rules>
     </decisions>
     <description>Update Opportunity outcome to decommissioned stage</description>
@@ -94,7 +113,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>56</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_for_Decommissioned_Date</targetReference>
