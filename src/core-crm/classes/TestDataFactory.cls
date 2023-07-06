@@ -2834,8 +2834,9 @@ public class TestDataFactory {
                     Code__c = code,
                     Opportunity__c = opportunityID,
                     Project_Name__c = projectName + ' ' + i,
-                    Start_Date__c = System.today() - 10,
-                    End_Date__c = System.today() + i,
+                    Stage_Name__c = 'New',
+                    Start_Date__c = System.today() + 10,
+                    End_Date__c = System.today() + 60,
                     RecordTypeId = recordTypeId
                 )
             );

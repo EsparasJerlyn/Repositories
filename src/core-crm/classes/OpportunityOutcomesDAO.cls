@@ -9,6 +9,7 @@
  *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | Created file
  *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
  *    | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
+ *    | ryan.j.a.dela.cruz             | July 6, 2023          | DEPP-5995              | Added ACTIVE_STAGE
  */
 public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements IOpportunityOutcomesDAO {
     public static final Id RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName()
@@ -25,6 +26,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
         .getRecordTypeId();
     public static final String COMPLETED_STAGE = 'Completed';
     public static final String NEW_STAGE = 'New';
+    public static final String ACTIVE_STAGE = 'Active';
     public static final String DECOMMISSIONED_STAGE = 'Decommissioned';
     public Schema.SObjectType getSObjectType() {
         return Opportunity_Outcome__c.SObjectType;

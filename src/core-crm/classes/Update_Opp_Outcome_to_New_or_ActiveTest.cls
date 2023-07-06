@@ -5,8 +5,8 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | ryan.j.a.dela.cruz             | July 06, 2023         | DEPP-5595              | Created file
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | ryan.j.a.dela.cruz             | July 06, 2023         | DEPP-5995              | Created file
  */
 @isTest
 public class Update_Opp_Outcome_to_New_or_ActiveTest {
@@ -63,40 +63,44 @@ public class Update_Opp_Outcome_to_New_or_ActiveTest {
     }
 
     @isTest
-    private static void updateOpportunityOutcomeStartDateToFutureTest() {
+    private static void updateOpportunityOutcomeStartDateToCurrentTest() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance()
-                .getRecordsWithStartDate(currentDate - 10);
+                .getRecordsWithStartDate(currentDate + 10); // from future date
+
             Test.startTest();
-            updateStartDate(opportunityOutcomeListToUpdate, 30);
+            updateStartDate(opportunityOutcomeListToUpdate, 0); // update to current date
             Test.stopTest();
             List<Opportunity_Outcome__c> oppOutcomes = OpportunityOutcomesDAO.newInstance()
-                .getRecordsWithStartDate(currentDate + 30);
+                .getRecordsWithStartDate(currentDate - 10); // compare with current date
+
             for (Opportunity_Outcome__c oppOutcome : oppOutcomes) {
                 System.assertEquals(
-                    OpportunityOutcomesDAO.NEW_STAGE,
+                    OpportunityOutcomesDAO.ACTIVE_STAGE,
                     oppOutcome.Stage_Name__c,
-                    'Not equal'
+                    'Stage should be Active.'
                 );
             }
         }
     }
 
     @isTest
-    private static void updateOpportunityOutcomeStartDateToCurrentTest() {
+    private static void updateOpportunityOutcomeStartDateToFutureTest() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance()
-                .getRecordsWithStartDate(currentDate - 10);
+                .getRecordsWithStartDate(currentDate + 10); // from future date
+
             Test.startTest();
-            updateStartDate(opportunityOutcomeListToUpdate, 5);
+            updateStartDate(opportunityOutcomeListToUpdate, 10); // add 10 more days (Still future)
             Test.stopTest();
             List<Opportunity_Outcome__c> oppOutcomes = OpportunityOutcomesDAO.newInstance()
-                .getRecordsWithStartDate(currentDate + 10);
+                .getRecordsWithStartDate(currentDate + 10); // compare with current date
+
             for (Opportunity_Outcome__c oppOutcome : oppOutcomes) {
                 System.assertEquals(
                     OpportunityOutcomesDAO.NEW_STAGE,
                     oppOutcome.Stage_Name__c,
-                    'Not equal'
+                    'Stage should be New.'
                 );
             }
         }
@@ -106,17 +110,20 @@ public class Update_Opp_Outcome_to_New_or_ActiveTest {
     private static void updateOpportunityOutcomeStartDateToPreviousTest() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Opportunity_Outcome__c> opportunityOutcomeListToUpdate = OpportunityOutcomesDAO.newInstance()
-                .getRecordsWithStartDate(currentDate - 10);
+                .getRecordsWithStartDate(currentDate + 10); // from future date
+
             Test.startTest();
-            updateStartDate(opportunityOutcomeListToUpdate, 10);
+            updateStartDate(opportunityOutcomeListToUpdate, -10); // decrease 10 more days (previous date)
             Test.stopTest();
+
             List<Opportunity_Outcome__c> oppOutcomes = OpportunityOutcomesDAO.newInstance()
-                .getRecordsWithStartDate(currentDate + 10);
+                .getRecordsWithStartDate(currentDate - 10); // compare with current date
+
             for (Opportunity_Outcome__c oppOutcome : oppOutcomes) {
                 System.assertEquals(
-                    OpportunityOutcomesDAO.NEW_STAGE,
+                    OpportunityOutcomesDAO.ACTIVE_STAGE,
                     oppOutcome.Stage_Name__c,
-                    'Not equal'
+                    'Stage should be Active.'
                 );
             }
         }
