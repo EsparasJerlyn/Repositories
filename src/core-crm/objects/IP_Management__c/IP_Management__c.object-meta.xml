@@ -147,7 +147,7 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayoutAssignment>IP_Management</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <description>This object will be used to track/record administrative information relating to Intellectual Property.</description>
     <enableActivities>true</enableActivities>
@@ -175,4 +175,4 @@
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
-</CustomObject> 
+</CustomObject>

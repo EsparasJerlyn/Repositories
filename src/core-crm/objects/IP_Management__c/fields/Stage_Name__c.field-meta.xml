@@ -23,14 +23,14 @@
                 <label>Granted</label>
             </value>
             <value>
-                <fullName>Lapsed</fullName>
-                <default>false</default>
-                <label>Lapsed</label>
-            </value>
-            <value>
                 <fullName>Renewed</fullName>
                 <default>false</default>
                 <label>Renewed</label>
+            </value>
+            <value>
+                <fullName>Lapsed</fullName>
+                <default>false</default>
+                <label>Lapsed</label>
             </value>
             <value>
                 <fullName>Rejected</fullName>
