@@ -165,7 +165,7 @@
         <inputAssignments>
             <field>Opportunity_Outcome__c</field>
             <value>
-                <elementReference>opportunityOutcomeId</elementReference>
+                <elementReference>milestoneRecord.Opportunity_Outcome__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
