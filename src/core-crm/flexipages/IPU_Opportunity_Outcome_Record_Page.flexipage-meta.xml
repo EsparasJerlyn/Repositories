@@ -988,6 +988,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
+                    <value>Opportunity Outcome Funding Body</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>editActionType</name>

@@ -513,7 +513,11 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>defaultValues</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
+                    <value>Research Partnership</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>editActionType</name>
@@ -578,6 +582,9 @@
                 <componentInstanceProperties>
                     <name>sortOrder</name>
                     <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>

@@ -21,6 +21,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
     public static final Id RESEARCHPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Research_Partnership')
         .getRecordTypeId();
+
     public static final String IDENTIFY_STAGE = 'Identify';
     public Schema.SObjectType getSObjectType() {
         return Opportunity.SObjectType;
@@ -32,7 +33,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 
     public static List<Opportunity> getRecordsSortByOpportunityCodeAsc() {
         return [ //NOPMD
-            SELECT Id, Opportunity_Code__c
+            SELECT Id, Opportunity_Code__c, Name
             FROM Opportunity
             WITH USER_MODE
             ORDER BY Opportunity_Code__c ASC

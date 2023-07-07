@@ -11,7 +11,6 @@
  *    | roy.nino.s.regala         | June 15, 2023         | DEPP-5391            | Created file                                 |
  */
 import { LightningElement, api } from "lwc";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class DynamicDataTableForm extends LightningElement {
   @api showModal = false;
@@ -107,15 +106,6 @@ export default class DynamicDataTableForm extends LightningElement {
     }
 
     if (event.detail.status === "FINISHED") {
-      const message = `${
-        this.isNew() ? this.sobjectLabel : this.recordName
-      } was ${this.isNew() ? "created" : "saved"}.`;
-      const evt = new ShowToastEvent({
-        title: message,
-        variant: "success"
-      });
-      this.dispatchEvent(evt);
-      this.dispatchEvent(new CustomEvent("refreshdata"));
       this.handleClose();
       // set behavior after a finished flow interview
     }

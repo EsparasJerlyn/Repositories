@@ -2844,6 +2844,30 @@ public class TestDataFactory {
         return oppOutcomes;
     }
 
+
+    /**
+     * Generate a list of opportunity outcome records based on the amount of records needed,
+     * the general name to be used, and record type
+     */
+    public static List<Milestone__c> createTestMileStoneRecords(
+        Integer size,
+        Id opportunityOutcome,
+        String milestoneType
+    ) {
+        List<Milestone__c> milestones = new List<Milestone__c>();
+        for (Integer i = 1; i <= size; i++) {
+            milestones.add(
+                new milestone__c(
+                    Milestone_Type__c = milestoneType,
+                    Start_Date__c = System.today(),
+                    End_Date__c = System.today() + 5,
+                    Opportunity_Outcome__c = opportunityOutcome
+                )
+            );
+        }
+        return milestones;
+    }
+
     /**
      * @description Method for creating test Contextual Role records related to
      * provided opportunity

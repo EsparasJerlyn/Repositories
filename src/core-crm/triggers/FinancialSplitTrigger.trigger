@@ -1,16 +1,16 @@
 /**
- * @description trigger for object opportunity
+ * @description trigger for object Financial Split
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | May 12, 2023          | DEPP-5594              | created file
+      | roy.nino.s.regala              | July 06, 2023         | DEPP-5474              | created file
  */
-trigger OpportunityTrigger on Opportunity (before insert, after insert, after update) {
+trigger FinancialSplitTrigger on Financial_Split__c (after insert, after update) {
     TriggerDispatcher.dispatch(
-        TriggerHandlerFactory.getHandlersForSObjectType('Opportunity'),
+        TriggerHandlerFactory.getHandlersForSObjectType('Financial_Split__c'),
         Trigger.operationType
     );
 }

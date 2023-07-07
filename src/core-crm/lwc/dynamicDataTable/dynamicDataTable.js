@@ -18,6 +18,7 @@ import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import getCurrentUserNavigationType from "@salesforce/apex/UserInfoService.getCurrentUserNavigationType";
 import { isValidUrl, transformObject } from "c/lwcUtility";
+import Id from "@salesforce/user/Id";
 import {
   subscribe,
   unsubscribe,
@@ -30,7 +31,7 @@ export default class DynamicDataTable extends NavigationMixin(
   LightningElement
 ) {
   /* TARGET CONFIG START */
-  @api icon; 
+  @api icon;
   @api relatedListLabel;
   @api parentRecord;
   @api relatedRecord;
@@ -44,6 +45,7 @@ export default class DynamicDataTable extends NavigationMixin(
   @api showNewButton = false;
   @api newActionType;
   @api newScreenFlowApiName;
+  @api defaultValues = "";
   @api showEditButton;
   @api editActionType;
   @api editScreenFlowApiName;
@@ -68,6 +70,8 @@ export default class DynamicDataTable extends NavigationMixin(
   dataTableIsLoading = false;
   subscription = {};
   visibilityCheckResult = false;
+  userId = Id;
+  isCustom = true;
   /*USER EXPERIENCE VARIABLES END */
 
   /* GETTERS START */
@@ -127,7 +131,7 @@ export default class DynamicDataTable extends NavigationMixin(
     }
   }
 
-  get isShowNewButton(){
+  get isShowNewButton() {
     //if visiblity is controlled and show new button is checked
     return this.visibilityCheckResult && this.showNewButton;
   }
@@ -156,14 +160,14 @@ export default class DynamicDataTable extends NavigationMixin(
     let objData = obj.data.payload;
     if (
       objData.Parent_Id__c == this.recordId &&
-      objData.Dynamic_Datatable_Input__c == this.dynamicDataTableInput &&
-      this.isConsoleApp
+      (objData.Dynamic_Datatable_Input__c == this.dynamicDataTableInput ||
+        objData.Dynamic_Datatable_Input__c == this.recordTypeId) &&
+      objData.CreatedById == this.userId
     ) {
-      this.showToast(
-        this.relatedObjectLabel + " was created.",
-        "success",
-        "dismissable"
-      );
+      //only show custom toast when form is not standard
+      if (this.isCustom) {
+        this.showToast(objData.Message__c, "success", "dismissable");
+      }
       //only refresh data if in console app/new tab
       //refresh the specific table by checking the dynamicdatatableinput and parentid
       this.handleRefreshData();
@@ -272,9 +276,13 @@ export default class DynamicDataTable extends NavigationMixin(
         this.finalSObjectDataList = tempSObjectDataList;
 
         //if show edit button is checked, add edit action to the datatable
-        this.finalColumns = this.showEditButton && result.hasVisibility
-          ? this.addActionsToColumn(result.dataTableColumns, result.recordCount)
-          : result.dataTableColumns;
+        this.finalColumns =
+          this.showEditButton && result.hasVisibility
+            ? this.addActionsToColumn(
+                result.dataTableColumns,
+                result.recordCount
+              )
+            : result.dataTableColumns;
         this.recordCount = result.recordCount;
         this.visibilityCheckResult = result.hasVisibility;
       })
@@ -369,6 +377,7 @@ export default class DynamicDataTable extends NavigationMixin(
 
   /* ACTION HANDLERS START */
   handleNewRecord() {
+    this.isCustom = true;
     if (this.newActionType == "Screen Flow" && this.isConsoleApp) {
       this.handleNewRecordNavigateToNewTab();
     } else if (this.newActionType == "Screen Flow" && !this.isConsoleApp) {
@@ -376,6 +385,7 @@ export default class DynamicDataTable extends NavigationMixin(
     } else if (this.newActionType == "LWC") {
       //add method that handles a lightning web component form
     } else {
+      this.isCustom = false;
       this.handleNewRecordByDefault();
     }
   }
@@ -383,8 +393,10 @@ export default class DynamicDataTable extends NavigationMixin(
   handleRowAction(event) {
     const row = event.detail.row;
     if (this.editActionType == "Default") {
+      this.isCustom = false;
       this.handleEditRecordByDefault(row.Id);
     } else if (this.editActionType == "Screen Flow") {
+      this.isCustom = true;
       this.handeEditRecordByScreenFlow(row);
     }
   }
@@ -426,7 +438,12 @@ export default class DynamicDataTable extends NavigationMixin(
   handleNewRecordByDefault() {
     let encodeDefault = {};
     encodeDefault[this.relatedField] = this.recordId;
-    let defaultValues = encodeDefaultFieldValues(encodeDefault);
+
+    if (this.defaultValues) {
+      encodeDefault = { ...encodeDefault, ...JSON.parse(this.defaultValues) };
+    }
+
+    let finalDefaultValues = encodeDefaultFieldValues(encodeDefault);
 
     this[NavigationMixin.Navigate]({
       type: "standard__objectPage",
@@ -435,7 +452,7 @@ export default class DynamicDataTable extends NavigationMixin(
         actionName: "new"
       },
       state: {
-        defaultFieldValues: defaultValues,
+        defaultFieldValues: finalDefaultValues,
         recordTypeId: this.recordTypeId,
         useRecordTypeCheck: this.recordTypeId ? "false" : "true"
       }
