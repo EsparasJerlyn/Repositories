@@ -6,10 +6,11 @@
 *
 * @history
 *
-*    | Developer                | Date                  | JIRA                   | Change Summary               |
-     |--------------------------------|-----------------------|------------------|------------------------------|
-     | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
-     | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts
+*    | Developer                | Date                  | JIRA                   | Change Summary                                       |
+     |--------------------------------|-----------------------|------------------|------------------------------------------------------|
+     | w.li                     | June 15, 2022         | DEPP-1058              | Created file                                         |
+     | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts                   |
+     | mark.j.mahilum           | July 03, 2023         | DEPP-5961              | Remove reference to Marketing Course Application Obj |
 */
 
 @isTest
@@ -98,7 +99,6 @@ public without sharing class LeadScoringManagerTest {
         
         
         System.assert(resultingContactRecord.Marketing_Segmentation_Score__c != null, 'Contact.Marketing_Segmentation_Score__c is empty.');
-        System.assert(resultingContactRecord.Marketing_Course_Application_Score__c != null, 'Contact.Marketing_Course_Application_Score__c is empty.');
         System.assert(resultingContactRecord.Marketing_Interaction_Score__c != null, 'Contact.Marketing_Interaction_Score__c is empty.');
         System.assert(resultingContactRecord.IER_Score__c != null, 'Contact.IER_Score__c is empty.');
     }
@@ -170,7 +170,6 @@ public without sharing class LeadScoringManagerTest {
                 LIMIT 1];
 
         System.assert(resultingLeadRecord.Marketing_Segmentation_Score__c != null, 'Lead.Marketing_Segmentation_Score__c is empty.');
-        System.assert(resultingLeadRecord.Marketing_Course_Application_Score__c == null, 'Lead.Marketing_Course_Application_Score__c is not empty.');
         System.assert(resultingLeadRecord.Marketing_Interaction_Score__c != null, 'Lead.Marketing_Interaction_Score__c is empty.');
         System.assert(resultingLeadRecord.IER_Score__c != null, 'Lead.IER_Score__c is empty.');
     }

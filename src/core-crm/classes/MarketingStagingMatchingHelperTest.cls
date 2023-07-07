@@ -11,6 +11,7 @@
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | Created file                                   |
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
       | roy.nino.s.regala              | July 24, 2022         | DEPP-3512              | Updated logic to update mobile locale          |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Remove assertion for Marketing Course App Obj  |
 
  */
 
@@ -96,7 +97,6 @@ public with sharing class MarketingStagingMatchingHelperTest{
 
             System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Contact__c != null LIMIT 50].size(),50, 'Contact is not linked');
             System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 25].size(),25, 'Lead is not linked');
-            System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 75].size(),75, 'Number of application created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 75].size(),75, 'Number of interaction created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 75].size(),75, 'Number of segmentation created did not match');
         }
@@ -174,7 +174,6 @@ public with sharing class MarketingStagingMatchingHelperTest{
             Test.stopTest();
 
             System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Contact__c != null LIMIT 40].size(),40, 'Contact is not linked');
-            System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 40].size(),40, 'Number of application created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 40].size(),40, 'Number of interaction created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 40].size(),40, 'Number of segmentation created did not match');
         }
@@ -225,7 +224,6 @@ public with sharing class MarketingStagingMatchingHelperTest{
             Test.stopTest();
 
             System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 25].size(),25, 'Lead is not linked');
-            System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 25].size(),25, 'Number of application created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 25].size(),25, 'Number of Interaction created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 25].size(),25, 'Number of segmentation created did not match');
         }
@@ -270,7 +268,6 @@ public with sharing class MarketingStagingMatchingHelperTest{
             Test.stopTest();
 
             System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null LIMIT 50].size(),50, 'Lead is not linked');
-            System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 50].size(),50, 'Number of application created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 50].size(),50, 'Number of Interaction created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 50].size(),50, 'Number of segmentation created did not match');
         }
