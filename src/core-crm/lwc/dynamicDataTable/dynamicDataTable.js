@@ -161,7 +161,8 @@ export default class DynamicDataTable extends NavigationMixin(
     if (
       objData.Parent_Id__c == this.recordId &&
       (objData.Dynamic_Datatable_Input__c == this.dynamicDataTableInput ||
-        objData.Dynamic_Datatable_Input__c == this.recordTypeId) &&
+        objData.Dynamic_Datatable_Input__c == this.recordTypeId ||
+        this.dynamicDataTableInput == "") &&
       objData.CreatedById == this.userId
     ) {
       //only show custom toast when form is not standard
