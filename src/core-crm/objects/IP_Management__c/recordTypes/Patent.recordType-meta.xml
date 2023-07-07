@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Patent</fullName>
+    <active>true</active>
+    <description>Capture Intellectual Property Patents.</description>
+    <label>Patent</label>
+    <picklistValues>
+        <picklist>Stage_Name__c</picklist>
+        <values>
+            <fullName>Granted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lapsed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prosecution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>WIPO_Country_Code__c</picklist>
+        <values>
+            <fullName>AD -%C2%A0Andorra</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AE -%C2%A0United Arab Emirates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AF -%C2%A0Afghanistan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AG -%C2%A0Antigua and Barbuda</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AI -%C2%A0Anguilla</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AL -%C2%A0Albania</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AM -%C2%A0Armenia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AO -%C2%A0Angola</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AP -%C2%A0African Regional Intellectual Property Organization %28ARIPO%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AR -%C2%A0Argentina</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AT -%C2%A0Austria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AU -%C2%A0Australia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AW -%C2%A0Aruba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AZ -%C2%A0Azerbaijan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BA -%C2%A0Bosnia and Herzegovina</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BB -%C2%A0Barbados</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BD -%C2%A0Bangladesh</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BE -%C2%A0Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BF -%C2%A0Burkina Faso</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BG -%C2%A0Bulgaria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BH -%C2%A0Bahrain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BI -%C2%A0Burundi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BJ -%C2%A0Benin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BM -%C2%A0Bermuda</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BN -%C2%A0Brunei Darussalam</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BO -%C2%A0Bolivia%2C Plurinational State of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BQ -%C2%A0Bonaire%2C Sint Eustatius and Saba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BR -%C2%A0Brazil</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BS -%C2%A0Bahamas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BT -%C2%A0Bhutan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BV -%C2%A0Bouvet Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BW -%C2%A0Botswana</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BX -%C2%A0Benelux Office for Intellectual Property %28BOIP%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BY -%C2%A0Belarus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BZ -%C2%A0Belize</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CA -%C2%A0Canada</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CD -%C2%A0Congo%2C the Democratic Republic of the</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CF -%C2%A0Central African Republic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CG -%C2%A0Congo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CH -%C2%A0Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CI -%C2%A0Côte d%27Ivoire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CK -%C2%A0Cook Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CL -%C2%A0Chile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CM -%C2%A0Cameroon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CN -%C2%A0China</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CO -%C2%A0Colombia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CR -%C2%A0Costa Rica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CU -%C2%A0Cuba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CV -%C2%A0Cape Verde</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CW -%C2%A0Curaçao</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CY -%C2%A0Cyprus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CZ -%C2%A0Czech Republic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DE -%C2%A0Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DJ -%C2%A0Djibouti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DK -%C2%A0Denmark</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DM -%C2%A0Dominica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DO -%C2%A0Dominican Republic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DZ -%C2%A0Algeria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EA -%C2%A0Eurasian Patent Organization %28EAPO%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EC -%C2%A0Ecuador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EE -%C2%A0Estonia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EG -%C2%A0Egypt</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EH -%C2%A0Western Sahara</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EM -%C2%A0European Union Intellectual Property Office %28EUIPO%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EP -%C2%A0European Patent Office %28EPO%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ER -%C2%A0Eritrea</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ES -%C2%A0Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ET -%C2%A0Ethiopia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FI -%C2%A0Finland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FJ -%C2%A0Fiji</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FK -%C2%A0Falkland Islands %28Malvinas%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FO -%C2%A0Faroe Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FR -%C2%A0France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GA -%C2%A0Gabon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GB -%C2%A0United Kingdom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GC -%C2%A0Patent Office of the Cooperation Council for the Arab States of the Gulf %28GCC%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GD -%C2%A0Grenada</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GE -%C2%A0Georgia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GG -%C2%A0Guernsey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GH -%C2%A0Ghana</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GI -%C2%A0Gibraltar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GL -%C2%A0Greenland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GM -%C2%A0Gambia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GN -%C2%A0Guinea</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GQ -%C2%A0Equatorial Guinea</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GR -%C2%A0Greece</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GS -%C2%A0South Georgia and the South Sandwich Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GT -%C2%A0Guatemala</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GW -%C2%A0Guinea-Bissau</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GY -%C2%A0Guyana</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HK -%C2%A0Hong Kong%2C Special Administrative Region of the People%27s Republic of China</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HN -%C2%A0Honduras</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HR -%C2%A0Croatia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HT -%C2%A0Haiti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HU -%C2%A0Hungary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IBWO -%C2%A0International Bureau of the World Intellectual Property Organization</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ID -%C2%A0Indonesia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IE -%C2%A0Ireland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IL -%C2%A0Israel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IM -%C2%A0Isle of Man</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IN -%C2%A0India</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IQ -%C2%A0Iraq</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IR -%C2%A0Iran%2C Islamic Republic of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IS -%C2%A0Iceland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IT -%C2%A0Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JE -%C2%A0Jersey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JM -%C2%A0Jamaica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JO -%C2%A0Jordan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JP -%C2%A0Japan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KE -%C2%A0Kenya</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KG -%C2%A0Kyrgyzstan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KH -%C2%A0Cambodia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KI -%C2%A0Kiribati</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KM -%C2%A0Comoros</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KN -%C2%A0Saint Kitts and Nevis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KP -%C2%A0Korea%2C Democratic People%27s Republic of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KR -%C2%A0Korea%2C Republic of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KW -%C2%A0Kuwait</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KY -%C2%A0Cayman Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KZ -%C2%A0Kazakhstan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LA -%C2%A0Lao People%27s Democratic Republic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LB -%C2%A0Lebanon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LC -%C2%A0Saint Lucia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LI -%C2%A0Liechtenstein</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LK -%C2%A0Sri Lanka</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LR -%C2%A0Liberia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LS -%C2%A0Lesotho</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LT -%C2%A0Lithuania</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LU -%C2%A0Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LV -%C2%A0Latvia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LY -%C2%A0Libyan Arab Jamahiriya</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MA -%C2%A0Morocco</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MC -%C2%A0Monaco</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MD -%C2%A0Moldova%2C Republic of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ME -%C2%A0Montenegro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MG -%C2%A0Madagascar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MK -%C2%A0Macedonia%2C the former Yugoslav Republic of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ML -%C2%A0Mali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MM -%C2%A0Myanmar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MN -%C2%A0Mongolia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MO -%C2%A0Macao</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MP -%C2%A0Northern Mariana Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MR -%C2%A0Mauritania</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MS -%C2%A0Montserrat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MT -%C2%A0Malta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MU -%C2%A0Mauritius</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MV -%C2%A0Maldives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MW -%C2%A0Malawi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MX -%C2%A0Mexico</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MY -%C2%A0Malaysia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MZ -%C2%A0Mozambique</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NA -%C2%A0Namibia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NE -%C2%A0Niger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NG -%C2%A0Nigeria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NI -%C2%A0Nicaragua</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NL -%C2%A0Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NO -%C2%A0Norway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NP -%C2%A0%C2%A0%C2%A0Nepal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NR -%C2%A0Nauru</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NZ -%C2%A0New Zealand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OA -%C2%A0African Intellectual Property Organization %28OAPI%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OM -%C2%A0Oman</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PA -%C2%A0Panama</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PE -%C2%A0Peru</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PG -%C2%A0Papua New Guinea</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PH -%C2%A0Philippines</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PK -%C2%A0Pakistan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PL -%C2%A0Poland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PT -%C2%A0Portugal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PW -%C2%A0Palau</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PY -%C2%A0Paraguay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QA -%C2%A0Qatar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QZ -%C2%A0Community Plant Variety Office of the European Union</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RO -%C2%A0Romania</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RS -%C2%A0Serbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RU -%C2%A0Russian Federation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RW -%C2%A0Rwanda</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SA -%C2%A0Saudi Arabia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SB -%C2%A0Solomon Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SC -%C2%A0Seychelles</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SD -%C2%A0Sudan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SE -%C2%A0Sweden</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SG -%C2%A0Singapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SH -%C2%A0Saint Helena%2C Ascension and Tristan da Cunha</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SI -%C2%A0Slovenia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SK -%C2%A0Slovakia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SL -%C2%A0Sierra Leone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SM -%C2%A0San Marino</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SN -%C2%A0Senegal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SO -%C2%A0Somalia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SR -%C2%A0Suriname</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SS -%C2%A0South Sudan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ST -%C2%A0Sao Tome and Principe</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SV -%C2%A0El Salvador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SX -%C2%A0Sint Maarten %28Dutch part%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SY -%C2%A0Syrian Arab Republic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SZ -%C2%A0Swaziland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TC -%C2%A0Turks and Caicos Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TD -%C2%A0Chad</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TG -%C2%A0Togo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TH -%C2%A0Thailand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TJ -%C2%A0Tajikistan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TL -%C2%A0Timor-Leste</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TM -%C2%A0Turkmenistan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TN -%C2%A0Tunisia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TO -%C2%A0Tonga</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TR -%C2%A0Turkey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TT -%C2%A0Trinidad and Tobago</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TV -%C2%A0Tuvalu</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TW -%C2%A0Taiwan%2C Province of China</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TZ -%C2%A0Tanzania%2C United Republic of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UA -%C2%A0Ukraine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UG -%C2%A0Uganda</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>US -%C2%A0United States</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UY -%C2%A0Uruguay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UZ -%C2%A0Uzbekistan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VA -Holy See %28Vatican City State%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VC -%C2%A0Saint Vincent and the Grenadines</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VE -%C2%A0Venezuela%2C Bolivarian Republic of</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VG -%C2%A0Virgin Islands%2C British</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VN -%C2%A0Viet Nam</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VU -%C2%A0Vanuatu</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WS -%C2%A0Samoa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XN -%C2%A0Nordic Patent Institute %28NPI%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XU -%C2%A0International Union for the Protection of New Varieties of Plants %28UPOV%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XV -%C2%A0Visegrad Patent Institute %28VPI%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XX -%C2%A0Unknown states%2C other entities or organizations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>YE -%C2%A0Yemen</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ZA -%C2%A0South Africa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ZM -%C2%A0Zambia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ZW -%C2%A0Zimbabwe</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

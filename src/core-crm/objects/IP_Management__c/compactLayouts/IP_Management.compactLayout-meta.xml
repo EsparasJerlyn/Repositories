@@ -3,6 +3,6 @@
     <fullName>IP_Management</fullName>
     <fields>IP_Name__c</fields>
     <fields>OwnerId</fields>
-    <fields>IP_Type__c</fields>
+    <fields>RecordTypeId</fields>
     <label>IP Management</label>
 </CompactLayout>
