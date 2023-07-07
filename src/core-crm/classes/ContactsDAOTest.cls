@@ -9,6 +9,7 @@
  *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                        |
  *    | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist  |
  *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added test method for DEPP-5846     |
+ *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added test method for DEPP-5847     |
  */
 @isTest
 private class ContactsDAOTest {
@@ -87,6 +88,20 @@ private class ContactsDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getContactsWithMatchingApplicationDetails(
+                    new ContactsDAO.QueryParamWrapper(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(contactList.isEmpty(), 'contactList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactsWithMatchingSamsApplicationsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsWithMatchingSamsApplications(
                     new ContactsDAO.QueryParamWrapper(),
                     'SYSTEM_MODE'
                 );

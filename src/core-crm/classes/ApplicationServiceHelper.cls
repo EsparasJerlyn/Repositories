@@ -29,7 +29,7 @@ public without sharing class ApplicationServiceHelper {
         for (hed__Application__c application : newItems) {
             Boolean isApplicationStatusNewUnsubmitted = application.Application_Status__c != null && (application.Application_Status__c == 'New' || application.Application_Status__c == 'Unsubmitted');
             
-            if(isApplicationStatusNewUnsubmitted){
+            if(isApplicationStatusNewUnsubmitted && application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID){
                 if(application.Lead__c != null){
                     Lead lead = createLeadFromApplication(application);
                     lead.Id = application.Lead__c;
@@ -45,7 +45,8 @@ public without sharing class ApplicationServiceHelper {
         }
         
         updateApplicationList.addAll(checkForExistingDuplicateEmails(newItemsapplication));
-        updateApplicationList.addAll(checkApplicationOnLeadRecords(applicationStatusForLeadChecking, applicationEmailsToMatch));        
+        updateApplicationList.addAll(checkApplicationOnLeadRecords(applicationStatusForLeadChecking, applicationEmailsToMatch)); 
+        
         LeadsDAO.newInstance().updateRecords(updateLeadRecords, false, AccessLevel.SYSTEM_MODE);
         
         return updateApplicationList;
@@ -196,7 +197,6 @@ public without sharing class ApplicationServiceHelper {
         }
 
         updateApplicationList.addAll(createNewLeadsAndApplications(newLeads, newMapApplication));
-        
         return updateApplicationList;
     }
     
@@ -244,6 +244,7 @@ public without sharing class ApplicationServiceHelper {
         lead.Email = app.Email__c;
         lead.Mobile_No_Locale__c = app.Mobile__c;
         lead.Company = 'Learner';
+        lead.Lead_Type__c = 'Learner';
         return lead;
     }
     
@@ -301,8 +302,9 @@ public without sharing class ApplicationServiceHelper {
         boolean emailsMatch = isFieldEqual(con.Email, app.Email__c) || isFieldEqual(con.QUT_Learner_Email__c, app.Email__c) || 
           					  isFieldEqual(con.QUT_Staff_Email__c, app.Email__c) || isFieldEqual(con.Work_Email__c, app.Email__c);          
         boolean birthdateMatch = isFieldEqual(con.Birthdate, app.Birthdate__c);
+        boolean isNominated = app.Nominated_Student_ID__c !=null && app.Nominated_Student_ID__c == con.QUT_Student_ID__c && app.RecordTypeId == ApplicationsDAO.SAMS_RECTYPE_ID;
         
-        return (namesMatch && emailsMatch) || (namesMatch && birthdateMatch);
+        return (namesMatch && emailsMatch) || (namesMatch && birthdateMatch) || isNominated;
     }  
        
    /**
@@ -315,4 +317,5 @@ public without sharing class ApplicationServiceHelper {
     private static boolean isFieldEqual(Object field1, Object field2) {
         return (field1 == null && field2 == null) || (field1 != null && field1.equals(field2));
     }
+
 }
