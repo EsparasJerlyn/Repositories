@@ -37,6 +37,9 @@
         <!-- Start DEPP-5776-->
         <members>IP_Management_Application__c.IP_Management__c</members>
         <!-- End DEPP-5776-->
+        <!-- Start DEPP-5993-->
+        <members>IP_Management_Application__c.Status_Date__c</members>
+        <!-- End DEPP-5993-->
 		<!-- Start DEPP-5832-->
 		<members>IP_Management__c.Engagement__c</members>
 		<members>IP_Management__c.Opportunity__c</members>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Status_Date__c</fullName>
-    <description>The date of the application status.</description>
+    <fullName>Application_Expiry_Date__c</fullName>
+    <description>The date the application expires.</description>
     <externalId>false</externalId>
-    <label>Status Date</label>
+    <label>Application Expiry Date</label>
     <required>true</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>

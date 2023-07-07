@@ -11343,6 +11343,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>IP_Management_Application__c.International_Application_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Application__c.National_Application_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>IP_Management_Application__c.Provisional_Application_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>IP_Management__c.Granted_Comment__c</field>
         <readable>true</readable>
     </fieldPermissions>
