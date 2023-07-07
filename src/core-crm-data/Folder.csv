@@ -1,2 +1,4 @@
 Id,Name,DeveloperName,AccessType,Type
 00l9j000000W6zxAAC,Live Chat Conversation Folder,Live_Chat_Conversation_Folder,Hidden,QuickText
+00l9p000000He7VAAS,QUT Automated cadences,QUTAutomatedcadences,Hidden,ActionCadence
+00l9p000000He97AAC,QUT Manual cadences,QUTManualcadences,Hidden,ActionCadence
