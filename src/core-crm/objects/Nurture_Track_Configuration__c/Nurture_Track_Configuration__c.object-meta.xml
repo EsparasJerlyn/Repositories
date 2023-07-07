@@ -165,6 +165,7 @@
         <label>Name</label>
         <trackHistory>true</trackHistory>
         <type>AutoNumber</type>
+        <startingNumber>1</startingNumber>
     </nameField>
     <pluralLabel>Nurture Track Configuration</pluralLabel>
     <searchLayouts></searchLayouts>
