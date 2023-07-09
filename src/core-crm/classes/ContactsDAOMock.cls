@@ -113,4 +113,26 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         }
         return contactList;
     }
+
+    public List<Contact> getContactsWithMatchingSamsApplications(
+        ContactsDAO.QueryParamWrapper queryParam,
+        String accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            
+            boolean isPersonRecordType = record.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID;
+            boolean hasMatchingNames = (queryParam.firstNames.contains(record.FirstName) && queryParam.lastNames.contains(record.LastName));
+            boolean hasMatchingBirthdate = queryParam.birthdates.contains(record.BirthDate);
+            boolean hasMatchingEmails = (queryParam.emailsToMatch.contains(record.Email) || queryParam.emailsToMatch.contains(record.Work_Email__c) ||
+                                         queryParam.emailsToMatch.contains(record.QUT_Learner_Email__c) || queryParam.emailsToMatch.contains(record.QUT_Staff_Email__c));
+            boolean hasNomitedIds =  (queryParam.nominatedStudentId.contains(record.QUT_student_ID__c));
+    
+            if(isPersonRecordType && ((hasMatchingNames && hasMatchingBirthdate) || (hasMatchingNames && hasMatchingEmails) || hasNomitedIds)){
+                contactList.add(record);
+            }
+
+        }
+        return contactList;
+    }
 }

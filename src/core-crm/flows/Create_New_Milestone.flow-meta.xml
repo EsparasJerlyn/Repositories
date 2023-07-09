@@ -4,7 +4,7 @@
         <name>Error_Action</name>
         <label>Error_Action</label>
         <locationX>578</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -41,23 +41,39 @@
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>578</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>Automatic</flowTransactionModel>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
+    <assignments>
+        <name>Assign_Opportunity_Outcome_Id</name>
+        <label>Assign Opportunity Outcome Id</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>milestoneRecord.Opportunity_Outcome__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>opportunityOutcomeId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>New_Milestone_Screen</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
         <locationX>182</locationX>
         <locationY>134</locationY>
         <defaultConnector>
-            <targetReference>New_Milestone_Screen</targetReference>
+            <targetReference>Assign_Opportunity_Outcome_Id</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Can create milestone</defaultConnectorLabel>
         <rules>
-            <name>Is_one_of_the_following</name>
+            <name>Cant_create_milestone</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>$UserRole.Name</leftValueReference>
@@ -118,7 +134,7 @@
         <name>CreateMilestoneRecord</name>
         <label>CreateMilestoneRecord</label>
         <locationX>314</locationX>
-        <locationY>350</locationY>
+        <locationY>458</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -143,13 +159,13 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>milestoneRecord.Name</elementReference>
+                <elementReference>Milestone_Name</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Opportunity_Outcome__c</field>
             <value>
-                <elementReference>opportunityOutcomeId</elementReference>
+                <elementReference>milestoneRecord.Opportunity_Outcome__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -186,6 +202,7 @@
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(234, 0, 30);&quot;&gt;You don’t have the right permission to create or edit this record.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
+        <nextOrFinishButtonLabel>Closed</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
@@ -193,7 +210,7 @@
         <name>New_Milestone_Screen</name>
         <label>New Milestone Screen</label>
         <locationX>314</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -208,31 +225,16 @@
                 <name>Milestone_Summary_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>milestoneRecord.Name</objectFieldReference>
+                    <name>Milestone_Name</name>
+                    <dataType>String</dataType>
+                    <fieldText>Milestone Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30);&quot;&gt;Limit should be 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>NOT(LEN({!Milestone_Name}) &gt; 80)</formulaExpression>
+                    </validationRule>
                 </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>milestoneRecord.Start_Date__c</objectFieldReference>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>milestoneRecord.Reminder_Date__c</objectFieldReference>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Milestone_Summary_Column2</name>
-                <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <isRequired>false</isRequired>
@@ -241,7 +243,7 @@
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>milestoneRecord.End_Date__c</objectFieldReference>
+                    <objectFieldReference>milestoneRecord.Start_Date__c</objectFieldReference>
                 </fields>
                 <fields>
                     <name>owner</name>
@@ -284,6 +286,32 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Milestone_Summary_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>milestoneRecord.Reminder_Date__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>milestoneRecord.End_Date__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>milestoneRecord.Opportunity_Outcome__c</objectFieldReference>
                 </fields>
                 <inputParameters>
                     <name>width</name>

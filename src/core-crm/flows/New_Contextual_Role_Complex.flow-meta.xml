@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1282</locationX>
+        <locationX>1018</locationX>
         <locationY>2114</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -368,43 +368,10 @@
         <label>Create Contextual Role</label>
         <locationX>402</locationX>
         <locationY>2006</locationY>
-        <connector>
-            <targetReference>Fire_Dynamic_Datatable_Event</targetReference>
-        </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>ContextualRoleToCreate</inputReference>
-    </recordCreates>
-    <recordCreates>
-        <name>Fire_Dynamic_Datatable_Event</name>
-        <label>Fire Dynamic Datatable Event</label>
-        <locationX>402</locationX>
-        <locationY>2114</locationY>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <inputAssignments>
-            <field>Dynamic_Datatable_Input__c</field>
-            <value>
-                <elementReference>DynamicDataTableInput</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Message__c</field>
-            <value>
-                <stringValue>New Contextual Role Created</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Parent_Id__c</field>
-            <value>
-                <elementReference>ParentId</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Dynamic_Datatable_Event__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
         <name>Get_Business_Org_RecordType_Id</name>
@@ -473,7 +440,7 @@
     <recordRollbacks>
         <name>Rollback_Records</name>
         <label>Rollback Records</label>
-        <locationX>1282</locationX>
+        <locationX>1018</locationX>
         <locationY>2222</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
@@ -929,7 +896,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>1282</locationX>
+        <locationX>1018</locationX>
         <locationY>2330</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>

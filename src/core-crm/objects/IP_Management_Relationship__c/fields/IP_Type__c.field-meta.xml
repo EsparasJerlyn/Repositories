@@ -3,7 +3,7 @@
     <fullName>IP_Type__c</fullName>
     <description>Replicated field from IP Management Object to support business data view which exposes data fields within the Engagement, Opportunity or Opportunity Outcome UI.</description>
     <externalId>false</externalId>
-    <formula>TEXT(IP_Management__r.IP_Type__c)</formula>
+    <formula>IP_Management__r.RecordType.Name</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>IP Type</label>
     <required>false</required>

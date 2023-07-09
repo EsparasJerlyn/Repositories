@@ -19,7 +19,7 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Decommissioned_Date__c</leftValueReference>
-                <operator>EqualTo</operator>
+                <operator>LessThanOrEqualTo</operator>
                 <rightValue>
                     <elementReference>$Flow.CurrentDate</elementReference>
                 </rightValue>

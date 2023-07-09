@@ -5,12 +5,11 @@
  * @author Accenture
  *
  * @history
- *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
- *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
- */
-public without sharing class ApplicationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
+ *    | Developer                 | Date                  | JIRA         | Change Summary                              |
+      |---------------------------|-----------------------|--------------|---------------------------------------------|
+      | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                |
+*/
+ public without sharing class ApplicationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
 
   /**
@@ -18,7 +17,11 @@ public without sharing class ApplicationTriggerHandler implements Disableable,  
    * @param newItems - List of hed__Application__c.Trigger.new
    */
   public void afterInsert(Map<Id, SObject> newItems) {
-      ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
+      
+      if(!isRunning ){
+          isRunning = true;
+          ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
+      }
   }
 
     /**
@@ -30,7 +33,10 @@ public without sharing class ApplicationTriggerHandler implements Disableable,  
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
+        if(!isRunning ){
+            isRunning = true;
+            ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
+        }
     }
 
     /**

@@ -661,7 +661,11 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>defaultValues</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
+                    <value>Opportunity Funding Body</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>editActionType</name>
@@ -726,6 +730,9 @@
                 <componentInstanceProperties>
                     <name>sortOrder</name>
                     <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
@@ -2657,7 +2664,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Pure_Project_ID__c</fieldItem>
                 <identifier>RecordPure_Project_ID_cField2</identifier>

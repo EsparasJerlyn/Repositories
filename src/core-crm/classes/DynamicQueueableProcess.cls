@@ -22,7 +22,7 @@ public class DynamicQueueableProcess implements Queueable {
     public void execute(QueueableContext context) {
         
         if(serviceClassName =='ApplicationService'){
-            ApplicationService.enqueueApplicationToExecute((List<hed__Application__c>) objectList,ApplicationsDAO.STUDYLINK_RECTYPE_ID);                               
+            ApplicationService.enqueueApplicationToExecute((List<hed__Application__c>) objectList);                               
         }
         
     }

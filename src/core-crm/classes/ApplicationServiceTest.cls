@@ -35,7 +35,7 @@ private class ApplicationServiceTest {
                 );
             Test.stopTest();
             for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved');
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
         }
     }
@@ -52,7 +52,7 @@ private class ApplicationServiceTest {
                 );
             Test.stopTest();
             for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved');
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
         }
     }
@@ -72,7 +72,7 @@ private class ApplicationServiceTest {
                 );
             Test.stopTest();
             for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved');
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
         }
     }
@@ -106,7 +106,7 @@ private class ApplicationServiceTest {
                 );
             Test.stopTest();
             for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved');
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
         }
     }
@@ -140,7 +140,7 @@ private class ApplicationServiceTest {
                 );
             Test.stopTest();
             for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved');
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
         }
     }
@@ -174,12 +174,59 @@ private class ApplicationServiceTest {
                 );
             Test.stopTest();
             for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record should not be saved');
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
         }
     }
-
-
+    
+    @isTest
+    private static void testApplicationSAMBatchInsertNoMatchContact() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            
+            List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
+            
+            for(hed__Application__c app: newApplications){
+                app.RecordTypeId = ApplicationsDAO.SAMS_RECTYPE_ID;
+            }
+            
+            Test.startTest();
+            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
+                .insertRecords(
+                    newApplications,
+                    false,
+                    AccessLevel.SYSTEM_MODE
+                );
+            Test.stopTest();
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
+            }
+        }
+    }
+    
+    @isTest
+    private static void testApplicationQTACBatchInsertNoMatchContact() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            
+            List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
+                                                             
+            for(hed__Application__c app: newApplications){
+                app.RecordTypeId = ApplicationsDAO.QTAC_RECTYPE_ID;
+            }
+            
+            Test.startTest();
+            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
+                .insertRecords(
+                    newApplications,
+                    false,
+                    AccessLevel.SYSTEM_MODE
+                );
+            Test.stopTest();
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record should not be saved.');
+            }
+        }
+    }
+    
     private static List<hed__Application__c> createTestApplicationStudyLinkRecords(Integer startAtCount, Integer endBeforeCount, String applicationStatus) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();
         for (Integer i = startAtCount; i < endBeforeCount; i++) {

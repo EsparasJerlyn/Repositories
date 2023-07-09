@@ -11629,6 +11629,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>IP_Management_Application__c.International_Application_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management_Application__c.National_Application_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management_Application__c.Provisional_Application_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>IP_Management__c.Granted_Comment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -11652,9 +11667,34 @@
         <field>IP_Management__c.Parent_IP_Management_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management__c.Patent_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management__c.Rejected_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management__c.Renewal_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management__c.Technology_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management__c.WIPO_Country_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management__c.WIPO_Publication_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -15352,6 +15392,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity_Outcome__c.Revenue_From_Sale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity_Outcome__c.Sold_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -27059,7 +27104,23 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
+    <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+	    <recordTypeVisibilities>
+        <recordType>IP_Management__c.Design_Rights</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management__c.Patent</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management__c.Plant_Breeders_Rights</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>IP_Management__c.Trademark</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

@@ -5,7 +5,8 @@
     <description>Decommissioned reason is required to update Decommission Date</description>
     <errorConditionFormula>AND (
 ISCHANGED(   Decommissioned_Date__c ),
-ISBLANK(  Decommissioned_Reason__c )
+ISBLANK(  Decommissioned_Reason__c ),
+NOT(ISBLANK(   Decommissioned_Date__c ))
 )</errorConditionFormula>
     <errorDisplayField>Decommissioned_Reason__c</errorDisplayField>
     <errorMessage>Mandatory field</errorMessage>
