@@ -52,8 +52,8 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
                 break;
             }
         }
-
-        return leadList;
+        
+     return leadList;
     }
     
     public List<Lead> getExistingUnconvertedLeads(

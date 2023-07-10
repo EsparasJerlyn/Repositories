@@ -26,4 +26,8 @@ public interface IContactsDAO extends DmlInterface {
         Set<String> applicationEmailsToMatch,
         String accessLevel
     );
+    List<Contact> getContactsWithMatchingSamsApplications(
+        ContactsDAO.QueryParamWrapper queryParam,
+        String accessLevel
+    );  
 }

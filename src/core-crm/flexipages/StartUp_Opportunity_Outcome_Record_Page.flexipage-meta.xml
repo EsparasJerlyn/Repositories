@@ -164,6 +164,118 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Start_Date__c</fieldItem>
+                <identifier>RecordStart_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Company_Name__c</fieldItem>
+                <identifier>RecordCompany_Name_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Startup_Company_Description__c</fieldItem>
+                <identifier>RecordStartup_Company_Description_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-1vczvuuajer</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Code__c</fieldItem>
+                <identifier>RecordCode_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.End_Date__c</fieldItem>
+                <identifier>RecordEnd_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Startup_ABN__c</fieldItem>
+                <identifier>RecordStartup_ABN_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ASIC_Registration_Key__c</fieldItem>
+                <identifier>RecordASIC_Registration_Key_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-tx4lkuv0n7m</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1vczvuuajer</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-tx4lkuv0n7m</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-4ceatplu6rw</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Revenue_From_Sale__c</fieldItem>
                 <identifier>RecordRevenue_From_Sale_cField</identifier>
             </fieldInstance>
@@ -244,6 +356,88 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Revenue_From_Sale__c</fieldItem>
+                <identifier>RecordRevenue_From_Sale_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Deregistration_Date__c</fieldItem>
+                <identifier>RecordDeregistration_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Stage_Name__c</fieldItem>
+                <identifier>RecordStage_Name_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-692ly2krcod</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sold_Reason__c</fieldItem>
+                <identifier>RecordSold_Reason_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Deregistration_Reason__c</fieldItem>
+                <identifier>RecordDeregistration_Reason_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5hsrh60ga1e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-692ly2krcod</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-5hsrh60ga1e</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column10</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1xd5uro9ur6i</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.CreatedById</fieldItem>
@@ -308,6 +502,50 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Sold</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Deregistered</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-4ceatplu6rw</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Opportunity Outcome Summary</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Sold</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Deregistered</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -326,6 +564,50 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Sold</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Deregistered</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-1xd5uro9ur6i</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Outcome</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection5</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Sold</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Deregistered</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -389,15 +671,83 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
+                    <name>defaultValues</name>
+                    <value>{&quot;Milestone_Type__c&quot;:&quot;Compliance&quot;}</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                    <value>Compliance</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity_Outcome__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity_Outcome__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Milestone Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Start Date&quot;,&quot;fieldName&quot;:&quot;Start_Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;End Date&quot;,&quot;fieldName&quot;:&quot;End_Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Status&quot;,&quot;fieldName&quot;:&quot;Milestone_Status__c&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>Milestone_Type__c= &apos;Compliance&apos;</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Compliance</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Milestone__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p style=&quot;text-align: center;&quot;&gt;Placeholder&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</value>
+                    <name>showNewButton</name>
+                    <value>true</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText4</identifier>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-850555b2-6018-471b-895b-17c7a5a29653</name>

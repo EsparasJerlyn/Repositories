@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>754</locationX>
-        <locationY>1862</locationY>
+        <locationX>314</locationX>
+        <locationY>1622</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -57,7 +57,7 @@
     <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>1436</locationX>
+        <locationX>1238</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -144,9 +144,6 @@
         <label>Are there new contextual roles?</label>
         <locationX>314</locationX>
         <locationY>1406</locationY>
-        <defaultConnector>
-            <targetReference>Fire_Dynamic_Data_Table_Event</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes2</name>
@@ -167,7 +164,7 @@
     <decisions>
         <name>Check_Parent_Object</name>
         <label>Check Parent Object</label>
-        <locationX>1436</locationX>
+        <locationX>1238</locationX>
         <locationY>350</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -189,7 +186,7 @@
     <decisions>
         <name>Check_Parent_Recordtype</name>
         <label>Check Parent Recordtype</label>
-        <locationX>798</locationX>
+        <locationX>666</locationX>
         <locationY>674</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -271,11 +268,7 @@
         <label>Create Contextual Roles</label>
         <locationX>50</locationX>
         <locationY>1514</locationY>
-        <connector>
-            <targetReference>Fire_Dynamic_Data_Table_Event</targetReference>
-        </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>ContextualRolesToCreate</inputReference>
@@ -337,39 +330,10 @@
         <object>Opportunity</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
-    <recordCreates>
-        <name>Fire_Dynamic_Data_Table_Event</name>
-        <label>Fire Dynamic Data Table Event</label>
-        <locationX>314</locationX>
-        <locationY>1754</locationY>
-        <faultConnector>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <inputAssignments>
-            <field>Dynamic_Datatable_Input__c</field>
-            <value>
-                <elementReference>DynamicDataTableInput</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Message__c</field>
-            <value>
-                <stringValue>New Opportunity Record Created</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Parent_Id__c</field>
-            <value>
-                <elementReference>ParentId</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Dynamic_Datatable_Event__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
     <recordLookups>
         <name>Get_Child_Contextual_Roles</name>
         <label>Get Child Contextual Roles</label>
-        <locationX>798</locationX>
+        <locationX>666</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -401,7 +365,7 @@
     <recordLookups>
         <name>Get_Opportunity_Role_RecordType_Id</name>
         <label>Get Opportunity Role RecordType Id</label>
-        <locationX>1436</locationX>
+        <locationX>1238</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -433,16 +397,12 @@
     <recordLookups>
         <name>Get_Parent_Engagement_Record</name>
         <label>Get Parent Engagement Record</label>
-        <locationX>798</locationX>
+        <locationX>666</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Child_Contextual_Roles</targetReference>
         </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -458,8 +418,8 @@
     <recordRollbacks>
         <name>Roll_Back_Records</name>
         <label>Roll Back Records</label>
-        <locationX>754</locationX>
-        <locationY>1970</locationY>
+        <locationX>314</locationX>
+        <locationY>1730</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
         </connector>
@@ -467,8 +427,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>754</locationX>
-        <locationY>2078</locationY>
+        <locationX>314</locationX>
+        <locationY>1838</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -528,7 +488,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1310</locationX>
+        <locationX>1112</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>

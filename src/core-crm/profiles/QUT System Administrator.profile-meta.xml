@@ -162,7 +162,20 @@
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>IP_Management__c-IP Management Page Layout</layout>
+        <layout>IP_Management__c-IP Management - Design Rights Page Layout</layout>
+        <recordType>IP_Management__c.Design_Rights</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management - Patent Page Layout</layout>
+        <recordType>IP_Management__c.Patent</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management - Plant Breeders Rights Page Layout</layout>
+        <recordType>IP_Management__c.Plant_Breeders_Rights</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management - Trademark Page Layout</layout>
+        <recordType>IP_Management__c.Trademark</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>IP_Management_Relationship__c-IP Management Relationship - IP Engagement Relationship Page Layout</layout>

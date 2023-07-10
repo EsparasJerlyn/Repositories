@@ -183,7 +183,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,Name,DeveloperName,AccessType, Type FROM Folder",
+            "query": "SELECT Id,Name,DeveloperName,AccessType,Type FROM Folder",
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,

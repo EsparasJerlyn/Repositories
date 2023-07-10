@@ -14,6 +14,7 @@
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
       | roy.nino.s.regala              | Oct 20, 2022          | DEPP-4672              | Removed mobile number criteria for matching    |
       | roy.nino.s.regala              | Mar 3, 2022           | DEPP-5327              | Update lead's last name if unknown             |
+      | mark.j.mahilum                 | July 3, 2023          | DEPP-5961              | Remove reference to MarketingCourseApplication |
  */
 
 public without sharing class MarketingStagingTriggerHelper{
@@ -42,7 +43,6 @@ public without sharing class MarketingStagingTriggerHelper{
         Map<String,Contact> contactsToUpsertMap = new Map<String,Contact>();
         Map<String,Marketing_Segmentation__c> marSegmentationToUpsertMap = new Map<String,Marketing_Segmentation__c>();
         Map<String,Marketing_Interaction__c> marInteractionToInsertMap = new Map<String,Marketing_Interaction__c>();
-        Map<String,Marketing_Course_Application__c> marCourseAppToUpsertMap = new Map<String,Marketing_Course_Application__c>();
         Map<String,Marketing_Staging__c> marStageToUpdateMap = new Map<String, Marketing_Staging__c>();
         Map<String,Marketing_Staging__c> newMap = new Map<String,Marketing_Staging__c>();
 
@@ -143,9 +143,6 @@ public without sharing class MarketingStagingTriggerHelper{
                     if(!recordsClass.segmentationToUpsertMap.keySet().isEmpty()){
                         marSegmentationToUpsertMap.putAll(recordsClass.segmentationToUpsertMap);
                     }
-                    if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
-                        marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
-                    }
                     if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
                         marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
                     }
@@ -181,9 +178,6 @@ public without sharing class MarketingStagingTriggerHelper{
                     if(!recordsClass.segmentationToUpsertMap.keySet().isEmpty()){
                         marSegmentationToUpsertMap.putAll(recordsClass.segmentationToUpsertMap);
                     }
-                    if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
-                        marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
-                    }
                     if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
                         marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
                     }
@@ -216,9 +210,6 @@ public without sharing class MarketingStagingTriggerHelper{
     
                     if(!recordsClass.segmentationToUpsertMap.keySet().isEmpty()){
                         marSegmentationToUpsertMap.putAll(recordsClass.segmentationToUpsertMap);
-                    }
-                    if(!recordsClass.applicationToUpsertMap.keySet().isEmpty()){
-                        marCourseAppToUpsertMap.putAll(recordsClass.applicationToUpsertMap);
                     }
                     if(!recordsClass.interactionToUpsertMap.keySet().isEmpty()){
                         marInteractionToInsertMap.putAll(recordsClass.interactionToUpsertMap);
@@ -296,20 +287,6 @@ public without sharing class MarketingStagingTriggerHelper{
                         )
                     );
 
-                    //check first if application data is populated 
-                    if( qtacMatchingMap.containsKey(leadKey) || samsMatchingMap.containsKey(leadKey) || studylinkMatchingMap.containsKey(leadKey)){
-                        marCourseAppToUpsertMap.put(
-                            leadKey,
-                            (Marketing_Course_Application__c)MarketingStagingMatchingHelper.createMarketingRecord(
-                                newMap.get(leadKey),
-                                null,
-                                leadsToUpsertMap.get(leadKey).Id,
-                                null,
-                                'Marketing_Course_Application__c'
-                            )
-                        );
-                    }
-
                     marStageToUpdateMap.put(leadKey, new Marketing_Staging__c(
                         Id = leadKey,
                         Lead__c = leadsToUpsertMap.get(leadKey).Id 
@@ -331,20 +308,6 @@ public without sharing class MarketingStagingTriggerHelper{
                                 'Marketing_Segmentation__c'
                             )
                         );
-
-                        //check first if application data is populated
-                        if( qtacMatchingMap.containsKey(ms.Id) || samsMatchingMap.containsKey(ms.Id) || studylinkMatchingMap.containsKey(ms.Id)){
-                            marCourseAppToUpsertMap.put(
-                                ms.Id,
-                                (Marketing_Course_Application__c)MarketingStagingMatchingHelper.createMarketingRecord(
-                                    ms,
-                                    null,
-                                    leadsToUpsertMap.get(leadKey).Id,
-                                    null,
-                                    'Marketing_Course_Application__c'
-                                )
-                            );
-                        }
 
                             marStageToUpdateMap.put(ms.Id, new Marketing_Staging__c(
                                 Id = ms.Id,
@@ -428,20 +391,7 @@ public without sharing class MarketingStagingTriggerHelper{
                 Logger.saveLog();                
             }
         }
-
-        if(!marCourseAppToUpsertMap.keySet().isEmpty()){
-            List<Database.UpsertResult> marCourseAppToUpsertMapResult = Database.upsert(marCourseAppToUpsertMap.values(),false);
-
-            for (Database.UpsertResult result : marCourseAppToUpsertMapResult){
-                if (!result.isSuccess() && !result.isCreated()){
-                    Logger.error('Error in upserting marketingcourseapplication').setDatabaseResult(result);
-                }            
-            }
-            if(Logger.getBufferSize() > 0){
-                Logger.saveLog();                
-            }
-        }
-
+        
         if(!marStageToUpdateMap.keySet().isEmpty()){
             List<Database.SaveResult> marStageToUpdateMapResult = Database.update(marStageToUpdateMap.values(),false);
 

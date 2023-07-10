@@ -1,13 +1,14 @@
 /**
- * @description Test Class for ApplicationsDAO
+ * @description Test Class ApplicationsDAO
  *
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
- *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
+      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
+      | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                               |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds      |
  */
 @isTest
 public with sharing class ApplicationsDAOTest {
@@ -39,4 +40,14 @@ public with sharing class ApplicationsDAOTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void getApplicationsByLeadIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
+                .getApplicationsByLeadIds(new Set<Id>());
+            System.assert(applicationList.isEmpty(), 'applicationList should not be empty');
+        }
+        Test.stopTest();
+    }
 }

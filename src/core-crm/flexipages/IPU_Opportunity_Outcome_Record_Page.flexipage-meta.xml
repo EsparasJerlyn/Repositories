@@ -651,6 +651,50 @@
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Decommissioned</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Completed</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>lookupFieldName</name>
+                    <value>Opportunity_Outcome__c.Pure_Project_Id__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>titleFieldName</name>
+                    <value>Contract</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>updateQuickActionName</name>
+                    <value>Pure_Project__c.Show_Pure_Project_in_Opportunity_Outcome_Tab</value>
+                </componentInstanceProperties>
+                <componentName>console:relatedRecord</componentName>
+                <identifier>console_relatedRecord2</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Decommissioned</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Completed</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -944,6 +988,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
+                    <value>Opportunity Outcome Funding Body</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>editActionType</name>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <decisions>
+        <description>This decision element evaluates the start date field of the opportunity to determine the appropriate stage value. If the start date is a future date, the stage will be set to &apos;New.&apos; Otherwise, if the start date is the current or a previous date, the stage will be set to &apos;Active.&apos;</description>
+        <name>Evaluate_Start_Date_for_Stage</name>
+        <label>Evaluate Start Date for Stage</label>
+        <locationX>182</locationX>
+        <locationY>287</locationY>
+        <defaultConnector>
+            <targetReference>Update_Opportunity_Outcome_to_Active</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Current or Previous Date</defaultConnectorLabel>
+        <rules>
+            <name>Future_Date</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Start_Date__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Start_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Opportunity_Outcome_to_New</targetReference>
+            </connector>
+            <label>Future Date</label>
+        </rules>
+    </decisions>
+    <description>Update Opportunity Outcome to New or Active Depending on Start Date</description>
+    <environments>Default</environments>
+    <interviewLabel>Update_Opportunity_Outcome_to_New_or_Active {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Opp Outcome to New Or Active</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update Opportunity Outcome to Active if Start Date &lt;= Current Date</description>
+        <name>Update_Opportunity_Outcome_to_Active</name>
+        <label>Update Opportunity Outcome to Active</label>
+        <locationX>314</locationX>
+        <locationY>395</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Start_Date__c</field>
+            <operator>LessThanOrEqualTo</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Stage_Name__c</field>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update Opportunity Outcome to New if Start Date &gt; Current Date</description>
+        <name>Update_Opportunity_Outcome_to_New</name>
+        <label>Update Opportunity Outcome to New</label>
+        <locationX>50</locationX>
+        <locationY>395</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Start_Date__c</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Stage_Name__c</field>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Evaluate_Start_Date_for_Stage</targetReference>
+        </connector>
+        <filterFormula>AND(
+ISCHANGED({!$Record.Start_Date__c}),
+NOT(ISBLANK({!$Record.Start_Date__c})),
+OR(
+ISPICKVAL({!$Record.Stage_Name__c}, &quot;New&quot;),
+ISPICKVAL({!$Record.Stage_Name__c}, &quot;Active&quot;)
+)
+)</filterFormula>
+        <object>Opportunity_Outcome__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

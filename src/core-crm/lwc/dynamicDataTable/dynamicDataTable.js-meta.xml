@@ -82,6 +82,11 @@
                 type="String"
                 description="Optional, text, flow API name. " />
             <property
+                name="defaultValues"
+                label="Default Values"
+                type="String"
+                description='Text, written in JSON format, use to provide default field values for new record. E.g. {"Milestone_Type__c":"Compliance"}). '/>
+            <property
                 name="showEditButton"
                 label="Show Edit Button"
                 type="Boolean" />
@@ -100,7 +105,7 @@
                 name="dynamicDataTableInput"
                 label="Dynamic Data Table Inputs"
                 type="String"
-                description="Optional, text, pass any variables to flow or lwc. E.g. Academic Team. " />
+                description="Optional, text, field value of the record used in Flow, LWC, or Platform Event as identifier. E.g. Academic Team. " />
             <property
                 name="visibilityByParent"
                 label="Controlled Visibility By Parent"

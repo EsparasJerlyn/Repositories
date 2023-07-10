@@ -20,5 +20,4 @@ public interface ILeadsDAO extends DmlInterface {
         Set<String> emailsToMatch,
         String accessLevel
     );
-
 }

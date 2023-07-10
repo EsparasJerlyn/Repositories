@@ -58,6 +58,11 @@
                 <default>false</default>
                 <label>PG Study Area Extension</label>
             </value>
+            <value>
+                <fullName>Study Area B Unit Sets (Historical Only)</fullName>
+                <default>false</default>
+                <label>Study Area B Unit Sets (Historical Only)</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

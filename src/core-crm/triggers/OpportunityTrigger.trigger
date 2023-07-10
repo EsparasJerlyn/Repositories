@@ -8,7 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | alexander.cadalin              | May 12, 2023          | DEPP-5594              | created file
  */
-trigger OpportunityTrigger on Opportunity (before insert) {
+trigger OpportunityTrigger on Opportunity (before insert, after insert, after update) {
     TriggerDispatcher.dispatch(
         TriggerHandlerFactory.getHandlersForSObjectType('Opportunity'),
         Trigger.operationType

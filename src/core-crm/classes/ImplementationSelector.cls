@@ -34,6 +34,7 @@ public class ImplementationSelector {
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
+            Milestone__c.SObjectType => MilestonesDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
             Opportunity_Code_Auto_Number__c.SobjectType => OpportunityCodeAutoNumbersDAO.class,
             Opportunity_Outcome__c.SobjectType => OpportunityOutcomesDAO.class,
