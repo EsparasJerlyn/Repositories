@@ -48,6 +48,7 @@
         <!-- Start DEPP-5992-->
 		<members>IP_Management__c.IP_Type_c</members>
 		<members>IP_Management__c.Country__c</members>
+        <members>IP_Management__c.IP_Management__c-IP Management Page Layout</members>
 		<!-- End DEPP-5992-->
         <!-- Start DEPP-5937 -->
         <members>IP_Management_Relationship___c.Stage_Name__c</members>
