@@ -177,7 +177,7 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         ) {
             this.label = label;
             //assumption is that the first column is the record's name field which is a link to the record
-            if (columnCount == 0) {
+            if (columnCount == 0 || typeAttribute.label.fieldName == 'Name') {
                 this.fieldName = 'IdUrl';
                 //assumption is that this is a parent object's name field which is a link to the parents record
             } else if (typeAttribute.label.fieldName.contains('.')) {
