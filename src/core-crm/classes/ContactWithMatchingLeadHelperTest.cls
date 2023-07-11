@@ -120,7 +120,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             }
 
             List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];
-            List<hed__Application__c> appContacts = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds); 
+            List<hed__Application__c> appContacts = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds,'SYSTEM_MODE'); 
             List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
             List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
 
@@ -176,7 +176,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             }
 
             List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];
-            List<hed__Application__c> appContacts = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds); 
+            List<hed__Application__c> appContacts = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds,'SYSTEM_MODE'); 
             List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
             List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
 

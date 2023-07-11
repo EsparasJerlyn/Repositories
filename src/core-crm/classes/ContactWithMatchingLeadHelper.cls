@@ -120,7 +120,7 @@ public without sharing class ContactWithMatchingLeadHelper {
 
         Map<Id, List<hed__Application__c>> applicationMap = new Map<Id, List<hed__Application__c>>();
         if(!leadIdSet.isEmpty()){
-            applicationRecords = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIdSet);           
+            applicationRecords = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIdSet,'SYSTEM_MODE');           
         }
         
         for(hed__Application__c app : applicationRecords){

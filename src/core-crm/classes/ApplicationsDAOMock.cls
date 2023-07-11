@@ -24,7 +24,10 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
         return hed__Application__c.SObjectType;
     }
 
-    public List<hed__Application__c> getApplicationsBySetIds(Set<Id> applicationIds) {
+    public List<hed__Application__c> getApplicationsBySetIds(
+        Set<Id> applicationIds,
+        String accessLevel
+    ) {
         List<hed__Application__c> applicationList = new List<hed__Application__c>();
 
         for (hed__Application__c record : applicationMap.values()) {
@@ -36,7 +39,10 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
         return applicationList;
     }
 
-    public List<hed__Application__c> getApplicationsByLeadIds(Set<Id> leadIds) {
+    public List<hed__Application__c> getApplicationsByLeadIds(
+        Set<Id> leadIds,
+        String accessLevel
+    ) {
         List<hed__Application__c> applicationList = new List<hed__Application__c>();
 
         for (hed__Application__c record : applicationMap.values()) {

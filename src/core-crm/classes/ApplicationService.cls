@@ -30,8 +30,9 @@ public with sharing class ApplicationService {
             }
          }
          
-         enqueueQueueableProcess(newApplicationList,'ApplicationService');
-         
+         if(!newApplicationList.isEmpty()){
+            enqueueQueueableProcess(newApplicationList,'ApplicationService'); 
+         }         
      }
      
     /**
@@ -175,7 +176,9 @@ public with sharing class ApplicationService {
      private static ContactsDAO.QueryParamWrapper extractApplicationDetails(List<hed__Application__c> newItems) {
          ContactsDAO.QueryParamWrapper applicationDetails = new ContactsDAO.QueryParamWrapper();
          for (hed__Application__c app : newItems) {
-             applicationDetails.emailsToMatch.add(app.Email__c);
+             if(app.Email__c !=null){
+                 applicationDetails.emailsToMatch.add(app.Email__c);             
+             }
              applicationDetails.firstNames.add(app.FirstName__c);
              applicationDetails.lastNames.add(app.LastName__c);
              applicationDetails.birthdates.add(app.Birthdate__c);

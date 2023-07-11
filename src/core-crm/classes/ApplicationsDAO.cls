@@ -29,21 +29,29 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         return hed__Application__c.SObjectType;
     }
 
-    public List<hed__Application__c> getApplicationsBySetIds(Set<Id> applicationIds) {
-        return [//NOPMD
-            SELECT Id, Name
-            FROM hed__Application__c
-            WHERE Id IN :applicationIds
-            WITH USER_MODE
-        ];
+    public List<hed__Application__c> getApplicationsBySetIds(
+        Set<Id> applicationIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Name ' +
+            'FROM hed__Application__c ' +
+            'WHERE Id IN :applicationIds ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 
-    public List<hed__Application__c> getApplicationsByLeadIds(Set<Id> leadIds) {
-        return [//NOPMD
-            SELECT Id, Lead__c, hed__Applicant__c
-            FROM hed__Application__c
-            WHERE Lead__c IN :leadIds
-            WITH SYSTEM_MODE
-        ];
+    public List<hed__Application__c> getApplicationsByLeadIds(
+        Set<Id> leadIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Lead__c, hed__Applicant__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE Lead__c IN :leadIds ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 }
