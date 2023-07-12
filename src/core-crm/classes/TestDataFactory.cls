@@ -40,6 +40,7 @@
  *    | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                   |
  *    | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role |
  *    | ryan.j.a.dela.cruz        | July 03, 2023         | DEPP-5390           | Added method for creation of Pure_Project__c record                     |
+ *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  */
 
 @isTest
@@ -1561,7 +1562,8 @@ public class TestDataFactory {
                 new Financial_Split__c(
                     Opportunity__c = oppty,
                     Funding_Body__c = accountId,
-                    RecordTypeId = FinancialSplitsDAO.OPPORTUNITY_FUNDING_BODY_RECORDTYPEID
+                    RecordTypeId = FinancialSplitsDAO.OPPORTUNITY_FUNDING_BODY_RECORDTYPEID,
+                    Percentage_split__c = 20
                 )
             );
         }

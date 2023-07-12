@@ -10,6 +10,8 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created file                   |
  *    | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added visibility check         |
+ *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | added percent value change     |
+ *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | fix url issue                  |
  */
 public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many public methods
     /**
@@ -42,7 +44,7 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             relatedListFields,
             List<DataTableColumns>.class
         );
-
+        List<String> percentFieldNames = new List<String>();
         List<DataTableColumns> tempDataColumns = new List<DataTableColumns>();
         Integer columnCount = 0;
         //build datatable columns
@@ -63,6 +65,11 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
                     new DataTableTypeAttributes(field.fieldName.trim())
                 );
             }
+            //collect percent fields
+            if (field.type.trim() == 'percent') {
+                percentFieldNames.add(field.fieldName);
+            }
+
             tempDataColumns.add(datacolumns);
             columnCount++;
         }
@@ -78,9 +85,15 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         //finalize datatable return
         DataTableResponse finalWrapper = new DataTableResponse();
         finalWrapper.dataTableColumns = tempDataColumns;
-        finalWrapper.dataTableData = DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
-            parametersMap
-        );
+
+        if (!percentFieldNames.isEmpty()) {
+            finalWrapper.dataTableData = percentageValueChange(percentFieldNames, parametersMap);
+        } else {
+            finalWrapper.dataTableData = DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
+                parametersMap
+            );
+        }
+
         finalWrapper.recordCount = DynamicQueryService.getRelatedRecordsCountWithFilter(
             parametersMap
         );
@@ -148,6 +161,36 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         }
     }
 
+    /**
+     * Logic to update the percent value so the datatable can render it properly
+     * @param percentFieldNames - list of field api names of type percent
+     * @param parametersMap - Map of strings that is used to retrieve a list of sObject
+     * @return List<sObject> - list of sobect with updated percent fields
+     */
+    private static List<sObject> percentageValueChange(
+        List<String> percentFieldNames,
+        Map<String, String> parametersMap
+    ) {
+        List<sObject> tempObjectList = new List<sObject>();
+        for (
+            sObject tempObject : DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
+                parametersMap
+            )
+        ) {
+            for (String percentName : percentFieldNames) {
+                //divide value by 100.
+                //datatable renders percentage 20 -> 2000% 
+                //this logic will fix this
+                if (tempObject.get(percentName) != null) {
+                    tempObject.put(percentName, (decimal) tempObject.get(percentName) / 100);
+                }
+            }
+            tempObjectList.add(tempObject);
+        }
+
+        return tempObjectList;
+    }
+
     private class DataTableColumns {
         @AuraEnabled
         public String label { get; set; }
@@ -176,14 +219,17 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             DataTableTypeAttributes typeAttribute
         ) {
             this.label = label;
-            //assumption is that the first column is the record's name field which is a link to the record
-            if (columnCount == 0 || typeAttribute.label.fieldName == 'Name') {
+            //assumption is that the name field is always used as a link to the record
+            if (typeAttribute.label.fieldName == 'Name') {
                 this.fieldName = 'IdUrl';
-                //assumption is that this is a parent object's name field which is a link to the parents record
-            } else if (typeAttribute.label.fieldName.contains('.')) {
+            //assumption is that this is a parent object's name field which is a link to the parents record
+            } else if (
+                typeAttribute.label.fieldName.contains('.') &&
+                typeAttribute.label.fieldName.substringAfter('.') == 'Name'
+            ) {
                 this.fieldName = typeAttribute.label.fieldName.substringBefore('.') + '.' + 'IdUrl';
             } else {
-                this.fieldName = typeAttribute.label.fieldName + 'Url';
+                this.fieldName = typeAttribute.label.fieldName;
             }
             this.type = 'url';
             this.typeAttributes = typeAttribute;

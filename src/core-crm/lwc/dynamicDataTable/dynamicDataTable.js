@@ -6,10 +6,11 @@
  *
  * @history
  *
- *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
- *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
- *    | roy.nino.s.regala         | June 14, 2023         | DEPP-5391            | Created file                                 |
- *    | roy.nino.s.regala         | June 24, 2023         | DEPP-5411            | Added Visibility Check                       |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                                              |
+ *    |---------------------------|-----------------------|----------------------|-----------------------------------------------------------------------------|
+ *    | roy.nino.s.regala         | June 14, 2023         | DEPP-5391            | Created file                                                                |
+ *    | roy.nino.s.regala         | June 24, 2023         | DEPP-5411            | Added Visibility Check                                                      |
+ *    | roy.nino.s.regala         | July 11, 2023         | DEPP-5459            | removed isvalidurl and only subscribe to event channel on new and edit      |
  */
 import { LightningElement, api, track, wire } from "lwc";
 import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableDataWrapper";
@@ -160,9 +161,8 @@ export default class DynamicDataTable extends NavigationMixin(
     let objData = obj.data.payload;
     if (
       objData.Parent_Id__c == this.recordId &&
-      (objData.Dynamic_Datatable_Input__c == this.dynamicDataTableInput ||
-        objData.Dynamic_Datatable_Input__c == this.recordTypeId) &&
-      objData.CreatedById == this.userId
+      objData.Message__c.includes(this.relatedObjectLabel) &&
+      objData.CreatedById == this.userId 
     ) {
       //only show custom toast when form is not standard
       if (this.isCustom) {
@@ -197,7 +197,6 @@ export default class DynamicDataTable extends NavigationMixin(
   connectedCallback() {
     this.loadData(this.setParameters());
     this.registerErrorListener();
-    this.handleSubscribe();
   }
 
   navigationType;
@@ -255,9 +254,6 @@ export default class DynamicDataTable extends NavigationMixin(
             //flatten the inner object of the records
             if (relatedFieldValue.constructor === Object) {
               transformObject(relatedFieldValue, finalSobjectRow, rowIndex);
-            } else if (isValidUrl(relatedFieldValue)) {
-              finalSobjectRow[rowIndex] = relatedFieldValue;
-              finalSobjectRow[rowIndex + "Url"] = relatedFieldValue;
             } else if (rowIndex == "Id") {
               finalSobjectRow[rowIndex] = relatedFieldValue;
               finalSobjectRow[rowIndex + "Url"] = "/" + relatedFieldValue;
@@ -293,6 +289,7 @@ export default class DynamicDataTable extends NavigationMixin(
         }
       })
       .finally(() => {
+        this.unsubscribeToMessageChannel();
         this.dataTableIsLoading = false;
       });
   }
@@ -378,6 +375,7 @@ export default class DynamicDataTable extends NavigationMixin(
   /* ACTION HANDLERS START */
   handleNewRecord() {
     this.isCustom = true;
+    this.handleSubscribe();
     if (this.newActionType == "Screen Flow" && this.isConsoleApp) {
       this.handleNewRecordNavigateToNewTab();
     } else if (this.newActionType == "Screen Flow" && !this.isConsoleApp) {
@@ -392,6 +390,7 @@ export default class DynamicDataTable extends NavigationMixin(
 
   handleRowAction(event) {
     const row = event.detail.row;
+    this.handleSubscribe();
     if (this.editActionType == "Default") {
       this.isCustom = false;
       this.handleEditRecordByDefault(row.Id);

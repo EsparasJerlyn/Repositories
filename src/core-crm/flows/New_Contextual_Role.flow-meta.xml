@@ -1842,7 +1842,7 @@
             <targetReference>Assign_Contextual_Role_Independent_Fields</targetReference>
         </connector>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
     <subflows>
         <name>Call_Complex_Contextual_Role_Flow</name>
         <label>Call Complex Contextual Role Flow</label>

@@ -8,35 +8,29 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | roy.nino.s.regala              | July 06, 2023         | DEPP-5474              | Created file                   |
+ *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | removed dynamicdatatableinput  |
  */
 public with sharing class DynamicDatatableEventService {
     /* Map that defines the object attributes defined in the datatables
     *  Just add new attributes for new objects that will use the dynamicdatatable
     *  Key Value pair are as follows:
-    *  DynamicDataTableInput - The field to identify the table. Most likely the filter of the table.
-    *                      - RecordTypeId is used when filter is RecordType.Name
-    *                      - Supports String, Id, and Integer.(as per testing)
     *  ParentFields - Comma separated string that contains the possible parent records(Api Name).
     *  ObjectLabel - Label name of the object, to be used for the success message
     */
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_EVENT_MAP = new Map<SObjectType, Map<String, String>>{
         Opportunity.SObjectType => new Map<String, String>{
-            'DynamicDataTableInput' => 'RecordTypeId',
             'ParentFields' => 'Engagement__c',
             'ObjectLabel' => 'Opportunity'
         },
         Contextual_Role__c.SObjectType => new Map<String, String>{
-            'DynamicDataTableInput' => 'Contextual_Role_Group__c',
             'ParentFields' => 'Engagement__c,Opportunity__c,Opportunity_Outcome__c',
             'ObjectLabel' => 'Contextual Role'
         },
         Milestone__c.SObjectType => new Map<String, String>{
-            'DynamicDataTableInput' => 'Milestone_Type__c',
             'ParentFields' => 'Opportunity_Outcome__c',
             'ObjectLabel' => 'Milestone'
         },
         Financial_Split__c.SObjectType => new Map<String, String>{
-            'DynamicDataTableInput' => 'RecordTypeId',
             'ParentFields' => 'Opportunity_Outcome__c,Opportunity__c',
             'ObjectLabel' => 'Financial Split'
         }
@@ -70,10 +64,6 @@ public with sharing class DynamicDatatableEventService {
                 if ((String) newRecord.get(parentField) != null) {
                     eventRecords.add(
                         new Dynamic_Datatable_Event__e(
-                            Dynamic_Datatable_Input__c = (String) newRecord.get(
-                                OBJECT_TO_EVENT_MAP.get(recordObjectType)
-                                    .get('DynamicDataTableInput')
-                            ),
                             Message__c = setMessage(
                                 (String) newRecord.get('Name'),
                                 OBJECT_TO_EVENT_MAP.get(recordObjectType).get('ObjectLabel'),
