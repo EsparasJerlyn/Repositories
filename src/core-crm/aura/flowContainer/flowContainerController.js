@@ -72,7 +72,14 @@
       .getTabInfo()
       .then(function (response) {
         var focusedTabId = response.tabId;
-        workspaceAPI.closeTab({ tabId: focusedTabId });
+        workspaceAPI.refreshTab({
+          tabId: response.parentTabId,
+          includeAllSubtabs: true
+        });
+        return focusedTabId;
+      })
+      .finally(function(response){
+        workspaceAPI.closeTab({ tabId: response });
       })
       .catch(function (error) {
         console.log(error);

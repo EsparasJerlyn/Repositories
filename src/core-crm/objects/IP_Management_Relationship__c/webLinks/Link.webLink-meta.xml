@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Link</fullName>
+    <availability>online</availability>
+    <description>Links an IP Management to an Engagement, Opportunity, or Opportunity Outcome.</description>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>Link</masterLabel>
+    <openType>sidebar</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>/lightning/cmp/c__linkIpManagement</url>
+</WebLink>
