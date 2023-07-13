@@ -16,7 +16,7 @@
         </values>
         <values>
             <fullName>Prosecution</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Rejected</fullName>
