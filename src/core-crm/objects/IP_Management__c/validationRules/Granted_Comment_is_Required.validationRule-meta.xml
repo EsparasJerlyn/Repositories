@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Granted_Comment_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISCHANGED( Stage_Name__c ),
+ISPICKVAL(Stage_Name__c , &apos;Granted&apos;),
+ISBLANK(  Granted_Comment__c )
+)</errorConditionFormula>
+    <errorDisplayField>Granted_Comment__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>
