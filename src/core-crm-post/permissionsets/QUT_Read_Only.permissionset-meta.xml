@@ -11328,6 +11328,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Finance_Summary__c.Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>WebCart.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
