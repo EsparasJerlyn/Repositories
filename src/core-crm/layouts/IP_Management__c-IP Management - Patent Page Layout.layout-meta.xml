@@ -90,7 +90,7 @@
                 <field>Rejected_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Rejected_Comment__c</field>
             </layoutItems>
         </layoutColumns>
