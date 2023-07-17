@@ -1638,7 +1638,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Memo_Status__c</fieldItem>
                 <identifier>RecordMemo_Status_cField</identifier>

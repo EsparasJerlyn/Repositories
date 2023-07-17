@@ -3,9 +3,8 @@
     <fullName>Year__c</fullName>
     <description>The year of Finance_Summary_Date__c.</description>
     <externalId>false</externalId>
-    <formula>TEXT(YEAR(Finance_Summary_Date__c))</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Year</label>
+    <length>4</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>

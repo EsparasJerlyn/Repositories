@@ -1501,7 +1501,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Finance_Summary__c.Year__c</field>
         <readable>true</readable>
     </fieldPermissions>

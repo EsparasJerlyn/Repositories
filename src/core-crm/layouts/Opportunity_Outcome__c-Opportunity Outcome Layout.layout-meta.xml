@@ -78,7 +78,10 @@
         <relatedList>RelatedHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
+        <fields>Finance_Summary_Date__c</fields>
+        <fields>Actual_Revenue__c</fields>
+        <fields>Actual_Expense__c</fields>
+        <fields>Net_Profit__c</fields>
         <relatedList>Finance_Summary__c.Opportunity_Outcome__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -96,7 +99,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9r000001nW1X</masterLabel>
+        <masterLabel>00h8r000001pdnE</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
