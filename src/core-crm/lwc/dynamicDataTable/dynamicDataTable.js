@@ -150,7 +150,10 @@ export default class DynamicDataTable extends NavigationMixin(
     onError((error) => {
       const logger = this.template.querySelector("c-logger");
       if (logger) {
-        logger.error(JSON.stringify(error));
+        logger.error(
+          "Exception caught in method registerErrorListener in LWC dynamicDataTable: ",
+          JSON.stringify(error)
+        );
         logger.saveLog();
       }
     });
@@ -162,7 +165,7 @@ export default class DynamicDataTable extends NavigationMixin(
     if (
       objData.Parent_Id__c == this.recordId &&
       objData.Message__c.includes(this.relatedObjectLabel) &&
-      objData.CreatedById == this.userId 
+      objData.CreatedById == this.userId
     ) {
       //only show custom toast when form is not standard
       if (this.isCustom) {
@@ -207,7 +210,10 @@ export default class DynamicDataTable extends NavigationMixin(
       this.navigationType = result.data;
     } else if (result.error) {
       if (logger) {
-        logger.error(JSON.stringify(error));
+        logger.error(
+          "Exception caught in method handleGetNavType in LWC dynamicDataTable: ",
+          JSON.stringify(result.error)
+        );
         logger.saveLog();
       }
     }
@@ -284,7 +290,10 @@ export default class DynamicDataTable extends NavigationMixin(
       })
       .catch((error) => {
         if (logger) {
-          logger.error(JSON.stringify(error));
+          logger.error(
+            "Exception caught in method loadData in LWC dynamicDataTable: ",
+            JSON.stringify(error)
+          );
           logger.saveLog();
         }
       })
