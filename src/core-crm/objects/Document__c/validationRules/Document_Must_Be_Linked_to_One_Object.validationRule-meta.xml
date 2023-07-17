@@ -8,19 +8,28 @@ OR(
 AND (
 NOT(ISBLANK(Opportunity__c)),
 ISBLANK(Opportunity_Outcome__c),
-ISBLANK(Engagement__c)
+ISBLANK(Engagement__c),
+ISBLANK(IP_Management__c)
 ),
 AND (
 ISBLANK(Opportunity__c),
 NOT(ISBLANK(Opportunity_Outcome__c)),
-ISBLANK(Engagement__c)
+ISBLANK(Engagement__c),
+ISBLANK(IP_Management__c)
 ),
 AND (
 ISBLANK(Opportunity__c),
 ISBLANK(Opportunity_Outcome__c),
-NOT(ISBLANK(Engagement__c))
+NOT(ISBLANK(Engagement__c)),
+ISBLANK(IP_Management__c)
+),
+AND (
+ISBLANK(Opportunity__c),
+ISBLANK(Opportunity_Outcome__c),
+ISBLANK(Engagement__c),
+NOT(ISBLANK(IP_Management__c))
 )
 )
 )</errorConditionFormula>
-    <errorMessage>Please ensure Document is linked to either of the three objects: Engagement, Opportunity, Opportunity Outcome.</errorMessage>
+    <errorMessage>Please ensure Document is linked to either of these objects: Engagement, Opportunity, Opportunity Outcome, IP Management.</errorMessage>
 </ValidationRule>

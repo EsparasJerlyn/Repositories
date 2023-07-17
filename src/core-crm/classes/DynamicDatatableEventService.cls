@@ -33,6 +33,10 @@ public with sharing class DynamicDatatableEventService {
         Financial_Split__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity_Outcome__c,Opportunity__c',
             'ObjectLabel' => 'Financial Split'
+        },
+        Document__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity_Outcome__c,IP_Management__c',
+            'ObjectLabel' => 'Document'
         }
     };
 

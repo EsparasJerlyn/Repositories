@@ -11179,6 +11179,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Document__c.IP_Management__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Document__c.Opportunity__c</field>
         <readable>true</readable>
     </fieldPermissions>
