@@ -8,5 +8,6 @@
     <permissionSets>Future_Student_Engagement</permissionSets>
     <permissionSets>Manage_International_Tiers</permissionSets>
     <permissionSets>Manage_Reports_and_Dashboards</permissionSets>
+    <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
