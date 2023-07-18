@@ -154,7 +154,6 @@ export default class DynamicDataTable extends NavigationMixin(
           "Exception caught in method registerErrorListener in LWC dynamicDataTable: ",
           JSON.stringify(error)
         );
-        logger.saveLog();
       }
     });
   }
@@ -205,17 +204,8 @@ export default class DynamicDataTable extends NavigationMixin(
   navigationType;
   @wire(getCurrentUserNavigationType)
   handleGetNavType(result) {
-    const logger = this.template.querySelector("c-logger");
     if (result.data) {
       this.navigationType = result.data;
-    } else if (result.error) {
-      if (logger) {
-        logger.error(
-          "Exception caught in method handleGetNavType in LWC dynamicDataTable: ",
-          JSON.stringify(result.error)
-        );
-        logger.saveLog();
-      }
     }
   }
 
@@ -250,7 +240,6 @@ export default class DynamicDataTable extends NavigationMixin(
     })
       .then((result) => {
         let sObjectRelatedFieldListValues = [];
-
         //traverse through the datatabledata records
         for (let row of result.dataTableData) {
           const finalSobjectRow = {};

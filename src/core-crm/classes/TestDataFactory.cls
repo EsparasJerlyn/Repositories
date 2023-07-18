@@ -2950,4 +2950,28 @@ public class TestDataFactory {
         return documents;
     }
 
+    /**
+     * @description Method for creating test Financeial Summary records
+     * @return finSummaries - List of Finance Summaries created
+     */
+    public static List<Finance_Summary__c> createFinanceSummaryRecords(
+        Integer numOfFinanceSummaries,
+        Id recordTypeId,
+        Id oppOutcomeId
+    ) {
+        List<Finance_Summary__c> finSummaries = new List<Finance_Summary__c>();
+
+        for (Integer i = 0; i < numOfFinanceSummaries; i++) {
+            finSummaries.add(
+                new Finance_Summary__c(
+                    RecordTypeId = recordTypeId,
+                    Opportunity_Outcome__c = oppOutcomeId,
+                    Year__c = String.valueOf(System.Today().year()),
+                    Valuation_Amount__c = 123
+                )
+            );
+        }
+        return finSummaries;
+    }
+
 }

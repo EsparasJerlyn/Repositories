@@ -14,8 +14,8 @@
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added object mapping for Application      |
       | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument  | 
       | eugene.andrew.abuan            | July 10, 2023         | DEPP-5483              | Added Object mapping for Document and     | 
-      |                                |                       |                        | IP Management                             |               
-              
+      |                                |                       |                        | IP Management                             |
+      | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary  |                 
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -35,6 +35,7 @@ public class ImplementationSelector {
             Document__c.SObjectType => DocumentsDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
             IP_Management__c.SObjectType => IPManagementsDAO.class,
