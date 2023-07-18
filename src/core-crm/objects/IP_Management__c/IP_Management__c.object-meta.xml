@@ -167,6 +167,7 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>IP Managements</pluralLabel>
+    <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>IP_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Stage_Name__c</searchResultsAdditionalFields>
