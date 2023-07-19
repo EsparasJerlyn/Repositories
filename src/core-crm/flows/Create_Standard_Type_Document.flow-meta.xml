@@ -336,12 +336,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Document_Date__c</field>
-            <value>
-                <elementReference>docVar.Document_Date__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>Document_End_Date__c</field>
             <value>
                 <elementReference>docVar.Document_End_Date__c</elementReference>
@@ -503,12 +497,9 @@
                     <objectFieldReference>docVar.Document_Start_Date__c</objectFieldReference>
                 </fields>
                 <fields>
-                    <name>Document_Status</name>
-                    <choiceReferences>Document_Status_Picklist</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Document Status</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <isRequired>true</isRequired>
+                    <fieldType>ObjectProvided</fieldType>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>docVar.Description__c</objectFieldReference>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -548,19 +539,17 @@
                     <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Document_Date__c</objectFieldReference>
+                    <name>Document_Status</name>
+                    <choiceReferences>Document_Status_Picklist</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Document Status</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <isRequired>false</isRequired>
                     <objectFieldReference>docVar.Document_End_Date__c</objectFieldReference>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>docVar.Description__c</objectFieldReference>
                 </fields>
                 <inputParameters>
                     <name>width</name>
