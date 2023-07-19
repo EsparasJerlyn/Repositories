@@ -236,7 +236,10 @@ export default class OptionSelector extends LightningElement {
         })
         .catch((error) => {
           if (logger) {
-            logger.error(JSON.stringify(error));
+            logger.error(
+              "Exception caught in method connectedCallback in LWC flowCombobox: ",
+              JSON.stringify(error)
+            );
             logger.saveLog();
           }
         });

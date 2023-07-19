@@ -5,5 +5,6 @@
     <label>Future Student Team Leader</label>
     <permissionSets>Future_Student_Engagement</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
+    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

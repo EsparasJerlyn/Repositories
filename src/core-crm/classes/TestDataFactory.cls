@@ -40,6 +40,7 @@
  *    | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                   |
  *    | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role |
  *    | ryan.j.a.dela.cruz        | July 03, 2023         | DEPP-5390           | Added method for creation of Pure_Project__c record                     |
+*     | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record         |
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  */
 
@@ -2896,4 +2897,81 @@ public class TestDataFactory {
         }
         return conRoles;
     }
+
+     /**
+     * @description Method for creating test IP Management Record
+     * @return ipManagements - List of IP Management created
+     */
+    public static List<IP_Management__c> createIPManagement(
+        Integer numOfIPManagement,
+        Id recordTypeId
+    ) {
+        List<IP_Management__c> ipManagements = new List<IP_Management__c>();
+
+        for (Integer i = 0; i < numOfIPManagement; i++) {
+            ipManagements.add(
+                new IP_Management__c(
+                    IP_Name__c = 'testIpManagement' ,
+                    IP_Description__c ='test IP Desc',
+                    Stage_Name__c = 'Prosecution',
+                    Granted_Date__c =  System.today(),
+                    Lapsed_Date__c = System.today() + 5,
+                    Rejected_Date__c = System.today() + 10,
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return ipManagements;
+    }
+
+    /**
+     * @description Method for creating Document Record for IP Management
+     * @return documents - List of Documents Created
+     */
+    public static List<Document__c> createDocumentsForIPManagement(
+        Integer numOfDocuments,
+        Id ipManagementId,
+        Id recordTypeId
+    ) {
+        List<Document__c> documents = new List<Document__c>();
+
+        for (Integer i = 0; i < numOfDocuments; i++) {
+            documents.add(
+                new Document__c(
+                    Document_Title__c = 'test Document Title' ,
+                    Document_Type__c = 'Subscription',
+                    Document_Status__c = 'Complete',
+                    Document_URL__c = 'https://www.test.com',
+                    IP_Management__c = ipManagementId,
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return documents;
+    }
+
+    /**
+     * @description Method for creating test Financeial Summary records
+     * @return finSummaries - List of Finance Summaries created
+     */
+    public static List<Finance_Summary__c> createFinanceSummaryRecords(
+        Integer numOfFinanceSummaries,
+        Id recordTypeId,
+        Id oppOutcomeId
+    ) {
+        List<Finance_Summary__c> finSummaries = new List<Finance_Summary__c>();
+
+        for (Integer i = 0; i < numOfFinanceSummaries; i++) {
+            finSummaries.add(
+                new Finance_Summary__c(
+                    RecordTypeId = recordTypeId,
+                    Opportunity_Outcome__c = oppOutcomeId,
+                    Year__c = String.valueOf(System.Today().year()),
+                    Valuation_Amount__c = 123
+                )
+            );
+        }
+        return finSummaries;
+    }
+
 }

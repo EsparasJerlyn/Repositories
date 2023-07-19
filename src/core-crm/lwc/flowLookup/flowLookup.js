@@ -216,7 +216,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
           .catch((error) => {
             if (logger) {
               logger.error(
-                "flowLookup [getRecordsFromIds method]: ",
+                "Exception caught in method getRecordsFromIds in LWC flowLookup: ",
                 JSON.stringify(error)
               );
               logger.saveLog();
@@ -317,7 +317,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       .catch((error) => {
         if (logger) {
           logger.error(
-            "flowLookup [getRecentlyViewed method]: ",
+            "Exception caught in method getRecentlyViewed in LWC flowLookup: ",
             JSON.stringify(error)
           );
           logger.saveLog();
@@ -347,7 +347,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       .catch((error) => {
         if (logger) {
           logger.error(
-            "flowLookup [getRecords method]: ",
+            "Exception caught in method getRecords in LWC flowLookup: ",
             JSON.stringify(error)
           );
           logger.saveLog();
@@ -384,7 +384,10 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         })
         .catch((error) => {
           if (logger) {
-            logger.error("flowLookup [search method]: ", JSON.stringify(error));
+            logger.error(
+              "Exception caught in method search in LWC flowLookup: ",
+              JSON.stringify(error)
+            );
             logger.saveLog();
           }
         })
@@ -555,7 +558,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         .catch((error) => {
           if (logger) {
             logger.error(
-              "flowLookup [newRecordModal method]: ",
+              "Exception caught in method newRecordModal in LWC flowLookup: ",
               JSON.stringify(error)
             );
             logger.saveLog();

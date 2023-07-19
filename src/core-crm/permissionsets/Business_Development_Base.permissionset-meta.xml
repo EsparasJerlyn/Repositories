@@ -1277,6 +1277,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Document__c.IP_Management__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Document__c.Opportunity_Outcome__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4143,6 +4148,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Affiliation__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Affiliation__c.Job_Title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

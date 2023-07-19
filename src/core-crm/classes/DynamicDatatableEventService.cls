@@ -9,6 +9,7 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | roy.nino.s.regala              | July 06, 2023         | DEPP-5474              | Created file                   |
  *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | removed dynamicdatatableinput  |
+ *    | roy.nino.s.regala              | July 18, 2023         | DEPP-5473              | added finance summary and sort |
  */
 public with sharing class DynamicDatatableEventService {
     /* Map that defines the object attributes defined in the datatables
@@ -18,21 +19,29 @@ public with sharing class DynamicDatatableEventService {
     *  ObjectLabel - Label name of the object, to be used for the success message
     */
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_EVENT_MAP = new Map<SObjectType, Map<String, String>>{
-        Opportunity.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c',
-            'ObjectLabel' => 'Opportunity'
-        },
         Contextual_Role__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Engagement__c,Opportunity__c,Opportunity_Outcome__c',
             'ObjectLabel' => 'Contextual Role'
+        },
+        Document__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity_Outcome__c',
+            'ObjectLabel' => 'Document'
+        },
+        Finance_Summary__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity_Outcome__c',
+            'ObjectLabel' => 'Finance Summary'
+        },
+        Financial_Split__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity_Outcome__c,Opportunity__c',
+            'ObjectLabel' => 'Financial Split'
         },
         Milestone__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity_Outcome__c',
             'ObjectLabel' => 'Milestone'
         },
-        Financial_Split__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Opportunity_Outcome__c,Opportunity__c',
-            'ObjectLabel' => 'Financial Split'
+        Opportunity.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Engagement__c',
+            'ObjectLabel' => 'Opportunity'
         }
     };
 

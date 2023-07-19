@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Nurture_Track_Configuration__c</fullName>
+    <externalId>false</externalId>
+    <label>Nurture Track Configuration</label>
+    <referenceTo>Nurture_Track_Configuration__c</referenceTo>
+    <relationshipLabel>Completed Cadences</relationshipLabel>
+    <relationshipName>Completed_Cadences</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

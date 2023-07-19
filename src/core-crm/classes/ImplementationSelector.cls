@@ -12,7 +12,10 @@
       | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo      |
       | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Added Object mapping for Contextual Role  |
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added object mapping for Application      |
-      | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument  |                
+      | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument  | 
+      | eugene.andrew.abuan            | July 10, 2023         | DEPP-5483              | Added Object mapping for Document and     | 
+      |                                |                       |                        | IP Management                             |
+      | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary  |                 
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -29,10 +32,13 @@ public class ImplementationSelector {
             ContentVersion.SObjectType => ContentVersionsDAO.class,
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
+            Document__c.SObjectType => DocumentsDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
+            IP_Management__c.SObjectType => IPManagementsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
