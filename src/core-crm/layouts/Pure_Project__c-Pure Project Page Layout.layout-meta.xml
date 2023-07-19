@@ -35,7 +35,7 @@
                 <field>Pure_Chief_Investigator_Name__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Opportunity__c</field>
             </layoutItems>
         </layoutColumns>
@@ -61,7 +61,7 @@
                 <field>Engagement__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Opportunity_Outcome__c</field>
             </layoutItems>
         </layoutColumns>
@@ -145,7 +145,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9t0000040oH3</masterLabel>
+        <masterLabel>00h9r000001pxTv</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
