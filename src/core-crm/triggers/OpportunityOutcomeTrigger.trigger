@@ -7,8 +7,9 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | alexander.cadalin              | May 12, 2023          | DEPP-5594              | created file
+	  | kenneth.f.alsay                | Jul 13, 2023          | DEPP-5457,5468         | added after insert           
  */
-trigger OpportunityOutcomeTrigger on Opportunity_Outcome__c (before insert) {
+trigger OpportunityOutcomeTrigger on Opportunity_Outcome__c (before insert, after insert) {
 	TriggerDispatcher.dispatch(
         TriggerHandlerFactory.getHandlersForSObjectType('Opportunity_Outcome__c'),
         Trigger.operationType

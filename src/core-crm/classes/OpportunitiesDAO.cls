@@ -84,7 +84,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 
     public static List<Opportunity> getRecordsBySetIds(Set<Id> ids) {
         return [ //NOPMD
-            SELECT Id, Memo_Status__c, Memo_PDF_URL__c
+            SELECT Id, Memo_Status__c, Memo_PDF_URL__c, OwnerId, Description, Pure_Project_Id__c, CreatedDate
             FROM Opportunity
             WHERE ID IN :ids
             WITH USER_MODE

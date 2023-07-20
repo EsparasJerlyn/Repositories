@@ -1,15 +1,15 @@
 /**
- * @description Test class for IPManagementDAO.
+ * @description Test class for IPManagementRelationshipsDAO.
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | eugene.andrew.abuan            | July 12, 2023         | DEPP-5483              | Created file                 |
+ *    | ryan.j.a.dela.cruz             | July 17, 2023         | DEPP-5468              | Created file                 |
  */
 @isTest
-public with sharing class IPManagementsDAOTest {
+public with sharing class IPManagementRelationshipsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
@@ -19,7 +19,10 @@ public with sharing class IPManagementsDAOTest {
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getOperationsManager()) {
-            System.assert(IPManagementsDAO.newInstance() != null, 'IPManagement instance is null');
+            System.assert(
+                IPManagementRelationshipsDAO.newInstance() != null,
+                'IPManagementRelationships instance is null'
+            );
         }
         Test.stopTest();
     }
@@ -29,7 +32,8 @@ public with sharing class IPManagementsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getOperationsManager()) {
             System.assert(
-                new IPManagementsDAO().getSObjectType() == IP_Management__c.SObjectType,
+                new IPManagementRelationshipsDAO().getSObjectType() ==
+                IP_Management_Relationship__c.SObjectType,
                 'SObject is not IP Management'
             );
         }
