@@ -1736,6 +1736,7 @@
             <dataType>String</dataType>
             <fieldText>Type</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <helpText>&lt;p&gt;The type of Opportunity.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -1753,6 +1754,7 @@
             <dataType>Currency</dataType>
             <fieldText>Amount</fieldText>
             <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;The expected revenue the Opportunity may generate.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
             <scale>0</scale>
             <visibilityRule>
@@ -1805,6 +1807,7 @@
             <dataType>String</dataType>
             <fieldText>Country</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <helpText>&lt;p&gt;The Country/Jurisdiction the Opportunity falls under.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
