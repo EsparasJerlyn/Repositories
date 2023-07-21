@@ -9,6 +9,7 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------------------|
  *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Created File                                               |
  *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Added getActiveOpportunityContextualRolesRecords method    |
+ *    | mark.j.mahilum                 | July 18, 2023         | DEPP-5799              | Added method getActiveContextualRoleByContactIds           |
  */
 public inherited sharing class ContextualRolesDAO extends DmlBase implements IContextualRolesDAO {
     public static final Id ENGAGEMENT_ROLE_RECTYPE_ID = Schema.SObjectType.Contextual_Role__c.getRecordTypeInfosByDeveloperName()
@@ -43,5 +44,21 @@ public inherited sharing class ContextualRolesDAO extends DmlBase implements ICo
                 AND Contextual_Role_Group__c IN :contextualRoleGroups
             WITH USER_MODE
         ];
+    }
+
+    public List<Contextual_Role__c> getActiveContextualRoleByContactIds(
+        Set<Id> contactIds,
+        String recordTypeName,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id,Contact__c,Account__r.RecordType.DeveloperName ' +
+            'FROM Contextual_Role__c ' +
+            'WHERE RecordType.DeveloperName =:recordTypeName ' + 
+            'AND Contact__c IN:contactIds ' +
+            'AND Role_Is_Active__c = TRUE ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 }
