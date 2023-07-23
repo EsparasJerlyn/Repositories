@@ -57,7 +57,10 @@ export default class FlowWorkEmailField extends LightningElement {
         })
         .catch((error) => {
           if (logger) {
-            logger.error(JSON.stringify(error));
+            logger.error(
+              "Exception caught in method connectedCallback in LWC flowWorkEmailField: ",
+              JSON.stringify(error)
+            );
             logger.saveLog();
           }
         });

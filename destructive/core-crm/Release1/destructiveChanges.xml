@@ -40,13 +40,18 @@
         <!-- Start DEPP-5993-->
         <members>IP_Management_Application__c.Status_Date__c</members>
         <!-- End DEPP-5993-->
+        <!-- Start DEPP-6051-->
+        <members>IP_Management_Application__c.Due_Date__c</members>
+        <members>IP_Management_Application__c.Provisional_Reference_Number__c</members>
+        <members>IP_Management_Application__c.Reference_Number__c</members>
+        <!-- End DEPP-6051-->
 		<!-- Start DEPP-5832-->
 		<members>IP_Management__c.Engagement__c</members>
 		<members>IP_Management__c.Opportunity__c</members>
 		<members>IP_Management__c.Opportunity_Outcome__c</members>
 		<!-- End DEPP-5832-->
         <!-- Start DEPP-5992-->
-		<members>IP_Management__c.IP_Type_c</members>
+		<members>IP_Management__c.IP_Type__c</members>
 		<members>IP_Management__c.Country__c</members>
 		<!-- End DEPP-5992-->
         <!-- Start DEPP-5937 -->

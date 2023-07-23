@@ -10,6 +10,8 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created file                   |
  *    | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added visibility check         |
+ *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | added percent value change     |
+ *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | fix url issue                  |
  */
 public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many public methods
     /**
@@ -42,29 +44,23 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             relatedListFields,
             List<DataTableColumns>.class
         );
-
+        List<String> percentFieldNames = new List<String>();
         List<DataTableColumns> tempDataColumns = new List<DataTableColumns>();
-        Integer columnCount = 0;
         //build datatable columns
         for (DataTableColumns field : parsedRelatedListFields) {
             relatedFieldApiNames += field.fieldName + ',';
 
-            DataTableColumns datacolumns = new DataTableColumns(
+            DataTableColumns dataColumns = new DataTableColumns(
                 field.label.trim(),
                 field.fieldName.trim(),
                 field.type.trim()
             );
 
-            //add typeAttributes for URL fields
-            if (field.type.trim() == 'url') {
-                datacolumns = new DataTableColumns(
-                    field.label.trim(),
-                    columnCount,
-                    new DataTableTypeAttributes(field.fieldName.trim())
-                );
+            if (field.type.trim() == 'percent') {
+                percentFieldNames.add(field.fieldName);
             }
-            tempDataColumns.add(datacolumns);
-            columnCount++;
+
+            tempDataColumns.add(dataColumns);
         }
 
         relatedFieldApiNames += ' UserRecordAccess.HasEditAccess';
@@ -78,9 +74,15 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         //finalize datatable return
         DataTableResponse finalWrapper = new DataTableResponse();
         finalWrapper.dataTableColumns = tempDataColumns;
-        finalWrapper.dataTableData = DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
-            parametersMap
-        );
+
+        if (!percentFieldNames.isEmpty()) {
+            finalWrapper.dataTableData = percentageValueChange(percentFieldNames, parametersMap);
+        } else {
+            finalWrapper.dataTableData = DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
+                parametersMap
+            );
+        }
+
         finalWrapper.recordCount = DynamicQueryService.getRelatedRecordsCountWithFilter(
             parametersMap
         );
@@ -148,6 +150,36 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         }
     }
 
+    /**
+     * Logic to update the percent value so the datatable can render it properly
+     * @param percentFieldNames - list of field api names of type percent
+     * @param parametersMap - Map of strings that is used to retrieve a list of sObject
+     * @return List<sObject> - list of sobect with updated percent fields
+     */
+    private static List<sObject> percentageValueChange(
+        List<String> percentFieldNames,
+        Map<String, String> parametersMap
+    ) {
+        List<sObject> tempObjectList = new List<sObject>();
+        for (
+            sObject tempObject : DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
+                parametersMap
+            )
+        ) {
+            for (String percentName : percentFieldNames) {
+                //divide value by 100.
+                //datatable renders percentage 20 -> 2000%
+                //this logic will fix this
+                if (tempObject.get(percentName) != null) {
+                    tempObject.put(percentName, (decimal) tempObject.get(percentName) / 100);
+                }
+            }
+            tempObjectList.add(tempObject);
+        }
+
+        return tempObjectList;
+    }
+
     private class DataTableColumns {
         @AuraEnabled
         public String label { get; set; }
@@ -168,36 +200,38 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             this.type = type;
             this.sortable = true;
             this.cellAttributes = new DataTableCellAttributes('left');
-        }
+            this.typeAttributes = new DataTableTypeAttributes(type, fieldName);
 
-        private DataTableColumns(
-            String label,
-            Integer columnCount,
-            DataTableTypeAttributes typeAttribute
-        ) {
-            this.label = label;
-            //assumption is that the first column is the record's name field which is a link to the record
-            if (columnCount == 0) {
+            if (type == 'url' && fieldName == 'Name') {
                 this.fieldName = 'IdUrl';
-                //assumption is that this is a parent object's name field which is a link to the parents record
-            } else if (typeAttribute.label.fieldName.contains('.')) {
-                this.fieldName = typeAttribute.label.fieldName.substringBefore('.') + '.' + 'IdUrl';
-            } else {
-                this.fieldName = typeAttribute.label.fieldName + 'Url';
+            } else if (
+                type == 'url' &&
+                fieldName.contains('.') &&
+                fieldName.substringAfter('.') == 'Name'
+            ) {
+                this.fieldName = fieldName.substringBefore('.') + '.' + 'IdUrl';
             }
-            this.type = 'url';
-            this.typeAttributes = typeAttribute;
-            this.sortable = true;
-            this.cellAttributes = new DataTableCellAttributes('left');
         }
     }
 
     private class DataTableTypeAttributes {
         @AuraEnabled
         public DataTableLabel label { get; set; }
+        @AuraEnabled
+        public String day { get; set; }
+        @AuraEnabled
+        public String month { get; set; }
+        @AuraEnabled
+        public String year { get; set; }
 
-        private DataTableTypeAttributes(String urlLabel) {
-            this.label = new DataTableLabel(urlLabel);
+        private DataTableTypeAttributes(String type, String urlLabel) {
+            if (type == 'url') {
+                this.label = new DataTableLabel(urlLabel);
+            } else if (type == 'date') {
+                this.day = 'numeric';
+                this.month = 'numeric';
+                this.year = 'numeric';
+            }
         }
     }
 

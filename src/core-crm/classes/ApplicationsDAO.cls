@@ -9,6 +9,7 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
  *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
  *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added getApplicationsByLeadIds             |
+ *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds   |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -19,7 +20,15 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         .getRecordTypeId();
     public static final Id STUDYLINK_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
         .get('StudyLink')
-        .getRecordTypeId();    
+        .getRecordTypeId();
+
+    public static final Set<String> studyLinkStatuses = new Set<String>{
+        'Accepted', 'Application Archived', 'Closed', 'Withdrawn', 'Unsuccessful', 'Declined by Applicant'
+    };
+        
+    public static final Set<String> samsStatuses = new Set<String>{
+        'Admitted', 'Not Qualified', 'Withdrawn', 'Unsuccessful'
+    };    
 
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(hed__Application__c.SObjectType);
@@ -29,21 +38,44 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         return hed__Application__c.SObjectType;
     }
 
-    public List<hed__Application__c> getApplicationsBySetIds(Set<Id> applicationIds) {
-        return [//NOPMD
-            SELECT Id, Name
-            FROM hed__Application__c
-            WHERE Id IN :applicationIds
-            WITH USER_MODE
-        ];
+    public List<hed__Application__c> getApplicationsBySetIds(
+        Set<Id> applicationIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Name ' +
+            'FROM hed__Application__c ' +
+            'WHERE Id IN :applicationIds ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 
-    public List<hed__Application__c> getApplicationsByLeadIds(Set<Id> leadIds) {
-        return [//NOPMD
-            SELECT Id, Lead__c, hed__Applicant__c
-            FROM hed__Application__c
-            WHERE Lead__c IN :leadIds
-            WITH SYSTEM_MODE
-        ];
+    public List<hed__Application__c> getApplicationsByLeadIds(
+        Set<Id> leadIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Lead__c, hed__Applicant__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE Lead__c IN :leadIds ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
+
+    public List<hed__Application__c> getApplicationsByContactIds(
+        Set<Id> contactIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id,hed__Applicant__c,Application_Status__c,RecordTypeId, ' +
+            'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c '+
+            'FROM hed__Application__c ' +
+            'WHERE hed__Applicant__c IN :contactIds ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
 }

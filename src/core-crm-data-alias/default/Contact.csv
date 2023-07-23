@@ -19,5 +19,7 @@ Id,Name,AccountId,LastName,FirstName,hed__Chosen_Full_Name__c,Salutation,Email,Q
 0038r0000049ILBAA2,Miss,,QUT CCE,,,,qutcce@email.com,,,,,,,,,
 0038r000004AUiTAAW,Miss GO,,DOM AC7,,,,domac7@emails.com,,,,,,,,,
 0038r000004AUaQAAW,Miss P,,DOM AC8,,,,domac8@email.com,,,,,,,,acn,0019n000001yOeoAAE
-0038r000003yjgTAAR,Clint Barton,0019n000001yOeoAAE,Barton,Clint,Clint,Mr,qut.automation+barton@gmail.com,buenaflj@qut.edu.au,,,,,,,,
-0038r000003yjgTAAS,Bucky Barnes,0019n000001yOeoAAE,Barnes,Bucky,Bucky,Mr,qut.automation+barnes@gmail.com,ajocg@qut.edu.au,,,,,,,,
+0038r000003yjgTAAR,Clint Barton,0019n000001yOeoAAE,Barton,Clint,Clint,Mr,qut.automation+barton@gmail.com,qut.automation+bartonstaff@gmail.com,,,,,,,,
+0038r000003yjgTAAS,Bucky Barnes,0019n000001yOeoAAE,Barnes,Bucky,Bucky,Mr,qut.automation+barnes@gmail.com,qut.automation+barnesstaff@gmail.com,,,,,,,,
+0038r000003yjgTAAT,Darcy Lewis,,Lewis,Darcy,Darcy,Ms,qut.automation+lewis@gmail.com,qut.automation+lewisstaff@gmail.com,,,,,,,,
+0038r000003yjgTAAV,Edward Leeds,,Leeds,Edward,Edward,Mr,qut.automation+leeds@gmail.com,qut.automation+leedsstaff@gmail.com,,,,,,,,

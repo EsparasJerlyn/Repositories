@@ -55,7 +55,10 @@ export default class ABNCheckComponent extends LightningElement {
         })
         .catch((error) => {
           if (logger) {
-            logger.error(JSON.stringify(error));
+            logger.error(
+              "Exception caught in method connectedCallback in LWC flowABNField: ",
+              JSON.stringify(error)
+            );
             logger.saveLog();
           }
         });

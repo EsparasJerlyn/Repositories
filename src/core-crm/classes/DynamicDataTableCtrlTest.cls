@@ -70,4 +70,64 @@ private class DynamicDataTableCtrlTest {
             Test.stopTest();
         }
     }
+
+    @isTest
+    private static void percentChangeTest() {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            Test.startTest();
+            List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
+            AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
+
+            List<Opportunity> ipuOpportunityList = TestDataFactory.createOpportunityRecords(
+                1,
+                'test',
+                'Qualify'
+            );
+            OpportunitiesDAO.newInstance()
+                .insertRecords(ipuOpportunityList, false, AccessLevel.USER_MODE);
+
+            List<Financial_Split__c> financialSplitList = new List<Financial_Split__c>();
+            for (Opportunity opp : ipuOpportunityList) {
+                List<Financial_Split__c> tempList = TestDataFactory.createTestFinancialSplitRecordsForOpportunity(
+                    1,
+                    opp.Id,
+                    accountList[0].Id
+                );
+                financialSplitList.addAll(tempList);
+            }
+
+            FinancialSplitsDAO.newInstance()
+                .insertRecords(financialSplitList, false, AccessLevel.USER_MODE);
+
+            String filter = '';
+
+            String parentfilterValue = 'TestAcount0';
+            String parentfilter = 'Name ' + ' = \'' + parentfilterValue + '\'';
+
+            String userfilterValue = 'Partnership_Manager';
+            String userfilter = 'UserRole.DeveloperName ' + ' = \'' + userfilterValue + '\'';
+
+            Map<String, String> parameters = new Map<String, String>{
+                'recordId' => accountList[0].Id,
+                'relatedRecord' => 'Financial_Split__c',
+                'relatedField' => 'Funding_Body__c',
+                'parentRecord' => 'Account',
+                'relatedListFields' => '[{"label":"Name","fieldName":"Name","type":"url"},{"label":"Account","fieldName":"Funding_Body__r.Name","type":"url"},{"label":"Percentage Split","fieldName":"Percentage_split__c","type":"percent"}]',
+                'relatedListFilters' => filter,
+                'rowOffSet' => '0',
+                'rowLimit' => '10',
+                'sortOrder' => 'DESC',
+                'sortField' => 'CreatedDate',
+                'visibilityByParent' => parentfilter,
+                'visibilityByUser' => userfilter
+            };
+
+            System.assert(
+                DynamicDataTableCtrl.getTableDataWrapper(parameters) != null,
+                'the table was not created'
+            );
+
+            Test.stopTest();
+        }
+    }
 }

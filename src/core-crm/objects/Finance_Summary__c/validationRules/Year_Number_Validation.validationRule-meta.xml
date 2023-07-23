@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Year_Number_Validation</fullName>
+    <active>true</active>
+    <description>This validation rule ensures that only numeric values are entered in the Year__c field. Non-numeric characters are not allowed and will trigger an error message.</description>
+    <errorConditionFormula>NOT(ISNUMBER(Year__c))</errorConditionFormula>
+    <errorDisplayField>Year__c</errorDisplayField>
+    <errorMessage>Please input a valid year</errorMessage>
+</ValidationRule>

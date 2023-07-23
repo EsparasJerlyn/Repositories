@@ -24,10 +24,12 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
     public static final Id STARTUP_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName()
         .get('Startup')
         .getRecordTypeId();
+
     public static final String COMPLETED_STAGE = 'Completed';
     public static final String NEW_STAGE = 'New';
     public static final String ACTIVE_STAGE = 'Active';
     public static final String DECOMMISSIONED_STAGE = 'Decommissioned';
+
     public Schema.SObjectType getSObjectType() {
         return Opportunity_Outcome__c.SObjectType;
     }
@@ -42,7 +44,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
         return [ //NO PMD
             SELECT Id, Code__c
             FROM Opportunity_Outcome__c
-            WITH SYSTEM_MODE
+            WITH USER_MODE
             ORDER BY Code__c ASC
         ];
     }
@@ -52,7 +54,7 @@ public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements
             SELECT Id, Code__c
             FROM Opportunity_Outcome__c
             WHERE Code__c LIKE :codeIsLike
-            WITH SYSTEM_MODE
+            WITH USER_MODE
             ORDER BY Code__c ASC
         ];
     }

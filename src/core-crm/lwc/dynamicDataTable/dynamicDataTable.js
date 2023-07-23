@@ -6,10 +6,11 @@
  *
  * @history
  *
- *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
- *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
- *    | roy.nino.s.regala         | June 14, 2023         | DEPP-5391            | Created file                                 |
- *    | roy.nino.s.regala         | June 24, 2023         | DEPP-5411            | Added Visibility Check                       |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                                              |
+ *    |---------------------------|-----------------------|----------------------|-----------------------------------------------------------------------------|
+ *    | roy.nino.s.regala         | June 14, 2023         | DEPP-5391            | Created file                                                                |
+ *    | roy.nino.s.regala         | June 24, 2023         | DEPP-5411            | Added Visibility Check                                                      |
+ *    | roy.nino.s.regala         | July 11, 2023         | DEPP-5459            | removed isvalidurl and only subscribe to event channel on new and edit      |
  */
 import { LightningElement, api, track, wire } from "lwc";
 import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableDataWrapper";
@@ -149,8 +150,10 @@ export default class DynamicDataTable extends NavigationMixin(
     onError((error) => {
       const logger = this.template.querySelector("c-logger");
       if (logger) {
-        logger.error(JSON.stringify(error));
-        logger.saveLog();
+        logger.error(
+          "Exception caught in method registerErrorListener in LWC dynamicDataTable: ",
+          JSON.stringify(error)
+        );
       }
     });
   }
@@ -160,9 +163,7 @@ export default class DynamicDataTable extends NavigationMixin(
     let objData = obj.data.payload;
     if (
       objData.Parent_Id__c == this.recordId &&
-      (objData.Dynamic_Datatable_Input__c == this.dynamicDataTableInput ||
-        objData.Dynamic_Datatable_Input__c == this.recordTypeId ||
-        this.dynamicDataTableInput == "") &&
+      objData.Message__c.includes(this.relatedObjectLabel) &&
       objData.CreatedById == this.userId
     ) {
       //only show custom toast when form is not standard
@@ -198,20 +199,13 @@ export default class DynamicDataTable extends NavigationMixin(
   connectedCallback() {
     this.loadData(this.setParameters());
     this.registerErrorListener();
-    this.handleSubscribe();
   }
 
   navigationType;
   @wire(getCurrentUserNavigationType)
   handleGetNavType(result) {
-    const logger = this.template.querySelector("c-logger");
     if (result.data) {
       this.navigationType = result.data;
-    } else if (result.error) {
-      if (logger) {
-        logger.error(JSON.stringify(error));
-        logger.saveLog();
-      }
     }
   }
 
@@ -246,7 +240,6 @@ export default class DynamicDataTable extends NavigationMixin(
     })
       .then((result) => {
         let sObjectRelatedFieldListValues = [];
-
         //traverse through the datatabledata records
         for (let row of result.dataTableData) {
           const finalSobjectRow = {};
@@ -256,9 +249,6 @@ export default class DynamicDataTable extends NavigationMixin(
             //flatten the inner object of the records
             if (relatedFieldValue.constructor === Object) {
               transformObject(relatedFieldValue, finalSobjectRow, rowIndex);
-            } else if (isValidUrl(relatedFieldValue)) {
-              finalSobjectRow[rowIndex] = relatedFieldValue;
-              finalSobjectRow[rowIndex + "Url"] = relatedFieldValue;
             } else if (rowIndex == "Id") {
               finalSobjectRow[rowIndex] = relatedFieldValue;
               finalSobjectRow[rowIndex + "Url"] = "/" + relatedFieldValue;
@@ -289,11 +279,15 @@ export default class DynamicDataTable extends NavigationMixin(
       })
       .catch((error) => {
         if (logger) {
-          logger.error(JSON.stringify(error));
+          logger.error(
+            "Exception caught in method loadData in LWC dynamicDataTable: ",
+            JSON.stringify(error)
+          );
           logger.saveLog();
         }
       })
       .finally(() => {
+        this.unsubscribeToMessageChannel();
         this.dataTableIsLoading = false;
       });
   }
@@ -379,6 +373,7 @@ export default class DynamicDataTable extends NavigationMixin(
   /* ACTION HANDLERS START */
   handleNewRecord() {
     this.isCustom = true;
+    this.handleSubscribe();
     if (this.newActionType == "Screen Flow" && this.isConsoleApp) {
       this.handleNewRecordNavigateToNewTab();
     } else if (this.newActionType == "Screen Flow" && !this.isConsoleApp) {
@@ -393,6 +388,7 @@ export default class DynamicDataTable extends NavigationMixin(
 
   handleRowAction(event) {
     const row = event.detail.row;
+    this.handleSubscribe();
     if (this.editActionType == "Default") {
       this.isCustom = false;
       this.handleEditRecordByDefault(row.Id);

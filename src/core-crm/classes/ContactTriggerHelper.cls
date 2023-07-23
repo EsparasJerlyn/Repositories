@@ -11,6 +11,7 @@
       | roy.nino.s.regala              | June 09, 2022         | DEPP-2869              | Created file, converted flow                     |
       | roy.nino.s.regala              | Sep 10, 2022          | DEPP-4225              | updated to reparet contact and update work email | 
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation                             |
+      | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added new method to set Person Contact flag      |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
@@ -168,5 +169,19 @@ public without sharing class ContactTriggerHelper {
         }
       }
     }
+
+   /**
+    * @description check or uncheck the QUT_Lead and QUT_Staff base on the contact details
+    *
+    * @param newItems  List of new Contact records
+    */
+    public static void setQUTPersonaFlag(List<Contact> newItems){
+        for(Contact con: newItems){     
+            if(con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID){
+                con.QUT_Lead__c = (con.Lead_Score__c != null && con.Lead_Score__c > 0)? true:false;
+                con.QUT_Staff__c = (String.isNotEmpty(con.QUT_Employee_ID__c) && con.Staff_End_Date__c > SYSTEM.today())? true:false;
+            }            
+        }
+    }     
 
   }

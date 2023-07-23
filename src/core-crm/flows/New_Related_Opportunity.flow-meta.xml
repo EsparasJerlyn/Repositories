@@ -3,12 +3,12 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>314</locationX>
-        <locationY>1622</locationY>
+        <locationX>3218</locationX>
+        <locationY>350</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Roll_Back_Records</targetReference>
+            <targetReference>Save_Log</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -37,12 +37,72 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
+    <actionCalls>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>3218</locationX>
+        <locationY>458</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Roll_Back_Records</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+    </actionCalls>
     <apiVersion>56.0</apiVersion>
+    <assignments>
+        <name>Add_Clone_IP_Management_Relationship_To_Insert</name>
+        <label>Add Clone IP Management Relationship To Insert</label>
+        <locationX>974</locationX>
+        <locationY>4346</locationY>
+        <assignmentItems>
+            <assignToReference>IP_Management_Relationship_To_Insert</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Through_IP_Management_Relationships</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Through_IP_Management_Relationships</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_Current_Item_to_Pure_Projects_to_Create</name>
+        <label>Add Current Item to Pure Projects to Create</label>
+        <locationX>974</locationX>
+        <locationY>3590</locationY>
+        <assignmentItems>
+            <assignToReference>PureProjectsToCreate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Through_Commercialisation_Pure_Projects</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Through_Commercialisation_Pure_Projects</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_New_Financial_Split_To_Insert</name>
+        <label>Add New Financial Split To Insert</label>
+        <locationX>974</locationX>
+        <locationY>2402</locationY>
+        <assignmentItems>
+            <assignToReference>Financial_Splits_To_Insert</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Financial_Split_To_Add</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Through_Child_Contextual_Roles</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <name>Assign_Cloned_Contextual_Roles</name>
         <label>Assign Cloned Contextual Roles</label>
-        <locationX>402</locationX>
-        <locationY>1214</locationY>
+        <locationX>1238</locationX>
+        <locationY>2402</locationY>
         <assignmentItems>
             <assignToReference>ContextualRolesToCreate</assignToReference>
             <operator>Add</operator>
@@ -57,7 +117,7 @@
     <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>1238</locationX>
+        <locationX>1920</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -71,10 +131,34 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Clone_Commercialisation_Pure_Project</name>
+        <label>Clone Commercialisation Pure Project</label>
+        <locationX>974</locationX>
+        <locationY>3482</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Through_Commercialisation_Pure_Projects.Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Create_Opportunity_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Loop_Through_Commercialisation_Pure_Projects.Engagement__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Loop_Through_Commercialisation_Pure_Projects.Id</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Current_Item_to_Pure_Projects_to_Create</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Clone_Contextual_Roles</name>
         <label>Clone Contextual Roles</label>
-        <locationX>402</locationX>
-        <locationY>1106</locationY>
+        <locationX>1238</locationX>
+        <locationY>2294</locationY>
         <assignmentItems>
             <assignToReference>Loop_Through_Child_Contextual_Roles.Engagement__c</assignToReference>
             <operator>Assign</operator>
@@ -103,8 +187,108 @@
                 <elementReference>Get_Opportunity_Role_RecordType_Id.Id</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Loop_Through_Child_Contextual_Roles.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Clone_Records_Owner_Id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Assign_Cloned_Contextual_Roles</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Clone_IP_Management_Relationship</name>
+        <label>Clone IP Management Relationship</label>
+        <locationX>974</locationX>
+        <locationY>4238</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Through_IP_Management_Relationships.Engagement__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Loop_Through_IP_Management_Relationships.Id</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Loop_Through_IP_Management_Relationships.Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Create_Opportunity_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_IP_Opportunity_Relationship_Record_Type.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Clone_IP_Management_Relationship_To_Insert</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_Engagement_Description</name>
+        <label>Copy Engagement Description</label>
+        <locationX>50</locationX>
+        <locationY>998</locationY>
+        <assignmentItems>
+            <assignToReference>Engagement_Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Parent_Engagement_Record.Engagement_Summary__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Commercialisation_Pure_Projects</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Create_Financial_Split</name>
+        <label>Create Financial Split</label>
+        <locationX>974</locationX>
+        <locationY>2294</locationY>
+        <assignmentItems>
+            <assignToReference>Financial_Split_To_Add.Funding_Body__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Through_Child_Contextual_Roles.Account__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Financial_Split_To_Add.Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Create_Opportunity_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Financial_Split_To_Add.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Opportunity_Funding_Body_Record_Type.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_New_Financial_Split_To_Insert</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_OwnerId_To_New_Opportunity</name>
+        <label>Set OwnerId To New Opportunity</label>
+        <locationX>50</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>CommercialisationOwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Parent_Engagement_Record.OwnerId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Copy_Engagement_Description</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -140,31 +324,34 @@
         </value>
     </choices>
     <decisions>
-        <name>Are_there_new_contextual_roles</name>
-        <label>Are there new contextual roles?</label>
-        <locationX>314</locationX>
-        <locationY>1406</locationY>
+        <name>Check_Commercialisation_Stage</name>
+        <label>Check Commercialisation Stage</label>
+        <locationX>842</locationX>
+        <locationY>782</locationY>
+        <defaultConnector>
+            <targetReference>CommercialisationNotReadyScreen</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Yes2</name>
+            <name>Is_Commercialisation_Ready</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Clone_Contextual_Roles</leftValueReference>
-                <operator>WasVisited</operator>
+                <leftValueReference>Get_Parent_Engagement_Record.Stage_Name__c</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <stringValue>Commercialisation Ready</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Contextual_Roles</targetReference>
+                <targetReference>Set_OwnerId_To_New_Opportunity</targetReference>
             </connector>
-            <label>Yes</label>
+            <label>Is Commercialisation Ready</label>
         </rules>
     </decisions>
     <decisions>
         <name>Check_Parent_Object</name>
         <label>Check Parent Object</label>
-        <locationX>1238</locationX>
+        <locationX>1920</locationX>
         <locationY>350</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -186,7 +373,7 @@
     <decisions>
         <name>Check_Parent_Recordtype</name>
         <label>Check Parent Recordtype</label>
-        <locationX>666</locationX>
+        <locationX>886</locationX>
         <locationY>674</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -203,6 +390,143 @@
                 <targetReference>New_Opportunity_Screen</targetReference>
             </connector>
             <label>Is Research Partnership</label>
+        </rules>
+        <rules>
+            <name>Is_Commercialisation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Parent_Engagement_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Commercialisation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Commercialisation_Stage</targetReference>
+            </connector>
+            <label>Is Commercialisation</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Contextual_Roles_Collection_Not_Empty</name>
+        <label>Is Contextual Roles Collection Not Empty</label>
+        <locationX>886</locationX>
+        <locationY>2678</locationY>
+        <defaultConnector>
+            <targetReference>Is_Financial_Split_Collection_Not_Empty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ContextualRolesToCreate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Contextual_Roles</targetReference>
+            </connector>
+            <label>Not Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Financial_Split_Collection_Not_Empty</name>
+        <label>Is Financial Split Collection Not Empty</label>
+        <locationX>886</locationX>
+        <locationY>3026</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Through_Commercialisation_Pure_Projects</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Empty2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Financial_Splits_To_Insert</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Financial_Splits</targetReference>
+            </connector>
+            <label>Not Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_IP_Management_Relationship_Collection_Empty</name>
+        <label>Is IP Management Relationship Collection Empty</label>
+        <locationX>886</locationX>
+        <locationY>4538</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Empty4</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IP_Management_Relationship_To_Insert</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_IP_Management_Relationship_Records</targetReference>
+            </connector>
+            <label>Not Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Pure_Project_Collection_Not_Empty</name>
+        <label>Is Pure Project Collection Not Empty</label>
+        <locationX>886</locationX>
+        <locationY>3782</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Through_IP_Management_Relationships</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Empty3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>PureProjectsToCreate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Pure_Project_Records</targetReference>
+            </connector>
+            <label>Not Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Record_Funding_Bodies</name>
+        <label>Is Record Funding Bodies</label>
+        <locationX>1106</locationX>
+        <locationY>2186</locationY>
+        <defaultConnector>
+            <targetReference>Clone_Contextual_Roles</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Funding_Bodies</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Through_Child_Contextual_Roles.Contextual_Role_Group__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Funding Bodies</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Financial_Split</targetReference>
+            </connector>
+            <label>Is Funding Bodies</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -233,15 +557,43 @@
     <loops>
         <name>Loop_Through_Child_Contextual_Roles</name>
         <label>Loop Through Child Contextual Roles</label>
-        <locationX>314</locationX>
-        <locationY>998</locationY>
+        <locationX>886</locationX>
+        <locationY>2078</locationY>
         <collectionReference>Get_Child_Contextual_Roles</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Clone_Contextual_Roles</targetReference>
+            <targetReference>Is_Record_Funding_Bodies</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Are_there_new_contextual_roles</targetReference>
+            <targetReference>Is_Contextual_Roles_Collection_Not_Empty</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Through_Commercialisation_Pure_Projects</name>
+        <label>Loop Through Commercialisation Pure Projects</label>
+        <locationX>886</locationX>
+        <locationY>3374</locationY>
+        <collectionReference>Get_Commercialisation_Pure_Projects</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Clone_Commercialisation_Pure_Project</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Is_Pure_Project_Collection_Not_Empty</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Through_IP_Management_Relationships</name>
+        <label>Loop Through IP Management Relationships</label>
+        <locationX>886</locationX>
+        <locationY>4130</locationY>
+        <collectionReference>Get_Related_IP_Management_Relationship_Records</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Clone_IP_Management_Relationship</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Is_IP_Management_Relationship_Collection_Empty</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -266,18 +618,47 @@
     <recordCreates>
         <name>Create_Contextual_Roles</name>
         <label>Create Contextual Roles</label>
-        <locationX>50</locationX>
-        <locationY>1514</locationY>
+        <locationX>622</locationX>
+        <locationY>2786</locationY>
+        <connector>
+            <targetReference>Is_Financial_Split_Collection_Not_Empty</targetReference>
+        </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>ContextualRolesToCreate</inputReference>
     </recordCreates>
     <recordCreates>
+        <name>Create_Financial_Splits</name>
+        <label>Create Financial Splits</label>
+        <locationX>622</locationX>
+        <locationY>3134</locationY>
+        <connector>
+            <targetReference>Loop_Through_Commercialisation_Pure_Projects</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>Financial_Splits_To_Insert</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_IP_Management_Relationship_Records</name>
+        <label>Create IP Management Relationship Records</label>
+        <locationX>622</locationX>
+        <locationY>4646</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>IP_Management_Relationship_To_Insert</inputReference>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Opportunity_Record</name>
         <label>Create Opportunity Record</label>
-        <locationX>314</locationX>
-        <locationY>890</locationY>
+        <locationX>886</locationX>
+        <locationY>1970</locationY>
         <connector>
             <targetReference>Loop_Through_Child_Contextual_Roles</targetReference>
         </connector>
@@ -298,6 +679,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>Engagement_Description</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Engagement__c</field>
             <value>
                 <elementReference>ParentId</elementReference>
@@ -307,6 +694,12 @@
             <field>Name</field>
             <value>
                 <elementReference>Opportunity_Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>CommercialisationOwnerId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -330,10 +723,24 @@
         <object>Opportunity</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>Create_Pure_Project_Records</name>
+        <label>Create Pure Project Records</label>
+        <locationX>622</locationX>
+        <locationY>3890</locationY>
+        <connector>
+            <targetReference>Loop_Through_IP_Management_Relationships</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>PureProjectsToCreate</inputReference>
+    </recordCreates>
     <recordLookups>
         <name>Get_Child_Contextual_Roles</name>
         <label>Get Child Contextual Roles</label>
-        <locationX>666</locationX>
+        <locationX>886</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -363,16 +770,131 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Commercialisation_Pure_Projects</name>
+        <label>Get Commercialisation Pure Projects</label>
+        <locationX>50</locationX>
+        <locationY>1106</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Related_IP_Management_Relationship_Records</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Engagement__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Pure_Project__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ESB_Integration_User</name>
+        <label>Get ESB Integration User</label>
+        <locationX>50</locationX>
+        <locationY>1322</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_IP_Opportunity_Relationship_Record_Type</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ESB Integration User</stringValue>
+            </value>
+        </filters>
+        <object>User</object>
+        <outputAssignments>
+            <assignToReference>Clone_Records_Owner_Id</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_IP_Opportunity_Relationship_Record_Type</name>
+        <label>Get IP Opportunity Relationship Record Type</label>
+        <locationX>50</locationX>
+        <locationY>1430</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Opportunity_Funding_Body_Record_Type</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>IP_Opportunity_Relationship</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>IP_Management_Relationship__c</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Opportunity_Funding_Body_Record_Type</name>
+        <label>Get Opportunity Funding Body Record Type</label>
+        <locationX>50</locationX>
+        <locationY>1538</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>New_Opportunity_Screen</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Financial_Split__c</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity_Funding_Body</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Opportunity_Role_RecordType_Id</name>
         <label>Get Opportunity Role RecordType Id</label>
-        <locationX>1238</locationX>
+        <locationX>1920</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Parent_Object</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
@@ -397,12 +919,16 @@
     <recordLookups>
         <name>Get_Parent_Engagement_Record</name>
         <label>Get Parent Engagement Record</label>
-        <locationX>666</locationX>
+        <locationX>886</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Child_Contextual_Roles</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -415,20 +941,70 @@
         <object>Engagement__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Related_IP_Management_Relationship_Records</name>
+        <label>Get Related IP Management Relationship Records</label>
+        <locationX>50</locationX>
+        <locationY>1214</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_ESB_Integration_User</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Engagement__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>IP_Management_Relationship__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordRollbacks>
         <name>Roll_Back_Records</name>
         <label>Roll Back Records</label>
-        <locationX>314</locationX>
-        <locationY>1730</locationY>
+        <locationX>3218</locationX>
+        <locationY>566</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
         </connector>
     </recordRollbacks>
     <screens>
+        <description>Show this when the Commercialisation Engagement record is not yet at Stage &quot;Commercialisation Ready&quot;.</description>
+        <name>CommercialisationNotReadyScreen</name>
+        <label>Commercialisation Is Not Yet Ready</label>
+        <locationX>1634</locationX>
+        <locationY>890</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>CommercialisationNotReadyMessage</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(234, 0, 30);&quot;&gt;You cannot create an opportunity unless the engagement is Commercialisation Ready&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Back</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>314</locationX>
-        <locationY>1838</locationY>
+        <locationX>3218</locationX>
+        <locationY>674</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -444,8 +1020,8 @@
     <screens>
         <name>New_Opportunity_Screen</name>
         <label>New Opportunity Screen</label>
-        <locationX>314</locationX>
-        <locationY>782</locationY>
+        <locationX>886</locationX>
+        <locationY>1862</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -488,13 +1064,31 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1112</locationX>
+        <locationX>1794</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>Clone_Records_Owner_Id</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$User.Id</elementReference>
+        </value>
+    </variables>
+    <variables>
+        <description>OwnerId taken from the record if it is an Engagement Commercialisation</description>
+        <name>CommercialisationOwnerId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>ContextualRoleList</name>
         <dataType>Picklist</dataType>
@@ -516,6 +1110,37 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Engagement_Description</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Financial_Split_To_Add</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Financial_Split__c</objectType>
+    </variables>
+    <variables>
+        <name>Financial_Splits_To_Insert</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Financial_Split__c</objectType>
+    </variables>
+    <variables>
+        <name>IP_Management_Relationship_To_Insert</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>IP_Management_Relationship__c</objectType>
     </variables>
     <variables>
         <name>modalTitle</name>
@@ -545,6 +1170,14 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>PureProjectsToCreate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Pure_Project__c</objectType>
     </variables>
     <variables>
         <name>RecordTypeId</name>

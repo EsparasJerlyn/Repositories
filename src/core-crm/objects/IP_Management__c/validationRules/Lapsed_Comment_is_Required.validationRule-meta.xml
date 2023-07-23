@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lapsed_Comment_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISCHANGED( Stage_Name__c ),
+ISPICKVAL(Stage_Name__c , &apos;Lapsed&apos;),
+ISBLANK( Lapsed_Comment__c )
+)</errorConditionFormula>
+    <errorDisplayField>Lapsed_Comment__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

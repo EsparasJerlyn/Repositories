@@ -9,7 +9,7 @@
 | Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
 |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
 | roy.nino.s.regala              | July 06, 2023         | DEPP-5474              | Created file                                                                  |
-
+| mark.j.mahilum                 | July 13, 2023         | DEPP-5799              | Added new method to get the contact Id                                        |
 */
 public with sharing class ContextualRoleTriggerHandler implements Disableable, AfterInsert, AfterUpdate {
     /**
@@ -18,6 +18,7 @@ public with sharing class ContextualRoleTriggerHandler implements Disableable, A
      */
     public void afterInsert(Map<Id, SObject> newItems) {
         DynamicDatatableEventService.publishPlatformEvent(new ContextualRolesDAO().getSObjectType(),newItems.values(),true);
+        ContextualRoleTriggerHelper.getContactFromContextualRole((List<Contextual_Role__c>) newItems.values(),null);
     }
 
     /**
@@ -27,6 +28,7 @@ public with sharing class ContextualRoleTriggerHandler implements Disableable, A
      */
     public void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         DynamicDatatableEventService.publishPlatformEvent(new ContextualRolesDAO().getSObjectType(),newItems.values(),false);
+        ContextualRoleTriggerHelper.getContactFromContextualRole((List<Contextual_Role__c>) newItems.values(),(Map<Id, Contextual_Role__c>) oldItems);
     }
 
     public Boolean isDisabled() {

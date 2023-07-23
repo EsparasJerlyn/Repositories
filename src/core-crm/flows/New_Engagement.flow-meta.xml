@@ -840,7 +840,7 @@
                     <stringValue>Existing Account</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
@@ -890,7 +890,7 @@
             <name>ABNLWC</name>
             <extensionName>c:flowABNField</extensionName>
             <fieldType>ComponentInstance</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
@@ -956,7 +956,7 @@
                     <stringValue>Industry Sub-Classification</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
@@ -1033,7 +1033,7 @@
                     <stringValue>utility:close</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -1091,7 +1091,7 @@
                     <stringValue>Complete this field.</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
@@ -1164,7 +1164,7 @@
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
             <visibilityRule>
@@ -1269,9 +1269,9 @@
         </fields>
         <fields>
             <name>Engagement_Summary</name>
-            <dataType>String</dataType>
             <fieldText>Engagement Summary</fieldText>
-            <fieldType>InputField</fieldType>
+            <fieldType>LargeTextArea</fieldType>
+            <helpText>&lt;p&gt;A summary/description of the Engagement being undertaken.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -1280,6 +1280,7 @@
             <dataType>String</dataType>
             <fieldText>Priority</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <helpText>&lt;p&gt;The business priority for the Engagement.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
