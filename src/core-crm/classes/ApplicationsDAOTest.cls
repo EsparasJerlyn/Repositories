@@ -9,6 +9,7 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------|
       | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                               |
       | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds      |
+      | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIdTest|
  */
 @isTest
 public with sharing class ApplicationsDAOTest {
@@ -50,6 +51,20 @@ public with sharing class ApplicationsDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadIds(
+                    new Set<Id>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getApplicationsByContactIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
+                .getApplicationsByContactIds(
                     new Set<Id>(),
                     'SYSTEM_MODE'
                 );

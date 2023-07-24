@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Relationship_Manager</fullName>
+    <active>true</active>
+    <description>Identifies the QUT relationship manager for a contact.</description>
+    <label>Account Relationship Manager</label>
+    <picklistValues>
+        <picklist>Relationship_Manager_Type__c</picklist>
+        <values>
+            <fullName>Advancement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Commercialisation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Partnerships</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Events Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Wide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research Engagement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

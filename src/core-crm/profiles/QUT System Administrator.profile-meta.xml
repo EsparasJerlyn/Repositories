@@ -220,6 +220,14 @@
     </layoutAssignments>
      <layoutAssignments>
         <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Contact Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
     </layoutAssignments>       
     <layoutAssignments>
         <layout>Risk__c-Risk Page Layout</layout>
