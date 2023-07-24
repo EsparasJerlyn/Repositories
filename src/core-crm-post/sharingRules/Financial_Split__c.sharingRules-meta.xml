@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>IE_Operations_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Financial Split records to Operations Manager with Read/Write access</description>
+        <label>IE Operations Manager Share</label>
+        <sharedTo>
+            <role>Operations_Manager</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Opportunity Outcome Account Revenue Financial Split,Opportunity Outcome Funding Body,Opportunity Outcome Contact Revenue Financial Split</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>IE_Partnership_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Financial Split records to Partnership Manager with Read/Write access</description>
+        <label>IE Partnership Manager Share</label>
+        <sharedTo>
+            <role>Partnership_Manager</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Opportunity Funding Body</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>QUTeX_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share QUTeX Financial Split records to QUTeX roles and subordinate with Read/Write access</description>
+        <label>QUTeX Share</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>QUTeX_Leadership</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Course Financial Split</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>
