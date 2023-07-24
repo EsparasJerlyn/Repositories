@@ -284,7 +284,7 @@
         </rules>
         <rules>
             <name>Do_Not_Have_Access_Lead_Conversion</name>
-            <conditionLogic>or</conditionLogic>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$UserRole.DeveloperName</leftValueReference>
                 <operator>NotEqualTo</operator>
