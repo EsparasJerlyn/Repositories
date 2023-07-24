@@ -4,7 +4,7 @@
     <description>The date the IP is granted.</description>
     <externalId>false</externalId>
     <label>Granted Date</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Date</type>

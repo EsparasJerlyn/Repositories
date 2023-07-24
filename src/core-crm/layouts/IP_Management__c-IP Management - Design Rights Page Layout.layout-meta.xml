@@ -47,7 +47,7 @@
                 <field>Stage_Name__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Granted_Date__c</field>
             </layoutItems>
             <layoutItems>
@@ -59,7 +59,7 @@
                 <field>Renewal_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Lapsed_Date__c</field>
             </layoutItems>
             <layoutItems>
@@ -67,7 +67,7 @@
                 <field>Lapsed_Comment__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Rejected_Date__c</field>
             </layoutItems>
             <layoutItems>
@@ -119,7 +119,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBn000002YpOj</masterLabel>
+        <masterLabel>00h9r0000021kNw</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
