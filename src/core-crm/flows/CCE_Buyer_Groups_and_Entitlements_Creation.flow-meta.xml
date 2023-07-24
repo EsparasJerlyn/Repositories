@@ -5,7 +5,7 @@
         <name>Check_is_Business_Org</name>
         <label>Check is Business Org</label>
         <locationX>380</locationX>
-        <locationY>455</locationY>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Account_Business_Organization</name>
@@ -34,7 +34,7 @@
         <name>Check_WebStore</name>
         <label>Check WebStore</label>
         <locationX>182</locationX>
-        <locationY>1175</locationY>
+        <locationY>1079</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_WebStore</name>
@@ -53,11 +53,12 @@
         </rules>
     </decisions>
     <description>When Corporate Account is enabled as a partner and buyer, then Buyer Groups and Entitlements should be created.</description>
+    <environments>Default</environments>
     <formulas>
         <description>Randomizer Name for the Buyer Account and Entilement</description>
         <name>RandomName</name>
         <dataType>String</dataType>
-        <expression>{!$Record.Name} +&quot; &quot; &amp; TEXT( NOW() )</expression>
+        <expression>LEFT($Record.Name, 80) &amp; &quot; &quot; &amp; TEXT(NOW())</expression>
     </formulas>
     <interviewLabel>CCE Buyer Groups and Entitlements Creation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CCE Buyer Groups and Entitlements Creation</label>
@@ -84,7 +85,7 @@
         <name>Buyer_Group_account_assignment</name>
         <label>Buyer Group account assignment</label>
         <locationX>182</locationX>
-        <locationY>935</locationY>
+        <locationY>863</locationY>
         <connector>
             <targetReference>Get_CCE_Store</targetReference>
         </connector>
@@ -107,7 +108,7 @@
         <name>Buyer_Group_creation</name>
         <label>Buyer Group creation</label>
         <locationX>182</locationX>
-        <locationY>815</locationY>
+        <locationY>755</locationY>
         <connector>
             <targetReference>Buyer_Group_account_assignment</targetReference>
         </connector>
@@ -124,7 +125,7 @@
         <name>CCE_storefront_assignment</name>
         <label>CCE storefront assignment</label>
         <locationX>50</locationX>
-        <locationY>1295</locationY>
+        <locationY>1187</locationY>
         <connector>
             <targetReference>Entitlement_creation</targetReference>
         </connector>
@@ -147,7 +148,7 @@
         <name>Create_Buyer_Account</name>
         <label>Create Buyer Account</label>
         <locationX>182</locationX>
-        <locationY>695</locationY>
+        <locationY>647</locationY>
         <connector>
             <targetReference>Buyer_Group_creation</targetReference>
         </connector>
@@ -182,7 +183,7 @@
         <name>Entitlement_assignment</name>
         <label>Entitlement assignment</label>
         <locationX>50</locationX>
-        <locationY>1535</locationY>
+        <locationY>1403</locationY>
         <inputAssignments>
             <field>BuyerGroupId</field>
             <value>
@@ -202,7 +203,7 @@
         <name>Entitlement_creation</name>
         <label>Entitlement creation</label>
         <locationX>50</locationX>
-        <locationY>1415</locationY>
+        <locationY>1295</locationY>
         <connector>
             <targetReference>Entitlement_assignment</targetReference>
         </connector>
@@ -237,7 +238,7 @@
         <name>Get_Business_Record_Type</name>
         <label>Get Business Record Type</label>
         <locationX>380</locationX>
-        <locationY>335</locationY>
+        <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_is_Business_Org</targetReference>
@@ -258,7 +259,7 @@
         <name>Get_CCE_Store</name>
         <label>Get CCE Store</label>
         <locationX>182</locationX>
-        <locationY>1055</locationY>
+        <locationY>971</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_WebStore</targetReference>
@@ -279,7 +280,7 @@
         <name>Update_Is_Partner</name>
         <label>Update Is Partner</label>
         <locationX>182</locationX>
-        <locationY>575</locationY>
+        <locationY>539</locationY>
         <connector>
             <targetReference>Create_Buyer_Account</targetReference>
         </connector>

@@ -5,7 +5,7 @@
         <name>Error_Action</name>
         <label>Error Action</label>
         <locationX>1106</locationX>
-        <locationY>2954</locationY>
+        <locationY>2834</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -42,7 +42,7 @@
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>1106</locationX>
-        <locationY>3062</locationY>
+        <locationY>2942</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -52,47 +52,13 @@
     </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>
-        <description>Stores the AccountId that was Created.</description>
-        <name>Assign_AccountId_Created</name>
-        <label>Assign AccountId Created</label>
-        <locationX>50</locationX>
-        <locationY>1622</locationY>
-        <assignmentItems>
-            <assignToReference>StoreAccountId.Id</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Create_Account_Record</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Is_Create_Contact_Selected</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>Assigns the value of the contact Id created to storeContactId variable and the role that was created.</description>
-        <name>Assign_ContactId_Role_Created</name>
-        <label>Assign ContactId &amp; Role Created</label>
-        <locationX>50</locationX>
-        <locationY>2138</locationY>
-        <assignmentItems>
-            <assignToReference>StoreContactId.Id</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Create_New_Contact_Record</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Engagement_Stage_Decision</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <description>Assigns the contactId of the selected contact.</description>
         <name>Assign_ContactId_Selected</name>
         <label>Assign ContactId Selected</label>
         <locationX>842</locationX>
-        <locationY>1922</locationY>
+        <locationY>1862</locationY>
         <assignmentItems>
-            <assignToReference>StoreContactId.Id</assignToReference>
+            <assignToReference>ContactObject.Id</assignToReference>
             <operator>Add</operator>
             <value>
                 <elementReference>ContactLookupLWC.selectedRecordOutput.Id</elementReference>
@@ -108,7 +74,7 @@
         <locationX>446</locationX>
         <locationY>974</locationY>
         <assignmentItems>
-            <assignToReference>ContextualRoleObjectforFields.RecordTypeId</assignToReference>
+            <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Get_Contextual_Role_Engagement_Record_Type.Id</elementReference>
@@ -122,7 +88,7 @@
         <name>Assign_Engagement_Stage_Commercialisation</name>
         <label>Assign Engagement Stage Commercialisation</label>
         <locationX>314</locationX>
-        <locationY>2438</locationY>
+        <locationY>2318</locationY>
         <assignmentItems>
             <assignToReference>EngagementStage</assignToReference>
             <operator>Add</operator>
@@ -138,7 +104,7 @@
         <name>Assign_Engagement_Stage_Research_Partnership</name>
         <label>Assign Engagement Stage Research Partnership</label>
         <locationX>578</locationX>
-        <locationY>2438</locationY>
+        <locationY>2318</locationY>
         <assignmentItems>
             <assignToReference>EngagementStage</assignToReference>
             <operator>Add</operator>
@@ -191,7 +157,7 @@
             <assignToReference>AccountNameAssignment</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>AccountName</elementReference>
+                <elementReference>Account_Name</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -221,7 +187,7 @@
         <locationX>842</locationX>
         <locationY>1406</locationY>
         <assignmentItems>
-            <assignToReference>StoreAccountId.Id</assignToReference>
+            <assignToReference>AccountObject.Id</assignToReference>
             <operator>Add</operator>
             <value>
                 <elementReference>Account.selectedRecordOutput.Id</elementReference>
@@ -235,7 +201,7 @@
         <name>Engagement_Stage_Decision</name>
         <label>Engagement Stage Decision</label>
         <locationX>446</locationX>
-        <locationY>2330</locationY>
+        <locationY>2210</locationY>
         <defaultConnector>
             <targetReference>Assign_Engagement_Stage_Research_Partnership</targetReference>
         </defaultConnector>
@@ -285,7 +251,7 @@
         <name>Is_Create_Contact_Selected</name>
         <label>Is Create Contact Selected?</label>
         <locationX>446</locationX>
-        <locationY>1814</locationY>
+        <locationY>1754</locationY>
         <defaultConnector>
             <targetReference>Assign_ContactId_Selected</targetReference>
         </defaultConnector>
@@ -331,30 +297,6 @@
             <label>Is Selected Create New Account Assignement</label>
         </rules>
     </decisions>
-    <dynamicChoiceSets>
-        <name>AccountCompanyCategory</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Company_Category__c</picklistField>
-        <picklistObject>Account</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>AccountIndustryClassification</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Industry_Classification__c</picklistField>
-        <picklistObject>Account</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>AccountIndustrySubClassification</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Industry_Sub_Classification__c</picklistField>
-        <picklistObject>Account</picklistObject>
-    </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>ContactRolePicklist</name>
         <dataType>Picklist</dataType>
@@ -442,8 +384,9 @@
         <label>Create Account Record</label>
         <locationX>50</locationX>
         <locationY>1514</locationY>
+        <assignRecordIdToReference>AccountObject.Id</assignRecordIdToReference>
         <connector>
-            <targetReference>Assign_AccountId_Created</targetReference>
+            <targetReference>Is_Create_Contact_Selected</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -458,25 +401,25 @@
         <inputAssignments>
             <field>Company_Category__c</field>
             <value>
-                <elementReference>Company_Category</elementReference>
+                <elementReference>AccountObject.Company_Category__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Industry_Classification__c</field>
             <value>
-                <elementReference>AccountDependentPicklist.topValue</elementReference>
+                <elementReference>AccountObject.Industry_Classification__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Industry_Sub_Classification__c</field>
             <value>
-                <elementReference>AccountDependentPicklist.middleValue</elementReference>
+                <elementReference>AccountObject.Industry_Sub_Classification__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>AccountName</elementReference>
+                <elementReference>Account_Name</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -486,13 +429,12 @@
             </value>
         </inputAssignments>
         <object>Account</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
         <locationX>446</locationX>
-        <locationY>2846</locationY>
+        <locationY>2726</locationY>
         <connector>
             <targetReference>Detail_Page_Navigationn</targetReference>
         </connector>
@@ -502,13 +444,13 @@
         <inputAssignments>
             <field>Account__c</field>
             <value>
-                <elementReference>StoreAccountId.Id</elementReference>
+                <elementReference>AccountObject.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Contact__c</field>
             <value>
-                <elementReference>StoreContactId.Id</elementReference>
+                <elementReference>ContactObject.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -520,7 +462,7 @@
         <inputAssignments>
             <field>Contextual_Role__c</field>
             <value>
-                <elementReference>ContextualRoleObjectforFields.Contextual_Role__c</elementReference>
+                <elementReference>ContextualRoleObject.Contextual_Role__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -542,7 +484,7 @@
         <name>Create_Engagement_Record</name>
         <label>Create Engagement Record</label>
         <locationX>446</locationX>
-        <locationY>2738</locationY>
+        <locationY>2618</locationY>
         <assignRecordIdToReference>EngagementId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role_Record</targetReference>
@@ -587,9 +529,10 @@
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
         <locationX>50</locationX>
-        <locationY>2030</locationY>
+        <locationY>1970</locationY>
+        <assignRecordIdToReference>ContactObject.Id</assignRecordIdToReference>
         <connector>
-            <targetReference>Assign_ContactId_Role_Created</targetReference>
+            <targetReference>Engagement_Stage_Decision</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -598,7 +541,7 @@
         <inputAssignments>
             <field>AccountId</field>
             <value>
-                <elementReference>StoreAccountId.Id</elementReference>
+                <elementReference>AccountObject.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -638,7 +581,6 @@
             </value>
         </inputAssignments>
         <object>Contact</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
         <description>Gets the Business Organization RecordType for Account</description>
@@ -709,7 +651,7 @@
         <name>Get_Engagement_RecordType</name>
         <label>Get Engagement RecordType</label>
         <locationX>446</locationX>
-        <locationY>2630</locationY>
+        <locationY>2510</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Engagement_Record</targetReference>
@@ -742,7 +684,7 @@
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
         <locationX>50</locationX>
-        <locationY>1922</locationY>
+        <locationY>1862</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_New_Contact_Record</targetReference>
@@ -870,11 +812,15 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>AccountName</name>
+            <name>Account_Name</name>
             <dataType>String</dataType>
             <fieldText>Account Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 255 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Account_Name})&lt;=255</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -905,14 +851,11 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>Company_Category</name>
-            <choiceReferences>AccountCompanyCategory</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Company Category</fieldText>
-            <fieldType>DropdownBox</fieldType>
+            <fieldType>ObjectProvided</fieldType>
             <isRequired>false</isRequired>
+            <objectFieldReference>AccountObject.Company_Category__c</objectFieldReference>
             <visibilityRule>
-                <conditionLogic>1</conditionLogic>
+                <conditionLogic>and</conditionLogic>
                 <conditions>
                     <leftValueReference>Create_Account</leftValueReference>
                     <operator>EqualTo</operator>
@@ -923,44 +866,26 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>AccountDependentPicklist</name>
-            <extensionName>flowruntime:dependentPicklists</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>topPicklistApiName</name>
-                <value>
-                    <stringValue>Industry_Classification__c</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>dependencyWrapperApiName</name>
-                <value>
-                    <stringValue>Account</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>middlePicklistApiName</name>
-                <value>
-                    <stringValue>Industry_Sub_Classification__c</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>topLabel</name>
-                <value>
-                    <stringValue>Industry Classification</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>middleLabel</name>
-                <value>
-                    <stringValue>Industry Sub-Classification</stringValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <fieldType>ObjectProvided</fieldType>
+            <isRequired>false</isRequired>
+            <objectFieldReference>AccountObject.Industry_Classification__c</objectFieldReference>
             <visibilityRule>
-                <conditionLogic>1</conditionLogic>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Create_Account</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <fieldType>ObjectProvided</fieldType>
+            <isRequired>false</isRequired>
+            <objectFieldReference>AccountObject.Industry_Sub_Classification__c</objectFieldReference>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
                 <conditions>
                     <leftValueReference>Create_Account</leftValueReference>
                     <operator>EqualTo</operator>
@@ -1108,7 +1033,7 @@
         <fields>
             <fieldType>ObjectProvided</fieldType>
             <isRequired>false</isRequired>
-            <objectFieldReference>ContextualRoleObjectforFields.Contextual_Role__c</objectFieldReference>
+            <objectFieldReference>ContextualRoleObject.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -1126,6 +1051,10 @@
             <fieldText>First Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 40 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!First_Name})&lt;=40</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -1143,6 +1072,10 @@
             <fieldText>Last Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Last_Name})&lt;=80</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -1229,7 +1162,7 @@
         <fields>
             <fieldType>ObjectProvided</fieldType>
             <isRequired>false</isRequired>
-            <objectFieldReference>ContextualRoleObjectforFields.Contextual_Role__c</objectFieldReference>
+            <objectFieldReference>ContextualRoleObject.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -1266,6 +1199,10 @@
             <fieldText>Engagement Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Engagement_Name})&lt;=80</formulaExpression>
+            </validationRule>
         </fields>
         <fields>
             <name>Engagement_Summary</name>
@@ -1273,6 +1210,10 @@
             <fieldType>LargeTextArea</fieldType>
             <helpText>&lt;p&gt;A summary/description of the Engagement being undertaken.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 500 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Engagement_Summary})&lt;=500</formulaExpression>
+            </validationRule>
         </fields>
         <fields>
             <name>Engagement_Priority</name>
@@ -1291,7 +1232,7 @@
         <name>Error</name>
         <label>Error</label>
         <locationX>1106</locationX>
-        <locationY>3170</locationY>
+        <locationY>3050</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1338,7 +1279,7 @@
         <name>Detail_Page_Navigationn</name>
         <label>Detail Page Navigationn</label>
         <locationX>446</locationX>
-        <locationY>2954</locationY>
+        <locationY>2834</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
@@ -1355,6 +1296,14 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <name>AccountObject</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
         <name>AssignRecordTypeSelected</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1362,8 +1311,16 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>ContactObject</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
         <description>To be used in filtering the selected field for Roles in contextual Role Picklist value</description>
-        <name>ContextualRoleObjectforFields</name>
+        <name>ContextualRoleObject</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -1408,21 +1365,5 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>StoreAccountId</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Account</objectType>
-    </variables>
-    <variables>
-        <name>StoreContactId</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Contact</objectType>
     </variables>
 </Flow>

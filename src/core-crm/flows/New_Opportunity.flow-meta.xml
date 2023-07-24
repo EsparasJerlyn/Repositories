@@ -57,7 +57,7 @@
         <locationX>1810</locationX>
         <locationY>1382</locationY>
         <assignmentItems>
-            <assignToReference>ContextualRoleObjectforFields.RecordTypeId</assignToReference>
+            <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>OpportunityContextualRoleRecordTypeId</elementReference>
@@ -516,30 +516,6 @@
         </rules>
     </decisions>
     <dynamicChoiceSets>
-        <name>AccountCompanyCategory</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Company_Category__c</picklistField>
-        <picklistObject>Account</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>AccountIndustryClassification</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Industry_Classification__c</picklistField>
-        <picklistObject>Account</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>AccountIndustrySubClassification</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Industry_Sub_Classification__c</picklistField>
-        <picklistObject>Account</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
         <name>MobileLocalePicklist</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
@@ -655,19 +631,19 @@
         <inputAssignments>
             <field>Company_Category__c</field>
             <value>
-                <elementReference>Company_Category</elementReference>
+                <elementReference>AccountObject.Company_Category__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Industry_Classification__c</field>
             <value>
-                <elementReference>DependentPicklist.topValue</elementReference>
+                <elementReference>AccountObject.Industry_Classification__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Industry_Sub_Classification__c</field>
             <value>
-                <elementReference>DependentPicklist.middleValue</elementReference>
+                <elementReference>AccountObject.Industry_Sub_Classification__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -703,19 +679,19 @@
         <inputAssignments>
             <field>Company_Category__c</field>
             <value>
-                <elementReference>Company_Category</elementReference>
+                <elementReference>AccountObject.Company_Category__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Industry_Classification__c</field>
             <value>
-                <elementReference>DependentPicklist.topValue</elementReference>
+                <elementReference>AccountObject.Industry_Classification__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Industry_Sub_Classification__c</field>
             <value>
-                <elementReference>DependentPicklist.middleValue</elementReference>
+                <elementReference>AccountObject.Industry_Sub_Classification__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -804,7 +780,7 @@
         <inputAssignments>
             <field>Contextual_Role__c</field>
             <value>
-                <elementReference>ContextualRoleObjectforFields.Contextual_Role__c</elementReference>
+                <elementReference>ContextualRoleObject.Contextual_Role__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1358,6 +1334,10 @@
             <fieldText>Account Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 255 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Account_Name})&lt;=255</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1388,12 +1368,9 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>Company_Category</name>
-            <choiceReferences>AccountCompanyCategory</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Company Category</fieldText>
-            <fieldType>DropdownBox</fieldType>
+            <fieldType>ObjectProvided</fieldType>
             <isRequired>false</isRequired>
+            <objectFieldReference>AccountObject.Company_Category__c</objectFieldReference>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1406,42 +1383,24 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>DependentPicklist</name>
-            <extensionName>flowruntime:dependentPicklists</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>dependencyWrapperApiName</name>
-                <value>
-                    <stringValue>Account</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>topPicklistApiName</name>
-                <value>
-                    <stringValue>Industry_Classification__c</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>middlePicklistApiName</name>
-                <value>
-                    <stringValue>Industry_Sub_Classification__c</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>topLabel</name>
-                <value>
-                    <stringValue>Industry Classification</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>middleLabel</name>
-                <value>
-                    <stringValue>Industry Sub-Classification</stringValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <fieldType>ObjectProvided</fieldType>
+            <isRequired>false</isRequired>
+            <objectFieldReference>AccountObject.Industry_Classification__c</objectFieldReference>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Create_New_Account</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <fieldType>ObjectProvided</fieldType>
+            <isRequired>false</isRequired>
+            <objectFieldReference>AccountObject.Industry_Sub_Classification__c</objectFieldReference>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1597,7 +1556,7 @@
         <fields>
             <fieldType>ObjectProvided</fieldType>
             <isRequired>false</isRequired>
-            <objectFieldReference>ContextualRoleObjectforFields.Contextual_Role__c</objectFieldReference>
+            <objectFieldReference>ContextualRoleObject.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1615,6 +1574,10 @@
             <fieldText>First Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 40 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!First_Name})&lt;=40</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1632,6 +1595,10 @@
             <fieldText>Last Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Last_Name})&lt;=80</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1718,7 +1685,7 @@
         <fields>
             <fieldType>ObjectProvided</fieldType>
             <isRequired>false</isRequired>
-            <objectFieldReference>ContextualRoleObjectforFields.Contextual_Role__c</objectFieldReference>
+            <objectFieldReference>ContextualRoleObject.Contextual_Role__c</objectFieldReference>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1755,6 +1722,10 @@
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Opportunity_Name})&lt;=120</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>or</conditionLogic>
                 <conditions>
@@ -1803,6 +1774,10 @@
             <helpText>&lt;p&gt;The expected revenue the Opportunity may generate.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
             <scale>0</scale>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 16 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>{!Opportunity_Amount}&lt;10000000000000000</formulaExpression>
+            </validationRule>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -1840,6 +1815,10 @@
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Opportunity_Name_IPU})&lt;=120</formulaExpression>
+            </validationRule>
         </fields>
         <fields>
             <name>Opportunity_Description</name>
@@ -1962,6 +1941,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>AccountObject</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
         <name>BusinessOrganizationAccountRecordTypeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1977,7 +1964,7 @@
     </variables>
     <variables>
         <description>To be used in filtering the selected field for Roles in contextual Role Picklist value</description>
-        <name>ContextualRoleObjectforFields</name>
+        <name>ContextualRoleObject</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
