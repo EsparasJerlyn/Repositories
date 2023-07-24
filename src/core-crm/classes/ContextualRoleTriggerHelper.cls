@@ -34,4 +34,4 @@ public with sharing class ContextualRoleTriggerHelper {
          }      
      }
 
-}
+} 

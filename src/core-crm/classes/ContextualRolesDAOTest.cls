@@ -16,7 +16,7 @@ private class ContextualRolesDAOTest {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
     }
 
-    @isTest
+    @isTest 
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {

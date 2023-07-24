@@ -55,7 +55,7 @@ public class ImplementationSelector {
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class
         }
-    );
+    ); 
 
     /**
      * Class implements a DAO class factory

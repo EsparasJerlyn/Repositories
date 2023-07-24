@@ -17,7 +17,7 @@ private class ContactPersonaFlagsServiceTest {
     private static final String EMAIL = 'testmail@mail.test';
     private static final String BIRTHDAY = '2000-06-28';
     private static Integer recordsCount = 20;
-    
+     
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });

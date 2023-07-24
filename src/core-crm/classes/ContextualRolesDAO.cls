@@ -20,7 +20,7 @@ public inherited sharing class ContextualRolesDAO extends DmlBase implements ICo
         .getRecordTypeId();
     public static final Id OPPORTUNITY_ROLE_RECTYPE_ID = Schema.SObjectType.Contextual_Role__c.getRecordTypeInfosByDeveloperName()
         .get('Opportunity_Role')
-        .getRecordTypeId();
+        .getRecordTypeId(); 
     public Schema.SObjectType getSObjectType() {
         return Contextual_Role__c.SObjectType;
     }

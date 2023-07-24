@@ -27,7 +27,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     };
         
     public static final Set<String> samsStatuses = new Set<String>{
-        'Admitted', 'Not Qualified', 'Withdrawn', 'Unsuccessful'
+        'Admitted', 'Not Qualified', 'Withdrawn', 'Unsuccessful' 
     };    
 
     public static IApplicationsDAO newInstance() {

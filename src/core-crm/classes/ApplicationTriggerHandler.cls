@@ -19,7 +19,7 @@
   public void afterInsert(Map<Id, SObject> newItems) {
       
       if(!isRunning ){
-          isRunning = true;
+          isRunning = true; 
           ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
           ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null);
       }

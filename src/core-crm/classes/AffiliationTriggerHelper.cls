@@ -1,6 +1,6 @@
 /**
  * @description helper for AffiliationTriggerHandler
- * @see AffiliationTriggerHandler
+ * @see AffiliationTriggerHandler 
  *
  * @author Accenture
  *
