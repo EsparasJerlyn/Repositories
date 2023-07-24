@@ -254,6 +254,35 @@
         </defaultConnector>
         <defaultConnectorLabel>User Has Access</defaultConnectorLabel>
         <rules>
+            <name>Do_Not_Have_Access_General</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Operations_Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>VP_Business_Development</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Executive_Director_Industry_Engagement</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Do_Not_Have_Access_General_Screen</targetReference>
+            </connector>
+            <label>Do Not Have Access (General)</label>
+        </rules>
+        <rules>
             <name>Do_Not_Have_Access_Lead_Conversion</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
@@ -277,14 +306,6 @@
                     <stringValue>Executive_Director_Industry_Engagement</stringValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>Do_Not_Have_Access_Lead_Conversion_Screen</targetReference>
-            </connector>
-            <label>Do Not Have Access (Lead Conversion)</label>
-        </rules>
-        <rules>
-            <name>Do_Not_Have_Access_General</name>
-            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$UserRole.DeveloperName</leftValueReference>
                 <operator>NotEqualTo</operator>
@@ -293,9 +314,9 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Do_Not_Have_Access_General_Screen</targetReference>
+                <targetReference>Do_Not_Have_Access_Lead_Conversion_Screen</targetReference>
             </connector>
-            <label>Do Not Have Access (General)</label>
+            <label>Do Not Have Access (Lead Conversion)</label>
         </rules>
     </decisions>
     <decisions>
@@ -1850,7 +1871,7 @@
     <screens>
         <name>Do_Not_Have_Access_General_Screen</name>
         <label>Do Not Have Access (General) Screen</label>
-        <locationX>314</locationX>
+        <locationX>50</locationX>
         <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1866,7 +1887,7 @@
     <screens>
         <name>Do_Not_Have_Access_Lead_Conversion_Screen</name>
         <label>Do Not Have Access (Lead Conversion) Screen</label>
-        <locationX>50</locationX>
+        <locationX>314</locationX>
         <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
