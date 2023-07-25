@@ -28,6 +28,7 @@
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
       | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
       | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
+      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  | 
 
 
  */
@@ -56,6 +57,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems, null);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems);
     setContactOwner((List<Contact>)newItems);
+    ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems);
   }
 
   /**
@@ -76,6 +78,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
+    ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems.values());
    
   }
 

@@ -40,8 +40,9 @@
  *    | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                   |
  *    | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role |
  *    | ryan.j.a.dela.cruz        | July 03, 2023         | DEPP-5390           | Added method for creation of Pure_Project__c record                     |
-*     | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record         |
+ *    | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record         |
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
+ *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  */
 
 @isTest
@@ -2922,6 +2923,36 @@ public class TestDataFactory {
             );
         }
         return ipManagements;
+    }
+
+    /**
+     * @description Method for creating IP Management Relationship records
+     * @param numRelationships Number of IP Management Relationship records to create
+     * @param opptyId ID of the related Opportunity
+     * @param ipManagementId ID of the related IP Management
+     * @param recordTypeId ID of the Record Type for IP Management Relationship
+     * @return relationships List of IP Management Relationship records
+     */
+    public static List<IP_Management_Relationship__c> createIPManagementRelationships(
+        Integer numRelationships,
+        Id opptyId,
+        Id ipManagementId,
+        Id recordTypeId
+    ) {
+        List<IP_Management_Relationship__c> relationships = new List<IP_Management_Relationship__c>();
+
+        for (Integer i = 0; i < numRelationships; i++) {
+            relationships.add(
+                new IP_Management_Relationship__c(
+                    Opportunity__c = opptyId,
+                    IP_Management__c = ipManagementId,
+                    RecordTypeId = recordTypeId,
+                    Is_Active__c = true
+                )
+            );
+        }
+
+        return relationships;
     }
 
     /**

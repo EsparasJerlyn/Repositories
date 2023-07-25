@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
- *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
- *    | ryan.j.a.dela.cruz             | July 03, 2023         | DEPP-5390              | Created file                           |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
+ *    | ryan.j.a.dela.cruz             | July 03, 2023         | DEPP-5390              | Created file                                         |
+ *    | ryan.j.a.dela.cruz             | July 19, 2023         | DEPP-5457/DEPP-5468    | Added getOpportunityPureProjectRecordsTest method    |
  */
 @isTest
 private class PureProjectsDAOTest {
@@ -35,6 +36,16 @@ private class PureProjectsDAOTest {
                 new PureProjectsDAO().getSObjectType() == Pure_Project__c.SObjectType,
                 'SObject should be Pure_Project__c'
             );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getOpportunityPureProjectRecordsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Pure_Project__c> pureProjects = PureProjectsDAO.newInstance().getOpportunityPureProjectRecords(new Set<Id>());
+            System.assert(pureProjects != null, 'Pure Projects not found');
         }
         Test.stopTest();
     }

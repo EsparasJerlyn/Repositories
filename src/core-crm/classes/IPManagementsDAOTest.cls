@@ -1,13 +1,12 @@
-
 /**
- * @description Test class for IPManagementDAO. 
+ * @description Test class for IPManagementDAO.
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | July 12, 2023         | DEPP-5483              | Created file                 |                                                     |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | eugene.andrew.abuan            | July 12, 2023         | DEPP-5483              | Created file                 |
  */
 @isTest
 public with sharing class IPManagementsDAOTest {

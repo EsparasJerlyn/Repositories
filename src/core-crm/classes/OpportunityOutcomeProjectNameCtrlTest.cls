@@ -5,20 +5,35 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | May 15, 2023          | DEPP-5594              | created file
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | alexander.cadalin              | May 15, 2023          | DEPP-5594              | created file                 |
+ *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Fixed test method failures   |
  */
 @isTest
 public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+
+        Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
+            .getOrganizationalDefaults();
+        opptyCodeAutoNum.Commercialisation__c = 1;
+        opptyCodeAutoNum.International_Projects_Unit__c = 1;
+        opptyCodeAutoNum.Research_Partnership__c = 1;
+        OpportunityCodeAutoNumbersDAO.newInstance()
+            .upsertRecords(
+                new List<Opportunity_Code_Auto_Number__c>{ opptyCodeAutoNum },
+                false,
+                AccessLevel.USER_MODE
+            );
+
         insert new Opportunity(
             Name = 'XXX: Sample', 
             StageName = 'Qualify', 
             CloseDate = System.today() + 50, 
-            OwnerId = TestDataFactory.getProgramAdminUser().Id
+            OwnerId = TestDataFactory.getOperationsManager().Id
         );
+
         Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         oppOutcomeCodeAutoNum.Research_Partnership_Project__c = 1;
         oppOutcomeCodeAutoNum.IPU_Project__c = 1;
@@ -29,7 +44,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createRPPRecord() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
@@ -42,7 +57,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createINPRecord() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.IPUPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
@@ -55,7 +70,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createRCPRecord() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;
@@ -68,7 +83,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     
     @isTest
     private static void createRCCRecord() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Opportunity_Outcome__c opptyOutcome = createSampleOpptyOutcome(OpportunityOutcomesDAO.STARTUP_RECTYPE_ID);
             Test.startTest();
             insert opptyOutcome;

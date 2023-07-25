@@ -197,7 +197,7 @@
                     <inputParameters>
                         <name>label</name>
                         <value>
-                            <stringValue>Account</stringValue>
+                            <stringValue>Existing Account</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -256,6 +256,10 @@
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 18 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>{!Amount}&lt;1000000000000000000</formulaExpression>
+                    </validationRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>

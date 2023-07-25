@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
-      | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Created File                               |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                             |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------------------|
+ *    | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Created File                                               |
+ *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Added getActiveOpportunityFinancialSplitsRecords method    |
  */
 @isTest
 public inherited sharing class FinancialSplitsDAOMock extends DmlBaseMock implements IFinancialSplitsDAO {
@@ -38,4 +39,18 @@ public inherited sharing class FinancialSplitsDAOMock extends DmlBaseMock implem
         return financialSplitList;
     }
 
+    public List<Financial_Split__c> getActiveOpportunityFinancialSplitsRecords(
+        Set<Id> opportunityIds
+    ) {
+
+        List<Financial_Split__c> financialSplits = new List<Financial_Split__c>();
+
+        for (Financial_Split__c record : financialSplitMap.values()) {
+            if (opportunityIds.contains(record.Opportunity__c)) {
+                financialSplits.add(record);
+            }
+        }
+
+        return financialSplits;
+    }
 }

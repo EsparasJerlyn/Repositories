@@ -17,4 +17,8 @@ public interface IOpportunitiesDAO extends DmlInterface {
     List<Opportunity> getRecordsLikeName(String name, Boolean wildCardBeforeName, String wildCard);
     List<Opportunity> getRecordsByStageName(String stageName);
     List<Opportunity> getRecordsBySetIds(Set<Id> ids);
-}
+    List<Opportunity> getOpportunityByAccountIds(
+        Set<Id> accountIds,
+        String accessLevel
+    );
+} 

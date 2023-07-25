@@ -4,18 +4,19 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                            |
-      |--------------------------------|-----------------------|------------------------|-------------------------------------------|
-      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                              |
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects                            |
-      | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split  |
-      | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo      |
-      | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Added Object mapping for Contextual Role  |
-      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added object mapping for Application      |
-      | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument  | 
-      | eugene.andrew.abuan            | July 10, 2023         | DEPP-5483              | Added Object mapping for Document and     | 
-      |                                |                       |                        | IP Management                             |
-      | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary  |                 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                               |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------|
+ *    | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                                 |
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added sobjects                                               |
+ *    | mark.j.mahilum                 | June 01, 2023         | DEPP-5687              | Added Object mapping for Financial Split                     |
+ *    | roy.nino.s.regala              | June 13, 2023         | DEPP-5391              | Added Object mapping for UserAppInfo                         |
+ *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | Added Object mapping for Contextual Role                     |
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added object mapping for Application                         |
+ *    | eugene.andrew.abuan            | July 10, 2023         | DEPP-5483              | Added Object mapping for Document                            |
+ *    | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | Added Object mapping for ContentDocument and IP Management   |
+ *    | ryan.j.a.dela.cruz             | June 17, 2023         | DEPP-5468              | Added Object mapping for IPManagement Relationship           |
+ *    | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary                     |
+ *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added Object mapping for Affiliation and Course Enrollment   |
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -37,8 +38,11 @@ public class ImplementationSelector {
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
+            hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
+            hed__Course_Enrollment__c.SObjectType => CourseConnectionsDAO.class,
             IP_Management__c.SObjectType => IPManagementsDAO.class,
+            IP_Management_Relationship__c.SObjectType => IPManagementRelationshipsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
@@ -51,7 +55,7 @@ public class ImplementationSelector {
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class
         }
-    );
+    ); 
 
     /**
      * Class implements a DAO class factory

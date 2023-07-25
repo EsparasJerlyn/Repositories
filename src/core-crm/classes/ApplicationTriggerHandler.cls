@@ -9,7 +9,7 @@
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                |
 */
- public without sharing class ApplicationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
+ public with sharing class ApplicationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
 
   /**
@@ -19,8 +19,9 @@
   public void afterInsert(Map<Id, SObject> newItems) {
       
       if(!isRunning ){
-          isRunning = true;
+          isRunning = true; 
           ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
+          ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null);
       }
   }
 
@@ -36,6 +37,7 @@
         if(!isRunning ){
             isRunning = true;
             ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
+            ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems);
         }
     }
 

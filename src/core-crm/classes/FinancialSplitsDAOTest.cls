@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | June 01,2023          | DEPP-5687              | Created File                 |              
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                 |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------|
+ *    | mark.j.mahilum                 | June 01,2023          | DEPP-5687              | Created File                                                   |              
+ *    | ryan.j.a.dela.cruz             | July 19, 2023         | DEPP-5457/DEPP-5468    | Added getActiveOpportunityFinancialSplitsRecordsTest method    |
  */
 @isTest
 public with sharing class FinancialSplitsDAOTest {
@@ -52,6 +53,16 @@ public with sharing class FinancialSplitsDAOTest {
                 new FinancialSplitsDAO().getSObjectType() == Financial_Split__c.SObjectType,
                 'SObject is not Financial Split'
             );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getActiveOpportunityFinancialSplitsRecordsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Financial_Split__c> financialSplits = FinancialSplitsDAO.newInstance().getActiveOpportunityFinancialSplitsRecords(new Set<Id>());
+            System.assert(financialSplits != null, 'Financial Splits not found');
         }
         Test.stopTest();
     }

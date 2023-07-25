@@ -10,10 +10,11 @@
  *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                          |
  *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method       |
  *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method  |
+ *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | added method getOpportunityByAccountIds|
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
-        .get('Commercialisation')
+        .get('Commercialisation') 
         .getRecordTypeId();
     public static final Id INTERNATIONALPROJECTSUNIT_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('International_Projects_Unit')
@@ -84,10 +85,22 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 
     public static List<Opportunity> getRecordsBySetIds(Set<Id> ids) {
         return [ //NOPMD
-            SELECT Id, Memo_Status__c, Memo_PDF_URL__c
+            SELECT Id, Memo_Status__c, Memo_PDF_URL__c, OwnerId, Description, Pure_Project_Id__c, CreatedDate
             FROM Opportunity
             WHERE ID IN :ids
             WITH USER_MODE
         ];
+    }
+    public static List<Opportunity> getOpportunityByAccountIds(
+        Set<Id> accountIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, AccountId ' +
+            'FROM Opportunity ' +
+            'WHERE AccountId IN :accountIds ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 }
