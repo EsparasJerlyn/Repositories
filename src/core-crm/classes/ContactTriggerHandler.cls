@@ -28,7 +28,7 @@
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
       | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
       | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
-      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  |
+      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  | 
 
 
  */

@@ -10,7 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|-------------------------------|
  *    | mark.j.mahilum                 | July 10,2023          | DEPP-5799	            | Created File                  | 
  */
-public with sharing class ContactPersonaFlagsService {
+public with sharing class ContactPersonaFlagsService { 
     
     /**
      * @description: Checks existing application records of the contact

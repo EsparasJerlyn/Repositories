@@ -19,7 +19,7 @@ public without sharing class ContactTriggerHelper {
      * @description set the administrative account as parent account
      * @param conNew - List of Contact.Trigger.new
      */
-    public static void reparentAccount(List<Contact> newItems) {
+    public static void reparentAccount(List<Contact> newItems) { 
         
         Set<Id> accountIds = new Set<Id>();
         Map<Id,Account> businessAccounts = new Map<Id,Account>();

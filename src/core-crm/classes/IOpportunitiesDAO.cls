@@ -21,4 +21,4 @@ public interface IOpportunitiesDAO extends DmlInterface {
         Set<Id> accountIds,
         String accessLevel
     );
-}
+} 
