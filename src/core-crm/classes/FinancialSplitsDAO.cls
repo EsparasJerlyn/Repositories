@@ -73,7 +73,7 @@ public inherited sharing class FinancialSplitsDAO extends DmlBase implements IFi
         Set<Id> opportunityIds
     ) {
         return [ // NO PMD
-            SELECT Id, Opportunity__c
+            SELECT Id, Opportunity__c, Funding_Body__c, Participating_School_Name__c, Percentage_split__c, Revenue_Split_Account__c, Revenue_Split_Contact__c, Funding_Body_Contribution_Amount__c
             FROM Financial_Split__c
             WHERE Opportunity__c IN :opportunityIds AND isActive__c = true
             WITH USER_MODE
