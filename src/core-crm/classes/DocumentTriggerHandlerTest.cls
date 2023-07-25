@@ -25,7 +25,7 @@ public with sharing class DocumentTriggerHandlerTest {
 
 
             IPManagementsDAO.newInstance()
-                .insertRecords(ipManagementRecords, false, AccessLevel.USER_MODE);
+                .insertRecords(ipManagementRecords, false, AccessLevel.SYSTEM_MODE);
 
             Test.startTest();
             List<Document__c> newDocuments = TestDataFactory.createDocumentsForIPManagement(
@@ -36,7 +36,7 @@ public with sharing class DocumentTriggerHandlerTest {
 
             System.assert(
                 DocumentsDAO.newInstance()
-                        .insertRecords(newDocuments, false, AccessLevel.USER_MODE)[0]
+                        .insertRecords(newDocuments, false, AccessLevel.SYSTEM_MODE)[0]
                     .isSuccess(),
                 'Document is not created'
             );
@@ -45,7 +45,7 @@ public with sharing class DocumentTriggerHandlerTest {
 
             System.assert(
                 DocumentsDAO.newInstance()
-                        .updateRecords(newDocuments, false, AccessLevel.USER_MODE)[0]
+                        .updateRecords(newDocuments, false, AccessLevel.SYSTEM_MODE)[0]
                     .isSuccess(),
                 'Document is not updated'
             );
