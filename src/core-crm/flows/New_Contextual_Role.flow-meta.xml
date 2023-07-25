@@ -1639,9 +1639,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>(RecordType.DeveloperName = &apos;Business_Organization&apos; OR RecordType.DeveloperName = &apos;University_Department&apos;)</stringValue>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <outputParameters>
+                        <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
                 </fields>
                 <fields>
                     <name>Opp_Is_QUT_Internal_Participant</name>
@@ -2339,6 +2348,12 @@
                         <name>objectName</name>
                         <value>
                             <stringValue>Account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>(RecordType.DeveloperName = &apos;Business_Organization&apos; OR RecordType.DeveloperName = &apos;University_Department&apos;)</stringValue>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
