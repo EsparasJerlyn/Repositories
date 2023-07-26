@@ -79,4 +79,4 @@ public inherited sharing class FinancialSplitsDAO extends DmlBase implements IFi
             WITH USER_MODE
         ];
     }
-}
+} 

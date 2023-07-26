@@ -2103,7 +2103,7 @@
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
+                    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -2123,6 +2123,11 @@
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>System Administrator</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Operations_Manager</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2203,17 +2208,17 @@
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Operations_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
                         <rightValue>VP_Business_Development</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Executive_Director_Industry_Engagement</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Operations_Manager</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

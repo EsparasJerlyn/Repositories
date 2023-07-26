@@ -17,6 +17,7 @@
  *    | ryan.j.a.dela.cruz             | June 17, 2023         | DEPP-5468              | Added Object mapping for IPManagement Relationship           |
  *    | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary                     |
  *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added Object mapping for Affiliation and Course Enrollment   |
+ *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added nurture config object                                  |
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -45,6 +46,7 @@ public class ImplementationSelector {
             IP_Management_Relationship__c.SObjectType => IPManagementRelationshipsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
+            Nurture_Track_Configuration__c.SObjectType => NurtureTrackConfigurationsDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
             Opportunity_Code_Auto_Number__c.SobjectType => OpportunityCodeAutoNumbersDAO.class,
             Opportunity_Outcome__c.SobjectType => OpportunityOutcomesDAO.class,
