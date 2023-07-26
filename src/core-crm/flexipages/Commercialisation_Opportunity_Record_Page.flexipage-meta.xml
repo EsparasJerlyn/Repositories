@@ -2103,7 +2103,7 @@
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5)</booleanFilter>
+                    <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -2123,11 +2123,6 @@
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Operations_Manager</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2189,7 +2184,7 @@
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList3</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 OR 2) AND (3 OR 4 OR 5 OR 6)</booleanFilter>
+                    <booleanFilter>((1 OR 2 OR 3) AND (4 OR 5 OR 6)) OR ((1 OR 3) AND (7))</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -2198,12 +2193,12 @@
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Discontinued</rightValue>
+                        <rightValue>Executed</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Partnership_Manager</rightValue>
+                        <rightValue>Discontinued</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
@@ -2219,6 +2214,11 @@
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Operations_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Partnership_Manager</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
