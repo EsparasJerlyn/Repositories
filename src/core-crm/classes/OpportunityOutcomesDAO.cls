@@ -12,6 +12,7 @@
  *    | ryan.j.a.dela.cruz             | July 6, 2023          | DEPP-5995              | Added ACTIVE_STAGE
  */
 public inherited sharing class OpportunityOutcomesDAO extends DmlBase implements IOpportunityOutcomesDAO {
+
     public static final Id RESEARCHPARTNERSHIPPROJECT_RECTYPE_ID = Schema.SObjectType.Opportunity_Outcome__c.getRecordTypeInfosByDeveloperName()
         .get('Research_Partnership_Project')
         .getRecordTypeId();

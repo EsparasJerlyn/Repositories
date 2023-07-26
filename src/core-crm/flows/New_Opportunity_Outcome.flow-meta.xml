@@ -142,7 +142,7 @@
         <inputAssignments>
             <field>Opportunity__c</field>
             <value>
-                <elementReference>opportunityId</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -212,6 +212,13 @@
     </start>
     <status>Active</status>
     <variables>
+        <name>DynamicDataTableInput</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>modalTitle</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -229,7 +236,21 @@
         </value>
     </variables>
     <variables>
-        <name>opportunityId</name>
+        <name>ParentId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ParentObjectApiName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RecordTypeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

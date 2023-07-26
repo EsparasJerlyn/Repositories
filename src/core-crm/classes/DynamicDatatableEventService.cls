@@ -42,6 +42,10 @@ public with sharing class DynamicDatatableEventService {
         Opportunity.SObjectType => new Map<String, String>{
             'ParentFields' => 'Engagement__c',
             'ObjectLabel' => 'Opportunity'
+        },
+        Opportunity_Outcome__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity__c',
+            'ObjectLabel' => 'Opportunity Outcome'
         }
     };
 

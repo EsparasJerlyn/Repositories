@@ -12,6 +12,7 @@
  *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Added getActiveOpportunityFinancialSplitsRecords method    |
  */
 public inherited sharing class FinancialSplitsDAO extends DmlBase implements IFinancialSplitsDAO {
+
     public static final String FINANCIAL_SPLIT_API_NAME = Financial_Split__c.SObjectType.getDescribe(
             SObjectDescribeOptions.DEFERRED
         )

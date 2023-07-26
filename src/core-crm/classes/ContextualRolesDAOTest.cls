@@ -11,15 +11,16 @@
  */
 @isTest
 private class ContextualRolesDAOTest {
+
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
     }
 
     @isTest 
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             System.assert(
                 ContextualRolesDAO.newInstance() != null,
                 'ContextualRolesDAO instance is null'
@@ -31,7 +32,7 @@ private class ContextualRolesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             System.assert(
                 new ContextualRolesDAO().getSObjectType() == Contextual_Role__c.SObjectType,
                 'SObject is not Contextual_Role__c'
@@ -43,7 +44,7 @@ private class ContextualRolesDAOTest {
     @isTest
     static void getActiveOpportunityContextualRolesRecordsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Contextual_Role__c> contextualRoles = ContextualRolesDAO.newInstance().getActiveOpportunityContextualRolesRecords(new Set<Id>(), new List<String>());
             System.assert(contextualRoles != null, 'Contextual Roles not found');
         }

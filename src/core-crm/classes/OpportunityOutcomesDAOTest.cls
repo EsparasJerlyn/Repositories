@@ -5,22 +5,22 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | May 17, 2023          | DEPP-5594              | created file
-      | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
-      | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | created file
+ *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added methods
+ *    | carl.alvin.cabiles             | June 13, 2023         | DEPP-5409              | added methods
  */
 @isTest
 private class OpportunityOutcomesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin','QUT_Operations_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             System.assert(
                 OpportunityOutcomesDAO.newInstance() != null,
                 'OpportunityOutcomesDAO instance is null'
@@ -32,7 +32,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             System.assert(
                 new OpportunityOutcomesDAO().getSObjectType() == Opportunity_Outcome__c.SObjectType,
                 'SObject is not Opportunity Outcome'
@@ -44,7 +44,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsSortByCodeAscTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsSortByCodeAsc();
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -55,7 +55,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithLikeCodeSortAscTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithLikeCodeSortAsc('');
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -65,7 +65,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithEqualEndDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithEqualEndDate(System.today());
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -75,7 +75,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithNotEqualEndDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithNotEqualEndDate(System.today());
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');
@@ -85,7 +85,7 @@ private class OpportunityOutcomesDAOTest {
     @isTest
     static void getRecordsWithStartDate() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             List<Opportunity_Outcome__c> opptyOutcomesList = OpportunityOutcomesDAO.newInstance()
                 .getRecordsWithStartDate(System.today());
             System.assert(opptyOutcomesList.isEmpty(), 'opptyOutcomesList is not empty');

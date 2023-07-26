@@ -12,10 +12,10 @@
  */
 @isTest
 public with sharing class FinancialSplitsDAOTest {
-    
+
     private static final String QUTEXPROD = System.Label.QUT_GSB;
 	private static final String FS_COURSE_FIELD = 'Course__c';
-    
+
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager' });

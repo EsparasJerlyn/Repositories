@@ -444,6 +444,7 @@ public class TestDataFactory {
                 CloseDate = System.today() + 50
             )
         );
+
         OpportunitiesDAO.newInstance().insertRecords(oppty, false, AccessLevel.USER_MODE);
         List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
         for (Integer i = 1; i <= size; i++) {

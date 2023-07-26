@@ -10,6 +10,7 @@
  *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Added getOpportunityPureProjectRecords method    |
  */
 public inherited sharing class PureProjectsDAO extends DmlBase implements IPureProjectsDAO {
+
     public Schema.SObjectType getSObjectType() {
         return Pure_Project__c.SObjectType;
     }

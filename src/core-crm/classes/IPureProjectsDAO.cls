@@ -10,5 +10,6 @@
  *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Added getOpportunityPureProjectRecords method    |
  */
 public interface IPureProjectsDAO extends DmlInterface {
+
     List<Pure_Project__c> getOpportunityPureProjectRecords(Set<Id> opportunityIds);
 }
