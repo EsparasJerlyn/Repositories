@@ -22,8 +22,4 @@
     <layoutAssignments>
         <layout>hed__Application__c-hed__EDA Application Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>Task-Nurture</layout>
-        <recordType>Task.Nurture</recordType>
-    </layoutAssignments>
 </Profile>

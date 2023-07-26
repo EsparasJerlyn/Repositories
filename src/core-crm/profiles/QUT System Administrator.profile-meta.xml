@@ -6,10 +6,6 @@
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Task-Nurture</layout>
-        <recordType>Task.Nurture</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
