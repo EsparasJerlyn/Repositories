@@ -219,7 +219,7 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>RecordTypeId</assignToReference>
+            <assignToReference>Loop_Through_IP_Management_Relationships.RecordTypeId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Get_IP_Opportunity_Relationship_Record_Type.Id</elementReference>

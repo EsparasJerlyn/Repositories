@@ -19,5 +19,5 @@ public interface IContextualRolesDAO extends DmlInterface {
         Set<Id> contactIds,
         String recordTypeName,
         String accessLevel
-    );
+    ); 
 }

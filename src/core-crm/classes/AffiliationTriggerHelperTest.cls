@@ -23,6 +23,7 @@ private class AffiliationTriggerHelperTest {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });      
         System.runAs(TestDataFactory.getProgramAdminUser()) {  
             Account acc = TestDataFactory.createTestAccount(false);
+            acc.Name = 'Setup ' + acc.Name;
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
             

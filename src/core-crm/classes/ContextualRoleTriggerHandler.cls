@@ -18,7 +18,7 @@ public with sharing class ContextualRoleTriggerHandler implements Disableable, A
      */
     public void afterInsert(Map<Id, SObject> newItems) {
         DynamicDatatableEventService.publishPlatformEvent(new ContextualRolesDAO().getSObjectType(),newItems.values(),true);
-        ContextualRoleTriggerHelper.getContactFromContextualRole((List<Contextual_Role__c>) newItems.values(),null);
+        ContextualRoleTriggerHelper.getContactFromContextualRole((List<Contextual_Role__c>) newItems.values(),null); 
     }
 
     /**

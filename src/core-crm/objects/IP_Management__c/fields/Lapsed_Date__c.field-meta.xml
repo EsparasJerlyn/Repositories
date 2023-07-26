@@ -4,7 +4,7 @@
     <description>The date the IP lapsed.</description>
     <externalId>false</externalId>
     <label>Lapsed Date</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Date</type>

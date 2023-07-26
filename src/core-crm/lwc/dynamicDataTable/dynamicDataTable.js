@@ -505,19 +505,5 @@ export default class DynamicDataTable extends NavigationMixin(
     });
   }
 
-  handleNavigateToListView() {
-    // Navigate to the object's Recent list view.
-    this[NavigationMixin.Navigate]({
-      type: "standard__objectPage",
-      attributes: {
-        objectApiName: this.relatedRecord,
-        actionName: "list"
-      },
-      state: {
-        filterName: "Recent"
-      }
-    });
-  }
-
   /* ACTION HANDLERS END */
 }

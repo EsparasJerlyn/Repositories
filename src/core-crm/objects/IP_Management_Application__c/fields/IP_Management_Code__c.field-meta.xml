@@ -13,4 +13,4 @@
     <trackTrending>false</trackTrending>
     <type>MasterDetail</type>
     <writeRequiresMasterRead>false</writeRequiresMasterRead>
-</CustomField> 
+</CustomField>

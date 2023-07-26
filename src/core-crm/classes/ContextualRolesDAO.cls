@@ -20,7 +20,7 @@ public inherited sharing class ContextualRolesDAO extends DmlBase implements ICo
         .getRecordTypeId();
     public static final Id OPPORTUNITY_ROLE_RECTYPE_ID = Schema.SObjectType.Contextual_Role__c.getRecordTypeInfosByDeveloperName()
         .get('Opportunity_Role')
-        .getRecordTypeId();
+        .getRecordTypeId(); 
     public Schema.SObjectType getSObjectType() {
         return Contextual_Role__c.SObjectType;
     }
@@ -36,7 +36,7 @@ public inherited sharing class ContextualRolesDAO extends DmlBase implements ICo
         List<String> contextualRoleGroups
     ) {
         return [ // NO PMD
-            SELECT Id, Opportunity__c, Account__c, Contact__c, Contextual_Role_Group__c
+            SELECT Id, Opportunity__c, Account__c, Contact__c, Contextual_Role_Group__c, Contextual_Role__c, Is_QUT_Internal_Participant__c
             FROM Contextual_Role__c
             WHERE
                 Opportunity__c IN :opportunityIds

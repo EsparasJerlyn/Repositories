@@ -9242,6 +9242,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>IP_Management__c.Granted_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>IP_Management__c.IP_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9257,10 +9262,15 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>IP_Management__c.Lapsed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>IP_Management__c.Parent_IP_Management_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management__c.Patent_Number__c</field>
         <readable>true</readable>
@@ -9268,6 +9278,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>IP_Management__c.Rejected_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>IP_Management__c.Rejected_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10225,10 +10240,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Task.Nurture</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <recordType>hed__Application__c.QTAC</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -10435,5 +10446,9 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>CreateLtngTempInPub</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>TransferAnyEntity</name>
     </userPermissions>
 </PermissionSet>
