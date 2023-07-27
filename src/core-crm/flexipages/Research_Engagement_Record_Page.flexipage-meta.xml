@@ -225,10 +225,34 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Inactive_Reason_Comment__c</fieldItem>
+                <identifier>RecordInactive_Reason_Comment_cField3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Inactive</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Inactive_Reason_Comment__c</fieldItem>
-                <identifier>RecordInactive_Reason_Comment_cField</identifier>
+                <identifier>RecordInactive_Reason_Comment_cField2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Inactive</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-d7c395f2-1351-4d2e-b1a6-2ea22f34f0b3</name>
@@ -239,10 +263,34 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Inactive_Reason__c</fieldItem>
+                <identifier>RecordInactive_Reason_cField3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Inactive</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Inactive_Reason__c</fieldItem>
                 <identifier>RecordInactive_Reason_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Inactive</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-d5324035-6306-4100-b957-bb54adb2181f</name>
@@ -290,7 +338,7 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Inactive_Reason_Comment__c</fieldItem>
-                <identifier>RecordInactive_Reason_Comment_cField3</identifier>
+                <identifier>RecordInactive_Reason_Comment_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b418847e-0215-43c6-b1b4-f1d58c5849e7</name>
@@ -304,7 +352,7 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Inactive_Reason__c</fieldItem>
-                <identifier>RecordInactive_Reason_cField3</identifier>
+                <identifier>RecordInactive_Reason_cField4</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a853714f-941d-48f1-a4ed-fa771a7cbd17</name>
