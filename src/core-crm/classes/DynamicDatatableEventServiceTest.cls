@@ -11,6 +11,7 @@
  */
 @isTest
 private class DynamicDatatableEventServiceTest {
+
     @isTest
     private static void publishPlatformEvent() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });

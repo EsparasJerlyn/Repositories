@@ -14,6 +14,14 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <!--(Start) DEPP-6047 -->
+        <members>newEngagementDocument</members>
+        <members>newOpportunityDocument</members>
+        <members>newOpportunityOutcomeDocument</members>
+        <!-- (End) DEPP-6047 -->
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
     <!--DEPP-5673 Satrt-->
         <members>Future_Student_Engagement.app-meta.xml</members>
     <!-- DEPP-5673 End-->
@@ -120,7 +128,7 @@
         <members>Opportunity.Default_Opportunity_Pipeline</members>
         <name>ListView</name>
     </types>
-        <types>
+    <types>
         <!--(Start) DEPP-5917 -->
         <members>Engagement__c.Engagement_Summary_is_Required</members>
         <!-- (End) DEPP-5917 -->
@@ -128,6 +136,14 @@
         <members>Opportunity_Outcome__c.IPU_Opportunity_Outcome_Lock_Opportunity</members>
         <!-- (End) DEPP-5947 -->
         <name>ValidationRule</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6047 -->
+        <members>Document__c.CreateEngagementDocument</members>
+        <members>Document__c.CreateOpportunityDocument</members>
+        <members>Document__c.CreateOpportunityOutcomeDocument</members>
+        <!-- (End) DEPP-6047 -->
+        <name>WebLink</name>
     </types>
     <version>52.0</version>
 </Package>

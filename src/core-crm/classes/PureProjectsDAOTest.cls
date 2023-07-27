@@ -11,15 +11,16 @@
  */
 @isTest
 private class PureProjectsDAOTest {
+
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             System.assert(
                 PureProjectsDAO.newInstance() != null,
                 'PureProjectsDAO instance should not be null'
@@ -31,7 +32,7 @@ private class PureProjectsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             System.assert(
                 new PureProjectsDAO().getSObjectType() == Pure_Project__c.SObjectType,
                 'SObject should be Pure_Project__c'
@@ -43,10 +44,10 @@ private class PureProjectsDAOTest {
     @isTest
     static void getOpportunityPureProjectRecordsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             List<Pure_Project__c> pureProjects = PureProjectsDAO.newInstance().getOpportunityPureProjectRecords(new Set<Id>());
             System.assert(pureProjects != null, 'Pure Projects not found');
         }
-        Test.stopTest();
+        Test.stopTest(); 
     }
 }

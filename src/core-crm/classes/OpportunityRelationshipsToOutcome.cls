@@ -13,6 +13,7 @@
  */
 
 public with sharing class OpportunityRelationshipsToOutcome {
+
     /**
      * Updates Opportunity_Outcome__c records by copying related information from the Opportunity object.
      *
