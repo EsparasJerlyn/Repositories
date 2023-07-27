@@ -1088,6 +1088,9 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+        <value>
+            <elementReference>$User.Id</elementReference>
+        </value>
     </variables>
     <variables>
         <name>ContextualRoleList</name>
