@@ -188,7 +188,7 @@
                     <inputParameters>
                         <name>label</name>
                         <value>
-                            <stringValue>Account</stringValue>
+                            <stringValue>Existing Account</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>

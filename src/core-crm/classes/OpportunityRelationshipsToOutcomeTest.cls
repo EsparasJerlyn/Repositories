@@ -289,4 +289,26 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
             System.assertEquals(1, insertedRecords.size(), 'Expected 1 Opportunity_Outcome__c record to be inserted.');
         }
     }
+
+    @isTest
+    static void testUpdateOpportunityOutcome() {
+
+        List<Opportunity> comOpportunityList = OpportunitiesDAO.newInstance()
+            .getRecordsLikeName('Test Com Opportunity', false, '%');
+        List<Opportunity_Outcome__c> testOpportunityOutcomes = TestDataFactory.createOpportunityOutcome(
+            1,
+            OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID,
+            comOpportunityList[0].Id
+        );
+        OpportunityOutcomesDAO.newInstance()
+            .insertRecords(testOpportunityOutcomes, false, AccessLevel.USER_MODE);
+        
+        Test.startTest();
+        OpportunityRelationshipsToOutcome.updateOpportunityOutcome(testOpportunityOutcomes);
+        Test.stopTest();
+
+        // Verify that the Opportunity_Outcome__c records are updated
+        List<Opportunity_Outcome__c> updatedOpportunityOutcomes = OpportunityOutcomesDAO.getRecordsSortByCodeAsc();
+		System.assertEquals(1, updatedOpportunityOutcomes.size(), 'Expected 1 Opportunity_Outcome__c record to be updated.');
+    }
 }

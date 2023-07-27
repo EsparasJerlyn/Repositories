@@ -12,6 +12,7 @@
  *    | mark.j.mahilum                 | July 18, 2023         | DEPP-5799              | Added method getActiveContextualRoleByContactIds           |
  */
 public inherited sharing class ContextualRolesDAO extends DmlBase implements IContextualRolesDAO {
+
     public static final Id ENGAGEMENT_ROLE_RECTYPE_ID = Schema.SObjectType.Contextual_Role__c.getRecordTypeInfosByDeveloperName()
         .get('Engagement_Role')
         .getRecordTypeId();
@@ -36,7 +37,7 @@ public inherited sharing class ContextualRolesDAO extends DmlBase implements ICo
         List<String> contextualRoleGroups
     ) {
         return [ // NO PMD
-            SELECT Id, Opportunity__c, Account__c, Contact__c, Contextual_Role_Group__c, Contextual_Role__c
+            SELECT Id, Opportunity__c, Account__c, Contact__c, Contextual_Role_Group__c, Contextual_Role__c, Is_QUT_Internal_Participant__c
             FROM Contextual_Role__c
             WHERE
                 Opportunity__c IN :opportunityIds

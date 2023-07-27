@@ -16,3 +16,4 @@ public interface IFinancialSplitsDAO extends DmlInterface {
     );
     List<Financial_Split__c> getActiveOpportunityFinancialSplitsRecords(Set<Id> opportunityIds);
 }
+ 

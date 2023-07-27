@@ -260,6 +260,35 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
     }
 
     @isTest
+    private static void updateOpportunityOutcomeRecords() {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            Test.startTest();
+            OpportunityOutcomesDAO.newInstance()
+                .insertRecords(
+                    TestDataFactory.createTestOpportunityOutcomeRecords(
+                        1,
+                        'New Research Commercialisation Project Sample',
+                        OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID
+                    ),
+                    false,
+                    AccessLevel.USER_MODE
+                );
+
+            List<Opportunity_Outcome__c> oppOutcomesFinal = OpportunityOutcomesDAO.newInstance().getRecordsSortByCodeAsc();
+            for (Opportunity_Outcome__c outcomeFinal : oppOutcomesFinal) {
+                outcomeFinal.Company_Name__c = 'TestUpdate';
+            }
+            System.assert(
+                OpportunityOutcomesDAO.newInstance()
+                        .updateRecords(oppOutcomesFinal, false, AccessLevel.USER_MODE)[0]
+                    .isSuccess(),
+                'Opportunity outcome is not updated'
+            );
+            Test.stopTest();
+        }
+    }
+
+    @isTest
     private static void createOpportunityOutcomeRCCRecord() {
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
