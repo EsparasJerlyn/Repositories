@@ -1,5 +1,5 @@
 /**
- * @description Interface for Nurturing Track Configuration
+ * @description Interface for Completed Cadences
  * @author Accenture
  *
  * @history
@@ -8,12 +8,13 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | created file                 |
  */
-public interface INurtureTrackConfigurationsDAO extends DmlInterface {
-    List<Nurture_Track_Configuration__c> getNurtureTrackLeadScoreThreshold(
+public interface ICompletedCadencesDAO extends DmlInterface {
+    List<Completed_Cadence__c> getCompletedCadenceByContactIds(
+        Set<Id> contactIds,
         String accessLevel
     );
-    List<Nurture_Track_Configuration__c> getNurtureTrackByCadenceNames(
-        Set<String> cadenceNames,
+    List<Completed_Cadence__c> getCompletedCadenceByLeadIds(
+        Set<Id> leadIds,
         String accessLevel
-    );
+    );   
 }

@@ -156,6 +156,24 @@ private class LeadServiceTest {
         }
     }
 
+    @isTest
+    private static void testGetLeadCalculatedCadence() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            
+            List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            for (Integer i = 0; i < recordsCount; i++) {
+                ldList[i].Email = 'new' + i + EMAIL;
+                ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
+                ldList[i].Marketing_Interaction_Score__c  = 300.00;
+                ldList[i].Calculated_Cadence__c = 'Test Cadences automated';
+            }
+            Test.startTest();
+            LeadsDAO.newInstance().updateRecords(ldList, false, AccessLevel.SYSTEM_MODE);                
+            Test.stopTest();
+            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'SalesCadenceCalloutService'].isEmpty() , 'SalesCadenceCalloutService Queueable Job was not executed');
+        }
+    }    
+
     private static List<Lead> createTestLeadRecords(Integer startAtCount, Integer endBeforeCount) {
         List<Lead> newLeads = new List<Lead>();
         for (Integer i = startAtCount; i < endBeforeCount; i++) {

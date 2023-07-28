@@ -113,6 +113,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     processWelcomeEmail(newMap, oldMap);
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
+    ContactTriggerHelper.getContactCalculatedCadence((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
   }
 
   /**

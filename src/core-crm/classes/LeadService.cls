@@ -10,14 +10,15 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------|
  *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | Created File                             | 
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag |
+ *    | mark.j.mahilum                 | July 27, 2023         | DEPP-6107              | Added new method getLeadCalculatedCadence|
  */
 public with sharing class LeadService {
  
    /**
     * @description update Lead Status base on the lead score for Learner Lead
     *
-    * @param newItems  List of new Contact records
-    * @param oldItems  Map of old Contact records
+    * @param newItems  List of new Lead records
+    * @param oldItems  Map of old Lead records
     */
     public static void updateLearnerLeadStatus(List<Lead> newItems, Map<Id, Lead> oldItems) {        
         for (Lead lead : newItems) {            
@@ -64,8 +65,8 @@ public with sharing class LeadService {
    /**
     * @description update Can Nurture field base on the lead score threshold
     *
-    * @param newItems  List of new Contact records
-    * @param oldItems  Map of old Contact records
+    * @param newItems  List of new lead records
+    * @param oldItems  Map of old lead records
     */
     public static void updateCanNurtureFlag(List<Lead> newItems, Map<Id, Lead> oldItems) {   
         
@@ -89,7 +90,7 @@ public with sharing class LeadService {
    /**
     * @description check if the lead score is above or equal to threshold
     *
-    * @param Lead new lead records  List of new Contact records
+    * @param Lead new lead records  List of new lead records
     * @param List of Nurture Track Configuration
     * @return Boolean true or false
     */    
@@ -99,5 +100,38 @@ public with sharing class LeadService {
         }
         return false;
     }
+
+   /**
+    * @description To populated the Ids of Lead if the Calculated cadences is changed 
+    *
+    * @param newItems  List of new lead records
+    * @param oldItems  Map of old lead records
+    */    
+    public static void getLeadCalculatedCadence(List<Lead> newItems, Map<Id, Lead> oldItems) {
+        Map<String, String> assignLeadToCadenceMap = new Map<String, String>();
+        Map<String, String> removeLeadToCadenceMap = new Map<String, String>();
+        
+        for (Lead lead : newItems) {
+            if (lead.IsConverted) {
+                continue;
+            }
+            
+            Lead oldLead = oldItems.get(lead.Id);
+            String calculatedCadence = lead.Calculated_Cadence__c;
+            String oldCalculatedCadence = oldLead.Calculated_Cadence__c; 
+            
+            if(calculatedCadence != oldCalculatedCadence){              
+                if (String.isNotEmpty(calculatedCadence) && calculatedCadence.containsIgnoreCase('automated')) {
+                    assignLeadToCadenceMap.put(lead.Id,calculatedCadence);
+                } else if (String.isEmpty(calculatedCadence)) {
+                    removeLeadToCadenceMap.put(lead.Id,oldCalculatedCadence);
+                }                
+            }          
+        }
+        
+        if (!assignLeadToCadenceMap.isEmpty() || !removeLeadToCadenceMap.isEmpty()) {
+            SalesCadenceCalloutService.processSaleCadences(assignLeadToCadenceMap, removeLeadToCadenceMap);
+        }
+    }  
 
 }

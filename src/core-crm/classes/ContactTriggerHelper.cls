@@ -184,7 +184,6 @@ public without sharing class ContactTriggerHelper {
             }            
         }
     } 
-
    /**
     * @description check or uncheck the Can_Nurture flag
     *
@@ -219,5 +218,39 @@ public without sharing class ContactTriggerHelper {
             if((con.Lead_Score__c >= rec.Lead_Score_Threshold__c)) return true;
         }
         return false;
+    }
+   /**
+    * @description get the contactIds of the contact who's calculated cadence value is updated
+    *
+    * @param List<Contact> newItems
+    * @param Map<Id, Contact> oldItems
+    */         
+    public static void getContactCalculatedCadence(List<Contact> newItems, Map<Id, Contact> oldItems) {   
+        
+        Map<String,String> assignContactToCadenceMap = new Map<String,String>();
+        Map<String,String> removeContactToCadenceMap = new Map<String,String>(); 
+        
+        for (Contact con : newItems) {	
+            if(con.RecordTypeId != ContactsDAO.PERSON_RECORDTYPE_ID){
+                continue;
+            }
+            
+            Contact oldContact = oldItems.get(con.Id);
+            String calculatedCadence = con.Calculated_Cadence__c;
+            String oldCalculatedCadence = oldContact.Calculated_Cadence__c;
+            
+            if(calculatedCadence != oldCalculatedCadence){
+                if (String.isNotEmpty(calculatedCadence) && calculatedCadence.containsIgnoreCase('automated')) {
+                    assignContactToCadenceMap.put(con.Id,calculatedCadence);
+                } else if (String.isEmpty(calculatedCadence)) {
+                    removeContactToCadenceMap.put(con.Id,oldCalculatedCadence);
+                }  
+            }
+        }
+        
+        if(!assignContactToCadenceMap.isEmpty() || !removeContactToCadenceMap.isEmpty()){
+            SalesCadenceCalloutService.processSaleCadences(assignContactToCadenceMap,removeContactToCadenceMap);
+        }
     }   
-  }
+
+}

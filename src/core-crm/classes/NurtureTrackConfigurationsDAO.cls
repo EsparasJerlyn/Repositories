@@ -30,4 +30,18 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
             String.escapeSingleQuotes(accessLevel)
         );
     }
+    
+    public List<Nurture_Track_Configuration__c> getNurtureTrackByCadenceNames(
+        Set<String> cadenceNames,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c ' +
+            'FROM Nurture_Track_Configuration__c ' +
+            'WHERE Status__c = \'Active\' '+
+            'AND Cadence_Name__c IN :cadenceNames ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
 }
