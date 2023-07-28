@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | mark.j.mahilum                 | July 12, 2023         | DEPP-5799              | Created file                                     |
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag         |
  */
 public with sharing class ApplicationTriggerHelper {
     
@@ -44,5 +45,49 @@ public with sharing class ApplicationTriggerHelper {
              ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnApplication');
          }      
      }
+
+    /**
+     * @description set the can nurture flag to true or false if the application is active or not
+     *
+     * @param newItems  List of new hed__Application__c records
+     */
+    public static void setCanNurtureOnContactOrLeadBasedOnApplicationStatus(List<hed__Application__c> newItems) {         
+         
+        Map<Id,Contact> updateContactMap = new Map<Id,Contact>();
+        Map<Id,Lead> updateLeadMap = new Map<Id,Lead>();
+        
+        for (hed__Application__c app : newItems) {
+            
+            Boolean isActiveApplication = !ApplicationsDAO.samsStatuses.contains(app.Application_Status__c) &&
+                                          !ApplicationsDAO.studyLinkStatuses.contains(app.Application_Status__c);  
+            
+            if(String.isNotEmpty(app.hed__Applicant__c)){
+                updateContactMap.put(
+                    app.hed__Applicant__c,
+                    new Contact(
+                        id = app.hed__Applicant__c,
+                        Can_Nurture__c = isActiveApplication
+                    )
+                );
+            }
+            
+            if(String.isNotEmpty(app.Lead__c)){
+                updateLeadMap.put(
+                    app.Lead__c,
+                    new Lead(
+                        id = app.Lead__c,
+                        Can_Nurture__c = isActiveApplication
+                    )
+                );
+            }
+        }
+        
+        if(!updateContactMap.values().isEmpty()){
+            ContactsDAO.newInstance().updateRecords(updateContactMap.values(), false, AccessLevel.SYSTEM_MODE);
+        }     
+        if(!updateLeadMap.values().isEmpty()){
+            LeadsDAO.newInstance().updateRecords(updateLeadMap.values(), false, AccessLevel.SYSTEM_MODE);
+        }  
+    }     
 
 }

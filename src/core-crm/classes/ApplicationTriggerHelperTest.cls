@@ -80,6 +80,30 @@ private class ApplicationTriggerHelperTest {
         }
     }
     
+    @isTest
+    private static void testApplicationWithLeadApplicationStatusWithdrawn() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
+            List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'USER_MODE');   
+            
+            for(hed__Application__c app: existingApplicationList){                           
+                app.Application_Status__c = 'Withdrawn';  
+            }
+            
+            Test.startTest();
+            Database.SaveResult[] srList = ApplicationsDAO.newInstance()
+                .updateRecords(
+                    existingApplicationList,
+                    false,
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record was not updated.');
+            }
+        }
+    }    
+    
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String applicationStatus,String recordType) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();
         for (Contact con: conList) {
