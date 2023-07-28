@@ -28,9 +28,8 @@
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
       | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
       | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
-      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  | 
-
-
+      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  |
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag      |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -58,6 +57,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems);
     setContactOwner((List<Contact>)newItems);
     ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems);
+    ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems,null);
   }
 
   /**
@@ -79,6 +79,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
     ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems.values());
+    ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
    
   }
 

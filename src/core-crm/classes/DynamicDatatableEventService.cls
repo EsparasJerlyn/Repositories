@@ -24,7 +24,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Contextual Role'
         },
         Document__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Opportunity_Outcome__c,IP_Management__c',
+            'ParentFields' => 'Engagement__c,IP_Management__c,Opportunity__c,Opportunity_Outcome__c',
             'ObjectLabel' => 'Document'
         },
         Finance_Summary__c.SObjectType => new Map<String, String>{
