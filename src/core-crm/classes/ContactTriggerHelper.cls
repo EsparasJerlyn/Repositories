@@ -12,6 +12,7 @@
       | roy.nino.s.regala              | Sep 10, 2022          | DEPP-4225              | updated to reparet contact and update work email | 
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation                             |
       | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added new method to set Person Contact flag      |
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag         |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
@@ -182,6 +183,74 @@ public without sharing class ContactTriggerHelper {
                 con.QUT_Staff__c = (String.isNotEmpty(con.QUT_Employee_ID__c) && con.Staff_End_Date__c > SYSTEM.today())? true:false;
             }            
         }
-    }     
+    } 
+   /**
+    * @description check or uncheck the Can_Nurture flag
+    *
+    * @param newItems  List of new Contact records
+    * @param oldItems  Map of old Contact records
+    */
+    public static void updateCanNurtureFlag(List<Contact> newItems, Map<Id, Contact> oldItems) {   
+        
+        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackLeadScoreThreshold('SYSTEM_MODE');
+        
+        for (Contact con : newItems) {			            
+            Boolean isLeadScoreNotNull = con.Lead_Score__c != NULL;			                        
+            if (oldItems == null && isLeadScoreNotNull) {
+                con.Can_Nurture__c = isLeadScoreAboveLeadThreshold(con,nurtureList);
+            } else if (oldItems != null) {
+                Contact oldContact = oldItems.get(con.Id);
+                if(con.Lead_Score__c != oldContact.Lead_Score__c){
+                    con.Can_Nurture__c = isLeadScoreNotNull && isLeadScoreAboveLeadThreshold(con,nurtureList);
+                }
+            }
+        }
+    }
 
-  }
+   /**
+    * @description check if the lead score is above threshold
+    *
+    * @param Contact con record
+    * @param List of Nurture Track Configuration
+    */  
+    private static Boolean isLeadScoreAboveLeadThreshold(Contact con, List<Nurture_Track_Configuration__c> nurtureList) {        
+        for (Nurture_Track_Configuration__c rec: nurtureList) {
+            if((con.Lead_Score__c >= rec.Lead_Score_Threshold__c)) return true;
+        }
+        return false;
+    }
+   /**
+    * @description get the contactIds of the contact who's calculated cadence value is updated
+    *
+    * @param List<Contact> newItems
+    * @param Map<Id, Contact> oldItems
+    */         
+    public static void getContactCalculatedCadence(List<Contact> newItems, Map<Id, Contact> oldItems) {   
+        
+        Map<String,String> assignContactToCadenceMap = new Map<String,String>();
+        Map<String,String> removeContactToCadenceMap = new Map<String,String>(); 
+        
+        for (Contact con : newItems) {	
+            if(con.RecordTypeId != ContactsDAO.PERSON_RECORDTYPE_ID){
+                continue;
+            }
+            
+            Contact oldContact = oldItems.get(con.Id);
+            String calculatedCadence = con.Calculated_Cadence__c;
+            String oldCalculatedCadence = oldContact.Calculated_Cadence__c;
+            
+            if(calculatedCadence != oldCalculatedCadence){
+                if (String.isNotEmpty(calculatedCadence) && calculatedCadence.containsIgnoreCase('automated')) {
+                    assignContactToCadenceMap.put(con.Id,calculatedCadence);
+                } else if (String.isEmpty(calculatedCadence)) {
+                    removeContactToCadenceMap.put(con.Id,oldCalculatedCadence);
+                }  
+            }
+        }
+        
+        if(!assignContactToCadenceMap.isEmpty() || !removeContactToCadenceMap.isEmpty()){
+            SalesCadenceCalloutService.processSaleCadences(assignContactToCadenceMap,removeContactToCadenceMap);
+        }
+    }   
+
+}

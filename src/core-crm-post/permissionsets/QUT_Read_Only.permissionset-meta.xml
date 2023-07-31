@@ -2698,6 +2698,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Engagement__c.On_Hold_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Engagement__c.Risk_Identified__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7204,6 +7209,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Area_Plan__c.Study_Area_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Area_Plan__c.Study_Area_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
