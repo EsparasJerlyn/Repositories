@@ -69,8 +69,8 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Contextual_Role_RecordType</name>
-        <label>Assign Contextual Role RecordType</label>
+        <name>Assign_Contextual_Role_Object_Values</name>
+        <label>Assign Contextual Role Object Values</label>
         <locationX>710</locationX>
         <locationY>1082</locationY>
         <assignmentItems>
@@ -78,6 +78,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Get_Contextual_Role_Engagement_Record_Type.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleObject.Contextual_Role_Group__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Partners</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -481,7 +488,7 @@
         <inputAssignments>
             <field>Contextual_Role_Group__c</field>
             <value>
-                <stringValue>Partners</stringValue>
+                <elementReference>ContextualRoleObject.Contextual_Role_Group__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -647,7 +654,7 @@
         <locationY>974</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Contextual_Role_RecordType</targetReference>
+            <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -1195,6 +1202,21 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <fieldType>ObjectProvided</fieldType>
+            <isRequired>false</isRequired>
+            <objectFieldReference>ContextualRoleObject.Contextual_Role_Group__c</objectFieldReference>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ContextualRoleObject.Contextual_Role_Group__c</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>Partners</stringValue>
                     </rightValue>
                 </conditions>
             </visibilityRule>

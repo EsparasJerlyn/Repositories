@@ -1402,6 +1402,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Engagement__c.On_Hold_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Engagement__c.Risk_Identified__c</field>
         <readable>true</readable>
     </fieldPermissions>

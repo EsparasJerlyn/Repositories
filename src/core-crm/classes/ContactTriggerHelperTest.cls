@@ -127,5 +127,28 @@ private class ContactTriggerHelperTest {
             
         }
     }
+    
+    @isTest
+    private static void testGetContactCalculatedCadence() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);            
+            List<Contact> updateContactList = new List<Contact>();
+            for(Contact con: newContacts){
+                Contact conRec = new Contact();
+                conRec.Id = con.Id;
+                conRec.Calculated_Cadence__c = 'Test Cadences automated1';
+                updateContactList.add(conRec);
+            }            
+            
+            Test.startTest();
+            ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'SalesCadenceCalloutService'].isEmpty() , 'SalesCadenceCalloutService Queueable Job was not executed');
+        }
+    }
 
 }
