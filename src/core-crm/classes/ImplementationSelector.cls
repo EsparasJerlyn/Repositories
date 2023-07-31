@@ -29,6 +29,7 @@ public class ImplementationSelector {
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
+            Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
             Contact.SObjectType => ContactsDAO.class,
             ContentDocument.SObjectType => ContentDocumentsDAO.class,
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,

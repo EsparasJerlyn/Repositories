@@ -5,9 +5,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary                              |
-      |---------------------------|-----------------------|--------------|---------------------------------------------|
-      | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                |
+ *    | Developer                 | Date                  | JIRA         | Change Summary                                                        |
+      |---------------------------|-----------------------|--------------|-----------------------------------------------------------------------|
+      | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                                          |
+      | mark.j.mahilum            | July 25, 2023         | DEPP-6106    | Added new method setCanNurtureOnContactOrLeadBasedOnApplicationStatus |
 */
  public with sharing class ApplicationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
@@ -22,6 +23,7 @@
           isRunning = true; 
           ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
           ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null);
+          ApplicationTriggerHelper.setCanNurtureOnContactOrLeadBasedOnApplicationStatus((List<hed__Application__c>) newItems.values());
       }
   }
 
@@ -38,6 +40,7 @@
             isRunning = true;
             ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
             ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems);
+            ApplicationTriggerHelper.setCanNurtureOnContactOrLeadBasedOnApplicationStatus((List<hed__Application__c>) newItems.values());
         }
     }
 

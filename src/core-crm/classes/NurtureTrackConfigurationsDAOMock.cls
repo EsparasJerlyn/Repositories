@@ -34,5 +34,19 @@ public inherited sharing class NurtureTrackConfigurationsDAOMock extends DmlBase
             }
         }       
         return nurtureList;
-    }   
+    }
+
+    public List<Nurture_Track_Configuration__c> getNurtureTrackByCadenceNames(
+        Set<String> cadenceNames,
+        String accessLevel
+    ) {
+        List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+        
+        for (Nurture_Track_Configuration__c record : nurtureTrackConfigMap.values()) {
+            if (cadenceNames.contains(record.Cadence_Name__c)){
+                nurtureList.add(record);
+            }
+        }       
+        return nurtureList;
+    }    
 }
