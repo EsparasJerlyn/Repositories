@@ -72,6 +72,13 @@
         <!--End DEPP-5946-->
         <name>PathAssistant</name>
     </types>
+
+    <types>
+        <!--Start DEPP-6208-->
+        <members>CreateOpportunityOutcome</members>
+        <!--End DEPP-6208-->
+        <name>CustomPageWebLink</name>
+    </types>
     
     <version>52.0</version>
 </Package>

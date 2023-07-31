@@ -260,7 +260,7 @@
                     <inputParameters>
                         <name>label</name>
                         <value>
-                            <stringValue>Revenue Contact Split</stringValue>
+                            <stringValue>Revenue Split Contact</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -294,7 +294,7 @@
                     <inputParameters>
                         <name>label</name>
                         <value>
-                            <stringValue>Revenue Account Split</stringValue>
+                            <stringValue>Revenue Split Account</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>

@@ -12,4 +12,8 @@ public interface INurtureTrackConfigurationsDAO extends DmlInterface {
     List<Nurture_Track_Configuration__c> getNurtureTrackLeadScoreThreshold(
         String accessLevel
     );
+    List<Nurture_Track_Configuration__c> getNurtureTrackByCadenceNames(
+        Set<String> cadenceNames,
+        String accessLevel
+    );
 }

@@ -13,7 +13,7 @@
 @isTest
 public inherited sharing class FinancialSplitsDAOMock extends DmlBaseMock implements IFinancialSplitsDAO {
     public Map<Id, Financial_Split__c> financialSplitMap;
-	
+
     public Schema.SObjectType getSObjectType() {
         return Financial_Split__c.SObjectType;
     }

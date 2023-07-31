@@ -20,6 +20,7 @@
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added nurture config object                                  |
  */
 public class ImplementationSelector {
+
     // Configure and create the DAOFactory for this ImplementationSelector
     public static final DAOFactory DAO = new DAOFactory(
         new Map<SObjectType, Type>{
@@ -28,6 +29,7 @@ public class ImplementationSelector {
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
+            Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
             Contact.SObjectType => ContactsDAO.class,
             ContentDocument.SObjectType => ContentDocumentsDAO.class,
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,

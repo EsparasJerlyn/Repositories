@@ -62,7 +62,7 @@ private class ContextualRoleTriggerHandlerTest {
                 'contextual role is not created'
             );
 
-            partnerContextualRolesList[0].Contextual_Role__c = 'Partner';
+            partnerContextualRolesList[0].Contextual_Role__c = 'Partner Contact';
 
             System.assert(
                 ContextualRolesDAO.newInstance()

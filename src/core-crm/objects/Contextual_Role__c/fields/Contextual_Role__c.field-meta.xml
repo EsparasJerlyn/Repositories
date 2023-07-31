@@ -9,6 +9,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Contextual_Role_Group__c</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -138,5 +139,101 @@
                 <label>Training Support</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Academic Team</controllingFieldValue>
+            <valueName>Academic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Board of Directors</controllingFieldValue>
+            <valueName>Board Chairman</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Board of Directors</controllingFieldValue>
+            <valueName>Board Vice-Chairman</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Chief Investigator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Co-Investigator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Finance Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Inventor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Lead Researcher</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>ORS Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Relationship Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Researcher</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Secondary Investigator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Support</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Faculty</controllingFieldValue>
+            <valueName>Faculty</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funding Bodies</controllingFieldValue>
+            <valueName>Funding Body</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Partners</controllingFieldValue>
+            <valueName>Partner Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Partners</controllingFieldValue>
+            <valueName>Primary Partner Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Public Officers</controllingFieldValue>
+            <valueName>Public Officer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Research Centre</controllingFieldValue>
+            <valueName>Research Centre</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>School</controllingFieldValue>
+            <valueName>School</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Training Team</controllingFieldValue>
+            <valueName>Lead Trainer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Training Team</controllingFieldValue>
+            <valueName>Trainer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Training Team</controllingFieldValue>
+            <valueName>Training Support</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

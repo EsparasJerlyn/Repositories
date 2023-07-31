@@ -13,10 +13,11 @@
  *    | alexander.cadalin              | June 22, 2022         | DEPP-3056              | + before insert,update        |
  *    |                                |                       |                        | + detectDuplicatesInEmails    |
  *    |                                |                       |                        | - global dupes handlers       |
- *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | added LeadService helper class| 
+ *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | added LeadService helper class|
+ *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | added can nurture flag update | 
  */
 
-public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate {
+public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterUpdate {
     public static Boolean isRunning = false;
     /**
      * @description performs beforeInsert event for Lead object
@@ -25,6 +26,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
     public void beforeInsert(List<SObject> newItems) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
         LeadService.updateLearnerLeadStatus((List<Lead>) newItems, null);
+        LeadService.updateCanNurtureFlag((List<Lead>) newItems, null);
     }
 
     /**
@@ -39,6 +41,22 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLearnerLeadStatus((List<Lead>) newItems.values(), null);
+        LeadService.updateCanNurtureFlag((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+    }
+
+  /**
+   * @description performs afterUpdate event for Lead object
+   * @param newItems - Map of Lead.Trigger.newMap
+   * @param oldItems - Map of Lead.Trigger.oldMap
+   */
+    public void afterUpdate(
+        Map<Id, SObject> newItems,
+        Map<Id, SObject> oldItems
+    ) {
+        if(!isRunning ){
+            isRunning = true;
+            LeadService.getLeadCalculatedCadence((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+        }
     }
 
     /**

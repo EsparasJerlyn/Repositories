@@ -36,4 +36,17 @@ public with sharing class NurtureTrackConfigurationsDAOTest {
         }
         Test.stopTest();
     }
+    @isTest
+    static void getNurtureTrackByCadenceNamesTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance()
+                .getNurtureTrackByCadenceNames(
+                    new Set<String>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(nurtureList.isEmpty(), 'nurtureList should not be empty.');
+        }
+        Test.stopTest();
+    }
 }
