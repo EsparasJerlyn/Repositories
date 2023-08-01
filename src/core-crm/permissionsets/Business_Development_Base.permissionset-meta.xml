@@ -4557,12 +4557,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Program_Enrollment__c.Graduating_Faculty__c</field>
+        <field>hed__Program_Enrollment__c.Graduating_Faculty_A__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</field>
+        <field>hed__Program_Enrollment__c.Graduating_Faculty_B__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
