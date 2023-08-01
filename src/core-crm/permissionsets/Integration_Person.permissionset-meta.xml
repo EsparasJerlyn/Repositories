@@ -6627,7 +6627,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Relationship_Manager__c.User__c</field>
+        <field>Relationship_Manager__c.Primary_QUT_Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions> 
@@ -6743,6 +6743,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Area__c.External_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Area__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

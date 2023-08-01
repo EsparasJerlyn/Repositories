@@ -2099,6 +2099,9 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Project_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>RECORDTYPE</value>
                         </valueListItems>
                         <valueListItems>
