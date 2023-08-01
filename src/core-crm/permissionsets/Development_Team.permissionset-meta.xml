@@ -4717,6 +4717,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Area__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Area__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4808,6 +4813,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Area_Plan__c.Study_Area_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Area_Plan__c.Study_Area_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
