@@ -3492,6 +3492,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Term__c.Name</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Term__c.Admit_On_Offer_Acceptance_Cutoff_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
