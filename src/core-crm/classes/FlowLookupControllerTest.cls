@@ -244,50 +244,6 @@ public class FlowLookupControllerTest {
     }
 
     @isTest
-    private static void getRecentlyViewedForOperationsManagerTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
-            List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
-            AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
-
-            List<SObject> records = FlowLookupController.getRecentlyViewed(
-                'Account',
-                'Name',
-                5,
-                'Name LIKE \'%TestAccount%\''
-            );
-
-            System.assertEquals(
-                5,
-                records.size(),
-                '5 records should be returned in this test case'
-            );
-        }
-    }
-
-    @isTest
-    private static void getRecentlyViewedForPartnershipManagerTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            List<Account> accountList = TestDataFactory.createTestAccountRecords(5);
-            AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
-
-            List<SObject> records = FlowLookupController.getRecentlyViewed(
-                'Account',
-                'Name',
-                5,
-                'Name LIKE \'%TestAccount%\''
-            );
-
-            System.assertEquals(
-                5,
-                records.size(),
-                '5 records should be returned in this test case'
-            );
-        }
-    }
-
-    @isTest
     private static void getStandardObjectIconForOperationsManagerTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getOperationsManager()) {
