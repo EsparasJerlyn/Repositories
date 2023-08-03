@@ -189,6 +189,7 @@
         <fields>hed__Contact__c</fields>
         <fields>hed__Affiliation_Type__c</fields>
         <fields>hed__Role__c</fields>
+        <fields>Job_Title__c</fields>
         <fields>hed__Status__c</fields>
         <fields>hed__StartDate__c</fields>
         <fields>hed__EndDate__c</fields>

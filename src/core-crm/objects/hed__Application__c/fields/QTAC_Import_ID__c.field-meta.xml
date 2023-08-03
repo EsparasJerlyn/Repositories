@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>QTAC_Import_ID__c</fullName>
-    <description>The unique identifier of the import of QTAC data to Study Link/SAMS</description>
+    <description>The unique identifier of the import of QTAC data to StudyLink/ SAMS</description>
     <externalId>false</externalId>
     <label>QTAC Import ID</label>
     <length>20</length>

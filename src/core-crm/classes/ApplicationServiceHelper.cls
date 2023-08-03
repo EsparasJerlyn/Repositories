@@ -302,7 +302,8 @@ public without sharing class ApplicationServiceHelper {
         boolean emailsMatch = isFieldEqual(con.Email, app.Email__c) || isFieldEqual(con.QUT_Learner_Email__c, app.Email__c) || 
           					  isFieldEqual(con.QUT_Staff_Email__c, app.Email__c) || isFieldEqual(con.Work_Email__c, app.Email__c);          
         boolean birthdateMatch = isFieldEqual(con.Birthdate, app.Birthdate__c);
-        boolean isNominated = app.Nominated_Student_ID__c !=null && app.Nominated_Student_ID__c == con.QUT_Student_ID__c && app.RecordTypeId == ApplicationsDAO.SAMS_RECTYPE_ID;
+        boolean isSAMSRecord = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        boolean isNominated = app.Nominated_Student_ID__c !=null && app.Nominated_Student_ID__c == con.QUT_Student_ID__c && isSAMSRecord;
         
         return (namesMatch && emailsMatch) || (namesMatch && birthdateMatch) || isNominated;
     }  

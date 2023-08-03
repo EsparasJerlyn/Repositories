@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>External_ID__c</fullName>
-    <caseSensitive>false</caseSensitive>
     <description>The External ID used for integration.</description>
-    <externalId>true</externalId>
+    <externalId>false</externalId>
     <label>External ID</label>
     <length>255</length>
     <required>false</required>
@@ -11,5 +10,5 @@
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
-    <unique>true</unique>
+    <unique>false</unique>
 </CustomField>

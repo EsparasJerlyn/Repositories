@@ -31,13 +31,9 @@ public class NurturingTrackContactBatch implements Database.Batchable<sObject> {
     */
     public void execute(Database.BatchableContext bc, List<Contact> contactList){
         try{
-            Map<Id,Contact> contactToProcess = new Map<Id,Contact>();          
-            for(Contact con : contactList){
-                contactToProcess.put(con.Id,con);
-            }
-            
+            Map<Id, Contact> contactMap = new Map<Id, Contact>(contactList);
             //process entry and exit criteria logic
-            List<Contact> updateContactList = NurturingTrackContactService.processContactForEntryAndExit(contactToProcess);
+            List<Contact> updateContactList = NurturingTrackContactService.processContactForEntryAndExit(contactMap);
             
             //Update Contact record
             if(!updateContactList.isEmpty()){
