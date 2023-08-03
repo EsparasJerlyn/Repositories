@@ -6,11 +6,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Edit</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -252,6 +247,40 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Closed_Reason__c</fieldItem>
                 <identifier>RecordClosed_Reason_cField2</identifier>
             </fieldInstance>
@@ -308,6 +337,16 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>

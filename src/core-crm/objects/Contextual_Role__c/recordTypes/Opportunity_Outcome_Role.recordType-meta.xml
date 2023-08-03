@@ -74,6 +74,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Inventor</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Lead Researcher</fullName>
             <default>false</default>
         </values>

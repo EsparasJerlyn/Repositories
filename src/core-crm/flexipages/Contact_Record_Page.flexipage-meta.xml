@@ -621,6 +621,9 @@
                             <value>hed__Role__c</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Job_Title__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>hed__Status__c</value>
                         </valueListItems>
                         <valueListItems>
