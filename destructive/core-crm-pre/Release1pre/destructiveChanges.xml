@@ -41,6 +41,7 @@
     <types>
         <!--Start DEPP-6136-->
         <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <members>Application_Record_Page.flexipage.xml</members>
         <!--End DEPP-6136-->
         <name>FlexiPage</name>
     </types>

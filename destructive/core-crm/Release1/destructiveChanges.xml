@@ -114,6 +114,7 @@
         <!--End DEPP-5837-->
         <!--Start DEPP-6136-->
         <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <members>Application_Record_Page.flexipage.xml</members>
         <!--End DEPP-6136-->
         <name>FlexiPage</name>
     </types>
@@ -134,6 +135,9 @@
         <members>Opportunity-Opportunity Details.layout-meta.xml</members>
         <members>Opportunity-Opportunity Layout.layout-meta.xml</members>
         <!--DEPP-5055 end-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference__c-QTAC Preference Layout.layout-meta.xml</members>
+        <!--End DEPP-6136-->
         <name>Layout</name>
     </types>
     <types>
@@ -141,6 +145,12 @@
         <members>enableCCECorporateUser</members>
         <!--End DEPP-4925-->
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <!--Start DEPP-3616-->
+        <members>QTAC_Preference__c.tab-meta</members>
+        <!--End DEPP-2616-->
+        <name>CustomTab</name>
     </types>
     <types>
         <!--Start DEPP-4925-->
