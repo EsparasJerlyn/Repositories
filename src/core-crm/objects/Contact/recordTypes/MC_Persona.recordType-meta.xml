@@ -4702,33 +4702,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>hed__Citizenship_Status__c</picklist>
-        <values>
-            <fullName>Other %28Non-U%2ES%2E%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Temporary Resident</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>U%2ES%2E Citizen or U%2ES%2E National</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>U%2ES%2E Dual Citizen</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>U%2ES%2E Permanent Resident</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>U%2ES%2E Refugee or Asylee</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>hed__Citizenship__c</picklist>
         <values>
             <fullName>Afghanistan</fullName>
