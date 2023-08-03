@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>hed__Application_Type__c</fullName>
-    <deprecated>false</deprecated>
-    <description>The type of program or track the applicant is applying to.</description>
+    <fullName>QTAC_Offer_Exists__c</fullName>
+    <description>Whether an offer exists for this preference</description>
     <externalId>false</externalId>
-    <inlineHelpText>The type of program or track the applicant is applying to.</inlineHelpText>
-    <label>Application Type</label>
+    <label>QTAC Offer Exists</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Legacy</fullName>
+                <fullName>Yes</fullName>
                 <default>false</default>
-                <label>Legacy</label>
+                <label>Yes</label>
             </value>
             <value>
-                <fullName>CiAnywhere</fullName>
+                <fullName>No</fullName>
                 <default>false</default>
-                <label>CiAnywhere</label>
+                <label>No</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -11,6 +11,7 @@
  *    | mark.j.mahilum                 | June 19,2023          | DEPP-5846	            | Created File                      |
  *    | jerlyn.esparas                 | July 06, 2023         | DEPP-5845              | Added method for QTAC application |
  *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added method for SAMS application |
+ *    | mark.j.mahilum                 | August 01, 2023       | DEPP-6135              | Added new record type condition   |
  */
 public with sharing class ApplicationService {
 
@@ -82,12 +83,13 @@ public with sharing class ApplicationService {
 
             boolean isStudylinkRecType = app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
             boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID; 
-            boolean isSamsRecType = app.RecordTypeId == ApplicationsDAO.SAMS_RECTYPE_ID;
+            boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+            boolean isSAMSCIAnywhere = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
               
              if (isStudylinkRecType || isQTACRecType) {
                  newStudyLinkApplications.add(app);
              }
-             if(isSamsRecType){
+             if(isSAMSLegacyRecType || isSAMSCIAnywhere){
                  newSAMApplications.add(app);
              }
          }

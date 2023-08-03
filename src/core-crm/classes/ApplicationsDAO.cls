@@ -10,14 +10,18 @@
  *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
  *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added getApplicationsByLeadIds             |
  *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds   |
+ *    | mark.j.mahilum
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
         .get('QTAC')
         .getRecordTypeId();
-    public static final Id SAMS_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
-        .get('SAMS')
+    public static final Id SAMS_LEGACY_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
+        .get('SAMS_Legacy')
         .getRecordTypeId();
+    public static final Id SAMS_CIANYWHERE_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
+        .get('SAMS_CIAnywhere')
+        .getRecordTypeId();    
     public static final Id STUDYLINK_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
         .get('StudyLink')
         .getRecordTypeId();

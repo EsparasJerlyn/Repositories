@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>StudyLink_Program_Code__c</fullName>
-    <description>The StudyLink course code</description>
+    <fullName>Prior_QUT_History__c</fullName>
+    <description>Whether the applicant has studyied before, is new or current student</description>
     <externalId>false</externalId>
-    <label>StudyLink Program Code</label>
+    <label>Prior QUT History</label>
     <length>80</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>

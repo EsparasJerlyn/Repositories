@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Migration_Key__c</fullName>
-    <description>Migrated Data External Key.</description>
+    <fullName>Agency_Branch__c</fullName>
+    <description>The name of the agency branch</description>
     <externalId>false</externalId>
-    <label>Migration Key</label>
-    <length>255</length>
+    <label>Agency Branch</label>
+    <length>80</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

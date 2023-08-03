@@ -67,6 +67,19 @@
         <members>IP_Management_Relationship___c.Owner__c</members>
         <members>IP_Management_Relationship___c.Created_Date__c</members>
         <!-- End DEPP-5937 -->
+        <!-- Start DEPP-6130 -->
+        <members>hed__Application__c.Applied_Major__c</members>
+        <members>hed__Application__c.App_Condition_Verification_Status__c</members>
+        <members>hed__Application__c.Pathway_Principal_Program__c</members>
+        <members>hed__Application__c.Agency_AccountID__c</members>
+        <members>hed__Application__c.StudyLink_Program_Code__c</members>
+        <members>hed__Application__c.StudyLink_Program_Name__c</members>
+        <members>hed__Application__c.StudyLink_Program_Location__c</members>
+        <members>hed__Application__c.StudyLink_Program_Level__c</members>
+        <members>hed__Application__c.StudyLink_Program_Faculty__c</members>
+        <members>hed__Application__c.StudyLink_Program_URL__c</members>
+        <members>hed__Application__c.Studylink_Offered_Program_Name__c</members>
+        <!-- End DEPP-6130 -->       
         <!-- Start DEPP-6232-->
 		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
 		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
@@ -184,6 +197,12 @@
         <members>Document__c.CreateOpportunityOutcomeDocument</members>
         <!-- (End) DEPP-6047 -->
         <name>WebLink</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6135 -->
+        <members>hed__Application__c.SAMS</members>
+        <name>RecordType</name>
+        <!--(Start) DEPP-6135 -->
     </types>
     <version>52.0</version>
 </Package>
