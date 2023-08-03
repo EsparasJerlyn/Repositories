@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <layoutAssignments>
+        <layout>Account-Business Organization Layout</layout>
+        <recordType>Account.Business_Organization</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contextual_Role__c-Contextual Role - Engagement Role Page Layout</layout>
         <recordType>Contextual_Role__c.Engagement_Role</recordType>
     </layoutAssignments>
