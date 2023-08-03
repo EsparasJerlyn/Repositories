@@ -71,12 +71,35 @@
 		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
 		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
 		<!-- End DEPP-6232-->
+        <!-- Start DEPP-6232-->
+		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
+		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
+		<!-- End DEPP-6232-->
+        <!-- Start DEPP-6136-->
+        <members>QTAC_Preference__c.External_ID__c</members>
+        <members>QTAC_Preference__c.Migration_ID__c</members>
+        <members>QTAC_Preference__c.Migration_Key__c</members>
+        <members>QTAC_Preference__c.QTAC_Application__c</members>
+        <members>QTAC_Preference__c.QTAC_Faculty__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Exists__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Lapse_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Round__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Start_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Status__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Status_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Preference_Number__c</members>
+        <members>QTAC_Preference__c.QTAC_Program_ID__c</members>
+        <members>QTAC_Preference__c.QTAC_Program_Name__c</members>
+        <!-- End DEPP-6136-->
         <name>CustomField</name>
     </types>
     <types>
         <!--Start DEPP-5837-->
         <members>Project_Milestone__c</members>
         <!--End DEPP-5837-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference__c</members>
+        <!--End DEPP-6136-->
         <name>CustomObject</name>
     </types>
     <types>
@@ -89,6 +112,9 @@
         <!--Start DEPP-5837-->
         <members>Project_Milestone_Record_Page.flexipage-meta.xml</members>
         <!--End DEPP-5837-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-6136-->
         <name>FlexiPage</name>
     </types>
     <types>

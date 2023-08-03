@@ -38,7 +38,12 @@
         <members>Lead.Custom_Lead_Duplicate_Rule</members>
         <name>DuplicateRule</name>
     </types>
-
+    <types>
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-6136-->
+        <name>FlexiPage</name>
+    </types>
     <types>
         <!-- DEPP-2217-->
         <members>Product2.Publishing_EndDate_is_Future_Date</members>
