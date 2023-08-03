@@ -1091,11 +1091,6 @@
             <targetReference>Assign_Contributors_Variables</targetReference>
         </connector>
         <fields>
-            <name>test</name>
-            <fieldText>&lt;p&gt;ytestess&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
             <name>Contextual_Role_Summary4</name>
             <fieldText>Contextual Role Summary</fieldText>
             <fieldType>RegionContainer</fieldType>
