@@ -25,7 +25,7 @@ public with sharing class ApplicationTriggerHelper {
          for (hed__Application__c app : newItems) {
              
              boolean isStudylinkRecType = app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-             boolean isSAMSRecType = app.RecordTypeId == ApplicationsDAO.SAMS_RECTYPE_ID;
+             boolean isSAMSRecType = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
              boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
              boolean isValidRecType = isStudylinkRecType || isSAMSRecType || isQTACRecType;
                           

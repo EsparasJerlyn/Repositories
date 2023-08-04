@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_Preference__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Current Preference</label>
+    <referenceTo>Application_Preference__c</referenceTo>
+    <relationshipLabel>Applications (Current Preference)</relationshipLabel>
+    <relationshipName>Applications1</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

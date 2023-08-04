@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RRR_Access_Scheme__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Rural, Regional and Remote Access Scheme</description>
+    <externalId>false</externalId>
+    <label>Rural, Regional, Remote Access Scheme</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

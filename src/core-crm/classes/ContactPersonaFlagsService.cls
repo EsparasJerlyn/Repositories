@@ -249,7 +249,7 @@ public with sharing class ContactPersonaFlagsService {
      * @return boolean True or False
      */
      private static boolean samsApplicationChecking(hed__Application__c app) {
-         boolean isSAMSRecType = app.RecordTypeId == ApplicationsDAO.SAMS_RECTYPE_ID;   
+         boolean isSAMSRecType = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);  
          return (isSAMSRecType && !ApplicationsDAO.samsStatuses.contains(app.Application_Status__c));
      }  
     

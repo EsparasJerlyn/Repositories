@@ -17,7 +17,8 @@ public class NurturingTrackLeadBatch implements Database.Batchable<sObject> {
     * @return query - filtered query records
     */
     public Database.QueryLocator start(Database.BatchableContext bc){
-        String queryFilter =  'SELECT Id, Can_Nurture__c, Lead_Score__c, Calculated_Cadence__c ' + 
+        String queryFilter =  'SELECT Id, Can_Nurture__c, Lead_Score__c, Calculated_Cadence__c, ' +
+                              'Marketing_Segmentation__r.My_Citizenship_Status__c ' +
                               'FROM Lead ' + 
                               'WHERE (Can_Nurture__c = TRUE ' +
             				  'OR Calculated_Cadence__c !=NULL) ' +
@@ -33,11 +34,7 @@ public class NurturingTrackLeadBatch implements Database.Batchable<sObject> {
     public void execute(Database.BatchableContext bc, List<Lead> leadList){
         try{
             //all leads
-            Map<Id, Lead> leadToProcess = new Map<Id, Lead>();
-            
-            for(Lead lead : leadList){
-                leadToProcess.put(lead.Id,lead);
-            }
+            Map<Id, Lead> leadToProcess = new Map<Id, Lead>(leadList);
             
             //process entry and exit criteria logic
             List<Lead> updateLeadList = NurturingTrackLeadService.processLeadForEntryAndExit(leadToProcess);

@@ -4,16 +4,19 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsConfiguration</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsInNative</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
@@ -406,6 +409,9 @@
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
                     <value>3</value>
                 </componentInstanceProperties>
@@ -415,7 +421,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>QTAC_Preferences__r</value>
+                    <value>Application_Preferences__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
@@ -428,22 +434,16 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>QTAC_Preference_Number__c</value>
+                            <value>Preference_Number__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>QTAC_Program_Name__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>QTAC_Offer_Exists__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>QTAC_Offer_Status__c</value>
+                            <value>Program_Name__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>QTAC Preferences</value>
+                    <value>Application Preferences</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
