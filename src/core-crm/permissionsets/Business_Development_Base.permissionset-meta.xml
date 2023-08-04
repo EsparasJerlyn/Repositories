@@ -5296,6 +5296,14 @@
         <recordType>Opportunity_Outcome__c.Startup</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>IP_Management__c</tab>
         <visibility>Visible</visibility>

@@ -18,6 +18,8 @@
  *    | roy.nino.s.regala              | July 14, 2023         | DEPP-5473              | Added Object mapping for Finance Summary                     |
  *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added Object mapping for Affiliation and Course Enrollment   |
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added nurture config object                                  |
+ *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6140              | Added Object mapping for Relationsip Manager Object          |
+
  */
 public class ImplementationSelector {
 
@@ -57,6 +59,7 @@ public class ImplementationSelector {
             Product2.SObjectType => ProductsDAO.class,
             Profile.SObjectType => ProfilesDAO.class,
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
+            Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class
         }
     ); 
