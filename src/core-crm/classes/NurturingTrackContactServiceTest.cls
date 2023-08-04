@@ -116,7 +116,40 @@ public with sharing class NurturingTrackContactServiceTest {
             );
         }
     }
-    
+
+    @isTest
+    private static void testInternationalAcceptanceDepositNotPaidEntry() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            // create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Acceptance - Pending Payment');
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            newApplications[0].Is_Agent_Assisted__c = false;
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            // assert
+            System.assertEquals(
+                processContacts[0].Calculated_Cadence__c,
+                'International Acceptance Deposit not Paid',
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
     @isTest
     private static void testAutomaticInternationalDirectApplicantExit() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -183,6 +216,38 @@ public with sharing class NurturingTrackContactServiceTest {
             // assert
             System.assertEquals(
                 '', processContacts[0].Calculated_Cadence__c, 'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
+    private static void testInternationalAcceptanceDepositNotPaidExit() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            // create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            newContacts[0].Calculated_Cadence__c = 'International Acceptance Deposit not Paid';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application0
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Accepted');
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            newApplications[0].Is_Agent_Assisted__c = false;
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            // assert
+            System.assertEquals(
+                processContacts[0].Calculated_Cadence__c, '','Error, wrong calculated cadence value.'
             );
         }
     }
