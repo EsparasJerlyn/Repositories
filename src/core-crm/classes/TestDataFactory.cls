@@ -3006,4 +3006,29 @@ public class TestDataFactory {
         return finSummaries;
     }
 
+    /**
+     * @description Method for creating AccountShare
+     * @param accountsToShare - List of Account records to share
+     * @param shareToUserOrGroupId - The user or group you want to share the Account records to
+     * @param accountAccessLevel - The access level for the Account records to be shared (Edit, Read)
+     * @return accShares - List of AccountShares created
+     */
+    public static List<AccountShare> createAccountShareRecords(
+        List<Account> accountsToShare,
+        Id shareToUserOrGroupId,
+        String accountAccessLevel
+    ){
+        List<AccountShare> accShares = new List<AccountShare>();
+
+        for (Account acc : accountsToShare){
+            AccountShare share = new AccountShare();
+            share.AccountId = acc.Id;
+            share.UserOrGroupId = shareToUserOrGroupId;
+            share.AccountAccessLevel = accountAccessLevel;
+            share.OpportunityAccessLevel = 'Read';
+            accShares.add(share);
+        }
+        
+        return accShares;
+    }
 }
