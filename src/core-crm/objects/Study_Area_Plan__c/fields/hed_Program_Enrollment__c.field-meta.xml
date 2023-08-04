@@ -3,7 +3,7 @@
     <fullName>hed_Program_Enrollment__c</fullName>
     <description>Lookup Course Enrolment Name</description>
     <externalId>false</externalId>
-    <label>Course</label>
+    <label>Program Enrollment</label>
     <referenceTo>hed__Program_Enrollment__c</referenceTo>
     <relationshipLabel>Study Area Plans</relationshipLabel>
     <relationshipName>Study_Area_Plans</relationshipName>

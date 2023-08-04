@@ -27,7 +27,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>User__c</field>
+                <field>Primary_QUT_Contact__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -67,7 +67,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBo000000BlEv</masterLabel>
+        <masterLabel>00h9n000002JwFF</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

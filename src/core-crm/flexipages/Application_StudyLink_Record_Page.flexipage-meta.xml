@@ -47,16 +47,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Applied_Major__c</fieldItem>
-                <identifier>RecordApplied_Major_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Applied_Intake_Study_Period__c</fieldItem>
                 <identifier>RecordApplied_Intake_Study_Period_cField</identifier>
             </fieldInstance>
@@ -331,36 +321,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Program_Code__c</fieldItem>
-                <identifier>RecordStudyLink_Program_Code_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Program_Location__c</fieldItem>
-                <identifier>RecordStudyLink_Program_Location_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Program_Faculty__c</fieldItem>
-                <identifier>RecordStudyLink_Program_Faculty_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.StudyLink_Offered_Program_Code__c</fieldItem>
                 <identifier>RecordStudyLink_Offered_Program_Code_cField</identifier>
             </fieldInstance>
@@ -415,58 +375,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Agency_AccountID__c</fieldItem>
-                <identifier>RecordAgency_AccountID_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Nominated_Student_ID__c</fieldItem>
                 <identifier>RecordNominated_Student_ID_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Program_Name__c</fieldItem>
-                <identifier>RecordStudyLink_Program_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Program_Level__c</fieldItem>
-                <identifier>RecordStudyLink_Program_Level_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Program_URL__c</fieldItem>
-                <identifier>RecordStudyLink_Program_URL_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Offered_Program_Name__c</fieldItem>
-                <identifier>RecordStudyLink_Offered_Program_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8c4c60a8-38a9-43b9-bf12-9c0f9ef29b7c</name>

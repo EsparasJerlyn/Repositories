@@ -1,0 +1,12 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Name,Cadence_Name__c,Status__c,Description__c,Nurture_Track_Name__c,Criteria_Type__c,Lead_Score_Threshold__c,Sequence_Number__c,Enquiry_Category_L1__c,Key_Date_Name__c,Date_Offset_Type__c,Key_Date_Offset_Days__c FROM Nurture_Track_Configuration__c",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Nurture_Track_Configuration__c",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}

@@ -116,10 +116,6 @@
                 <behavior>Edit</behavior>
                 <field>Offer_Status__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>App_Condition_Verification_Status__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -129,10 +125,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Assessment_Result__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Pathway_Principal_Program__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -265,6 +265,40 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField7</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Inactive_Reason__c</fieldItem>
                 <identifier>RecordInactive_Reason_cField3</identifier>
                 <visibilityRule>
@@ -345,6 +379,16 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField8</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>

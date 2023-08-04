@@ -67,12 +67,52 @@
         <members>IP_Management_Relationship___c.Owner__c</members>
         <members>IP_Management_Relationship___c.Created_Date__c</members>
         <!-- End DEPP-5937 -->
+        <!-- Start DEPP-6130 -->
+        <members>hed__Application__c.Applied_Major__c</members>
+        <members>hed__Application__c.App_Condition_Verification_Status__c</members>
+        <members>hed__Application__c.Pathway_Principal_Program__c</members>
+        <members>hed__Application__c.Agency_AccountID__c</members>
+        <members>hed__Application__c.StudyLink_Program_Code__c</members>
+        <members>hed__Application__c.StudyLink_Program_Name__c</members>
+        <members>hed__Application__c.StudyLink_Program_Location__c</members>
+        <members>hed__Application__c.StudyLink_Program_Level__c</members>
+        <members>hed__Application__c.StudyLink_Program_Faculty__c</members>
+        <members>hed__Application__c.StudyLink_Program_URL__c</members>
+        <members>hed__Application__c.Studylink_Offered_Program_Name__c</members>
+        <!-- End DEPP-6130 -->       
+        <!-- Start DEPP-6232-->
+		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
+		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
+		<!-- End DEPP-6232-->
+        <!-- Start DEPP-6232-->
+		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
+		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
+		<!-- End DEPP-6232-->
+        <!-- Start DEPP-6136-->
+        <members>QTAC_Preference__c.External_ID__c</members>
+        <members>QTAC_Preference__c.Migration_ID__c</members>
+        <members>QTAC_Preference__c.Migration_Key__c</members>
+        <members>QTAC_Preference__c.QTAC_Application__c</members>
+        <members>QTAC_Preference__c.QTAC_Faculty__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Exists__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Lapse_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Round__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Start_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Status__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Status_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Preference_Number__c</members>
+        <members>QTAC_Preference__c.QTAC_Program_ID__c</members>
+        <members>QTAC_Preference__c.QTAC_Program_Name__c</members>
+        <!-- End DEPP-6136-->
         <name>CustomField</name>
     </types>
     <types>
         <!--Start DEPP-5837-->
         <members>Project_Milestone__c</members>
         <!--End DEPP-5837-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference__c</members>
+        <!--End DEPP-6136-->
         <name>CustomObject</name>
     </types>
     <types>
@@ -85,6 +125,10 @@
         <!--Start DEPP-5837-->
         <members>Project_Milestone_Record_Page.flexipage-meta.xml</members>
         <!--End DEPP-5837-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <members>Application_Record_Page.flexipage.xml</members>
+        <!--End DEPP-6136-->
         <name>FlexiPage</name>
     </types>
     <types>
@@ -104,6 +148,9 @@
         <members>Opportunity-Opportunity Details.layout-meta.xml</members>
         <members>Opportunity-Opportunity Layout.layout-meta.xml</members>
         <!--DEPP-5055 end-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference__c-QTAC Preference Layout.layout-meta.xml</members>
+        <!--End DEPP-6136-->
         <name>Layout</name>
     </types>
     <types>
@@ -111,6 +158,12 @@
         <members>enableCCECorporateUser</members>
         <!--End DEPP-4925-->
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <!--Start DEPP-3616-->
+        <members>QTAC_Preference__c.tab-meta</members>
+        <!--End DEPP-2616-->
+        <name>CustomTab</name>
     </types>
     <types>
         <!--Start DEPP-4925-->
@@ -144,6 +197,12 @@
         <members>Document__c.CreateOpportunityOutcomeDocument</members>
         <!-- (End) DEPP-6047 -->
         <name>WebLink</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6135 -->
+        <members>hed__Application__c.SAMS</members>
+        <name>RecordType</name>
+        <!--(Start) DEPP-6135 -->
     </types>
     <version>52.0</version>
 </Package>

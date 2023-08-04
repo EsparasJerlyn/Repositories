@@ -19,7 +19,6 @@
         <!-- (Start) DEPP-5555 -->
         <members>hed__Application__c.Application_Source__c</members>
         <members>hed__Application__c.Offer_Condition__c</members>
-        <members>hed__Application__c.QTAC_Offer_Round__c</members>
         <members>hed__Application__c.Defered_Study_Period__c</members>
         <members>hed__Application__c.Is_Education_Distruption_Applicant__c</members>
         <members>hed__Application__c.Is_Elite_Athelete_Applicant__c</members>
@@ -28,6 +27,9 @@
         <!-- (Start) DEPP-5920 -->
         <members>IP_Management_Relationship__c.Stage__c</members>
         <!-- (End) DEPP-5920 -->
+        <!-- Start DEPP-6243 -->
+        <members>Relationship_Manager__c.User__c</members>
+        <!-- End DEPP-6243 -->
         <name>CustomField</name>
     </types>
     <types>
@@ -35,7 +37,13 @@
         <members>Lead.Custom_Lead_Duplicate_Rule</members>
         <name>DuplicateRule</name>
     </types>
-
+    <types>
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <members>Application_Record_Page.flexipage.xml</members>
+        <!--End DEPP-6136-->
+        <name>FlexiPage</name>
+    </types>
     <types>
         <!-- DEPP-2217-->
         <members>Product2.Publishing_EndDate_is_Future_Date</members>
