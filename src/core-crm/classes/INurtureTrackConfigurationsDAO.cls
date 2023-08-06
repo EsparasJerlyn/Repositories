@@ -16,4 +16,8 @@ public interface INurtureTrackConfigurationsDAO extends DmlInterface {
         Set<String> cadenceNames,
         String accessLevel
     );
+    List<Nurture_Track_Configuration__c> getNurtureTrack(
+        String fieldsToQuery,
+        String accessLevel
+    );
 }

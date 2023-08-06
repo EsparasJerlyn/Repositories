@@ -379,6 +379,16 @@
                 <identifier>RecordCreatedByIdField7</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Engagement__c</fieldItem>
+                <identifier>RecordEngagement_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-pl1eu5awqeo</name>
         <type>Facet</type>
     </flexiPageRegions>

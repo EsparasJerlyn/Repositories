@@ -75,11 +75,28 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         String accessLevel
     ) {
         return Database.query(
-            'SELECT Id, hed__Applicant__c, Application_Status__c,RecordTypeId, ' +
-            'Applied_Intake_Study_Period__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
+            'SELECT Id,Name,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, '+
+            'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
+            'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, '+
             'Is_Agent_Assisted__c ' +
             'FROM hed__Application__c ' +
             'WHERE hed__Applicant__c IN :contactIds ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<hed__Application__c> getQtacApplicationsWithQtacApplicantId(
+        List<String> qtacApplicantId,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, '+
+            'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
+            'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c '+
+            'FROM hed__Application__c ' +
+            'WHERE Id IN: qtacApplicantId '+
+            'AND RecordTypeId =: QTAC_RECTYPE_ID ' +  
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
         );

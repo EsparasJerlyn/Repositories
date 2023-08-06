@@ -301,6 +301,16 @@
                 <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Engagement__c</fieldItem>
+                <identifier>RecordEngagement_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-e34aa414-fc10-4fd6-a2bb-cd42cd369ca6</name>
         <type>Facet</type>
     </flexiPageRegions>

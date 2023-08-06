@@ -269,6 +269,9 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>IP_Name__c</value>
                         </valueListItems>
                         <valueListItems>

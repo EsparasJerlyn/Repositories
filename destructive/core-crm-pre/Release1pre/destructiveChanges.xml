@@ -19,7 +19,6 @@
         <!-- (Start) DEPP-5555 -->
         <members>hed__Application__c.Application_Source__c</members>
         <members>hed__Application__c.Offer_Condition__c</members>
-        <members>hed__Application__c.QTAC_Offer_Round__c</members>
         <members>hed__Application__c.Defered_Study_Period__c</members>
         <members>hed__Application__c.Is_Education_Distruption_Applicant__c</members>
         <members>hed__Application__c.Is_Elite_Athelete_Applicant__c</members>
