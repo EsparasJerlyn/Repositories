@@ -3,6 +3,7 @@
     <fullName>Document_Start_Date__c</fullName>
     <description>The date the user started developing/defining the document.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The date when the document was started.</inlineHelpText>
     <label>Document Start Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
