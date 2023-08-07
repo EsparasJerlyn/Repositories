@@ -6,8 +6,8 @@
     <errorConditionFormula>AND(
 RecordType.DeveloperName = &quot;Commercialisation&quot;,
 ISCHANGED(StageName),
-OR(ISPICKVAL(StageName, &quot;Discontinued&quot;),
-AND(ISPICKVAL(StageName, &quot;Executed&quot;))),
+ISPICKVAL( PRIORVALUE(StageName) ,&quot;Contract&quot;),
+OR(ISPICKVAL(StageName, &quot;Discontinued&quot;),ISPICKVAL(StageName, &quot;Executed&quot;)),
 ISBLANK(Pure_Project_ID__r.Pure_CLMS_Contract_Id__c)
 )</errorConditionFormula>
     <errorMessage>CLMS Contract ID is a Mandatory Field</errorMessage>
