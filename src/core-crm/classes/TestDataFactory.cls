@@ -1840,6 +1840,21 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for getting ESB Integration User
+     * @param void
+     * @return esbIntegUser - ESB Integration User
+     */
+    public static User getESBIntegrationUser() {
+        User esbIntegUser = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_ESB%'
+            LIMIT 1
+        ];
+        return esbIntegUser;
+    }
+
+    /**
      * @description Method for getting Program Administrator
      * @param void
      * @return portalSysAdmin - QUTeX Program Admin User
