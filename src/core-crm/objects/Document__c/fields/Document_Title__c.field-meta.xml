@@ -3,6 +3,7 @@
     <fullName>Document_Title__c</fullName>
     <description>The business entered title of the document.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The name of the document.</inlineHelpText>
     <label>Document Title</label>
     <length>80</length>
     <required>false</required>

@@ -30,6 +30,10 @@
     <picklistValues>
         <picklist>Document_Type__c</picklist>
         <values>
+            <fullName>Proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Shareholder and Constitution Amendment</fullName>
             <default>false</default>
         </values>

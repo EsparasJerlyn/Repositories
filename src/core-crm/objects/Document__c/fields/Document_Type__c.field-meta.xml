@@ -3,6 +3,7 @@
     <fullName>Document_Type__c</fullName>
     <description>The document type.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The name of the Startup Company.</inlineHelpText>
     <label>Document Type</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
@@ -111,6 +112,11 @@
                 <fullName>IP Prosecution</fullName>
                 <default>false</default>
                 <label>IP Prosecution</label>
+            </value>
+            <value>
+                <fullName>Proposal</fullName>
+                <default>false</default>
+                <label>Proposal</label>
             </value>
             <value>
                 <fullName>Other</fullName>

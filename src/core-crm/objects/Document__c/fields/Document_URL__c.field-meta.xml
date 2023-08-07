@@ -3,6 +3,7 @@
     <fullName>Document_URL__c</fullName>
     <description>The URL of the document.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The URL of the location where the document is stored.</inlineHelpText>
     <label>Document URL</label>
     <required>true</required>
     <securityClassification>Official</securityClassification>

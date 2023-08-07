@@ -3,6 +3,7 @@
     <fullName>Document_Status__c</fullName>
     <description>The document status.</description>
     <externalId>false</externalId>
+    <inlineHelpText>The current status of the document i.e., draft, completed.</inlineHelpText>
     <label>Document Status</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
