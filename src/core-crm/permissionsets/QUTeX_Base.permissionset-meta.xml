@@ -33,6 +33,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AppDefinitionsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BuyerGroupMemberRelatedListCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -93,6 +97,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DmlBase</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DynamicDataTableCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DynamicQueryService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -117,9 +133,21 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IApplicationsDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IFinancialSplitsDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>IUserAppInfosDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ImplementationSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>   
     <classAccesses>
         <apexClass>PreSessionReminderEmailCtrl</apexClass>
         <enabled>true</enabled>
@@ -146,6 +174,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ProductManagementCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserAppInfosDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserInfoService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
      <classAccesses>
@@ -5877,6 +5913,15 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Dynamic_Datatable_Event__e</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>true</allowEdit>
@@ -6391,6 +6436,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Product_Specification__c.CCE</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

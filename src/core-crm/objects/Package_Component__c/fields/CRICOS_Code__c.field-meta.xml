@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRICOS_Code__c</fullName>
+    <description>Commonwealth Register of Institutions and Courses for Overseas Students</description>
+    <externalId>false</externalId>
+    <label>CRICOS Code</label>
+    <length>80</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

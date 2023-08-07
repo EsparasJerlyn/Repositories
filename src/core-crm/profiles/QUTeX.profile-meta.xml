@@ -512,6 +512,17 @@
         <layout>Related_Product_Request__c-Related Product Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Contact Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ReportAnomalyEventStore-Report Anomaly Event Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

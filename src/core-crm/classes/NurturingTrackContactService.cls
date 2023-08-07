@@ -12,12 +12,17 @@
  */
 public with sharing class NurturingTrackContactService {
     private static List<hed__Application__c> applicationList;
+    private static Map<Id,hed__Application__c>  samsAppWithQtac = new Map<Id,hed__Application__c>();
+    private static Map<String,String> appToQtacMap = new Map<String,String>();
+    private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackWithOffSetDaysMap = new Map<String,Nurture_Track_Configuration__c>();
     private static List<Case> caseList;
     private static Map<Id, Contact> domesticEntryContactMap = new Map<Id, Contact>();
     private static Map<Id, Contact> domesticExitContactMap = new Map<Id, Contact>();
     private static Map<Id, Contact> internationalEntryContactMap = new Map<Id, Contact>();
     private static Map<Id, Contact> internationalExitContactMap = new Map<Id, Contact>();
-
+    private static final String DOMESTIC_ACCEPTANCE_TO_ENROLLMENT = 'DomesticAcceptanceToEnrollment';
+    private static final String INTERNATIONAL_DIRECT_APPLICANT = 'InternationalDirectApplicants';
+    private static final String DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE = 'DomesticDeferredOfferToAcceptance';
     private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
     private static final Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = NurturingTrackService.getNurturingTrackRecords();
 
@@ -36,9 +41,15 @@ public with sharing class NurturingTrackContactService {
 
         //Contact entry criteria to process //SAMPLE METHOD ONLY
         contactToUpdate.putall(getEntryInternationalDirectApplicants(internationalEntryContactMap));
+        contactToUpdate.putall(getEntryInternationalAcceptanceDepositNotPaid(internationalEntryContactMap));
+        contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForEntry(domesticEntryContactMap));
+        contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForEntry(domesticEntryContactMap));
 
         //Contact exit criteria to //SAMPLE METHOD ONLY
         contactToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitContactMap));
+        contactToUpdate.putAll(getExitInternationalAcceptanceDepositNotPaid(internationalExitContactMap));
+        contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForExit(domesticExitContactMap));
+        contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForExit(domesticExitContactMap));
 
         return contactToUpdate.values();
     }
@@ -51,7 +62,7 @@ public with sharing class NurturingTrackContactService {
     private static void getAllRelatedRecords(Map<Id, Contact> mapOfContacts) {
         applicationList = ApplicationsDAO.newInstance().getApplicationsByContactIds(mapOfContacts.keySet(),'USER_MODE');
         getContactRecordCitizenship(mapOfContacts);
-        
+        getNurturingTrackRecords();
     }
 
     /**
@@ -130,6 +141,125 @@ public with sharing class NurturingTrackContactService {
     }
 
     /**
+    * @description Update international direct applicant contacts based on entry criteria
+    * @param Map<Id, Contact> internationEntryContactMap a map of ids to entry international contact records
+    * @return Map<Id, Contact> map of id to updated contact records for batch processing
+    */
+    private static Map<Id, Contact> getEntryInternationalAcceptanceDepositNotPaid(
+        Map<Id, Contact> internationalEntryContactMap
+    ) {
+        Map<Id, hed__Application__c> internationalDirectApplicants = new Map<Id, hed__Application__c>();
+
+        for (hed__Application__c application : applicationList) {
+            if (
+                internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                application.Is_Agent_Assisted__c  == false &&
+                application.Application_Status__c == 'Acceptance - Pending Payment' &&
+                NurturingTrackService.isDateWithinRange(
+                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
+                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                    CURRENT_INTAKE_PERIOD.get('END_DATE')
+                )
+            ) {
+                internationalDirectApplicants.put(application.Id, application);
+            }
+        }
+
+        Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new Set<String>{
+                'International Acceptance Deposit not Paid'
+            },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Contact.getSObjectType(),
+            '',
+            'International Acceptance Deposit not Paid'
+        );
+
+        List<Contact> contactToUpdateList = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            applicationIdsWithCompletedCadence,
+            internationalDirectApplicants.values(),
+            cadenceWrapper
+        );
+
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
+        return contactToUpdateMap;
+    }
+
+    /**
+      * @description: Check if the contact is for Entry Domestic Acceptance To Enrollment cadences
+      *
+      * @param Map<Id,Contact> mapOfContacts record to evaluate
+      * @return Map<Id,Contact> of domestic acceptance contact
+      */    
+      public static Map<Id,Contact> getDomesticAcceptanceToEnrollmentForEntry(Map<Id,Contact> domesticEntryContactMap) {
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
+        Map<Id, hed__Application__c> domesticAcceptanceToEnrollmentAutomated = new Map<Id, hed__Application__c>();
+        Map<Id, hed__Application__c> domesticAcceptanceToEnrollmentManual = new Map<Id, hed__Application__c>();
+        Set<Id> existingContactIdOnApplication = getDomesticAcceptanceToEnrollmentEntryFilter(applicationList,'DomesticAcceptanceToEnrollment');
+        Set<Id> existingContactIdOnAppWithProgram = getContactOnApplicationWithProgramPlan(applicationList,'Domestic Acceptance to Enrolment');
+        
+        for (hed__Application__c application : applicationList) {
+            Boolean hasExistingApplication = existingContactIdOnApplication.contains(application.hed__Applicant__c);
+            Boolean hasExistingApplicationWithProgram = existingContactIdOnAppWithProgram.contains(application.hed__Applicant__c);
+            if (domesticEntryContactMap.containsKey(application.hed__Applicant__c) && hasExistingApplication && hasExistingApplicationWithProgram) {
+                domesticAcceptanceToEnrollmentManual.put(application.Id, application);
+            }
+            else if (domesticEntryContactMap.containsKey(application.hed__Applicant__c) && hasExistingApplication && !hasExistingApplicationWithProgram) {
+                domesticAcceptanceToEnrollmentAutomated.put(application.Id, application);
+            }
+        }
+
+        getCompletedCadenceForDomesticAcceptanceToEnrollmentAutomated(domesticEntryContactMap, domesticAcceptanceToEnrollmentAutomated, contactToUpdateMap);
+        getCompletedCadenceForDomesticAcceptanceToEnrollmentManual(domesticEntryContactMap, domesticAcceptanceToEnrollmentManual, contactToUpdateMap);
+
+        return contactToUpdateMap;
+    }
+
+    /**
+     * @description: Check if the contact is for Entry of Domestic Deferred Offer to Acceptance cadences
+     *
+     * @param Map<Id,Contact> mapOfContacts record to evaluate
+     * @return Map<Id,Contact> of domestic acceptance contact
+     */    
+    public static Map<Id,Contact> getDomesticDeferredOfferToAcceptanceForEntry(Map<Id,Contact> domesticEntryContactMap) {
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
+        Map<Id, hed__Application__c> DomesticDeferredOfferToAcceptanceManual = new Map<Id, hed__Application__c>();
+        Set<Id> existingContactIdOnApplication = getContactOnApplicationForDomesticDeferredOfferToAcceptanceEntryFilter(applicationList,'DomesticDeferredOfferToAcceptance');
+        for (hed__Application__c application : applicationList) {
+            Boolean hasExistingApplication = existingContactIdOnApplication.contains(application.hed__Applicant__c);
+            if (domesticEntryContactMap.containsKey(application.hed__Applicant__c) && hasExistingApplication) {
+                DomesticDeferredOfferToAcceptanceManual.put(application.Id, application);
+            }
+        }
+        Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{
+                'Domestic Deferred Offer to Acceptance'
+            },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(), null,
+                                                                                                        'Domestic Deferred Offer to Acceptance');
+
+        List<Contact> contactToUpdateListManual = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            applicationIdsWithCompletedCadence,
+            DomesticDeferredOfferToAcceptanceManual.values(),
+            cadenceWrapper
+        );
+        if(!contactToUpdateListManual.isEmpty()){
+            contactToUpdateMap.putAll(contactToUpdateListManual);
+        }
+
+        return contactToUpdateMap;
+    }  
+
+    /**
      * @description Update international direct applicant contacts based on exit criteria
      * @param Map<Id, Contact> internationalExitContactMap
      * @return Map<Id, Contact> map of id to contact for batch processing
@@ -151,5 +281,312 @@ public with sharing class NurturingTrackContactService {
             }
         }
         return contactsForUpdatingMap;
+    }
+
+    /**
+     * @description: Check if the contact is for Exit of Domestic Acceptance To Enrollment cadences
+     *
+     * @param Map<Id,Contact> mapOfContacts record to evaluate
+     * @return Map<Id,Contact> of domestic acceptance contact
+     */    
+    public static Map<Id,Contact> getDomesticAcceptanceToEnrollmentForExit(Map<Id,Contact> domesticExitContactMap) {
+        Map<Id,Contact> contactsForUpdatingMap = new Map<Id,Contact>();     
+        Set<Id> existingContactIdOnApplicationToExit = getDomesticAcceptanceToEnrollmentExitFilter(applicationList,'DomesticAcceptanceToEnrollment');
+        for(Id contactId: domesticExitContactMap.keySet()){
+           Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(contactId);
+           if(hasExistingApplicationToExit){
+                contactsForUpdatingMap.put(
+                   contactId,
+                   new Contact(
+                           id = contactId,
+                           Calculated_Cadence__c = ''
+                       )
+                   );
+           }
+         }
+         return contactsForUpdatingMap;
+     }
+
+     /**
+     * @description: Check if the contact is for Exit of Domestic Deferred Offer to Acceptance cadences
+     *
+     * @param Map<Id,Contact> mapOfContacts record to evaluate
+     * @return Map<Id,Contact> of domestic acceptance contact
+     */    
+    public static Map<Id,Contact> getDomesticDeferredOfferToAcceptanceForExit(Map<Id,Contact> domesticExitContactMap) {
+        Map<Id,Contact> contactsForUpdatingMap = new Map<Id,Contact>();     
+        Set<Id> existingContactIdOnApplicationToExit = getDomesticDeferredOfferToAcceptanceExitFilter(applicationList,'DomesticDeferredOfferToAcceptance');
+        /* Set<Id> existingContactOnCompletedCadence = getCompletedCadenceRecord(mapOfContacts.keySet()); */
+        for(Id contactId: domesticExitContactMap.keySet()){
+          Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(contactId);
+          if(hasExistingApplicationToExit){                       
+                contactsForUpdatingMap.put(
+                  contactId,
+                  new Contact(
+                          id = contactId,
+                          Calculated_Cadence__c = ''
+                      )
+                  );
+          }
+        }
+        return contactsForUpdatingMap;
+    }
+
+    /**
+     * @description Update international direct applicant contacts based on exit criteria
+     * @param Map<Id, Contact> internationalExitContactMap
+     * @return Map<Id, Contact> map of id to contact for batch processing
+     */
+    private static Map<Id, Contact> getExitInternationalAcceptanceDepositNotPaid(
+        Map<Id, Contact> internationalExitContactMap
+    ) {
+        Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
+        Set<String> stydyLinkApplicationStatus = new Set<String>{ 'Accepted', 'Accepted -  Deferral', 'Withdrawn'};
+
+        for (hed__Application__c application : applicationList) {
+            if (
+                internationalExitContactMap.containsKey(application.hed__Applicant__c) &&
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                stydyLinkApplicationStatus.contains(application.Application_Status__c)
+            ) {
+                contactsForUpdatingMap.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+        return contactsForUpdatingMap;
+    }
+
+    /**
+     * @description: Checks existing application records of the contact for entry
+     *
+     * @param List<hed__Application__c> List of Application record to evaluate
+     * @param String Name of the cadence
+     * @return Set<Id> contactIds
+     */
+    private static Set<Id> getDomesticAcceptanceToEnrollmentEntryFilter(List<hed__Application__c> applicationList,String methodName) {
+        Set<Id> contactHasApplicationForEntry = new Set<Id>();
+        samsApplicationWithQtacApplicantIdChecking(applicationList);
+        for(hed__Application__c app: applicationList){            
+             
+            processDomesticAcceptanceToEnrollmentEntryCriteria(app, methodName, contactHasApplicationForEntry);
+        }
+        
+        return contactHasApplicationForEntry;
+    }
+
+    /**
+     * @description: Checks existing application records of the contact for entry
+     *
+     * @param List<hed__Application__c> List of Application record to evaluate
+     * @param String Name of the cadence
+     * @return Set<Id> contactIds
+     */
+    private static Set<Id> getContactOnApplicationForDomesticDeferredOfferToAcceptanceEntryFilter(List<hed__Application__c> applicationList,String methodName) {
+        Set<Id> contactHasApplicationForEntry = new Set<Id>();
+        for(hed__Application__c app: applicationList){            
+             
+            processDomesticDeferredOfferToAcceptanceEntryCriteria(app, methodName, contactHasApplicationForEntry);
+        }
+        
+        return contactHasApplicationForEntry;
+    }
+
+    /**
+     * @description: Checks existing application records of the contact for exit
+     *
+     * @param List<hed__Application__c> List of Application record to evaluate
+     * @param String Name of the cadence
+     * @return Set<Id> contactIds
+     */
+    private static Set<Id> getDomesticAcceptanceToEnrollmentExitFilter(List<hed__Application__c> applicationList,String methodName) {
+        Set<Id> contactHasApplicationForExit = new Set<Id>();            
+        for(hed__Application__c app: applicationList){            
+           processDomesticAcceptanceToEnrollmentExitCriteria(app, methodName, contactHasApplicationForExit);
+        }
+        
+        return contactHasApplicationForExit;
+    }
+
+    /**
+     * @description: Checks existing application records of the contact for exit
+     *
+     * @param List<hed__Application__c> List of Application record to evaluate
+     * @param String Name of the cadence
+     * @return Set<Id> contactIds
+     */
+    private static Set<Id> getDomesticDeferredOfferToAcceptanceExitFilter(List<hed__Application__c> applicationList,String methodName) {
+        Set<Id> contactHasApplicationForExit = new Set<Id>();            
+        for(hed__Application__c app: applicationList){            
+           processDomesticDeferredOfferToAcceptanceExitCriteria(app, methodName, contactHasApplicationForExit);
+        }
+        
+        return contactHasApplicationForExit;
+    }
+
+
+    private static void processDomesticAcceptanceToEnrollmentEntryCriteria(hed__Application__c app,String methodName,Set<Id> contactHasApplicationForEntry){
+        boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID; 
+        boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID; 
+        if(methodName == DOMESTIC_ACCEPTANCE_TO_ENROLLMENT){
+            if((isSAMSLegacyRecType || isSAMSCiRecType) &&
+                app.Application_Status__c != 'Admitted' &&
+                app.QTAC_ApplicantID__c!=null && 
+                appToQtacMap.containsKey(app.Id) &&
+                samsAppWithQtac.containsKey(appToQtacMap.get(app.Id)) &&
+                samsAppWithQtac.get(appToQtacMap.get(app.Id)).Offer_Status__c == 'Accepted unconditionally'
+                ){
+                    contactHasApplicationForEntry.add(app.hed__Applicant__c);       
+            }
+        }
+    }
+
+    private static void processDomesticDeferredOfferToAcceptanceEntryCriteria(hed__Application__c app,String methodName,Set<Id> contactHasApplicationForEntry){
+        boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID; 
+        boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        if( methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE){
+            if((isSAMSLegacyRecType || isSAMSCiRecType) &&
+                (app.Admission_Process__c == 'RTN_DEFER' || app.Admission_Process__c == 'RTN_QTAC') && 
+                app.Offer_Status__c == 'Offered' && 
+                app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-21) <= System.today() &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today() 
+                ){
+                    contactHasApplicationForEntry.add(app.hed__Applicant__c);
+            }
+        }
+    }
+
+    private static void processDomesticAcceptanceToEnrollmentExitCriteria(hed__Application__c app,String methodName,Set<Id> contactHasApplicationForExit){
+        boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID; 
+        boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID; 
+        if(methodName == DOMESTIC_ACCEPTANCE_TO_ENROLLMENT){
+            if((isSAMSLegacyRecType || isSAMSCiRecType) && 
+                (app.Application_Status__c == 'Admitted' || 
+                app.Application_Status__c == 'Withdrawn' || 
+                app.Offer_Status__c == 'Deffered')){
+                    contactHasApplicationForExit.add(app.hed__Applicant__c);
+              }
+        }
+    }
+
+    private static void processDomesticDeferredOfferToAcceptanceExitCriteria(hed__Application__c app,String methodName,Set<Id> contactHasApplicationForExit){
+        boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID; 
+        boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        if( methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE){
+            if((isSAMSLegacyRecType || isSAMSCiRecType) && 
+                (app.Offer_Status__c == 'Accepted' || 
+                app.Offer_Status__c == 'Declined'  || 
+                app.Offer_Status__c == 'Rescinded' || 
+                app.Offer_Status__c == 'Unoffered')){
+                    contactHasApplicationForExit.add(app.hed__Applicant__c);
+              }
+        }
+    }
+
+    private static void samsApplicationWithQtacApplicantIdChecking(List<hed__Application__c> applicationList) {
+     
+        for(hed__Application__c application : applicationList){
+           if(application.QTAC_ApplicantID__c != null){
+               appToQtacMap.put(application.Id,application.QTAC_ApplicantID__c);
+           }
+        }
+        samsAppWithQtac = new Map<Id,hed__Application__c>(ApplicationsDAO.newInstance().getQtacApplicationsWithQtacApplicantId(appToQtacMap.values(),'SYSTEM_MODE'));
+     }
+
+     /**
+    * @description: Get the nurturing Track Records and set the key to Cadence Name
+    *
+    */
+    private static void getNurturingTrackRecords() {               
+        
+        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrack(NurtureTrackConfigurationsDAO.NURTURE_FIELDS,'SYSTEM_MODE');
+        for(Nurture_Track_Configuration__c nurture: nurtureList){
+            if(nurture.Key_Date_Offset_Days__c != null && nurture.Criteria_Type__c == 'Entry'){
+                nurturingTrackWithOffSetDaysMap.put(nurture.Cadence_Name__c,nurture);
+            }
+        }     
+    }
+
+    /**
+     * @description: Checks existing completed cadence records of the contact
+     *
+     * @param List<hed__Application__c> application records to evaluate
+     * @param String cadence name to evaluate
+     */
+    private static  Set<Id> getContactOnApplicationWithProgramPlan(List<hed__Application__c> applications, String cadenceName) {
+        Set<Id> contactIds = new Set<Id>();
+        for(hed__Application__c app : applications){
+           if(cadenceName == 'Domestic Acceptance to Enrolment'){
+             if(app.Offered_Program_Plan__c != null && 
+                   nurturingTrackWithOffSetDaysMap.get('Domestic Acceptance to Enrolment')?.Key_Date_Offset_Days__c !=null &&
+                   app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get('Domestic Acceptance to Enrolment')?.Key_Date_Offset_Days__c) <= System.today() &&
+                   app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()){
+                       contactIds.add(app.hed__Applicant__c);
+             }
+           }
+        }
+        return contactIds;
+    }
+
+    /**
+     * @description: Checks existing completed cadence records of the contact
+     *
+     * @param Set<Id> contactIds to evaluate
+     */
+    private static Set<Id> getCompletedCadenceRecord(Set<Id> contactIds,String methodName) {    
+        Set<Id> contactIdOfCompletedCadence = new Set<Id>();    
+        List<Completed_Cadence__c> compCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByContactIds(contactIds,'SYSTEM_MODE'); 
+        for(Completed_Cadence__c comCadence : compCadenceList){
+           if(comCadence.Nurture_Track_Configuration__r.Cadence_Name__c == methodName ){
+               contactIdOfCompletedCadence.add(comCadence.Contact__c);
+           }
+        }
+        return contactIdOfCompletedCadence;
+    }
+
+    private static void getCompletedCadenceForDomesticAcceptanceToEnrollmentAutomated(Map<Id, Contact> domesticEntryContactMap,Map<Id, hed__Application__c> domesticAcceptanceToEnrollmentAutomated,Map<Id, Contact> contactToUpdateMap){
+        Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{
+                'Domestic Acceptance to Enrolment (Automated)'
+            },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(), null,
+                                                                                                        'Domestic Acceptance to Enrolment (Automated)');
+
+        List<Contact> contactToUpdateListAutomated = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            applicationIdsWithCompletedCadence,
+            domesticAcceptanceToEnrollmentAutomated.values(),
+            cadenceWrapper
+        );
+        
+        if(!contactToUpdateListAutomated.isEmpty()){
+            contactToUpdateMap.putAll(contactToUpdateListAutomated);
+        }
+    }
+
+    private static void getCompletedCadenceForDomesticAcceptanceToEnrollmentManual(Map<Id, Contact> domesticEntryContactMap,Map<Id, hed__Application__c> domesticAcceptanceToEnrollmentManual,Map<Id, Contact> contactToUpdateMap){
+        Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{
+                'Domestic Acceptance to Enrolment'
+            },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(), null,
+                                                                                                        'Domestic Acceptance to Enrolment');
+
+        List<Contact> contactToUpdateListManual = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            applicationIdsWithCompletedCadence,
+            domesticAcceptanceToEnrollmentManual.values(),
+            cadenceWrapper
+        );
+        if(!contactToUpdateListManual.isEmpty()){
+            contactToUpdateMap.putAll(contactToUpdateListManual);
+        }
     }
 }

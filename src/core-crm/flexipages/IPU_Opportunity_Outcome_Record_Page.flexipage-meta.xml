@@ -533,6 +533,16 @@
                 <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Opportunity__c</fieldItem>
+                <identifier>RecordOpportunity_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b8618d5a-19f5-495c-bd8c-3b7d135574fd</name>
         <type>Facet</type>
     </flexiPageRegions>

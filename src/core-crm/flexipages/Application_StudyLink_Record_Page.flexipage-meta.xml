@@ -35,10 +35,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Name</fieldItem>
-                <identifier>RecordNameField</identifier>
+                <fieldItem>Record.hed__Applicant__c</fieldItem>
+                <identifier>Recordhed_Applicant_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -47,8 +47,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Applied_Intake_Study_Period__c</fieldItem>
-                <identifier>RecordApplied_Intake_Study_Period_cField</identifier>
+                <fieldItem>Record.Is_International_Applicant__c</fieldItem>
+                <identifier>RecordIs_International_Applicant_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -57,8 +57,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Application_Method__c</fieldItem>
-                <identifier>RecordApplication_Method_cField</identifier>
+                <fieldItem>Record.hed__Initial_Creation_Date__c</fieldItem>
+                <identifier>Recordhed_Initial_Creation_Date_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -71,6 +71,26 @@
                 <identifier>RecordApplication_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.StudyLink_ApplicationID__c</fieldItem>
+                <identifier>RecordStudyLink_ApplicationID_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Scholarship_Name__c</fieldItem>
+                <identifier>RecordScholarship_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-56f6ed7c-3c04-4eac-82b4-b92a55e479cc</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -81,48 +101,58 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__Applicant__c</fieldItem>
-                <identifier>Recordhed_Applicant_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Applied_Program__c</fieldItem>
-                <identifier>RecordApplied_Program_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Applied_Attendance__c</fieldItem>
-                <identifier>RecordApplied_Attendance_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Is_International_Applicant__c</fieldItem>
-                <identifier>RecordIs_International_Applicant_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Lead__c</fieldItem>
-                <identifier>RecordLead_cField</identifier>
+                <identifier>RecordLead_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Current_Preference__c</fieldItem>
+                <identifier>RecordCurrent_Preference_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__Application_Date__c</fieldItem>
+                <identifier>Recordhed_Application_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Application_Status_Date__c</fieldItem>
+                <identifier>RecordApplication_Status_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.StudyLink_ApplicantID__c</fieldItem>
+                <identifier>RecordStudyLink_ApplicantID_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Scholarship_Status__c</fieldItem>
+                <identifier>RecordScholarship_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-bc87fbb7-59a0-4ec4-a484-b4e3b6bf3454</name>
@@ -159,8 +189,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__Initial_Creation_Date__c</fieldItem>
-                <identifier>Recordhed_Initial_Creation_Date_cField</identifier>
+                <fieldItem>Record.Is_Agent_Assisted__c</fieldItem>
+                <identifier>RecordIs_Agent_Assisted_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -169,8 +199,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Application_Status_Date__c</fieldItem>
-                <identifier>RecordApplication_Status_Date_cField</identifier>
+                <fieldItem>Record.Agency_Branch__c</fieldItem>
+                <identifier>RecordAgency_Branch_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -179,18 +209,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Offer_Start_Date__c</fieldItem>
-                <identifier>RecordOffer_Start_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Offer_Response_Date__c</fieldItem>
-                <identifier>RecordOffer_Response_Date_cField</identifier>
+                <fieldItem>Record.Agency_Country__c</fieldItem>
+                <identifier>RecordAgency_Country_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-6a2e6d34-07be-49ef-9498-1d889d4662d4</name>
@@ -203,8 +223,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__Application_Date__c</fieldItem>
-                <identifier>Recordhed_Application_Date_cField</identifier>
+                <fieldItem>Record.Agency_Code__c</fieldItem>
+                <identifier>RecordAgency_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -213,8 +233,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Offer_Status_Date__c</fieldItem>
-                <identifier>RecordOffer_Status_Date_cField</identifier>
+                <fieldItem>Record.Agency_Name__c</fieldItem>
+                <identifier>RecordAgency_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -223,8 +243,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Offer_Lapse_Date__c</fieldItem>
-                <identifier>RecordOffer_Lapse_Date_cField</identifier>
+                <fieldItem>Record.Agency_Email__c</fieldItem>
+                <identifier>RecordAgency_Email_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b90acd33-1342-4f9e-bf62-086d51fa9558</name>
@@ -261,28 +281,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_ApplicationID__c</fieldItem>
-                <identifier>RecordStudyLink_ApplicationID_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Admission_Basis__c</fieldItem>
                 <identifier>RecordAdmission_Basis_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Offered_Program_Plan__c</fieldItem>
-                <identifier>RecordOffered_Program_Plan_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -301,8 +301,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Agent_Assisted__c</fieldItem>
-                <identifier>RecordIs_Agent_Assisted_cField</identifier>
+                <fieldItem>Record.Offer_Start_Date__c</fieldItem>
+                <identifier>RecordOffer_Start_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -311,34 +311,14 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.QTAC_Import_ID__c</fieldItem>
-                <identifier>RecordQTAC_Import_ID_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_Offered_Program_Code__c</fieldItem>
-                <identifier>RecordStudyLink_Offered_Program_Code_cField</identifier>
+                <fieldItem>Record.Offered_Preference__c</fieldItem>
+                <identifier>RecordOffered_Preference_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-78e258a5-4090-474b-8167-9f5590d450b4</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StudyLink_ApplicantID__c</fieldItem>
-                <identifier>RecordStudyLink_ApplicantID_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -355,8 +335,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Offered_Attendance_Mode__c</fieldItem>
-                <identifier>RecordOffered_Attendance_Mode_cField</identifier>
+                <fieldItem>Record.Offer_Status_Date__c</fieldItem>
+                <identifier>RecordOffer_Status_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -365,8 +345,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Deferred_Study_Period__c</fieldItem>
-                <identifier>RecordDeferred_Study_Period_cField</identifier>
+                <fieldItem>Record.Offer_Lapse_Date__c</fieldItem>
+                <identifier>RecordOffer_Lapse_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -375,8 +355,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Nominated_Student_ID__c</fieldItem>
-                <identifier>RecordNominated_Student_ID_cField</identifier>
+                <fieldItem>Record.Offer_Response_Date__c</fieldItem>
+                <identifier>RecordOffer_Response_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8c4c60a8-38a9-43b9-bf12-9c0f9ef29b7c</name>
@@ -437,7 +417,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Key Dates</value>
+                    <value>Agency Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
@@ -455,13 +435,83 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Application Details</value>
+                    <value>Offer Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3d9b4447-b512-4f37-90e1-0ab13e5b3cde</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>RECORDTYPE|EQUALS|[&quot;StudyLink&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>hed__Application__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Application_Preferences__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Preference_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Program_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Is_Current_Preference__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Application Preferences</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>CREATED_DATE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Descending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-3c1d8f8a-c651-4cc5-9af5-f50543ec3ba6</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -511,6 +561,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-3c1d8f8a-c651-4cc5-9af5-f50543ec3ba6</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Related</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
