@@ -20,7 +20,7 @@ private class ApplicationTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -82,18 +82,18 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testApplicationWithLeadApplicationStatusWithdrawn() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
             List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'USER_MODE');   
-            
+            List<hed__Application__c> applicationToUpdateList = new List<hed__Application__c>();
             for(hed__Application__c app: existingApplicationList){                           
-                app.Application_Status__c = 'Withdrawn';  
+                applicationToUpdateList.add(new hed__Application__c(Id = app.Id ,Application_Status__c = 'Withdrawn'));
             }
             
             Test.startTest();
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .updateRecords(
-                    existingApplicationList,
+                    applicationToUpdateList,
                     false,
                     AccessLevel.USER_MODE
                 );

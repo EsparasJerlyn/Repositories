@@ -23,4 +23,8 @@ public interface IApplicationsDAO extends DmlInterface{
         Set<Id> contactIds,
         String accessLevel
     );
+    List<hed__Application__c> getQtacApplicationsWithQtacApplicantId(
+        List<String> qtacApplicantId,
+        String accessLevel
+    );
 }

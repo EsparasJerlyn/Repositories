@@ -3,6 +3,7 @@
     <fullName>Description__c</fullName>
     <description>Description of the document</description>
     <externalId>false</externalId>
+    <inlineHelpText>The description about the document.</inlineHelpText>
     <label>Description</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>

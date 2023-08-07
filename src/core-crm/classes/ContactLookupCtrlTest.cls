@@ -1,59 +1,49 @@
 /**
- * @description Tests the Contact Lookup Controller class 
- *
- * @see ContactLookupCtrl
- *
- * @author Accenture
- *
- * @history
- *    | Developer Email           | Date                  | JIRA     | Change Summary                  |
-      |---------------------------|-----------------------|----------|---------------------------------|
-      | marygrace.li@qut.edu.au   | September 20, 2021    | DEP1-158 | Created file                    |  
-      | marygrace.li@qut.edu.au   | May 19, 2022          | DEPP-2675| Added filter for AccountId      |
+* @description Tests the Contact Lookup Controller class 
+*
+* @see ContactLookupCtrl
+*
+* @author Accenture
+*
+* @history
+*    | Developer Email           | Date                  | JIRA     | Change Summary                  |
+     |---------------------------|-----------------------|----------|---------------------------------|
+     | marygrace.li@qut.edu.au   | September 20, 2021    | DEP1-158 | Created file                    |  
+     | marygrace.li@qut.edu.au   | May 19, 2022          | DEPP-2675| Added filter for AccountId      |
+     | kenneth.f.alsay           | Aug 4, 2023           | DEPP-6304| Updated runAs user              |
 */
 
 
 @isTest
 public class ContactLookupCtrlTest {
-	private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-
     @testSetup static void setupMethod() {
-       System.runAs(currentUser) {
-        Account acc = TestDataFactory.createTestAccount(false);
-        insert acc;
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            List<Account> accList = TestDataFactory.createTestAccountRecords(1);
+            AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.USER_MODE);
 
-        List<Contact> contacts = TestDataFactory.createTestContactRecords(2);
-        contacts[0].AccountId = acc.Id;
-        contacts[1].AccountId = acc.Id;
-        insert(contacts);
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(2);
+            contacts[0].AccountId = accList[0].Id;
+            contacts[1].AccountId = accList[0].Id;
+            ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.USER_MODE);
 
-        List<hed__Affiliation__c> affliatedContacts = TestDataFactory.createTestAffliatedContactRecords(2, acc.Id);
-        affliatedContacts[0].hed__Contact__c = contacts[0].Id;
-        affliatedContacts[1].hed__Contact__c = contacts[1].Id;
-
-        insert(affliatedContacts);
-       }
+            List<hed__Affiliation__c> affliatedContacts = TestDataFactory.createTestAffliatedContactRecords(2, accList[0].Id);
+            for(Integer i = 0; i<contacts.size(); i++){
+                affliatedContacts[i].hed__Contact__c = contacts[i].Id;
+            }
+            insert affliatedContacts;
+        }  
     }
-
-
+    
     @isTest
     static void getContactRecords(){
-       List<Contact> contactList = new List<Contact>();
-        User currUsr = [
-              SELECT Id
-              FROM User
-              WHERE Profile.Name = 'QUTeX' AND Email = 'testuser@mailinator.com'
-              LIMIT 1
-        ];
-
-            System.runAs(currUsr) {
-
-           	Test.startTest();
-          	Id accountId = [SELECT Id FROM ACCOUNT WHERE OwnerId =: currUsr.Id LIMIT 1].Id;
-
-            contactList = ContactLookupCtrl.getContactRecords(accountId);
+        List<Contact> contactList = new List<Contact>();
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Test.startTest();
+            List<Account> accList = [SELECT Id FROM Account];
+            contactList = ContactLookupCtrl.getContactRecords(accList[0].Id);
             Test.stopTest();
-            System.assertEquals(2, contactList.size(), 'Contacts were not created.');
-      }
+        } 
+        System.assertEquals(2, contactList.size(), 'Contacts were not created.');      
     }
 }

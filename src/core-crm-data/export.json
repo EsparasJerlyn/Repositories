@@ -66,7 +66,6 @@
         },
         {
             "query": "SELECT Name, New_Idea_To_Email_Address__c FROM Flow_Automation_Settings__c",
-            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -75,7 +74,6 @@
         },
         {
             "query": "SELECT Internal_Url__c,External_Url__c FROM Idea_Form_Url_Setting__c",
-            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Internal_Url__c",
             "useCSVValuesMapping": true,
@@ -140,7 +138,6 @@
         },
         {
             "query": "SELECT Name, Study_Store_Link__c FROM Study_Store_URL_Settings__c",
-            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
@@ -149,7 +146,6 @@
         },
         {
             "query": "SELECT Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c FROM Payment_Gateway_Settings__c",
-            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "GL_Code__c",
             "useCSVValuesMapping": true,
@@ -158,7 +154,6 @@
         },
         {
             "query": "SELECT Activity_External__c,Activity__c,Group_Coaching__c,Individual_Coaching__c,Module_External__c,Module__c,Program_External__c,Program__c,Short_Course_External__c,Short_Course__c,Unit__c,Program_Without_Pathway__c,Program_Without_Pathway_External__c FROM Form_Assembly_Link_Settings__c",
-            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Activity_External__c",
             "useCSVValuesMapping": true,
@@ -167,7 +162,6 @@
         },
         {
             "query": "SELECT Name,EmployeeSelfRegistrationLink__c FROM EmployeeSelfRegistrationForm__c ",
-            "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Name",
             "useCSVValuesMapping": true,

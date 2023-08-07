@@ -49,4 +49,18 @@ public with sharing class NurtureTrackConfigurationsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getNurtureTrackTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance()
+            .getNurtureTrack(
+                NurtureTrackConfigurationsDAO.NURTURE_FIELDS,
+                'SYSTEM_MODE'
+            );
+            System.assert(nurtureList.isEmpty(), 'nurtureList should not be empty');
+        }
+        Test.stopTest();
+    }
 }

@@ -10,7 +10,7 @@
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
-            <value>Business Organisation</value>
+            <value>Business Organization</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>

@@ -43,6 +43,7 @@
  *    | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record         |
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
+ *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
  */
 
 @isTest
@@ -1839,6 +1840,21 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for getting ESB Integration User
+     * @param void
+     * @return esbIntegUser - ESB Integration User
+     */
+    public static User getESBIntegrationUser() {
+        User esbIntegUser = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_ESB%'
+            LIMIT 1
+        ];
+        return esbIntegUser;
+    }
+
+    /**
      * @description Method for getting Program Administrator
      * @param void
      * @return portalSysAdmin - QUTeX Program Admin User
@@ -3006,4 +3022,55 @@ public class TestDataFactory {
         return finSummaries;
     }
 
+    /**
+     * @description Method for creating test Relationship Manager records
+     * @return relationshipManagers - List of  Relationship Managers created
+     */
+    public static List<Relationship_Manager__c> createRelationshipManagerWithAccountLookup(
+        Integer numOfRelationshipManagers,
+        Id recordTypeId,
+        Id accountBusinessOrgId,
+        Id userId
+    ) {
+        List<Relationship_Manager__c> relationshipManagers = new List<Relationship_Manager__c>();
+
+        for (Integer i = 0; i < numOfRelationshipManagers; i++) {
+            relationshipManagers.add(
+                new Relationship_Manager__c(
+                    RecordTypeId = recordTypeId,
+                    Account__c = accountBusinessOrgId,
+                    Relationship_Manager_Type__c = 'Advancement',
+                    Primary_QUT_Contact__c = userId,
+                    Is_Active__c = true
+                )
+            );
+        }
+        return relationshipManagers;
+    }
+
+    /**
+     * @description Method for creating AccountShare
+     * @param accountsToShare - List of Account records to share
+     * @param shareToUserOrGroupId - The user or group you want to share the Account records to
+     * @param accountAccessLevel - The access level for the Account records to be shared (Edit, Read)
+     * @return accShares - List of AccountShares created
+     */
+    public static List<AccountShare> createAccountShareRecords(
+        List<Account> accountsToShare,
+        Id shareToUserOrGroupId,
+        String accountAccessLevel
+    ){
+        List<AccountShare> accShares = new List<AccountShare>();
+
+        for (Account acc : accountsToShare){
+            AccountShare share = new AccountShare();
+            share.AccountId = acc.Id;
+            share.UserOrGroupId = shareToUserOrGroupId;
+            share.AccountAccessLevel = accountAccessLevel;
+            share.OpportunityAccessLevel = 'Read';
+            accShares.add(share);
+        }
+        
+        return accShares;
+    }
 }

@@ -4,8 +4,8 @@
         <description>Logs an error for every create/get method</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1370</locationX>
-        <locationY>2942</locationY>
+        <locationX>1018</locationX>
+        <locationY>3434</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -41,8 +41,8 @@
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>1370</locationX>
-        <locationY>3050</locationY>
+        <locationX>1018</locationX>
+        <locationY>3542</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -55,8 +55,8 @@
         <description>Assigns the contactId of the selected contact.</description>
         <name>Assign_ContactId_Selected</name>
         <label>Assign ContactId Selected</label>
-        <locationX>1106</locationX>
-        <locationY>1970</locationY>
+        <locationX>1282</locationX>
+        <locationY>2270</locationY>
         <assignmentItems>
             <assignToReference>ContactObject.Id</assignToReference>
             <operator>Add</operator>
@@ -71,8 +71,8 @@
     <assignments>
         <name>Assign_Contextual_Role_Object_Values</name>
         <label>Assign Contextual Role Object Values</label>
-        <locationX>710</locationX>
-        <locationY>1082</locationY>
+        <locationX>886</locationX>
+        <locationY>1190</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
             <operator>Assign</operator>
@@ -94,8 +94,8 @@
     <assignments>
         <name>Assign_Engagement_Stage_Commercialisation</name>
         <label>Assign Engagement Stage Commercialisation</label>
-        <locationX>578</locationX>
-        <locationY>2426</locationY>
+        <locationX>798</locationX>
+        <locationY>2810</locationY>
         <assignmentItems>
             <assignToReference>EngagementStage</assignToReference>
             <operator>Add</operator>
@@ -110,8 +110,8 @@
     <assignments>
         <name>Assign_Engagement_Stage_Research_Partnership</name>
         <label>Assign Engagement Stage Research Partnership</label>
-        <locationX>842</locationX>
-        <locationY>2426</locationY>
+        <locationX>1062</locationX>
+        <locationY>2810</locationY>
         <assignmentItems>
             <assignToReference>EngagementStage</assignToReference>
             <operator>Add</operator>
@@ -126,7 +126,7 @@
     <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>380</locationX>
+        <locationX>490</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -142,7 +142,7 @@
     <assignments>
         <name>Assign_Record_Type_Selected</name>
         <label>Assign Record Type Selected</label>
-        <locationX>710</locationX>
+        <locationX>930</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>AssignRecordTypeSelected</assignToReference>
@@ -152,14 +152,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Collect_Account_Details</targetReference>
+            <targetReference>Get_Contextual_Role_Engagement_Record_Type</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignAccountNameCreate</name>
         <label>AssignAccountNameCreate</label>
-        <locationX>842</locationX>
-        <locationY>782</locationY>
+        <locationX>1018</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountNameAssignment</assignToReference>
             <operator>Add</operator>
@@ -168,14 +168,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Contextual_Role_Engagement_Record_Type</targetReference>
+            <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignAccountNameExisting</name>
         <label>AssignAccountNameExisting</label>
-        <locationX>578</locationX>
-        <locationY>782</locationY>
+        <locationX>754</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>AccountNameAssignment</assignToReference>
             <operator>Add</operator>
@@ -184,15 +184,15 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Contextual_Role_Engagement_Record_Type</targetReference>
+            <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>Assigns the Account Id based on the Selected Account in the Lookup Component</description>
         <name>Assisgn_Account_Id_Selected</name>
         <label>Assisgn Account Id Selected</label>
-        <locationX>1106</locationX>
-        <locationY>1514</locationY>
+        <locationX>1282</locationX>
+        <locationY>1814</locationY>
         <assignmentItems>
             <assignToReference>AccountObject.Id</assignToReference>
             <operator>Add</operator>
@@ -207,7 +207,7 @@
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>380</locationX>
+        <locationX>490</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Record_Type_Selection</targetReference>
@@ -232,8 +232,8 @@
     <decisions>
         <name>Engagement_Stage_Decision</name>
         <label>Engagement Stage Decision</label>
-        <locationX>710</locationX>
-        <locationY>2318</locationY>
+        <locationX>930</locationX>
+        <locationY>2702</locationY>
         <defaultConnector>
             <targetReference>Assign_Engagement_Stage_Research_Partnership</targetReference>
         </defaultConnector>
@@ -257,8 +257,8 @@
     <decisions>
         <name>Is_Account_Created_or_Select_from_Existing</name>
         <label>Is Account Created or Select from Existing</label>
-        <locationX>710</locationX>
-        <locationY>1406</locationY>
+        <locationX>886</locationX>
+        <locationY>1706</locationY>
         <defaultConnector>
             <targetReference>Assisgn_Account_Id_Selected</targetReference>
         </defaultConnector>
@@ -282,8 +282,8 @@
     <decisions>
         <name>Is_Create_Contact_Selected</name>
         <label>Is Create Contact Selected?</label>
-        <locationX>710</locationX>
-        <locationY>1862</locationY>
+        <locationX>886</locationX>
+        <locationY>2162</locationY>
         <defaultConnector>
             <targetReference>Assign_ContactId_Selected</targetReference>
         </defaultConnector>
@@ -307,8 +307,8 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_Assignment</name>
         <label>Is Create New Account Selected Assignment</label>
-        <locationX>710</locationX>
-        <locationY>674</locationY>
+        <locationX>886</locationX>
+        <locationY>890</locationY>
         <defaultConnector>
             <targetReference>AssignAccountNameCreate</targetReference>
         </defaultConnector>
@@ -327,6 +327,120 @@
                 <targetReference>AssignAccountNameExisting</targetReference>
             </connector>
             <label>Is Selected Create New Account Assignement</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Skips the contextual Role creation if recordtype is commercialisation</description>
+        <name>What_RecordType_is_Selected_for_Contextual_Role_Creation</name>
+        <label>What RecordType is Selected for Contextual Role Creation</label>
+        <locationX>930</locationX>
+        <locationY>3218</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Commercialisation_RecordType_Selected_in_Contextual_Role</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Commercialisation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Detail_Page_Navigationn</targetReference>
+            </connector>
+            <label>Commercialisation RecordType Selected in Contextual Role</label>
+        </rules>
+        <rules>
+            <name>Research_Partnership_RecordType_Selected_in_Contextual_Role</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research Partnership</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Contextual_Role_Record</targetReference>
+            </connector>
+            <label>Research Partnership RecordType Selected in Contextual Role</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Skips the Creation of Account and Contact Records</description>
+        <name>What_RecordType_is_Selected_for_Creation_of_Account_and_Contact</name>
+        <label>What RecordType is Selected for Creation of Account and Contact</label>
+        <locationX>930</locationX>
+        <locationY>1598</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Commercialisation_RecordType_Selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Commercialisation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Engagement_Stage_Decision</targetReference>
+            </connector>
+            <label>Commercialisation RecordType Selected in Creating Account and Contact</label>
+        </rules>
+        <rules>
+            <name>Research_Partnership_RecordType_Selected_in_Creating_Account_and_Contact</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research Partnership</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_Account_Created_or_Select_from_Existing</targetReference>
+            </connector>
+            <label>Research Partnership RecordType Selected in Creating Account and Contact</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Skips the Account and Contact Screen if RecordType is Commercialisation</description>
+        <name>What_RecordType_is_Selected_for_Enagagement_Screen</name>
+        <label>What RecordType is Selected for Enagagement Screen</label>
+        <locationX>930</locationX>
+        <locationY>674</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Commercialisation_RecordType</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Commercialisation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Collect_Engagement_Details</targetReference>
+            </connector>
+            <label>Commercialisation RecordType</label>
+        </rules>
+        <rules>
+            <name>Research_Partnership_RecordType</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research Partnership</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Collect_Account_Details</targetReference>
+            </connector>
+            <label>Research Partnership RecordType</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -414,8 +528,8 @@
         <description>Creates Account Record Based on the Get Account Details screen</description>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>314</locationX>
-        <locationY>1622</locationY>
+        <locationX>490</locationX>
+        <locationY>1922</locationY>
         <assignRecordIdToReference>AccountObject.Id</assignRecordIdToReference>
         <connector>
             <targetReference>Is_Create_Contact_Selected</targetReference>
@@ -465,8 +579,8 @@
     <recordCreates>
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
-        <locationX>710</locationX>
-        <locationY>2834</locationY>
+        <locationX>754</locationX>
+        <locationY>3326</locationY>
         <connector>
             <targetReference>Detail_Page_Navigationn</targetReference>
         </connector>
@@ -515,11 +629,11 @@
     <recordCreates>
         <name>Create_Engagement_Record</name>
         <label>Create Engagement Record</label>
-        <locationX>710</locationX>
-        <locationY>2726</locationY>
+        <locationX>930</locationX>
+        <locationY>3110</locationY>
         <assignRecordIdToReference>EngagementId</assignRecordIdToReference>
         <connector>
-            <targetReference>Create_Contextual_Role_Record</targetReference>
+            <targetReference>What_RecordType_is_Selected_for_Contextual_Role_Creation</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -560,8 +674,8 @@
     <recordCreates>
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
-        <locationX>314</locationX>
-        <locationY>2078</locationY>
+        <locationX>490</locationX>
+        <locationY>2378</locationY>
         <assignRecordIdToReference>ContactObject.Id</assignRecordIdToReference>
         <connector>
             <targetReference>Engagement_Stage_Decision</targetReference>
@@ -618,8 +732,8 @@
         <description>Gets the Business Organization RecordType for Account</description>
         <name>Get_Business_Organization_RecordType</name>
         <label>Get Business Organization RecordType</label>
-        <locationX>314</locationX>
-        <locationY>1514</locationY>
+        <locationX>490</locationX>
+        <locationY>1814</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Account_Record</targetReference>
@@ -650,11 +764,11 @@
     <recordLookups>
         <name>Get_Contextual_Role_Engagement_Record_Type</name>
         <label>Get Contextual Role Engagement Record Type</label>
-        <locationX>710</locationX>
-        <locationY>974</locationY>
+        <locationX>930</locationX>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
+            <targetReference>What_RecordType_is_Selected_for_Enagagement_Screen</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -682,8 +796,8 @@
     <recordLookups>
         <name>Get_Engagement_RecordType</name>
         <label>Get Engagement RecordType</label>
-        <locationX>710</locationX>
-        <locationY>2618</locationY>
+        <locationX>930</locationX>
+        <locationY>3002</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Engagement_Record</targetReference>
@@ -715,8 +829,8 @@
         <description>Gets the Person recordtype for contact.</description>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>314</locationX>
-        <locationY>1970</locationY>
+        <locationX>490</locationX>
+        <locationY>2270</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_New_Contact_Record</targetReference>
@@ -747,8 +861,8 @@
     <screens>
         <name>Collect_Account_Details</name>
         <label>Collect Account Details</label>
-        <locationX>710</locationX>
-        <locationY>566</locationY>
+        <locationX>886</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -933,8 +1047,8 @@
     <screens>
         <name>Collect_Contact_Details</name>
         <label>Collect Contact Details</label>
-        <locationX>710</locationX>
-        <locationY>1190</locationY>
+        <locationX>886</locationX>
+        <locationY>1298</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1227,13 +1341,13 @@
     <screens>
         <name>Collect_Engagement_Details</name>
         <label>Collect Engagement Details</label>
-        <locationX>710</locationX>
-        <locationY>1298</locationY>
+        <locationX>930</locationX>
+        <locationY>1490</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Is_Account_Created_or_Select_from_Existing</targetReference>
+            <targetReference>What_RecordType_is_Selected_for_Creation_of_Account_and_Contact</targetReference>
         </connector>
         <fields>
             <name>EngagementDetailsText</name>
@@ -1295,8 +1409,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>1370</locationX>
-        <locationY>3158</locationY>
+        <locationX>1018</locationX>
+        <locationY>3650</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1311,7 +1425,7 @@
     <screens>
         <name>Record_Type_Selection</name>
         <label>Record Type Selection</label>
-        <locationX>710</locationX>
+        <locationX>930</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1323,6 +1437,9 @@
             <name>Select_a_Record_Type</name>
             <choiceReferences>EngagementRecordType</choiceReferences>
             <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>DefaultRecordTypeSelected</elementReference>
+            </defaultValue>
             <fieldText>Select a Record Type</fieldText>
             <fieldType>RadioButtons</fieldType>
             <helpText>&lt;p&gt;&lt;strong&gt;Commercialisation&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Create Commercialisation Engagement to identify and assess research before its ready for commercialisation.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Research Partnership&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Create Research Partnership Engagement to identify new opportunities with industry partners to support research and research training initiatives.&lt;/li&gt;&lt;/ul&gt;</helpText>
@@ -1332,7 +1449,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>254</locationX>
+        <locationX>364</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
@@ -1342,8 +1459,8 @@
     <subflows>
         <name>Detail_Page_Navigationn</name>
         <label>Detail Page Navigationn</label>
-        <locationX>710</locationX>
-        <locationY>2942</locationY>
+        <locationX>930</locationX>
+        <locationY>3974</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
@@ -1390,6 +1507,16 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Contextual_Role__c</objectType>
+    </variables>
+    <variables>
+        <name>DefaultRecordTypeSelected</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>Commercialisation</stringValue>
+        </value>
     </variables>
     <variables>
         <description>Stores the EngagementId</description>
