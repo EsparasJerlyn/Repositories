@@ -30,6 +30,9 @@
         <!-- Start DEPP-6243 -->
         <members>Relationship_Manager__c.User__c</members>
         <!-- End DEPP-6243 -->
+        <!--Start DEPP-6271-->
+        <members>Document__c.Document_End_Date__c</members>
+        <!-- End DEPP-6271 -->
         <name>CustomField</name>
     </types>
     <types>
@@ -87,6 +90,5 @@
         <!--End DEPP-6208-->
         <name>CustomPageWebLink</name>
     </types>
-    
     <version>52.0</version>
 </Package>

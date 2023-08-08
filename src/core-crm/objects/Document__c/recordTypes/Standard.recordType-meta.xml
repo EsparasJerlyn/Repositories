@@ -98,6 +98,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Share Certificate</fullName>
             <default>false</default>
         </values>

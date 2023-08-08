@@ -86,6 +86,13 @@
                 <elementReference>IP_Management_Relationship_Is_Active</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>IP_Management_Relationship_To_Insert.IP_Management__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>IPManagement.recordId</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Source_Sobject_Type</targetReference>
         </connector>
@@ -342,10 +349,42 @@
                 <name>Select_IP_Management_Screen_Section1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>IPManagement</name>
+                    <extensionName>flowruntime:lookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>fieldApiName</name>
+                        <value>
+                            <stringValue>IP_Management__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>IP Management</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>objectApiName</name>
+                        <value>
+                            <stringValue>IP_Management_Relationship__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>maxValues</name>
+                        <value>
+                            <numberValue>1.0</numberValue>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>IP_Management_Relationship_To_Insert.IP_Management__c</objectFieldReference>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <inputParameters>
                     <name>width</name>

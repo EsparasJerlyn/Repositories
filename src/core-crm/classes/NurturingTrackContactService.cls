@@ -44,12 +44,14 @@ public with sharing class NurturingTrackContactService {
         contactToUpdate.putall(getEntryInternationalAcceptanceDepositNotPaid(internationalEntryContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForEntry(domesticEntryContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForEntry(domesticEntryContactMap));
+        contactToUpdate.putall(getEntryDomesticFirstOffertoAcceptance(domesticEntryContactMap));
 
         //Contact exit criteria to //SAMPLE METHOD ONLY
         contactToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalAcceptanceDepositNotPaid(internationalExitContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForExit(domesticExitContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForExit(domesticExitContactMap));
+        contactToUpdate.putAll(getExitDomesticFirstOffertoAcceptance(domesticExitContactMap));
 
         return contactToUpdate.values();
     }
@@ -562,7 +564,7 @@ public with sharing class NurturingTrackContactService {
             domesticAcceptanceToEnrollmentAutomated.values(),
             cadenceWrapper
         );
-        
+
         if(!contactToUpdateListAutomated.isEmpty()){
             contactToUpdateMap.putAll(contactToUpdateListAutomated);
         }
@@ -585,6 +587,221 @@ public with sharing class NurturingTrackContactService {
             domesticAcceptanceToEnrollmentManual.values(),
             cadenceWrapper
         );
+        if(!contactToUpdateListManual.isEmpty()){
+            contactToUpdateMap.putAll(contactToUpdateListManual);
+        }
+    }
+
+    /**
+     * @description Update domestic direct applicant contacts based on entry criteria
+     * @param Map<Id, Contact> domesticEntryContactMap a map of ids to entry domestic contact records
+     * @return Map<Id, Contact> map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getEntryDomesticFirstOffertoAcceptance(
+        Map<Id, Contact> domesticEntryContactMap
+    ) {
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
+        Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceManual = new Map<Id, hed__Application__c>();
+        Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
+
+        // To group Automated and Manual Application
+        for (hed__Application__c application : applicationList) {
+            boolean isSAMSLegacyRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+            boolean isSAMSCiRecType = application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            if (
+                (isSAMSLegacyRecType || isSAMSCiRecType) &&
+                domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
+                application.Offer_Status__c == 'Offer' &&
+                application.Admission_Process__c != 'RTN_DEFER/RTN_QTAC'
+            ) {
+                processCompletedDomesticFirstOffertoAcceptance(application, domesticFirstOffertoAcceptanceManual, domesticFirstOffertoAcceptanceAutomated);
+            }
+        }
+
+        Map<Id, hed__Application__c> latestApplicationAutomated = new Map<Id, hed__Application__c>();
+        Map<Id, hed__Application__c> latestApplicationManual = new Map<Id, hed__Application__c>();
+
+        processLatestApplicationDate(domesticFirstOffertoAcceptanceAutomated, latestApplicationAutomated);
+        processLatestApplicationDate(domesticFirstOffertoAcceptanceManual, latestApplicationManual);
+        getCompletedDomesticFirstOffertoAcceptanceAutomated(domesticEntryContactMap, latestApplicationAutomated, contactToUpdateMap);
+        processRemoveApplicationInLatestApplication(latestApplicationManual, contactToUpdateMap);
+        getCompletedDomesticFirstOffertoAcceptanceManual(domesticEntryContactMap, latestApplicationManual, contactToUpdateMap);
+
+        return contactToUpdateMap;
+    }
+
+    /**
+     * @description Update domestic direct applicant contacts based on exit criteria
+     * @param Map<Id, Contact> domesticExitContactMap
+     * @return Map<Id, Contact> map of id to contact for batch processing
+     */
+    private static Map<Id, Contact> getExitDomesticFirstOffertoAcceptance(
+        Map<Id, Contact> domesticExitContactMap
+    ) {
+        Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
+
+        Set<String> offerStatus = new Set<String>{ 'Accepted', 'Declined', 'Deferred', 'Lapsed' };
+
+        for (hed__Application__c application : applicationList) {
+            boolean isSAMSLegacyRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+            boolean isSAMSCiRecType = application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+
+            if (
+                domesticExitContactMap.containsKey(application.hed__Applicant__c) &&
+                (isSAMSLegacyRecType || isSAMSCiRecType) &&
+                offerStatus.contains(application.Offer_Status__c)
+            ) {
+                contactsForUpdatingMap.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+        return contactsForUpdatingMap;
+    }
+
+    /**
+     * @description Get only latest application by date Automated
+     * @param Map<Id, hed__Application__c> domesticFirstOffertoAcceptance
+     * @param Map<Id, hed__Application__c> latestApplicationAutomated
+     */
+    private static void processLatestApplicationDate(Map<Id, hed__Application__c> domesticFirstOffertoAcceptance, Map<Id, hed__Application__c> latestApplication) {
+        Map<Id, hed__Application__c> filterByContactApplication = new Map<Id, hed__Application__c>();
+
+        for (Id applicationId : domesticFirstOffertoAcceptance.keySet()) {
+            Id contactId = domesticFirstOffertoAcceptance.get(applicationId).hed__Applicant__c;
+            hed__Application__c application = domesticFirstOffertoAcceptance.get(applicationId);
+
+            if (
+                !filterByContactApplication.containsKey(contactId) ||
+                (
+                    filterByContactApplication.containsKey(contactId) &&
+                    (application.hed__Application_Date__c > filterByContactApplication.get(contactId).hed__Application_Date__c)
+                )
+            ) {
+                filterByContactApplication.put(contactId, domesticFirstOffertoAcceptance.get(applicationId));
+            }
+        }
+
+        for (Id contactId : filterByContactApplication.keySet()) {
+            hed__Application__c application = filterByContactApplication.get(contactId);
+            latestApplication.put(application.Id, application);
+        }
+    }
+
+    /**
+     * @description Check 2 days after offer received for Manual else Automated
+     * @param Map<Id, hed__Application__c> application
+     * @param Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceManual
+     * @param Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated
+     */
+    private static void processCompletedDomesticFirstOffertoAcceptance(hed__Application__c application, Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceManual,Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated){
+        Date currentDate = System.TODAY();
+
+        if (
+            currentDate.daysBetween(application.Offer_Start_Date__c) <= 2 &&
+            currentDate.daysBetween(application.Offer_Start_Date__c) >= 0
+        ) {
+            domesticFirstOffertoAcceptanceManual.put(application.Id, application); // Group Manual Application
+        } else {
+            domesticFirstOffertoAcceptanceAutomated.put(application.Id, application); // Group Automated Application
+        }
+    }
+
+    /**
+     * @description Remove in list manual application if Contact Id is in Automated list insertion
+     * @param Map<Id, hed__Application__c> latestApplicationManual
+     * @param Map<Id, Contact> contactToUpdateMap
+     */
+    private static void processRemoveApplicationInLatestApplication(Map<Id, hed__Application__c> latestApplicationManual, Map<Id, Contact> contactToUpdateMap) {
+        for (Id applicationId : latestApplicationManual.keySet()) {
+            hed__Application__c application = latestApplicationManual.get(applicationId);
+
+            if (contactToUpdateMap.containsKey(application.hed__Applicant__c)) {
+                latestApplicationManual.remove(applicationId);
+            }
+        }
+    }
+
+    /**
+     * @description Process Automated Application
+     * @param Map<Id, Contact> domesticEntryContactMap
+     * @param Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated
+     * @param Map<Id, Contact> contactToUpdateMap
+     */
+    private static void getCompletedDomesticFirstOffertoAcceptanceAutomated(Map<Id, Contact> domesticEntryContactMap,Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated,Map<Id, Contact> contactToUpdateMap){
+        // Check Contact and Cadence Name if Automated is already Completed
+        Map<Id, List<String>> completedAutomatedCadenceByContactId = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{
+                'Domestic First Offer to Acceptance (Automated)'
+            },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(), null,
+                                                                                                        'Domestic First Offer to Acceptance (Automated)');
+
+        // Check and Update Contacts Cadence Name
+        List<Contact> completedManualCadenceByContactId = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            completedAutomatedCadenceByContactId,
+            domesticFirstOffertoAcceptanceAutomated.values(),
+            cadenceWrapper
+        );
+
+        if(!completedManualCadenceByContactId.isEmpty()){
+            contactToUpdateMap.putAll(completedManualCadenceByContactId);
+        }
+    }
+
+    /**
+     * @description Process Manual Application
+     * @param Map<Id, Contact> domesticEntryContactMap
+     * @param Map<Id, hed__Application__c> latestApplicationManual
+     * @param Map<Id, Contact> contactToUpdateMap
+     */
+    private static void getCompletedDomesticFirstOffertoAcceptanceManual(Map<Id, Contact> domesticEntryContactMap,Map<Id, hed__Application__c> latestApplicationManual,Map<Id, Contact> contactToUpdateMap){
+        // Check Contact and Cadence Name if Automated is already Completed
+        Map<Id, List<String>> completedAutomatedCadenceByContactId = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{
+                'Domestic First Offer to Acceptance (Automated)'
+            },
+            Contact.getSObjectType()
+        );
+
+
+        Map<Id, hed__Application__c> latesetApplicationForManualCadence = new Map<Id, hed__Application__c>();
+
+        // Get only the contact application that needs to be inserted if Automated is Completed
+        for(Id applicationId : latestApplicationManual.keySet()){
+            hed__Application__c application = latestApplicationManual.get(applicationId);
+
+            if (completedAutomatedCadenceByContactId.containsKey(application.hed__Applicant__c)) {
+                latesetApplicationForManualCadence.put(applicationId, application);
+            }
+        }
+
+        // Check Contact and Cadence Name if Manual is already Completed
+        Map<Id, List<String>> completedManualCadenceByContactId = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{
+                'Domestic First Offer to Acceptance'
+            },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(),
+                                                                                                        '',
+                                                                                                        'Domestic First Offer to Acceptance');
+
+        // Check and Update Contacts Cadence Name
+        List<Contact> contactToUpdateListManual = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            completedManualCadenceByContactId,
+            latesetApplicationForManualCadence.values(),
+            cadenceWrapper
+        );
+
         if(!contactToUpdateListManual.isEmpty()){
             contactToUpdateMap.putAll(contactToUpdateListManual);
         }

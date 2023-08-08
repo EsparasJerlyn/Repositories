@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Document_End_Date__c</fullName>
+    <fullName>Document_Completion_Date__c</fullName>
     <description>The date the user finalised the document.</description>
     <externalId>false</externalId>
-    <label>Document End Date</label>
+    <inlineHelpText>The date when the document was completed.</inlineHelpText>
+    <label>Document Completion Date</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Date</type>
-</CustomField>
+</CustomField> 
