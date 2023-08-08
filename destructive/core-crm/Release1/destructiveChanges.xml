@@ -151,6 +151,9 @@
         <!--Start DEPP-6136-->
         <members>QTAC_Preference__c-QTAC Preference Layout.layout-meta.xml</members>
         <!--End DEPP-6136-->
+        <!--Start DEPP-6306-->
+        <members>Task-Nurture.layout-meta.xml</members>
+        <!--End DEPP-6306-->
         <name>Layout</name>
     </types>
     <types>
