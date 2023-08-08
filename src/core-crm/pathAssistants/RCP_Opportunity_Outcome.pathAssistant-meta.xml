@@ -4,5 +4,21 @@
     <entityName>Opportunity_Outcome__c</entityName>
     <fieldName>Stage_Name__c</fieldName>
     <masterLabel>RCP Opportunity Outcome</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Active&amp;#39; indicates that the project is being actively managed. The project becomes ‘Active’ from the date specified in the ‘Start Date’ field.&lt;/li&gt;&lt;li&gt;Use the ‘Activity’ panel to create and track the tasks related to managing this project.&lt;/li&gt;&lt;li&gt;Update the ‘Governance’ and ‘Compliance’ tabs with the risks, milestones and financials relevant to this project as it progresses. Under the ‘Documents’ tab, record the documents that have been created with links to where they are stored.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Active</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Completed’ indicates that the project has reached its end date. The project is ‘Completed’ on the date specified in the ‘End Date’ field.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Decommissioned’ indicates that the project has been discontinued. Update the ‘Decommissioned Date’ field to trigger the ‘Decommissioned’ state and update the ‘Decommissioned Reason’ field to capture the reasons for decommissioning. &lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Decommissioned</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘New&amp;#39; indicates that a new commercialisation project has been created from an opportunity. &lt;/li&gt;&lt;li&gt;Complete the ‘Outcome Summary’ section by updating the ‘Project Summary’, ‘Finance Account Code’, ‘Project Type’ and ‘End Date’ fields.  &lt;/li&gt;&lt;li&gt;Use the ‘Activity’ panel to create and track the tasks related to managing this project.&lt;/li&gt;&lt;li&gt;Update the ‘Governance’ and ‘Compliance’ tabs with the risks, milestones and financials relevant to this project. Under the ‘Documents’ tab, record the documents that have been created with links to where they are stored.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
     <recordTypeName>Research_Commercialisation_Project</recordTypeName>
 </PathAssistant>

@@ -4,5 +4,17 @@
     <entityName>Engagement__c</entityName>
     <fieldName>Stage_Name__c</fieldName>
     <masterLabel>Research Partnership Engagement</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Active&amp;#39; indicates that you are engaging with a prospective partner to explore an opportunity/multiple opportunities. &lt;/li&gt;&lt;li&gt;Complete the ‘Engagement Summary’ field to capture meaningful detail on what you’re engaging with the partner about. Use ‘Notes’ to record relevant information to help you manage the relationship and/or engagement. Use the ‘Activity’ panel to record your interactions and track tasks.&lt;/li&gt;&lt;li&gt;The ‘Relationships’ tab allows you to record who is involved and create the opportunity/opportunities that has/have arisen from your engagement.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Active</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Inactive’ indicates that there is no longer an opportunity to progress with the prospective partner. Update the ‘Inactive Reason’ and ‘Inactive Reason Comment&amp;#39; fields to confirm reasons.&lt;/li&gt;&lt;li&gt;After the engagement is made ‘Inactive’, it cannot be returned to ‘Active’. A new engagement must be created for any subsequent engagement with this prospective partner.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Inactive</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘On Hold’ indicates that engagement with the prospective partner is not being progressed at the moment. Update the ‘On hold comment’ field to capture the reasons why the engagement is currently on hold.&lt;/li&gt;&lt;li&gt;Should the engagement become active again, change the ‘Stage&amp;#39; field under ‘Stage Management’ to ‘Active’.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>On Hold</picklistValueName>
+    </pathAssistantSteps>
     <recordTypeName>Research_Partnership</recordTypeName>
 </PathAssistant>
