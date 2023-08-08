@@ -49,7 +49,7 @@ parameters:
 - name: TARGET_BRANCH
   displayName: Target Branch
   type: string
-  default: develop
+  default: develop_secondary
 
 stages:
   - stage: PiplineJob
