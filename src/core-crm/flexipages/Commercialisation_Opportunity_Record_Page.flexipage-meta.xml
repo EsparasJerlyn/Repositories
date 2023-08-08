@@ -1514,7 +1514,7 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection9</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 5) OR 2 OR 3 OR 4</booleanFilter>
+                    <booleanFilter>((1 AND 5) AND 6) OR (1 AND (2 OR 3 OR 4))</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>NE</operator>
@@ -1539,6 +1539,11 @@
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>NE</operator>
                         <rightValue>Negotiate</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Partnership_Manager</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -1606,7 +1611,7 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection6</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 OR 2) OR (3 OR 4 OR 5)</booleanFilter>
+                    <booleanFilter>((1 OR 2) AND 6) OR (7 AND (3 OR 4 OR 5))</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -1631,6 +1636,16 @@
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>VP_Business_Development</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Partnership_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Collaborate</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -1930,7 +1945,7 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection13</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
+                    <booleanFilter>((1 OR 2) AND 6) OR ((7 AND 8) AND (3 OR 4 OR 5))</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -1955,6 +1970,21 @@
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>VP_Business_Development</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Partnership_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Collaborate</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Negotiate</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2017,7 +2047,7 @@
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
+                    <booleanFilter>((1 OR 2) AND 6) OR ((7 AND 8) AND (3 OR 4 OR 5))</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -2042,6 +2072,21 @@
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Executive_Director_Industry_Engagement</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Partnership_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Collaborate</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Negotiate</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -2325,7 +2370,7 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection7</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 OR 2) OR (3 OR 4 OR 5)</booleanFilter>
+                    <booleanFilter>((1 OR 2) AND 6) OR ((7 AND 8) AND (3 OR 4 OR 5))</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -2350,6 +2395,21 @@
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>VP_Business_Development</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Partnership_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Collaborate</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Negotiate</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

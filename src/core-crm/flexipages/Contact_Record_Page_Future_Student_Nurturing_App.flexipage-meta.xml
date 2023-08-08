@@ -1298,7 +1298,7 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Lead_Source__c|NOT_EQUAL|Event</value>
+                            <value>Lead_Source_Category__c|NOT_EQUAL|[&quot;Event&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1364,7 +1364,7 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Lead_Source__c|EQUALS|Event</value>
+                            <value>Lead_Source_Category__c|EQUALS|[&quot;Event&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
