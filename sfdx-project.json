@@ -56,17 +56,17 @@
       "aliasfy": true
     },
     {
-      "path": "src/core-crm-data",
-      "package": "core-crm-data",
-      "type": "data",
-      "defaultData": true,
+      "path": "src/core-crm-data-onetime",
+      "package": "core-crm-data-onetime",
+      "type": "data-onetime",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     },
     {
-      "path": "src/core-crm-data-onetime",
-      "package": "core-crm-data-onetime",
-      "type": "data-onetime",
+      "path": "src/core-crm-data",
+      "package": "core-crm-data",
+      "type": "data",
+      "defaultData": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     }

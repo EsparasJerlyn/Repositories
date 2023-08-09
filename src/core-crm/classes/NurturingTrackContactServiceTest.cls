@@ -19,8 +19,8 @@ public with sharing class NurturingTrackContactServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
-        System.runAs(TestDataFactory.getProgramAdminUser()) {   
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {   
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -46,7 +46,7 @@ public with sharing class NurturingTrackContactServiceTest {
     
     @isTest
     private static void testAutomaticInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -79,7 +79,7 @@ public with sharing class NurturingTrackContactServiceTest {
     
     @isTest
     private static void testManualInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -119,7 +119,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testInternationalAcceptanceDepositNotPaidEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -152,7 +152,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testAutomatedDomesticFirstOffertoAcceptanceEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -187,7 +187,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testManualDomesticFirstOffertoAcceptanceEntryHasCompleteCadence() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -246,7 +246,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testMultipleRecordsNoCompleteCadenceDomesticFirstOffertoAcceptanceEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -303,7 +303,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testInternationalAcceptanceDepositNotPaidExit() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -337,7 +337,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testAutomaticInternationalDirectApplicantExit() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -369,7 +369,7 @@ public with sharing class NurturingTrackContactServiceTest {
     
     @isTest
     private static void testManualInternationalDirectApplicantExit() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -407,7 +407,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForEntryManualTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -445,7 +445,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForEntryAutomatedTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -469,7 +469,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForExitAutomatedTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -492,7 +492,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void getDomesticAcceptanceToEnrollmentForExitManualTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -515,7 +515,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void getDomesticDeferredOfferToAcceptanceForEntryTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -541,7 +541,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void getDomesticDeferredOfferToAcceptanceForExitTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -565,7 +565,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testAutomatedDomesticFirstOffertoAcceptanceExit() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -599,7 +599,7 @@ public with sharing class NurturingTrackContactServiceTest {
 
     @isTest
     private static void testManualDomesticFirstOffertoAcceptanceExit() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -627,6 +627,186 @@ public with sharing class NurturingTrackContactServiceTest {
                 '',
                 processContacts[0].Calculated_Cadence__c,
                 'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
+    private static void getEntryDomesticOfferLapsedAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            //Create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+            newContacts[0].Calculated_Cadence__c = '';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            //Create nurture track record for Key Date Offset Days
+            List<Nurture_Track_Configuration__c> nurtureListAutomated = new List<Nurture_Track_Configuration__c>();
+            Nurture_Track_Configuration__c nurtureAutomated = new Nurture_Track_Configuration__c();
+            nurtureAutomated.Cadence_Name__c = 'Domestic Offer Lapsed (Automated)';
+            nurtureAutomated.Key_Date_Offset_Days__c = 3;
+            nurtureAutomated.Status__c = 'Active';
+            nurtureAutomated.Criteria_Type__c = 'Entry';
+            nurtureListAutomated.add(nurtureAutomated);
+            NurtureTrackConfigurationsDAO.newInstance()
+                .insertRecords(nurtureListAutomated, false, AccessLevel.SYSTEM_MODE);
+            
+            //Create nurture track record for Key Date Offset Days != null
+            List<Nurture_Track_Configuration__c> nurtureListManual = new List<Nurture_Track_Configuration__c>();
+            Nurture_Track_Configuration__c nurtureManual = new Nurture_Track_Configuration__c();
+            nurtureManual.Cadence_Name__c = 'Domestic Offer Lapsed';
+            nurtureManual.Key_Date_Offset_Days__c = 4;
+            nurtureManual.Status__c = 'Active';
+            nurtureManual.Criteria_Type__c = 'Entry';
+            nurtureListManual.add(nurtureManual);
+            NurtureTrackConfigurationsDAO.newInstance()
+                .insertRecords(nurtureListManual, false, AccessLevel.SYSTEM_MODE);
+            
+            //Create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(
+                newContacts,
+                ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID,
+                'New'
+            );
+            newApplications[0].Offer_Status__c = 'Lapsed';
+            newApplications[0].Offer_Lapse_Date__c = System.today().addDays(-(Integer) nurtureListAutomated[0].Key_Date_Offset_Days__c);
+            ApplicationsDAO.newInstance()
+                .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
+                new Map<Id, Contact>(newContacts)
+            );
+            Test.stopTest();
+
+            System.assertEquals(
+                'Domestic Offer Lapsed (Automated)',
+                processContacts[0].Calculated_Cadence__c,
+                'Domestic Offer Lapsed (Automated): Entry criteria met'
+            );
+        }
+    }
+
+    @isTest
+    private static void getEntryDomesticOfferLapsedManualTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            //Create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+            newContacts[0].Calculated_Cadence__c = '';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            //Create nurture track record for Key Date Offset Days
+            List<Nurture_Track_Configuration__c> nurtureListManual = new List<Nurture_Track_Configuration__c>();
+            Nurture_Track_Configuration__c nurtureManual = new Nurture_Track_Configuration__c();
+            nurtureManual.Cadence_Name__c = 'Domestic Offer Lapsed';
+            nurtureManual.Key_Date_Offset_Days__c = 4;
+            nurtureManual.Status__c = 'Active';
+            nurtureManual.Criteria_Type__c = 'Entry';
+            nurtureListManual.add(nurtureManual);
+            NurtureTrackConfigurationsDAO.newInstance()
+                .insertRecords(nurtureListManual, false, AccessLevel.SYSTEM_MODE);
+
+            //Create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(
+                newContacts,
+                ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID,
+                'New'
+            );
+            newApplications[0].Offer_Status__c = 'Lapsed';
+            newApplications[0].Offer_Lapse_Date__c = System.today().addDays(-(Integer)nurtureListManual[0].Key_Date_Offset_Days__c);
+            ApplicationsDAO.newInstance()
+                .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            //Create nurture track record for Completed Cadence
+            List<Nurture_Track_Configuration__c> nurtureListAutomated = new List<Nurture_Track_Configuration__c>();
+            Nurture_Track_Configuration__c nurtureAutomated = new Nurture_Track_Configuration__c();
+            nurtureAutomated.Cadence_Name__c = 'Domestic Offer Lapsed (Automated)';
+            nurtureAutomated.Key_Date_Offset_Days__c = 3;
+            nurtureAutomated.Status__c = 'Active';
+            nurtureAutomated.Criteria_Type__c = 'Entry';
+            nurtureListAutomated.add(nurtureAutomated);
+            NurtureTrackConfigurationsDAO.newInstance()
+                .insertRecords(nurtureListAutomated, false, AccessLevel.SYSTEM_MODE);
+            Completed_Cadence__c completedCadence = new Completed_Cadence__c(
+                Application__c = newApplications[0].Id,
+                Contact__c = newContacts[0].Id,
+                Nurture_Track_Configuration__c = nurtureListAutomated[0].Id
+            );
+            insert completedCadence;
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
+                new Map<Id, Contact>(newContacts)
+            );
+            Test.stopTest();
+
+            System.assertEquals(
+                'Domestic Offer Lapsed',
+                processContacts[0].Calculated_Cadence__c,
+                'Domestic Offer Lapsed: Entry criteria met'
+            );
+        }
+    }
+
+    @isTest
+    private static void getExitDomesticOfferLapsedAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            //Create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+            newContacts[0].Calculated_Cadence__c = 'Domestic Offer Lapsed (Automated)';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            //Create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(
+                newContacts,
+                ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID,
+                'New'
+            );
+            newApplications[0].Offer_Status__c = 'Offered'; //Offer Status is not Lapsed
+            ApplicationsDAO.newInstance()
+                .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
+                new Map<Id, Contact>(newContacts)
+            );
+            Test.stopTest();
+
+            System.assertEquals(
+                '',
+                processContacts[0].Calculated_Cadence__c,
+                'Domestic Offer Lapsed (Automated): Exit criteria met'
+            );
+        }
+    }
+
+    @isTest
+    private static void getExitDomesticOfferLapsedManualTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            //Create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+            newContacts[0].Calculated_Cadence__c = 'Domestic Offer Lapsed';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            //Create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(
+                newContacts,
+                ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID,
+                'New'
+            );
+            newApplications[0].Offer_Status__c = 'Offered'; //Offer Status is not Lapsed
+            ApplicationsDAO.newInstance()
+                .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
+                new Map<Id, Contact>(newContacts)
+            );
+            Test.stopTest();
+            
+            System.assertEquals(
+                '',
+                processContacts[0].Calculated_Cadence__c,
+                'Domestic Offer Lapsed: Exit criteria met'
             );
         }
     }
@@ -661,13 +841,13 @@ public with sharing class NurturingTrackContactServiceTest {
                     LastName = i + LASTNAME,
                     BirthDate = Date.valueOf(BIRTHDAY),
                     Email = i + EMAIL,
-                    Can_Nurture__c = TRUE,
+                    IER_Score__c = 350, //Updates Lead Score to above the threshold so Can Nurture becomes true, and contact will be processed in the batch,
                     QUT_Learner_Email__c = 'learner' + i + EMAIL,
                     QUT_Staff_Email__c = 'staff' + i + EMAIL,
                     Work_Email__c = 'work' + i + EMAIL,
                     hed__Preferred_Email__c = 'Alternate Email',
                     hed__AlternateEmail__c = i + EMAIL,
-                    RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
+                    RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID
                 )
             );
         }

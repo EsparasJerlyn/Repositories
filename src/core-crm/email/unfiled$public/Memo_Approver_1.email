@@ -1,4 +1,4 @@
-Hi {!Opportunity.Memo_Approver_1__c} ,<br><br>
+Hi {!Opportunity.Memo_Approver_1__c},<br><br>
 
 Seeking approval on behalf of the International Projects Unit for the proposal to be submitted. We are finalising the bid documents, including the budget, attached with the email.<br>
 <br>
@@ -10,4 +10,4 @@ Please approve or provide feedback; if necessary.
 <br><br>
 Thanks
 <br><br>
-{!User.Username}
+{!User.Name}

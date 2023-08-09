@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>350</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -40,7 +40,7 @@
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>458</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
@@ -53,8 +53,8 @@
     <assignments>
         <name>Add_Clone_IP_Management_Relationship_To_Insert</name>
         <label>Add Clone IP Management Relationship To Insert</label>
-        <locationX>974</locationX>
-        <locationY>4346</locationY>
+        <locationX>1194</locationX>
+        <locationY>4454</locationY>
         <assignmentItems>
             <assignToReference>IP_Management_Relationship_To_Insert</assignToReference>
             <operator>Add</operator>
@@ -69,8 +69,8 @@
     <assignments>
         <name>Add_Current_Item_to_Pure_Projects_to_Create</name>
         <label>Add Current Item to Pure Projects to Create</label>
-        <locationX>974</locationX>
-        <locationY>3590</locationY>
+        <locationX>1194</locationX>
+        <locationY>3698</locationY>
         <assignmentItems>
             <assignToReference>PureProjectsToCreate</assignToReference>
             <operator>Add</operator>
@@ -85,8 +85,8 @@
     <assignments>
         <name>Add_New_Financial_Split_To_Insert</name>
         <label>Add New Financial Split To Insert</label>
-        <locationX>974</locationX>
-        <locationY>2402</locationY>
+        <locationX>1194</locationX>
+        <locationY>2510</locationY>
         <assignmentItems>
             <assignToReference>Financial_Splits_To_Insert</assignToReference>
             <operator>Add</operator>
@@ -101,8 +101,8 @@
     <assignments>
         <name>Assign_Cloned_Contextual_Roles</name>
         <label>Assign Cloned Contextual Roles</label>
-        <locationX>1238</locationX>
-        <locationY>2402</locationY>
+        <locationX>1458</locationX>
+        <locationY>2510</locationY>
         <assignmentItems>
             <assignToReference>ContextualRolesToCreate</assignToReference>
             <operator>Add</operator>
@@ -117,7 +117,7 @@
     <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>1920</locationX>
+        <locationX>2162</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -133,8 +133,8 @@
     <assignments>
         <name>Clone_Commercialisation_Pure_Project</name>
         <label>Clone Commercialisation Pure Project</label>
-        <locationX>974</locationX>
-        <locationY>3482</locationY>
+        <locationX>1194</locationX>
+        <locationY>3590</locationY>
         <assignmentItems>
             <assignToReference>Loop_Through_Commercialisation_Pure_Projects.Opportunity__c</assignToReference>
             <operator>Assign</operator>
@@ -157,8 +157,8 @@
     <assignments>
         <name>Clone_Contextual_Roles</name>
         <label>Clone Contextual Roles</label>
-        <locationX>1238</locationX>
-        <locationY>2294</locationY>
+        <locationX>1458</locationX>
+        <locationY>2402</locationY>
         <assignmentItems>
             <assignToReference>Loop_Through_Child_Contextual_Roles.Engagement__c</assignToReference>
             <operator>Assign</operator>
@@ -201,8 +201,8 @@
     <assignments>
         <name>Clone_IP_Management_Relationship</name>
         <label>Clone IP Management Relationship</label>
-        <locationX>974</locationX>
-        <locationY>4238</locationY>
+        <locationX>1194</locationX>
+        <locationY>4346</locationY>
         <assignmentItems>
             <assignToReference>Loop_Through_IP_Management_Relationships.Engagement__c</assignToReference>
             <operator>Assign</operator>
@@ -232,8 +232,8 @@
     <assignments>
         <name>Copy_Engagement_Description</name>
         <label>Copy Engagement Description</label>
-        <locationX>50</locationX>
-        <locationY>998</locationY>
+        <locationX>314</locationX>
+        <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>Engagement_Description</assignToReference>
             <operator>Assign</operator>
@@ -248,8 +248,8 @@
     <assignments>
         <name>Create_Financial_Split</name>
         <label>Create Financial Split</label>
-        <locationX>974</locationX>
-        <locationY>2294</locationY>
+        <locationX>1194</locationX>
+        <locationY>2402</locationY>
         <assignmentItems>
             <assignToReference>Financial_Split_To_Add.Funding_Body__c</assignToReference>
             <operator>Assign</operator>
@@ -278,8 +278,8 @@
     <assignments>
         <name>Set_OwnerId_To_New_Opportunity</name>
         <label>Set OwnerId To New Opportunity</label>
-        <locationX>50</locationX>
-        <locationY>890</locationY>
+        <locationX>314</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>CommercialisationOwnerId</assignToReference>
             <operator>Assign</operator>
@@ -289,6 +289,38 @@
         </assignmentItems>
         <connector>
             <targetReference>Copy_Engagement_Description</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_StageName_to_Collaborate</name>
+        <label>Set StageName to Collaborate</label>
+        <locationX>314</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>StageName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Collaborate</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Set_OwnerId_To_New_Opportunity</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_StageName_to_Identify</name>
+        <label>Set StageName to Identify</label>
+        <locationX>50</locationX>
+        <locationY>782</locationY>
+        <assignmentItems>
+            <assignToReference>StageName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Identify</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>New_Opportunity_Screen</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -326,7 +358,7 @@
     <decisions>
         <name>Check_Commercialisation_Stage</name>
         <label>Check Commercialisation Stage</label>
-        <locationX>842</locationX>
+        <locationX>1106</locationX>
         <locationY>782</locationY>
         <defaultConnector>
             <targetReference>CommercialisationNotReadyScreen</targetReference>
@@ -343,7 +375,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_OwnerId_To_New_Opportunity</targetReference>
+                <targetReference>Set_StageName_to_Collaborate</targetReference>
             </connector>
             <label>Is Commercialisation Ready</label>
         </rules>
@@ -351,7 +383,7 @@
     <decisions>
         <name>Check_Parent_Object</name>
         <label>Check Parent Object</label>
-        <locationX>1920</locationX>
+        <locationX>2162</locationX>
         <locationY>350</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -373,7 +405,7 @@
     <decisions>
         <name>Check_Parent_Recordtype</name>
         <label>Check Parent Recordtype</label>
-        <locationX>886</locationX>
+        <locationX>1106</locationX>
         <locationY>674</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -387,7 +419,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>New_Opportunity_Screen</targetReference>
+                <targetReference>Set_StageName_to_Identify</targetReference>
             </connector>
             <label>Is Research Partnership</label>
         </rules>
@@ -410,8 +442,8 @@
     <decisions>
         <name>Is_Contextual_Roles_Collection_Not_Empty</name>
         <label>Is Contextual Roles Collection Not Empty</label>
-        <locationX>886</locationX>
-        <locationY>2678</locationY>
+        <locationX>1106</locationX>
+        <locationY>2786</locationY>
         <defaultConnector>
             <targetReference>Is_Financial_Split_Collection_Not_Empty</targetReference>
         </defaultConnector>
@@ -435,8 +467,8 @@
     <decisions>
         <name>Is_Financial_Split_Collection_Not_Empty</name>
         <label>Is Financial Split Collection Not Empty</label>
-        <locationX>886</locationX>
-        <locationY>3026</locationY>
+        <locationX>1106</locationX>
+        <locationY>3134</locationY>
         <defaultConnector>
             <targetReference>Loop_Through_Commercialisation_Pure_Projects</targetReference>
         </defaultConnector>
@@ -460,8 +492,8 @@
     <decisions>
         <name>Is_IP_Management_Relationship_Collection_Empty</name>
         <label>Is IP Management Relationship Collection Empty</label>
-        <locationX>886</locationX>
-        <locationY>4538</locationY>
+        <locationX>1106</locationX>
+        <locationY>4646</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Not_Empty4</name>
@@ -482,8 +514,8 @@
     <decisions>
         <name>Is_Pure_Project_Collection_Not_Empty</name>
         <label>Is Pure Project Collection Not Empty</label>
-        <locationX>886</locationX>
-        <locationY>3782</locationY>
+        <locationX>1106</locationX>
+        <locationY>3890</locationY>
         <defaultConnector>
             <targetReference>Loop_Through_IP_Management_Relationships</targetReference>
         </defaultConnector>
@@ -507,8 +539,8 @@
     <decisions>
         <name>Is_Record_Funding_Bodies</name>
         <label>Is Record Funding Bodies</label>
-        <locationX>1106</locationX>
-        <locationY>2186</locationY>
+        <locationX>1326</locationX>
+        <locationY>2294</locationY>
         <defaultConnector>
             <targetReference>Clone_Contextual_Roles</targetReference>
         </defaultConnector>
@@ -557,8 +589,8 @@
     <loops>
         <name>Loop_Through_Child_Contextual_Roles</name>
         <label>Loop Through Child Contextual Roles</label>
-        <locationX>886</locationX>
-        <locationY>2078</locationY>
+        <locationX>1106</locationX>
+        <locationY>2186</locationY>
         <collectionReference>Get_Child_Contextual_Roles</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -571,8 +603,8 @@
     <loops>
         <name>Loop_Through_Commercialisation_Pure_Projects</name>
         <label>Loop Through Commercialisation Pure Projects</label>
-        <locationX>886</locationX>
-        <locationY>3374</locationY>
+        <locationX>1106</locationX>
+        <locationY>3482</locationY>
         <collectionReference>Get_Commercialisation_Pure_Projects</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -585,8 +617,8 @@
     <loops>
         <name>Loop_Through_IP_Management_Relationships</name>
         <label>Loop Through IP Management Relationships</label>
-        <locationX>886</locationX>
-        <locationY>4130</locationY>
+        <locationX>1106</locationX>
+        <locationY>4238</locationY>
         <collectionReference>Get_Related_IP_Management_Relationship_Records</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -618,8 +650,8 @@
     <recordCreates>
         <name>Create_Contextual_Roles</name>
         <label>Create Contextual Roles</label>
-        <locationX>622</locationX>
-        <locationY>2786</locationY>
+        <locationX>842</locationX>
+        <locationY>2894</locationY>
         <connector>
             <targetReference>Is_Financial_Split_Collection_Not_Empty</targetReference>
         </connector>
@@ -632,8 +664,8 @@
     <recordCreates>
         <name>Create_Financial_Splits</name>
         <label>Create Financial Splits</label>
-        <locationX>622</locationX>
-        <locationY>3134</locationY>
+        <locationX>842</locationX>
+        <locationY>3242</locationY>
         <connector>
             <targetReference>Loop_Through_Commercialisation_Pure_Projects</targetReference>
         </connector>
@@ -646,8 +678,8 @@
     <recordCreates>
         <name>Create_IP_Management_Relationship_Records</name>
         <label>Create IP Management Relationship Records</label>
-        <locationX>622</locationX>
-        <locationY>4646</locationY>
+        <locationX>842</locationX>
+        <locationY>4754</locationY>
         <faultConnector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
@@ -657,8 +689,8 @@
     <recordCreates>
         <name>Create_Opportunity_Record</name>
         <label>Create Opportunity Record</label>
-        <locationX>886</locationX>
-        <locationY>1970</locationY>
+        <locationX>1106</locationX>
+        <locationY>2078</locationY>
         <connector>
             <targetReference>Loop_Through_Child_Contextual_Roles</targetReference>
         </connector>
@@ -711,7 +743,7 @@
         <inputAssignments>
             <field>StageName</field>
             <value>
-                <stringValue>Collaborate</stringValue>
+                <elementReference>StageName</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -726,8 +758,8 @@
     <recordCreates>
         <name>Create_Pure_Project_Records</name>
         <label>Create Pure Project Records</label>
-        <locationX>622</locationX>
-        <locationY>3890</locationY>
+        <locationX>842</locationX>
+        <locationY>3998</locationY>
         <connector>
             <targetReference>Loop_Through_IP_Management_Relationships</targetReference>
         </connector>
@@ -740,7 +772,7 @@
     <recordLookups>
         <name>Get_Child_Contextual_Roles</name>
         <label>Get Child Contextual Roles</label>
-        <locationX>886</locationX>
+        <locationX>1106</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -772,8 +804,8 @@
     <recordLookups>
         <name>Get_Commercialisation_Pure_Projects</name>
         <label>Get Commercialisation Pure Projects</label>
-        <locationX>50</locationX>
-        <locationY>1106</locationY>
+        <locationX>314</locationX>
+        <locationY>1214</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Related_IP_Management_Relationship_Records</targetReference>
@@ -797,8 +829,8 @@
     <recordLookups>
         <name>Get_ESB_Integration_User</name>
         <label>Get ESB Integration User</label>
-        <locationX>50</locationX>
-        <locationY>1322</locationY>
+        <locationX>314</locationX>
+        <locationY>1430</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_IP_Opportunity_Relationship_Record_Type</targetReference>
@@ -824,8 +856,8 @@
     <recordLookups>
         <name>Get_IP_Opportunity_Relationship_Record_Type</name>
         <label>Get IP Opportunity Relationship Record Type</label>
-        <locationX>50</locationX>
-        <locationY>1430</locationY>
+        <locationX>314</locationX>
+        <locationY>1538</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Opportunity_Funding_Body_Record_Type</targetReference>
@@ -856,8 +888,8 @@
     <recordLookups>
         <name>Get_Opportunity_Funding_Body_Record_Type</name>
         <label>Get Opportunity Funding Body Record Type</label>
-        <locationX>50</locationX>
-        <locationY>1538</locationY>
+        <locationX>314</locationX>
+        <locationY>1646</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>New_Opportunity_Screen</targetReference>
@@ -888,7 +920,7 @@
     <recordLookups>
         <name>Get_Opportunity_Role_RecordType_Id</name>
         <label>Get Opportunity Role RecordType Id</label>
-        <locationX>1920</locationX>
+        <locationX>2162</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -919,7 +951,7 @@
     <recordLookups>
         <name>Get_Parent_Engagement_Record</name>
         <label>Get Parent Engagement Record</label>
-        <locationX>886</locationX>
+        <locationX>1106</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -944,8 +976,8 @@
     <recordLookups>
         <name>Get_Related_IP_Management_Relationship_Records</name>
         <label>Get Related IP Management Relationship Records</label>
-        <locationX>50</locationX>
-        <locationY>1214</locationY>
+        <locationX>314</locationX>
+        <locationY>1322</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_ESB_Integration_User</targetReference>
@@ -976,7 +1008,7 @@
     <recordRollbacks>
         <name>Roll_Back_Records</name>
         <label>Roll Back Records</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>566</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
@@ -986,7 +1018,7 @@
         <description>Show this when the Commercialisation Engagement record is not yet at Stage &quot;Commercialisation Ready&quot;.</description>
         <name>CommercialisationNotReadyScreen</name>
         <label>Commercialisation Is Not Yet Ready</label>
-        <locationX>1634</locationX>
+        <locationX>1898</locationX>
         <locationY>890</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1003,7 +1035,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>674</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1020,8 +1052,8 @@
     <screens>
         <name>New_Opportunity_Screen</name>
         <label>New Opportunity Screen</label>
-        <locationX>886</locationX>
-        <locationY>1862</locationY>
+        <locationX>1106</locationX>
+        <locationY>1970</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1084,7 +1116,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1794</locationX>
+        <locationX>2036</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
@@ -1207,6 +1239,14 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Stagename</description>
+        <name>StageName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>
