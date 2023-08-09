@@ -2,6 +2,8 @@
   implements="flexipage:availableForAllPageTypes,lightning:actionOverride,force:lightningQuickAction,force:hasRecordId,lightning:isUrlAddressable"
   access="global">
   <lightning:workspaceAPI aura:id="workspace" />
+  <aura:handler event="lightning:tabClosed" action="{! c.sessionCleanup }" />
+
   <aura:attribute name="isModalOpen" type="boolean" default="true" />
   <aura:attribute name="modalTitle" type="String" />
 
