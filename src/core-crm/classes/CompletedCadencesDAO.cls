@@ -23,7 +23,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Application__c, Contact__c, Lead__c, Nurture_Track_Configuration__c ' +
+            'SELECT  Id, Application__c, Contact__c, Lead__c, Nurture_Track_Configuration__c, Nurture_Track_Configuration__r.Cadence_Name__c ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Contact__c IN:contactIds '+
             'WITH ' +
