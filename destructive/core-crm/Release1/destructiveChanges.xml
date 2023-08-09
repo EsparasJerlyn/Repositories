@@ -19,6 +19,9 @@
         <members>newOpportunityDocument</members>
         <members>newOpportunityOutcomeDocument</members>
         <!-- (End) DEPP-6047 -->
+        <!--(Start) DEPP-6336 -->
+        <members>newFinancialSplit</members>
+        <!-- (End) DEPP-6336 -->
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
@@ -199,6 +202,9 @@
         <members>Document__c.CreateOpportunityDocument</members>
         <members>Document__c.CreateOpportunityOutcomeDocument</members>
         <!-- (End) DEPP-6047 -->
+        <!--(Start) DEPP-6336 -->
+        <members>Financial_Split__c.NewFinancialSplit</members>
+        <!-- (End) DEPP-6336 -->
         <name>WebLink</name>
     </types>
     <types>
