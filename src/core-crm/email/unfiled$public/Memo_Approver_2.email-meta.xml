@@ -16,7 +16,7 @@ Please approve or provide feedback; if necessary.
 
 Thanks
 
-{!User.Username}</textOnly>
+{!User.Name}</textOnly>
     <type>custom</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>
