@@ -44,6 +44,9 @@
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
  */
 
 @isTest
@@ -85,7 +88,8 @@ public class TestDataFactory {
         'QUT_ISR_Student_Enquiries_Communications_Officer',
         'QUT_ISR_Student_Adviser',
         'QUT_IE_Partnership_Manager',
-        'QUT_Operations_Manager'
+        'QUT_Operations_Manager',
+        'QUT_Domestic_Future_Student_Agent'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -932,6 +936,81 @@ public class TestDataFactory {
             );
         }
         return asset;
+    }
+
+
+    /**
+     * @description Method for creating Task Record
+     * @param nTask - number of Task to be created
+     * @param paramsMap - parameter map that contains fields and values for the task
+     * @return Task - List of Task Records Created
+     */
+    public static List<Task> createTaskRecords(
+        Integer nTask,
+        Map<String,String> paramsMap
+    ) {
+        List<Task> tasks = new List<Task>();
+        for (Integer i = 0; i < nTask; i++) {
+            tasks.add(
+                new Task(
+                    Subject = paramsMap.get('Subject') + i,
+                    OwnerId = paramsMap.get('OwnerId'),
+                    Status = paramsMap.get('Status'),
+                    WhoId = paramsMap.get('WhoId'),
+                    Description = paramsMap.get('Description') + i
+                )
+            );
+        }
+        return tasks;
+    }
+
+    /**
+     * @description Method for creating ActionCadenceTracker Record
+     * @param state - state of the action tracker cadence e.g running
+     * @param targetIds - target id of the actioncadence
+     * @return acTracker - List of ActionCadenceTracker Records Created
+     */
+    public static List<ActionCadenceTracker> createActionCadenceTrackers(
+        String state,
+        Set<Id> targetIds
+    ) {
+        List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
+        for (Id  targetId:targetIds) {
+            acTracker.add(
+                new ActionCadenceTracker(
+                    State = state,
+                    TargetId = targetId
+                )
+            );
+        }
+        return acTracker;
+    }
+
+    /**
+     * @description Method for creating Completed_Cadence__c Record
+     * @param status - satatus of the completed cadence
+     * @param nurtureTrackId - state of the action tracker cadence e.g running
+     * @param targetIds - target id of the Completed_Cadence__c
+     * @return completedCadences - List of Completed_Cadence__c Records Created
+     */
+    public static List<Completed_Cadence__c> createCompletedCadence(
+        String status,
+        Id nurtureTrackId,
+        Set<Id> targetIds
+    ) {
+        List<Completed_Cadence__c> completedCadences = new List<Completed_Cadence__c>();
+        for (Id  targetId:targetIds) {
+            String targetIdString = (String)targetId;
+            completedCadences.add(
+                new Completed_Cadence__c(
+                    Completed_Cadence_Status__c = status,
+                    Contact__c = targetIdString.startsWith('003')?targetId:null,
+                    Lead__c = targetIdString.startsWith('003')?null:targetId,
+                    Nurture_Track_Configuration__c = nurtureTrackId
+                )
+            );
+        }
+        return completedCadences;
     }
 
     /**
@@ -1925,6 +2004,21 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating Domestic Future Student Agent
+     * @param void
+     * @return futureStudentAgent - Domestic Future Student Agent
+     */
+    public static User getDomesticFutureStudentAgent() {
+        User futureStudentAgent = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Domestic_Future_Student_Agent%'
+            LIMIT 1
+        ];
+        return futureStudentAgent;
+    }
+
+    /**
      * @description Method for creating Learning Designer
      * @param void
      * @return learningDesigner - Learning Designer
@@ -2656,6 +2750,20 @@ public class TestDataFactory {
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'QUT_Domestic_Future_Student_Agent') {
+                userName = 'QUT_Domestic_Future_Student_Agent';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Agent';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
+                publicGroups = 'Future Students - Domestic';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
                 isMarketingUser = false;
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;

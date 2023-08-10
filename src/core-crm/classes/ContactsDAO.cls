@@ -11,6 +11,7 @@
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method getContactsWithMatchingApplicationDetails|
       |                                |                       |                        | + and getContactsWithMatchingEmails                       |
       | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added new method getContactsWithMatchingSamsApplications  |
+*     | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677                                |
 
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
@@ -50,7 +51,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     }
 
     public static List<Contact> getPersonContactsWithLimit(Integer recordsCount) {
-        return [
+        return [//NOPMD
             SELECT
                 Id,
                 LastName,
@@ -68,7 +69,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     }
 
     public List<Contact> checkWorkEmailFlowInputExist(String emailInput) {
-        return [
+        return [//NOPMD
             SELECT Id, Work_Email__c, QUT_Learner_Email__c, Email, QUT_Staff_Email__c
             FROM Contact
             WHERE
@@ -81,48 +82,48 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             LIMIT 1
         ];
     }
-    
+
     public static List<Contact> getContactsWithMatchingApplicationDetails(
         QueryParamWrapper queryParam,
         String accessLevel
     ) {
-        Set<String> applicationEmailsToMatch = queryParam.emailsToMatch;//NOPMD
-        Set<String> applicationFirstNames = queryParam.firstNames;//NOPMD
-        Set<String> applicationLastNames = queryParam.lastNames;//NOPMD
-        Set<Date> applicationBirthdates = queryParam.birthdates;//NOPMD
+        Set<String> applicationEmailsToMatch = queryParam.emailsToMatch; //NOPMD
+        Set<String> applicationFirstNames = queryParam.firstNames; //NOPMD
+        Set<String> applicationLastNames = queryParam.lastNames; //NOPMD
+        Set<Date> applicationBirthdates = queryParam.birthdates; //NOPMD
         return Database.query(
             'SELECT  Id, Email, QUT_Learner_Email__c, QUT_Staff_Email__c, Work_Email__c, ' +
-            'FirstName, LastName, Birthdate ' +
-            'FROM Contact ' +
-            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
-            'AND ((FirstName IN: applicationFirstNames ' +
-            'AND LastName IN: applicationLastNames ' +
-            'AND Birthdate IN: applicationBirthdates) ' +
-            'OR (FirstName IN: applicationFirstNames '+
-            'AND LastName IN: applicationLastNames '+
-            'AND (Email IN: applicationEmailsToMatch ' +
-            'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-            'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-            'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
-            'WITH ' +
-            String.escapeSingleQuotes(accessLevel)
+                'FirstName, LastName, Birthdate ' +
+                'FROM Contact ' +
+                'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+                'AND ((FirstName IN: applicationFirstNames ' +
+                'AND LastName IN: applicationLastNames ' +
+                'AND Birthdate IN: applicationBirthdates) ' +
+                'OR (FirstName IN: applicationFirstNames ' +
+                'AND LastName IN: applicationLastNames ' +
+                'AND (Email IN: applicationEmailsToMatch ' +
+                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
+                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
+                'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
         );
     }
-    
+
     public static List<Contact> getContactsWithMatchingEmails(
         Set<String> applicationEmailsToMatch,
         String accessLevel
     ) {
         return Database.query(
             'SELECT  Id, Email, QUT_Learner_Email__c, QUT_Staff_Email__c, Work_Email__c ' +
-            'FROM Contact ' +
-            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' + 
-            'AND (Email IN: applicationEmailsToMatch ' +
-            'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-            'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-            'OR Work_Email__c IN: applicationEmailsToMatch) ' +
-            'WITH ' +
-            String.escapeSingleQuotes(accessLevel)
+                'FROM Contact ' +
+                'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+                'AND (Email IN: applicationEmailsToMatch ' +
+                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
+                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
+                'OR Work_Email__c IN: applicationEmailsToMatch) ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
         );
     }
 
@@ -130,40 +131,62 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         QueryParamWrapper queryParam,
         String accessLevel
     ) {
-        Set<String> applicationEmailsToMatch = queryParam.emailsToMatch;//NOPMD
-        Set<String> applicationFirstNames = queryParam.firstNames;//NOPMD
-        Set<String> applicationLastNames = queryParam.lastNames;//NOPMD
-        Set<Date> applicationBirthdates = queryParam.birthdates;//NOPMD
-        Set<String> appNominatedIds = queryParam.nominatedStudentId;//NOPMD 
+        Set<String> applicationEmailsToMatch = queryParam.emailsToMatch; //NOPMD
+        Set<String> applicationFirstNames = queryParam.firstNames; //NOPMD
+        Set<String> applicationLastNames = queryParam.lastNames; //NOPMD
+        Set<Date> applicationBirthdates = queryParam.birthdates; //NOPMD
+        Set<String> appNominatedIds = queryParam.nominatedStudentId; //NOPMD
         return Database.query(
             'SELECT  Id, QUT_student_ID__c, Email, QUT_Learner_Email__c, QUT_Staff_Email__c, Work_Email__c, ' +
-            'FirstName, LastName, Birthdate ' +
-            'FROM Contact ' +
-            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
-            'AND ((QUT_student_ID__c IN: appNominatedIds) ' +
-            'OR (FirstName IN: applicationFirstNames ' +
-            'AND LastName IN: applicationLastNames ' +
-            'AND Birthdate IN: applicationBirthdates) ' +
-            'OR (FirstName IN: applicationFirstNames '+
-            'AND LastName IN: applicationLastNames '+
-            'AND (Email IN: applicationEmailsToMatch ' +
-            'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-            'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-            'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
-            'WITH ' +
-            String.escapeSingleQuotes(accessLevel)
+                'FirstName, LastName, Birthdate ' +
+                'FROM Contact ' +
+                'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+                'AND ((QUT_student_ID__c IN: appNominatedIds) ' +
+                'OR (FirstName IN: applicationFirstNames ' +
+                'AND LastName IN: applicationLastNames ' +
+                'AND Birthdate IN: applicationBirthdates) ' +
+                'OR (FirstName IN: applicationFirstNames ' +
+                'AND LastName IN: applicationLastNames ' +
+                'AND (Email IN: applicationEmailsToMatch ' +
+                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
+                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
+                'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
         );
-    }    
+    }
+
+    public static List<Contact> getPersonContactsByCalculatedCadences(
+        Set<String> calculatedCadences
+    ) {
+        return [//NOPMD
+            SELECT
+                Id,
+                Name,
+                hed__Gender__c,
+                Email,
+                Citizenship_Country__c,
+                Lead_Score__c,
+                Marketing_Segmentation__r.My_Country_Of_Residency__c
+            FROM Contact
+            WHERE
+                RecordTypeId = :PERSON_RECORDTYPE_ID
+                AND Calculated_Cadence__c IN :calculatedCadences
+                AND Can_Nurture__c = TRUE
+            WITH USER_MODE
+        ];
+    }
+
     /**
-    * @Description:Wrapper Class that represents the extracted application details.
-    */  
+     * @Description:Wrapper Class that represents the extracted application details.
+     */
     public class QueryParamWrapper {
         public Set<String> emailsToMatch;
         public Set<String> firstNames;
         public Set<String> lastNames;
         public Set<Date> birthdates;
         public Set<String> nominatedStudentId;
-        
+
         public QueryParamWrapper() {
             emailsToMatch = new Set<String>();
             firstNames = new Set<String>();
@@ -171,5 +194,5 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             birthdates = new Set<Date>();
             nominatedStudentId = new Set<String>();
         }
-    }   
+    }
 }
