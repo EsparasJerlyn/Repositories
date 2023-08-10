@@ -1637,6 +1637,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SalesCadenceListViewCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SAMSRegisterLearnerBatchHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -9565,6 +9569,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Completed_Cadence__c.Application__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Completed_Cadence__c.Completed_Cadence_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

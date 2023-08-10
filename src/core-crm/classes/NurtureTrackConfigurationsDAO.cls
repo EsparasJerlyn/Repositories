@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
       |--------------------------------|-----------------------|------------------------|----------------------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                 |
+      | roy.nino.s.regala              | Auh 09, 2023          | DEPP-5677              | Added  criteria type field                   |
  */
 public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase implements INurtureTrackConfigurationsDAO {
 
@@ -38,7 +39,7 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c ' +
+            'SELECT  Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c, Criteria_Type__c ' +
             'FROM Nurture_Track_Configuration__c ' +
             'WHERE Status__c = \'Active\' '+
             'AND Cadence_Name__c IN :cadenceNames ' +
