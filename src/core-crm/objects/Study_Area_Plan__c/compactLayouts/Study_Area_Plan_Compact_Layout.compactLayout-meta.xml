@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Study_Area_Plan_Compact_Layout</fullName>
+    <fields>Study_Area_Name__c</fields>
+    <fields>Student__c</fields>
+    <fields>Study_Area_Long_Name__c</fields>
+    <fields>Study_Area_Type__c</fields>
+    <fields>Study_Area_Stage__c</fields>
+    <fields>Enrollment_Start_Date__c</fields>
+    <label>Study Area Plan Compact Layout</label>
+</CompactLayout>
