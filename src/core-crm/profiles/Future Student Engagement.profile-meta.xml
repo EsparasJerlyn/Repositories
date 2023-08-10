@@ -16,7 +16,11 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Application__c-SAMS Application Layout</layout>
-        <recordType>hed__Application__c.SAMS</recordType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Application__c-StudyLink Application Layout</layout>
@@ -60,5 +64,16 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Contact Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
     </layoutAssignments>
 </Profile>

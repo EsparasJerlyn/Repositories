@@ -315,16 +315,6 @@
                 <identifier>RecordOffer_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.App_Condition_Verification_Status__c</fieldItem>
-                <identifier>RecordApp_Condition_Verification_Status_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-89f1ba0a-fed5-4221-8679-a163fd0eb98c</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -347,16 +337,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Assessment_Result__c</fieldItem>
                 <identifier>RecordAssessment_Result_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Pathway_Principal_Program__c</fieldItem>
-                <identifier>RecordPathway_Principal_Program_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

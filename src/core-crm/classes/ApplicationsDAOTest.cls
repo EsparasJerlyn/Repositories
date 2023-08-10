@@ -72,4 +72,18 @@ public with sharing class ApplicationsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getQtacApplicationsWithQtacApplicantIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
+                .getQtacApplicationsWithQtacApplicantId(
+                    new List<String>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
+        }
+        Test.stopTest();
+    }
 }

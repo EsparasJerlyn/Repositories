@@ -9,10 +9,11 @@
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                         |   
       | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist   |
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method                     |
+ *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677     |
 
  */
 @isTest
-public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {
+public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
     public Map<Id, Contact> contactsMap;
 
     public Schema.SObjectType getSObjectType() {
@@ -135,4 +136,17 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         }
         return contactList;
     }
+
+    public List<Contact> getPersonContactsByCalculatedCadences(
+        Set<String> calculatedCadences
+    ) {
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if(calculatedCadences.contains(record.Calculated_Cadence__c)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
 }

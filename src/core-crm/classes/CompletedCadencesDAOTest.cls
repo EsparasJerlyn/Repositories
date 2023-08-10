@@ -7,12 +7,13 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | created file                 |
+      | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added test method            |
  */
 @isTest
 public with sharing class CompletedCadencesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Domestic_Future_Student_Agent' });
     }
     
     @isTest
@@ -49,6 +50,20 @@ public with sharing class CompletedCadencesDAOTest {
                 .getCompletedCadenceByLeadIds(
                     new Set<Id>(),
                     'SYSTEM_MODE'
+                );
+            System.assert(completedCadenceList.isEmpty(), 'completedCadenceList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCompletedCadenceByTargetIdsAndCadenceNameTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
+                .getCompletedCadenceByTargetIdsAndCadenceName(
+                    new Set<Id>(),
+                    new Set<String>()
                 );
             System.assert(completedCadenceList.isEmpty(), 'completedCadenceList should not be empty.');
         }

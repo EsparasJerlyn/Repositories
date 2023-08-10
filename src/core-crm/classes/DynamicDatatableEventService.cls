@@ -10,6 +10,7 @@
  *    | roy.nino.s.regala              | July 06, 2023         | DEPP-5474              | Created file                   |
  *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | removed dynamicdatatableinput  |
  *    | roy.nino.s.regala              | July 18, 2023         | DEPP-5473              | added finance summary and sort |
+ *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6141              | Added Relationship Manager     |
  */
 public with sharing class DynamicDatatableEventService {
     /* Map that defines the object attributes defined in the datatables
@@ -46,6 +47,10 @@ public with sharing class DynamicDatatableEventService {
         Opportunity_Outcome__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity__c',
             'ObjectLabel' => 'Opportunity Outcome'
+        },
+        Relationship_Manager__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Account__c,Contact__c',
+            'ObjectLabel' => 'Relationship Manager'
         }
     };
 

@@ -205,6 +205,33 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Unit_Type__c</picklist>
+        <values>
+            <fullName>Alliance Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Assessable Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thesis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thesis Units %28Historical Only%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Zero Credit Point Unit</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>hed__Academic_Level__c</picklist>
         <values>
             <fullName>Adult Education</fullName>

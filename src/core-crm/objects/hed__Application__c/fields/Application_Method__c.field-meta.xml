@@ -24,14 +24,9 @@
                 <label>Direct</label>
             </value>
             <value>
-                <fullName>Online</fullName>
+                <fullName>Online Education Services Partner</fullName>
                 <default>false</default>
-                <label>Online</label>
-            </value>
-            <value>
-                <fullName>Education Services Partner</fullName>
-                <default>false</default>
-                <label>Education Services Partner</label>
+                <label>Online Education Services Partner</label>
             </value>
         </valueSetDefinition>
     </valueSet>

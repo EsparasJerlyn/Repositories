@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method             |
+      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method             |
  */
 @isTest
 public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILeadsDAO {
@@ -52,25 +53,34 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
                 break;
             }
         }
-        
-     return leadList;
+
+        return leadList;
     }
-    
-    public List<Lead> getExistingUnconvertedLeads(
-        Set<String> emailsToMatch,
-        String accessLevel
-    ) {
+
+    public List<Lead> getExistingUnconvertedLeads(Set<String> emailsToMatch, String accessLevel) {
         List<Lead> leadList = new List<Lead>();
-        
+
         for (Lead record : leadsMap.values()) {
             if (
-                 (emailsToMatch.contains(record.Email) ||
-                  emailsToMatch.contains(record.Work_Email__c))
+                (emailsToMatch.contains(record.Email) ||
+                emailsToMatch.contains(record.Work_Email__c))
             ) {
                 leadList.add(record);
             }
         }
-        
+
+        return leadList;
+    }
+
+    public List<Lead> getLearnerLeadsByCalculatedCadences(Set<String> calculatedCadences) {
+        List<Lead> leadList = new List<Lead>();
+
+        for (Lead record : leadsMap.values()) {
+            if (calculatedCadences.contains(record.Calculated_Cadence__c)) {
+                leadList.add(record);
+            }
+        }
+
         return leadList;
     }
 }

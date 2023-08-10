@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_On_Hold_Comment_is_Required</fullName>
+    <active>true</active>
+    <description>Ensures that On Hold Comment is populated when stage is moved to On Hold where record type is Commercialisation</description>
+    <errorConditionFormula>AND (
+     RecordType.DeveloperName =&quot;Commercialisation&quot;,
+     ISPICKVAL(Stage_Name__c , &quot;On Hold&quot;),
+     ISBLANK( On_Hold_Comment__c )
+)</errorConditionFormula>
+    <errorDisplayField>On_Hold_Comment__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>

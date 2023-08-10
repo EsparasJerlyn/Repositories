@@ -186,7 +186,7 @@ private class ApplicationServiceTest {
             List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(0, recordsCount,'New');
             
             for(hed__Application__c app: newApplications){
-                app.RecordTypeId = ApplicationsDAO.SAMS_RECTYPE_ID;
+                app.RecordTypeId = ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
             }
             
             Test.startTest();

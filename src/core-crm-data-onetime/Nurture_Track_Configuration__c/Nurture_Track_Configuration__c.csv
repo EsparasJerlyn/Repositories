@@ -1,0 +1,116 @@
+Name,Cadence_Name__c,Status__c,Description__c,Nurture_Track_Name__c,Criteria_Type__c,Lead_Score_Threshold__c,Sequence_Number__c,Enquiry_Category_L1__c,Key_Date_Name__c,Date_Offset_Type__c,Key_Date_Offset_Days__c
+NTC-0001,Domestic Strong Interest Pre-Application (Automated),Active,"Domestic FS (Contact or Lead) has no Active applications in QTAC or SAMS created in the last 3 years AND
+Lead Score above X AND (See Config)
+Have a Case created in the last 3 months of Enquiry category Level 1 of:
+Applying for a Course OR
+Course information",Domestic Strong Interest- Pre Application,Entry,150,1,Applying for a Course;,,,
+NTC-0002,Domestic Strong Interest Pre-Application (Automated),Active,"Domestic Application has been submitted in QTAC OR
+Domestic Application has been submitted in SAMS OR
+Student has opted out of all Marketing Comms",Domestic Strong Interest- Pre Application,Exit,,1,,,,
+NTC-0003,Domestic Strong Interest Pre-Application,Active,"Domestic FS (Contact or Lead) has no Active applications in QTAC or SAMS created in the last 3 years AND
+Lead Score above X AND (See Config)
+Have a Case created in the last 3 months of Enquiry category Level 1 of:
+Applying for a Course OR
+Course information
+AND 
+Domestic Strong Interest Pre-Application (Automated) cadence has been completed",Domestic Strong Interest- Pre Application,Entry,150,2,Applying for a Course;,,,
+NTC-0004,Domestic Strong Interest Pre-Application,Active,"Domestic Application has been submitted in QTAC OR
+Domestic Application has been submitted in SAMS OR
+Student has opted out of all Marketing Comms",Domestic Strong Interest- Pre Application,Exit,,2,,,,
+NTC-0005,International Strong Interest Pre-Application (Automated),Active,"International FS (Contact or Lead) has no active applications in StudyLink created in the last 3 years AND
+Lead Score above X AND
+Has a Case created in the last 3 Months of Enquiry category Level 1 of:
+Applying for a Course OR 
+Course information ",International Strong Interest Pre-Application,Entry,150,1,Applying for a Course;,,,
+NTC-0006,International Strong Interest Pre-Application (Automated),Active,"International Application has been Started in StudyLink OR
+Student has opted out of all Marketing Comms",International Strong Interest Pre-Application,Exit,,1,,,,
+NTC-0007,International Strong Interest Pre-Application,Active,"International FS (Contact or Lead) has no active applications in StudyLink created in the last 3 years AND
+Lead Score above X AND
+Has a Case created in the last 3 Months of Enquiry category Level 1 of:
+Applying for a Course OR
+Course information
+AND International Strong Interest Pre-Application (Automated) has been completed",International Strong Interest Pre-Application,Entry,,2,,,,
+NTC-0008,International Strong Interest Pre-Application,Active,"International Application has been Started in StudyLink OR
+Student has opted out of all Marketing Comms",International Strong Interest Pre-Application,Exit,,2,,,,
+NTC-0009,International Application Submission - Direct Application (Automated),Active,"International FS (Contact or Lead) has started an application in StudyLink AND
+Application is for the Current Intake Period AND
+Student is not a Agent assisted Student.",International Application Submission - Direct Application,Entry,,1,,,,
+NTC-0010,International Application Submission - Direct Application (Automated),Active,International FS (Contact or Lead) has submitted an application in StudyLink,International Application Submission - Direct Application,Exit,,1,,,,
+NTC-0011,International Application Submission - Direct Application,Active,"International FS (Contact or Lead) has started an application in StudyLink AND
+Application is for the Current Intake Period AND
+Student is not a Agent assisted Student.
+International Application Submission - Direct applicant (Automated) has been completed",International Application Submission - Direct Application,Entry,,1,,,,
+NTC-0012,International Application Submission - Direct Application,Active,International FS (Contact or Lead) has submitted an application in StudyLink,International Application Submission - Direct Application,Exit,,1,,,,
+NTC-0013,International Application to Offer,Active,"International FS (Contact) has submitted an application in StudyLink AND
+Application is for the Current Intake Period AND
+International FS (Contact) has not received any offer on the application AND
+International FS (Contact) is a direct applicant (no Agent) AND
+Less than X number of days before Class start date",International Application to Offer,Entry,,1,,Class Start Date,Before,90
+NTC-0014,International Application to Offer,Active,"International FS (Contact) has received an offer on the application. OR
+International FS (Contact) has withdrawn the application OR
+International FS (Contact) has received an unsuccessful response on application.",International Application to Offer,Exit,,1,,,,
+NTC-0015,Domestic First Offer to Acceptance (Automated),Active,"Domestic FS (contact) has received an offer on any of their preferences AND
+Offer is not a previously deferred offer AND
+has not provide any sort of response to QUT.",Domestic First Offer to Acceptance,Entry,,1,,,,
+NTC-0016,Domestic First Offer to Acceptance (Automated),Active,"Domestic FS (contact) has accepted the offer OR
+Domestic FS (contact) has declined the offer OR
+Domestic FS (contact) has deferred the offer OR
+Domestic FS (contact) offer has lapsed.",Domestic First Offer to Acceptance,Exit,,1,,,,
+NTC-0017,Domestic First Offer to Acceptance,Active,"Domestic FS (contact) has received an offer on any of their preferences AND
+Offer is not a previously deferred offer AND
+has not provide any sort of response to QUT AND
+Domestic First Offer to Acceptance (Automated) has been completed
+AND 2 days after offer received (config)",Domestic First Offer to Acceptance,Entry,,2,,Offer Start Date,after,2
+NTC-0018,Domestic First Offer to Acceptance,Active,"Domestic FS (contact) has accepted the offer OR
+Domestic FS (contact) has declined the offer OR
+Domestic FS (contact) has deferred the offer OR
+Domestic FS (contact) offer has lapsed.",Domestic First Offer to Acceptance,Exit,,2,,,,
+NTC-0019,Domestic Deferred Offer to Acceptance,Active,"Domestic FS (contact) has received a previously deferred Offer AND
+has not provide any sort of response to QUT AND
+it is 21 days before Class Start Date",Domestic Deferred Offer to Acceptance,Entry,,1,,Class Start Date,before,21
+NTC-0020,Domestic Deferred Offer to Acceptance,Active,"Domestic FS (contact) has accepted the offer OR
+Domestic FS (contact) has declined the offer OR
+Domestic FS (contact) offer has lapsed.",Domestic Deferred Offer to Acceptance,Exit,,1,,,,
+NTC-0021,International Offer to Acceptance (Automated),Active,"International FS (contact) has received an offer AND
+Offer is for the Current Intake Period AND
+has not provide any sort of response to QUT.",International Offer to Acceptance,Entry,,1,,,,
+NTC-0022,International Offer to Acceptance (Automated),Active,"International FS (contact) has accepted the offer OR
+International FS (contact) has declined the offer OR
+International FS (contact) has deferred the offer",International Offer to Acceptance,Exit,,1,,,,
+NTC-0023,International Offer to Acceptance,Active,"International FS (contact) has received an offer AND
+Offer is for the Current Intake Period AND
+has not provided any sort of response to QUT AND
+International Offer to Acceptance (Automated) has been completed AND
+120 days before Class start date (config)",International Offer to Acceptance,Entry,,2,,Class Start Date,before,120
+NTC-0024,International Offer to Acceptance,Active,"International FS (contact) has accepted the offer OR
+International FS (contact) has declined the offer OR
+International FS (contact) has deferred the offer.",International Offer to Acceptance,Exit,,2,,,,
+NTC-0025,International Acceptance Deposit not Paid,Active,"International FS (contact) has accepted the offer AND
+Offer is for the Current Intake Period AND
+International FS (contact) has not paid the confirmation deposit yet AND 
+Contact application is not Agent Assisted",International Acceptance Deposit not Paid,Entry,,1,,,,
+NTC-0026,International Acceptance Deposit not Paid,Active,International FS (contact) paid the confirmation deposit.,International Acceptance Deposit not Paid,Exit,,1,,,,
+NTC-0027,Domestic Acceptance to Enrolment (Automated),Active,"Domestic FS (contact) has accepted offer AND
+Domestic FS (contact) has not yet been admitted in SAMS",Domestic Acceptance to Enrolment,Entry,,1,,,,
+NTC-0028,Domestic Acceptance to Enrolment (Automated),Active,"Domestic FS (contact) has been admitted in SAMS OR
+Domestic FS (contact) has withdrawn OR
+Domestic FS (contact) has deferred",Domestic Acceptance to Enrolment,Exit,,1,,,,
+NTC-0029,Domestic Acceptance to Enrolment,Active,"Domestic FS (contact) has accepted offer AND
+Domestic FS (contact) has not yet been admitted in SAMS AND
+Domestic Acceptance to Enrolment (Automated) has been completed AND
+21 Number of Days before Class Start Date (config)",Domestic Acceptance to Enrolment,Entry,,2,,Class Start Date,Before,21
+NTC-0030,Domestic Acceptance to Enrolment,Active,"Domestic FS (contact) has been admitted in SAMS OR
+Domestic FS (contact) has withdrawn OR
+Domestic FS (contact) has deferred",Domestic Acceptance to Enrolment,Exit,,2,,,,
+NTC-0031,Domestic and International Enrolment to Census,Active,"Domestic or International FS (contact) have not enrolled in Units yet AND
+14 Days before Class Start Date",Domestic and International Enrolment to Census,Entry,,1,,Class Start Date,before,14
+NTC-0032,Domestic and International Enrolment to Census,Active,14 Days After Class start date ,Domestic and International Enrolment to Census,Exit,,1,,Class Start Date,after,14
+NTC-0033,Domestic Offer Lapsed (Automated),Active,"Domestic FS (contact) has received an Offer AND
+Domestic FS (contact) offer has lapsed AND
+3 days after offer lapsed date",Domestic Offer Lapsed,Entry,,1,,Offer lapsed date,after,3
+NTC-0034,Domestic Offer Lapsed (Automated),Active,Domestic FS (Contact) offer was re-instated,Domestic Offer Lapsed,Exit,,1,,,,
+NTC-0035,Domestic Offer Lapsed,Active,"Domestic FS (contact) has received an Offer AND
+Domestic FS (contact) offer has lapsed AND
+4 days after offer lapsed date
+AND Domestic Offer Lapsed (Automated) has been completed",Domestic Offer Lapsed,Entry,,2,,Offer lapsed date,after,4
+NTC-0036,Domestic Offer Lapsed,Active,Domestic FS (Contact) offer was re-instated,Domestic Offer Lapsed,Exit,,2,,,,

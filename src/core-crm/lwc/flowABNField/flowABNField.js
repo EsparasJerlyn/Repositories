@@ -9,7 +9,8 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
  *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
  *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                 |
- *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | ABN Field Form Validation                    |
+ *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Added ABN Field Form Validation              |
+ *    | ryan.j.a.dela.cruz        | August 3, 2023        | DEPP-6093            | Added Retention Of ABN Field Value           |
  */
 import { LightningElement, api, track } from "lwc";
 import checkABNExists from "@salesforce/apex/AccountCtrl.checkABNExists";
@@ -18,24 +19,36 @@ import CustomFlowCSS from "@salesforce/resourceUrl/CustomFlowCSS";
 
 export default class ABNCheckComponent extends LightningElement {
   @api ABN;
-  @track abnExists = false;
   @track errorMessage = "";
   messageValue = "ABN should be unique.";
+  abnExists = false;
   isException = false;
   timer;
 
-  beforeUnloadHandler(event) {
-    window.sessionStorage.removeItem("customCSSLoaded");
-  }
-
   connectedCallback() {
+    // Get the "uid" parameter from the URL
+    const uid = this.getUrlParameter("uid");
+
+    if (uid) {
+      const sessionKey = `ABN-${uid}`;
+
+      // Check if the value already exists in session storage
+      const existingValue = sessionStorage.getItem(sessionKey);
+
+      if (existingValue !== null) {
+        // A value already exists, set it to the ABN property
+        this.ABN = existingValue;
+        this.checkABN(existingValue); // Initial check if value exists
+      }
+    }
+
     window.addEventListener(
       "beforeunload",
       this.beforeUnloadHandler.bind(this)
     );
 
     // Retrieve the session value
-    const sessionValue = window.sessionStorage.getItem("customCSSLoaded");
+    const sessionValue = sessionStorage.getItem("customCSSLoaded");
     const logger = this.template.querySelector("c-logger");
 
     if (sessionValue) {
@@ -48,7 +61,7 @@ export default class ABNCheckComponent extends LightningElement {
           this.customCSSLoaded = true;
           console.log("Custom CSS Loaded");
           // Store the value in the session
-          window.sessionStorage.setItem(
+          sessionStorage.setItem(
             "customCSSLoaded",
             JSON.stringify(this.customCSSLoaded)
           );
@@ -65,10 +78,29 @@ export default class ABNCheckComponent extends LightningElement {
     }
   }
 
+  beforeUnloadHandler(event) {
+    const uid = this.getUrlParameter("uid");
+    if (uid) {
+      const sessionKey = `ABN-${uid}`;
+      sessionStorage.removeItem(sessionKey);
+    }
+    sessionStorage.removeItem("customCSSLoaded");
+  }
+
+  // Helper method to get URL parameters
+  getUrlParameter(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  // Clear error message
+  clearErrorMessage() {
+    this.errorMessage = "";
+  }
+
   // Handle ABN input change event
   handleABNChange(event) {
-    const abnValue = event.target.value;
-
+    const abnValue = event.target.value.trim().replace(/\s/g, ""); // Update ABN value and remove whitespaces
     clearTimeout(this.timer);
 
     if (abnValue) {
@@ -79,6 +111,12 @@ export default class ABNCheckComponent extends LightningElement {
     } else {
       // Clear error message when ABN input is empty
       this.clearErrorMessage();
+    }
+
+    const uid = this.getUrlParameter("uid");
+    if (uid) {
+      const sessionKey = `ABN-${uid}`;
+      sessionStorage.setItem(sessionKey, abnValue);
     }
 
     this.ABN = abnValue; // Update ABN value
@@ -98,15 +136,10 @@ export default class ABNCheckComponent extends LightningElement {
       });
   }
 
-  // Clear error message
-  clearErrorMessage() {
-    this.errorMessage = "";
-  }
-
   // Validate the ABN input
   @api
   validate() {
-    if (this.errorMessage === this.messageValue) {
+    if (this.abnExists) {
       return {
         isValid: false,
         errorMessage: this.messageValue

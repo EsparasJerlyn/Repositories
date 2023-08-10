@@ -337,7 +337,13 @@ export default class DynamicDataTable extends NavigationMixin(
       x = keyValue(x) ? keyValue(x) : ""; // handling null values
       y = keyValue(y) ? keyValue(y) : "";
       // sorting values based on direction
-      return isReverse * ((x > y) - (y > x));
+      if (x == "") {
+        return 1;
+      } else if (y == "") {
+        return -1;
+      } else {
+        return isReverse * ((x > y) - (y > x));
+      }
     });
     this.finalSObjectDataList = parseData;
   }

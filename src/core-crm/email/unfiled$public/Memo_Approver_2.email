@@ -10,4 +10,4 @@ Please approve or provide feedback; if necessary.
 <br><br>
 Thanks
 <br><br>
-{!User.Username}
+{!User.Name}

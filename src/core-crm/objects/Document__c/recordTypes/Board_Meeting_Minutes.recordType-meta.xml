@@ -33,5 +33,9 @@
             <fullName>Board Meeting Minutes</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Proposal</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
 </RecordType>

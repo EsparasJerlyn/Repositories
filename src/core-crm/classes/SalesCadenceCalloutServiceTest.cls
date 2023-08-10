@@ -26,6 +26,7 @@ private class SalesCadenceCalloutServiceTest {
         nurtureConfig.Cadence_Name__c = 'Test Cadences automated';
         nurtureConfig.Lead_Score_Threshold__c = 3;
         nurtureConfig.Status__c = 'Active';
+        nurtureConfig.Criteria_Type__c = 'Entry';
         nurtureList.add(nurtureConfig);
         NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
     }

@@ -10,13 +10,14 @@
  *    | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist  |
  *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added test method for DEPP-5846     |
  *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added test method for DEPP-5847     |
+ *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added test method for DEPP-5677     |
  */
 @isTest
 private class ContactsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager' }
+            new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager', 'QUT_Domestic_Future_Student_Agent' }
         );
     }
 
@@ -104,6 +105,19 @@ private class ContactsDAOTest {
                 .getContactsWithMatchingSamsApplications(
                     new ContactsDAO.QueryParamWrapper(),
                     'SYSTEM_MODE'
+                );
+            System.assert(contactList.isEmpty(), 'contactList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPersonContactsByCalculatedCadencesTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getPersonContactsByCalculatedCadences(
+                    new Set<String>()
                 );
             System.assert(contactList.isEmpty(), 'contactList is not empty');
         }
