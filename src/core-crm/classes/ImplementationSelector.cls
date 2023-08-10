@@ -20,7 +20,9 @@
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added nurture config object                                   |
  *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6140              | Added Object mapping for Relationsip Manager Object           |
  *    | roy.nino.s.regala              | August 09, 2023       | DEPP-5677              | Added Object mapping for Task and ActionCadenceTracker Objects|
-
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Object mapping for hed__Program_Enrollment__c Object    |
+ *    | eccarius.munoz                 | August 10, 2023       | DEPP-5760              | Added Object mapping for hed__Term__c and hed__Facility__c obj|
+ * 
  */
 public class ImplementationSelector {
 
@@ -48,6 +50,10 @@ public class ImplementationSelector {
             hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
             hed__Course_Enrollment__c.SObjectType => CourseConnectionsDAO.class,
+            hed__Facility__c.SObjectType => FacilitiesDAO.class,
+            hed__Program_Enrollment__c.SObjectType => ProgramEnrollmentsDAO.class,
+            hed__Program_Plan__c.SObjectType => ProgramPlansDAO.class,
+            hed__Term__c.SObjectType => TermsDAO.class,
             IP_Management__c.SObjectType => IPManagementsDAO.class,
             IP_Management_Relationship__c.SObjectType => IPManagementRelationshipsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
@@ -59,7 +65,7 @@ public class ImplementationSelector {
             Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Product2.SObjectType => ProductsDAO.class,
-            Profile.SObjectType => ProfilesDAO.class,
+            Profile.SObjectType => ProfilesDAO.class,            
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Task.SObjectType => TasksDAO.class,

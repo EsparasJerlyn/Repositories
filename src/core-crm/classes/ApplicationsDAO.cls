@@ -10,7 +10,8 @@
  *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
  *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added getApplicationsByLeadIds             |
  *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds   |
- *    | mark.j.mahilum
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Program_Enrollment__c in SOQL under  |
+ *    |                                |                       |                        | getApplicationsByContactIds method         |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -75,7 +76,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         String accessLevel
     ) {
         return Database.query(
-            'SELECT Id,Name,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, '+
+            'SELECT Id,Name,Program_Enrollment__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, '+
             'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
             'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, '+
             'Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c  ' +

@@ -9,12 +9,15 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                     |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International    |  
+      |                                |                       |                        | Enrolment to Census                              |  
  */
-public with sharing class NurturingTrackContactService {
+public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
-    private static Map<Id, hed__Application__c> samsAppWithQtac = new Map<Id, hed__Application__c>();
-    private static Map<String, String> appToQtacMap = new Map<String, String>();
-    private static Map<String, Nurture_Track_Configuration__c> nurturingTrackWithOffSetDaysMap = new Map<String, Nurture_Track_Configuration__c>();
+    private static Map<Id,hed__Application__c>  samsAppWithQtac = new Map<Id,hed__Application__c>();
+    private static Map<String,String> appToQtacMap = new Map<String,String>();
+    private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackWithOffSetDaysMap = new Map<String,Nurture_Track_Configuration__c>();
+    private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackForExitWithOffSetDaysMap = new Map<String,Nurture_Track_Configuration__c>();
     private static List<Case> caseList;
     private static Map<Id, Contact> domesticEntryContactMap = new Map<Id, Contact>();
     private static Map<Id, Contact> domesticExitContactMap = new Map<Id, Contact>();
@@ -26,12 +29,13 @@ public with sharing class NurturingTrackContactService {
     private static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     private static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
     private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
-    private static final Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = NurturingTrackService.getNurturingTrackRecords();
+    private static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
 
     /**
      * @description: process All contacts for Entry and Exit in Cadences assignment
      *
-     * @param void
+     * @param Map<Id, Contact> contactMap - contacts to process
+     * @return List<Contact> contacts to update
      */
     public static List<Contact> processContactForEntryAndExit(Map<Id, Contact> contactMap) {
         Map<Id, Contact> contactToUpdate = new Map<Id, Contact>();
@@ -66,7 +70,8 @@ public with sharing class NurturingTrackContactService {
             getEntryInternationalAcceptanceDepositNotPaid(internationalEntryContactMap)
         );
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForEntry(domesticEntryContactMap));
-        //Placeholder for Domestic and International Enrolment to Census (DEPP-5760)
+        contactToUpdate.putAll(getDomesticEnrollmentToCensusForEntry(domesticEntryContactMap));
+        contactToUpdate.putAll(getInternationalEnrollmentToCensusForEntry(internationalEntryContactMap));
         contactToUpdate.putall(getEntryDomesticOfferLapsed(domesticEntryContactMap));
 
         //Contact exit criteria to //SAMPLE METHOD ONLY
@@ -79,7 +84,8 @@ public with sharing class NurturingTrackContactService {
             getExitInternationalAcceptanceDepositNotPaid(internationalExitContactMap)
         );
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForExit(domesticExitContactMap));
-        //Placeholder for Domestic and International Enrolment to Census (DEPP-5760)
+        contactToUpdate.putAll(getDomesticEnrollmentToCensusForExit(domesticExitContactMap));
+        contactToUpdate.putAll(getInternationalEnrollmentToCensusForExit(internationalExitContactMap));
         contactToUpdate.putAll(getExitDomesticOfferLapsed(domesticExitContactMap));
 
         return contactToUpdate.values();
@@ -242,6 +248,7 @@ public with sharing class NurturingTrackContactService {
             applicationList,
             'Domestic Acceptance to Enrolment'
         );
+        Set<Id> existingContactOnCompletedCadence = getCompletedCadenceRecord(domesticEntryContactMap.keySet(),'Domestic Acceptance to Enrolment (Automated)');
 
         for (hed__Application__c application : applicationList) {
             Boolean hasExistingApplication = existingContactIdOnApplication.contains(
@@ -250,17 +257,12 @@ public with sharing class NurturingTrackContactService {
             Boolean hasExistingApplicationWithProgram = existingContactIdOnAppWithProgram.contains(
                 application.hed__Applicant__c
             );
-            if (
-                domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
-                hasExistingApplication &&
-                hasExistingApplicationWithProgram
-            ) {
+            Boolean hasExistingAutomatedCompletedCadence = existingContactOnCompletedCadence.contains(application.hed__Applicant__c);
+            if (domesticEntryContactMap.containsKey(application.hed__Applicant__c) 
+                    && hasExistingApplication && hasExistingApplicationWithProgram 
+                    && hasExistingAutomatedCompletedCadence) {
                 domesticAcceptanceToEnrollmentManual.put(application.Id, application);
-            } else if (
-                domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
-                hasExistingApplication &&
-                !hasExistingApplicationWithProgram
-            ) {
+            } else if (domesticEntryContactMap.containsKey(application.hed__Applicant__c) && hasExistingApplication) {
                 domesticAcceptanceToEnrollmentAutomated.put(application.Id, application);
             }
         }
@@ -289,7 +291,7 @@ public with sharing class NurturingTrackContactService {
         Map<Id, Contact> domesticEntryContactMap
     ) {
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
-        Map<Id, hed__Application__c> DomesticDeferredOfferToAcceptanceManual = new Map<Id, hed__Application__c>();
+        Map<Id, hed__Application__c> domesticDeferredOfferToAcceptanceManual = new Map<Id, hed__Application__c>();
         Set<Id> existingContactIdOnApplication = getContactOnApplicationForDomesticDeferredOfferToAcceptanceEntryFilter(
             applicationList,
             'DomesticDeferredOfferToAcceptance'
@@ -302,7 +304,7 @@ public with sharing class NurturingTrackContactService {
                 domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 hasExistingApplication
             ) {
-                DomesticDeferredOfferToAcceptanceManual.put(application.Id, application);
+                domesticDeferredOfferToAcceptanceManual.put(application.Id, application);
             }
         }
         Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(
@@ -319,13 +321,75 @@ public with sharing class NurturingTrackContactService {
 
         List<Contact> contactToUpdateListManual = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
             applicationIdsWithCompletedCadence,
-            DomesticDeferredOfferToAcceptanceManual.values(),
+            domesticDeferredOfferToAcceptanceManual.values(),
             cadenceWrapper
         );
         if (!contactToUpdateListManual.isEmpty()) {
             contactToUpdateMap.putAll(contactToUpdateListManual);
         }
 
+        return contactToUpdateMap;
+    }
+
+    
+    /**
+     * @description Updates contact if criteria is for Entry of Domestic Enrolment to Census cadence
+     * @param Map<Id,Contact> domesticContactForCensusMap - domestic contacts to evaluate
+     * @return Map<Id,Contact> - contacts to update
+     */ 
+    public static Map<Id,Contact> getDomesticEnrollmentToCensusForEntry(Map<Id,Contact> domesticContactForCensusMap){
+        return getDomesticAndInternationalEnrollmentToCensusForEntry(domesticContactForCensusMap, true);
+    }
+
+    /**
+     * @description Updates contact if criteria is for Entry of International Enrolment to Census cadence
+     * @param Map<Id,Contact> internationalContactForCensusMap - international contacts to evaluate
+     * @return Map<Id,Contact> - contacts to update
+     */ 
+    public static Map<Id,Contact> getInternationalEnrollmentToCensusForEntry(Map<Id,Contact> internationalContactForCensusMap){
+        return getDomesticAndInternationalEnrollmentToCensusForEntry(internationalContactForCensusMap, false);
+    }
+
+    /**
+     * @description Validate records and update contacts if criteria is for Entry of Domestic and International Enrolment to Census cadence
+     * @param Map<Id,Contact> contactMap contacts to evaluate
+     * @return Map<Id,Contact> contactToUpdateMap contacts to update
+     */  
+    public static Map<Id,Contact> getDomesticAndInternationalEnrollmentToCensusForEntry(Map<Id,Contact> contactMap, Boolean isDomestic){
+        List<hed__Application__c>  filteredApplicationList = getFilteredApplicationListForDomesticEnrollmentToCensus(contactMap);
+        Map<Id, hed__Application__c> applicationMap = new Map<Id, hed__Application__c>();
+        for (hed__Application__c application : filteredApplicationList) {
+            if (
+                validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
+                NurturingTrackService.isDateWithinRange(
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c,
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c?.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c),
+                    System.today()
+                )
+            ) {
+                applicationMap.put(application.Id, application);
+            }
+        }
+
+        Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            contactMap.keySet(),
+            new Set<String>{DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE},
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Contact.getSObjectType(),
+            '',
+            DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE
+        );
+
+        List<Contact> contactToUpdateList = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            applicationIdsWithCompletedCadence,
+            applicationMap.values(),
+            cadenceWrapper
+        );
+
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
         return contactToUpdateMap;
     }
 
@@ -395,7 +459,6 @@ public with sharing class NurturingTrackContactService {
             applicationList,
             'DomesticDeferredOfferToAcceptance'
         );
-        /* Set<Id> existingContactOnCompletedCadence = getCompletedCadenceRecord(mapOfContacts.keySet()); */
         for (Id contactId : domesticExitContactMap.keySet()) {
             Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(
                 contactId
@@ -533,6 +596,60 @@ public with sharing class NurturingTrackContactService {
         return contactHasApplicationForExit;
     }
 
+    /**
+     * @description Updates contact if criteria is for Exit of Domestic Enrolment to Census cadence
+     * @param Map<Id,Contact> domesticContactForCensusMap - domestic contacts to evaluate
+     * @return Map<Id,Contact> - contacts to update
+     */ 
+    private static Map<Id, Contact> getDomesticEnrollmentToCensusForExit(Map<Id, Contact> domesticContactForCensusMap) {
+        return getDomesticAndInternationalEnrollmentToCensusForExit(domesticContactForCensusMap, true);
+    }
+
+    /**
+     * @description Updates contact if criteria is for Exit of International Enrolment to Census cadence
+     * @param Map<Id,Contact> internationalContactForCensusMap - international contacts to evaluate
+     * @return Map<Id,Contact> - contacts to update
+     */ 
+    private static Map<Id, Contact> getInternationalEnrollmentToCensusForExit(Map<Id, Contact> internationalContactForCensusMap) {
+        return getDomesticAndInternationalEnrollmentToCensusForExit(internationalContactForCensusMap, false);
+    }
+
+    /**
+     * @description Validates the record and update contacts if criteria is for Exit of Domestic and International Enrolment to Census cadence
+     * @param Map<Id,Contact> contactMap - contacts to evaluate
+     * @param Boolean isDomestic - checker if student is domestic or international
+     * @return Map<Id,Contact> contactsForUpdatingMap - contacts to update
+     */  
+    private static Map<Id, Contact> getDomesticAndInternationalEnrollmentToCensusForExit(Map<Id, Contact> contactMap, Boolean isDomestic) {
+        Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
+        for (hed__Application__c application : applicationList) {
+            
+            if(
+                validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
+                contactMap.containsKey(application.hed__Applicant__c) &&
+                (
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c != null && 
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c == System.today().addDays(-(Integer)nurturingTrackForExitWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c))
+            ) {
+                contactsForUpdatingMap.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+        return contactsForUpdatingMap;
+    }
+
+    private static Boolean validateAppRecordTypeForEnrollmentToCensus(Boolean isDomestic, hed__Application__c application){
+        if(
+            (isDomestic && (application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID)) ||
+            (!isDomestic && application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID)
+        ){
+            return true;
+        }
+        return false;
+    }
+    
     private static void processDomesticAcceptanceToEnrollmentEntryCriteria(
         hed__Application__c app,
         String methodName,
@@ -638,8 +755,12 @@ public with sharing class NurturingTrackContactService {
         List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance()
             .getNurtureTrack(NurtureTrackConfigurationsDAO.NURTURE_FIELDS, 'SYSTEM_MODE');
         for (Nurture_Track_Configuration__c nurture : nurtureList) {
-            if (nurture.Key_Date_Offset_Days__c != null && nurture.Criteria_Type__c == 'Entry') {
-                nurturingTrackWithOffSetDaysMap.put(nurture.Cadence_Name__c, nurture);
+            if (nurture.Key_Date_Offset_Days__c != null) {
+                if(nurture.Criteria_Type__c == 'Entry'){
+                    nurturingTrackWithOffSetDaysMap.put(nurture.Cadence_Name__c, nurture);
+                } else if(nurture.Criteria_Type__c == 'Exit'){
+                    nurturingTrackForExitWithOffSetDaysMap.put(nurture.Cadence_Name__c, nurture);
+                }
             }
         }
     }
@@ -686,7 +807,7 @@ public with sharing class NurturingTrackContactService {
         List<Completed_Cadence__c> compCadenceList = CompletedCadencesDAO.newInstance()
             .getCompletedCadenceByContactIds(contactIds, 'SYSTEM_MODE');
         for (Completed_Cadence__c comCadence : compCadenceList) {
-            if (comCadence.Nurture_Track_Configuration__r.Cadence_Name__c == methodName) {
+            if(comCadence.Nurture_Track_Configuration__r.Cadence_Name__c != null && comCadence.Nurture_Track_Configuration__r.Cadence_Name__c == methodName ){
                 contactIdOfCompletedCadence.add(comCadence.Contact__c);
             }
         }
@@ -746,6 +867,39 @@ public with sharing class NurturingTrackContactService {
         if (!contactToUpdateListManual.isEmpty()) {
             contactToUpdateMap.putAll(contactToUpdateListManual);
         }
+    }
+
+    /**
+     * @description Validate records for Domestic Enrolment to Census Entry cadence
+     * @param Map<Id,Contact> domesticExitContactMap domestic contacts to evaluate
+     * @return Map<Id,Contact> contactsForUpdatingMap domestic contacts to update
+     */ 
+    private static List<hed__Application__c> getFilteredApplicationListForDomesticEnrollmentToCensus(Map<Id,Contact> domesticEntryContactMap){
+        Set<Id> programEnrollmentIds = new Set<Id>();
+        Map<Id, hed__Application__c> contactFromAppWithProgramEnrollmentMap = new Map<Id, hed__Application__c>();
+
+        for (hed__Application__c application : applicationList) {
+            if(domesticEntryContactMap.containsKey(application.hed__Applicant__c) && application.Program_Enrollment__c != null){
+                programEnrollmentIds.add(application.Program_Enrollment__c);
+                contactFromAppWithProgramEnrollmentMap.put(application.hed__Applicant__c, application);
+            }
+        }       
+
+        Set<Id> filteredProgramEnrollmentIds = new Set<Id>();
+        List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsById(programEnrollmentIds, 'USER_MODE');
+        for(hed__Program_Enrollment__c programEnrollment : programEnrollmentList){
+            filteredProgramEnrollmentIds.add(programEnrollment.Id);
+        }
+        
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+        List<hed__Course_Enrollment__c> courseEnrollmentList = CourseConnectionsDAO.newInstance().getCourseConnectionByProgramEnrollmentIds(filteredProgramEnrollmentIds, 'USER_MODE');
+        for(hed__Course_Enrollment__c courseEnrollment : courseEnrollmentList){
+            if(contactFromAppWithProgramEnrollmentMap.containsKey(courseEnrollment.hed__Contact__c) && courseEnrollment.Enrollment_Status__c != 'Enrolled'){
+                applicationList.add(contactFromAppWithProgramEnrollmentMap.get(courseEnrollment.hed__Contact__c));
+            }
+        }
+
+        return applicationList;
     }
 
     /**

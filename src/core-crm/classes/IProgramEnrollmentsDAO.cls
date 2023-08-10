@@ -1,0 +1,15 @@
+/**
+ * @description Interface for ProgramEnrollmentsDAO
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
+ *    | eccarius.munoz                 | August 08, 2023       |DEPP-5760               | Created File                        |
+ */
+public interface IProgramEnrollmentsDAO extends DmlInterface{
+
+    List<hed__Program_Enrollment__c> getProgramEnrollmentsById(Set<Id> programEnrollmentIds, String accessLevel);
+
+}
