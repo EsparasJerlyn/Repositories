@@ -5,7 +5,7 @@
     <name>Memo Approver 1</name>
     <style>none</style>
     <subject>Tender Submission {!Opportunity.Name}</subject>
-    <textOnly>Hi {!Opportunity.Memo_Approver_1__c} ,
+    <textOnly>Hi {!Opportunity.Memo_Approver_1__c},
 
 Seeking approval on behalf of the International Projects Unit for the proposal to be submitted. We are finalising the bid documents, including the budget, attached with the email.
 
@@ -16,7 +16,7 @@ Please approve or provide feedback; if necessary.
 
 Thanks
 
-{!User.Username}</textOnly>
+{!User.Name}</textOnly>
     <type>custom</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

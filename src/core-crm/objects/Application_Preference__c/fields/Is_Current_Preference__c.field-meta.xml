@@ -5,6 +5,7 @@
     <description>The Preference being currently processed for admission</description>
     <externalId>false</externalId>
     <label>Is Current Preference</label>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
