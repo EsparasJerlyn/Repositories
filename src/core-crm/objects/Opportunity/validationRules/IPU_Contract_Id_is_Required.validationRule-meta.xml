@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>IPU_Contract_Id_is_Required</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>Ensures that Contract Id is populated when stage is moved to executed or discontinued.</description>
     <errorConditionFormula>AND (
 RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
 ISCHANGED(StageName),
 ISPICKVAL( PRIORVALUE(StageName) ,&quot;Contract&quot;),
-OR(ISPICKVAL(StageName, &quot;Executed&quot;),ISPICKVAL(StageName, &quot;Discontinued&quot;)),
-ISBLANK( Pure_Project_ID__r.Pure_CLMS_Contract_Id__c )
+OR(ISPICKVAL(StageName, &quot;Executed&quot;),ISPICKVAL(StageName, &quot;Discontinued&quot;))
 )</errorConditionFormula>
     <errorMessage>CLMS Contract ID is a Mandatory Field</errorMessage>
 </ValidationRule>

@@ -1747,14 +1747,34 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Pure_Project_ID__c</fieldItem>
-                <identifier>RecordPure_Project_ID_cField</identifier>
+                <fieldItem>Record.CLMS_Contract_ID__c</fieldItem>
+                <identifier>RecordCLMS_Contract_ID_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Pure_Project_ID1__c</fieldItem>
+                <identifier>RecordPure_Project_ID1_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b5d77816-c721-4912-bec5-96a1760ccfc5</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CLMS_Contract_Status__c</fieldItem>
+                <identifier>RecordCLMS_Contract_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-f0e1f29c-eb0a-4ef0-8a46-90b94ea86722</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1789,14 +1809,34 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Pure_Project_ID__c</fieldItem>
-                <identifier>RecordPure_Project_ID_cField2</identifier>
+                <fieldItem>Record.CLMS_Contract_ID__c</fieldItem>
+                <identifier>RecordCLMS_Contract_ID_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Pure_Project_ID1__c</fieldItem>
+                <identifier>RecordPure_Project_ID1_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-w4b4wzycgad</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CLMS_Contract_Status__c</fieldItem>
+                <identifier>RecordCLMS_Contract_Status_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-3s4b7dtf6tn</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1981,6 +2021,10 @@
                     <name>horizontalAlignment</name>
                     <value>false</value>
                 </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Contract Details</value>
+                </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection3</identifier>
                 <visibilityRule>
@@ -2004,65 +2048,10 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
+                    <value>Contract Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection5</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Executed</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Discontinued</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>lookupFieldName</name>
-                    <value>Opportunity.Pure_Project_ID__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>titleFieldName</name>
-                    <value>Contract</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>Pure_Project__c.Update_Pure_Project_In_Opportunity_Tab</value>
-                </componentInstanceProperties>
-                <componentName>console:relatedRecord</componentName>
-                <identifier>console_relatedRecord</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Contract</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>lookupFieldName</name>
-                    <value>Opportunity.Pure_Project_ID__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>titleFieldName</name>
-                    <value>Contract</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>Pure_Project__c.View_Pure_Project_In_Opportunity_Tab</value>
-                </componentInstanceProperties>
-                <componentName>console:relatedRecord</componentName>
-                <identifier>console_relatedRecord2</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
