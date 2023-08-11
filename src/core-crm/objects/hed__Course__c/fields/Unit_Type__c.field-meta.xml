@@ -20,7 +20,7 @@
             </value>
             <value>
                 <fullName>Alliance Unit</fullName>
-                <default>false</default>
+                <default>false</default> 
                 <label>Alliance Unit</label>
             </value>
             <value>
