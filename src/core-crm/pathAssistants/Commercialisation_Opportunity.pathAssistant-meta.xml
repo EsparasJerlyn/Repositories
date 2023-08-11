@@ -5,15 +5,23 @@
     <fieldName>StageName</fieldName>
     <masterLabel>Commercialisation Opportunity</masterLabel>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;This ‘Collaboration’ stage enables you to engage with the organisations or industry partners for research commercialisation&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;‘Collaborate’ indicates that you have identified a new commercialisation opportunity.&lt;/li&gt;&lt;li&gt;Complete the ‘Opportunity Summary’ section under the ‘Details’ tab by updating the ‘Description&amp;#39; field to capture meaningful information about the opportunity.&lt;/li&gt;&lt;li&gt;Use ‘Notes’ to record relevant information to help you manage the relationship and/or opportunity. Use the ‘Activity’ panel to record your interactions and track tasks.&lt;/li&gt;&lt;li&gt;The ‘Relationships’ tab allows you to record who is involved in progressing this opportunity. ‘Collaboration’ indicates that you stage enables you to engage with the organisations or industry partners for research commercialisation.&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Collaborate</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;The &amp;#39;Contract&amp;#39; stage signifies that the client has accepted the proposal and is ready to formalise agreement with a Contract with QUT.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use the Contracts Lifecycle Management System (CLMS) to create and manage the contract process.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Contract&amp;#39; indicates that the opportunity is progressing to a formal contract. The Contracts Lifecycle Management System (CLMS) is used to manage the contract process.&lt;/li&gt;&lt;li&gt;Under the ‘Contract’ tab, record the ‘CLMS Contract ID’ and update the ‘Contract Status’ field to record the contract outcome. Update the ‘Stage&amp;#39; field under the ‘Stage Management’ section to ‘Executed’ to record when the contract has been executed.&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Contract</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;p&gt;&lt;em&gt;This ‘Negotiate’ stage enables you to engage and negotiate with the organisations or industry partners for research commercialisation deal.&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Use Negotiation outcome field to capture the outcome of this stage&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <info>&lt;p&gt;‘Discontinued’ indicates that the opportunity has been lost. The ‘Loss Reason’ and ‘Loss Reason Explanation’ fields provide reasoning for the loss. &lt;/p&gt;</info>
+        <picklistValueName>Discontinued</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;‘Executed’ indicates that the Contract has been executed and is in effect. &lt;/p&gt;</info>
+        <picklistValueName>Executed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Negotiate’ indicates that you are progressing negotiations to commercialise research. &lt;/li&gt;&lt;li&gt;Complete the ‘Negotiation Checklist&amp;#39; section under the ‘Negotiate’ tab to confirm negotiation outcomes and readiness to proceed.&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Negotiate</picklistValueName>
     </pathAssistantSteps>
     <recordTypeName>Commercialisation</recordTypeName>
