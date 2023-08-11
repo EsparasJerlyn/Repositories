@@ -2994,7 +2994,7 @@ public class TestDataFactory {
 
 
     /**
-     * Generate a list of opportunity outcome records based on the amount of records needed,
+     * Generate a list of milestone records based on the amount of records needed,
      * the general name to be used, and record type
      */
     public static List<Milestone__c> createTestMileStoneRecords(
@@ -3014,6 +3014,32 @@ public class TestDataFactory {
             );
         }
         return milestones;
+    }
+
+    /**
+     * Generate a list of risk records based on the amount of records needed,
+     * the general name to be used, and record type
+     */
+    public static List<Risk__c> createTestRiskRecords(
+        Integer size,
+        Id opportunityOutcome,
+        String riskType
+    ) {
+        List<Risk__c> risks = new List<Risk__c>();
+        for (Integer i = 1; i <= size; i++) {
+            risks.add(
+                new Risk__c(
+                    Risk_Title__c = 'Sample Risk ' + i,
+                    Risk_Description__c = 'Sample Risk Description ' + i,
+                    Risk_Type__c = riskType,
+                    Risk_Status__c = 'Active',
+                    Severity__c = 'Medium',
+                    Mitigated__c = 'Yes',
+                    Opportunity_Outcome__c = opportunityOutcome
+                )
+            );
+        }
+        return risks;
     }
 
     /**

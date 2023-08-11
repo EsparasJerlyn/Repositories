@@ -9,16 +9,17 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | roy.nino.s.regala              | July 06, 2023         | DEPP-5474              | Created file                   |
  *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | removed dynamicdatatableinput  |
- *    | roy.nino.s.regala              | July 18, 2023         | DEPP-5473              | added finance summary and sort |
+ *    | roy.nino.s.regala              | July 18, 2023         | DEPP-5473              | Added Finance Summary and sort |
  *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6141              | Added Relationship Manager     |
+ *    | ryan.j.a.dela.cruz             | August 10, 2023       | DEPP-6335              | Added Risk                     |
  */
 public with sharing class DynamicDatatableEventService {
     /* Map that defines the object attributes defined in the datatables
-    *  Just add new attributes for new objects that will use the dynamicdatatable
-    *  Key Value pair are as follows:
-    *  ParentFields - Comma separated string that contains the possible parent records(Api Name).
-    *  ObjectLabel - Label name of the object, to be used for the success message
-    */
+     *  Just add new attributes for new objects that will use the dynamicdatatable
+     *  Key Value pair are as follows:
+     *  ParentFields - Comma separated string that contains the possible parent records(Api Name).
+     *  ObjectLabel - Label name of the object, to be used for the success message
+     */
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_EVENT_MAP = new Map<SObjectType, Map<String, String>>{
         Contextual_Role__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Engagement__c,Opportunity__c,Opportunity_Outcome__c',
@@ -51,6 +52,10 @@ public with sharing class DynamicDatatableEventService {
         Relationship_Manager__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Account__c,Contact__c',
             'ObjectLabel' => 'Relationship Manager'
+        },
+        Risk__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity_Outcome__c',
+            'ObjectLabel' => 'Risk'
         }
     };
 
