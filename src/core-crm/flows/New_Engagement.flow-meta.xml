@@ -928,6 +928,12 @@
                     <stringValue>Existing Account</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>EngagementAccountLookupIdentifier</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1160,6 +1166,12 @@
                 <name>messageWhenValueMissing</name>
                 <value>
                     <stringValue>Complete this field.</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>EngagementContactLookupIdentifier</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>

@@ -132,6 +132,9 @@
         <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
         <members>Application_Record_Page.flexipage.xml</members>
         <!--End DEPP-6136-->
+        <!--Start DEPP-6248 / DEPP-6201-->
+        <members>Application_SAMS_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-6248 / DEPP-6201-->
         <name>FlexiPage</name>
     </types>
     <types>
@@ -157,6 +160,9 @@
         <!--Start DEPP-6306-->
         <members>Task-Nurture.layout-meta.xml</members>
         <!--End DEPP-6306-->
+        <!--Start DEPP-6248 / DEPP-6201-->
+        <members>hed__Application__c-SAMS Application Layout.layout-meta.xml</members>
+        <!--End DEPP-6248 / DEPP-6201-->
         <name>Layout</name>
     </types>
     <types>

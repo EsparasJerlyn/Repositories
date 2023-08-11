@@ -4,8 +4,8 @@
         <description>Logs an error for every create action</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>440</locationX>
-        <locationY>458</locationY>
+        <locationX>754</locationX>
+        <locationY>866</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -41,8 +41,8 @@
     <actionCalls>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>440</locationX>
-        <locationY>566</locationY>
+        <locationX>754</locationX>
+        <locationY>974</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -54,8 +54,8 @@
     <assignments>
         <name>AssignModalTitle</name>
         <label>AssignModalTitle</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
             <operator>Assign</operator>
@@ -67,6 +67,38 @@
             <targetReference>Record_Type_Selection</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Set_Company_Description</name>
+        <label>Set Company Description</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>StartupCompanyDescription</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Opportunity_Record.Description</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Opportunity_Outcome</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Project_Summary</name>
+        <label>Set Project Summary</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>ProjectSummary</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Opportunity_Record.Description</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Opportunity_Outcome</targetReference>
+        </connector>
+    </assignments>
     <constants>
         <name>DefaultRecordTypeSelected</name>
         <dataType>String</dataType>
@@ -74,6 +106,46 @@
             <stringValue>Research Commercialisation Project</stringValue>
         </value>
     </constants>
+    <decisions>
+        <name>What_is_the_Record_Type</name>
+        <label>What is the Record Type</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>Create_Opportunity_Outcome</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Commercialisation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research_Commercialisation_Project</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Project_Summary</targetReference>
+            </connector>
+            <label>Commercialisation</label>
+        </rules>
+        <rules>
+            <name>Startup</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RecordTypeName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Startup</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Company_Description</targetReference>
+            </connector>
+            <label>Startup</label>
+        </rules>
+    </decisions>
     <dynamicChoiceSets>
         <name>OpportunityOutcomeRecordType</name>
         <dataType>String</dataType>
@@ -101,6 +173,10 @@
             </value>
         </filters>
         <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>RecordTypeName</assignToReference>
+            <field>DeveloperName</field>
+        </outputAssignments>
         <outputAssignments>
             <assignToReference>SelectedRecordTypeId</assignToReference>
             <field>Id</field>
@@ -134,8 +210,8 @@
     <recordCreates>
         <name>Create_Opportunity_Outcome</name>
         <label>Create Opportunity Outcome</label>
-        <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationX>314</locationX>
+        <locationY>758</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -143,6 +219,12 @@
             <field>Opportunity__c</field>
             <value>
                 <elementReference>ParentId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Project_Summary__c</field>
+            <value>
+                <elementReference>ProjectSummary</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -157,14 +239,41 @@
                 <stringValue>Active</stringValue>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Startup_Company_Description__c</field>
+            <value>
+                <elementReference>StartupCompanyDescription</elementReference>
+            </value>
+        </inputAssignments>
         <object>Opportunity_Outcome__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordLookups>
+        <name>Get_Opportunity_Record</name>
+        <label>Get Opportunity Record</label>
+        <locationX>314</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>AssignModalTitle</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>440</locationX>
-        <locationY>674</locationY>
+        <locationX>754</locationX>
+        <locationY>1082</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
         <allowPause>true</allowPause>
@@ -179,13 +288,13 @@
     <screens>
         <name>Record_Type_Selection</name>
         <label>Record Type Selection</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationX>314</locationX>
+        <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Create_Opportunity_Outcome</targetReference>
+            <targetReference>What_is_the_Record_Type</targetReference>
         </connector>
         <fields>
             <name>RecordTypeRadioButtons</name>
@@ -204,10 +313,10 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>50</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>AssignModalTitle</targetReference>
+            <targetReference>Get_Opportunity_Record</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -250,6 +359,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>ProjectSummary</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>RecordTypeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -257,7 +373,21 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>RecordTypeName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>SelectedRecordTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>StartupCompanyDescription</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

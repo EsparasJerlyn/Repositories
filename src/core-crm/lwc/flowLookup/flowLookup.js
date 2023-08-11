@@ -6,9 +6,10 @@
  *
  * @history
  *
- *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
- *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
- *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                 |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                       |
+ *    |---------------------------|-----------------------|----------------------|------------------------------------------------------|
+ *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                         |
+ *    | ryan.j.a.dela.cruz        | August 9, 2023        | DEPP-6082            | Added unique session storage for lookup fields       |
  */
 import { LightningElement, api, track } from "lwc";
 import { FlowAttributeChangeEvent } from "lightning/flowSupport";
@@ -37,8 +38,8 @@ const ACTIONS = {
 
 export default class FlowLookup extends NavigationMixin(LightningElement) {
   /* PUBLIC PROPERTIES */
+  @api identifier; // Unique identifier from flow for field value retention
   @api objectName;
-
   @api label = "Select Record";
   @api required;
   @api messageWhenValueMissing = "Please select a record";
@@ -107,7 +108,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   @api includeValueInFilter = false; // If true, the 'value' text of an option is not included when determining if an option is a match for a given search text.
   @api orderByClause; // Reserved for future use
   @api disabled = false;
-  @api _defaultValueInput;
+  @api _defaultValueInput; // Id of default selected record
 
   /* PRIVATE PROPERTIES */
   @track recentlyViewedRecords = [];
@@ -163,9 +164,17 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
     }
   }
 
-  @api
   get defaultValueInput() {
     return this._defaultValueInput;
+  }
+
+  @api
+  set defaultValueInput(value) {
+    this._defaultValueInput = value;
+    this.selectedRecordIdOutput = value;
+    // Set numberOfRecordsOutput if value is set
+    value ? (this.numberOfRecordsOutput = 1) : (this.numberOfRecordsOutput = 0);
+    this.handleEventChanges("defaultValueInput", value);
   }
 
   @api
@@ -176,15 +185,6 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   set selectedRecordOutput(value) {
     this._selectedRecordOutput = value;
     this.handleEventChanges("selectedRecordOutput", value);
-  }
-
-  set defaultValueInput(value) {
-    this._defaultValueInput = value;
-    this.selectedRecordIdOutput = value;
-    this.selectedRecordIdOutput = value;
-    // Set numberOfRecordsOutput if value is set
-    value ? (this.numberOfRecordsOutput = 1) : (this.numberOfRecordsOutput = 0);
-    this.handleEventChanges("defaultValueInput", value);
   }
 
   /* PUBLIC GETTERS AND SETTERS */
@@ -211,6 +211,17 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         })
           .then((result) => {
             this.records = [...this.records, ...this.parseFields(result)];
+
+            const seenValues = {};
+            for (let i = 0; i < this.records.length; i++) {
+              if (seenValues[this.records[i].value]) {
+                this.records.splice(i, 1);
+                i--; // Decrement index to account for the removed element
+              } else {
+                seenValues[this.records[i].value] = true;
+              }
+            }
+
             this.addNewRecordAction();
           })
           .catch((error) => {
@@ -294,7 +305,35 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       } else {
         this.getRecentlyViewed();
       }
+
+      if (this.identifier) {
+        // Get the "uid" parameter from the URL
+        const uid = this.getUrlParameter("uid");
+        const sessionKey = uid
+          ? `LOOKUP-${uid}-${this.identifier}`
+          : `LOOKUP-${this.getCharacterHash(window.location.href)}-${
+              this.identifier
+            }`;
+        // Check if the value already exists in session storage
+        const existingValue = sessionStorage.getItem(sessionKey);
+
+        if (existingValue !== null) {
+          // A value already exists, set it t.o the value property
+          this.values = [existingValue];
+          this.selectedRecordIdOutput = existingValue;
+        }
+      }
     });
+  }
+
+  // Helper method to get URL parameters
+  getUrlParameter(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  getCharacterHash(url) {
+    return url.split("#")[1];
   }
 
   // Get the recently viewed records
@@ -408,8 +447,6 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
 
     return apexResults.map((record) => {
       if (!labelField) {
-        const logger = this.template.querySelector("c-logger");
-
         let nonIdFields = Object.keys(record).filter(
           (fieldName) => fieldName != "Id"
         );
@@ -506,6 +543,16 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       value: this.value,
       selectedRecord: this.selectedRecord
     };
+
+    if (this.identifier) {
+      const uid = this.getUrlParameter("uid");
+      const sessionKey = uid
+        ? `LOOKUP-${uid}-${this.identifier}`
+        : `LOOKUP-${this.getCharacterHash(window.location.href)}-${
+            this.identifier
+          }`;
+      sessionStorage.setItem(sessionKey, this._selectedRecordIdOutput);
+    }
 
     this.dispatchEvent(new CustomEvent("recordchange", { detail: detail }));
     this.handleEventChanges(

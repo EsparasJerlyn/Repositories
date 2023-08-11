@@ -8217,7 +8217,11 @@
     <recordTypeVisibilities>
         <recordType>Contact.Person</recordType>
         <visible>true</visible>
-    </recordTypeVisibilities>    
+    </recordTypeVisibilities>
+    <tabSettings>
+        <tab>Application_Preference__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <tabSettings>
         <tab>Facilitator_Bio__c</tab>
         <visibility>Visible</visibility>

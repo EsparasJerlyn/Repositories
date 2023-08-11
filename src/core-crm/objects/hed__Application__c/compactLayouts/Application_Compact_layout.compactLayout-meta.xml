@@ -5,6 +5,7 @@
     <fields>hed__Applicant__c</fields>
     <fields>Application_Status__c</fields>
     <fields>hed__Application_Date__c</fields>
+    <fields>Applied_Intake_Study_Period__c</fields>
     <fields>RecordTypeId</fields>
     <label>Application Compact layout</label>
 </CompactLayout>

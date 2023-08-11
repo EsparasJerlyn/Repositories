@@ -10628,6 +10628,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+        <tab>Application_Preference__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>hed__Affiliation__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>

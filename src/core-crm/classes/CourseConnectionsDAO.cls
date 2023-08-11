@@ -8,6 +8,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
  *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                         |
+ *    |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
  */
 public inherited sharing class CourseConnectionsDAO extends DmlBase implements ICourseConnectionsDAO {
     
@@ -40,4 +42,18 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
             String.escapeSingleQuotes(accessLevel)
         );
     }
+
+    public List<hed__Course_Enrollment__c> getCourseConnectionByProgramEnrollmentIds(
+        Set<Id> programEnrollmentIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, hed__Program_Enrollment__c, hed__Program_Enrollment__r.hed__Contact__c, hed__Contact__c, Enrollment_Status__c ' +
+            'FROM hed__Course_Enrollment__c ' +
+            'WHERE hed__Program_Enrollment__c IN :programEnrollmentIds ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+    
 }

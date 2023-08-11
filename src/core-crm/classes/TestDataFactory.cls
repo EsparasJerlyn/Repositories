@@ -47,6 +47,8 @@
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
+ *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
+ *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
  */
 
 @isTest
@@ -1128,6 +1130,23 @@ public class TestDataFactory {
         }
 
         return programPlanList;
+    }
+
+    /**
+     * @description Method for creating test hed__Program_Enrollment__c records
+     * @param numberOfRecordsToCreate - number of hed__Program_Enrollment__c records to be created
+     * @return programEnrollmentList - list of hed__Program_Enrollment__c created
+     */
+    public static List<hed__Program_Enrollment__c> createTestProgramEnrollmentRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            programEnrollmentList.add(new hed__Program_Enrollment__c());
+        }
+
+        return programEnrollmentList;
     }
 
     /**
@@ -2975,7 +2994,7 @@ public class TestDataFactory {
 
 
     /**
-     * Generate a list of opportunity outcome records based on the amount of records needed,
+     * Generate a list of milestone records based on the amount of records needed,
      * the general name to be used, and record type
      */
     public static List<Milestone__c> createTestMileStoneRecords(
@@ -2995,6 +3014,32 @@ public class TestDataFactory {
             );
         }
         return milestones;
+    }
+
+    /**
+     * Generate a list of risk records based on the amount of records needed,
+     * the general name to be used, and record type
+     */
+    public static List<Risk__c> createTestRiskRecords(
+        Integer size,
+        Id opportunityOutcome,
+        String riskType
+    ) {
+        List<Risk__c> risks = new List<Risk__c>();
+        for (Integer i = 1; i <= size; i++) {
+            risks.add(
+                new Risk__c(
+                    Risk_Title__c = 'Sample Risk ' + i,
+                    Risk_Description__c = 'Sample Risk Description ' + i,
+                    Risk_Type__c = riskType,
+                    Risk_Status__c = 'Active',
+                    Severity__c = 'Medium',
+                    Mitigated__c = 'Yes',
+                    Opportunity_Outcome__c = opportunityOutcome
+                )
+            );
+        }
+        return risks;
     }
 
     /**
@@ -3180,5 +3225,19 @@ public class TestDataFactory {
         }
         
         return accShares;
+    }
+
+    /**
+     * @description Method for creating test Nurture Track Config records
+     * @return List<Nurture_Track_Configuration__c> nurtureList - List of Nurture Track Config
+     */
+    public static List<Nurture_Track_Configuration__c> createNurtureTrackConfigRecords(Integer numberOfRecordsToCreate) {
+        List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+
+        for (Integer i=0; i<numberOfRecordsToCreate; i++) {
+            nurtureList.add(new Nurture_Track_Configuration__c(Status__c = 'Active'));
+        }
+
+        return nurtureList;
     }
 }
