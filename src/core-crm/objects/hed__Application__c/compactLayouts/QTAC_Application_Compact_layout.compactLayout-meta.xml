@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QTAC_Application_Compact_layout</fullName>
+    <fields>Name</fields>
+    <fields>hed__Applicant__c</fields>
+    <fields>Applied_Intake_Study_Period__c</fields>
+    <fields>RecordTypeId</fields>
+    <label>QTAC Application Compact layout</label>
+</CompactLayout>

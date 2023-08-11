@@ -15,11 +15,11 @@
         <recordType>hed__Application__c.QTAC</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>hed__Application__c-SAMS Application Layout</layout>
+        <layout>hed__Application__c-SAMS CIAnywhere Application Layout</layout>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>hed__Application__c-SAMS Application Layout</layout>
+        <layout>hed__Application__c-SAMS Legacy Application Layout</layout>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
     </layoutAssignments>
     <layoutAssignments>

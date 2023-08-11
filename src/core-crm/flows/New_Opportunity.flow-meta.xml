@@ -963,7 +963,7 @@
         <inputAssignments>
             <field>Mobile_No_Locale__c</field>
             <value>
-                <elementReference>Mobile.value</elementReference>
+                <elementReference>MobileValue</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1271,6 +1271,12 @@
                     <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>IPUOpportunityAccountLookupIdentifier</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1334,6 +1340,12 @@
                 <name>required</name>
                 <value>
                     <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>RPCOMOpportunityAccountLookupIdentifier</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
@@ -1575,6 +1587,12 @@
                     <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>OpportunityContactLookupIdentifier</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1704,9 +1722,18 @@
                     <stringValue>^(\+)?(?:[0-9] ?(?:-)?){3,14}[0-9]$</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>value</name>
+                <value>
+                    <elementReference>MobileValue</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <outputParameters>
+                <assignToReference>MobileValue</assignToReference>
+                <name>value</name>
+            </outputParameters>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -2056,6 +2083,13 @@
         <value>
             <booleanValue>true</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>MobileValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>modalTitle</name>

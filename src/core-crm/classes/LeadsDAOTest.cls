@@ -8,12 +8,13 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new test method        |
+      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | added new test method        |
  */
 @isTest
 public with sharing class LeadsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Domestic_Future_Student_Agent' });
     }
 
     @isTest
@@ -61,6 +62,19 @@ public with sharing class LeadsDAOTest {
                 .getExistingUnconvertedLeads(
                     new Set<String>(),
                     'SYSTEM_MODE'
+                );
+            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getLearnerLeadsByCalculatedCadencesTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getLearnerLeadsByCalculatedCadences(
+                    new Set<String>()
                 );
             System.assert(leadList.isEmpty(), 'leadList should not be empty');
         }

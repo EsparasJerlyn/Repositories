@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Migration_Key__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>Identifier/reference for an external source to support Data Migration.</description>
+    <externalId>true</externalId>
+    <label>Migration Key</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

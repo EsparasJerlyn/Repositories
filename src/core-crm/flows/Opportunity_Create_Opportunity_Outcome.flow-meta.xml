@@ -475,7 +475,7 @@
         <inputAssignments>
             <field>Pure_Project_Id__c</field>
             <value>
-                <elementReference>$Record.Pure_Project_ID__c</elementReference>
+                <elementReference>$Record.Pure_Project_ID1__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

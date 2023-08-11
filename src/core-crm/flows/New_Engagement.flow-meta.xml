@@ -711,7 +711,7 @@
         <inputAssignments>
             <field>MobilePhone</field>
             <value>
-                <elementReference>MobilePhone.value</elementReference>
+                <elementReference>MobileValue</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -926,6 +926,12 @@
                 <name>label</name>
                 <value>
                     <stringValue>Existing Account</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>EngagementAccountLookupIdentifier</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
@@ -1162,6 +1168,12 @@
                     <stringValue>Complete this field.</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>EngagementContactLookupIdentifier</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1291,9 +1303,18 @@
                     <stringValue>^(\+)?(?:[0-9] ?(?:-)?){3,14}[0-9]$</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>value</name>
+                <value>
+                    <elementReference>MobileValue</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <outputParameters>
+                <assignToReference>MobileValue</assignToReference>
+                <name>value</name>
+            </outputParameters>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
                 <conditions>
@@ -1528,6 +1549,13 @@
     </variables>
     <variables>
         <name>EngagementStage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>MobileValue</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

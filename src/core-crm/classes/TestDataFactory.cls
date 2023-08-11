@@ -44,6 +44,12 @@
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Update to Pure_Project_ID1__c before deleting the field                        |     
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
+ *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
+ *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
  */
 
 @isTest
@@ -85,7 +91,8 @@ public class TestDataFactory {
         'QUT_ISR_Student_Enquiries_Communications_Officer',
         'QUT_ISR_Student_Adviser',
         'QUT_IE_Partnership_Manager',
-        'QUT_Operations_Manager'
+        'QUT_Operations_Manager',
+        'QUT_Domestic_Future_Student_Agent'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -420,7 +427,7 @@ public class TestDataFactory {
                     CloseDate = System.today() + 50,
                     RecordTypeId = recordTypeId,
                     AccountId = account,
-                    Pure_Project_ID__c = pureProjectId,
+                    Pure_Project_ID1__c = pureProjectId,
                     Description = description
                 )
             );
@@ -934,6 +941,81 @@ public class TestDataFactory {
         return asset;
     }
 
+
+    /**
+     * @description Method for creating Task Record
+     * @param nTask - number of Task to be created
+     * @param paramsMap - parameter map that contains fields and values for the task
+     * @return Task - List of Task Records Created
+     */
+    public static List<Task> createTaskRecords(
+        Integer nTask,
+        Map<String,String> paramsMap
+    ) {
+        List<Task> tasks = new List<Task>();
+        for (Integer i = 0; i < nTask; i++) {
+            tasks.add(
+                new Task(
+                    Subject = paramsMap.get('Subject') + i,
+                    OwnerId = paramsMap.get('OwnerId'),
+                    Status = paramsMap.get('Status'),
+                    WhoId = paramsMap.get('WhoId'),
+                    Description = paramsMap.get('Description') + i
+                )
+            );
+        }
+        return tasks;
+    }
+
+    /**
+     * @description Method for creating ActionCadenceTracker Record
+     * @param state - state of the action tracker cadence e.g running
+     * @param targetIds - target id of the actioncadence
+     * @return acTracker - List of ActionCadenceTracker Records Created
+     */
+    public static List<ActionCadenceTracker> createActionCadenceTrackers(
+        String state,
+        Set<Id> targetIds
+    ) {
+        List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
+        for (Id  targetId:targetIds) {
+            acTracker.add(
+                new ActionCadenceTracker(
+                    State = state,
+                    TargetId = targetId
+                )
+            );
+        }
+        return acTracker;
+    }
+
+    /**
+     * @description Method for creating Completed_Cadence__c Record
+     * @param status - satatus of the completed cadence
+     * @param nurtureTrackId - state of the action tracker cadence e.g running
+     * @param targetIds - target id of the Completed_Cadence__c
+     * @return completedCadences - List of Completed_Cadence__c Records Created
+     */
+    public static List<Completed_Cadence__c> createCompletedCadence(
+        String status,
+        Id nurtureTrackId,
+        Set<Id> targetIds
+    ) {
+        List<Completed_Cadence__c> completedCadences = new List<Completed_Cadence__c>();
+        for (Id  targetId:targetIds) {
+            String targetIdString = (String)targetId;
+            completedCadences.add(
+                new Completed_Cadence__c(
+                    Completed_Cadence_Status__c = status,
+                    Contact__c = targetIdString.startsWith('003')?targetId:null,
+                    Lead__c = targetIdString.startsWith('003')?null:targetId,
+                    Nurture_Track_Configuration__c = nurtureTrackId
+                )
+            );
+        }
+        return completedCadences;
+    }
+
     /**
      * @description Method for creating Term Record
      * @param contactId - contact ids
@@ -1049,6 +1131,23 @@ public class TestDataFactory {
         }
 
         return programPlanList;
+    }
+
+    /**
+     * @description Method for creating test hed__Program_Enrollment__c records
+     * @param numberOfRecordsToCreate - number of hed__Program_Enrollment__c records to be created
+     * @return programEnrollmentList - list of hed__Program_Enrollment__c created
+     */
+    public static List<hed__Program_Enrollment__c> createTestProgramEnrollmentRecords(
+        Integer numberOfRecordsToCreate
+    ) {
+        List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
+
+        for (Integer i = 0; i < numberOfRecordsToCreate; i++) {
+            programEnrollmentList.add(new hed__Program_Enrollment__c());
+        }
+
+        return programEnrollmentList;
     }
 
     /**
@@ -1925,6 +2024,21 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating Domestic Future Student Agent
+     * @param void
+     * @return futureStudentAgent - Domestic Future Student Agent
+     */
+    public static User getDomesticFutureStudentAgent() {
+        User futureStudentAgent = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Domestic_Future_Student_Agent%'
+            LIMIT 1
+        ];
+        return futureStudentAgent;
+    }
+
+    /**
      * @description Method for creating Learning Designer
      * @param void
      * @return learningDesigner - Learning Designer
@@ -2661,6 +2775,20 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'QUT_Domestic_Future_Student_Agent') {
+                userName = 'QUT_Domestic_Future_Student_Agent';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Agent';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
+                publicGroups = 'Future Students - Domestic';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
             /** START - Creation of  Marketing Users */
             else if (name == 'QUT_Marketing_Manager') {
@@ -2867,7 +2995,7 @@ public class TestDataFactory {
 
 
     /**
-     * Generate a list of opportunity outcome records based on the amount of records needed,
+     * Generate a list of milestone records based on the amount of records needed,
      * the general name to be used, and record type
      */
     public static List<Milestone__c> createTestMileStoneRecords(
@@ -2887,6 +3015,32 @@ public class TestDataFactory {
             );
         }
         return milestones;
+    }
+
+    /**
+     * Generate a list of risk records based on the amount of records needed,
+     * the general name to be used, and record type
+     */
+    public static List<Risk__c> createTestRiskRecords(
+        Integer size,
+        Id opportunityOutcome,
+        String riskType
+    ) {
+        List<Risk__c> risks = new List<Risk__c>();
+        for (Integer i = 1; i <= size; i++) {
+            risks.add(
+                new Risk__c(
+                    Risk_Title__c = 'Sample Risk ' + i,
+                    Risk_Description__c = 'Sample Risk Description ' + i,
+                    Risk_Type__c = riskType,
+                    Risk_Status__c = 'Active',
+                    Severity__c = 'Medium',
+                    Mitigated__c = 'Yes',
+                    Opportunity_Outcome__c = opportunityOutcome
+                )
+            );
+        }
+        return risks;
     }
 
     /**
@@ -3072,5 +3226,19 @@ public class TestDataFactory {
         }
         
         return accShares;
+    }
+
+    /**
+     * @description Method for creating test Nurture Track Config records
+     * @return List<Nurture_Track_Configuration__c> nurtureList - List of Nurture Track Config
+     */
+    public static List<Nurture_Track_Configuration__c> createNurtureTrackConfigRecords(Integer numberOfRecordsToCreate) {
+        List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+
+        for (Integer i=0; i<numberOfRecordsToCreate; i++) {
+            nurtureList.add(new Nurture_Track_Configuration__c(Status__c = 'Active'));
+        }
+
+        return nurtureList;
     }
 }

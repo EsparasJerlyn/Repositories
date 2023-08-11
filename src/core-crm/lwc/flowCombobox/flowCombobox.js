@@ -10,6 +10,7 @@
  *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
  *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                 |
  *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Lookup Form Validation                       |
+ *    | ryan.j.a.dela.cruz        | August 9, 2023        | DEPP-6082            | Code reorganized for readability             |
  */
 import { LightningElement, api, track } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
@@ -181,40 +182,8 @@ export default class OptionSelector extends LightningElement {
     return this.selectedOptions.length ? this.selectedOptions[0] : null;
   }
 
-  /* PUBLIC FUNCTIONS */
-  @api
-  reportValidity() {
-    return !this.errorMessage;
-  }
-
-  @api
-  validate() {
-    if (this.reportValidity()) {
-      return { isValid: true };
-    } else {
-      return {
-        isValid: false,
-        errorMessage: this.errorMessage
-      };
-    }
-  }
-
-  @api
-  setCustomValidity(errorMessage) {
-    this.errorMessage = errorMessage;
-  }
-
-  beforeUnloadHandler(event) {
-    window.sessionStorage.removeItem("customCSSLoaded");
-  }
-
   /* LIFECYCLE HOOKS */
   connectedCallback() {
-    window.addEventListener(
-      "beforeunload",
-      this.beforeUnloadHandler.bind(this)
-    );
-
     // Retrieve the session value
     const sessionValue = window.sessionStorage.getItem("customCSSLoaded");
     const logger = this.template.querySelector("c-logger");
@@ -245,6 +214,11 @@ export default class OptionSelector extends LightningElement {
         });
     }
 
+    window.addEventListener(
+      "beforeunload",
+      this.beforeUnloadHandler.bind(this)
+    );
+
     window.addEventListener("resize", () => {
       this.resizePillContainer();
     });
@@ -274,6 +248,33 @@ export default class OptionSelector extends LightningElement {
       this.pillTops = newPillTops;
       this.resizePillContainer();
     }
+  }
+
+  /* PUBLIC FUNCTIONS */
+  @api
+  reportValidity() {
+    return !this.errorMessage;
+  }
+
+  @api
+  validate() {
+    if (this.reportValidity()) {
+      return { isValid: true };
+    } else {
+      return {
+        isValid: false,
+        errorMessage: this.errorMessage
+      };
+    }
+  }
+
+  @api
+  setCustomValidity(errorMessage) {
+    this.errorMessage = errorMessage;
+  }
+
+  beforeUnloadHandler(event) {
+    window.sessionStorage.removeItem("customCSSLoaded");
   }
 
   /* PRIVATE GETTERS AND SETTERS */
@@ -451,6 +452,7 @@ export default class OptionSelector extends LightningElement {
     if (!selectedOption) {
       return;
     }
+
     if (selectedOption.isAction) {
       this.dispatchEvent(
         new CustomEvent("customaction", { detail: selectedOption.value })

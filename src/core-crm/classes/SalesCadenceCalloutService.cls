@@ -1,3 +1,4 @@
+
 /**
  * @description Service Class for Sales Cadence API callout use in assigning and removing target to existing cadences
  *
@@ -5,9 +6,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                               |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------|
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                 |
+ *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking|
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -74,13 +76,14 @@ public with sharing class SalesCadenceCalloutService {
      * @param Map<String,String> removeCadenceMap
      */ 
     private static void createCompletedCadence(Map<String,String> removeCadenceMap){
-        
         List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(new Set<String>(removeCadenceMap.values()),'SYSTEM_MODE');
         Map<String,String> nurtureMap = new Map<String,String>();
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
         
-        for (Nurture_Track_Configuration__c rec: nurtureList) {            
-            nurtureMap.put(rec.Cadence_Name__c,rec.Id);           
+        for (Nurture_Track_Configuration__c rec: nurtureList) {   
+            if(rec.Criteria_Type__c == 'Entry'){
+                nurtureMap.put(rec.Cadence_Name__c,rec.Id); 
+            }               
         }
                 
         for(String recId: removeCadenceMap.keySet()){           
@@ -115,7 +118,7 @@ public with sharing class SalesCadenceCalloutService {
      * @param String requestBody - the content of the request
      * @param String endpoint - the endpoint of the callout request
      */ 
-    private static void sendRequest(String requestBody,String endpoint) {
+    public static void sendRequest(String requestBody,String endpoint) {
         
         String salesCadenceEndpoint = URL.getSalesforceBaseUrl().toExternalForm() + endpoint;  
         

@@ -19,6 +19,9 @@
         <members>newOpportunityDocument</members>
         <members>newOpportunityOutcomeDocument</members>
         <!-- (End) DEPP-6047 -->
+        <!--(Start) DEPP-6336 -->
+        <members>newFinancialSplit</members>
+        <!-- (End) DEPP-6336 -->
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
@@ -129,6 +132,9 @@
         <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
         <members>Application_Record_Page.flexipage.xml</members>
         <!--End DEPP-6136-->
+        <!--Start DEPP-6248 / DEPP-6201-->
+        <members>Application_SAMS_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-6248 / DEPP-6201-->
         <name>FlexiPage</name>
     </types>
     <types>
@@ -151,6 +157,12 @@
         <!--Start DEPP-6136-->
         <members>QTAC_Preference__c-QTAC Preference Layout.layout-meta.xml</members>
         <!--End DEPP-6136-->
+        <!--Start DEPP-6306-->
+        <members>Task-Nurture.layout-meta.xml</members>
+        <!--End DEPP-6306-->
+        <!--Start DEPP-6248 / DEPP-6201-->
+        <members>hed__Application__c-SAMS Application Layout.layout-meta.xml</members>
+        <!--End DEPP-6248 / DEPP-6201-->
         <name>Layout</name>
     </types>
     <types>
@@ -196,6 +208,9 @@
         <members>Document__c.CreateOpportunityDocument</members>
         <members>Document__c.CreateOpportunityOutcomeDocument</members>
         <!-- (End) DEPP-6047 -->
+        <!--(Start) DEPP-6336 -->
+        <members>Financial_Split__c.NewFinancialSplit</members>
+        <!-- (End) DEPP-6336 -->
         <name>WebLink</name>
     </types>
     <types>

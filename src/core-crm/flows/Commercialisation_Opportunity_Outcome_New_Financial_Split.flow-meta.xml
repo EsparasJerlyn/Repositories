@@ -103,6 +103,11 @@
         <valueField>Id</valueField>
     </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <name>ParentOpporunityOutcomeId</name>
+        <dataType>String</dataType>
+        <expression>IF({!ParentObjectApiName} =&quot;Opportunity_Outcome__c&quot;,{!ParentId},&quot;&quot;)</expression>
+    </formulas>
     <interviewLabel>Create New Financial Split in Compliance Tab Commercialisation Record {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Commercialisation Opportunity Outcome New Financial Split</label>
     <processMetadataValues>
@@ -147,7 +152,7 @@
         <inputAssignments>
             <field>Opportunity_Outcome__c</field>
             <value>
-                <elementReference>opportunityOutcomeId</elementReference>
+                <elementReference>ParentOpporunityOutcomeId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -374,13 +379,6 @@
         <objectType>Financial_Split__c</objectType>
     </variables>
     <variables>
-        <name>opportunityOutcomeId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
         <name>ParentId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -389,13 +387,6 @@
     </variables>
     <variables>
         <name>ParentObjectApiName</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>parentOpportunityOutcomeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

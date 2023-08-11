@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Unit_Type__c</fullName>
+    <description>The Classification of the Unit</description>
     <externalId>false</externalId>
     <label>Unit Type</label>
     <required>false</required>
-    <trackTrending>false</trackTrending>
-    <trackHistory>true</trackHistory>
     <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -18,19 +19,29 @@
                 <label>Unit</label>
             </value>
             <value>
+                <fullName>Alliance Unit</fullName>
+                <default>false</default> 
+                <label>Alliance Unit</label>
+            </value>
+            <value>
                 <fullName>Non-Assessable Unit</fullName>
                 <default>false</default>
                 <label>Non-Assessable Unit</label>
             </value>
             <value>
-                <fullName>Aliance Unit</fullName>
-                <default>false</default>
-                <label>Aliance Unit</label>
-            </value>
-            <value>
                 <fullName>Thesis</fullName>
                 <default>false</default>
                 <label>Thesis</label>
+            </value>
+            <value>
+                <fullName>Thesis Units (Historical Only)</fullName>
+                <default>false</default>
+                <label>Thesis Units (Historical Only)</label>
+            </value>
+            <value>
+                <fullName>Zero Credit Point Unit</fullName>
+                <default>false</default>
+                <label>Zero Credit Point Unit</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -5,12 +5,14 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------|
- *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------------|
+ *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                                |
+ *    | ryan.j.a.dela.cruz             | August 3, 2023        | DEPP-6093              | Added sessionStorage cleanup on close tab   |
+ *    | ryan.j.a.dela.cruz             | August 9, 2023        | DEPP-6082              | Added sessionStorage cleanup for LOOKUP     |
  */
 ({
-  init: function (component, event) {
+  init: function (component) {
     const flow = component.find("flowData");
     const flowApiName = component.get("v.flowApiName");
     const inputVariables = component.get("v.inputVariables");
@@ -65,7 +67,10 @@
       $A.enqueueAction(closeFocusedTabAction);
     }
   },
-  closeTab: function (component) {
+  sessionCleanup: function (component, event, helper) {
+    helper.removeSessionStorageItems(["ABN-", "EMAIL-", "LOOKUP-"], ["customCSSLoaded"]);
+  },
+  closeTab: function (component, event, helper) {
     // close workspace tab when close button is clicked
     var workspaceAPI = component.find("workspace");
     workspaceAPI
@@ -78,11 +83,17 @@
         });
         return focusedTabId;
       })
-      .finally(function(response){
+      .then(function (response) {
         workspaceAPI.closeTab({ tabId: response });
       })
       .catch(function (error) {
         console.log(error);
+      })
+      .finally(function () {
+        // Get the sessionCleanup action from the component
+        const sessionCleanupAction = component.get("c.sessionCleanup");
+        // Enqueue the action to clean the session
+        $A.enqueueAction(sessionCleanupAction);
       });
   }
 });

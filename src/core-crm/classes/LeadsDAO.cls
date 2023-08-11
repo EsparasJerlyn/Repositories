@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|----------------------------------------------|
       | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                 |
       | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads |
+      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method             |
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -40,7 +41,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     }
 
     public static List<Lead> getLeadsWithLimit(Integer recordsCount) {
-        return [
+        return [//NOPMD
             SELECT Email, Work_Email__c
             FROM Lead
             WITH USER_MODE
@@ -61,5 +62,25 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );
+    }
+
+    public static List<Lead> getLearnerLeadsByCalculatedCadences(Set<String> calculatedCadences) {
+        return [//NOPMD
+            SELECT
+                Id,
+                Name,
+                hed__Gender__c,
+                Email,
+                Lead_Score__c,
+                Marketing_Segmentation__r.My_Country_Of_Residency__c,
+                Marketing_Segmentation__r.My_Country_Of_Citizenship__c
+            FROM Lead
+            WHERE
+                Lead_Type__c = 'Learner'
+                AND Calculated_Cadence__c IN :calculatedCadences
+                AND IsConverted = FALSE
+                AND Can_Nurture__c = TRUE
+            WITH USER_MODE
+        ];
     }
 }

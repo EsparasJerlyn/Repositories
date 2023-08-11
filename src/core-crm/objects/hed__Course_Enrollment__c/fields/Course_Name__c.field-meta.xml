@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Course_Name__c</fullName>
-    <description>Course/Program Plan Name</description>
+    <description>Course/Program Plan Name
+
+Show Program Plan Name from Program Offering.Program Plan Name if below returns blank
+
+Where Course__c(lookup hed__course__c) is not null fetch Name from Course else use Course Offering. Course name</description>
     <externalId>false</externalId>
-    <formula>IF(ISBLANK( hed__Course_Offering__r.hed__Course__r.Name ),Program_Offering__r.hed_Program_Plan__r.Name, hed__Course_Offering__r.hed__Course__r.Name)</formula>
+    <formula>IF(
+ ISBLANK(Course__c ),
+ IF(ISBLANK(hed__Course_Offering__r.hed__Course__r.Name ),
+  Program_Offering__r.hed_Program_Plan__r.Name, 
+  hed__Course_Offering__r.hed__Course__r.Name
+ ),
+ Course__r.Name
+)</formula>
     <label>Course Name</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>

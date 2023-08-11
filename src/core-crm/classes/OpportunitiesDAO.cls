@@ -11,6 +11,7 @@
  *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method       |
  *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method  |
  *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | added method getOpportunityByAccountIds|
+ *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Update to Pure_Project_ID1__c before deleting the field  |
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
@@ -85,7 +86,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 
     public static List<Opportunity> getRecordsBySetIds(Set<Id> ids) {
         return [ //NOPMD
-            SELECT Id, Memo_Status__c, Memo_PDF_URL__c, OwnerId, Description, Pure_Project_Id__c, CreatedDate
+            SELECT Id, Memo_Status__c, Memo_PDF_URL__c, OwnerId, Description, Pure_Project_ID1__c, CreatedDate
             FROM Opportunity
             WHERE ID IN :ids
             WITH USER_MODE

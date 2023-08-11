@@ -1608,169 +1608,84 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CustomButton.Financial_Split__c.NewFinancialSplit</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>defaultValues</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>adminFilters</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>RECORDTYPE|EQUALS|[&quot;Opportunity_Outcome_Account_Revenue_Financial_Split&quot;,&quot;Opportunity_Outcome_Contact_Revenue_Financial_Split&quot;]</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>dynamicDataTableInput</name>
+                    <value>Opportunity Outcome Contact Revenue Financial Split, Opportunity Outcome Account Revenue Financial Split</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
+                    <name>editActionType</name>
+                    <value>Default</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Opportunity_Outcome__c.Id</value>
+                    <name>editScreenFlowApiName</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Financial_Splits__r</value>
+                    <name>icon</name>
+                    <value>standard:custom</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Revenue_Split_Contact__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Revenue_Split_Account__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Account_GL_Code__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Percentage_split__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IsActive__c</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>newScreenFlowApiName</name>
+                    <value>Commercialisation_Opportunity_Outcome_New_Financial_Split</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity_Outcome__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>Opportunity Outcome Contact Revenue Financial Split, Opportunity Outcome Account Revenue Financial Split</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity_Outcome__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Revenue Split Contact&quot;,&quot;fieldName&quot;:&quot;Revenue_Split_Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Revenue Split Account&quot;,&quot;fieldName&quot;:&quot;Revenue_Split_Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Account GL Code&quot;,&quot;fieldName&quot;:&quot;Account_GL_Code__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Percentage Split&quot;,&quot;fieldName&quot;:&quot;Percentage_split__c&quot;,&quot;type&quot;:&quot;percent&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;IsActive__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>(RecordType.DeveloperName = &apos;Opportunity_Outcome_Account_Revenue_Financial_Split&apos; OR RecordType.DeveloperName = &apos;Opportunity_Outcome_Contact_Revenue_Financial_Split&apos;)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
                     <value>Financial Split</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>showActionBar</name>
+                    <name>relatedRecord</name>
+                    <value>Financial_Split__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>CREATED_DATE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Descending</value>
-                </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList5</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>RECORDTYPE|EQUALS|[&quot;Opportunity_Outcome_Account_Revenue_Financial_Split&quot;,&quot;Opportunity_Outcome_Contact_Revenue_Financial_Split&quot;]</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Opportunity_Outcome__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Financial_Splits__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Revenue_Split_Contact__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Revenue_Split_Account__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Account_GL_Code__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Percentage_split__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IsActive__c</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Financial Split</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
+                    <name>showNewButton</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>CREATED_DATE</value>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Descending</value>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
                 </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Partnership_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>VP_Business_Development</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable14</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
