@@ -238,7 +238,7 @@
     <picklistValues>
         <picklist>Unit_Type__c</picklist>
         <values>
-            <fullName>Aliance Unit</fullName>
+            <fullName>Alliance Unit</fullName>
             <default>false</default>
         </values>
         <values>

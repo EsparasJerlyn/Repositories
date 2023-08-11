@@ -8,8 +8,8 @@
     <length>255</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
-    <trackHistory>true</trackHistory>
-    <trackTrending>false</trackTrending>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>true</unique>
 </CustomField>
