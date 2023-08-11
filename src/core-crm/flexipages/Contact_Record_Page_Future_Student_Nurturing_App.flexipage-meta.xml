@@ -55,6 +55,88 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__Citizenship_Status__c</fieldItem>
+                <identifier>Recordhed_Citizenship_Status_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Domestic</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__Citizenship__c</fieldItem>
+                <identifier>Recordhed_Citizenship_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Domestic</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5b38353f-1e48-456f-83d2-db02055dee39</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-5b38353f-1e48-456f-83d2-db02055dee39</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column10</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-7d8c4793-8fc1-4d9c-97bf-f1a42540c37a</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-7d8c4793-8fc1-4d9c-97bf-f1a42540c37a</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>About Me</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection6</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>leftsidebar</name>
         <type>Region</type>
     </flexiPageRegions>
