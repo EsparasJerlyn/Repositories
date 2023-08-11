@@ -9,6 +9,7 @@
  *    |--------------------------------|-----------------------|------------------------|---------------------------------------------|
  *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                                |
  *    | ryan.j.a.dela.cruz             | August 3, 2023        | DEPP-6093              | Added sessionStorage cleanup on close tab   |
+ *    | ryan.j.a.dela.cruz             | August 9, 2023        | DEPP-6082              | Added sessionStorage cleanup for LOOKUP     |
  */
 ({
   init: function (component) {
@@ -67,7 +68,7 @@
     }
   },
   sessionCleanup: function (component, event, helper) {
-    helper.removeSessionStorageItems(["ABN-", "EMAIL-"], ["customCSSLoaded"]);
+    helper.removeSessionStorageItems(["ABN-", "EMAIL-", "LOOKUP-"], ["customCSSLoaded"]);
   },
   closeTab: function (component, event, helper) {
     // close workspace tab when close button is clicked

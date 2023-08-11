@@ -4081,6 +4081,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+        <tab>Application_Preference__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Credential__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
