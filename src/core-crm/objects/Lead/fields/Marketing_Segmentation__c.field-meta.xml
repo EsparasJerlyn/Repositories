@@ -3,7 +3,7 @@
     <fullName>Marketing_Segmentation__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Marketing Segmentation</label>
+    <label>Marketing Preferences</label>
     <referenceTo>Marketing_Segmentation__c</referenceTo>
     <relationshipLabel>Leads</relationshipLabel>
     <relationshipName>Leads</relationshipName>
