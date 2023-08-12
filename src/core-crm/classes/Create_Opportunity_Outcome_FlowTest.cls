@@ -175,6 +175,8 @@ public class Create_Opportunity_Outcome_FlowTest {
             List<Opportunity> ipuOpportunityList = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Test IPU Opportunity', false, '%');
             for (Opportunity opportunity : ipuOpportunityList) {
+                opportunity.CLMS_Contract_ID__c = '1234';
+                opportunity.CLMS_Contract_Status__c = 'Internally Approved';
                 opportunity.StageName = 'Executed';
             }
             update ipuOpportunityList;
@@ -247,6 +249,8 @@ public class Create_Opportunity_Outcome_FlowTest {
             List<Opportunity> rpOpportunityList = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Test RP Opportunity', false, '%');
             for (Opportunity opportunity : rpOpportunityList) {
+                opportunity.CLMS_Contract_ID__c = '1234';
+                opportunity.CLMS_Contract_Status__c = 'Internally Approved';
                 opportunity.StageName = 'Executed';
             }
             update rpOpportunityList;

@@ -7,7 +7,9 @@
 RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
 ISCHANGED(StageName),
 ISPICKVAL( PRIORVALUE(StageName) ,&quot;Contract&quot;),
-ISPICKVAL(StageName, &quot;Discontinued&quot;)
+ISPICKVAL(StageName, &quot;Discontinued&quot;),
+NOT(ISPICKVAL( CLMS_Contract_Status__c , &quot;Terminated&quot;))
 )</errorConditionFormula>
+    <errorDisplayField>CLMS_Contract_Status__c</errorDisplayField>
     <errorMessage>Contract Status must be Terminated</errorMessage>
 </ValidationRule>
