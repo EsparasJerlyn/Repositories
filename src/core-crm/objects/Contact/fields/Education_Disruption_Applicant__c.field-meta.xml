@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Education_Disruption_Applicant__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Recent Application by contact has flagged Education Disruption applicant.</description>
+    <externalId>false</externalId>
+    <label>Education Disruption Applicant</label>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

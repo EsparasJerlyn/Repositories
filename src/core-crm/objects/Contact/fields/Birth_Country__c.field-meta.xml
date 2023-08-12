@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Birth_Country__c</fullName>
+    <description>The Country the Contact was born in.</description>
+    <externalId>false</externalId>
+    <label>Birth Country</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Countries</valueSetName>
+    </valueSet>
+</CustomField>
