@@ -4743,7 +4743,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity.Pure_Project_ID1__c</field>
+        <field>Opportunity.Pure_Project_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

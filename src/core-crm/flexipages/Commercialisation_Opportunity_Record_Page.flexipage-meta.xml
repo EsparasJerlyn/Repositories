@@ -1644,8 +1644,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Pure_Project_ID1__c</fieldItem>
-                <identifier>RecordPure_Project_ID1_cField</identifier>
+                <fieldItem>Record.Pure_Project_ID__c</fieldItem>
+                <identifier>RecordPure_Project_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ab366391-ec15-4181-81d3-b852f5cded4b</name>
@@ -1706,8 +1706,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Pure_Project_ID1__c</fieldItem>
-                <identifier>RecordPure_Project_ID1_cField3</identifier>
+                <fieldItem>Record.Pure_Project_ID__c</fieldItem>
+                <identifier>RecordPure_Project_ID_cField3</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-m9loh19zh6s</name>

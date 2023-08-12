@@ -41,7 +41,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Pure_Project_ID1__c</field>
+                <field>Pure_Project_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
