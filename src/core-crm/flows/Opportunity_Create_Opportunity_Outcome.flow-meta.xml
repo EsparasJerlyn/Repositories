@@ -473,12 +473,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Pure_Project_Id__c</field>
-            <value>
-                <elementReference>$Record.Pure_Project_ID1__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>RecordTypeId</field>
             <value>
                 <elementReference>RecordType</elementReference>
