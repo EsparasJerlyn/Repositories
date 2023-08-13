@@ -68,6 +68,7 @@ public class ImplementationSelector {
             Profile.SObjectType => ProfilesDAO.class,            
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
+            Risk__c.SObjectType => RisksDAO.class,
             Task.SObjectType => TasksDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class
         }

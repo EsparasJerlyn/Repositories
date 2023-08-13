@@ -200,6 +200,106 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     }
 
     @isTest
+    private static void testAutomatedInternationalOffertoAcceptanceEntry() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            // create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional offer/Unconditional offer');
+            newApplications[0].RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            // assert
+            System.assertEquals(
+                'International Offer to Acceptance (Automated)',
+                processContacts[0].Calculated_Cadence__c,
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+    
+    @isTest
+    private static void testManualInternationalOffertoAcceptanceEntryHasCompleteCadence() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            // create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            
+            // Create Nurture Track Configuration
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
+            nurtureConfig.Cadence_Name__c = 'International Offer to Acceptance';
+            nurtureConfig.Lead_Score_Threshold__c = 3;
+            nurtureConfig.Status__c = 'Active';
+            nurtureConfig.Criteria_Type__c = 'Entry';
+            nurtureConfig.Key_Date_Offset_Days__c = 10;
+            nurtureList.add(nurtureConfig);
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);   
+
+            List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
+            programList[0].Availability_Start_Date__c = System.today();
+            insert programList;
+            
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional offer/Unconditional offer');
+            newApplications[0].RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            newApplications[0].Offered_Program_Plan__c = programList[0].Id;
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            
+            // Create Nurture Track Configuration
+            List<Nurture_Track_Configuration__c> nurtureListCon = new List<Nurture_Track_Configuration__c>();
+            Nurture_Track_Configuration__c nurtureTrackConfig = new Nurture_Track_Configuration__c();
+            nurtureTrackConfig.Cadence_Name__c = 'International Offer to Acceptance (Automated)';
+            nurtureListCon.add(nurtureTrackConfig);
+
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureListCon, false, AccessLevel.SYSTEM_MODE);
+
+            // create completed cadence
+             Completed_Cadence__c completedCadence = new Completed_Cadence__c(
+                Application__c = newApplications[0].Id,
+                Contact__c = newContacts[0].Id,
+                Nurture_Track_Configuration__c = nurtureListCon[0].Id
+            );
+            insert completedCadence;
+			
+            // call method
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            // assert
+            System.assertEquals(
+                'International Offer to Acceptance',
+                processContacts[0].Calculated_Cadence__c,
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
     private static void testManualDomesticFirstOffertoAcceptanceEntryHasCompleteCadence() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
@@ -622,7 +722,6 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         }
 
     }
-
     @isTest
     private static void testAutomatedDomesticFirstOffertoAcceptanceExit() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
@@ -646,6 +745,40 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             newApplications[0].Offer_Status__c = 'Accepted';
             newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            // assert
+            System.assertEquals(
+                '',
+                processContacts[0].Calculated_Cadence__c,
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+    
+    @isTest
+    private static void testAutomatedInternationalOffertoAcceptanceExit() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            // create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            newContacts[0].Calculated_Cadence__c = 'International Offer to Acceptance (Automated)';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional offer/Unconditional offer');
+            newApplications[0].Application_Status__c = 'Accepted';
+            newApplications[0].RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -696,6 +829,37 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     }
 
     @isTest
+    private static void testManualInternationalOffertoAcceptanceExit() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            // create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            newContacts[0].Calculated_Cadence__c = 'International Offer to Acceptance';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional offer/Unconditional offer');
+            newApplications[0].Application_Status__c = 'Accepted';
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            // assert
+            System.assertEquals(
+                '',
+                processContacts[0].Calculated_Cadence__c,
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
     private static void getDomesticEnrollmentToCensusForEntryTest(){
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();

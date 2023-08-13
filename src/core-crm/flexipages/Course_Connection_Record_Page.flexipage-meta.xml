@@ -4,16 +4,19 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsConfiguration</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsInNative</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
@@ -200,8 +203,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Course_Name__c</fieldItem>
-                <identifier>RecordCourse_Name_cField</identifier>
+                <fieldItem>Record.hed__Contact__c</fieldItem>
+                <identifier>Recordhed_Contact_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -212,6 +215,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Enrollment_Stage__c</fieldItem>
                 <identifier>RecordEnrollment_Stage_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Enrollment_Status__c</fieldItem>
+                <identifier>RecordEnrollment_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -254,8 +267,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__Contact__c</fieldItem>
-                <identifier>Recordhed_Contact_cField</identifier>
+                <fieldItem>Record.Course_Name__c</fieldItem>
+                <identifier>RecordCourse_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -264,8 +277,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Enrollment_Status__c</fieldItem>
-                <identifier>RecordEnrollment_Status_cField</identifier>
+                <fieldItem>Record.Attempt_No__c</fieldItem>
+                <identifier>RecordAttempt_No_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Enrollment_Status_Date__c</fieldItem>
+                <identifier>RecordEnrollment_Status_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -609,6 +632,13 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>QUTeX</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

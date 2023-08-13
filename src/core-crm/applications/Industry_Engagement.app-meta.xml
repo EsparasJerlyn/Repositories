@@ -679,6 +679,24 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Contact_Record_Page_OIE</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+        <recordType>Contact.Person</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Contact_Record_Page_OIE</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+        <recordType>Contact.Person</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ApplicationPreference_StudyLink_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>

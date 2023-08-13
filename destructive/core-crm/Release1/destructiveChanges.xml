@@ -181,6 +181,13 @@
         <!--Start DEPP-4925-->
         <members>Contact.Enable_Partner_Portal_Access</members>
         <!--End DEPP-4925-->
+        <!--Start DEPP-6275-->
+        <members>Pure_Project__c.Show_CLMS_Contract_ID</members>
+        <members>Pure_Project__c.Show_Pure_Project_in_Opportunity_Outcome_Tab</members>
+        <members>Pure_Project__c.Show_Record_In_Opportunity_Outcome_Record_Page</members>
+        <members>Pure_Project__c.Update_Pure_Project_In_Opportunity_Tab</members>
+        <members>Pure_Project__c.View_Pure_Project_In_Opportunity_Tab</members>
+        <!--End DEPP-6275-->
         <name>QuickAction</name>
     </types>
     <types>

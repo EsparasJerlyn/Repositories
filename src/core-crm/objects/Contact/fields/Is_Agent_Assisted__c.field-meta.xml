@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Agent_Assisted__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if the applicant has been assisted by an agency in their application.</description>
+    <externalId>false</externalId>
+    <label>Is Agent Assisted</label>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

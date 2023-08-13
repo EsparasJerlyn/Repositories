@@ -1634,6 +1634,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.CLMS_Contract_ID__c</fieldItem>
+                <identifier>RecordCLMS_Contract_ID_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Pure_Project_ID__c</fieldItem>
                 <identifier>RecordPure_Project_ID_cField</identifier>
             </fieldInstance>
@@ -1642,6 +1652,16 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CLMS_Contract_Status__c</fieldItem>
+                <identifier>RecordCLMS_Contract_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-9b0dd992-7d1f-4098-8f24-a53faf784270</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1676,15 +1696,35 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Pure_Project_ID__c</fieldItem>
-                <identifier>RecordPure_Project_ID_cField2</identifier>
+                <fieldItem>Record.CLMS_Contract_ID__c</fieldItem>
+                <identifier>RecordCLMS_Contract_ID_cField3</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-8gg1epetsdq</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Pure_Project_ID__c</fieldItem>
+                <identifier>RecordPure_Project_ID_cField3</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-m9loh19zh6s</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-sw6egux3k4i</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CLMS_Contract_Status__c</fieldItem>
+                <identifier>RecordCLMS_Contract_Status_cField3</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-p8nwpvgk4ln</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1692,23 +1732,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-8gg1epetsdq</value>
+                    <value>Facet-m9loh19zh6s</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column25</identifier>
+                <identifier>flexipage_column27</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-sw6egux3k4i</value>
+                    <value>Facet-p8nwpvgk4ln</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column26</identifier>
+                <identifier>flexipage_column28</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-xjpep9s4r8</name>
+        <name>Facet-slli4nrco0s</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1875,6 +1915,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
+                    <value>Contract Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection12</identifier>
@@ -1907,7 +1948,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-xjpep9s4r8</value>
+                    <value>Facet-slli4nrco0s</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>horizontalAlignment</name>
@@ -1915,9 +1956,10 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
+                    <value>Contract Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection13</identifier>
+                <identifier>flexipage_fieldSection14</identifier>
                 <visibilityRule>
                     <booleanFilter>((1 OR 2) AND 6) OR ((7 AND 8) AND (3 OR 4 OR 5))</booleanFilter>
                     <criteria>
@@ -1966,19 +2008,19 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>lookupFieldName</name>
-                    <value>Opportunity.Pure_Project_ID__c</value>
+                    <name>columns</name>
+                    <value>Facet-2aadvq3vrjj</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>titleFieldName</name>
-                    <value>Contract</value>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>Pure_Project__c.Update_Pure_Project_In_Opportunity_Tab</value>
+                    <name>label</name>
+                    <value>Stage Management</value>
                 </componentInstanceProperties>
-                <componentName>console:relatedRecord</componentName>
-                <identifier>console_relatedRecord</identifier>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection11</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                     <criteria>
@@ -2007,19 +2049,19 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>lookupFieldName</name>
-                    <value>Opportunity.Pure_Project_ID__c</value>
+                    <name>columns</name>
+                    <value>Facet-pg9vdjkpxm</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>titleFieldName</name>
-                    <value>Contract</value>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>Pure_Project__c.View_Pure_Project_In_Opportunity_Tab</value>
+                    <name>label</name>
+                    <value>Stage Management</value>
                 </componentInstanceProperties>
-                <componentName>console:relatedRecord</componentName>
-                <identifier>console_relatedRecord2</identifier>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection7</identifier>
                 <visibilityRule>
                     <booleanFilter>((1 OR 2) AND 6) OR ((7 AND 8) AND (3 OR 4 OR 5))</booleanFilter>
                     <criteria>
@@ -2035,7 +2077,7 @@
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>VP_Business_Development</rightValue>
+                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
@@ -2045,7 +2087,7 @@
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
+                        <rightValue>VP_Business_Development</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
@@ -2282,108 +2324,6 @@
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Partnership_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-2aadvq3vrjj</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Stage Management</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection11</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Contract</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>VP_Business_Development</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Operations_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-pg9vdjkpxm</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Stage Management</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection7</identifier>
-                <visibilityRule>
-                    <booleanFilter>((1 OR 2) AND 6) OR ((7 AND 8) AND (3 OR 4 OR 5))</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Executed</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Discontinued</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Operations_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>VP_Business_Development</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Partnership_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Collaborate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Negotiate</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
