@@ -2321,7 +2321,7 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
-                        <assignToReference>Get_Contextual_Role_Record.Account__c</assignToReference>
+                        <assignToReference>Get_Contextual_Role_Record.Contact__c</assignToReference>
                         <name>selectedRecordIdOutput</name>
                     </outputParameters>
                 </fields>
