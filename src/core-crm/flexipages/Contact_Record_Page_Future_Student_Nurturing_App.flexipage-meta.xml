@@ -71,44 +71,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__Citizenship__c</fieldItem>
-                <identifier>Recordhed_Citizenship_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>International</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Domestic</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Citizenship_Country__c</fieldItem>
                 <identifier>RecordCitizenship_Country_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>International</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Domestic</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
