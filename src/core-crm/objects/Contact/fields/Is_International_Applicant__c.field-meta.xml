@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_International_Applicant__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Has the contact submitted an International Application recently?</description>
+    <externalId>false</externalId>
+    <label>Is International Applicant</label>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

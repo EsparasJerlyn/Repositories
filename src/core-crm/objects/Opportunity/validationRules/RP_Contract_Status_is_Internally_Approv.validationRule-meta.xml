@@ -8,7 +8,8 @@ RecordType.DeveloperName = &quot;Research_Partnership&quot;,
 ISCHANGED(StageName),
 ISPICKVAL( PRIORVALUE(StageName) ,&quot;Contract&quot;),
 ISPICKVAL(StageName, &quot;Executed&quot;),
-NOT(ISPICKVAL( Pure_Project_ID__r.Pure_CLMS_Contract_Status__c , &quot;Internally Approved&quot;))
+NOT(ISPICKVAL( CLMS_Contract_Status__c , &quot;Internally Approved&quot;))
 )</errorConditionFormula>
+    <errorDisplayField>CLMS_Contract_Status__c</errorDisplayField>
     <errorMessage>Contract Status must be Internally Approved</errorMessage>
 </ValidationRule>
