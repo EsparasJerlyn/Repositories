@@ -33,7 +33,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>calculatedCadence</name>
-                    <value>International Application Submission - Direct Application</value>
+                    <value>International Application Submission - Direct Applicant</value>
                 </componentInstanceProperties>
                 <componentName>salesCadenceListView</componentName>
                 <identifier>c_salesCadenceListView3</identifier>
@@ -199,7 +199,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>International Application Submission - Direct Application</value>
+                    <value>International Application Submission - Direct Applicant</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>name</name>
