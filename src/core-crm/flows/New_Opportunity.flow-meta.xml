@@ -281,7 +281,7 @@
                 <leftValueReference>$UserRole.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Executive_Director_Industry_Engagement</stringValue>
+                    <stringValue>Executive_Director_Business_Development</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -310,7 +310,7 @@
                 <leftValueReference>$UserRole.DeveloperName</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue>Executive_Director_Industry_Engagement</stringValue>
+                    <stringValue>Executive_Director_Business_Development</stringValue>
                 </rightValue>
             </conditions>
             <conditions>

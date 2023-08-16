@@ -7,7 +7,7 @@ Opportunity_Outcome__r.Id !=null,
 NOT(ISNEW()),
 OR(
 $UserRole.Name = &quot;VP Business Development&quot;,
-$UserRole.Name = &quot;Executive Director Industry Engagement&quot;,
+$UserRole.Name = &quot;Executive Director Business Development&quot;,
 $UserRole.Name = &quot;Partnership Manager&quot;
 )
 )</errorConditionFormula>
