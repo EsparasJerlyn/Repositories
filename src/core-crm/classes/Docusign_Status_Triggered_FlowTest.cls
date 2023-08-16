@@ -11,6 +11,7 @@
       | roy.nino.s.regala         | November 03, 2021     | DEPP-736 | Created file                    | 
       | rhea.b.torres             | June 05, 2023         |          | Fix All Test Class pipeline     |
       |                           |                       |          | error to run as proper persona  |
+      | carl.alvin.cabiles        | August 16,2023        |          | Fix test class error            |
 */
 
 @isTest
@@ -21,6 +22,7 @@ private class Docusign_Status_Triggered_FlowTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
 
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+            acc.Organization_Unit_Level__c = '2';
             insert acc;
 
             Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
