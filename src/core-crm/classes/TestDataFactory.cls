@@ -51,6 +51,7 @@
  *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
  *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
  *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                        |
+ *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
  */
 
 @isTest
@@ -416,7 +417,6 @@ public class TestDataFactory {
         Id recordTypeId,
         String stage,
         Id account,
-        Id pureProjectId,
         String description
     ) {
         List<Opportunity> oppties = new List<Opportunity>();
@@ -428,7 +428,6 @@ public class TestDataFactory {
                     CloseDate = System.today() + 50,
                     RecordTypeId = recordTypeId,
                     AccountId = account,
-                    Pure_Project_ID__c = pureProjectId,
                     Description = description
                 )
             );

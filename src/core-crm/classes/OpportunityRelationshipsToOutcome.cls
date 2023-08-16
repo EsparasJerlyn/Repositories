@@ -6,12 +6,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
- *    | kenneth.f.alsay                | July 13, 2023         | DEPP-5475              | Created File                               |
- *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5468              | Refactor whole class, added new methods    |
- *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID1__c before deleting the field|
- *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated Pure_Project_ID__c field           |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
+ *    | kenneth.f.alsay                | July 13, 2023         | DEPP-5475              | Created File                                              |
+ *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5468              | Refactor whole class, added new methods                   |
+ *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID1__c before deleting the field  |
+ *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated Pure_Project_ID__c field                          |
+ *    | kenneth.f.alsay                | August 14, 2023       | DEPP-6275-6208         | Removed Pure_Project_ID__c field from being copied        |
  */
 
 public with sharing class OpportunityRelationshipsToOutcome {
@@ -57,7 +58,6 @@ public with sharing class OpportunityRelationshipsToOutcome {
                 // Copy relevant fields from Opportunity to Opportunity_Outcome__c
                 opptyOutcome.OwnerId = relatedOpportunity.OwnerId;
                 opptyOutcome.Project_Summary__c = relatedOpportunity.Description;
-                opptyOutcome.Pure_Project_Id__c = relatedOpportunity.Pure_Project_ID__c;
                 opptyOutcome.Start_Date__c = Date.newInstance(
                     relatedOpportunity.CreatedDate.year(),
                     relatedOpportunity.CreatedDate.month(),
