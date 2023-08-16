@@ -17,14 +17,59 @@
         </values>
     </picklistValues>
     <picklistValues>
-       <!-- Renamed from Collaboation_External__c-->
-       <picklist>Collaboration_with_External_Organisation__c</picklist>
+        <picklist>Coach_Type__c</picklist>
+        <values>
+            <fullName>External Contractor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Contractor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Sessional Staff</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Staff</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Collaboration_with_External_Organisation__c</picklist>
         <values>
             <fullName>No</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delivery_Support__c</picklist>
+        <values>
+            <fullName>Catering</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Handouts Printed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Name Badges</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prework communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workbook Printed</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -66,11 +111,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Virtual Classroom</fullName>
+            <fullName>Online</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Online</fullName> <!-- Added Value-->
+            <fullName>Virtual Classroom</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -82,6 +127,43 @@
         </values>
         <values>
             <fullName>Design Form Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Diagnostic_Tool_Type__c</picklist>
+        <values>
+            <fullName>Group Diagnostic Tool</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual Diagnostic Tool</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Group_Dynamics_Tools__c</picklist>
+        <values>
+            <fullName>Prophet Team Insight Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Collective Leadership Assessment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LMS_Integration_Status__c</picklist>
+        <values>
+            <fullName>Fail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Success</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -115,7 +197,26 @@
             <default>false</default>
         </values>
     </picklistValues>
-   <picklistValues>
+    <picklistValues>
+        <picklist>Multi_Rater_Tools__c</picklist>
+        <values>
+            <fullName>Disc 363 for Leaders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Check-In</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Leadership Circle Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TLC Manager Edition</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Previously_Developed_Content__c</picklist>
         <values>
             <fullName>No</fullName>
@@ -153,7 +254,32 @@
             <default>false</default>
         </values>
     </picklistValues>
-    </picklistValues>-->
+    <picklistValues>
+        <picklist>Provider__c</picklist>
+        <values>
+            <fullName>QUT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT and Third Party</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Self_Rater_Tools__c</picklist>
+        <values>
+            <fullName>Disc Sales Profile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disc Workplace Profile</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
     <picklistValues>
         <picklist>Timeline__c</picklist>
         <values>
@@ -170,6 +296,21 @@
         </values>
         <values>
             <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_Individual_Coaching__c</picklist>
+        <values>
+            <fullName>Diagnostic Tool Debrief</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Triads</fullName>
             <default>false</default>
         </values>
     </picklistValues>
