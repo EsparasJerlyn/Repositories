@@ -221,7 +221,7 @@
                     <inputParameters>
                         <name>whereClause</name>
                         <value>
-                            <stringValue>RecordType.DeveloperName != &apos;Administrative&apos;</stringValue>
+                            <stringValue>RecordType.DeveloperName != &apos;Administrative&apos; AND End_Date__c = null</stringValue>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
