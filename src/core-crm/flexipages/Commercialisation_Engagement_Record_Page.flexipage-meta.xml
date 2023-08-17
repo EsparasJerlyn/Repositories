@@ -562,31 +562,8 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Engagement__c.Id</value>
+                    <name>defaultValues</name>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Pure_Projects__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
                     <value>Commercialisation</value>
@@ -669,7 +646,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
-                    <value>Partners</value>
+                    <value>Contributors</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>editActionType</name>
@@ -705,15 +682,15 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[ {&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Contextual Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;}, {&quot;label&quot;:&quot;Email&quot;,&quot;fieldName&quot;:&quot;Contact_Work_Email__c&quot;,&quot;type&quot;:&quot;email&quot;}, {&quot;label&quot;:&quot;Mobile&quot;,&quot;fieldName&quot;:&quot;Contact_MobilePhone__c&quot;,&quot;type&quot;:&quot;phone&quot;}, {&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;} ]</value>
+                    <value>[ {&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Contextual Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;}, {&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Is QUT Internal Participant&quot;,&quot;fieldName&quot;:&quot;Is_QUT_Internal_Participant__c&quot;,&quot;type&quot;:&quot;boolean&quot;}, {&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;} ]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
-                    <value>Contextual_Role_Group__c = &apos;Partners&apos;</value>
+                    <value>Contextual_Role_Group__c = &apos;Contributors&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Partners</value>
+                    <value>Contributor</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedRecord</name>
@@ -736,18 +713,21 @@
                     <value>DESC</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>visibilityByUser</name>
                     <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
-                <identifier>c_dynamicDataTable2</identifier>
+                <identifier>c_dynamicDataTable6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
-                    <value>School</value>
+                    <value>Funding Bodies</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>editActionType</name>
@@ -787,11 +767,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
-                    <value>Contextual_Role_Group__c = &apos;School&apos;</value>
+                    <value>Contextual_Role_Group__c = &apos;Funding Bodies&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>School</value>
+                    <value>Future Funding Body</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedRecord</name>
@@ -818,7 +798,7 @@
                     <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
-                <identifier>c_dynamicDataTable3</identifier>
+                <identifier>c_dynamicDataTable7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -903,6 +883,84 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
+                    <value>School</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                    <value>Edit_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                    <value>New_Contextual_Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Engagement__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>Engagement Role</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Engagement__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[ {&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;} ]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>Contextual_Role_Group__c = &apos;School&apos;</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>School</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Contextual_Role__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
                     <value>Research Centre</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -980,165 +1038,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>dynamicDataTableInput</name>
-                    <value>Contributors</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>editActionType</name>
-                    <value>Screen Flow</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>editScreenFlowApiName</name>
-                    <value>Edit_Contextual_Role</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>icon</name>
-                    <value>standard:custom</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>newActionType</name>
-                    <value>Screen Flow</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>newScreenFlowApiName</name>
-                    <value>New_Contextual_Role</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentRecord</name>
-                    <value>Engagement__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordTypeName</name>
-                    <value>Engagement Role</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedField</name>
-                    <value>Engagement__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFields</name>
-                    <value>[ {&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Contact&quot;,&quot;fieldName&quot;:&quot;Contact__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Contextual Role&quot;,&quot;fieldName&quot;:&quot;Contextual_Role__c&quot;,&quot;type&quot;:&quot;text&quot;}, {&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Is QUT Internal Participant&quot;,&quot;fieldName&quot;:&quot;Is_QUT_Internal_Participant__c&quot;,&quot;type&quot;:&quot;boolean&quot;}, {&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;} ]</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFilters</name>
-                    <value>Contextual_Role_Group__c = &apos;Contributors&apos;</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Contributors</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedRecord</name>
-                    <value>Contextual_Role__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showEditButton</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showNewButton</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortField</name>
-                    <value>CreatedDate</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortOrder</name>
-                    <value>DESC</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>visibilityByParent</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
-                </componentInstanceProperties>
-                <componentName>dynamicDataTable</componentName>
-                <identifier>c_dynamicDataTable6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>dynamicDataTableInput</name>
-                    <value>Funding Bodies</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>editActionType</name>
-                    <value>Screen Flow</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>editScreenFlowApiName</name>
-                    <value>Edit_Contextual_Role</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>icon</name>
-                    <value>standard:custom</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>newActionType</name>
-                    <value>Screen Flow</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>newScreenFlowApiName</name>
-                    <value>New_Contextual_Role</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentRecord</name>
-                    <value>Engagement__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordTypeName</name>
-                    <value>Engagement Role</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedField</name>
-                    <value>Engagement__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFields</name>
-                    <value>[ {&quot;label&quot;:&quot;Contextual Role Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Account&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;url&quot;}, {&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Role_Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;} ]</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFilters</name>
-                    <value>Contextual_Role_Group__c = &apos;Funding Bodies&apos;</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Future Funding Bodies</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedRecord</name>
-                    <value>Contextual_Role__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showEditButton</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showNewButton</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortField</name>
-                    <value>CreatedDate</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortOrder</name>
-                    <value>DESC</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
-                </componentInstanceProperties>
-                <componentName>dynamicDataTable</componentName>
-                <identifier>c_dynamicDataTable7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
@@ -1192,7 +1091,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>IP Management</value>
+                    <value>Related IPs</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
