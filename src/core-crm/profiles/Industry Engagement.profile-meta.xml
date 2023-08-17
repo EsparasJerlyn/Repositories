@@ -5,6 +5,14 @@
         <recordType>Account.Business_Organization</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contextual_Role__c-Contextual Role - Engagement Role Page Layout</layout>
         <recordType>Contextual_Role__c.Engagement_Role</recordType>
     </layoutAssignments>
