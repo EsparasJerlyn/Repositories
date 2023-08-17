@@ -91,6 +91,18 @@
         <layout>hed__Application__c-hed__EDA Application Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+        <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>IP_Management_Application__c-IP Management Application Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
