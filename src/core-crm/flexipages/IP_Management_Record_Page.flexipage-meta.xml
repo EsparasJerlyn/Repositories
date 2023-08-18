@@ -136,7 +136,7 @@
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
+                        <rightValue>Executive_Director_Business_Development</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
@@ -237,7 +237,7 @@
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>NE</operator>
-                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
+                        <rightValue>Executive_Director_Business_Development</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>

@@ -4,12 +4,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                        |
- *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                       |
- *    | kenneth.f.alsay                | June 20, 2023         | DEPP-5434, 5399        | added methods                       |
- *    | ryan.j.a.dela.cruz             | June 20, 2023         | DEPP-5434, 5399        | Added pure project record creation  |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                                  |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                                                                                    |
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                                                                                   |
+ *    | kenneth.f.alsay                | June 20, 2023         | DEPP-5434, 5399        | added methods                                                                                   |
+ *    | ryan.j.a.dela.cruz             | June 20, 2023         | DEPP-5434, 5399        | Added pure project record creation                                                              |
+ *    | kenneth.f.alsay                | August 15, 2023       | DEPP-6208-6275         | Removed Pure Project to reflect change in TestDataFactory.createTestOpportunityWithStageRecords | 
  */
 @isTest
 private class OpportunitiesDAOTest {
@@ -34,7 +35,6 @@ private class OpportunitiesDAOTest {
             OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
-            pureProjectList[0].Id,
             'Test Description'
         );
         List<Opportunity> opptyListWildCardAfter = TestDataFactory.createTestOpportunityWithStageRecords(
@@ -43,7 +43,6 @@ private class OpportunitiesDAOTest {
             OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
-            pureProjectList[0].Id,
             'Test Description'
         );
         opportunityList.addAll(opptyListWildCardBefore);

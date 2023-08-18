@@ -7,6 +7,14 @@
         <recordType>Account.Academic_Program</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Case-International Enquiry Layout2</layout>
         <recordType>Case.International_Enquiry</recordType>
     </layoutAssignments>
@@ -55,8 +63,16 @@
         <layout>hed__Course__c-OPE Unit Page Layout</layout>
         <recordType>hed__Course__c.Unit</recordType>
     </layoutAssignments>
-     <layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+        <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
     </layoutAssignments>
     <layoutAssignments>

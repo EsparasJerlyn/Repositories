@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                 | Change Summary                 |
- *    |--------------------------------|-----------------------|----------------------|--------------------------------|
- *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468  | Created file                   |
+ *    | Developer Email                | Date                  | JIRA                 | Change Summary                                        |
+ *    |--------------------------------|-----------------------|----------------------|-------------------------------------------------------|
+ *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468  | Created file                                          |
+ *    | kenneth.f.alsay                | August 14, 2023       | DEPP-6208-6275       | Removed Pure_Project_ID__c field creation and copying |
  */
 @isTest
 public with sharing class OpportunityRelationshipsToOutcomeTest {
@@ -44,15 +45,6 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            // Create Pure Project records with Contract Negotiation status
-            List<Pure_Project__c> pureProjectList = TestDataFactory.createTestPureProjectRecords(
-                1,
-                'Test Pure Project',
-                'Internally Approved'
-            );
-            PureProjectsDAO.newInstance()
-                .insertRecords(pureProjectList, false, AccessLevel.USER_MODE);
-
             // Create Opportunity records with IPU record type
             List<Opportunity> comOpportunityList = TestDataFactory.createTestOpportunityWithStageRecords(
                 1,
@@ -60,15 +52,10 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
                 OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID,
                 'Executed',
                 accountList[0].Id,
-                pureProjectList[0].Id,
                 'Test Description'
             );
             OpportunitiesDAO.newInstance()
                 .insertRecords(comOpportunityList, false, AccessLevel.USER_MODE);
-
-            pureProjectList[0].Opportunity__c = comOpportunityList[0].Id;
-            PureProjectsDAO.newInstance()
-                .updateRecords(pureProjectList, false, AccessLevel.USER_MODE);
     
             // Create Financial Split records related to above opportunities
             List<Financial_Split__c> financialSplitList = new List<Financial_Split__c>();
@@ -137,15 +124,6 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
         }
 
         System.runAs(TestDataFactory.getOperationsManager()) {
-            // Create Pure Project records with Contract Negotiation status
-            List<Pure_Project__c> pureProjectList = TestDataFactory.createTestPureProjectRecords(
-                1,
-                'Test Pure Project',
-                'Internally Approved'
-            );
-            PureProjectsDAO.newInstance()
-                .insertRecords(pureProjectList, false, AccessLevel.USER_MODE);
-
             // Create Opportunity records with Commercialisation record type
             List<Opportunity> comOpportunityList = TestDataFactory.createTestOpportunityWithStageRecords(
                 1,
@@ -153,15 +131,10 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
                 OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID,
                 'Contract',
                 accountList[0].Id,
-                pureProjectList[0].Id,
                 'Test Description'
             );
             OpportunitiesDAO.newInstance()
                 .insertRecords(comOpportunityList, false, AccessLevel.USER_MODE);
-
-            pureProjectList[0].Opportunity__c = comOpportunityList[0].Id;
-            PureProjectsDAO.newInstance()
-                .updateRecords(pureProjectList, false, AccessLevel.USER_MODE);
 
             // Create Financial Split records related to above opportunities
             List<Financial_Split__c> financialSplitList = new List<Financial_Split__c>();

@@ -1190,7 +1190,7 @@
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Executive_Director_Industry_Engagement</rightValue>
+                        <rightValue>Executive_Director_Business_Development</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
