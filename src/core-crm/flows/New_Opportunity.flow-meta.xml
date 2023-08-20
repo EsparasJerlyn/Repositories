@@ -1593,6 +1593,18 @@
                     <stringValue>OpportunityContactLookupIdentifier</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>fieldsToDisplay</name>
+                <value>
+                    <stringValue>Name,hed__Primary_Organization__r.Name</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fieldsToSearch</name>
+                <value>
+                    <stringValue>Name</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
