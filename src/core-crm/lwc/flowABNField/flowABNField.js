@@ -100,7 +100,7 @@ export default class ABNCheckComponent extends LightningElement {
 
   // Handle ABN input change event
   handleABNChange(event) {
-    const abnValue = event.target.value.trim().replace(/\s/g, ""); // Update ABN value and remove whitespaces
+    const abnValue = event.target.value; // Update ABN value
     clearTimeout(this.timer);
 
     if (abnValue) {

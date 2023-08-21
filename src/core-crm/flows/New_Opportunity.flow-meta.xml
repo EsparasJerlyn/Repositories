@@ -1596,13 +1596,13 @@
             <inputParameters>
                 <name>fieldsToDisplay</name>
                 <value>
-                    <stringValue>Name,hed__Primary_Organization__r.Name</stringValue>
+                    <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>fieldsToSearch</name>
                 <value>
-                    <stringValue>Name</stringValue>
+                    <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
