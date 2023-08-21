@@ -606,6 +606,18 @@
                             <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -791,6 +803,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -938,6 +962,18 @@
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1155,6 +1191,18 @@
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1432,6 +1480,18 @@
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1732,6 +1792,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -1852,6 +1924,18 @@
                         <name>required</name>
                         <value>
                             <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2265,6 +2349,18 @@
                             <stringValue>Mandatory Field</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -2480,6 +2576,18 @@
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

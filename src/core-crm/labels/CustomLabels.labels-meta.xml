@@ -21,7 +21,7 @@
         <protected>false</protected>
         <shortDescription>DOC_Badge_Logo</shortDescription>
         <value>QUT_Badge_Logo</value>
-</labels>
+    </labels>
     <labels>
         <fullName>DOC_Email_Header</fullName>
         <categories>Document</categories>
@@ -93,6 +93,20 @@
         <protected>false</protected>
         <shortDescription>LWC_Error_ProgramRequest_ChildrenNotInReleaseStage</shortDescription>
         <value>PLEASE ENSURE THAT ALL CHILD PRODUCT REQUESTS &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ARE IN A RELEASE STATUS &lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>LWC_FlowLookupFieldsToDisplayForContactObject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Flow Lookup Fields To Display For Contact Object</shortDescription>
+        <value>Name,hed__Primary_Organization__r.Name</value>
+    </labels>
+    <labels>
+        <fullName>LWC_FlowLookupFieldsToSearchForContactObject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Flow Lookup Fields To Search For Contact Object</shortDescription>
+        <value>Name</value>
     </labels>
     <labels>
         <fullName>LWC_HelpText_FlexibleProgram</fullName>
