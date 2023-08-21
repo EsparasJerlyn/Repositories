@@ -22,7 +22,7 @@ private class Docusign_Status_Triggered_FlowTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
 
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
-            acc.Organization_Unit_Level__c = '2';
+            acc.Organization_Unit_Level__c = '3';
             insert acc;
 
             Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();

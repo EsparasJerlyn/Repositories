@@ -10,6 +10,7 @@
  *    |---------------------------|-----------------------|----------------------|------------------------------------------------------|
  *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                         |
  *    | ryan.j.a.dela.cruz        | August 9, 2023        | DEPP-6082            | Added unique session storage for lookup fields       |
+ *    | ryan.j.a.dela.cruz        | August 17, 2023       | DEPP-6165            | Dynamically Display Option Sublabel as applicable    |
  */
 import { LightningElement, api, track } from "lwc";
 import { FlowAttributeChangeEvent } from "lightning/flowSupport";
@@ -104,8 +105,6 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   @api fieldLevelHelp;
   @api isLoading = false;
   @api showNewRecordAction = false;
-  @api excludeSublabelInFilter = false; // If true, the 'sublabel' text of an option is included when determining if an option is a match for a given search text.
-  @api includeValueInFilter = false; // If true, the 'value' text of an option is not included when determining if an option is a match for a given search text.
   @api orderByClause; // Reserved for future use
   @api disabled = false;
   @api _defaultValueInput; // Id of default selected record
@@ -332,6 +331,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
     return urlParams.get(param);
   }
 
+  // Helper method to extract the hash portion of the URL
   getCharacterHash(url) {
     return url.split("#")[1];
   }
@@ -397,6 +397,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       });
   }
 
+  // Method to handle changes in the search input
   handleSearchChange = (searchText) => {
     if (!searchText) {
       this.resetRecentlyViewed();
@@ -407,11 +408,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       search({
         searchTerm: searchText,
         objectName: this.objectName,
-        fieldsToSearch:
-          this.visibleFields_ToSearchNames ||
-          (this.excludeSublabelInFilter
-            ? null
-            : this.visibleFields_ToDisplayNames),
+        fieldsToSearch: this.visibleFields_ToSearchNames,
         fieldsToReturn: this.visibleFields_ToDisplayNames,
         whereClause: this._whereClause,
         orderByClause: this.orderByClause,
@@ -444,7 +441,6 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       displayFields = this.visibleFields_ToDisplayNames.split(",");
       labelField = displayFields.splice(0, 1);
     }
-
     return apexResults.map((record) => {
       if (!labelField) {
         let nonIdFields = Object.keys(record).filter(
@@ -452,7 +448,6 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
         );
 
         labelField = nonIdFields[0];
-
         // Check if the label is a lookup field
         if (labelField.includes(".")) {
           labelField = this.parseRelationshipFields(label, record);
@@ -470,6 +465,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
               return record[fieldName];
             }
           })
+          .filter((value) => value) // Filter out falsy values (e.g., empty strings, null)
           .join(" - ");
       }
 
@@ -518,22 +514,33 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
     }
   }
 
-  // Parse the relationship fields
-  // Define the key fields for the relationship and remove them from the list of fields to return
+  // Parse the nested relationship fields
+  // Define the nested keys for the relationship and extract the corresponding values
   parseRelationshipFields(fieldName, record) {
-    // fieldName is set like this Account.CreatedBy.FirstName
+    // Split the fieldName into individual relationship and field parts
     let relationshipFields = fieldName.split(".");
-    let relationshipField = relationshipFields[1];
-    let field = relationshipFields[2];
-    // Value is set like this "CreatedBy":{"FirstName":"Ryan","Id":"0055e000001mKpCAAU"}
-    // Set new object
-    let relationshipObject = record[relationshipField];
-    // "CreatedBy.FirstName":"Ryan"
-    let keyFieldValue = relationshipObject[field];
 
-    return keyFieldValue;
+    // Extract the relationship and field names
+    let relationshipName = relationshipFields[0]; // CustomObject__r
+    let fieldChain = relationshipFields.slice(1); // ["Name"]
+
+    // Navigate through the nested relationships
+    let fieldValue = record[relationshipName]; // Get the initial relationship object
+
+    for (const field of fieldChain) {
+      if (fieldValue && fieldValue[field]) {
+        fieldValue = fieldValue[field];
+      } else {
+        // Handle cases where the nested relationship or field does not exist
+        fieldValue = null;
+        break;
+      }
+    }
+
+    return fieldValue;
   }
 
+  // Method to handle combobox selection changes
   handleComboboxChange(event) {
     this.value = event.detail.value;
     this._selectedRecordIdOutput = event.detail.value;
@@ -565,6 +572,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
     );
   }
 
+  // Method to handle the custom "New Record" action
   handleCustomAction(event) {
     if (event.detail === ACTIONS.NEW_RECORD.value) {
       const logger = this.template.querySelector("c-logger");
@@ -614,6 +622,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Method to dispatch attribute change events to the flow
   handleEventChanges(apiName, value) {
     const attributeChangeEvent = new FlowAttributeChangeEvent(apiName, value);
     this.dispatchEvent(attributeChangeEvent);

@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>3482</locationX>
-        <locationY>950</locationY>
+        <locationX>4010</locationX>
+        <locationY>1166</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -39,9 +39,57 @@
     </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>
+        <name>Assign_AccountId_from_FacultyAccountId</name>
+        <label>Assign AccountId from FacultyAccountId</label>
+        <locationX>2426</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>SelectedAccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FacultyAccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Research_School_Faculty_Variables</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_AccountId_from_ResearchCentreAccountId</name>
+        <label>Assign AccountId from ResearchCentreAccountId</label>
+        <locationX>2162</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>SelectedAccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ResearchCentreAccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Research_School_Faculty_Variables</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_AccountId_from_SchoolAccountId</name>
+        <label>Assign AccountId from SchoolAccountId</label>
+        <locationX>2690</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>SelectedAccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SchoolAccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Research_School_Faculty_Variables</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Board_of_Directors_Variables</name>
         <label>Assign Board of Directors Variables</label>
-        <locationX>2690</locationX>
+        <locationX>3218</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -103,7 +151,7 @@
     <assignments>
         <name>Assign_Funding_Bodies_Variables</name>
         <label>Assign Funding Bodies Variables</label>
-        <locationX>2426</locationX>
+        <locationX>2954</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -158,7 +206,7 @@
     <assignments>
         <name>Assign_Public_Officers_Variables</name>
         <label>Assign Public Officers Variables</label>
-        <locationX>2954</locationX>
+        <locationX>3482</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -174,13 +222,20 @@
     <assignments>
         <name>Assign_Research_School_Faculty_Variables</name>
         <label>Assign Research, School, Faculty Variables</label>
-        <locationX>2162</locationX>
-        <locationY>458</locationY>
+        <locationX>2426</locationX>
+        <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Is_Active5</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Contextual_Role_Record.Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SelectedAccountId</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -263,10 +318,26 @@
             <targetReference>Update_Contextual_Role</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Set_Account_ID</name>
+        <label>Set Account ID</label>
+        <locationX>2426</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>InitialAccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Contextual_Role_Record.Account__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Research_Screen</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>1634</locationX>
+        <locationX>1898</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -354,7 +425,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Research_Screen</targetReference>
+                <targetReference>Set_Account_ID</targetReference>
             </connector>
             <label>Is Research Centre, School, Faculty</label>
         </rules>
@@ -475,6 +546,46 @@
             <label>Is Startup Opportunity Outcome</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Contextual_role_group</name>
+        <label>Contextual role group</label>
+        <locationX>2426</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>Assign_AccountId_from_SchoolAccountId</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is School</defaultConnectorLabel>
+        <rules>
+            <name>Is_Research_Centre</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research Centre</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_AccountId_from_ResearchCentreAccountId</targetReference>
+            </connector>
+            <label>Is Research Centre</label>
+        </rules>
+        <rules>
+            <name>Is_Faculty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DynamicDataTableInput</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Faculty</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_AccountId_from_FacultyAccountId</targetReference>
+            </connector>
+            <label>Is Faculty</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <interviewLabel>Edit Contextual Role {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Edit Contextual Role</label>
@@ -500,7 +611,7 @@
     <recordLookups>
         <name>Get_Contextual_Role_Record</name>
         <label>Get Contextual Role Record</label>
-        <locationX>1634</locationX>
+        <locationX>1898</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -525,8 +636,8 @@
     <recordUpdates>
         <name>Update_Contextual_Role</name>
         <label>Update Contextual Role</label>
-        <locationX>1634</locationX>
-        <locationY>842</locationY>
+        <locationX>1898</locationX>
+        <locationY>1058</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -604,6 +715,18 @@
                         <name>whereClause</name>
                         <value>
                             <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -720,7 +843,7 @@
     <screens>
         <name>Board_of_Directors_Screen</name>
         <label>Board of Directors Screen</label>
-        <locationX>2690</locationX>
+        <locationX>3218</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -789,6 +912,18 @@
                         <name>required</name>
                         <value>
                             <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -936,6 +1071,18 @@
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1153,6 +1300,18 @@
                             <stringValue>Mandatory Field</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -1219,8 +1378,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>3482</locationX>
-        <locationY>1058</locationY>
+        <locationX>4010</locationX>
+        <locationY>1274</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1235,7 +1394,7 @@
     <screens>
         <name>Funding_Bodies_Screen</name>
         <label>Funding Bodies Screen</label>
-        <locationX>2426</locationX>
+        <locationX>2954</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1291,7 +1450,7 @@
                     <inputParameters>
                         <name>whereClause</name>
                         <value>
-                            <stringValue>Recordtype.DeveloperName =  &apos;Business_Organization&apos;</stringValue>
+                            <stringValue>RecordType.DeveloperName != &apos;Administrative&apos; AND End_Date__c = null</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -1426,6 +1585,18 @@
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1723,6 +1894,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -1773,7 +1956,7 @@
     <screens>
         <name>Public_Officers_Screen</name>
         <label>Public Officers Screen</label>
-        <locationX>2954</locationX>
+        <locationX>3482</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1844,6 +2027,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -1910,13 +2105,13 @@
     <screens>
         <name>Research_Screen</name>
         <label>Research, School, Faculty Screen</label>
-        <locationX>2162</locationX>
-        <locationY>350</locationY>
+        <locationX>2426</locationX>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Assign_Research_School_Faculty_Variables</targetReference>
+            <targetReference>Contextual_role_group</targetReference>
         </connector>
         <fields>
             <name>Contextual_Role_Summary5</name>
@@ -1926,7 +2121,7 @@
                 <name>Contextual_Role_Summary5_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>ResearchSchoolFacultyAccountLookup</name>
+                    <name>SchoolAccountLookup</name>
                     <dataTypeMappings>
                         <typeName>T</typeName>
                         <typeValue>Account</typeValue>
@@ -1942,7 +2137,7 @@
                     <inputParameters>
                         <name>defaultValueInput</name>
                         <value>
-                            <elementReference>Get_Contextual_Role_Record.Account__c</elementReference>
+                            <elementReference>InitialAccountId</elementReference>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -1966,7 +2161,7 @@
                     <inputParameters>
                         <name>whereClause</name>
                         <value>
-                            <stringValue>Recordtype.DeveloperName =  &apos;University_Department&apos;</stringValue>
+                            <stringValue>Organization_Unit_Level__c = &apos;3&apos; AND End_Date__c =null</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -1981,12 +2176,168 @@
                             <stringValue>Select Account...</stringValue>
                         </value>
                     </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
-                        <assignToReference>Get_Contextual_Role_Record.Account__c</assignToReference>
+                        <assignToReference>SchoolAccountId</assignToReference>
                         <name>selectedRecordIdOutput</name>
                     </outputParameters>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>DynamicDataTableInput</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>School</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>FacultyAccountLookup</name>
+                    <dataTypeMappings>
+                        <typeName>T</typeName>
+                        <typeValue>Account</typeValue>
+                    </dataTypeMappings>
+                    <extensionName>c:flowLookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>objectName</name>
+                        <value>
+                            <stringValue>Account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultValueInput</name>
+                        <value>
+                            <elementReference>InitialAccountId</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>iconName</name>
+                        <value>
+                            <stringValue>standard:account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Existing Account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageWhenValueMissing</name>
+                        <value>
+                            <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>placeholder</name>
+                        <value>
+                            <stringValue>Select Account...</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>Organization_Unit_Level__c = &apos;2&apos; AND End_Date__c =null</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <outputParameters>
+                        <assignToReference>FacultyAccountId</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>DynamicDataTableInput</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Faculty</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>ResearchCentreAccountLookup</name>
+                    <dataTypeMappings>
+                        <typeName>T</typeName>
+                        <typeValue>Account</typeValue>
+                    </dataTypeMappings>
+                    <extensionName>c:flowLookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>objectName</name>
+                        <value>
+                            <stringValue>Account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultValueInput</name>
+                        <value>
+                            <elementReference>InitialAccountId</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>iconName</name>
+                        <value>
+                            <stringValue>standard:account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Existing Account</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageWhenValueMissing</name>
+                        <value>
+                            <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>placeholder</name>
+                        <value>
+                            <stringValue>Select Account...</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>Organization_Unit_Level__c IN (&apos;3&apos;,&apos;4&apos;,&apos;5&apos;) AND End_Date__c =null</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <outputParameters>
+                        <assignToReference>ResearchCentreAccountId</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>DynamicDataTableInput</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Research Centre</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -2101,6 +2452,18 @@
                         <name>messageWhenValueMissing</name>
                         <value>
                             <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2318,7 +2681,19 @@
                             <stringValue>Mandatory Field</stringValue>
                         </value>
                     </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
                         <assignToReference>Get_Contextual_Role_Record.Contact__c</assignToReference>
@@ -2382,7 +2757,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1508</locationX>
+        <locationX>1772</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Contextual_Role_Record</targetReference>
@@ -2397,6 +2772,20 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>FacultyAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>InitialAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>modalTitle</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -2408,6 +2797,27 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ResearchCentreAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SchoolAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SelectedAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>
