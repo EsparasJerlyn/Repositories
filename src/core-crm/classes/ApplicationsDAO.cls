@@ -48,7 +48,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         String accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Name ' +
+            'SELECT Id, Calculated_Intake_Date__c, Intake_Year__c, RecordTypeId ' +
             'FROM hed__Application__c ' +
             'WHERE Id IN :applicationIds ' + 
             'WITH ' +
