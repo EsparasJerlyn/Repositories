@@ -51,6 +51,7 @@
  *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
  *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
  *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                     |
+ *    | eugene.andrew.abuan       | August 14, 2023       | DEPP-6331           | Added Method for creation of IPManagementRelationship for Oppty Outcome |
  *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
  *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
  *    |                           |                       |                     | createPackageComponentRecords                                           |
@@ -3140,6 +3141,36 @@ public class TestDataFactory {
             relationships.add(
                 new IP_Management_Relationship__c(
                     Opportunity__c = opptyId,
+                    IP_Management__c = ipManagementId,
+                    RecordTypeId = recordTypeId,
+                    Is_Active__c = true
+                )
+            );
+        }
+
+        return relationships;
+    }
+
+    /**
+     * @description Method for creating IP Management Relationship records for Opportunity Outcome
+     * @param numRelationships Number of IP Management Relationship records to create
+     * @param opptyOutomeId ID of the related Opportunity
+     * @param ipManagementId ID of the related IP Management
+     * @param recordTypeId ID of the Record Type for IP Management Relationship
+     * @return relationships List of IP Management Relationship records
+     */
+    public static List<IP_Management_Relationship__c> createIPManagementRelationshipsForOpportunityOutcome(
+        Integer numRelationships,
+        Id opptyOutomeId,
+        Id ipManagementId,
+        Id recordTypeId
+    ) {
+        List<IP_Management_Relationship__c> relationships = new List<IP_Management_Relationship__c>();
+
+        for (Integer i = 0; i < numRelationships; i++) {
+            relationships.add(
+                new IP_Management_Relationship__c(
+                    Opportunity_Outcome__c = opptyOutomeId,
                     IP_Management__c = ipManagementId,
                     RecordTypeId = recordTypeId,
                     Is_Active__c = true

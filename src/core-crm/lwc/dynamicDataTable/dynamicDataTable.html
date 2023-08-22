@@ -28,7 +28,7 @@
             tooltip="Refresh"
             onclick={handleRefreshData}></lightning-button-icon>
           <lightning-button
-            label="New"
+            label={newActionLabel}
             onclick={handleNewRecord}
             if:true={isShowNewButton}></lightning-button>
         </header>

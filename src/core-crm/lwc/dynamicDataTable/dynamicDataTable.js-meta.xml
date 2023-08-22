@@ -77,6 +77,12 @@
                 type="String"
                 default="Default" />
             <property
+                name="newActionTypeLabel"
+                label="New Action Label"
+                type="String"
+                default="New"
+                description="Optional, text, pass through the datatable to generate New Button Label." />
+            <property
                 name="newScreenFlowApiName"
                 label="New Action Screen Flow Name"
                 type="String"
