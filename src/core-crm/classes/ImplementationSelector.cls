@@ -72,7 +72,8 @@ public class ImplementationSelector {
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
             Task.SObjectType => TasksDAO.class,
-            UserAppInfo.SObjectType => UserAppInfosDAO.class
+            UserAppInfo.SObjectType => UserAppInfosDAO.class,
+            Expense__c.SObjectType => ExpensesDAO.class
         }
     ); 
 

@@ -54,6 +54,7 @@
  *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
  *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
  *    |                           |                       |                     | createPackageComponentRecords                                           |
+ *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
  */
 
 @isTest
@@ -3043,6 +3044,27 @@ public class TestDataFactory {
             );
         }
         return risks;
+    }
+    /**
+     * Generate a list of expense records based on the amount of records needed,
+     * the general name to be used, opportunity outcome and expense type
+     */
+    public static List<Expense__c> createTestExpenseRecords(
+        Integer size,
+        Id opportunityOutcome,
+        String expenseType
+    ) {
+        List<Expense__c> expenses = new List<Expense__c>();
+        for (Integer i = 1; i <= size; i++) {
+            expenses.add(
+                new Expense__c(
+                    Expense_Amount__c = i + 100,
+                    Expense_Type__c = expenseType,
+                    Opportunity_Outcome__c = opportunityOutcome
+                )
+            );
+        }
+        return expenses;
     }
 
     /**
