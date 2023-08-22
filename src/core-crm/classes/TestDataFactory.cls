@@ -44,14 +44,16 @@
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                        |     
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |     
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
  *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
  *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                        |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                     |
  *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
+ *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
+ *    |                           |                       |                     | createPackageComponentRecords                                           |
  */
 
 @isTest
@@ -3241,4 +3243,58 @@ public class TestDataFactory {
 
         return nurtureList;
     }
+
+    /**
+     * @description Method for creating test Application records
+     * @return List<hed__Application__c> applicationList - List of Application Records
+     */
+    public static List<hed__Application__c> createApplicationRecords(Id contactId, Id recordTypeId, Integer numberOfRecordsToCreate) {
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+
+        for (Integer i=0; i<numberOfRecordsToCreate; i++) {
+            applicationList.add(new hed__Application__c(
+                hed__Applicant__c = contactId,
+                RecordTypeId = recordTypeId,
+                Intake_Year__c = String.valueOf(System.Today().year())
+            ));
+        }
+
+        return applicationList;
+    }
+
+    /**
+     * @description Method for creating test Application Preference records
+     * @return List<Application_Preference__c> applicationList - List of Application Records
+     */
+    public static List<Application_Preference__c> createApplicationPreferenceRecords(Id applicationId, Id recordTypeId, Integer numberOfRecordsToCreate) {
+        List<Application_Preference__c> applicationPreferenceList = new List<Application_Preference__c>();
+        Integer randomNumber = Integer.valueof((Math.random() * 11));   // Generate random number for months
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            applicationPreferenceList.add(new Application_Preference__c(
+                Program_Name__c = 'App Pref ' + (i + 1),
+                Application__c = applicationId,
+                RecordTypeId = recordTypeId,
+                Preference_Number__c = i + 1,
+                Starting_Month__c = randomNumber + 1
+            ));
+        }
+        return applicationPreferenceList;
+    }
+
+    /**
+     * @description Method for creating test Package Component records
+     * @return List<Package_Component__c> packageComponentList - List of Package Component Records
+     */
+    public static List<Package_Component__c> createPackageComponentRecords(Id applicationPrefId, Date startDate, Integer numberOfRecordsToCreate) {
+        List<Package_Component__c> packageComponentList = new List<Package_Component__c>();
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            packageComponentList.add(new Package_Component__c(
+                Application_Preference__c  = applicationPrefId,
+                Package_Component_No__c = i + 1,
+                Start_Date__c = startDate
+            ));
+        }
+        return packageComponentList;
+    }
+
 }
