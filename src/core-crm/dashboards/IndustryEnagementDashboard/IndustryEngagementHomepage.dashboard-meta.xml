@@ -32,7 +32,7 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Research Engagement-By Stage</header>
+                <header>Research Engagement - By Stage</header>
                 <legendPosition>Right</legendPosition>
                 <report>IndustryEngagementReports/Research_Engagement_By_Stage</report>
                 <showPercentage>false</showPercentage>
@@ -68,7 +68,7 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Research Opportunity -By Stage</header>
+                <header>Research Opportunity - By Stage</header>
                 <legendPosition>Bottom</legendPosition>
                 <report>IndustryEngagementReports/Research_Opportunity_By_Stage</report>
                 <showPercentage>false</showPercentage>
@@ -125,7 +125,7 @@
                     <hideChatterPhotos>true</hideChatterPhotos>
                 </flexComponentProperties>
                 <groupingSortProperties/>
-                <header>Commercialisation Opportunity -By Owner</header>
+                <header>Commercialisation Opportunity - By Owner</header>
                 <report>IndustryEngagementReports/Commercialisation_Opportunity_By_Owner</report>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
@@ -155,7 +155,7 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Commercialisation Engagement-By Stage</header>
+                <header>Commercialisation Engagement - By Stage</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
                 <report>IndustryEngagementReports/Commercialisation_Engagement_By_Stage</report>
@@ -192,7 +192,7 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Commercialisation Opportunity -By Owner</header>
+                <header>Commercialisation Opportunity - By Owner</header>
                 <legendPosition>Bottom</legendPosition>
                 <report>IndustryEngagementReports/Commercialisation_Opportunity_By_Owner</report>
                 <showPercentage>false</showPercentage>
@@ -249,7 +249,7 @@
                     <hideChatterPhotos>true</hideChatterPhotos>
                 </flexComponentProperties>
                 <groupingSortProperties/>
-                <header>IP Managements</header>
+                <header>IP Management</header>
                 <report>IndustryEngagementReports/IP_Management_By_Stage</report>
             </dashboardComponent>
             <rowIndex>16</rowIndex>
