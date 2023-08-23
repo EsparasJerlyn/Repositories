@@ -23,7 +23,7 @@
           isRunning = true; 
           ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
           ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null);
-          ApplicationTriggerHelper.setCanNurtureOnContactOrLeadBasedOnApplicationStatus((List<hed__Application__c>) newItems.values());
+          ApplicationTriggerHelper.updateRelatedRecords(newItems);
       }
   }
 
@@ -40,7 +40,7 @@
             isRunning = true;
             ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
             ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems);
-            ApplicationTriggerHelper.setCanNurtureOnContactOrLeadBasedOnApplicationStatus((List<hed__Application__c>) newItems.values());
+            ApplicationTriggerHelper.updateRelatedRecords(newItems);
         }
     }
 

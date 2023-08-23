@@ -58,6 +58,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     setContactOwner((List<Contact>)newItems);
     ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems);
     ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems,null);
+      ContactTriggerHelper.updateMovingToBrisbane(newItems);
   }
 
   /**
@@ -80,7 +81,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
     ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems.values());
     ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
-   
+      ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
   }
 
   /**

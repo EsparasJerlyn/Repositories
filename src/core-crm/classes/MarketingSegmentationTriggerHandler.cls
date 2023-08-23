@@ -20,7 +20,7 @@ public without sharing class MarketingSegmentationTriggerHandler implements Disa
      */
     public void afterInsert(Map<Id, SObject> newItems) {
         LeadScoringManager.rollupScore(newItems, null);
-        MarketingSegmentationTriggerHelper.setSegmentationAsParent(newItems, null);
+        MarketingSegmentationTriggerHelper.updateRelatedRecords(newItems);
     }
 
     
@@ -34,7 +34,7 @@ public without sharing class MarketingSegmentationTriggerHandler implements Disa
         Map<Id, SObject> oldItems
     ) {
         LeadScoringManager.rollupScore(newItems, oldItems);
-        MarketingSegmentationTriggerHelper.setSegmentationAsParent(newItems, oldItems);
+        MarketingSegmentationTriggerHelper.updateRelatedRecords(newItems, oldItems);
 
     }
 
