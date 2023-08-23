@@ -51,7 +51,12 @@
  *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
  *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
  *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                        |
- */
+ *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
+ *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
+ *    |                           |                       |                     | createPackageComponentRecords                                           |
+ *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
+ *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
+ **/
 
 @isTest
 public class TestDataFactory {
@@ -166,6 +171,59 @@ public class TestDataFactory {
         return cons;
     }
 
+
+    /**
+     * @description Method for creating test Contact records
+     * @param startAtCount - starting count of contact creation
+     * @param endBeforeCount - end count of contact creation
+     * @return cons - list of Contacts created
+     */
+    public static List<Contact> createTestContactRecords(
+        Integer startAtCount,
+        Integer endBeforeCount
+    ) {
+        List<Contact> newContacts = new List<Contact>();
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            newContacts.add(
+                new Contact(
+                    FirstName = 'TestFirstName' + i,
+                    LastName = i + 'TestLastName',
+                    Email = i + 'testmail@mail.test',
+                    QUT_Learner_Email__c = 'learner' + i + 'testmail@mail.test',
+                    QUT_Staff_Email__c = 'staff' + i + 'testmail@mail.test',
+                    Work_Email__c = 'work' + i + 'testmail@mail.test',
+                    hed__Preferred_Email__c = 'Alternate Email',
+                    hed__AlternateEmail__c = i + 'testmail@mail.test',
+                    RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
+                )
+            );
+        }
+        return newContacts;
+    }
+
+     /**
+     * @description Method for creating test Application records
+     * @param conList - contact records
+     * @param recordTypeId - recordTypeId
+     * @return newApplications - list of Application records created
+     */
+    public static List<hed__Application__c> createTestApplicationRecordsWithContact(List<Contact> conList, Id recordTypeId) {
+        List<hed__Application__c> newApplications = new List<hed__Application__c>();
+        for (Contact con: conList) {
+            newApplications.add(
+                new hed__Application__c(
+                    FirstName__c = 'Test First' + 'TestFirstName',
+                    LastName__c = 'Test Last' + 'TestLastName',
+                    Email__c = 'workTest' + 'testmail@mail.test',
+                    hed__Applicant__c = con.Id,
+                    RecordTypeId = recordTypeId,
+                    Calculated_Intake_Date__c = System.Today()
+                )
+            );
+        }
+        return newApplications;
+    }
+
     /**
      * @description Method for creating test Lead records
      * @param numLeads - number of Leads to be created
@@ -188,6 +246,28 @@ public class TestDataFactory {
         }
 
         return leads;
+    }
+
+    /**
+     * @description Method for creating test Lead records with starting count and end count
+     * @param startAtCount - start count of the lead loop
+     * @param endBeforeCount  - end count of the lead loop
+     * @return leads - list of Leads created
+     */
+    public static List<Lead> createTestLeadRecords(Integer startAtCount, Integer endBeforeCount) {
+        List<Lead> newLeads = new List<Lead>();
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            newLeads.add(
+                new Lead(
+                    LastName = 'Testlastname' + i,
+                    Email = i + 'testmail@mail.test',
+                    Work_Email__c = 'work' + i + 'testmail@mail.test',
+                    Company = 'Testcompany' + i,
+                    Lead_Type__c = LeadsDAO.LEARNER_LEAD_TYPE
+                )
+            );
+        }
+        return newLeads;
     }
 
     public static List<Lead> createLeadRecordsByLeadType(
@@ -416,7 +496,6 @@ public class TestDataFactory {
         Id recordTypeId,
         String stage,
         Id account,
-        Id pureProjectId,
         String description
     ) {
         List<Opportunity> oppties = new List<Opportunity>();
@@ -428,7 +507,6 @@ public class TestDataFactory {
                     CloseDate = System.today() + 50,
                     RecordTypeId = recordTypeId,
                     AccountId = account,
-                    Pure_Project_ID__c = pureProjectId,
                     Description = description
                 )
             );
@@ -3045,6 +3123,28 @@ public class TestDataFactory {
     }
 
     /**
+     * Generate a list of expense records based on the amount of records needed,
+     * the general name to be used, opportunity outcome and expense type
+     */
+    public static List<Expense__c> createTestExpenseRecords(
+        Integer size,
+        Id opportunityOutcome,
+        String expenseType
+    ) {
+        List<Expense__c> expenses = new List<Expense__c>();
+        for (Integer i = 1; i <= size; i++) {
+            expenses.add(
+                new Expense__c(
+                    Expense_Amount__c = i + 100,
+                    Expense_Type__c = expenseType,
+                    Opportunity_Outcome__c = opportunityOutcome
+                )
+            );
+        }
+        return expenses;
+    }
+
+    /**
      * @description Method for creating test Contextual Role records related to
      * provided opportunity
      * @return conRoles - List of Contextual Roles created
@@ -3124,6 +3224,34 @@ public class TestDataFactory {
             );
         }
 
+        return relationships;
+    }
+
+    /**
+     * @description Method for creating IP Management Relationship records for Opportunity Outcome
+     * @param numRelationships Number of IP Management Relationship records to create
+     * @param opptyOutomeId ID of the related Opportunity
+     * @param ipManagementId ID of the related IP Management
+     * @param recordTypeId ID of the Record Type for IP Management Relationship
+     * @return relationships List of IP Management Relationship records
+     */
+    public static List<IP_Management_Relationship__c> createIPManagementRelationshipsForOpportunityOutcome(
+        Integer numRelationships,
+        Id opptyOutomeId,
+        Id ipManagementId,
+        Id recordTypeId
+    ) {
+        List<IP_Management_Relationship__c> relationships = new List<IP_Management_Relationship__c>();
+        for (Integer i = 0; i < numRelationships; i++) {
+            relationships.add(
+                new IP_Management_Relationship__c(
+                    Opportunity_Outcome__c = opptyOutomeId,
+                    IP_Management__c = ipManagementId,
+                    RecordTypeId = recordTypeId,
+                    Is_Active__c = true
+                )
+            );
+        }
         return relationships;
     }
 
@@ -3241,5 +3369,54 @@ public class TestDataFactory {
         }
 
         return nurtureList;
+    }
+
+     /**
+     * @description Method for creating test Application records
+     * @return List<hed__Application__c> applicationList - List of Application Records
+     */
+    public static List<hed__Application__c> createApplicationRecords(Id contactId, Id recordTypeId, Integer numberOfRecordsToCreate) {
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+        for (Integer i=0; i<numberOfRecordsToCreate; i++) {
+            applicationList.add(new hed__Application__c(
+                hed__Applicant__c = contactId,
+                RecordTypeId = recordTypeId,
+                Intake_Year__c = String.valueOf(System.Today().year())
+            ));
+        }
+        return applicationList;
+    }
+    /**
+     * @description Method for creating test Application Preference records
+     * @return List<Application_Preference__c> applicationList - List of Application Records
+     */
+    public static List<Application_Preference__c> createApplicationPreferenceRecords(Id applicationId, Id recordTypeId, Integer numberOfRecordsToCreate) {
+        List<Application_Preference__c> applicationPreferenceList = new List<Application_Preference__c>();
+        Integer randomNumber = Integer.valueof((Math.random() * 11));   // Generate random number for months
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            applicationPreferenceList.add(new Application_Preference__c(
+                Program_Name__c = 'App Pref ' + (i + 1),
+                Application__c = applicationId,
+                RecordTypeId = recordTypeId,
+                Preference_Number__c = i + 1,
+                Starting_Month__c = randomNumber + 1
+            ));
+        }
+        return applicationPreferenceList;
+    }
+    /**
+     * @description Method for creating test Package Component records
+     * @return List<Package_Component__c> packageComponentList - List of Package Component Records
+     */
+    public static List<Package_Component__c> createPackageComponentRecords(Id applicationPrefId, Date startDate, Integer numberOfRecordsToCreate) {
+        List<Package_Component__c> packageComponentList = new List<Package_Component__c>();
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            packageComponentList.add(new Package_Component__c(
+                Application_Preference__c  = applicationPrefId,
+                Package_Component_No__c = i + 1,
+                Start_Date__c = startDate
+            ));
+        }
+        return packageComponentList;
     }
 }

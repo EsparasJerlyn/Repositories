@@ -30,7 +30,7 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
     }
 
     public List<Account> getAccountsBySetIds(Set<Id> accountIds) {
-        return [
+        return [ //NOPMD
             SELECT Id, Name
             FROM Account
             WHERE Id IN :accountIds
@@ -39,7 +39,7 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
     }
 
     public List<Account> getAccountsBySetNames(Set<String> accountNames) {
-        return [
+        return [ //NOPMD
             SELECT Id, Name
             FROM Account
             WHERE Name IN :accountNames
@@ -51,7 +51,7 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
         Set<String> accountNames,
         Integer recordsCount
     ) {
-        return [
+        return [ //NOPMD
             SELECT Id, Name
             FROM Account
             WHERE Name IN :accountNames
@@ -61,12 +61,22 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
     }
 
     public Account getAccountIdByABN(String abn) {
-        return [
+        // Remove spaces and format the ABN value
+        String formattedAbn = abn.replaceAll('\\s', '');
+    
+        // Construct the formatted ABN with '%' between each character
+        String formattedAbnWithPercent = '%';
+        for (Integer i = 0; i < formattedAbn.length(); i++) {
+            formattedAbnWithPercent += formattedAbn.substring(i, i + 1) + '%';
+        }
+    
+        return [ //NOPMD
             SELECT Id
             FROM Account
-            WHERE ABN__c = :abn AND RecordTypeId = :ACCT_BUSINESS_ORG_ID
+            WHERE ABN__c LIKE :formattedAbnWithPercent AND RecordTypeId = :ACCT_BUSINESS_ORG_ID
             WITH USER_MODE
             LIMIT 1
         ];
     }
+    
 }

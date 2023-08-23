@@ -7,7 +7,7 @@
  * @history
  *
  *    | Developer                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------|------------------------------|
+      |--------------------------|-----------------------|------------------------|------------------------------|
       | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
       | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts
  */

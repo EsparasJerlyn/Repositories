@@ -20,16 +20,19 @@ public with sharing class LeadService {
     * @param newItems  List of new Lead records
     * @param oldItems  Map of old Lead records
     */
-    public static void updateLearnerLeadStatus(List<Lead> newItems, Map<Id, Lead> oldItems) {        
-        for (Lead lead : newItems) {            
-            if (String.isNotBlank(lead.Lead_Type__c) && lead.Lead_Type__c == 'Learner') {
-                if (isLeadScoreNullOrUnderFifty(lead)) {
-                    lead.Status = 'New';
-                } else if (isLeadScoreInRange(lead, 50, 100)) {
-                    lead.Status = 'Engaging';
-                } else {
-                    lead.Status = isLeadScoreGreaterThanOrEqual(lead, 100) ? 'Nurturing' : 'Qualified';
-                }
+    public static void updateLeadStatus(List<Lead> newItems, Map<Id, Lead> oldItems) {        
+        for (Lead lead : newItems) {          
+            Boolean isExplore = lead.Lead_Score__c != null && lead.Lead_Score__c > 0;
+            Boolean isLearner = String.isNotBlank(lead.Lead_Type__c) && lead.Lead_Type__c == 'Learner';
+            
+            lead.Future_Student_Journey_Status__c = isExplore?LeadsDAO.EXPLORE_JOURNEY_STATUS:'';  
+
+            if (isLearner && isLeadScoreNullOrUnderFifty(lead)) {
+                lead.Status = 'New';
+            } else if (isLearner && isLeadScoreInRange(lead, 50, 100)) {
+                lead.Status = 'Engaging';
+            } else if(isLearner) {
+                lead.Status = isLeadScoreGreaterThanOrEqual(lead, 100) ? 'Nurturing' : 'Qualified';
             }
         }
     }

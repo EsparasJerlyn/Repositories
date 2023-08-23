@@ -368,6 +368,7 @@
         <searchFilterFields>Preferred_Full_Name__c</searchFilterFields>
         <searchFilterFields>Preferred_Given_Name__c</searchFilterFields>
         <searchResultsAdditionalFields>FULL_NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>hed__Primary_Organization__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Registered_Email__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Preferred_Full_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Preferred_Given_Name__c</searchResultsAdditionalFields>

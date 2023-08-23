@@ -4,10 +4,28 @@
     <description>The type of Application lodged in the external system.</description>
     <externalId>false</externalId>
     <label>Application Type</label>
-    <length>80</length>
     <required>true</required>
     <securityClassification>Official</securityClassification>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Provisional</fullName>
+                <default>false</default>
+                <label>Provisional</label>
+            </value>
+            <value>
+                <fullName>PCT</fullName>
+                <default>false</default>
+                <label>PCT</label>
+            </value>
+            <value>
+                <fullName>National Phase</fullName>
+                <default>false</default>
+                <label>National Phase</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

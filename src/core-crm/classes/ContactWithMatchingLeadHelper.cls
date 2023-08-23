@@ -22,6 +22,7 @@
       |                           |                       |                      |                                             |
       | mark.j.mahilum            | July 03, 2023         | DEPP-5961            | Updated Marketing Course Application object |
       |                           |                       |                      | and replaced by Application object          |
+      | mark.j.mahilum            | August 18, 2023       | DEPP-6391            | Marketing Course Application retrofit       |
  */
 public without sharing class ContactWithMatchingLeadHelper {
 
@@ -61,6 +62,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         List<hed__Application__c> applicationRecords = new List<hed__Application__c>();
         List<Marketing_Segmentation__c> contactMarketingSegmentations = new List<Marketing_Segmentation__c>();
         List<Marketing_Segmentation__c> marketingSegmentations = new List<Marketing_Segmentation__c>();
+        List<Marketing_Course_Application__c> marketingCourseApps = new List<Marketing_Course_Application__c>();
 
         for(Contact con : newItems.values()){
             if(!String.isBlank(con.Email)){
@@ -118,6 +120,21 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
         }
 
+        Map<Id, List<Marketing_Course_Application__c>> marketingCourseAppsMap = new Map<Id, List<Marketing_Course_Application__c>>();
+        if(!leadIdSet.isEmpty()){
+            marketingCourseApps = [SELECT Id, Lead__c, Contact__c FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIdSet];          
+        }
+
+        for(Marketing_Course_Application__c mca : marketingCourseApps){
+            if(marketingCourseAppsMap.containsKey(mca.Lead__c)){
+                marketingCourseAppsMap.get(mca.Lead__c).add(mca);
+            }else{
+                List<Marketing_Course_Application__c> mcaList = new List<Marketing_Course_Application__c>();
+                mcaList.add(mca);
+                marketingCourseAppsMap.put(mca.Lead__c, mcaList);
+            }
+        }
+
         Map<Id, List<hed__Application__c>> applicationMap = new Map<Id, List<hed__Application__c>>();
         if(!leadIdSet.isEmpty()){
             applicationRecords = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIdSet,'SYSTEM_MODE');           
@@ -159,6 +176,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         List<hed__Application__c> applicationToUpdate = new List<hed__Application__c>();
         List<Marketing_Segmentation__c> marketingSegmentationToInsert = new List<Marketing_Segmentation__c>();
         List<Marketing_Segmentation__c> marketingSegmentationToUpdate = new List<Marketing_Segmentation__c>();
+        List<Marketing_Course_Application__c> marketingCourseAppsToUpdate = new List<Marketing_Course_Application__c>();
         
         for(Lead lead : leads){
             if(contactsLeadMap.containsKey(lead.Id)){
@@ -178,7 +196,16 @@ public without sharing class ContactWithMatchingLeadHelper {
                     );
                     marketingInteractionsToUpdate.add(marketingInteraction);
                 }
-            }            
+            }
+            if(marketingCourseAppsMap.containsKey(lead.Id)){
+                for(Marketing_Course_Application__c m : marketingCourseAppsMap.get(lead.Id)){
+                    Marketing_Course_Application__c marketingCourseApp = new Marketing_Course_Application__c(
+                        Id = m.Id,
+                        Contact__c = contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id
+                    );
+                    marketingCourseAppsToUpdate.add(marketingCourseApp);
+                }
+            }
             if(applicationMap.containsKey(lead.Id)){
                 for(hed__Application__c app : applicationMap.get(lead.Id)){
                     hed__Application__c appRec = new hed__Application__c(
@@ -220,6 +247,9 @@ public without sharing class ContactWithMatchingLeadHelper {
         }
         if(!marketingInteractionsToUpdate.isEmpty()){
             Database.update(marketingInteractionsToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+        if(!marketingCourseAppsToUpdate.isEmpty()){
+            Database.update(marketingCourseAppsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
         if(!applicationToUpdate.isEmpty()){
             ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);

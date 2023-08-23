@@ -86,7 +86,7 @@
                 <leftValueReference>$UserRole.Name</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Executive Director Industry Engagement</stringValue>
+                    <stringValue>Executive Director Business Development</stringValue>
                 </rightValue>
             </conditions>
             <conditions>

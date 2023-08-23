@@ -206,7 +206,51 @@ public without sharing class ContactTriggerHelper {
             }
         }
     }
+    
+    /**
+     * @description Update Moving To Brisbane field on contact insert
+     * @param newItem List of new contacts
+     */
+    public static void updateMovingToBrisbane(List<SObject> newItems) {
+        Map<Id, Marketing_Segmentation__c> marSegMap = getMarketingSegmentationsOnContactList((List<Contact>) newitems);
+        for(Contact newItem : (List<Contact>) newItems) {
+            if(newItem.Marketing_Segmentation__c != null) {
+                newItem.Moving_To_Brisbane__c = marSegMap.get(newItem.Marketing_Segmentation__c).My_Moving_To_Brisbane__c;
+            }
+        }
+    }
+    
+    /**
+     * @description Update Moving To Brisbane field on contact with updated marketing segmentation
+     * @param newItem Map of updated contacts and their ids
+     * @param oldItem Map of outdated contacts and their ids
+     */
+    public static void updateMovingToBrisbane(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        Map<Id, Marketing_Segmentation__c> marSegMap = getMarketingSegmentationsOnContactList((List<Contact>) newItems.values());
+        for(Contact newItem : (List<Contact>) newItems.values()) {
+            Contact oldItem = (Contact) oldItems.get(newItem.Id);
+            if(
+                newItem.Marketing_Segmentation__c != null && 
+                newItem.Marketing_Segmentation__c != oldItem.Marketing_Segmentation__c
+            ) {
+                newItem.Moving_To_Brisbane__c = marSegMap.get(newItem.Marketing_Segmentation__c).My_Moving_To_Brisbane__c;
+            }
+        }
+    }
 
+    private static Map<Id, Marketing_Segmentation__c> getMarketingSegmentationsOnContactList(List<Contact> contacts) {
+        Set<Id> marSegIdsInNewItems = new Set<Id>();
+        for(Contact con : (List<Contact>) contacts) {
+            marSegIdsInNewItems.add(con.Marketing_Segmentation__c);
+        }
+        return new Map<Id, Marketing_Segmentation__c>([
+            SELECT Id, My_Moving_To_Brisbane__c 
+            FROM Marketing_Segmentation__c 
+            WHERE Id IN :marSegIdsInNewItems 
+            WITH SYSTEM_MODE
+        ]);
+    }
+    
    /**
     * @description check if the lead score is above threshold
     *
@@ -251,6 +295,5 @@ public without sharing class ContactTriggerHelper {
         if(!assignContactToCadenceMap.isEmpty() || !removeContactToCadenceMap.isEmpty()){
             SalesCadenceCalloutService.processSaleCadences(assignContactToCadenceMap,removeContactToCadenceMap);
         }
-    }   
-
+    }  
 }
