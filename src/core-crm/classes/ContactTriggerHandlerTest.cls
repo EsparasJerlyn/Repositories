@@ -400,4 +400,37 @@ public with sharing class ContactTriggerHandlerTest {
         System.assertEquals(testUser.Id, actualContact.OwnerId, 'Should not set the contact owner when the current user is not having profile of corporate partner.');
     }
   }
+
+  @IsTest
+    private static void shouldSetStatustoExplore() {
+   
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE); 
+
+            for (Contact record : ContactsDAO.newInstance().getPersonContactsWithLimit(10)) {  
+                System.assert(record.Future_Student_Journey_Status__c == 'Explore','Contact Future_Student_Journey_Status__c did not match');
+            }
+        }
+    }
+
+    private static void shouldSetStatustoNotExplore() {
+   
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE); 
+
+            for (Contact record : newContacts) {  
+                record.IER_Score__c = -50;
+            }
+
+            ContactsDAO.newInstance().updateRecords(newContacts, false, AccessLevel.SYSTEM_MODE); 
+
+            for (Contact record : ContactsDAO.newInstance().getPersonContactsWithLimit(10)) {  
+                System.assert(String.isBlank(record.Future_Student_Journey_Status__c),'Contact Future_Student_Journey_Status__c did not match');
+            }
+        }
+    }
 }

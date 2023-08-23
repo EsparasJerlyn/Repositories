@@ -295,6 +295,5 @@ public without sharing class ContactTriggerHelper {
         if(!assignContactToCadenceMap.isEmpty() || !removeContactToCadenceMap.isEmpty()){
             SalesCadenceCalloutService.processSaleCadences(assignContactToCadenceMap,removeContactToCadenceMap);
         }
-    }   
-
+    }  
 }

@@ -267,6 +267,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Future_Student_Journey_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.GenderIdentity</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3218,6 +3223,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Fax</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Future_Student_Journey_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

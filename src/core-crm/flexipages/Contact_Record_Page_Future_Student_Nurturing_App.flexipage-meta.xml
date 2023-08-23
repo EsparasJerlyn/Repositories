@@ -51,6 +51,16 @@
                 <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>fieldName</name>
+                    <value>Future_Student_Journey_Status__c</value>
+                </componentInstanceProperties>
+                <componentName>customChevron</componentName>
+                <identifier>c_customChevron</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>

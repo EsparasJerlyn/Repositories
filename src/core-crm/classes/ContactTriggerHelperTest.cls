@@ -125,7 +125,7 @@ private class ContactTriggerHelperTest {
             System.assert(con[0].Can_Nurture__c,'Contacts can nurture flag not updated');
             
         }
-    }
+    } 
     
     @isTest
     private static void testGetContactCalculatedCadence() {
