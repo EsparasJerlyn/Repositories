@@ -59,7 +59,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems, null);
     ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems,null);
-      ContactTriggerHelper.updateMovingToBrisbane(newItems);
+    ContactTriggerHelper.updateMovingToBrisbane(newItems);
   }
 
   /**
@@ -83,7 +83,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems.values());
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
-      ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
+    ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
   }
 
   /**
