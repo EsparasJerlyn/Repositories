@@ -7,14 +7,13 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
-      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
-      | roy.nino.s.regala              | Oct 26, 2022          | DEPP-4327              | Created file                                   |
-
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+ *    | roy.nino.s.regala              | Oct 26, 2022          | DEPP-4327              | Created file                                   |
+ *    | alexander.cadalin              | Aug 15, 2023          | DEPP-6124              | Added tests for new methods                    |
  */
 
 @isTest
 public without sharing class MarketingSegmentationTriggerHelperTest{
-
     @testSetup
     static void setupMethod() {
         Test.startTest();
@@ -38,11 +37,9 @@ public without sharing class MarketingSegmentationTriggerHelperTest{
     
             insert marketingSegmenationList;
         }
-        
-
+     	
         System.assert(![SELECT Id FROM Lead WHERE Marketing_Segmentation__c != null].isEmpty(), 'Marketing Segmentation field on lead is not updated.');
         System.assert(![SELECT Id FROM Contact WHERE Marketing_Segmentation__c != null].isEmpty(), 'Marketing Segmentation field on contact is not updated.');
-        
     }
 
     @isTest
@@ -73,7 +70,6 @@ public without sharing class MarketingSegmentationTriggerHelperTest{
 
     @isTest
     public static void updateMarketingSegmentationContactTest(){
-        
         System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
             List<Marketing_Segmentation__c> marSegmentationWithoutContact = [
                 SELECT Id, Contact__C 
@@ -98,6 +94,35 @@ public without sharing class MarketingSegmentationTriggerHelperTest{
             System.assert(![SELECT Id FROM Contact WHERE Marketing_Segmentation__c IN: marSegmentationWithoutContact].isEmpty(), 'Marketing Segmentation field on contact is not updated.');
         }
     }
-
-
- }
+    
+    @isTest
+    public static void testSetMovingToBrisbaneOnContactNewSegmentation() {
+        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()) {
+            Test.startTest();
+            Id contactId = [SELECT Id FROM Contact LIMIT 1].Id;
+            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(
+                Contact__c = contactId,
+                My_Moving_To_Brisbane__c = true
+            );
+            insert marSeg;
+            Boolean contactMovingToBrisbane = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :contactId LIMIT 1].Moving_To_Brisbane__c;
+            Test.stopTest();
+            System.assertEquals(true, contactMovingToBrisbane, 'The contact\'s Moving To Brisbane field was not updated successfully.');
+        }
+    }
+    
+    @isTest
+    public static void testSetMovingToBrisaneOnContactUpdateSegmentation() {
+        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()) {
+            Test.startTest();
+            Marketing_Segmentation__c marSeg = [SELECT Id, Contact__c, My_Moving_To_Brisbane__c FROM Marketing_Segmentation__c WHERE Contact__c != null LIMIT 1];
+            Id contactId = [SELECT Id FROM Contact WHERE Id != :marSeg.Contact__c LIMIT 1].Id;
+            marSeg.My_Moving_To_Brisbane__c = true;
+            marSeg.Contact__c = contactId;
+            update marSeg;
+            Boolean newContactMovingToBrisbane = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :contactId LIMIT 1].Moving_To_Brisbane__c;
+            Test.stopTest();
+            System.assertEquals(true, newContactMovingToBrisbane, 'The contact\'s Moving To Brisbane field was not updated successfully.');
+        }
+    }
+}

@@ -13,7 +13,7 @@
       |                           | June 24, 2022         | DEPP-3056    | removed global dupes handler tests          |
 */
 @isTest
-private class LeadTriggerHandlerTest {
+private class LeadTriggerHandlerTest { 
     
     private static final String LEAD = 'Lead.';
     private static final String CONTACT = 'Contact.';

@@ -23,6 +23,24 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         .get(PERSON_RECORDTYPE)
         .getRecordTypeId();
 
+    public static final Set<String> CONTACT_HAS_APPLIED_STATUSES = new Set<String>{
+        'Apply','Offer','Accept-Admit','Study'
+    };
+
+    public static final Set<String> CONTACT_HAS_OFFERED_STATUSES = new Set<String>{
+        'Offer','Accept-Admit','Study'
+    };
+
+    public static final Set<String> CONTACT_HAS_ACCEPTED_STATUSES = new Set<String>{
+        'Accept-Admit','Study'
+    };
+
+    public static final String EXPLORE_JOURNEY_STATUS = 'Explore';
+    public static final String APPLY_JOURNEY_STATUS = 'Apply';
+    public static final String OFFER_JOURNEY_STATUS = 'Offer';
+    public static final String ACCEPT_ADMIT_JOURNEY_STATUS = 'Accept-Admit';
+    public static final String STUDY_JOURNEY_STATUS = 'Study';
+
     public static IContactsDAO newInstance() {
         return (IContactsDAO) ImplementationSelector.DAO.newInstance(Contact.SObjectType);
     }
@@ -58,12 +76,16 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Email,
                 QUT_Learner_Email__c,
                 QUT_Staff_Email__c,
+                QUT_Applicant__c,
+                QUT_Student__c,
                 Work_Email__c,
                 hed__Preferred_Email__c,
-                hed__AlternateEmail__c
+                hed__AlternateEmail__c,
+                Future_Student_Journey_Status__c,
+                Lead_Score__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
-            WITH USER_MODE
+            WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
             LIMIT :recordsCount
         ];
     }

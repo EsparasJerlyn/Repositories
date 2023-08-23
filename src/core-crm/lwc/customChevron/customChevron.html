@@ -1,0 +1,49 @@
+<template>
+  <article class="slds-card lightning-card">
+    <div
+      class="slds-path slds-m-vertical_x-small slds-p-left_small slds-p-right_x-large slds-m-right_xx-small slds-is-relative"
+      style="z-index: 1">
+      <div class="slds-grid slds-path__track">
+        <div class="slds-grid slds-path__scroller-container">
+          <div class="slds-path__scroller">
+            <div class="slds-path__scroller_inner">
+              <ul
+                class="slds-path__nav"
+                role="listbox"
+                aria-orientation="horizontal"
+                aria-labelledby="slds-path__stage-name">
+                <template
+                  for:each={chevronData}
+                  for:item="stageIs"
+                  for:index="index">
+                  <li
+                    key={stageIs}
+                    class={stageIs.classType}
+                    role="presentation">
+                    <a
+                      aria-selected="false"
+                      class="slds-path__link"
+                      role="option"
+                      tabindex="-1">
+                      <span class="slds-path__stage">
+                        <lightning-icon
+                          class="slds-icon-utility-check slds-icon_container"
+                          icon-name="utility:check"
+                          size="x-small"
+                          variant="inverse"></lightning-icon>
+                        <span class="slds-assistive-text"
+                          >{stageIs.stages.label}</span
+                        >
+                      </span>
+                      <span class="slds-path__title">{stageIs.stages.label}</span>
+                    </a>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</template>
