@@ -31,8 +31,12 @@
                 <field>Patent_Number__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>IP_Description__c</field>
+                <behavior>Edit</behavior>
+                <field>Parent_Relationship_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_Active__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -51,6 +55,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>WIPO_Publication_Number__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>IP_Description__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -183,7 +191,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9r0000021kOL</masterLabel>
+        <masterLabel>00hBm000002hHeW</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
