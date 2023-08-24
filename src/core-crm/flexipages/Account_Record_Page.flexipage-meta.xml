@@ -11,8 +11,8 @@
                             <visibilityRule>
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Industry Engagement</rightValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>QUTeX</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
