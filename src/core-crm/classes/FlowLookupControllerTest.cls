@@ -16,7 +16,7 @@ public class FlowLookupControllerTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
+            new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager', 'QUT_Sys_Admin' }
         );
     }
 
@@ -246,7 +246,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getStandardObjectIconForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             String objectIcon = FlowLookupController.getObjectIcon('Account');
             System.assertNotEquals(null, objectIcon, 'Object icon should not be null');
         }
@@ -256,7 +256,7 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getStandardObjectIconForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             String objectIcon = FlowLookupController.getObjectIcon('Account');
             System.assertNotEquals(null, objectIcon, 'Object icon should not be null');
         }
@@ -276,7 +276,7 @@ public class FlowLookupControllerTest {
                 false,
                 AccessLevel.USER_MODE
             );
-        System.runAs(TestDataFactory.getOperationsManager()) {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
                 'RCE',
@@ -303,7 +303,7 @@ public class FlowLookupControllerTest {
                 false,
                 AccessLevel.USER_MODE
             );
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
                 'RCE',

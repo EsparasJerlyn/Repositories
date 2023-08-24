@@ -12,6 +12,8 @@
  *    | roy.nino.s.regala              | July 18, 2023         | DEPP-5473              | Added Finance Summary and sort |
  *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6141              | Added Relationship Manager     |
  *    | ryan.j.a.dela.cruz             | August 10, 2023       | DEPP-6335              | Added Risk                     |
+ *    | eugene.andrew.abuan            | August 14, 2023       | DEPP-6331              | Added IP Relationship Mngmnt   |
+
  */
 public with sharing class DynamicDatatableEventService {
     /* Map that defines the object attributes defined in the datatables
@@ -37,6 +39,10 @@ public with sharing class DynamicDatatableEventService {
             'ParentFields' => 'Opportunity_Outcome__c,Opportunity__c',
             'ObjectLabel' => 'Financial Split'
         },
+        IP_Management_Relationship__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Engagement__c,Opportunity__c,Opportunity_Outcome__c',
+            'ObjectLabel' => 'IP Management Relationship'
+        },
         Milestone__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity_Outcome__c',
             'ObjectLabel' => 'Milestone'
@@ -56,6 +62,10 @@ public with sharing class DynamicDatatableEventService {
         Risk__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity_Outcome__c',
             'ObjectLabel' => 'Risk'
+        },
+        Expense__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity_Outcome__c',
+            'ObjectLabel' => 'Expense'
         }
     };
 

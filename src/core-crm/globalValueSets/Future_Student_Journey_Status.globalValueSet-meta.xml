@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Explore</fullName>
+        <default>true</default>
+        <label>Explore</label>
+    </customValue>
+    <customValue>
+        <fullName>Apply</fullName>
+        <default>false</default>
+        <label>Apply</label>
+    </customValue>
+    <customValue>
+        <fullName>Offer</fullName>
+        <default>false</default>
+        <label>Offer</label>
+    </customValue>
+    <customValue>
+        <fullName>Accept-Admit</fullName>
+        <default>false</default>
+        <label>Accept-Admit</label>
+    </customValue>
+    <customValue>
+        <fullName>Study</fullName>
+        <default>false</default>
+        <label>Study</label>
+    </customValue>
+    <masterLabel>Future Student Journey Status</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

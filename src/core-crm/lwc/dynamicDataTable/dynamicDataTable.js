@@ -11,6 +11,8 @@
  *    | roy.nino.s.regala         | June 14, 2023         | DEPP-5391            | Created file                                                                |
  *    | roy.nino.s.regala         | June 24, 2023         | DEPP-5411            | Added Visibility Check                                                      |
  *    | roy.nino.s.regala         | July 11, 2023         | DEPP-5459            | removed isvalidurl and only subscribe to event channel on new and edit      |
+ *    | eugene.andrew.abuan       | August 14, 2023       | DEPP-6331            | Added newActionTypeLabel property                                           |
+ * 
  */
 import { LightningElement, api, track, wire } from "lwc";
 import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableDataWrapper";
@@ -45,6 +47,7 @@ export default class DynamicDataTable extends NavigationMixin(
   @api recordTypeName;
   @api showNewButton = false;
   @api newActionType;
+  @api newActionTypeLabel;
   @api newScreenFlowApiName;
   @api defaultValues = "";
   @api showEditButton;
@@ -135,6 +138,14 @@ export default class DynamicDataTable extends NavigationMixin(
   get isShowNewButton() {
     //if visiblity is controlled and show new button is checked
     return this.visibilityCheckResult && this.showNewButton;
+  }
+
+  get newActionLabel(){
+    // Returns a button label for exsiting flexipages
+    if(this.newActionTypeLabel == undefined || this.newActionTypeLabel !='Link'){
+          this.newActionTypeLabel = 'New';
+    }
+    return this.newActionTypeLabel;
   }
 
   /* GETTERS END */

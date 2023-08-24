@@ -80,16 +80,6 @@
                 <identifier>RecordAmount_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Opportunity__c</fieldItem>
-                <identifier>RecordOpportunity_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-ae9c32e7-81cb-4a28-8284-e7f624a74c47</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -180,16 +170,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Amount__c</fieldItem>
                 <identifier>RecordAmount_cField4</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Opportunity__c</fieldItem>
-                <identifier>RecordOpportunity_cField4</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-21a8b457-4b1e-40db-929f-2e40d5534281</name>

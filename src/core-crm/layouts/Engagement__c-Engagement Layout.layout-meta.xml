@@ -72,16 +72,6 @@
         <relatedList>Opportunity.Engagement__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <customButtons>Link</customButtons>
-        <excludeButtons>MassChangeOwner</excludeButtons>
-        <excludeButtons>New</excludeButtons>
-        <fields>IP_Management__c</fields>
-        <fields>IP_Name__c</fields>
-        <fields>IP_Type__c</fields>
-        <fields>IP_Stage_Name__c</fields>
-        <relatedList>IP_Management_Relationship__c.Engagement__c</relatedList>
-    </relatedLists>
-    <relatedLists>
         <relatedList>RelatedContentNoteList</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

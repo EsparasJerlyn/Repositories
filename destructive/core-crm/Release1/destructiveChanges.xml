@@ -22,6 +22,9 @@
         <!--(Start) DEPP-6336 -->
         <members>newFinancialSplit</members>
         <!-- (End) DEPP-6336 -->
+        <!--(Start) DEPP-6331 -->
+        <members>linkIpManagement</members>
+        <!--(End) DEPP-6331 -->
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
@@ -218,6 +221,9 @@
         <!--(Start) DEPP-6336 -->
         <members>Financial_Split__c.NewFinancialSplit</members>
         <!-- (End) DEPP-6336 -->
+        <!--(Start) DEPP-6331 -->
+        <members>IP_Management_Relationship__c.Link</members>
+        <!-- (End) DEPP-6331 -->
         <name>WebLink</name>
     </types>
     <types>

@@ -20,12 +20,12 @@ private class ContactPersonaFlagsServiceTest {
      
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
     }
 
     @isTest
     private static void testApplicationWithContactPositive() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -45,7 +45,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testApplicationWithContactNegative() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -53,7 +53,7 @@ private class ContactPersonaFlagsServiceTest {
             Database.SaveResult[] srList = ApplicationsDAO.newInstance()
                 .insertRecords(
                     createTestApplicationStudyLinkRecords(newContacts,'Withdrawn'),
-                    false,
+                    true,
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
@@ -65,7 +65,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testProgramEnrollmentWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -80,7 +80,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testProgramEnrollmentWithCourseConnection() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
@@ -113,10 +113,91 @@ private class ContactPersonaFlagsServiceTest {
             }
         }
     }
+
+    @isTest
+    private static void testProgramEnrollmentToWithdrawn() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Contact> newContacts = createTestContactRecords(0, 1);            
+            ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
+            
+
+            List<hed__Program_Enrollment__c> programEnrollmentList = createTestProgramEnrollmentRecords(newContacts,'Admitted');
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, true, AccessLevel.USER_MODE);
+            
+            List<hed__Course_Enrollment__c> courseConnectionRecord = new List<hed__Course_Enrollment__c>();
+            for (Integer i = 0; i < 1; i++) {
+                courseConnectionRecord.add(
+                    new hed__Course_Enrollment__c(
+                        hed__Contact__c = newContacts[0].Id,
+                        Enrollment_Status__c = 'Active',
+                        hed__Program_Enrollment__c = programEnrollmentList[0].Id
+                    )
+                );
+            }
+
+            CourseConnectionsDAO.newInstance().insertRecords(courseConnectionRecord, true, AccessLevel.USER_MODE);
+
+            
+            for (hed__Program_Enrollment__c programEnrollment : programEnrollmentList){
+                programEnrollment.Enrollment_Status__c = 'Withdrawn';
+            }
+            
+            Test.startTest();
+            ProgramEnrollmentsDAO.newInstance().updateRecords(programEnrollmentList, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+                System.assert(String.isBlank(record.Future_Student_Journey_Status__c),'Record Future_Student_Journey_Status__c did not match');
+            }
+        }
+    }
+
+
+    @isTest
+    private static void testProgramEnrollmentToWithdrawnWithApplyApplication() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Contact> newContacts = createTestContactRecords(0, 1);            
+            ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.USER_MODE);
+
+            List<hed__Application__c> newApplications = createTestApplicationStudyLinkRecords(newContacts,'Apply');
+            newApplications.addAll(createTestApplicationStudyLinkRecords(newContacts,'Apply'));
+
+            ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
+
+            List<hed__Program_Enrollment__c> programEnrollmentList = createTestProgramEnrollmentRecords(newContacts,'Admitted');
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, true, AccessLevel.USER_MODE);
+            
+            List<hed__Course_Enrollment__c> courseConnectionRecord = new List<hed__Course_Enrollment__c>();
+            for (Integer i = 0; i < 1; i++) {
+                courseConnectionRecord.add(
+                    new hed__Course_Enrollment__c(
+                        hed__Contact__c = newContacts[0].Id,
+                        Enrollment_Status__c = 'Active',
+                        hed__Program_Enrollment__c = programEnrollmentList[0].Id
+                    )
+                );
+            }
+
+            CourseConnectionsDAO.newInstance().insertRecords(courseConnectionRecord, true, AccessLevel.USER_MODE);
+
+            
+            for (hed__Program_Enrollment__c programEnrollment : programEnrollmentList){
+                programEnrollment.Enrollment_Status__c = 'Withdrawn';
+            }
+            
+            Test.startTest();
+            ProgramEnrollmentsDAO.newInstance().updateRecords(programEnrollmentList, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+                System.assert(record.Future_Student_Journey_Status__c == 'Apply','Record Future_Student_Journey_Status__c did not match');
+            }
+        }
+    }
     
     @isTest
     private static void testAffiliationWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -139,7 +220,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testUpdateAffiliationWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -163,7 +244,7 @@ private class ContactPersonaFlagsServiceTest {
     
     @isTest
     private static void testAffiliationWithOpportunity() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -190,7 +271,7 @@ private class ContactPersonaFlagsServiceTest {
     @isTest
     private static void testContextualRolesWithContactAndOpportunity() {
         
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -224,7 +305,7 @@ private class ContactPersonaFlagsServiceTest {
     @isTest
     private static void testContextualRolesWithAffiliation() {
         
-        System.runAs(TestDataFactory.getProgramAdminUser()) {            
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
             insert acc;
@@ -271,7 +352,8 @@ private class ContactPersonaFlagsServiceTest {
                     Email__c = 'workTest' + EMAIL,
                     Application_Status__c = applicationStatus,
                     hed__Applicant__c = con.Id,
-                    RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID
+                    RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                    Calculated_Intake_Date__c = System.Today()
                 )
             );
         }
