@@ -11,7 +11,7 @@
  *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Renamed class to OpportunityRelationshipsToOutcome         |
  *    | ryan.j.a.dela.cruz             | July 26, 2023         | DEPP-6208              | Added publishPlatformEvent for table auto refresh          |
  */
-public with sharing class OpportunityOutcomeTriggerHandler implements Disableable, BeforeInsert, AfterInsert {
+public with sharing class OpportunityOutcomeTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate {
     /**
      * @param newItems - List of Opportunity.Trigger.new
      */

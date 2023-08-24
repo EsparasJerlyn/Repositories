@@ -23,6 +23,11 @@ private class ApplicationTriggerHelperTest {
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Account> newAccounts = new List<Account>();
+            newAccounts.add(TestDataFactory.createTestAccount(false));
+            newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
+            AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.SYSTEM_MODE);
+
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
@@ -103,7 +108,39 @@ private class ApplicationTriggerHelperTest {
                 System.assert(sr.isSuccess(), 'A record was not updated.');
             }
         }
-    }    
+    } 
+
+    @isTest
+    private static void updateCalculatedDateOnSamsApplicationRecordsTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            // create term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = System.today(),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts,'New', ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID);
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.stopTest();
+
+            List<hed__Application__c> updatedApplicationList = [SELECT Id, Calculated_Intake_Date__c,Applied_Intake_Study_Period__c FROM hed__Application__c WHERE Applied_Intake_Study_Period__c =: appliedIntakeTerm.Id];
+            // assert
+            System.assertEquals(
+                Date.today(),
+                updatedApplicationList[0].Calculated_Intake_Date__c, 
+                'Error, Should be equal to term start date.'
+            );
+        }
+    } 
     
     @isTest
     private static void testUpdateRelatedContacts() {

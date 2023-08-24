@@ -110,7 +110,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         String accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Name, Calculated_Intake_Date__c, Intake_Year__c, RecordTypeId ' +
+            'SELECT Id, Calculated_Intake_Date__c, Intake_Year__c, RecordTypeId, Applied_Intake_Study_Period__r.hed__Start_Date__c ' +
             'FROM hed__Application__c ' +
             'WHERE Id IN :applicationIds ' + 
             'WITH ' +
@@ -135,7 +135,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         String accessLevel
     ) {
         return Database.query(
-            'SELECT Id,Name,Program_Enrollment__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, ' +
+            'SELECT Id,Program_Enrollment__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, ' +
                 'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
                 'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
                 'Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, hed__Applicant__r.QUT_Applicant__c, ' +
@@ -152,14 +152,14 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         String accessLevel
     ) {
         return Database.query(
-            'SELECT Id,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, ' +
-                'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
-                'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c ' +
-                'FROM hed__Application__c ' +
-                'WHERE Id IN: qtacApplicantId ' +
-                'AND RecordTypeId =: QTAC_RECTYPE_ID ' +
-                'WITH ' +
-                String.escapeSingleQuotes(accessLevel)
+            'SELECT Id,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, '+
+            'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
+            'Applied_Intake_Study_Period__c, Intake_Year__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c '+
+            'FROM hed__Application__c ' +
+            'WHERE Id IN: qtacApplicantId '+
+            'AND RecordTypeId =: QTAC_RECTYPE_ID ' +  
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
         );
     }
 }

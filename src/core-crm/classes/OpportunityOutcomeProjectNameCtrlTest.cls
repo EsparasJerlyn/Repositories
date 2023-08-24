@@ -8,6 +8,7 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
  *    | alexander.cadalin              | May 15, 2023          | DEPP-5594              | created file                 |
  *    | ryan.j.a.dela.cruz             | July 18, 2023         | DEPP-5457/DEPP-5468    | Fixed test method failures   |
+ * 	  | kenneth.f.alsay                | August 24, 2023       | DEPP-6250              | Updated Test Opportunity name|
  */
 @isTest
 public with sharing class OpportunityOutcomeProjectNameCtrlTest {
@@ -28,7 +29,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
             );
 
         insert new Opportunity(
-            Name = 'XXX: Sample', 
+            Name = 'RPO: Sample', 
             StageName = 'Qualify', 
             CloseDate = System.today() + 50, 
             OwnerId = TestDataFactory.getOperationsManager().Id
@@ -95,7 +96,7 @@ public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     }
     
     private static Opportunity_Outcome__c createSampleOpptyOutcome(Id recordTypeId) {
-        Id opptyId = [SELECT Id FROM Opportunity WHERE Name = 'XXX: Sample' LIMIT 1].Id;
+        Id opptyId = [SELECT Id FROM Opportunity WHERE Name = 'RPO: Sample' LIMIT 1].Id;
         return new Opportunity_Outcome__c(
             Company_Name__c = 'Sample Company',
             Opportunity__c = opptyId,

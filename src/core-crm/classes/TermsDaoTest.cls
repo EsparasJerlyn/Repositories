@@ -36,4 +36,18 @@ public with sharing class TermsDaoTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getTermRecordByApplicationTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Term__c> termList = TermsDAO.newInstance()
+                .getTermRecordByApplication(
+                    new Set<Id>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(termList.isEmpty(), 'termList should not be empty.');
+        }
+        Test.stopTest();
+    }
 }

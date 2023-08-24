@@ -57,7 +57,6 @@ public with sharing class OpportunityRelationshipsToOutcome {
 
                 // Copy relevant fields from Opportunity to Opportunity_Outcome__c
                 opptyOutcome.OwnerId = relatedOpportunity.OwnerId;
-                opptyOutcome.Project_Summary__c = relatedOpportunity.Description;
                 opptyOutcome.Start_Date__c = Date.newInstance(
                     relatedOpportunity.CreatedDate.year(),
                     relatedOpportunity.CreatedDate.month(),
