@@ -16,4 +16,19 @@ public inherited sharing class TermsDAO extends DmlBase implements ITermsDAO{
     public static ITermsDAO newInstance(){
 		return (ITermsDAO) ImplementationSelector.DAO.newInstance(hed__Term__c.SObjectType);
 	}
+
+	public List<hed__Term__c> getTermRecordByApplication(
+        Set<Id> termIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Name, hed__Start_Date__c ' +
+            'FROM hed__Term__c ' +
+            'WHERE Id IN: termIds ' + 
+			'AND hed__Start_Date__c != null ' + 
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
 }

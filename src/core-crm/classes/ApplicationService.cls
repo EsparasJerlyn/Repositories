@@ -241,6 +241,23 @@ public with sharing class ApplicationService {
          updateApplicationList.addAll(ApplicationServiceHelper.processNonMatchingContacts(nonMatchingApplication));  
          return updateApplicationList;
      }
+
+     /**
+     * Processes application list to get linked Term Ids
+     * 
+     * @param newItems    The list of hed__Application__c objects.
+     */     
+     public static Set<Id> getAllTermsIdInApplication(List<hed__Application__c> applicationList) {
+        Set<Id> termsId = new Set<Id>();
+
+        for(hed__Application__c app : applicationList){
+            if(app.Applied_Intake_Study_Period__c != null){
+                termsId.add(app.Applied_Intake_Study_Period__c);
+            }
+        }
+
+        return termsId;
+    }
     
     /**
      * @description: Adds logs based on the provided contactsIdMap.

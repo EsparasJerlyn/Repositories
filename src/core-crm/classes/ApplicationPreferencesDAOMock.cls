@@ -50,4 +50,19 @@ public inherited sharing class ApplicationPreferencesDAOMock extends DmlBaseMock
 
         return applicationPrefList;
     }
+
+    public List<Application_Preference__c> getCurrentApplicationPreferenceById(
+        Set<Id> applicationPreferenceIds,
+		String accessLevel 
+    ) {
+        List<Application_Preference__c> applicationPrefList = new List<Application_Preference__c>();
+
+        for (Application_Preference__c record : applicationPreferenceMap.values()) {
+            if (applicationPreferenceIds.contains(record.Application__c)) {
+                applicationPrefList.add(record);
+            }
+        }
+
+        return applicationPrefList;
+    }
 }

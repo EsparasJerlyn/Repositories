@@ -10,8 +10,16 @@
       | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                                          |
       | mark.j.mahilum            | July 25, 2023         | DEPP-6106    | Added new method setCanNurtureOnContactOrLeadBasedOnApplicationStatus |
 */
- public with sharing class ApplicationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
+ public with sharing class ApplicationTriggerHandler implements Disableable, BeforeInsert,  AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
+
+    /**
+   * @description beforeInsert trigger event
+   * @param newItems - List of hed__Application__c.Trigger.new
+   */
+  public void beforeInsert(List<SObject> newItems) { 
+        ApplicationTriggerHelper.updateCalculatedDateOnSamsApplicationRecords((List<hed__Application__c>) newItems);
+}
 
   /**
    * @description afterInsert trigger event

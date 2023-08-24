@@ -63,4 +63,18 @@ public with sharing class ApplicationPreferencesDAOTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void getCurrentApplicationPreferenceByIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Application_Preference__c> applicationPreferenceList = ApplicationPreferencesDAO.newInstance()
+                .getCurrentApplicationPreferenceById(
+                    new Set<Id>(),
+                    'USER_MODE'
+                );
+            System.assert(applicationPreferenceList.isEmpty(), 'applicationPreferenceList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
 }
