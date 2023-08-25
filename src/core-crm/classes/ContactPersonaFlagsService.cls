@@ -94,14 +94,19 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
     private static void updateContactOnProgramEnrollment(Set<Id> contactIds) {
         Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
         Set<Id> contactIdsToReEvaluateApplication = new Set<Id>();
-        List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
-            .getCourseConnectionByPEContactIds(contactIds, 'SYSTEM_MODE');
+        List<hed__Program_Enrollment__c> programEnrollmentsList =  ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsByContactIds(contactIds,'SYSTEM_MODE'); 
 
         String newJourneyStatus = '';
 
-        for (hed__Course_Enrollment__c ce : courseConnectionList) {
-            Id contactId = ce.hed__Program_Enrollment__r.hed__Contact__c;
-            updateContactMap.put(contactId, new Contact(id = contactId, QUT_Student__c = true));
+        for(hed__Program_Enrollment__c pe: programEnrollmentsList){
+
+            updateContactMap.put(
+                pe.hed__Contact__c,
+                new Contact(
+                    id = pe.hed__Contact__c,
+                    QUT_Student__c = true
+                )
+            );
         }
 
         //collect all contact ids that is no longer a student
@@ -224,33 +229,20 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
      * @return Map<Id,Contact> contact to be updated
      */
     private static void updateContactOnContextualRole(Set<Id> contactIds) {
-        Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
-        Set<Id> contactIdsActiveRole = new Set<Id>();
-
-        List<Contextual_Role__c> contextualRoleList = ContextualRolesDAO.newInstance()
-            .getActiveContextualRoleByContactIds(contactIds, 'Opportunity_Role', 'SYSTEM_MODE');
-
-        for (Contextual_Role__c cr : contextualRoleList) {
-            if (cr.Account__r.RecordType.DeveloperName == AccountsDAO.ACCT_BUSINESS_ORG) {
-                updateContactMap.put(
-                    cr.Contact__c,
-                    new Contact(id = cr.Contact__c, QUT_Partner__c = true)
-                );
-            } else {
-                contactIdsActiveRole.add(cr.Contact__c);
-            }
-        }
-
-        List<hed__Affiliation__c> affiliationList = AffiliationsDAO.newInstance()
-            .getAffiliationByContactIds(contactIds, 'Current', 'SYSTEM_MODE');
-
-        for (hed__Affiliation__c af : affiliationList) {
+        Map<Id,Contact> updateContactMap = new Map<Id,Contact>();         
+        Set<String> recordTypeIds = new Set<String>{ContextualRolesDAO.ENGAGEMENT_ROLE_RECTYPE_ID,ContextualRolesDAO.OPPORTUNITY_ROLE_RECTYPE_ID};
+        List<Contextual_Role__c> contextualRoleList = ContextualRolesDAO.newInstance().getActiveContextualRoleByContactIds(contactIds,recordTypeIds,'SYSTEM_MODE');  
+               
+        for(Contextual_Role__c cr: contextualRoleList){          
             updateContactMap.put(
-                af.hed__Contact__c,
-                new Contact(id = af.hed__Contact__c, QUT_Partner__c = true)
-            );
+                cr.Contact__c,
+                new Contact(
+                    id = cr.Contact__c,
+                    QUT_Partner__c = true
+                )
+            );             
         }
-
+        
         for (Id contactId : contactIds) {
             if (!updateContactMap.containsKey(contactId)) {
                 updateContactMap.put(

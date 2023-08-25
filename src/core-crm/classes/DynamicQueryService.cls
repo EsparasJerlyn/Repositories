@@ -9,9 +9,10 @@
       |--------------------------------|-----------------------|------------------------|-----------------------------------------------------|
       | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created                                             | 
       | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added Query service for record query with filter    | 
+      | roy.nino.s.regala              | Aug 26, 2023          | DEPP-6348              | Added access level paramater                        | 
  */
 
-public with sharing class DynamicQueryService {
+public inherited sharing class DynamicQueryService {
     /**
      * Query related records with offset in order
      * @param parametersMap
@@ -27,10 +28,12 @@ public with sharing class DynamicQueryService {
      * rowLimit(required) - the limit of the query(e.g. 10)
      * sortOrder(required) - the order of the query for sort(e.g. DESC)
      * sortField(required) - the field used to order the query for sort(e.g. CreatedDate)
+     * @param accessLevel - access level of the soql.
      * @return List of records queried
      */
     public static List<SObject> getRelatedRecordsWithOffSetInOrder(
-        Map<String, String> parametersMap
+        Map<String, String> parametersMap,
+        AccessLevel accessLevel
     ) {
         String relatedRecordsStringQuery =
             'SELECT ' +
@@ -44,7 +47,6 @@ public with sharing class DynamicQueryService {
             '\'' +
             ' ' +
             parametersMap.get('relatedListFilters') +
-            ' WITH USER_MODE ' +
             ' Order By ' +
             String.escapeSingleQuotes(parametersMap.get('sortField')) +
             ' ' +
@@ -54,7 +56,7 @@ public with sharing class DynamicQueryService {
             ' OFFSET ' +
             String.escapeSingleQuotes(parametersMap.get('rowOffSet'));
 
-        return Database.query(relatedRecordsStringQuery); //NOPMD
+        return Database.query(relatedRecordsStringQuery,accessLevel); //NOPMD
     }
 
     /**
@@ -65,10 +67,12 @@ public with sharing class DynamicQueryService {
      * recordId(required) - record id of the record
      * sObjectApiName(required) - object api name of the records to be queried(e.g. Contact)
      * filter(required) - where clause of the filter(e.g. Stage != 'Completed')
+     * @param accessLevel - access level of the soql.
      * @return List of records queried
      */
     public static List<SObject> getRecordWithFilter(
-        Map<String, String> parametersMap
+        Map<String, String> parametersMap,
+        AccessLevel accessLevel
     ){
         String recordStringQuery =
         'SELECT Id, Name FROM ' +
@@ -78,9 +82,8 @@ public with sharing class DynamicQueryService {
         String.escapeSingleQuotes(parametersMap.get('recordId')) +
         '\'' +
         ' ' +
-        'AND ' + parametersMap.get('filter') +
-        ' WITH USER_MODE ';
-        return Database.query(recordStringQuery); //NOPMD
+        'AND ' + parametersMap.get('filter');
+        return Database.query(recordStringQuery,accessLevel); //NOPMD
     }
 
     /**
@@ -93,9 +96,10 @@ public with sharing class DynamicQueryService {
      * relatedRecord(required) - object api name of the records to be queried(e.g. Contact)
      * relatedField(required) - field api name of the lookup field(e.g. AccountId)
      * relatedListFilters(required) - the where clause of the query(e.g. RecordType.DeveloperName = 'Unversity_Department')
+     * @param accessLevel - access level of the soql.
      * @return count of the records queried
      */
-    public static Integer getRelatedRecordsCountWithFilter(Map<String, String> parametersMap) {
+    public static Integer getRelatedRecordsCountWithFilter(Map<String, String> parametersMap, AccessLevel accessLevel) {
         String relatedRecordsCountStringQuery =
             'SELECT Count() FROM ' +
             String.escapeSingleQuotes(parametersMap.get('relatedRecord')) +
@@ -105,8 +109,7 @@ public with sharing class DynamicQueryService {
             String.escapeSingleQuotes(parametersMap.get('recordId')) +
             '\'' +
             ' ' +
-            parametersMap.get('relatedListFilters') +
-            ' WITH USER_MODE ';
-        return Database.countQuery(relatedRecordsCountStringQuery); //NOPMD
+            parametersMap.get('relatedListFilters');
+        return Database.countQuery(relatedRecordsCountStringQuery,accessLevel); //NOPMD
     }
 }

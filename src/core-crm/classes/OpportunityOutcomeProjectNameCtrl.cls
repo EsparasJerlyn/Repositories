@@ -5,8 +5,9 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | May 15, 2023          | DEPP-5594              | created file
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | alexander.cadalin              | May 15, 2023          | DEPP-5594              | created file
+ * 	  | kenneth.f.alsay                | August 24, 2023       | DEPP-6250              | Added conditions for Project_Name__c assignment under generateProjectName method
  */
 public with sharing class OpportunityOutcomeProjectNameCtrl {
 	public static void generateProjectName(List<Opportunity_Outcome__c> newItems) {
@@ -19,7 +20,11 @@ public with sharing class OpportunityOutcomeProjectNameCtrl {
         Map<Id, Opportunity> opptyMap = new Map<Id, Opportunity>([SELECT Id, Name FROM Opportunity WHERE Id IN :opptyIdSet]);
         for(Opportunity_Outcome__c newItem : newItems) {
             if(recordTypeToPrefixMap.containsKey(newItem.RecordTypeId)){
-                newItem.Project_Name__c = recordTypeToPrefixMap.get(newItem.RecordTypeId) + opptyMap.get(newItem.Opportunity__c).Name.substring(3);
+                if((opptyMap.get(newItem.Opportunity__c).Name).StartsWith('RCO') || (opptyMap.get(newItem.Opportunity__c).Name).StartsWith('RPO')){
+                    newItem.Project_Name__c = recordTypeToPrefixMap.get(newItem.RecordTypeId) + opptyMap.get(newItem.Opportunity__c).Name.substring(3);
+                }else {
+                    newItem.Project_Name__c = recordTypeToPrefixMap.get(newItem.RecordTypeId) + ': ' + opptyMap.get(newItem.Opportunity__c).Name;
+                }
             }
         }
     }

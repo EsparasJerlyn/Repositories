@@ -17,7 +17,7 @@ public interface IContextualRolesDAO extends DmlInterface {
     );
     List<Contextual_Role__c> getActiveContextualRoleByContactIds(
         Set<Id> contactIds,
-        String recordTypeName,
+        Set<String> recordTypeIds,
         String accessLevel
     ); 
 }

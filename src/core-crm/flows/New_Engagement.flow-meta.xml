@@ -65,7 +65,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Engagement_Stage_Decision</targetReference>
+            <targetReference>Engagement_Details_Decision</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -92,8 +92,8 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Engagement_Stage_Commercialisation</name>
-        <label>Assign Engagement Stage Commercialisation</label>
+        <name>Assign_Engagement_Details_Commercialisation</name>
+        <label>Assign Engagement Details Commercialisation</label>
         <locationX>798</locationX>
         <locationY>2810</locationY>
         <assignmentItems>
@@ -103,13 +103,20 @@
                 <stringValue>Disclosure</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EngagementName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Engagement_Name_Com</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Get_Engagement_RecordType</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Engagement_Stage_Research_Partnership</name>
-        <label>Assign Engagement Stage Research Partnership</label>
+        <name>Assign_Engagement_Details_Research_Partnership</name>
+        <label>Assign Engagement Details Research Partnership</label>
         <locationX>1062</locationX>
         <locationY>2810</locationY>
         <assignmentItems>
@@ -117,6 +124,13 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Active</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EngagementName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Engagement_Name_RP</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -204,6 +218,20 @@
             <targetReference>Is_Create_Contact_Selected</targetReference>
         </connector>
     </assignments>
+    <constants>
+        <name>CommercialisationText</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Commercialisation</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>ResearchParnershipText</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Research Partnership</stringValue>
+        </value>
+    </constants>
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
@@ -230,12 +258,12 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Engagement_Stage_Decision</name>
-        <label>Engagement Stage Decision</label>
+        <name>Engagement_Details_Decision</name>
+        <label>Engagement Details Decision</label>
         <locationX>930</locationX>
         <locationY>2702</locationY>
         <defaultConnector>
-            <targetReference>Assign_Engagement_Stage_Research_Partnership</targetReference>
+            <targetReference>Assign_Engagement_Details_Research_Partnership</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Research Partnership</defaultConnectorLabel>
         <rules>
@@ -249,7 +277,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Engagement_Stage_Commercialisation</targetReference>
+                <targetReference>Assign_Engagement_Details_Commercialisation</targetReference>
             </connector>
             <label>Commercialisation</label>
         </rules>
@@ -385,7 +413,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Engagement_Stage_Decision</targetReference>
+                <targetReference>Engagement_Details_Decision</targetReference>
             </connector>
             <label>Commercialisation RecordType Selected in Creating Account and Contact</label>
         </rules>
@@ -654,7 +682,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>Engagement_Name</elementReference>
+                <elementReference>EngagementName</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -678,7 +706,7 @@
         <locationY>2378</locationY>
         <assignRecordIdToReference>ContactObject.Id</assignRecordIdToReference>
         <connector>
-            <targetReference>Engagement_Stage_Decision</targetReference>
+            <targetReference>Engagement_Details_Decision</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -1388,15 +1416,54 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Engagement_Name</name>
+            <name>Engagement_Name_Com</name>
             <dataType>String</dataType>
+            <defaultValue>
+                <stringValue>RCE: </stringValue>
+            </defaultValue>
             <fieldText>Engagement Name</fieldText>
             <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;When creating a new engagement, it must meet the following naming convention: RCE: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RCE: Textiles Commercialisation - 2023.&lt;/p&gt;</helpText>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Engagement_Name_Com})&lt;=80</formulaExpression>
+            </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>CommercialisationText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Engagement_Name_RP</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <stringValue>RPE: </stringValue>
+            </defaultValue>
+            <fieldText>Engagement Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;When creating a new engagement, it must meet the following naming convention: RPE: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RPE: Textile Waste Management Research - 2023.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 80 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
-                <formulaExpression>LEN({!Engagement_Name})&lt;=80</formulaExpression>
+                <formulaExpression>LEN({!Engagement_Name_RP})&lt;=80</formulaExpression>
             </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>AssignRecordTypeSelected</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>ResearchParnershipText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Engagement_Summary</name>
@@ -1558,6 +1625,13 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>EngagementName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>EngagementStage</name>

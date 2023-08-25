@@ -11,5 +11,6 @@
 public interface IProgramEnrollmentsDAO extends DmlInterface{
 
     List<hed__Program_Enrollment__c> getProgramEnrollmentsById(Set<Id> programEnrollmentIds, String accessLevel);
+    List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIds(Set<Id> contactIds, String accessLevel);
 
 }

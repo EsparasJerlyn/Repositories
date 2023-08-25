@@ -73,6 +73,7 @@ public class ImplementationSelector {
             Risk__c.SObjectType => RisksDAO.class,
             Task.SObjectType => TasksDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
+            UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,
             Expense__c.SObjectType => ExpensesDAO.class
         }
     ); 

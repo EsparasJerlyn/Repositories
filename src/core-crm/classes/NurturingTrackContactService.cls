@@ -62,8 +62,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         contactToUpdate.putall(getEntryInternationalDirectApplicants(internationalEntryContactMap));
         //Placeholder for International Application to Offer (DEPP-5746)
         contactToUpdate.putall(getEntryDomesticFirstOffertoAcceptance(domesticEntryContactMap));
-        contactToUpdate.putAll(getInternationalOfferToAcceptanceForEntry(internationalEntryContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForEntry(domesticEntryContactMap));
+        contactToUpdate.putAll(getInternationalOfferToAcceptanceForEntry(internationalEntryContactMap));
         contactToUpdate.putall(getEntryInternationalAcceptanceDepositNotPaid(internationalEntryContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForEntry(domesticEntryContactMap));
         contactToUpdate.putAll(getDomesticEnrollmentToCensusForEntry(domesticEntryContactMap));
@@ -74,8 +74,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         contactToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitContactMap));
         //Placeholder for International Application to Offer (DEPP-5746)
         contactToUpdate.putAll(getExitDomesticFirstOffertoAcceptance(domesticExitContactMap));
-        contactToUpdate.putAll(getExitInternationalOffertoAcceptance(internationalExitContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForExit(domesticExitContactMap));
+        contactToUpdate.putAll(getExitInternationalOffertoAcceptance(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalAcceptanceDepositNotPaid(internationalExitContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForExit(domesticExitContactMap));
         contactToUpdate.putAll(getDomesticEnrollmentToCensusForExit(domesticExitContactMap));
@@ -342,7 +342,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             if (
                 isStudyLinkRecordType &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
-                application.Application_Status__c == 'Conditional offer/Unconditional offer' &&
+                ApplicationsDAO.OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
                 NurturingTrackService.isDateWithinRange(
                     application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
                     CURRENT_INTAKE_PERIOD.get('START_DATE'),
@@ -469,11 +469,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         for (hed__Application__c application : applicationList) {
             boolean isStudyLinkRecordType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-
+            Boolean hasCalculatedCadence =
+                (application.hed__Applicant__r.Calculated_Cadence__c == 'International Offer to Acceptance (Automated)') ||
+                (application.hed__Applicant__r.Calculated_Cadence__c == 'International Offer to Acceptance');
             if (
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 isStudyLinkRecordType &&
-                offerStatus.contains(application.Application_Status__c)
+                offerStatus.contains(application.Application_Status__c) &&
+                hasCalculatedCadence
             ) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
@@ -556,10 +559,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
         for (hed__Application__c application : applicationList) {
+            Boolean hasCalculatedCadence =
+                (application.hed__Applicant__r.Calculated_Cadence__c == 'International Application Submission - Direct Applicant (Automated)') ||
+                (application.hed__Applicant__r.Calculated_Cadence__c == 'International Application Submission - Direct Applicant');
             if (
                 internationalExitContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
-                application.Application_Status__c == 'Submitted'
+                application.Application_Status__c == 'Submitted' &&
+                hasCalculatedCadence
             ) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
@@ -642,10 +649,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
         };
 
         for (hed__Application__c application : applicationList) {
+            Boolean hasCalculatedCadence =
+                application.hed__Applicant__r.Calculated_Cadence__c == 'International Acceptance Deposit not Paid';
             if (
                 internationalExitContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
-                stydyLinkApplicationStatus.contains(application.Application_Status__c)
+                stydyLinkApplicationStatus.contains(application.Application_Status__c) &&
+                hasCalculatedCadence
             ) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
@@ -776,13 +786,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static Map<Id, Contact> getDomesticAndInternationalEnrollmentToCensusForExit(Map<Id, Contact> contactMap, Boolean isDomestic) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
         for (hed__Application__c application : applicationList) {
-            
+            Boolean hasCalculatedCadence =
+                application.hed__Applicant__r.Calculated_Cadence__c == DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE;
             if(
                 validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
                 contactMap.containsKey(application.hed__Applicant__c) &&
                 (
                     application.Offered_Program_Plan__r.Availability_Start_Date__c != null && 
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c == System.today().addDays(-(Integer)nurturingTrackForExitWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c))
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c == System.today().addDays(-(Integer)nurturingTrackForExitWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c)) &&
+                    hasCalculatedCadence
             ) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
@@ -854,12 +866,16 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
         boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        Boolean hasCalculatedCadence =
+                (app.hed__Applicant__r.Calculated_Cadence__c == 'Domestic Acceptance to Enrolment (Automated)') ||
+                (app.hed__Applicant__r.Calculated_Cadence__c == 'Domestic Acceptance to Enrolment');
         if (methodName == DOMESTIC_ACCEPTANCE_TO_ENROLLMENT) {
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
                 (app.Application_Status__c == 'Admitted' ||
                 app.Application_Status__c == 'Withdrawn' ||
-                app.Offer_Status__c == 'Deffered')
+                app.Offer_Status__c == 'Deffered') &&
+                hasCalculatedCadence
             ) {
                 contactHasApplicationForExit.add(app.hed__Applicant__c);
             }
@@ -873,13 +889,16 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
         boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        Boolean hasCalculatedCadence =
+                app.hed__Applicant__r.Calculated_Cadence__c == 'Domestic Deferred Offer to Acceptance';
         if (methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE) {
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
                 (app.Offer_Status__c == 'Accepted' ||
                 app.Offer_Status__c == 'Declined' ||
                 app.Offer_Status__c == 'Rescinded' ||
-                app.Offer_Status__c == 'Unoffered')
+                app.Offer_Status__c == 'Unoffered') &&
+                hasCalculatedCadence
             ) {
                 contactHasApplicationForExit.add(app.hed__Applicant__c);
             }
@@ -1127,11 +1146,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
             boolean isSAMSCiRecType =
                 application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
-
+            Boolean hasCalculatedCadence =
+                (application.hed__Applicant__r.Calculated_Cadence__c == 'Domestic First Offer to Acceptance (Automated)') ||
+                (application.hed__Applicant__r.Calculated_Cadence__c == 'Domestic First Offer to Acceptance');
             if (
                 domesticExitContactMap.containsKey(application.hed__Applicant__c) &&
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
-                offerStatus.contains(application.Offer_Status__c)
+                offerStatus.contains(application.Offer_Status__c) &&
+                hasCalculatedCadence
             ) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
