@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QUT_Shares_Held__c</fullName>
+    <description>The number of shares QUT holds in the Startup company.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of shares QUT holds in the Start Up company.</inlineHelpText>
+    <label>QUT Shares Held</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
