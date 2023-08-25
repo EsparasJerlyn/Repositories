@@ -162,11 +162,11 @@
             <targetReference>Create_Funding_Body</targetReference>
         </connector>
         <fields>
-            <name>Financial_Split_Summary</name>
-            <fieldText>Financial Split Summary</fieldText>
+            <name>Add_Funding_Body</name>
+            <fieldText>Add Funding Body</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
-                <name>Financial_Split_Summary_Column1</name>
+                <name>Add_Funding_Body_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>FundingBodyAccountLookup</name>
@@ -247,7 +247,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>Financial_Split_Summary_Column2</name>
+                <name>Add_Funding_Body_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Amount</name>
