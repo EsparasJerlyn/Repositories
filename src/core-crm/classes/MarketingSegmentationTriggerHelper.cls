@@ -21,11 +21,10 @@ public with sharing class MarketingSegmentationTriggerHelper{
     public static void updateRelatedRecords(Map<Id, SObject> newItems) {
         Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
-        Map<Id, Id> marSegIdToContactIdMap = getMarSegIdToContactIdMap(newItems.keySet());
+
         for(Marketing_Segmentation__c marSeg : (List<Marketing_Segmentation__c>) newItems.values()) {
             // contact updates start here
             setSegmentationOnContact(contactsToUpdate, marSeg);
-            setMovingToBrisbaneOnContact(contactsToUpdate, marSeg, marSegIdToContactIdMap);
             // contact updates end here
             // lead updates start here
             setSegmentationOnLead(leadsToUpdate, marSeg);
@@ -45,16 +44,24 @@ public with sharing class MarketingSegmentationTriggerHelper{
       * @param oldItems A map of marketing segmentations before they were updated 
       */
     public static void updateRelatedRecords(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        Map<Id,Marketing_Segmentation__c> oldMarSegMap = (Map<Id,Marketing_Segmentation__c>) oldItems;
         Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
-        Map<Id, Id> marSegIdToContactIdMap = getMarSegIdToContactIdMap(newItems.keySet());
+        Set<Id> segmentationWithUpdatedMovingToBrisbane = new Set<Id>();
+        Map<Id, Id> marSegIdToContactIdMap = new Map<Id,Id>();
+        for(Marketing_Segmentation__c marSeg: (List<Marketing_Segmentation__c>)newItems.values() ){
+            if(marSeg.My_Moving_To_Brisbane__c != oldMarSegMap.get(marSeg.Id).My_Moving_To_Brisbane__c){
+                segmentationWithUpdatedMovingToBrisbane.add(marSeg.Id);
+            }
+        }
+        if(!segmentationWithUpdatedMovingToBrisbane.isEmpty()){
+            marSegIdToContactIdMap = getMarSegIdToContactIdMap(segmentationWithUpdatedMovingToBrisbane);
+        }
+
         for(Marketing_Segmentation__c marSeg : (List<Marketing_Segmentation__c>) newItems.values()) {
             Marketing_Segmentation__c oldMarSeg = (Marketing_Segmentation__c) oldItems.get(marSeg.Id);
             // contact updates start here
             setSegmentationOnContact(contactsToUpdate, marSeg, oldMarSeg);
-            MarSegUpdatePair msup = new MarSegUpdatePair();
-            msup.newMarSeg = marSeg;
-            msup.oldMarSeg = oldMarSeg;
             setMovingToBrisbaneOnContact(contactsToUpdate, marSeg, marSegIdToContactIdMap);
             // contact updates end here
             // lead updates start here
@@ -150,27 +157,9 @@ public with sharing class MarketingSegmentationTriggerHelper{
         Marketing_Segmentation__c marSeg,
         Map<Id, Id> marSegIdToContactIdMap
     ) {
-        Contact con = getRecordFromContactMap(contactsToUpdate, marSegIdToContactIdMap.get(marSeg.Id));
-        con.Moving_to_Brisbane__c = marSeg.My_Moving_To_Brisbane__c;
-        contactsToUpdate.put(con.Id, con);
-    }
-    
-    /**
-     * @description Set the Moving To Brisbane field of the related contact to match the updated marketing segmentation's My Moving To Brisbane field.
-     * @param contactsToUpdate The id-contacts map to put the updated contact
-     * @param marSeg The marketing segmentation
-     * @param oldMarSeg The old marketing segmentation
-     */
-    private static void setMovingToBrisbaneOnContact(
-        Map<Id, Contact> contactsToUpdate, 
-        MarSegUpdatePair marSeg,
-        Map<Id, Id> marSegIdToContactIdMap
-    ) {
-        if( // To reduce unnecessary updates, check if relevant updates were made...
-            marSeg.newMarSeg.My_Moving_To_Brisbane__c != marSeg.oldMarSeg.My_Moving_To_Brisbane__c
-        ) {
-            Contact con = getRecordFromContactMap(contactsToUpdate, marSegIdToContactIdMap.get(marSeg.newMarSeg.Id));
-            con.Moving_to_Brisbane__c = marSeg.newMarSeg.My_Moving_To_Brisbane__c;
+        if(marSegIdToContactIdMap.containsKey(marSeg.Id)){
+            Contact con = getRecordFromContactMap(contactsToUpdate, marSegIdToContactIdMap.get(marSeg.Id));
+            con.Moving_to_Brisbane__c = marSeg.My_Moving_To_Brisbane__c;
             contactsToUpdate.put(con.Id, con);
         }
     }
@@ -216,9 +205,5 @@ public with sharing class MarketingSegmentationTriggerHelper{
         }
         return marSegIdToContactIdMap;
     }
-    
-    private class MarSegUpdatePair {
-        public Marketing_Segmentation__c newMarSeg;
-        public Marketing_Segmentation__c oldMarSeg;
-    }
+
 }

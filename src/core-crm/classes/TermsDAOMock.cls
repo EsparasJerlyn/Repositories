@@ -20,4 +20,19 @@ public inherited sharing class TermsDAOMock extends DmlBaseMock implements ITerm
     public Schema.SObjectType getSObjectType() {
         return hed__Term__c.SObjectType;
     }
+
+    public List<hed__Term__c> getTermRecordByApplication(
+        Set<Id> termsIds,
+        String accessLevel
+    ) {
+        List<hed__Term__c> termList = new List<hed__Term__c>();
+
+        for (hed__Term__c record : termMap.values()) {
+            if (termsIds.contains(record.Id)) {
+                termList.add(record);
+            }
+        }
+
+        return termList;
+    }
 }

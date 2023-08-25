@@ -93,6 +93,32 @@ public with sharing class ApplicationTriggerHelper {
             contactsToUpdate.put(con.Id, con);
         }
     }
+    /**
+     * @description update the inserted Sams application record
+     *
+     * @param newItems  List of new hed__Application__c records
+     */
+    public static void updateCalculatedDateOnSamsApplicationRecords(List<hed__Application__c> newItems) {
+        try{
+            Set<Id> termsIdInApplication = ApplicationService.getAllTermsIdInApplication(newItems);
+            Map<Id,hed__Term__c> termRecords = new Map<Id,hed__Term__c>(TermsDAO.newInstance().getTermRecordByApplication(termsIdInApplication,'SYSTEM_MODE'));
+
+            for (hed__Application__c app : newItems) {
+                boolean isSAMSRecType = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
+                    if(isSAMSRecType && termRecords.containsKey(app.Applied_Intake_Study_Period__c)){
+                        app.Calculated_Intake_Date__c = termRecords.get(app.Applied_Intake_Study_Period__c).hed__Start_Date__c;
+                    }
+            }
+        } catch (Exception e) {
+            Logger.error('Exception caught in method updateCalculatedDateOnSamsApplicationRecords in class ApplicationTriggerHelper.')
+              .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
+    }     
+    
     
     /**
      * @description Set field values on a related lead. Add your field mapping here if it can be done in ONE LINE ONLY. Otherwise, use another method.

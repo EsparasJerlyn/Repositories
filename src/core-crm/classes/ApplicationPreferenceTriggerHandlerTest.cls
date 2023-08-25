@@ -25,7 +25,7 @@ private class ApplicationPreferenceTriggerHandlerTest {
             Integer numOfPrefRec = 2;
             List<hed__Application__c> qtacApplicationList = TestDataFactory.createApplicationRecords(contactList[0].Id, ApplicationsDAO.QTAC_RECTYPE_ID, 1);
             ApplicationsDAO.newInstance().insertRecords(qtacApplicationList, false, AccessLevel.USER_MODE);
-            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(qtacApplicationList[0].Id, ApplicationPreferencesDAO.APPLICATION_PREFERENCE_QTAC_RECTYPE_ID, numOfPrefRec);
+            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(qtacApplicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, numOfPrefRec);
             ApplicationPreferencesDAO.newInstance().insertRecords(qtacAppPrefList, false, AccessLevel.USER_MODE);
 
         }
@@ -36,7 +36,7 @@ private class ApplicationPreferenceTriggerHandlerTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<hed__Application__c> applicationList = [SELECT Id, RecordTypeId FROM hed__Application__c WHERE RecordTypeId =: ApplicationsDAO.QTAC_RECTYPE_ID WITH USER_MODE LIMIT 1];
             Test.startTest();
-            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.APPLICATION_PREFERENCE_QTAC_RECTYPE_ID, 1);
+            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, 1);
             for(Application_Preference__c ap : qtacAppPrefList){
                 ap.Program_Name__c = 'QTAC App Pref';
                 ap.Preference_Number__c = 1;

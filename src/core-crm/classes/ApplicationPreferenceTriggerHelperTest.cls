@@ -26,13 +26,13 @@ private class ApplicationPreferenceTriggerHelperTest {
             //QTAC
             List<hed__Application__c> qtacApplicationList = TestDataFactory.createApplicationRecords(contactList[0].Id, ApplicationsDAO.QTAC_RECTYPE_ID, 1);
             ApplicationsDAO.newInstance().insertRecords(qtacApplicationList, false, AccessLevel.USER_MODE);
-            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(qtacApplicationList[0].Id, ApplicationPreferencesDAO.APPLICATION_PREFERENCE_QTAC_RECTYPE_ID, numOfPrefRec);
+            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(qtacApplicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, numOfPrefRec);
             ApplicationPreferencesDAO.newInstance().insertRecords(qtacAppPrefList, false, AccessLevel.USER_MODE);
 
             //Study Link
             List<hed__Application__c> studyLinkApplicationList = TestDataFactory.createApplicationRecords(contactList[0].Id, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 1);
             ApplicationsDAO.newInstance().insertRecords(studyLinkApplicationList, false, AccessLevel.USER_MODE);
-            List<Application_Preference__c> studyLinkappPrefList = TestDataFactory.createApplicationPreferenceRecords(studyLinkApplicationList[0].Id, ApplicationPreferencesDAO.APPLICATION_PREF_STUDYLINK_RECTYPE_ID, numOfPrefRec);
+            List<Application_Preference__c> studyLinkappPrefList = TestDataFactory.createApplicationPreferenceRecords(studyLinkApplicationList[0].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, numOfPrefRec);
             ApplicationPreferencesDAO.newInstance().insertRecords(studyLinkappPrefList, false, AccessLevel.USER_MODE);
 
             List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(studyLinkappPrefList[0].Id, System.Today(), 1);
@@ -46,7 +46,7 @@ private class ApplicationPreferenceTriggerHelperTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<hed__Application__c> applicationList = [SELECT Id, RecordTypeId FROM hed__Application__c WHERE RecordTypeId =: ApplicationsDAO.QTAC_RECTYPE_ID WITH USER_MODE LIMIT 1];
             Test.startTest();
-            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.APPLICATION_PREFERENCE_QTAC_RECTYPE_ID, 1);
+            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, 1);
             for(Application_Preference__c ap : qtacAppPrefList){
                 ap.Program_Name__c = 'QTAC App Pref';
                 ap.Preference_Number__c = 1;
@@ -82,7 +82,7 @@ private class ApplicationPreferenceTriggerHelperTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<hed__Application__c> applicationList = [SELECT Id, RecordTypeId FROM hed__Application__c WHERE RecordTypeId =: ApplicationsDAO.STUDYLINK_RECTYPE_ID WITH USER_MODE LIMIT 1];
             Test.startTest();
-            List<Application_Preference__c> studyLinkAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.APPLICATION_PREF_STUDYLINK_RECTYPE_ID, 1);
+            List<Application_Preference__c> studyLinkAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, 1);
             for(Application_Preference__c ap : studyLinkAppPrefList){
                 ap.Program_Name__c = 'StudyLinkAppPref';
             }

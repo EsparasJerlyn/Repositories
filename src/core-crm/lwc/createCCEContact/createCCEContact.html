@@ -1,42 +1,70 @@
 <template>
-    <lightning-quick-action-panel header="Create Contact">
-        <div class="slds-is-relative">
-            <template if:true={showSpinner}>
-                <lightning-spinner variant="brand" alternative-text="Loading..." size="medium"></lightning-spinner>    
-            </template>
-            <lightning-record-edit-form density="comfy" object-api-name="Contact" onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
-                <div class="slds-form--stacked">
-                    <lightning-layout>
-                        <lightning-layout-item class="slds-text-title_bold slds-p-bottom_medium">Corporate Account > {accountName}</lightning-layout-item> 
-                    </lightning-layout>
-                    <lightning-input-field field-name="FirstName" ></lightning-input-field>
-                    <lightning-input-field field-name="LastName" required></lightning-input-field>
-                    <abbr title="required" class="slds-required">*</abbr>
-                    <label class="slds-form-element__label">Email</label>
-                    <lightning-input-field id="workemailid" field-name="Work_Email__c" variant="label-hidden" class="slds-p-bottom_small slds-p-left_small" required></lightning-input-field>
-                    <label class="slds-form-element__label">Mobile Locale</label>
-                    <lightning-input-field field-name="ContactMobile_Locale__c" variant="label-hidden" class="slds-p-bottom_small"></lightning-input-field>
-                    <lightning-input-field field-name="Mobile_No_Locale__c"></lightning-input-field>
-                    <lightning-input-field field-name="hed__Gender__c"></lightning-input-field>
-                    <lightning-input-field field-name="Birthdate" required></lightning-input-field>
-                    <lightning-input-field field-name="Position__c" ></lightning-input-field>
-                    <lightning-input-field field-name='Dietary_Requirement__c' ></lightning-input-field>
-                    <lightning-input-field field-name='Accessibility_Requirement__c' ></lightning-input-field>                    
-                </div>  
-                <lightning-button 
-                    class="slds-p-left_small slds-float_right slds-p-bottom_medium" 
-                    data-name="save"
-                    label="Save"
-                    variant="brand"
-                    type="submit"
-                ></lightning-button>
-                <lightning-button
-                    class="slds-float_right slds-p-bottom_medium" 
-                    label="Cancel"
-                    variant="neutral"
-                    onclick={closeModalAction}>  
-                </lightning-button>
-            </lightning-record-edit-form>  
+  <c-logger></c-logger>
+  <lightning-quick-action-panel header="Create Contact">
+    <div class="slds-is-relative">
+      <template if:true={showSpinner}>
+        <lightning-spinner
+          variant="brand"
+          alternative-text="Loading..."
+          size="medium"></lightning-spinner>
+      </template>
+      <lightning-record-edit-form
+        density="comfy"
+        object-api-name="Contact"
+        onsubmit={handleSubmit}
+        onsuccess={handleSuccess}
+        onerror={handleError}>
+        <div class="slds-form--stacked">
+          <lightning-layout>
+            <lightning-layout-item
+              class="slds-text-title_bold slds-p-bottom_medium"
+              >Corporate Account > {accountName}</lightning-layout-item
+            >
+          </lightning-layout>
+          <lightning-input-field field-name="FirstName"></lightning-input-field>
+          <lightning-input-field
+            field-name="LastName"
+            required></lightning-input-field>
+          <abbr title="required" class="slds-required">*</abbr>
+          <label class="slds-form-element__label">Email</label>
+          <lightning-input-field
+            id="workemailid"
+            field-name="Work_Email__c"
+            variant="label-hidden"
+            class="slds-p-bottom_small slds-p-left_small"
+            required></lightning-input-field>
+          <label class="slds-form-element__label">Mobile Locale</label>
+          <lightning-input-field
+            field-name="ContactMobile_Locale__c"
+            variant="label-hidden"
+            class="slds-p-bottom_small"></lightning-input-field>
+          <lightning-input-field
+            field-name="Mobile_No_Locale__c"></lightning-input-field>
+          <lightning-input-field
+            field-name="hed__Gender__c"></lightning-input-field>
+          <lightning-input-field
+            field-name="Birthdate"
+            required></lightning-input-field>
+          <lightning-input-field
+            field-name="Position__c"></lightning-input-field>
+          <lightning-input-field
+            field-name="Dietary_Requirement__c"></lightning-input-field>
+          <lightning-input-field
+            field-name="Accessibility_Requirement__c"></lightning-input-field>
         </div>
-    </lightning-quick-action-panel> 
+        <lightning-button
+          class="slds-p-left_small slds-float_right slds-p-bottom_medium"
+          data-name="save"
+          label="Save"
+          variant="brand"
+          type="submit"></lightning-button>
+        <lightning-button
+          class="slds-float_right slds-p-bottom_medium"
+          label="Cancel"
+          variant="neutral"
+          onclick={closeModalAction}>
+        </lightning-button>
+      </lightning-record-edit-form>
+    </div>
+  </lightning-quick-action-panel>
 </template>
