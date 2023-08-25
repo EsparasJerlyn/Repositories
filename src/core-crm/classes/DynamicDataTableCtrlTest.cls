@@ -52,7 +52,7 @@ private class DynamicDataTableCtrlTest {
                 'relatedRecord' => 'Contact',
                 'relatedField' => 'AccountId',
                 'parentRecord' => 'Account',
-                'relatedListFields' => '[{"label":"Name","fieldName":"Name","type":"url"},{"label":"Account","fieldName":"Account.Name","type":"url"}]',
+                'relatedListFields' => '[{"label":"Name","fieldName":"Name","type":"url"},{"label":"Account","fieldName":"Account.Name","type":"url"},{"label":"Created Date","fieldName":"CreatedDate","type":"date"}]',
                 'relatedListFilters' => filter,
                 'rowOffSet' => '0',
                 'rowLimit' => '10',

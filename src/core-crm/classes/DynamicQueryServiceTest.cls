@@ -54,7 +54,11 @@ private class DynamicQueryServiceTest {
             };
 
             System.assert(
-                !DynamicQueryService.getRelatedRecordsWithOffSetInOrder(parametersMap).isEmpty(),
+                !DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
+                        parametersMap,
+                        AccessLevel.USER_MODE
+                    )
+                    .isEmpty(),
                 'query is empty'
             );
 
@@ -80,7 +84,8 @@ private class DynamicQueryServiceTest {
             };
 
             System.assert(
-                !DynamicQueryService.getRecordWithFilter(parametersMap).isEmpty(),
+                !DynamicQueryService.getRecordWithFilter(parametersMap, AccessLevel.USER_MODE)
+                    .isEmpty(),
                 'no acocunt records queried'
             );
 
@@ -107,7 +112,10 @@ private class DynamicQueryServiceTest {
             };
 
             System.assert(
-                DynamicQueryService.getRelatedRecordsCountWithFilter(parametersMap) == 1,
+                DynamicQueryService.getRelatedRecordsCountWithFilter(
+                    parametersMap,
+                    AccessLevel.USER_MODE
+                ) == 1,
                 'count is not equal to 1'
             );
 

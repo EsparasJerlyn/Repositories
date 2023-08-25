@@ -12,7 +12,8 @@
  *    | roy.nino.s.regala         | June 24, 2023         | DEPP-5411            | Added Visibility Check                                                      |
  *    | roy.nino.s.regala         | July 11, 2023         | DEPP-5459            | removed isvalidurl and only subscribe to event channel on new and edit      |
  *    | eugene.andrew.abuan       | August 14, 2023       | DEPP-6331            | Added newActionTypeLabel property                                           |
- * 
+ *    | roy.nino.s.regala         | August 25, 2023       | DEPP-6348            | flatten inner fields,added user access checker, and dynamic link access     |
+ *
  */
 import { LightningElement, api, track, wire } from "lwc";
 import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableDataWrapper";
@@ -20,16 +21,16 @@ import { NavigationMixin } from "lightning/navigation";
 import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import getCurrentUserNavigationType from "@salesforce/apex/UserInfoService.getCurrentUserNavigationType";
-import { isValidUrl, transformObject } from "c/lwcUtility";
+import { isValidUrl } from "c/lwcUtility";
 import Id from "@salesforce/user/Id";
 import {
   subscribe,
   unsubscribe,
-  onError,
-  setDebugFlag,
-  isEmpEnabled
+  onError
 } from "lightning/empApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import customDataTableStyle from '@salesforce/resourceUrl/CustomDynamicDataTable';
+import { loadStyle } from "lightning/platformResourceLoader";
 export default class DynamicDataTable extends NavigationMixin(
   LightningElement
 ) {
@@ -76,6 +77,7 @@ export default class DynamicDataTable extends NavigationMixin(
   visibilityCheckResult = false;
   userId = Id;
   isCustom = true;
+  userAccessInfo = [];
   /*USER EXPERIENCE VARIABLES END */
 
   /* GETTERS START */
@@ -140,10 +142,13 @@ export default class DynamicDataTable extends NavigationMixin(
     return this.visibilityCheckResult && this.showNewButton;
   }
 
-  get newActionLabel(){
+  get newActionLabel() {
     // Returns a button label for exsiting flexipages
-    if(this.newActionTypeLabel == undefined || this.newActionTypeLabel !='Link'){
-          this.newActionTypeLabel = 'New';
+    if (
+      this.newActionTypeLabel == undefined ||
+      this.newActionTypeLabel != "Link"
+    ) {
+      this.newActionTypeLabel = "New";
     }
     return this.newActionTypeLabel;
   }
@@ -208,8 +213,13 @@ export default class DynamicDataTable extends NavigationMixin(
 
   /*SERVER CALLS START */
   connectedCallback() {
+    Promise.all([
+      loadStyle(this, customDataTableStyle)
+  ]).then(() => {
     this.loadData(this.setParameters());
     this.registerErrorListener();
+  });
+    
   }
 
   navigationType;
@@ -250,6 +260,7 @@ export default class DynamicDataTable extends NavigationMixin(
       tableWrapperParams: tableWrapperParams
     })
       .then((result) => {
+        this.userAccessInfo = result.userAccessTable;
         let sObjectRelatedFieldListValues = [];
         //traverse through the datatabledata records
         for (let row of result.dataTableData) {
@@ -259,10 +270,23 @@ export default class DynamicDataTable extends NavigationMixin(
             const relatedFieldValue = row[rowIndex];
             //flatten the inner object of the records
             if (relatedFieldValue.constructor === Object) {
-              transformObject(relatedFieldValue, finalSobjectRow, rowIndex);
+              this.transformObject(
+                relatedFieldValue,
+                finalSobjectRow,
+                rowIndex,
+                result.userAccessTable
+              );
             } else if (rowIndex == "Id") {
               finalSobjectRow[rowIndex] = relatedFieldValue;
               finalSobjectRow[rowIndex + "Url"] = "/" + relatedFieldValue;
+              if (
+                result.userAccessTable &&
+                result.userAccessTable.find((row) => row.RecordId == relatedFieldValue) &&
+                result.userAccessTable.find((row) => row.RecordId == relatedFieldValue)
+                  .HasReadAccess == false
+              ) {
+                finalSobjectRow[".linkStyle"] = "datatable-unlink";
+              }
             } else {
               finalSobjectRow[rowIndex] = relatedFieldValue;
             }
@@ -276,15 +300,10 @@ export default class DynamicDataTable extends NavigationMixin(
             : [...this.finalSObjectDataList, ...sObjectRelatedFieldListValues];
 
         this.finalSObjectDataList = tempSObjectDataList;
-
-        //if show edit button is checked, add edit action to the datatable
-        this.finalColumns =
-          this.showEditButton && result.hasVisibility
-            ? this.addActionsToColumn(
-                result.dataTableColumns,
-                result.recordCount
-              )
-            : result.dataTableColumns;
+        this.finalColumns = this.customizeColumn(
+          result.dataTableColumns.map((x) => ({ ...x })),
+          result.recordCount
+        );
         this.recordCount = result.recordCount;
         this.visibilityCheckResult = result.hasVisibility;
       })
@@ -294,7 +313,6 @@ export default class DynamicDataTable extends NavigationMixin(
             "Exception caught in method loadData in LWC dynamicDataTable: ",
             JSON.stringify(error)
           );
-          logger.saveLog();
         }
       })
       .finally(() => {
@@ -359,6 +377,33 @@ export default class DynamicDataTable extends NavigationMixin(
     this.finalSObjectDataList = parseData;
   }
 
+  customizeColumn(columns, recordCount) {
+    columns.forEach((element) => {
+      if (
+        element.type == "url" &&
+        element.fieldName.includes(".IdUrl") &&
+        !element.fieldName
+          .substring(0, element.fieldName.indexOf(".IdUrl"))
+          .includes(".")
+      ) {
+        element.cellAttributes = {
+          alignment: "left",
+          class: {
+            fieldName:
+              element.fieldName.substring(
+                0,
+                element.fieldName.indexOf(".IdUrl")
+              ) + ".linkStyle"
+          }
+        };
+      }
+    });
+
+    return this.showEditButton
+      ? this.addActionsToColumn(columns, recordCount)
+      : columns;
+  }
+
   addActionsToColumn(columns, recordCount) {
     return [
       ...columns,
@@ -372,7 +417,11 @@ export default class DynamicDataTable extends NavigationMixin(
 
   getRowActions = (row, doneCallback) => {
     let actions = [];
-    if (row["UserRecordAccess.HasEditAccess"] == true) {
+    if (
+      this.userAccessInfo &&
+      this.userAccessInfo.find((key) => key.RecordId == row.Id).HasEditAccess ==
+        true
+    ) {
       actions.push({
         label: "Edit",
         name: "edit"
@@ -385,6 +434,47 @@ export default class DynamicDataTable extends NavigationMixin(
     }
     doneCallback(actions);
   };
+
+  //added this recursive method here
+  //because dynamic link style is unique to this component
+  transformObject = ( 
+    fieldValue,
+    finalSobjectRow,
+    fieldName,
+    userAccessData
+  ) => {
+    let rowIndexes = Object.keys(fieldValue);
+    rowIndexes.forEach((key) => {
+      let finalKey = fieldName + "." + key;
+
+      if (
+        userAccessData &&
+        userAccessData.find((row) => row.RecordId == fieldValue[key]) &&
+        userAccessData.find((row) => row.RecordId == fieldValue[key])
+          .HasReadAccess == false
+      ) {
+        finalSobjectRow[fieldName + ".linkStyle"] = "datatable-unlink";
+      }
+
+      finalSobjectRow[finalKey] = fieldValue[key];
+      if (key == "Id") {
+        finalSobjectRow[finalKey + "Url"] = "/" + fieldValue[key];
+      } else if (isValidUrl(fieldValue[key])) {
+        finalSobjectRow[finalKey + "Url"] = fieldValue[key];
+      }
+
+      if (fieldValue[key].constructor === Object) {
+        //added recursive method to cater more levels of look up fields
+        this.transformObject(
+          fieldValue[key],
+          finalSobjectRow,
+          finalKey,
+          userAccessData
+        );
+      }
+    });
+  };
+  
   /*DATATABLE CONFIGURATION END*/
 
   /* ACTION HANDLERS START */
@@ -523,4 +613,5 @@ export default class DynamicDataTable extends NavigationMixin(
   }
 
   /* ACTION HANDLERS END */
+  
 }
