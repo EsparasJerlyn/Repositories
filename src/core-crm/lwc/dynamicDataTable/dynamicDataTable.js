@@ -23,13 +23,9 @@ import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import getCurrentUserNavigationType from "@salesforce/apex/UserInfoService.getCurrentUserNavigationType";
 import { isValidUrl } from "c/lwcUtility";
 import Id from "@salesforce/user/Id";
-import {
-  subscribe,
-  unsubscribe,
-  onError
-} from "lightning/empApi";
+import { subscribe, unsubscribe, onError } from "lightning/empApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import customDataTableStyle from '@salesforce/resourceUrl/CustomDynamicDataTable';
+import customDataTableStyle from "@salesforce/resourceUrl/CustomDynamicDataTable";
 import { loadStyle } from "lightning/platformResourceLoader";
 export default class DynamicDataTable extends NavigationMixin(
   LightningElement
@@ -213,13 +209,10 @@ export default class DynamicDataTable extends NavigationMixin(
 
   /*SERVER CALLS START */
   connectedCallback() {
-    Promise.all([
-      loadStyle(this, customDataTableStyle)
-  ]).then(() => {
-    this.loadData(this.setParameters());
-    this.registerErrorListener();
-  });
-    
+    Promise.all([loadStyle(this, customDataTableStyle)]).then(() => {
+      this.loadData(this.setParameters());
+      this.registerErrorListener();
+    });
   }
 
   navigationType;
@@ -281,9 +274,12 @@ export default class DynamicDataTable extends NavigationMixin(
               finalSobjectRow[rowIndex + "Url"] = "/" + relatedFieldValue;
               if (
                 result.userAccessTable &&
-                result.userAccessTable.find((row) => row.RecordId == relatedFieldValue) &&
-                result.userAccessTable.find((row) => row.RecordId == relatedFieldValue)
-                  .HasReadAccess == false
+                result.userAccessTable.find(
+                  (row) => row.RecordId == relatedFieldValue
+                ) &&
+                result.userAccessTable.find(
+                  (row) => row.RecordId == relatedFieldValue
+                ).HasReadAccess == false
               ) {
                 finalSobjectRow[".linkStyle"] = "datatable-unlink";
               }
@@ -396,6 +392,10 @@ export default class DynamicDataTable extends NavigationMixin(
               ) + ".linkStyle"
           }
         };
+      } else {
+        element.cellAttributes = {
+          alignment: "left"
+        };
       }
     });
 
@@ -437,7 +437,7 @@ export default class DynamicDataTable extends NavigationMixin(
 
   //added this recursive method here
   //because dynamic link style is unique to this component
-  transformObject = ( 
+  transformObject = (
     fieldValue,
     finalSobjectRow,
     fieldName,
@@ -474,7 +474,7 @@ export default class DynamicDataTable extends NavigationMixin(
       }
     });
   };
-  
+
   /*DATATABLE CONFIGURATION END*/
 
   /* ACTION HANDLERS START */
@@ -613,5 +613,4 @@ export default class DynamicDataTable extends NavigationMixin(
   }
 
   /* ACTION HANDLERS END */
-  
 }
