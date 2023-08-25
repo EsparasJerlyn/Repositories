@@ -22,6 +22,10 @@ public inherited sharing class ContextualRolesDAO extends DmlBase implements ICo
     public static final Id OPPORTUNITY_ROLE_RECTYPE_ID = Schema.SObjectType.Contextual_Role__c.getRecordTypeInfosByDeveloperName()
         .get('Opportunity_Role')
         .getRecordTypeId(); 
+    public static final Set<String> contextualRoleValues = new Set<String>{
+        'Partner', 'Partner Contact', 'Primary Partner Contact'
+    }; 
+    
     public Schema.SObjectType getSObjectType() {
         return Contextual_Role__c.SObjectType;
     }
@@ -49,14 +53,15 @@ public inherited sharing class ContextualRolesDAO extends DmlBase implements ICo
 
     public List<Contextual_Role__c> getActiveContextualRoleByContactIds(
         Set<Id> contactIds,
-        String recordTypeName,
+        Set<String> recordTypeIds,
         String accessLevel
-    ) {
+    ) {     
         return Database.query(
             'SELECT Id,Contact__c,Account__r.RecordType.DeveloperName ' +
             'FROM Contextual_Role__c ' +
-            'WHERE RecordType.DeveloperName =:recordTypeName ' + 
+            'WHERE RecordTypeId IN: recordTypeIds ' + 
             'AND Contact__c IN:contactIds ' +
+			'AND Contextual_Role__c IN: contextualRoleValues ' +            
             'AND Role_Is_Active__c = TRUE ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
