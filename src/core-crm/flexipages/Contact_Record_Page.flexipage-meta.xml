@@ -1363,10 +1363,13 @@
                             <value>Course_Offering_Name__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Course_Code__c</value>
+                            <value>Course_Offering_Start_Date__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATED_DATE</value>
+                            <value>Course_Offering_End_Date__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Certificate_Type__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
