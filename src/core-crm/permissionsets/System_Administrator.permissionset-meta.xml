@@ -16203,6 +16203,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Opportunity_Outcome__c.QUT_Shares_Held__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opportunity_Outcome__c.Research_Commercialisation_Project_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -16249,6 +16254,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity_Outcome__c.Sustainability_Transformation_Output__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity_Outcome__c.Total_Company_Shares_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

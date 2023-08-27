@@ -1,19 +1,23 @@
 /**
  * @description Controller for dynamicDataTable.js
+ * As per business request, this table shows all related records regardless of user's sharing access
+ * UserRecordAccess Object is checked to control user's Edit and Record redirection
  * @see ../lwc/dynamicDataTable
  *
  * @author Accenture
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------|
- *    | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created file                   |
- *    | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added visibility check         |
- *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | added percent value change     |
- *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | fix url issue                  |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                            |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------------------|
+ *    | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created file                                                              |
+ *    | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added visibility check                                                    |
+ *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | added percent value change                                                |
+ *    | roy.nino.s.regala              | July 11, 2023         | DEPP-5459              | fix url issue                                                             |
+ *    | roy.nino.s.regala              | Aug 25, 2023          | DEPP-6348              | made class in system mode and added user access checker to look up fields |
  */
-public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many public methods
+
+public without sharing class DynamicDataTableCtrl { //NOPMD bypassed too many public methods, 
     /**
      * Builds the datatable columns and rows. And count the total records in the system.
      * @param tableWrapperParams
@@ -37,14 +41,20 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
      */
     @AuraEnabled
     public static DataTableResponse getTableDataWrapper(Map<String, String> tableWrapperParams) {
+
         String relatedFieldApiNames = '';
         String relatedListFields = tableWrapperParams.get('relatedListFields');
+
+        Set<String> lookupFields = new Set<String>();
+        Set<Id> lookupIds = new Set<Id>();
 
         List<DataTableColumns> parsedRelatedListFields = (List<DataTableColumns>) JSON.deserialize(
             relatedListFields,
             List<DataTableColumns>.class
         );
+
         List<String> percentFieldNames = new List<String>();
+
         List<DataTableColumns> tempDataColumns = new List<DataTableColumns>();
         //build datatable columns
         for (DataTableColumns field : parsedRelatedListFields) {
@@ -56,14 +66,16 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
                 field.type.trim()
             );
 
+            //collect percent type fields
             if (field.type.trim() == 'percent') {
                 percentFieldNames.add(field.fieldName);
             }
 
             tempDataColumns.add(dataColumns);
+            //get all look up field api names
+            getLookupFieldName(field,lookupFields);
         }
 
-        relatedFieldApiNames += ' UserRecordAccess.HasEditAccess';
         relatedFieldApiNames = relatedFieldApiNames.removeEnd(',');
 
         //finalize query parameters
@@ -79,14 +91,27 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             finalWrapper.dataTableData = percentageValueChange(percentFieldNames, parametersMap);
         } else {
             finalWrapper.dataTableData = DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
-                parametersMap
+                parametersMap,
+                AccessLevel.SYSTEM_MODE
             );
+        }
+        
+        //get all lookup field id values
+        for(SObject record: finalWrapper.dataTableData){
+            lookupIds.add((Id)record.get('Id'));
+            for(String field: lookupFields){
+                lookupIds.add((Id)record.get(field));
+            }
         }
 
         finalWrapper.recordCount = DynamicQueryService.getRelatedRecordsCountWithFilter(
-            parametersMap
+            parametersMap,
+            AccessLevel.SYSTEM_MODE
         );
         finalWrapper.hasVisibility = true;
+
+        //get user record access data
+        finalWrapper.userAccessTable =  UserRecordAccessesDAO.newInstance().getUserRecordAccessesBySetRecordIds(lookupIds);
 
         if (
             //checks if current user is admin, visibility check is bypassed if admin
@@ -102,6 +127,29 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         }
 
         return finalWrapper;
+    }
+
+
+    /**
+     * Logic to check if user has visibility to new and edit buttons of the table
+     * @param field - field data for table columns
+     * @param lookupFields - look up field api names to be populated
+     */
+    private static void getLookupFieldName(DataTableColumns field, Set<String> lookupFields){
+        String lookupFieldApiName = '';
+
+        if (
+            field.type.trim() == 'url' &&
+            field.fieldName.contains('.Name') &&
+            field.fieldName.substringAfter('.') == 'Name'
+        ) {
+            lookupFieldApiName = field.fieldName.substringBefore('.') + 'Id';
+            if (field.fieldName.substringBefore('.').contains('__r')) {
+                lookupFieldApiName = field.fieldName.substringBefore('__r') + '__c';
+            }
+
+            lookupFields.add(lookupFieldApiName);
+        }
     }
 
     /**
@@ -128,7 +176,7 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             parametersMap.put('sObjectApiName', paramsMap.get('parentRecord'));
             parametersMap.put('recordId', paramsMap.get('recordId'));
             parametersMap.put('filter', paramsMap.get('visibilityByParent'));
-            parentResult = DynamicQueryService.getRecordWithFilter(parametersMap);
+            parentResult = DynamicQueryService.getRecordWithFilter(parametersMap,AccessLevel.SYSTEM_MODE);
             checkParentVisibility = true;
         }
 
@@ -136,7 +184,7 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
             parametersMap.put('sObjectApiName', 'User');
             parametersMap.put('recordId', String.escapeSingleQuotes(UserInfo.getUserId()));
             parametersMap.put('filter', paramsMap.get('visibilityByUser'));
-            userResult = DynamicQueryService.getRecordWithFilter(parametersMap);
+            userResult = DynamicQueryService.getRecordWithFilter(parametersMap,AccessLevel.SYSTEM_MODE);
             checkUserVisibility = true;
         }
 
@@ -163,7 +211,8 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         List<sObject> tempObjectList = new List<sObject>();
         for (
             sObject tempObject : DynamicQueryService.getRelatedRecordsWithOffSetInOrder(
-                parametersMap
+                parametersMap,
+                AccessLevel.SYSTEM_MODE
             )
         ) {
             for (String percentName : percentFieldNames) {
@@ -191,25 +240,18 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         public boolean sortable { get; set; }
         @AuraEnabled
         public DataTableTypeAttributes typeAttributes { get; set; }
-        @AuraEnabled
-        public DataTableCellAttributes cellAttributes { get; set; }
 
         private DataTableColumns(String label, String fieldName, String type) {
             this.label = label;
             this.fieldName = fieldName;
             this.type = type;
             this.sortable = true;
-            this.cellAttributes = new DataTableCellAttributes('left');
             this.typeAttributes = new DataTableTypeAttributes(type, fieldName);
 
             if (type == 'url' && fieldName == 'Name') {
                 this.fieldName = 'IdUrl';
-            } else if (
-                type == 'url' &&
-                fieldName.contains('.') &&
-                fieldName.substringAfter('.') == 'Name'
-            ) {
-                this.fieldName = fieldName.substringBefore('.') + '.' + 'IdUrl';
+            } else if (type == 'url' && fieldName.contains('.Name')) {
+                this.fieldName = fieldName.substringBefore('.Name') + '.' + 'IdUrl';
             }
         }
     }
@@ -218,15 +260,18 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         @AuraEnabled
         public DataTableLabel label { get; set; }
         @AuraEnabled
+        public DataTableToolTip tooltip { get; set; }
+        @AuraEnabled
         public String day { get; set; }
         @AuraEnabled
         public String month { get; set; }
         @AuraEnabled
         public String year { get; set; }
 
-        private DataTableTypeAttributes(String type, String urlLabel) {
+        private DataTableTypeAttributes(String type, String label) {
             if (type == 'url') {
-                this.label = new DataTableLabel(urlLabel);
+                this.label = new DataTableLabel(label);
+                this.tooltip = new DataTableTooltip(label);
             } else if (type == 'date') {
                 this.day = 'numeric';
                 this.month = 'numeric';
@@ -244,12 +289,12 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         }
     }
 
-    private class DataTableCellAttributes {
+    private class DataTableTooltip {
         @AuraEnabled
-        public String alignment { get; set; }
+        public String fieldName { get; set; }
 
-        private DataTableCellAttributes(String direction) {
-            this.alignment = direction;
+        private DataTableTooltip(String tooltip) {
+            this.fieldName = tooltip;
         }
     }
 
@@ -258,6 +303,8 @@ public with sharing class DynamicDataTableCtrl { //NOPMD bypassed too many publi
         public List<DataTableColumns> dataTableColumns { get; set; }
         @AuraEnabled
         public List<sObject> dataTableData { get; set; }
+        @AuraEnabled
+        public List<sObject> userAccessTable { get; set; }
         @AuraEnabled
         public Integer recordCount { get; set; }
         @AuraEnabled

@@ -35,7 +35,7 @@ export default class ABNCheckComponent extends LightningElement {
       // Check if the value already exists in session storage
       const existingValue = sessionStorage.getItem(sessionKey);
 
-      if (existingValue !== null) {
+      if (existingValue) {
         // A value already exists, set it to the ABN property
         this.ABN = existingValue;
         this.checkABN(existingValue); // Initial check if value exists
@@ -59,7 +59,6 @@ export default class ABNCheckComponent extends LightningElement {
       loadStyle(this, CustomFlowCSS)
         .then(() => {
           this.customCSSLoaded = true;
-          console.log("Custom CSS Loaded");
           // Store the value in the session
           sessionStorage.setItem(
             "customCSSLoaded",
@@ -93,9 +92,10 @@ export default class ABNCheckComponent extends LightningElement {
     return urlParams.get(param);
   }
 
-  // Clear error message
-  clearErrorMessage() {
+  // Reset ABN status and clear error message
+  resetAbnStatus() {
     this.errorMessage = "";
+    this.abnExists = false;
   }
 
   // Handle ABN input change event
@@ -109,8 +109,8 @@ export default class ABNCheckComponent extends LightningElement {
         this.checkABN(abnValue);
       }, 300);
     } else {
-      // Clear error message when ABN input is empty
-      this.clearErrorMessage();
+      // Clear error message and reset abnExist variable when ABN input is empty
+      this.resetAbnStatus();
     }
 
     const uid = this.getUrlParameter("uid");

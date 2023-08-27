@@ -82,6 +82,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Total_Company_Shares_Available__c</fieldItem>
+                <identifier>RecordTotal_Company_Shares_Available_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Startup_Company_Description__c</fieldItem>
                 <identifier>RecordStartup_Company_Description_cField</identifier>
             </fieldInstance>
@@ -118,6 +128,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Startup_ABN__c</fieldItem>
                 <identifier>RecordStartup_ABN_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.QUT_Shares_Held__c</fieldItem>
+                <identifier>RecordQUT_Shares_Held_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -194,6 +214,16 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Total_Company_Shares_Available__c</fieldItem>
+                <identifier>RecordTotal_Company_Shares_Available_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Startup_Company_Description__c</fieldItem>
                 <identifier>RecordStartup_Company_Description_cField2</identifier>
             </fieldInstance>
@@ -230,6 +260,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Startup_ABN__c</fieldItem>
                 <identifier>RecordStartup_ABN_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.QUT_Shares_Held__c</fieldItem>
+                <identifier>RecordQUT_Shares_Held_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
