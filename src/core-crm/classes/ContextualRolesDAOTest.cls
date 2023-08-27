@@ -50,4 +50,14 @@ private class ContextualRolesDAOTest {
         }
         Test.stopTest();
     }
+    
+    @isTest
+    static void getActiveContextualRoleByContactIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            List<Contextual_Role__c> contextualRoles = ContextualRolesDAO.newInstance().getActiveContextualRoleByContactIds(new Set<Id>(), new Set<String>(),'SYSTEM_MODE');
+            System.assert(contextualRoles != null, 'Contextual Roles not found');
+        }
+        Test.stopTest();
+    }
 }
