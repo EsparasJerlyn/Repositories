@@ -41,12 +41,23 @@ public with sharing class AccountsDAOTest {
     }
 
     @isTest
-    static void getAccountIdByABNTest() {
-        Test.startTest();
-        ImplementationSelector.DAO.setMock(new AccountsDAOMock());
+    static void getAccountIdByBlankABNTest() {
+        Test.startTest();      
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Account account = AccountsDAO.newInstance().getAccountIdByABN('');
-            System.assert(account != null, 'Account not found');
+            System.assert(account == null, 'No Account should be found');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getAccountIdByABNTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+       		List<Account> accountList = TestDataFactory.createTestAccountWithABNRecords(1);
+            AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
+            Account account = AccountsDAO.newInstance().getAccountIdByABN('ABN0');
+            System.assert(account != null, 'Account should be found');
         }
         Test.stopTest();
     }
