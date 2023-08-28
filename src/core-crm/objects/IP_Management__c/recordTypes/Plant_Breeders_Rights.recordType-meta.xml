@@ -33,10 +33,6 @@
             <fullName>Rejected</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Renewed</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>WIPO_Country_Code__c</picklist>
@@ -690,6 +686,10 @@
         </values>
         <values>
             <fullName>PA -%C2%A0Panama</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PCT - International</fullName>
             <default>false</default>
         </values>
         <values>
