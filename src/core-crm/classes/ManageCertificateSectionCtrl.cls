@@ -118,13 +118,20 @@ public with sharing class ManageCertificateSectionCtrl {
      @AuraEnabled
      public static String updateCourseConnDetails(Object data, String programOfferingId){ 
           List<hed__Course_Enrollment__c> dataToUpdate = new List<hed__Course_Enrollment__c>();          
+
+          Set<Id> enrolmentIds = new Set<Id>();
+          
           List<ManageCertificateDetails> wrapperList = (List<ManageCertificateDetails>) JSON.deserialize(
                JSON.serialize(data),
                List<ManageCertificateDetails>.class
           );
 
+          for(ManageCertificateDetails recordFromList : wrapperList){
+               enrolmentIds.add(recordFromList.id);
+          }
+
           Map<Id, Id> studentMap = new Map<Id, Id>();
-          List<hed__Course_Enrollment__c> studentList = [SELECT Id, hed__Contact__c, Marks__c FROM hed__Course_Enrollment__c WHERE Program_Offering__c =: programOfferingId];
+          List<hed__Course_Enrollment__c> studentList = [SELECT Id, hed__Contact__c, Marks__c FROM hed__Course_Enrollment__c WHERE Program_Offering__c =: programOfferingId AND Id IN:enrolmentIds];
           for(hed__Course_Enrollment__c student : studentList){
                studentMap.put(student.Id, student.hed__Contact__c);
           }
@@ -136,9 +143,7 @@ public with sharing class ManageCertificateSectionCtrl {
                     student.Id = recordFromList.id;
                     student.Marks__c = recordFromList.marks;
                     dataToUpdate.add(student);
-                    if(studentMap.containsKey(recordFromList.id)){
-                         recordMap.put(studentMap.get(recordFromList.id), recordFromList.marks);
-                    }
+                    recordMap.put(studentMap.get(recordFromList.id), recordFromList.marks);
                }  
           }
 
