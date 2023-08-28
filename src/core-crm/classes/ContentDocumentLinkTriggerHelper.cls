@@ -19,6 +19,7 @@ public without sharing class ContentDocumentLinkTriggerHelper {
      */
     public static void createMemoPDFURL(List<ContentDocumentLink> newItems) {
         List<ContentDocumentLink> newList = (List<ContentDocumentLink>) newItems;
+        Set<Id> developmentOpportunities = new Set<Id>();
         Set<Id> setOppIds = new Set<Id>();
         String title = '%Memo%';
         String baseUrl =
@@ -26,10 +27,9 @@ public without sharing class ContentDocumentLinkTriggerHelper {
                 .toExternalForm()
                 .removeEndIgnoreCase('.my.salesforce.com') +
             '.lightning.force.com/lightning/r/ContentDocument/';
-        Set<Id> developmentOpportunities = (new Map<Id, Opportunity>(
-                OpportunitiesDAO.newInstance().getRecordsByStageName('Development')
-            ))
-            .keySet();
+            if(Schema.sObjectType.Opportunity.isAccessible()){
+                    developmentOpportunities = (new Map<Id, Opportunity>(OpportunitiesDAO.newInstance().getRecordsByStageName('Development'))).keySet();
+            }
         Set<Id> setContentIds = (new Map<Id, ContentDocument>(
                 ContentDocumentsDAO.newInstance().getContentDocumentsByTitle(title)
             ))
