@@ -344,6 +344,16 @@
         <editable>true</editable>
         <field>Application_Preference__c.QTAC_Program_Level__c</field>
         <readable>true</readable>
+    </fieldPermissions>x
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Application_Preference__c.QUT_Faculty_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Application_Preference__c.QUT_Program__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
