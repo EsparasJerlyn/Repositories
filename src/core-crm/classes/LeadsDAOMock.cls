@@ -4,11 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                 |
-      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method             |
-      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method             |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                                         |
+      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method                                     |
+      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                     |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new mock method getLeadsCalculatedCadenceByIds |
  */
 @isTest
 public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILeadsDAO {
@@ -81,6 +82,23 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
             }
         }
 
+        return leadList;
+    }
+    
+    public List<Lead> getLeadsCalculatedCadenceByIds(
+        Set<String> recordIds,
+        String accessLevel
+    ) {
+        List<Lead> leadList = new List<Lead>();
+        
+        for (Lead record : leadsMap.values()) {
+            if (
+                recordIds.contains(record.Id)
+            ) {
+                leadList.add(record);
+            }
+        }
+        
         return leadList;
     }
 }

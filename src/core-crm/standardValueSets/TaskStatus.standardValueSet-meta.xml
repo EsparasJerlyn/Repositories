@@ -25,4 +25,10 @@
         <label>Closed - Contacted</label>
         <closed>true</closed>
     </standardValue>
+    <standardValue>
+        <fullName>Closed - Unsuccessful Call</fullName>
+        <default>false</default>
+        <label>Closed - Unsuccessful Call</label>
+        <closed>true</closed>
+    </standardValue>
 </StandardValueSet>

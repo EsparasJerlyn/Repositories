@@ -14,4 +14,8 @@ public interface IActionCadenceTrackersDAO extends DmlInterface {
         Set<String> cadenceName,
         String accessLevel
     );
+    List<ActionCadenceTracker> getCompletedACTrackerById(
+        Set<String> recordIds,
+        String accessLevel
+    );
 }

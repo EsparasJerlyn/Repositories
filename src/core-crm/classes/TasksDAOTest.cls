@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
-      |--------------------------------|-----------------------|------------------------|----------------------------------------------|
-      | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                        |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
+      | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                          |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new test method getCompletedTasksByTargetIdTest |
  */
 
 @isTest
@@ -33,6 +34,20 @@ public with sharing class TasksDAOTest {
                 new TasksDAO().getSObjectType() == Task.SObjectType,
                 'SObject is not Tasks'
             );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCompletedTasksByTargetIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<task> taskList = TasksDAO.newInstance()
+                .getCompletedTasksByTargetId(
+                    new Set<String>(),
+                    new Set<String>()
+                );
+            System.assert(taskList.isEmpty(), 'taskList should not be empty.');
         }
         Test.stopTest();
     }
