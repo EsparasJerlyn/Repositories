@@ -60,7 +60,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         //Contact entry criteria to process //SAMPLE METHOD ONLY
         contactToUpdate.putall(getEntryInternationalDirectApplicants(internationalEntryContactMap));
-        //Placeholder for International Application to Offer (DEPP-5746)
+        contactToUpdate.putAll(getEntryInternationalApplicationToOffer(internationalEntryContactMap));
         contactToUpdate.putall(getEntryDomesticFirstOffertoAcceptance(domesticEntryContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForEntry(domesticEntryContactMap));
         contactToUpdate.putAll(getInternationalOfferToAcceptanceForEntry(internationalEntryContactMap));
@@ -72,7 +72,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         //Contact exit criteria to //SAMPLE METHOD ONLY
         contactToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitContactMap));
-        //Placeholder for International Application to Offer (DEPP-5746)
+        contactToUpdate.putAll(getExitInternationalApplicationToOffer(internationalExitContactMap));
         contactToUpdate.putAll(getExitDomesticFirstOffertoAcceptance(domesticExitContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForExit(domesticExitContactMap));
         contactToUpdate.putAll(getExitInternationalOffertoAcceptance(internationalExitContactMap));
@@ -1364,6 +1364,63 @@ public with sharing class NurturingTrackContactService { //NOPMD
     }
 
     /**
+     * @description Update international direct applicant contacts based on entry criteria
+     * @param Map<Id, Contact> internationEntryContactMap a map of ids to entry international contact records
+     * @return Map<Id, Contact> map of id to updated contact records for batch processing
+     */
+    public static Map<Id, Contact> getEntryInternationalApplicationToOffer(
+        Map<Id, Contact> internationalEntryContactMap
+    ) {
+        Double offsetDays = nurturingTrackWithOffSetDaysMap.get('International Application to Offer')?.Key_Date_Offset_Days__c;
+        Map<Id, hed__Application__c> internationalApplicantsToOffer = new Map<Id, hed__Application__c>();
+        for (hed__Application__c application : applicationList) {
+            Boolean withinOffSetDays = false;
+            if(offsetDays != null){
+                withinOffSetDays = (
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer) offsetDays) <= System.today() &&
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
+                );
+            }
+            if (
+                internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID  &&
+                ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
+                NurturingTrackService.isDateWithinRange(
+                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
+                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                    CURRENT_INTAKE_PERIOD.get('END_DATE')
+                ) &&
+                application.Is_Agent_Assisted__c == false &&
+                withinOffSetDays
+            ) {
+            	internationalApplicantsToOffer.put(application.Id, application);
+            }
+        }
+        Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicationIdsWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new Set<String>{
+                'International Application to Offer'
+            },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Contact.getSObjectType(),
+            '',
+            'International Application to Offer'
+        );
+
+        List<Contact> contactToUpdateList = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            applicationIdsWithCompletedCadence,
+            internationalApplicantsToOffer.values(),
+            cadenceWrapper
+        );
+
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
+        return contactToUpdateMap;
+    }
+
+    /**
      * @description Update Domestic Offer Lapsed contacts based on exit criteria
      * @param Map<Id, Contact> domesticExitContactMap a map of ids to exit domestic contact records
      * @return Map<Id, Contact> map of ids to updated contact records for batch processing
@@ -1386,6 +1443,31 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 hasDomesticOfferLapsedCadence &&
                 domesticExitContactMap.containsKey(application.hed__Applicant__c) &&
                 application.Offer_Status__c != 'Lapsed'
+            ) {
+                contactsToUpdateMap.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+        return contactsToUpdateMap;
+    }
+
+    /**
+     * @description Update Domestic Offer Lapsed contacts based on exit criteria
+     * @param Map<Id, Contact> domesticExitContactMap a map of ids to exit domestic contact records
+     * @return Map<Id, Contact> map of ids to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getExitInternationalApplicationToOffer(
+        Map<Id, Contact> internationalExitContactMap
+    ) {
+        Map<Id, Contact> contactsToUpdateMap = new Map<Id, Contact>();
+        for (hed__Application__c application : applicationList) {
+            if (
+                application.hed__Applicant__r.Calculated_Cadence__c == 'International Application to Offer' &&
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                internationalExitContactMap.containsKey(application.hed__Applicant__c) &&
+                !ApplicationsDAO.INTL_EXIT_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)
             ) {
                 contactsToUpdateMap.put(
                     application.hed__Applicant__c,
