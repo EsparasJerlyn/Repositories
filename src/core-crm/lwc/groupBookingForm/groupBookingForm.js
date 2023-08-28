@@ -471,12 +471,12 @@ export default class GroupBookingForm extends LightningElement {
             hasNoParticipant = true;
         }
         
-        let form = [...this.template.querySelectorAll('lightning-input'),
+        let form = [...this.template.querySelectorAll('lightning-input, lightning-combobox'),
         ];
         
         if(form.length > 0){
             const allValid = [
-                ...this.template.querySelectorAll('lightning-input'),
+                ...this.template.querySelectorAll('lightning-input, lightning-combobox'),
             ].reduce((validSoFar, inputCmp) => {
                 inputCmp.reportValidity();
                 return validSoFar && inputCmp.checkValidity();
@@ -494,7 +494,7 @@ export default class GroupBookingForm extends LightningElement {
 
  submitDetails() {
     const allValid = [
-        ...this.template.querySelectorAll('lightning-input'),
+        ...this.template.querySelectorAll('lightning-input, lightning-combobox'),
     ].reduce((validSoFar, inputCmp) => {
         inputCmp.reportValidity();
         return validSoFar && inputCmp.checkValidity();

@@ -9,10 +9,16 @@
                         <valueListItems>
                             <value>Account.Add_Contact</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>QUTeX</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Business_Organization</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
