@@ -3,6 +3,7 @@
     <fullName>All_IP_Management</fullName>
     <columns>NAME</columns>
     <columns>IP_Name__c</columns>
+    <columns>RECORDTYPE</columns>
     <columns>WIPO_Country_Code__c</columns>
     <columns>Stage_Name__c</columns>
     <columns>OWNER.FIRST_NAME</columns>

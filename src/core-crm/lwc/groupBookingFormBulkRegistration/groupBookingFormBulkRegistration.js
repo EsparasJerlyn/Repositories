@@ -11,8 +11,10 @@
       | dodge.j.palattao          |  July 26, 2022        | DEPP-3484            | Created file                          |
       | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation                  |
       | dodge.j.palattao          | September 27, 2022    | DEPP-4428            | Fix for input participant             |
-      | julie.jane.alegre         | September 29, 2022    |  DEPP-4471           | Add validation for available seats    |
+      | julie.jane.alegre         | September 29, 2022    | DEPP-4471            | Add validation for available seats    |
       | dodge.j.palattao          | September 29, 2022    | DEPP-4466            | Fix for input participant in Firefox  |
+      | julie.jane.alegre         | August    28, 2022    | DEPP-6515            | Add Country code to the required      |
+      |                           |                       |                      | validation fields                     |
       
 
 */
@@ -478,12 +480,12 @@ export default class GroupBookingForm extends NavigationMixin(LightningElement) 
             hasNoParticipant = true;
         }
 
-        let form = [...this.template.querySelectorAll('lightning-input'),
+        let form = [...this.template.querySelectorAll('lightning-input, lightning-combobox'),
         ];
         
         if(form.length > 0){
             const allValid = [
-                ...this.template.querySelectorAll('lightning-input'),
+                ...this.template.querySelectorAll('lightning-input, lightning-combobox'),
             ].reduce((validSoFar, inputCmp) => {
                 inputCmp.reportValidity();
                 return validSoFar && inputCmp.checkValidity();
@@ -500,7 +502,7 @@ export default class GroupBookingForm extends NavigationMixin(LightningElement) 
 
     submitDetails() {
         const allValid = [
-            ...this.template.querySelectorAll('lightning-input'),
+            ...this.template.querySelectorAll('lightning-input, lightning-combobox'), 
         ].reduce((validSoFar, inputCmp) => {
             inputCmp.reportValidity();
             return validSoFar && inputCmp.checkValidity();

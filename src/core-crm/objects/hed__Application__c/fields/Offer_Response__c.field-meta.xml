@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>QLD_School_Name__c</fullName>
-    <description>Name of the Queensland High school the applicant studied if they studied in Queensland.</description>
+    <fullName>Offer_Response__c</fullName>
+    <description>The response received by QTAC about the offer.</description>
     <externalId>false</externalId>
-    <label>QLD School Name</label>
-    <length>160</length>
+    <label>Offer Response</label>
+    <length>255</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
-    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

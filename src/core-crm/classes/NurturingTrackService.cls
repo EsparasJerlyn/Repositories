@@ -44,6 +44,7 @@ public with sharing class NurturingTrackService {
                                                             (Contact__c IN :applicantIdsSet
                                                             OR Lead__c IN :applicantIdsSet)
                                                             AND Nurture_Track_Configuration__r.Cadence_Name__c IN :candenceNamesSet
+                                                            AND Completed_Cadence_Status__c !='Unsuccessful'
                                                         WITH SYSTEM_MODE
         ]) {
             String completedCadenceApiName = (String) OBJECT_TO_FIELD_MAP.get(objectType)
