@@ -149,4 +149,20 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         return contactList;
     }
 
+    public List<Contact> getContactCalculatedCadenceByIds(
+        Set<String> recordIds,
+        String accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+        
+        for (Contact record : contactsMap.values()) {
+            if (
+                recordIds.contains(record.Id)
+            ) {
+                contactList.add(record);
+            }
+        }
+        
+        return contactList;
+    }
 }

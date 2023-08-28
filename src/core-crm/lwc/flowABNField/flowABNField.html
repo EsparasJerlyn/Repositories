@@ -1,9 +1,13 @@
 <template>
   <c-logger></c-logger>
+  <lightning-spinner
+    if:true={isLoading}
+    variant="brand"
+    alternative-text="Loading.."
+    size="medium"></lightning-spinner>
   <lightning-input
     class="slds-m-bottom_x-small margin-5px"
     label="ABN"
     value={ABN}
-    onchange={handleABNChange}
-    ></lightning-input>
+    onchange={handleABNChange}></lightning-input>
 </template>

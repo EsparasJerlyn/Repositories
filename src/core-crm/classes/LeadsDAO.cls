@@ -4,11 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
-      |--------------------------------|-----------------------|------------------------|----------------------------------------------|
-      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                 |
-      | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads |
-      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method             |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                    |
+      | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads    |
+      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds | 
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -88,5 +89,20 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
                 AND Can_Nurture__c = TRUE
             WITH USER_MODE
         ];
+    }
+    
+    public List<Lead> getLeadsCalculatedCadenceByIds(
+        Set<String> recordIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Calculated_Cadence__c ' +
+            'FROM Lead ' +
+            'WHERE IsConverted = FALSE ' +
+            'AND Id IN: recordIds ' +
+            'AND Calculated_Cadence__c != NULL ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 }

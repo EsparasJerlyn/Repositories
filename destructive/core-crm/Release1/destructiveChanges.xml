@@ -110,6 +110,13 @@
         <members>QTAC_Preference__c.QTAC_Program_ID__c</members>
         <members>QTAC_Preference__c.QTAC_Program_Name__c</members>
         <!-- End DEPP-6136-->
+        <!-- Start DEPP-6482-->
+        <members>Contact.Australian_South_Sea_Islander__c</members>
+        <members>Contact.First_Peoples__c</members>
+        <members>Contact.Is_Maori_and_Pasifika__c</members>
+        <members>Contact.QLD_School_Name__c</members>
+        <members>Contact.Year_of_Arrival__c</members>
+        <!-- End DEPP-6482-->
         <name>CustomField</name>
     </types>
     <types>

@@ -12,7 +12,7 @@
       |                                |                       |                        | + and getContactsWithMatchingEmails                       |
       | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added new method getContactsWithMatchingSamsApplications  |
 *     | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677                                |
-
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
     /**
@@ -197,6 +197,21 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 AND Can_Nurture__c = TRUE
             WITH USER_MODE
         ];
+    }
+
+    public List<Contact> getContactCalculatedCadenceByIds(
+        Set<String> recordIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Calculated_Cadence__c ' +
+            'FROM Contact ' +
+            'WHERE RecordTypeId = :PERSON_RECORDTYPE_ID ' +
+            'AND Id IN: recordIds ' +
+            'AND Calculated_Cadence__c != NULL ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 
     /**
