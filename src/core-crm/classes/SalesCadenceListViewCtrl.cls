@@ -6,9 +6,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------|
- *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------|
+ *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                          |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence |
  */
 public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class requires a lot of public variables
 
@@ -60,13 +61,16 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
                 leadMap.remove(aCadenceTracker.TargetId);
             }
         }
-
+		
+        Set<String> caTargetIds = new Set<String>( (List<String>)new List<Id>( targetIds ) );
+        
         //get latest contact/lead record's related completed cadence status against the calculated cadence
         for (
             Completed_Cadence__c completedCadence : CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByTargetIdsAndCadenceName(
-                    targetIds,
-                    new Set<String>{ calculatedCadence }
+                    caTargetIds,
+                    new Set<String>{ calculatedCadence },
+                    'USER_MODE'
                 )
         ) {
             completedCadenceStatusMap.put(
@@ -160,11 +164,19 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
         List<Lead> leadsToUpdate = new List<Lead>();
         Map<String, Object> data = new Map<String, Object>();
         String recordId = '';
+        String calculatedCadence = '';
+        
+        Set<String> targetIds = new Set<String>();
 
         for (Object objData : (List<Object>) JSON.deserializeUntyped(targetToUpdate)) {
             //transform object to map to dynamically get field values
             data = (Map<String, Object>) objData;
             recordId = (String) data.get('targetId');
+            calculatedCadence = (String) data.get('salesCadenceNameOrId');
+            
+            if(String.isEmpty(calculatedCadence)){
+                targetIds.add(recordId);
+            }
 
             if (recordId.startswith('003')) {
                 contactsToUpdate.add(
@@ -180,6 +192,57 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
                         Calculated_Cadence__c = (String) data.get('salesCadenceNameOrId')
                     )
                 );
+            }
+        }
+        
+        if(!targetIds.isEmpty()){
+            
+            Map<String,String> targetCadenceMap = new Map<String,String>();
+
+            //get contact calculated cadence
+            for(Contact con: ContactsDAO.newInstance().getContactCalculatedCadenceByIds(targetIds,'USER_MODE')){
+                targetCadenceMap.put(con.Id,con.Calculated_Cadence__c);
+            }
+            //get lead calculated cadence
+            for(Lead lead: LeadsDAO.newInstance().getLeadsCalculatedCadenceByIds(targetIds,'USER_MODE')){
+                targetCadenceMap.put(lead.Id,lead.Calculated_Cadence__c);
+            }
+            
+            //get the related nurture track config record of the targetIds
+            Map<String,String> nurtureMap = SalesCadenceCalloutService.getNurtureTrackConfigMap(new Set<String>(targetCadenceMap.values()));       	
+            //get the unsuccessfull completed cadence of the targetIds and cadence name
+            Map<String, String> completedCadenceStatusMap = SalesCadenceCalloutService.getCompletedCadenceStatusMap(targetCadenceMap);           
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            
+            for(String recId: targetCadenceMap.keySet()){
+                
+                String cadenceName = targetCadenceMap.get(recId);
+                String nurtureId =  nurtureMap.get(cadenceName);          
+                String calculatedStatus = 'Successful';
+                
+                if(recId.startsWith('003')){
+                    completedCadenceList.add(
+                        new Completed_Cadence__c(
+                            Nurture_Track_Configuration__c = nurtureId,
+                            Contact__c = recId,
+                            Completed_Cadence_Status__c = calculatedStatus,
+                            Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null              
+                        )
+                    );   
+                }else{
+                    completedCadenceList.add(
+                        new Completed_Cadence__c(
+                            Nurture_Track_Configuration__c = nurtureId,
+                            Lead__c = recId,
+                            Completed_Cadence_Status__c = calculatedStatus,
+                            Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null  
+                        )
+                    );
+                }
+            }
+            
+            if(!completedCadenceList.isEmpty()){
+                CompletedCadencesDAO.newInstance().upsertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
             }
         }
 

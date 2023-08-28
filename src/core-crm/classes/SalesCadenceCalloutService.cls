@@ -1,4 +1,3 @@
-
 /**
  * @description Service Class for Sales Cadence API callout use in assigning and removing target to existing cadences
  *
@@ -6,10 +5,14 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
- *    |--------------------------------|-----------------------|------------------------|----------------------------------------------|
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                 |
- *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking|
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                     |
+ *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking    |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated createCompletedCaddence method           |
+ *    |                                |                       |                        | added logic to get the unsuccessful task         |
+ *    |                                |                       |                        | and update any existing completed cadence        |
+ *    |                                |                       |                        | to succesful once the task is Contact Successful |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -35,16 +38,13 @@ public with sharing class SalesCadenceCalloutService {
      private static void assignTargetToCadence(Map<String,String> assignCadenceMap) {
         // Create an instance of the wrapper class
         SalesCadenceWrapper wrapper = new SalesCadenceWrapper();
-        String requestBody = '';
         
         for(String key: assignCadenceMap.keySet()){
            wrapper.addInputData(assignCadenceMap.get(key), key,null);
         }
-        
-        requestBody = JSON.serialize(wrapper,true);
-        
-        if(requestBody !=''){
-            sendRequest(requestBody, ASSIGN_TARGET_CADENCE_ENDPOINT);            
+   
+        if(!wrapper.inputs.isEmpty()){
+            sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT);            
         }
     }
     
@@ -56,17 +56,31 @@ public with sharing class SalesCadenceCalloutService {
     public static void removeTargetToCadence(Map<String,String> removeCadenceMap) {
         // Create an instance of the wrapper class
         SalesCadenceWrapper wrapper = new SalesCadenceWrapper();
-        String requestBody = '';
+        
+        //remove all contact/lead that has a running Cadence
+        Set<Id> idSet2 = new Set<Id>( (List<Id>)new List<String>( removeCadenceMap.keySet() ) );        
+        Set<Id> targetIdRunningCadence = new Set<Id>();
+        
+        //get all contact/lead that has a running Cadence
+        for (
+            ActionCadenceTracker aCadenceTracker : ActionCadenceTrackersDAO.newInstance()
+            .getRunningACTrackerByTargetIdAndCadenceName(
+                idSet2,
+                new Set<String>(removeCadenceMap.values()),
+                'SYSTEM_MODE'
+            )
+        ) {
+            targetIdRunningCadence.add(aCadenceTracker.TargetId);
+        }
         
         for(String key: removeCadenceMap.keySet()){
-            wrapper.addInputData(null, key,'ManuallyRemoved');                                     
+            if(targetIdRunningCadence.contains(key)){
+                wrapper.addInputData(null, key,'ManuallyRemoved');                                                   
+            }
         }
-             
-        requestBody = JSON.serialize(wrapper,true);
         
-        if(requestBody !=''){
-            sendRequest(requestBody,REMOVE_TARGET_CADENCE_ENDPOINT);
-			createCompletedCadence(removeCadenceMap);            
+        if(!wrapper.inputs.isEmpty()){
+            sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT);
         }
     }
     
@@ -75,40 +89,57 @@ public with sharing class SalesCadenceCalloutService {
      *
      * @param Map<String,String> removeCadenceMap
      */ 
-    private static void createCompletedCadence(Map<String,String> removeCadenceMap){
-        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(new Set<String>(removeCadenceMap.values()),'SYSTEM_MODE');
-        Map<String,String> nurtureMap = new Map<String,String>();
+    public static void createCompletedCadence(Map<String,String> targetCadenceMap,Set<String> actionCadenceIds){
+        
+        //get the related nurture track config record of the targetIds
+        Map<String,String> nurtureMap = getNurtureTrackConfigMap(new Set<String>(targetCadenceMap.values()));
+        
+		//get the task related to the actionCadence of the targetIds          
+        Map<Id,Task> mapTasks = getRelatedTaskMap(targetCadenceMap.keySet(),actionCadenceIds);
+		
+        //get the unsuccessfull completed cadence of the targetIds and cadence name
+        Map<String, String> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);
+            
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
         
-        for (Nurture_Track_Configuration__c rec: nurtureList) {   
-            if(rec.Criteria_Type__c == 'Entry'){
-                nurtureMap.put(rec.Cadence_Name__c,rec.Id); 
-            }               
-        }
+        for(String recId: targetCadenceMap.keySet()){
+            
+            String cadenceName = targetCadenceMap.get(recId);
+            String nurtureId =  nurtureMap.get(cadenceName);          
+            String calculatedStatus = 'Successful';
+            
+            if(mapTasks.containsKey(recId)){
                 
-        for(String recId: removeCadenceMap.keySet()){           
-            String cadenceName = removeCadenceMap.get(recId);
-            String nurtureId =  nurtureMap.get(cadenceName);
+                String taskCadenceName = mapTasks.get(recId).ActionCadenceStepTracker.ActionCadenceName;
+                
+                if(taskCadenceName == cadenceName){
+                    calculatedStatus = 'Unsuccessful';
+                }               
+            }
             
             if(recId.startsWith('003')){
                 completedCadenceList.add(
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
-                        Contact__c = recId
+                        Contact__c = recId,
+                        Completed_Cadence_Status__c = calculatedStatus,
+                        Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null              
                     )
                 );   
             }else{
                 completedCadenceList.add(
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
-                        Lead__c = recId
+                        Lead__c = recId,
+                        Completed_Cadence_Status__c = calculatedStatus,
+                        Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null  
                     )
                 );
             }
         }
         
         if(!completedCadenceList.isEmpty()){
-            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
+            CompletedCadencesDAO.newInstance().upsertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }        
     }
     
@@ -233,5 +264,141 @@ public with sharing class SalesCadenceCalloutService {
             inputs.add(inputData);
         }
     }
+    
+   /**
+    * @description: Method to get the related nurture track configuration of contact or lead
+    *
+    * @param Set<String> targetCadenceMap
+    * @return Map<String,String> nurtureMap
+    */
+    public static Map<String,String> getNurtureTrackConfigMap(Set<String> targetCadenceMap){
+        
+        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(targetCadenceMap,'SYSTEM_MODE');
+        Map<String,String> nurtureMap = new Map<String,String>();
+        
+        for (Nurture_Track_Configuration__c rec: nurtureList) {   
+            if(rec.Criteria_Type__c == 'Entry'){
+                nurtureMap.put(rec.Cadence_Name__c,rec.Id); 
+            }               
+        }
+        
+        return nurtureMap;
+    }
+    
+   /**
+    * @description: Get the task related to the sales cadence activity
+    *
+    * @param Set<String> targetCadenceMap
+    * @param Set<String> actionCadenceIds
+    * @return Map<String,String> mapTasks
+    */
+    private static Map<Id,Task> getRelatedTaskMap(Set<String> targetCadenceMap,Set<String> actionCadenceIds){
+        
+        List<task> listTasks = TasksDAO.newInstance().getCompletedTasksByTargetId(targetCadenceMap,actionCadenceIds); 
+        Map<Id,Task> mapTasks = new Map<Id,Task>();
+        
+        for(Task ts: listTasks){            
+            mapTasks.put(ts.ActionCadenceStepTracker.TargetId,ts);
+        }
+        
+        return mapTasks;
+    }
 
+   /**
+    * @description: Get the Completed Cadence record associated with the targetIds
+    *
+    * @param Map<String,String> targetCadenceMap
+    * @return Map<String, String> completedCadenceStatusMap
+    */
+    public static Map<String, String> getCompletedCadenceStatusMap(Map<String,String> targetCadenceMap){
+        
+        Map<String, String> completedCadenceStatusMap = new Map<String, String>();
+        
+        for (
+            Completed_Cadence__c completedCadence : CompletedCadencesDAO.newInstance()
+            .getCompletedCadenceByTargetIdsAndCadenceName(
+                targetCadenceMap.keySet(),
+                new Set<String>(targetCadenceMap.values()),
+                'SYSTEM_MODE'
+            )
+        ) {
+            completedCadenceStatusMap.put(
+                completedCadence.Contact__c != null
+                ? completedCadence.Contact__c
+                : completedCadence.Lead__c,
+                completedCadence.Id
+            );
+        }
+        
+        return completedCadenceStatusMap;
+    }
+
+   /**
+    * @description: Get the Completed Cadence record associated with the targetIds
+    *
+    * @param Map<String,String> targetCadenceMap
+    * @return Map<String, String> completedCadenceStatusMap
+    */
+    public static void processCompletedCadenceTracker(List<String> recordIds){
+        
+        Map<String,String> targetCadenceMap = new Map<String,String>();
+        List<Contact> contacts = new List<Contact>();
+        List<Lead> leads = new List<Lead>();
+        Set<String> actionCadenceIds = new Set<String>();
+        List<ActionCadenceTracker> actionCadencesTrackerList = ActionCadenceTrackersDAO.newInstance().getCompletedACTrackerById(new Set<String>(recordIds),'SYSTEM_MODE');
+        
+        // Get All the ActionCadenceTracker records for completed cadences
+        for (ActionCadenceTracker act: actionCadencesTrackerList){
+            
+            String recId = act.TargetId;                   
+            if(act.CompletionReason !='ManuallyRemoved'){
+                updateContactOrLead(recId,contacts,leads);
+            }
+            
+            targetCadenceMap.put(recId,act.ActionCadence.Name);
+            actionCadenceIds.add(act.Id);                    
+        }  
+        
+        createCompletedCadence(targetCadenceMap,actionCadenceIds);
+        updateContactCalculatedCadence(contacts);
+        updateLeadCalculatedCadence(leads);
+        
+    }
+
+	/**
+     * @description populate contact or lead object base on the recordId
+     * 
+     * @param String targetId
+     * @param List<Contact> contactsToUpdate
+     * @param List<Lead> leadsToUpdate
+     */    
+    private static void updateContactOrLead(String targetId, List<Contact> contactsToUpdate, List<Lead> leadsToUpdate) {      
+        if (targetId.startsWith('003')) {
+            contactsToUpdate.add(new Contact(Id = targetId, Calculated_Cadence__c = ''));
+        } else {
+            leadsToUpdate.add(new Lead(Id = targetId, Calculated_Cadence__c = ''));
+        }
+    } 
+    
+    /**
+     * @description update contact calculated cadence to blank
+     * 
+     * @param List<Contact> contactRecords - contact records to update
+     */
+    private static void updateContactCalculatedCadence(List<Contact> contacts) {
+        if(!contacts.isEmpty()){
+            ContactsDAO.newInstance().updateRecords(contacts, false, AccessLevel.SYSTEM_MODE);
+        }    
+    }
+    
+    /**
+     * @description update lead calculated cadence to blank
+     * 
+     * @param List<Lead> leadRecords - lead records to update
+     */
+    private static void updateLeadCalculatedCadence(List<Lead> leads) {
+        if(!leads.isEmpty()){
+            LeadsDAO.newInstance().updateRecords(leads, false, AccessLevel.SYSTEM_MODE);
+        }   
+    }
 }

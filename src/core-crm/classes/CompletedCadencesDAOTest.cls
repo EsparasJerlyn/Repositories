@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | created file                 |
-      | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added test method            |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                       |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | created file                                                         |
+      | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added test method                                                    |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated test method getCompletedCadenceByTargetIdsAndCadenceNameTest |
  */
 @isTest
 public with sharing class CompletedCadencesDAOTest {
@@ -62,8 +63,9 @@ public with sharing class CompletedCadencesDAOTest {
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByTargetIdsAndCadenceName(
-                    new Set<Id>(),
-                    new Set<String>()
+                    new Set<String>(),
+                    new Set<String>(),
+                    'SYSTEM_MODE'
                 );
             System.assert(completedCadenceList.isEmpty(), 'completedCadenceList should not be empty.');
         }

@@ -4,7 +4,7 @@
     <description>The Preference Order assigned to the Program by applicant</description>
     <externalId>false</externalId>
     <label>Preference Number</label>
-    <precision>1</precision>
+    <precision>2</precision>
     <required>false</required>
     <scale>0</scale>
     <trackHistory>true</trackHistory>

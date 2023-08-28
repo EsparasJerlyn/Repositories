@@ -95,6 +95,22 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'Accepted, wants to be considered for higher prefs'
     };
 
+    public static final Set<String> INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK = new Set<String>{
+        'Submitted',
+        'Under Assessment',
+        'Under Assessment - Hold',
+        'Under Assessment - Review'
+    };
+
+    public static final Set<String> INTL_EXIT_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK = new Set<String>{
+        'New',
+        'Unsubmitted',
+        'Submitted',
+        'Under Assessment',
+        'Under Assessment - Hold',
+        'Under Assessment - Review'
+    };
+
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(
             hed__Application__c.SObjectType

@@ -2,11 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Is_Maori_and_Pasifika__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Whether the contact specified that they identify themselves as one of Māori or Pasifika people</description>
+    <description>Whether the contact specified that they identify themselves as one of Māori or Pasifika people.</description>
     <externalId>false</externalId>
-    <label>Maori and Pasifika</label>
+    <label>QTAC Maori and Pasifika</label>
     <securityClassification>Official</securityClassification>
-    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

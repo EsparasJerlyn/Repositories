@@ -29,7 +29,7 @@
         <name>Update</name>
         <label>Update Stage to Completed</label>
         <locationX>176</locationX>
-        <locationY>311</locationY>
+        <locationY>287</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>End_Date__c</field>
@@ -54,7 +54,8 @@
         </connector>
         <filterFormula>AND(
     NOT(ISBLANK({!$Record.End_Date__c})),
-    NOT(ISNULL({!$Record.End_Date__c}))
+    NOT(ISNULL({!$Record.End_Date__c})),
+     {!$Record.RecordType.DeveloperName} &lt;&gt; &apos;Startup&apos;
 )</filterFormula>
         <object>Opportunity_Outcome__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>

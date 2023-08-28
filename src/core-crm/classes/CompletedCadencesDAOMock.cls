@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6107              | Created file                 |
-      | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query              |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6107              | Created file                                                |
+      | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query                                             |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | updated method getCompletedCadenceByTargetIdsAndCadenceName |
  */
 @isTest
 public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock implements ICompletedCadencesDAO {
@@ -51,8 +52,9 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
     }
 
     public List<Completed_Cadence__c> getCompletedCadenceByTargetIdsAndCadenceName(
-        Set<Id> targetIds,
-        Set<String> cadenceNames
+        Set<String> targetIds,
+        Set<String> cadenceNames,
+        String accessLevel
     ) {
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
 

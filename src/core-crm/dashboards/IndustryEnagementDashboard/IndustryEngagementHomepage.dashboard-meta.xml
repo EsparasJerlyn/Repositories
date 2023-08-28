@@ -192,9 +192,9 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Commercialisation Opportunity - By Owner</header>
+                <header>Commercialisation Opportunity - By Stage</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>IndustryEngagementReports/Commercialisation_Opportunity_By_Owner</report>
+                <report>IndustryEngagementReports/Commercialisation_Opportunity_By_Stage</report>
                 <showPercentage>false</showPercentage>
                 <showPicturesOnCharts>false</showPicturesOnCharts>
                 <showValues>true</showValues>
