@@ -14197,6 +14197,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Lead_Score_Configuration__c.Configuration</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Lead_Score_Configuration__c.Sub_Category</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

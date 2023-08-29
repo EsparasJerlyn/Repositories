@@ -8,10 +8,16 @@
     <label>Parent Category</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
         <filterItems>
             <field>Lead_Score_Configuration__c.RecordType.DeveloperName</field>
             <operation>equals</operation>
             <value>Category</value>
+        </filterItems>
+        <filterItems>
+            <field>Lead_Score_Configuration__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Configuration</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
