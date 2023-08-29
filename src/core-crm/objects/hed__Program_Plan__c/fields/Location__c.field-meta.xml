@@ -10,7 +10,7 @@
         <filterItems>
             <field>hed__Facility__c.Name</field>
             <operation>contains</operation>
-            <value>&apos;QUT Kelvin Grove&apos;, &apos;QUT Gardens Point&apos;, &apos;QUT Canberra&apos;, &apos;QUT Sydney&apos;, &apos;QUT Melbourne&apos;, &apos;Web Conference&apos;, &apos;Externals&apos;, &apos;QUT Cairns&apos;</value>
+            <value>&apos;QUT Kelvin Grove&apos;, &apos;QUT Gardens Point&apos;, &apos;QUT Canberra&apos;, &apos;QUT Sydney&apos;, &apos;QUT Melbourne&apos;, &apos;Web Conference&apos;, &apos;Externals&apos;, &apos;QUT Cairns&apos;, &apos;QUT NSW Classroom&apos;</value>
         </filterItems>
         <filterItems>
             <field>$Profile.Name</field>
