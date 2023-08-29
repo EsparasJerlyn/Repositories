@@ -22,4 +22,14 @@ public inherited sharing class IPManagementsDAOMock extends DmlBaseMock implemen
 		super(new Map<Id, Document__c>(), Schema.Document__c.SObjectType);
 		this.ipManagements = (Map<Id, IP_Management__c>) super.records;
 	}
+
+	public List<IP_Management__c> getIPManagementRecordsBySetIds(Set<Id> ipManagementIds) {
+		List<IP_Management__c> ipManagementsList = new List<IP_Management__c>();
+        for (IP_Management__c ipm : ipManagements.values()) {
+            if (ipManagementIds.contains(ipm.Id)) {
+                ipManagementsList.add(ipm);
+            }
+        }
+        return ipManagementsList;
+    }
 }

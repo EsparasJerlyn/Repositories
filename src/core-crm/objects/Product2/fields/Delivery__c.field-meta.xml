@@ -36,6 +36,11 @@
                 <label>Cairns Classroom</label>
             </value>
             <value>
+                <fullName>NSW Classroom</fullName>
+                <default>false</default>
+                <label>NSW Classroom</label>
+            </value>
+            <value>
                 <fullName>Melbourne Classroom</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

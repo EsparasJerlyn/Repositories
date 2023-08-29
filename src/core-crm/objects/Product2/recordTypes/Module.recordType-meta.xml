@@ -14,6 +14,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>NSW Classroom</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Canberra Classroom</fullName>
             <default>false</default>
         </values>
