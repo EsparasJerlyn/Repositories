@@ -189,6 +189,21 @@
     "id" : "760c814d-e8e7-44fa-9e02-756f2d6ac113",
     "regionName" : "content",
     "type" : "region"
+    }, {
+      "components" : [ {
+        "componentAttributes" : {
+          "customHeadTags" : "",
+          "description" : "",
+          "title" : "{!Record._Object}: {!Record._Title}"
+        },
+        "componentName" : "forceCommunity:seoAssistant",
+        "id" : "ca0c6957-ed39-479e-949c-17e00f103ddd",
+        "renditionMap" : { },
+        "type" : "component"
+      } ],
+      "id" : "f7051fbb-27d8-4281-8580-722ceabea310",
+      "regionName" : "sfdcHiddenRegion",
+      "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
