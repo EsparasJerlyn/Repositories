@@ -6,6 +6,7 @@
     <label>QUT Program Code</label>
     <length>20</length>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
