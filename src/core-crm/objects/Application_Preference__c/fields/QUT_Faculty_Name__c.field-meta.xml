@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>QUT_Faculty_Name__c</fullName>
-    <description>The Name of the QUT Faculty recieved from QTAC</description>
+    <description>The Name of the QUT Faculty received from QTAC</description>
     <externalId>false</externalId>
     <label>QUT Faculty Name</label>
     <length>255</length>
