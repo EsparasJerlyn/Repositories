@@ -1,0 +1,20 @@
+<template>
+    <article class="slds-card">
+        <div class="box-lead-score slds-p-top_small slds-p-bottom_small slds-p-left_small slds-p-right_small">
+            <div class='slds-progress-ring slds-float_left'>
+                <div class="slds-progress-ring__progress" role="progressbar" aria-valuemin="0" aria-valuemax={totalLeadScore} aria-valuenow={totalScore}>
+                    <svg viewBox="-1 -1 2 2">
+                        <path class="slds-progress-ring__path" d={progress}></path>
+                    </svg>
+                </div>
+                <div class="slds-progress-ring__content txt-score">{getLeadScore}</div>
+                <div class="slds-progress-ring__progress-head">
+                    <svg viewBox="-1 -1 2 2">
+                      <circle class="slds-progress-ring__path" cx={cx} cy={cy} r="0.2"></circle>
+                    </svg>
+                  </div>
+            </div>
+            <div class="txt-lead-score slds-float_left">Lead Score</div>
+        </div>
+    </article>
+</template>
