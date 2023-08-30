@@ -46,8 +46,8 @@
             <label>Is a Category</label>
         </rules>
     </decisions>
-    <interviewLabel>Lead Score Configuration Update Max Score for Configuration RT {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Lead Score Configuration Update Max Score for Configuration RT</label>
+    <interviewLabel>Lead_Score_Config_Max_Score_Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Lead_Score_Config_Max_Score_Update</label>
     <loops>
         <name>Get_Sum_of_Max_Score_for_All_Category_Records_Under_Same_Parent_Category</name>
         <label>Get Sum of Max Score for All Category Records Under Same Parent Category</label>

@@ -14,15 +14,15 @@
       |                           |                       |              |                                             |
 */
 @isTest
-public class UpdateLeadScoringConfigurationFlowTest {
-    public static final Id LEAD_SCORE_CONFIGURATION_REC_TYPE_CATEGORY = Schema.SObjectType.Lead_Score_Configuration__c.getRecordTypeInfosByName().get('Category').getRecordTypeId();
-    public static final Id LEAD_SCORE_CONFIGURATION_REC_TYPE_CONFIGURATION = Schema.SObjectType.Lead_Score_Configuration__c.getRecordTypeInfosByName().get('Configuration').getRecordTypeId();
+private class Lead_Score_Config_Max_Score_UpdateTest {
+
+    private static final Id LEAD_SCORE_CONFIGURATION_REC_TYPE_CATEGORY = Schema.SObjectType.Lead_Score_Configuration__c.getRecordTypeInfosByName().get('Category').getRecordTypeId();
+    private static final Id LEAD_SCORE_CONFIGURATION_REC_TYPE_CONFIGURATION = Schema.SObjectType.Lead_Score_Configuration__c.getRecordTypeInfosByName().get('Configuration').getRecordTypeId();
     
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
     }
-
     @isTest
     static void updateMaxScoreOnParentConfigurationTest() {
         System.runAs(TestDataFactory.getSystemAdminUser()){

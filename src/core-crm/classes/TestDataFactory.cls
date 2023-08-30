@@ -2587,7 +2587,7 @@ public class TestDataFactory {
                 userName = 'QUT_System_Administrator';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User';
+                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
