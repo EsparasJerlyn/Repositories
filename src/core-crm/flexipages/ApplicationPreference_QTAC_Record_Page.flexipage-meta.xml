@@ -76,6 +76,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.QUT_Faculty_Name__c</fieldItem>
+                <identifier>RecordQUT_Faculty_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Preference_Number__c</fieldItem>
                 <identifier>RecordPreference_Number_cField2</identifier>
             </fieldInstance>
@@ -132,6 +142,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Starting_Month__c</fieldItem>
                 <identifier>RecordStarting_Month_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.QUT_Program__c</fieldItem>
+                <identifier>RecordQUT_Program_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
