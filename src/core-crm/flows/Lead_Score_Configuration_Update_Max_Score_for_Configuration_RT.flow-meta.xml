@@ -2,35 +2,35 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
     <assignments>
-        <name>Get_Total_Max_Score_for_All_Siblings</name>
-        <label>Get Total Max Score for All Siblings</label>
+        <name>Get_Total_Max_Score_for_All_Category_Record_with_the_Same_Parent_Category</name>
+        <label>Get Total Max Score for All Category Record with the Same Parent Category</label>
         <locationX>138</locationX>
         <locationY>647</locationY>
         <assignmentItems>
             <assignToReference>TotalMaxScore</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Get_Sum_of_Max_Score_for_All_Siblings.Max_Score__c</elementReference>
+                <elementReference>Get_Sum_of_Max_Score_for_All_Category_Records_Under_Same_Parent_Category.Max_Score__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Sum_of_Max_Score_for_All_Siblings</targetReference>
+            <targetReference>Get_Sum_of_Max_Score_for_All_Category_Records_Under_Same_Parent_Category</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>Check_if_Record_is_a_Child</name>
-        <label>Check if Record is a Child</label>
+        <name>Check_if_Record_is_a_Category_Record_Type</name>
+        <label>Check if Record is a Category Record Type</label>
         <locationX>182</locationX>
         <locationY>323</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_a_Child</name>
+            <name>Is_a_Category</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Configuration</stringValue>
+                    <stringValue>Category</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -43,23 +43,23 @@
             <connector>
                 <targetReference>Get_Record_with_the_Same_Parent_Category</targetReference>
             </connector>
-            <label>Is a Child</label>
+            <label>Is a Category</label>
         </rules>
     </decisions>
-    <interviewLabel>Update Max Score for Parent Record {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Update Max Score for Parent  Lead Scoring Configuration</label>
+    <interviewLabel>Lead Score Configuration Update Max Score for Configuration RT {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Lead Score Configuration Update Max Score for Configuration RT</label>
     <loops>
-        <name>Get_Sum_of_Max_Score_for_All_Siblings</name>
-        <label>Get Sum of Max Score for All Siblings</label>
+        <name>Get_Sum_of_Max_Score_for_All_Category_Records_Under_Same_Parent_Category</name>
+        <label>Get Sum of Max Score for All Category Records Under Same Parent Category</label>
         <locationX>50</locationX>
         <locationY>539</locationY>
         <collectionReference>Get_Record_with_the_Same_Parent_Category</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Get_Total_Max_Score_for_All_Siblings</targetReference>
+            <targetReference>Get_Total_Max_Score_for_All_Category_Record_with_the_Same_Parent_Category</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Update_Parent_Record_Max_Score</targetReference>
+            <targetReference>Update_the_Max_Score_of_the_Parent_Category_Record</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -88,7 +88,7 @@
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Sum_of_Max_Score_for_All_Siblings</targetReference>
+            <targetReference>Get_Sum_of_Max_Score_for_All_Category_Records_Under_Same_Parent_Category</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -103,8 +103,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
-        <name>Update_Parent_Record_Max_Score</name>
-        <label>Update Parent Record Max Score</label>
+        <name>Update_the_Max_Score_of_the_Parent_Category_Record</name>
+        <label>Update the Max Score of the Parent Category Record</label>
         <locationX>50</locationX>
         <locationY>839</locationY>
         <filterLogic>and</filterLogic>
@@ -127,7 +127,7 @@
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Check_if_Record_is_a_Child</targetReference>
+            <targetReference>Check_if_Record_is_a_Category_Record_Type</targetReference>
         </connector>
         <object>Lead_Score_Configuration__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
