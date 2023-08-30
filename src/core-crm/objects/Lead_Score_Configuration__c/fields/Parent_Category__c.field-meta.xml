@@ -8,9 +8,19 @@
     <label>Parent Category</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
+        <filterItems>
+            <field>$Source.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sub Category</value>
+        </filterItems>
         <filterItems>
             <field>Lead_Score_Configuration__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Category</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.RecordTypeId</field>
             <operation>equals</operation>
             <value>Category</value>
         </filterItems>
