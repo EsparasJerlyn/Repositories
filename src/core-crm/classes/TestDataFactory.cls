@@ -2206,6 +2206,20 @@ public class TestDataFactory {
         ];
         return pm;
     }
+    /**
+     * @description Method for getting System Administrator
+     * @param void
+     * @return sysAdmin - QUTeX System Admin User
+     */
+    public static User getSystemAdminUser() {
+        User sysAdmin = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_System_Administrator%'
+            LIMIT 1
+        ];
+        return sysAdmin;
+    }
 
     class TestUserGenerator {
         private Map<String, Id> groupMap;
@@ -3418,5 +3432,21 @@ public class TestDataFactory {
             ));
         }
         return packageComponentList;
+    }
+    /**
+     * @description Method for creating test Lead Score Configuration records
+     * @return List<Lead_Score_Configuration__c> leadScoreConfigurationList - List of Lead Score Configuration Records
+     */
+    public static List<Lead_Score_Configuration__c> createLeadScoreConfigurationRecords(Id parentCategoryId, Id recordTypeId, Integer numberOfRecordsToCreate) {
+        List<Lead_Score_Configuration__c> leadScoreConfigurationList = new List<Lead_Score_Configuration__c>();
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            leadScoreConfigurationList.add(new Lead_Score_Configuration__c(
+                Name = 'Test LSC ' + (i + 1),
+                Parent_Category__c  = parentCategoryId,
+                RecordTypeId = recordTypeId,
+                Max_Score__c = i + 1
+            ));
+        }
+        return leadScoreConfigurationList;
     }
 }
