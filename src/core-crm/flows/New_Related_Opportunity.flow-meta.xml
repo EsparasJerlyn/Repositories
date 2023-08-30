@@ -605,11 +605,7 @@
     <formulas>
         <name>CurrentDateFromSixMonths</name>
         <dataType>Date</dataType>
-        <expression>DATE(
-    YEAR({!$Flow.CurrentDate}) + FLOOR((MONTH({!$Flow.CurrentDate}) + 5) / 12),
-    MOD(MONTH({!$Flow.CurrentDate}) + 5, 12) + 1,
-    DAY({!$Flow.CurrentDate})
-)</expression>
+        <expression>ADDMONTHS({!$Flow.CurrentDate},6)</expression>
     </formulas>
     <formulas>
         <name>FinalErrorMessage</name>
