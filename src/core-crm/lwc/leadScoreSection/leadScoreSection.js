@@ -1,12 +1,17 @@
 import { LightningElement, api, wire, track } from 'lwc';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue, getObjectInfo } from 'lightning/uiRecordApi';
+
+
+import getScoreByCitizenshipStudyLvl from '@salesforce/apex/LeadScoreSectionCtrl.getScoreByCitizenshipStudyLvl';
+import getScoreDomesticStrongInterestPreApplication from '@salesforce/apex/LeadScoreSectionCtrl.getScoreDomesticStrongInterestPreApplication';
 
 import CONTACT_LEAD_SCORE from '@salesforce/schema/Contact.Lead_Score__c';
-import CONTACT_TOTAL_LEAD_SCORE from '@salesforce/schema/Contact.Lead_Score_Detail__r.Total_Lead_Score__c';
-import CONTACT_NAME from '@salesforce/schema/Contact.Name';
-import LEAD_NAME from '@salesforce/schema/Lead.Name';
+import CONTACT_CITIZENSHIP_STATUS from '@salesforce/schema/Contact.hed__Citizenship_Status__c';
+import CONTACT_PRIMARY_STUDY_LEVEL from '@salesforce/schema/Contact.Marketing_Segmentation__r.My_Primary_Study_Level__c';
+
 import LEAD_LEAD_SCORE from '@salesforce/schema/Lead.Lead_Score__c';
-import LEAD_TOTAL_LEAD_SCORE from '@salesforce/schema/Lead.Lead_Score_Detail__r.Total_Lead_Score__c';
+import LEAD_CITIZENSHIP_STATUS from '@salesforce/schema/Lead.Marketing_Segmentation__r.My_Citizenship_Status__c';
+import LEAD_PRIMARY_STUDY_LEVEL from '@salesforce/schema/Lead.Marketing_Segmentation__r.My_Primary_Study_Level__c';
 
 export default class LeadScoreSection extends LightningElement {
     @api recordId;
@@ -14,8 +19,8 @@ export default class LeadScoreSection extends LightningElement {
     @track fieldApiNames = [];
     progress = '';
     totalLeadScore = 0;
-    totalScore = 0;
-    wiredAccountList;
+    leadScore = 0;
+    nurtureTrack;
     cx = 0;
     cy = 0;
 
@@ -24,32 +29,57 @@ export default class LeadScoreSection extends LightningElement {
         const { error, data } = result;
 
         if (data) {
-            let leadScore = 0
-            let totalLeadScore = 0;
+            let leadScore = 0;
+            let primaryStudyLevel = '';
+            let citizenshipStatus = '';
+
             if (this.objectApiName === 'Lead') {
                 leadScore = getFieldValue(data, LEAD_LEAD_SCORE);
-                totalLeadScore = getFieldValue(data, LEAD_TOTAL_LEAD_SCORE);
+                this.leadScore = leadScore;
+                citizenshipStatus = getFieldValue(data, LEAD_CITIZENSHIP_STATUS);
+                citizenshipStatus = citizenshipStatus == 'International Student' ? 'International' : 'Domestic';
+                primaryStudyLevel = getFieldValue(data, LEAD_PRIMARY_STUDY_LEVEL);
             }
 
             if (this.objectApiName === 'Contact') {
                 leadScore = getFieldValue(data, CONTACT_LEAD_SCORE);
-                totalLeadScore = getFieldValue(data, CONTACT_TOTAL_LEAD_SCORE);
+                this.leadScore = leadScore;
+                citizenshipStatus = getFieldValue(data, CONTACT_CITIZENSHIP_STATUS);
+                primaryStudyLevel = getFieldValue(data, CONTACT_PRIMARY_STUDY_LEVEL);
             }
 
-            this.totalLeadScore = totalLeadScore;
-            this.totalScore = leadScore;
+            if (citizenshipStatus === 'Domestic' || citizenshipStatus === 'International') {
+                getScoreByCitizenshipStudyLvl({citizenshipStatus, primaryStudyLevel})
+                    .then(async(response) => {
+                        if (response.length) {
+                            this.generateProgressRing(leadScore, response[0].Max_Score__c);
+                            try {
+                                const nurtureTrack = await getScoreDomesticStrongInterestPreApplication({citizenshipStatus});
 
-            this.progress = this.getRingProgress(leadScore, totalLeadScore);
-
-            const width = 0.7;
-            const height = 0.7;
-            const anglePercentage = (leadScore / totalLeadScore) * 100;;  // Percentage of the circumference
-
-            const coordinates = this.calculateNodeCoordinates(width, height, anglePercentage);
-
-            this.cx = coordinates.x;
-            this.cy = coordinates.y;
+                                if (nurtureTrack.length) {
+                                    this.nurtureTrack = nurtureTrack[0].Lead_Score_Threshold__c;
+                                }
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        }
+                    });
+            }
         }
+    }
+
+    get getColorRingProgress() {
+        let css = 'slds-progress-ring slds-float_left ';
+
+        if (this.nurtureTrack && this.leadScore < this.nurtureTrack) {
+            css += 'slds-progress-ring_warning';
+        }
+
+        return css;
+    }
+
+    get getHasMaxScore() {
+        return this.cx != 0 && this.cy != 0 ? true : false;
     }
 
     get getTotalLeadScore() {
@@ -57,23 +87,39 @@ export default class LeadScoreSection extends LightningElement {
     }
 
     get getLeadScore() {
-        return this.totalScore;
+        return this.leadScore;
     }
 
     connectedCallback() {
         if (this.objectApiName === 'Lead') {
             this.fieldApiNames = [
                 LEAD_LEAD_SCORE,
-                LEAD_TOTAL_LEAD_SCORE,
+                LEAD_CITIZENSHIP_STATUS,
+                LEAD_PRIMARY_STUDY_LEVEL
             ];
         }
 
         if (this.objectApiName === 'Contact') {
             this.fieldApiNames = [
                 CONTACT_LEAD_SCORE,
-                CONTACT_TOTAL_LEAD_SCORE,
+                CONTACT_CITIZENSHIP_STATUS,
+                CONTACT_PRIMARY_STUDY_LEVEL
             ];
         }
+    }
+
+    generateProgressRing(leadScore, totalLeadScore) {
+        this.totalLeadScore = totalLeadScore;
+        this.progress = this.getRingProgress(leadScore, totalLeadScore);
+
+        const width = 0.7;
+        const height = 0.7;
+        const anglePercentage = (leadScore / totalLeadScore) * 100;;  // Percentage of the circumference
+
+        const coordinates = this.calculateNodeCoordinates(width, height, anglePercentage);
+
+        this.cx = coordinates.x;
+        this.cy = coordinates.y;
     }
 
     getRingProgress(leadScore, totalLeadScore) {
