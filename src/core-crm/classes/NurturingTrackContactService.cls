@@ -1375,13 +1375,19 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> internationalApplicantsToOffer = new Map<Id, hed__Application__c>();
         for (hed__Application__c application : applicationList) {
             Boolean withinOffSetDays = false;
-            if(offsetDays != null){
+            if(
+                offsetDays != null &&
+                application.Offered_Program_Plan__c != null &&
+                application.Offered_Program_Plan__r.Availability_Start_Date__c != null
+            ){
                 withinOffSetDays = (
                     application.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer) offsetDays) <= System.today() &&
                     application.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
                 );
             }
             if (
+                application.Applied_Intake_Study_Period__c != null &&
+                application.Applied_Intake_Study_Period__r.hed__Start_Date__c != null &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID  &&
                 ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
