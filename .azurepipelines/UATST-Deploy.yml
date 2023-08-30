@@ -27,7 +27,7 @@ parameters:
 - name: PACKAGE_DEPLOYMENT_DELTA_TYPE
   displayName: Package Deployment Delta Type
   type: string
-  default: "Diff from main"
+  default: "Diff from target branch"
   values:
   - "Diff from main"
   - "Diff from target branch"
@@ -38,7 +38,7 @@ parameters:
 - name: TARGET_BRANCH
   displayName: Target Branch
   type: string
-  default: main
+  default: uat
 
 stages:
   - stage: PiplineJob
@@ -71,6 +71,7 @@ stages:
                     TARGET_BRANCH: "${{ parameters.TARGET_BRANCH }}"
                 - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
+                - template: yml/templates/check-build-queue.yml@SFDX-PIPELINES
                 - template: yml/templates/sfdx-deploy-and-post-deploy.yml@SFDX-PIPELINES
                   parameters:
                     validateOrDeploy: "Deploy"
