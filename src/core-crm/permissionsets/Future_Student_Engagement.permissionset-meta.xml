@@ -8,6 +8,10 @@
         <application>International_Student_Recruitment</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <applicationVisibilities>
+        <application>Enquiry_Management</application>
+        <visible>true</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>AddressInformationValidationCtrl</apexClass>
         <enabled>true</enabled>
