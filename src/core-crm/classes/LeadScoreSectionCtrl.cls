@@ -21,7 +21,7 @@ public without sharing class LeadScoreSectionCtrl {
         List<Lead_Score_Configuration__c> nurtureList = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigByCitizenshipStudyLvl(
             citizenshipStatus,
             primaryStudyLevel,
-            'SYSTEM_MODE'
+            'USER_MODE'
         );
 
         return nurtureList;
@@ -37,7 +37,7 @@ public without sharing class LeadScoreSectionCtrl {
         Set<String> cadenceNames = new Set<String>();
 		cadenceNames.add(cadenceName);
 
-        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(cadenceNames,'SYSTEM_MODE');
+        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(cadenceNames,'USER_MODE');
         List<Nurture_Track_Configuration__c> nurtureMap = new List<Nurture_Track_Configuration__c>();
 
         for (Nurture_Track_Configuration__c rec: nurtureList) {
