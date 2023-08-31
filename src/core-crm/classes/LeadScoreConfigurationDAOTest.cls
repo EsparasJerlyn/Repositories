@@ -17,7 +17,7 @@ public with sharing class LeadScoreConfigurationDAOTest {
             .getLeadScoreConfigByCitizenshipStudyLvl(
                 '',
                 '',
-                'SYSTEM_MODE'
+                'USER_MODE'
             );
         System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should not be empty.');
         Test.stopTest();
