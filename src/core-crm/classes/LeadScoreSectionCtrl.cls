@@ -17,14 +17,14 @@ public without sharing class LeadScoreSectionCtrl {
         String citizenshipStatus,
         String primaryStudyLevel
     ) {
-        return [//NOPMD
-            SELECT
-            Id, Max_Score__c, Study_Level__c, Domestic_International__c
-            FROM Lead_Score_Configuration__c
-            WHERE Domestic_International__c =: citizenshipStatus
-            AND Study_Level__c =: primaryStudyLevel
-            LIMIT 1
-        ];
+
+        List<Lead_Score_Configuration__c> nurtureList = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigByCitizenshipStudyLvl(
+            citizenshipStatus,
+            primaryStudyLevel,
+            'SYSTEM_MODE'
+        );
+
+        return nurtureList;
     }
 
     @AuraEnabled(cacheable=true)
@@ -34,13 +34,18 @@ public without sharing class LeadScoreSectionCtrl {
             cadenceName = 'Domestic Strong Interest Pre-Application';
         }
 
-        return [//NOPMD
-            SELECT
-            Id, Cadence_Name__c, Lead_Score_Threshold__c
-            FROM Nurture_Track_Configuration__c
-            WHERE Cadence_Name__c =: cadenceName
-            AND Criteria_Type__c = 'Entry'
-            LIMIT 1
-        ];
+        Set<String> cadenceNames = new Set<String>();
+		cadenceNames.add(cadenceName);
+
+        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(cadenceNames,'SYSTEM_MODE');
+        List<Nurture_Track_Configuration__c> nurtureMap = new List<Nurture_Track_Configuration__c>();
+
+        for (Nurture_Track_Configuration__c rec: nurtureList) {
+            if(rec.Criteria_Type__c == 'Entry'){
+                nurtureMap.add(rec);
+            }
+        }
+
+        return nurtureMap;
     }
 }

@@ -69,7 +69,7 @@ export default class LeadScoreSection extends LightningElement {
     }
 
     get getColorRingProgress() {
-        let css = 'slds-progress-ring slds-float_left ';
+        let css = 'slds-progress-ring slds-progress-ring_large slds-float_left  ';
 
         if (this.nurtureTrack && this.leadScore < this.nurtureTrack) {
             css += 'slds-progress-ring_warning';
