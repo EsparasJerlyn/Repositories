@@ -6,9 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | mark.j.mahilum                 | July 10,2023          | DEPP-5799	            | Created File                  |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                       |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------------------------|
+ *    | mark.j.mahilum                 | July 10,2023          | DEPP-5799	            | Created File                                                                         |
+ *    | mark.j.mahilum                 | Aug 29.2023           | DEPP-6523              | Updated updateContactOnApplication to include removal of application link to contact |
  */
 public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not methods) can have a high amount of complexity and public methods
     /**
@@ -78,6 +79,16 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
                     Future_Student_Journey_Status__c = newJourneyStatus
                 )
             );
+        }
+
+        //contact with no related application update QUT_Applicant flag to false
+        for (Id contactId : contactIds) {
+            if (!updateContactMap.containsKey(contactId)) {
+                updateContactMap.put(
+                    contactId,
+                    new Contact(id = contactId, QUT_Applicant__c = false)
+                );
+            }
         }
 
         if (!updateContactMap.values().isEmpty()) {
