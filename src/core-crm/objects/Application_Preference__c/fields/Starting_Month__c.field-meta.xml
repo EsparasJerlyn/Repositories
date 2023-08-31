@@ -6,6 +6,7 @@
     <label>Starting Month</label>
     <precision>2</precision>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <scale>0</scale>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
