@@ -184,14 +184,18 @@ private class LeadDuplicatesHelperTest {
     private static void testLeadBatchUpdateNoDuplicates() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            List<Lead> leadToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount; i++) {
-                ldList[i].Email = 'new' + i + EMAIL;
-                ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
+                leadToUpdate.add(new Lead(
+                    Id = ldList[i].Id,
+                    Email ='new' + i + EMAIL,
+                    Work_Email__c ='newwork' + i + EMAIL
+                ));
             }
 
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.USER_MODE);
+                .updateRecords(leadToUpdate, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (Database.SaveResult sr : srList) {
@@ -206,14 +210,18 @@ private class LeadDuplicatesHelperTest {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> ldListToUpdate = new List<Lead>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {
-                ldList[i].Email = ldList[i + (recordsCount / 2)].Email;
-                ldList[i].Work_Email__c = ldList[i + (recordsCount / 2)].Work_Email__c;
-                ldListToUpdate.add(ldList[i]);
+                ldListToUpdate.add(new Lead(
+                    Id = ldList[i].Id,
+                    Email = ldList[i + (recordsCount / 2)].Email,
+                    Work_Email__c = ldList[i + (recordsCount / 2)].Work_Email__c
+                ));
             }
             for (Integer i = (recordsCount / 2) / 2; i < recordsCount / 2; i++) {
-                ldList[i].Email = 'newemail' + i + EMAIL;
-                ldList[i].Email = 'newworkemail' + i + EMAIL;
-                ldListToUpdate.add(ldList[i]);
+                ldListToUpdate.add(new Lead(
+                    Id = ldList[i].Id,
+                    Email = 'newemail' + i + EMAIL,
+                    Work_Email__c = 'newworkemail' + i + EMAIL
+                ));
             }
 
             Test.startTest();
@@ -252,14 +260,18 @@ private class LeadDuplicatesHelperTest {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> ldListToUpdate = new List<Lead>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {
-                ldList[i].Email = 'newemaildupe' + EMAIL;
-                ldList[i].Work_Email__c = 'newworkemaildupe' + EMAIL;
-                ldListToUpdate.add(ldList[i]);
+                ldListToUpdate.add(new Lead(
+                    Id = ldList[i].Id,
+                    Email = 'newemaildupe' + EMAIL,
+                    Work_Email__c = 'newworkemaildupe' + EMAIL
+                ));
             }
             for (Integer i = (recordsCount / 2) / 2; i < recordsCount / 2; i++) {
-                ldList[i].Email = 'newemail' + i + EMAIL;
-                ldList[i].Email = 'newworkemail' + i + EMAIL;
-                ldListToUpdate.add(ldList[i]);
+                ldListToUpdate.add(new Lead(
+                    Id = ldList[i].Id,
+                    Email = 'newemail' + i + EMAIL,
+                    Work_Email__c = 'newworkemail' + i + EMAIL
+                ));
             }
 
             Test.startTest();
@@ -298,14 +310,20 @@ private class LeadDuplicatesHelperTest {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             List<Lead> ldListToUpdate = new List<Lead>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {
-                ldList[i].Email = 'newemaildupe' + EMAIL;
-                ldList[i].Work_Email__c = 'newworkemaildupe' + EMAIL;
-                ldListToUpdate.add(ldList[i]);
+                ldListToUpdate.add(new Lead(
+                    Id = ldList[i].Id,
+                    Email = 'newemaildupe' + EMAIL,
+                    Work_Email__c = 'newworkemaildupe' + EMAIL
+                ));
             }
             for (Integer i = (recordsCount / 2) / 2; i < recordsCount / 2; i++) {
-                ldList[i].Email = ldList[i + recordsCount / 2].Email;
-                ldList[i].Email = ldList[i + recordsCount / 2].Work_Email__c;
-                ldListToUpdate.add(ldList[i]);
+                ldListToUpdate.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = ldList[i + recordsCount / 2].Email,
+                        Work_Email__c = ldList[i + recordsCount / 2].Work_Email__c
+                    )
+                );
             }
 
             Test.startTest();

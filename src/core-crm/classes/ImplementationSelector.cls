@@ -22,7 +22,7 @@
  *    | roy.nino.s.regala              | August 09, 2023       | DEPP-5677              | Added Object mapping for Task and ActionCadenceTracker Objects|
  *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Object mapping for hed__Program_Enrollment__c Object    |
  *    | eccarius.munoz                 | August 10, 2023       | DEPP-5760              | Added Object mapping for hed__Term__c and hed__Facility__c obj|
- * 
+ *    | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Added Object mapping for Package_Component__c obj             |
  */
 public class ImplementationSelector {
 
@@ -33,6 +33,7 @@ public class ImplementationSelector {
             Action__c.SObjectType => ActionsDAO.class,
             ActionCadenceTracker.SObjectType => ActionCadenceTrackersDAO.class,
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
+            Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class, 
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
@@ -64,13 +65,16 @@ public class ImplementationSelector {
             Opportunity_Outcome__c.SobjectType => OpportunityOutcomesDAO.class,
             Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
+            Package_Component__c.SObjectType => PackageComponentDAO.class,
             Product2.SObjectType => ProductsDAO.class,
             Profile.SObjectType => ProfilesDAO.class,            
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
             Task.SObjectType => TasksDAO.class,
-            UserAppInfo.SObjectType => UserAppInfosDAO.class
+            UserAppInfo.SObjectType => UserAppInfosDAO.class,
+            UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,
+            Expense__c.SObjectType => ExpensesDAO.class
         }
     ); 
 

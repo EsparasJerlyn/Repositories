@@ -9,6 +9,7 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | mark.j.mahilum            | July 18,2023          | DEPP-5799    | Created file                                |
+      | alexander.cadalin         | Aug 16, 2023          | DEPP-6124    | Refactor to consider multiple field updates |
 */
 @isTest
 private class ApplicationTriggerHelperTest {
@@ -22,6 +23,11 @@ private class ApplicationTriggerHelperTest {
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Account> newAccounts = new List<Account>();
+            newAccounts.add(TestDataFactory.createTestAccount(false));
+            newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
+            AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.SYSTEM_MODE);
+
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
@@ -102,7 +108,97 @@ private class ApplicationTriggerHelperTest {
                 System.assert(sr.isSuccess(), 'A record was not updated.');
             }
         }
-    }    
+    } 
+
+    @isTest
+    private static void updateCalculatedDateOnSamsApplicationRecordsTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            // create term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = System.today(),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts,'New', ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID);
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.stopTest();
+
+            List<hed__Application__c> updatedApplicationList = [SELECT Id, Calculated_Intake_Date__c,Applied_Intake_Study_Period__c FROM hed__Application__c WHERE Applied_Intake_Study_Period__c =: appliedIntakeTerm.Id];
+            // assert
+            System.assertEquals(
+                Date.today(),
+                updatedApplicationList[0].Calculated_Intake_Date__c, 
+                'Error, Should be equal to term start date.'
+            );
+        }
+    } 
+    
+    @isTest
+    private static void testUpdateRelatedContacts() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<hed__Application__c> applicationsToUpdate = [
+                SELECT Id, Is_Agent_Assisted__c, Is_International_Applicant__c,
+                Is_Personal_Illness_Disability_Applicant__c, Is_Elite_Athlete_Applicant__c, 
+                Is_Education_Disruption_Applicant__c, Is_First_In_Family_Applicant__c, 
+                Is_Financial_Hardship_Applicant__c, Agency_Name__c, Agency_Country__c, Agency_Email__c,
+                hed__Applicant__c
+                FROM hed__Application__c
+                WHERE hed__Applicant__c != null
+                WITH SYSTEM_MODE
+                LIMIT 1
+            ];
+            for(hed__Application__c app : applicationsToUpdate) {
+                app.Is_Agent_Assisted__c = true;
+                app.Is_International_Applicant__c = true;
+                app.Is_Personal_Illness_Disability_Applicant__c = true;
+                app.Is_Elite_Athlete_Applicant__c = true;
+                app.Is_Education_Disruption_Applicant__c = true;
+                app.Is_First_In_Family_Applicant__c = true;
+                app.Is_Financial_Hardship_Applicant__c = true;
+                app.Agency_Name__c = 'Agency Name';
+                app.Agency_Country__c = 'Agency Country';
+                app.Agency_Email__c = 'agency@email.test';
+            }
+            Test.startTest();
+            ApplicationsDAO.newInstance().updateRecords(applicationsToUpdate, false, AccessLevel.SYSTEM_MODE);
+            Contact updatedContact = [
+                SELECT Id, Is_Agent_Assisted__c, 
+                Is_International_Applicant__c, 
+                Personal_Illness_Disability_Applicant__c,
+                Elite_Athlete_Applicant__c,
+                Education_Disruption_Applicant__c,
+                First_In_Family_Applicant__c,
+                Financial_Hardship_Applicant__c,
+                Agency_Name__c,
+                Agency_Country__c,
+                Agency_Email__c
+                FROM Contact
+                WHERE Id = :applicationsToUpdate[0].hed__Applicant__c
+                WITH SYSTEM_MODE
+                LIMIT 1
+            ];
+            Test.stopTest();
+            System.assert(applicationsToUpdate[0].Is_Agent_Assisted__c == updatedContact.Is_Agent_Assisted__c, 'Is_Agent_Assisted__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_International_Applicant__c == updatedContact.Is_International_Applicant__c, 'Is_International_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Personal_Illness_Disability_Applicant__c == updatedContact.Personal_Illness_Disability_Applicant__c, 'Personal_Illness_Disability_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Elite_Athlete_Applicant__c == updatedContact.Elite_Athlete_Applicant__c, 'Elite_Athlete_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Education_Disruption_Applicant__c == updatedContact.Education_Disruption_Applicant__c, 'Education_Disruption_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_First_In_Family_Applicant__c == updatedContact.First_In_Family_Applicant__c, 'First_In_Family_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Is_Financial_Hardship_Applicant__c == updatedContact.Financial_Hardship_Applicant__c, 'Financial_Hardship_Applicant__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Agency_Name__c == updatedContact.Agency_Name__c, 'Agency_Name__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Agency_Country__c == updatedContact.Agency_Country__c, 'Agency_Country__c not updated correctly.');
+            System.assert(applicationsToUpdate[0].Agency_Email__c == updatedContact.Agency_Email__c, 'Agency_Email__c not updated correctly.');
+        }
+    }
     
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String applicationStatus,String recordType) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();

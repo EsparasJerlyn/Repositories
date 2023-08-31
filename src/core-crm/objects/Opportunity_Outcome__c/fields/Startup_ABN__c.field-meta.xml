@@ -5,12 +5,11 @@
     <externalId>false</externalId>
     <inlineHelpText>The ABN of the Startup Company.</inlineHelpText>
     <label>Startup ABN</label>
-    <precision>12</precision>
+    <length>20</length>
     <required>false</required>
-    <scale>0</scale>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>

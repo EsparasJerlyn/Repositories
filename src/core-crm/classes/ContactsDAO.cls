@@ -12,7 +12,7 @@
       |                                |                       |                        | + and getContactsWithMatchingEmails                       |
       | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added new method getContactsWithMatchingSamsApplications  |
 *     | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677                                |
-
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
     /**
@@ -22,6 +22,24 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final Id PERSON_RECORDTYPE_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get(PERSON_RECORDTYPE)
         .getRecordTypeId();
+
+    public static final Set<String> CONTACT_HAS_APPLIED_STATUSES = new Set<String>{
+        'Apply','Offer','Accept-Admit','Study'
+    };
+
+    public static final Set<String> CONTACT_HAS_OFFERED_STATUSES = new Set<String>{
+        'Offer','Accept-Admit','Study'
+    };
+
+    public static final Set<String> CONTACT_HAS_ACCEPTED_STATUSES = new Set<String>{
+        'Accept-Admit','Study'
+    };
+
+    public static final String EXPLORE_JOURNEY_STATUS = 'Explore';
+    public static final String APPLY_JOURNEY_STATUS = 'Apply';
+    public static final String OFFER_JOURNEY_STATUS = 'Offer';
+    public static final String ACCEPT_ADMIT_JOURNEY_STATUS = 'Accept-Admit';
+    public static final String STUDY_JOURNEY_STATUS = 'Study';
 
     public static IContactsDAO newInstance() {
         return (IContactsDAO) ImplementationSelector.DAO.newInstance(Contact.SObjectType);
@@ -58,12 +76,16 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Email,
                 QUT_Learner_Email__c,
                 QUT_Staff_Email__c,
+                QUT_Applicant__c,
+                QUT_Student__c,
                 Work_Email__c,
                 hed__Preferred_Email__c,
-                hed__AlternateEmail__c
+                hed__AlternateEmail__c,
+                Future_Student_Journey_Status__c,
+                Lead_Score__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
-            WITH USER_MODE
+            WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
             LIMIT :recordsCount
         ];
     }
@@ -175,6 +197,21 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 AND Can_Nurture__c = TRUE
             WITH USER_MODE
         ];
+    }
+
+    public List<Contact> getContactCalculatedCadenceByIds(
+        Set<String> recordIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Calculated_Cadence__c ' +
+            'FROM Contact ' +
+            'WHERE RecordTypeId = :PERSON_RECORDTYPE_ID ' +
+            'AND Id IN: recordIds ' +
+            'AND Calculated_Cadence__c != NULL ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
     }
 
     /**

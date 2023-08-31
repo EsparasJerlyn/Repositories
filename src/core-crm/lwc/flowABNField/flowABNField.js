@@ -6,11 +6,12 @@
  *
  * @history
  *
- *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
- *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
- *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                 |
- *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Added ABN Field Form Validation              |
- *    | ryan.j.a.dela.cruz        | August 3, 2023        | DEPP-6093            | Added Retention Of ABN Field Value           |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                                    |
+ *    |---------------------------|-----------------------|----------------------|---------------------------------------------------|
+ *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                      |
+ *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Added ABN Field Form Validation                   |
+ *    | ryan.j.a.dela.cruz        | August 3, 2023        | DEPP-6093            | Added Retention Of ABN Field Value                |
+ *    | ryan.j.a.dela.cruz        | August 8, 2023        | DEPP-6521            | Added Spinner for Users Who Click Next Too Fast   |
  */
 import { LightningElement, api, track } from "lwc";
 import checkABNExists from "@salesforce/apex/AccountCtrl.checkABNExists";
@@ -20,6 +21,7 @@ import CustomFlowCSS from "@salesforce/resourceUrl/CustomFlowCSS";
 export default class ABNCheckComponent extends LightningElement {
   @api ABN;
   @track errorMessage = "";
+  isLoading = false;
   messageValue = "ABN should be unique.";
   abnExists = false;
   isException = false;
@@ -35,10 +37,10 @@ export default class ABNCheckComponent extends LightningElement {
       // Check if the value already exists in session storage
       const existingValue = sessionStorage.getItem(sessionKey);
 
-      if (existingValue !== null) {
+      if (existingValue) {
         // A value already exists, set it to the ABN property
         this.ABN = existingValue;
-        this.checkABN(existingValue); // Initial check if value exists
+        this.checkABN(existingValue, true); // Initial check if value exists
       }
     }
 
@@ -59,7 +61,6 @@ export default class ABNCheckComponent extends LightningElement {
       loadStyle(this, CustomFlowCSS)
         .then(() => {
           this.customCSSLoaded = true;
-          console.log("Custom CSS Loaded");
           // Store the value in the session
           sessionStorage.setItem(
             "customCSSLoaded",
@@ -93,24 +94,25 @@ export default class ABNCheckComponent extends LightningElement {
     return urlParams.get(param);
   }
 
-  // Clear error message
-  clearErrorMessage() {
+  // Reset ABN status and clear error message
+  resetAbnStatus() {
     this.errorMessage = "";
+    this.abnExists = false;
   }
 
   // Handle ABN input change event
   handleABNChange(event) {
-    const abnValue = event.target.value.trim().replace(/\s/g, ""); // Update ABN value and remove whitespaces
+    const abnValue = event.target.value; // Update ABN value
     clearTimeout(this.timer);
 
     if (abnValue) {
       // Set a timer to wait for user to finish typing
       this.timer = setTimeout(() => {
-        this.checkABN(abnValue);
+        this.checkABN(abnValue, false);
       }, 300);
     } else {
-      // Clear error message when ABN input is empty
-      this.clearErrorMessage();
+      // Clear error message and reset abnExist variable when ABN input is empty
+      this.resetAbnStatus();
     }
 
     const uid = this.getUrlParameter("uid");
@@ -123,7 +125,11 @@ export default class ABNCheckComponent extends LightningElement {
   }
 
   // Check if ABN already exists
-  checkABN(abnValue) {
+  checkABN(abnValue, useLoading) {
+    if (useLoading) {
+      this.isLoading = true;
+    }
+
     checkABNExists({ abn: abnValue })
       .then((result) => {
         this.abnExists = result;
@@ -133,6 +139,11 @@ export default class ABNCheckComponent extends LightningElement {
       .catch((error) => {
         this.errorMessage = error.message || "An error occurred";
         this.isException = true;
+      })
+      .finally(() => {
+        if (useLoading) {
+          this.isLoading = false;
+        }
       });
   }
 

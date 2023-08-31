@@ -21,10 +21,11 @@ public with sharing class ContextualRoleTriggerHelper {
      public static void getContactFromContextualRole(List<Contextual_Role__c> newItems, Map<Id, Contextual_Role__c> oldItems) {
          
          Set<Id> contactIds = new Set<Id>();
+         Set<String> recordTypeIds = new Set<String>{ContextualRolesDAO.ENGAGEMENT_ROLE_RECTYPE_ID,ContextualRolesDAO.OPPORTUNITY_ROLE_RECTYPE_ID};
          
          for(Contextual_Role__c cr : newItems) {
              
-             if(cr.RecordTypeId == ContextualRolesDAO.OPPORTUNITY_ROLE_RECTYPE_ID && String.isNotEmpty(cr.Contact__c)){
+            if(recordTypeIds.contains(cr.RecordTypeId) && String.isNotEmpty(cr.Contact__c)){
                 contactIds.add(cr.Contact__c); 
              }
          }

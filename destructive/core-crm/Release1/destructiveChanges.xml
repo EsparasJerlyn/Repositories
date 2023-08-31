@@ -22,6 +22,9 @@
         <!--(Start) DEPP-6336 -->
         <members>newFinancialSplit</members>
         <!-- (End) DEPP-6336 -->
+        <!--(Start) DEPP-6331 -->
+        <members>linkIpManagement</members>
+        <!--(End) DEPP-6331 -->
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
@@ -107,6 +110,13 @@
         <members>QTAC_Preference__c.QTAC_Program_ID__c</members>
         <members>QTAC_Preference__c.QTAC_Program_Name__c</members>
         <!-- End DEPP-6136-->
+        <!-- Start DEPP-6482-->
+        <members>Contact.Australian_South_Sea_Islander__c</members>
+        <members>Contact.First_Peoples__c</members>
+        <members>Contact.Is_Maori_and_Pasifika__c</members>
+        <members>Contact.QLD_School_Name__c</members>
+        <members>Contact.Year_of_Arrival__c</members>
+        <!-- End DEPP-6482-->
         <name>CustomField</name>
     </types>
     <types>
@@ -218,6 +228,9 @@
         <!--(Start) DEPP-6336 -->
         <members>Financial_Split__c.NewFinancialSplit</members>
         <!-- (End) DEPP-6336 -->
+        <!--(Start) DEPP-6331 -->
+        <members>IP_Management_Relationship__c.Link</members>
+        <!-- (End) DEPP-6331 -->
         <name>WebLink</name>
     </types>
     <types>

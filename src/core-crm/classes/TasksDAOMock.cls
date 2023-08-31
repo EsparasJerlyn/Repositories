@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                    |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
+      | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                      |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new mock method getCompletedTasksByTargetId |
  */
 @isTest
 public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITasksDAO {
@@ -19,5 +20,20 @@ public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITask
     public TasksDAOMock() {
         super(new Map<Id, Task>(), Schema.Task.SObjectType);
         this.taskMap = (Map<Id, Task>) super.records;
+    }
+
+    public List<Task> getCompletedTasksByTargetId(
+        Set<String> targetIds,
+        Set<String> actionCadenceIds
+    ) {
+        List<Task> taskList = new List<Task>();
+        for (Task ts : taskMap.values()) {
+            if (
+                targetIds.contains(ts.ActionCadenceStepTracker.TargetId)
+            ) {
+                taskList.add(ts);
+            }
+        }
+        return taskList;
     }
 }

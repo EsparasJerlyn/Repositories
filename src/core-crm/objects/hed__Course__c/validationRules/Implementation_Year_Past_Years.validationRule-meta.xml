@@ -3,6 +3,7 @@
     <fullName>Implementation_Year_Past_Years</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
+ ISCHANGED( Implementation_Year__c ),
  NOT ( ISBLANK( Implementation_Year__c ) ),
  ISNUMBER( Implementation_Year__c ),
  LEN( Implementation_Year__c ) = 4,

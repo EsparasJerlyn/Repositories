@@ -123,4 +123,18 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getContactCalculatedCadenceByIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactCalculatedCadenceByIds(
+                    new Set<String>(),
+                    'USER_MODE'
+                );
+            System.assert(contactList.isEmpty(), 'contactList should not be empty');
+        }
+        Test.stopTest();
+    }
 }

@@ -30,7 +30,6 @@ private class ContactTriggerHelperTest {
         acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
         accountList.add(acc);
         insert accountList;
-        
     } 
 
     @isTest
@@ -126,7 +125,7 @@ private class ContactTriggerHelperTest {
             System.assert(con[0].Can_Nurture__c,'Contacts can nurture flag not updated');
             
         }
-    }
+    } 
     
     @isTest
     private static void testGetContactCalculatedCadence() {
@@ -151,4 +150,33 @@ private class ContactTriggerHelperTest {
         }
     }
 
+    @isTest
+    private static void testUpdateMovingToBrisbaneOnInsert() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
+            insert marSeg;
+            Contact con = new Contact(LastName = 'Test', Marketing_Segmentation__c = marSeg.Id);
+            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
+            Test.stopTest();
+            System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
+        }
+    }
+    
+    @isTest
+    private static void testUpdateMovingToBrisbaneOnUpdate() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
+            insert marSeg;
+            Contact con = new Contact(LastName = 'Test');
+            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            con.Marketing_Segmentation__c = marSeg.Id;
+            ContactsDAO.newInstance().updateRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
+            Test.stopTest();
+            System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
+        }
+    }
 }

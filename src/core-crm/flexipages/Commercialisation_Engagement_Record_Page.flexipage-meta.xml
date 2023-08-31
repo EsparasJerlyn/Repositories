@@ -1038,75 +1038,89 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CustomButton.IP_Management_Relationship__c.Link</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>defaultValues</name>
+                    <value>{&quot;RecordType.DeveloperName&quot;:&quot;IP_Engagement_Relationship&quot;}</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>adminFilters</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>RECORDTYPE|EQUALS|[&quot;IP_Engagement_Relationship&quot;]</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>dynamicDataTableInput</name>
+                    <value>IP Engagement Relationship</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
+                    <name>editActionType</name>
+                    <value>Default</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Engagement__c.Id</value>
+                    <name>editScreenFlowApiName</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>IP_Management_Relationships__r</value>
+                    <name>icon</name>
+                    <value>standard:shipment</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>IP_Management__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IP_Name__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IP_Type__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IP_Stage_Name__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Is_Active__c</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>newActionTypeLabel</name>
+                    <value>Link</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                    <value>Link_IP_Management</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Engagement__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>IP Engagement Relationship</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Engagement__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;IP Management&quot;,&quot;fieldName&quot;:&quot;IP_Management__r.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;IP Name&quot;,&quot;fieldName&quot;:&quot;IP_Name__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;IP Type&quot;,&quot;fieldName&quot;:&quot;IP_Type__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;IP Stage&quot;,&quot;fieldName&quot;:&quot;IP_Stage_Name__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>RecordType.DeveloperName = &apos;IP_Engagement_Relationship&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
                     <value>Related IPs</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>showActionBar</name>
+                    <name>relatedRecord</name>
+                    <value>IP_Management_Relationship__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>__DEFAULT__</value>
+                    <name>showNewButton</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Default</value>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
                 </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList2</identifier>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-0364f358-771a-41c8-aa0f-50f8a5178034</name>
@@ -1698,6 +1712,40 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField5</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField6</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Closed_Reason__c</fieldItem>
@@ -1756,6 +1804,16 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField7</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -2093,6 +2151,40 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField8</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField9</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage_Name__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>On Hold</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Closed_Reason__c</fieldItem>
                 <identifier>RecordClosed_Reason_cField5</identifier>
             </fieldInstance>
@@ -2149,6 +2241,16 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Comment__c</fieldItem>
+                <identifier>RecordOn_Hold_Comment_cField10</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>

@@ -617,11 +617,7 @@
     <formulas>
         <name>CurrentDatePlusSixMonths</name>
         <dataType>Date</dataType>
-        <expression>DATE(
-    YEAR({!$Flow.CurrentDate}) + FLOOR((MONTH({!$Flow.CurrentDate}) + 5) / 12),
-    MOD(MONTH({!$Flow.CurrentDate}) + 5, 12) + 1,
-    DAY({!$Flow.CurrentDate})
-)</expression>
+        <expression>ADDMONTHS({!$Flow.CurrentDate},6)</expression>
     </formulas>
     <interviewLabel>New Opportunity {!$Flow.CurrentDateTime}</interviewLabel>
     <label>New Opportunity</label>
@@ -766,7 +762,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>Opportunity_Name</elementReference>
+                <elementReference>Opportunity_Name_Com</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1008,7 +1004,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>Opportunity_Name</elementReference>
+                <elementReference>Opportunity_Name_RP</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1593,6 +1589,18 @@
                     <stringValue>OpportunityContactLookupIdentifier</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>fieldsToDisplay</name>
+                <value>
+                    <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fieldsToSearch</name>
+                <value>
+                    <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1795,29 +1803,51 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Opportunity_Name</name>
+            <name>Opportunity_Name_Com</name>
             <dataType>String</dataType>
+            <defaultValue>
+                <stringValue>RCO: </stringValue>
+            </defaultValue>
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;When creating a new opportunity, it must meet the following naming convention: RCO: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RCO: Aqueous Zinc Ion Battery Production - 2023.&lt;/p&gt;</helpText>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
-                <formulaExpression>LEN({!Opportunity_Name})&lt;=120</formulaExpression>
+                <formulaExpression>LEN({!Opportunity_Name_Com})&lt;=120</formulaExpression>
             </validationRule>
             <visibilityRule>
-                <conditionLogic>or</conditionLogic>
-                <conditions>
-                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <elementReference>ResearchPartnershipText</elementReference>
-                    </rightValue>
-                </conditions>
+                <conditionLogic>and</conditionLogic>
                 <conditions>
                     <leftValueReference>SelectedRecordTypeName</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <elementReference>CommercialisationText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Opportunity_Name_RP</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <stringValue>RPO: </stringValue>
+            </defaultValue>
+            <fieldText>Opportunity Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;When creating a new opportunity, it must meet the following naming convention: RPO: &amp;lt;Insert descriptive name&amp;gt; - &amp;lt;Year&amp;gt;. An example is: RPO: Textile Waste Recycling Management - 2023.&lt;/p&gt;</helpText>
+            <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(234, 0, 30);&quot;&gt;You can&apos;t enter more than 120 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Opportunity_Name_RP})&lt;=120</formulaExpression>
+            </validationRule>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>ResearchPartnershipText</elementReference>
                     </rightValue>
                 </conditions>
             </visibilityRule>
@@ -1890,6 +1920,9 @@
         <fields>
             <name>Opportunity_Name_IPU</name>
             <dataType>String</dataType>
+            <defaultValue>
+                <stringValue>INPO: </stringValue>
+            </defaultValue>
             <fieldText>Opportunity Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>

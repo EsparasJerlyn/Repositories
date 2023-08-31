@@ -122,14 +122,16 @@ private class DuplicateCheckerHelperTest {
     private static void testLeadBatchInsertDuplicatesWithinBatch() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> newLeads = createTestLeadRecords(0, recordsCount);
+            List<Lead> leadToUpdate = new List<Lead>();
             for (Lead ld : newLeads) {
-                ld.Email = EMAIL;
-                ld.Work_Email__c = 'work' + EMAIL;
+                leadToUpdate.add(
+                    new Lead(Id = ld.Id, Email = EMAIL, Work_Email__c = 'work' + EMAIL)
+                );
             }
 
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .insertRecords(newLeads, false, AccessLevel.USER_MODE);
+                .insertRecords(leadToUpdate, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (Database.SaveResult sr : srList) {
@@ -142,14 +144,16 @@ private class DuplicateCheckerHelperTest {
     private static void testLeadBatchInsertDuplicatesWithinAndExisting() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> newLeads = createTestLeadRecords(0, recordsCount);
+            List<Lead> leadToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount / 2; i++) {
-                newLeads[i].Email = EMAIL;
-                newLeads[i].Work_Email__c = 'work' + EMAIL;
+                leadToUpdate.add(
+                    new Lead(Id = newLeads[i].Id, Email = EMAIL, Work_Email__c = 'work' + EMAIL)
+                );
             }
 
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .insertRecords(newLeads, false, AccessLevel.USER_MODE);
+                .insertRecords(leadToUpdate, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (Database.SaveResult sr : srList) {
@@ -162,12 +166,15 @@ private class DuplicateCheckerHelperTest {
     private static void testLeadSingleUpdateNoDuplicateEmail() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(1);
-            ldList[0].Email = 'nodupeemail@mail.test';
-            ldList[0].Work_Email__c = 'nodupeworkemail@mail.test';
+            lead leadToUpdate = new Lead(
+                Id = ldList[0].Id,
+                Email = 'nodupeemail@mail.test',
+                Work_Email__c = 'nodupeworkemail@mail.test'
+            );
 
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.USER_MODE);
+                .updateRecords(new List<Lead>{ leadToUpdate }, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             System.assert(srList[0].isSuccess(), 'The record was not saved.');
@@ -178,12 +185,15 @@ private class DuplicateCheckerHelperTest {
     private static void testLeadSingleUpdateDuplicatesExisting() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(2);
-            ldList[0].Email = ldList[1].Email;
-            ldList[0].Work_Email__c = ldList[1].Work_Email__c;
+            lead leadToUpdate = new Lead(
+                Id = ldList[0].Id,
+                Email = ldList[1].Email,
+                Work_Email__c = ldList[1].Work_Email__c
+            );
 
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.USER_MODE);
+                .updateRecords(new List<Lead>{leadToUpdate}, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             System.assert(!srList[0].isSuccess(), 'The record was saved.');
@@ -194,12 +204,14 @@ private class DuplicateCheckerHelperTest {
     private static void testLeadSingleUpdateCrossFieldsDuplicatesExisting() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(2);
-            ldList[0].Email = ldList[1].Work_Email__c;
-            ldList[0].Work_Email__c = ldList[1].Email;
-
+            lead leadToUpdate = new Lead(
+                Id = ldList[0].Id,
+                Email = ldList[1].Work_Email__c,
+                Work_Email__c = ldList[1].Email
+            );
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.USER_MODE);
+                .updateRecords(new List<Lead>{leadToUpdate}, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             System.assert(!srList[0].isSuccess(), 'The record was saved.');
@@ -210,14 +222,17 @@ private class DuplicateCheckerHelperTest {
     private static void testLeadBatchUpdateNoDuplicates() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            List<Lead> leadToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount; i++) {
-                ldList[i].Email = 'new' + i + EMAIL;
-                ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
+
+                leadToUpdate.add(
+                    new Lead(Id = ldList[i].Id, Email = 'new' + i + EMAIL, Work_Email__c = 'newwork' + i + EMAIL)
+                );
             }
 
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.USER_MODE);
+                .updateRecords(leadToUpdate, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (Database.SaveResult sr : srList) {

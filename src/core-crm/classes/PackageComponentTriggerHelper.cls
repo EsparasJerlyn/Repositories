@@ -1,0 +1,66 @@
+/**
+ * @description helper class for PackageComponentTriggerHelper
+ * @see PackageComponentTriggerHelper
+ *
+ * @author Accenture-
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
+      |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
+      | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Created file                                     |
+ */
+public with sharing class PackageComponentTriggerHelper {
+    /**
+     * @description update the Application record from Package Component
+     *
+     * @param newItems  List of new Package Component records
+     */
+     public static void updateStudyLinkApplicationCalculatedDateOnPackageComponent(List<Package_Component__c> newItems,Map<Id,Package_Component__c> oldMap) {
+        try{
+            Set<Id> applicationPreferenceIds = PackageComponentService.getAllApplicationPreferenceIdInPackageComponent(newItems);
+            Map<Id,hed__Application__c> updateApplicationMap = new Map<Id,hed__Application__c>();
+            Map<Id,Application_Preference__c> appPrefRecords = checkStudyLinkApplicationPreference(applicationPreferenceIds);
+
+            for(Package_Component__c packageComp : newItems){
+                if(appPrefRecords.containsKey(packageComp.Application_Preference__c) && packageComp.Package_Component_No__c == 1 && (oldMap == null || packageComp.Start_Date__c != oldMap.get(packageComp.Id).Start_Date__c)){
+                    updateApplicationMap.put(
+                        appPrefRecords.get(packageComp.Application_Preference__c).Application__c,
+                        new hed__Application__c(
+                            id = appPrefRecords.get(packageComp.Application_Preference__c).Application__c,
+                            Calculated_Intake_Date__c = packageComp.Start_Date__c
+                        )
+                    );
+                }
+            }
+            if(!updateApplicationMap.values().isEmpty()){
+                ApplicationsDAO.newInstance().updateRecords(updateApplicationMap.values(), false, AccessLevel.SYSTEM_MODE);
+            }
+        } catch (Exception e) {
+            Logger.error('Exception caught in method updateStudyLinkApplicationCalculatedDateOnPackageComponent in class PackageComponentTriggerHelper.')
+              .setExceptionDetails(e);
+          } finally {
+            if(Logger.getBufferSize() > 0) {
+              Logger.saveLog();
+            }
+          }
+     }
+
+      /**
+     * @description: get existing application preference Id from Package Component
+     *
+     * @param Set<Id>  Application Preference Id to evaluate
+     */
+    public static Map<Id,Application_Preference__c> checkStudyLinkApplicationPreference(Set<Id> applicationPreferenceIds) {
+        Map<Id,Application_Preference__c> appPreferenceMap = new Map<Id,Application_Preference__c>();
+
+        List<Application_Preference__c> studyLinkAppPreference = ApplicationPreferencesDAO.newInstance().getCurrentApplicationPreferenceById(applicationPreferenceIds,'SYSTEM_MODE');
+        for(Application_Preference__c appPreference : studyLinkAppPreference){
+            if(appPreference.Is_Current_Preference__c == true && appPreference.Application__r.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID && appPreference.Application__c != null){
+                appPreferenceMap.put(appPreference.Id,appPreference);
+            }
+        }
+
+        return appPreferenceMap;
+    }
+}

@@ -13,21 +13,21 @@
 */
 @isTest
 private class LeadServiceTest {
+    private static Integer recordsCount = 5;
     private static final String LASTNAME = 'Testlastname';
     private static final String EMAIL = 'testmail@mail.test';
     private static final String COMPANY = 'Testcompany';
     private static final String LEAD_TYPE = 'Learner';
-    private static Integer recordsCount = 5;
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent' });
 
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             LeadsDAO.newInstance()
                 .insertRecords(
-                    createTestLeadRecords(0, recordsCount),
+                    TestDataFactory.createTestLeadRecords(0, recordsCount),
                     false,
                     AccessLevel.USER_MODE
                 );
@@ -41,7 +41,7 @@ private class LeadServiceTest {
             Test.startTest();
             Database.SaveResult[] srList = LeadsDAO.newInstance()
                 .insertRecords(
-                    createTestLeadRecords(recordsCount, recordsCount),
+                    TestDataFactory.createTestLeadRecords(recordsCount, recordsCount),
                     false,
                     AccessLevel.USER_MODE
                 );
@@ -55,8 +55,9 @@ private class LeadServiceTest {
                 }
             }
             
-            for (Lead lead : [SELECT Id,Status FROM Lead WHERE Id IN :leadIds]) {  
+            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
                 System.assertEquals('New', lead.Status,'Lead Status did not match');
+                System.assert(String.isBlank(lead.Future_Student_Journey_Status__c),'Lead Future_Student_Journey_Status__c did not match');
             }
         }
     }
@@ -84,8 +85,9 @@ private class LeadServiceTest {
                 }
             }
             
-            for (Lead lead : [SELECT Id,Status FROM Lead WHERE Id IN :leadIds]) {  
+            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
                 System.assertEquals('Engaging', lead.Status,'Lead Status did not match');
+                System.assertEquals('Explore', lead.Future_Student_Journey_Status__c,'Lead Future_Student_Journey_Status__c did not match');
             }
         }
     }
@@ -113,8 +115,9 @@ private class LeadServiceTest {
                 }
             }
             
-            for (Lead lead : [SELECT Id,Status FROM Lead WHERE Id IN :leadIds]) {  
+            for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
                 System.assertEquals('Nurturing', lead.Status,'Lead Status did not match');
+                System.assertEquals('Explore', lead.Future_Student_Journey_Status__c,'Lead Future_Student_Journey_Status__c did not match');
             }
         }
     }
@@ -150,7 +153,7 @@ private class LeadServiceTest {
                 }
             }
             
-            for (Lead lead : [SELECT Id,Can_Nurture__c FROM Lead WHERE Id IN :leadIds]) {  
+            for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
                 System.assert(lead.Can_Nurture__c,'Can Nurture is not ticked');
             }
         }
@@ -174,19 +177,4 @@ private class LeadServiceTest {
         }
     }    
 
-    private static List<Lead> createTestLeadRecords(Integer startAtCount, Integer endBeforeCount) {
-        List<Lead> newLeads = new List<Lead>();
-        for (Integer i = startAtCount; i < endBeforeCount; i++) {
-            newLeads.add(
-                new Lead(
-                    LastName = LASTNAME + i,
-                    Email = i + EMAIL,
-                    Work_Email__c = 'work' + i + EMAIL,
-                    Company = COMPANY + i,
-                    Lead_Type__c = LEAD_TYPE
-                )
-            );
-        }
-        return newLeads;
-    }
 }

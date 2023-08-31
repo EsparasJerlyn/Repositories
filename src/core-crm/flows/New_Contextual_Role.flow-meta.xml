@@ -290,13 +290,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>BoardofDirectorsContactLookup.selectedRecordIdOutput</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>IsQUTInternalParticipant</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -405,13 +398,6 @@
                 <elementReference>Is_Active8</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>PublicOfficersContactLookup.selectedRecordIdOutput</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
@@ -426,6 +412,27 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Is_Active5</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>SchoolAccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ResearchCentreAccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FacultyAccountId</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -1125,6 +1132,18 @@
                             <stringValue>RecordType.DeveloperName =&apos;Person&apos;</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -1306,9 +1325,24 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <outputParameters>
+                        <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
                 </fields>
                 <fields>
                     <name>BoardOfDirectors_QUT_Staff</name>
@@ -1333,7 +1367,6 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1349,7 +1382,6 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1446,6 +1478,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -1455,7 +1499,6 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1554,7 +1597,6 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1657,6 +1699,18 @@
                             <booleanValue>false</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -1687,13 +1741,11 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1928,7 +1980,6 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1993,6 +2044,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -2009,7 +2072,6 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2106,9 +2168,24 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <outputParameters>
+                        <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
                 </fields>
                 <fields>
                     <name>Is_Active8</name>
@@ -2133,13 +2210,11 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2236,10 +2311,10 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
-                        <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
+                        <assignToReference>SchoolAccountId</assignToReference>
                         <name>selectedRecordIdOutput</name>
                     </outputParameters>
                     <visibilityRule>
@@ -2303,9 +2378,12 @@
                             <stringValue>Organization_Unit_Level__c = &apos;2&apos; AND End_Date__c =null</stringValue>
                         </value>
                     </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <outputParameters>
+                        <assignToReference>FacultyAccountId</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -2367,9 +2445,12 @@
                             <stringValue>standard:account</stringValue>
                         </value>
                     </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <outputParameters>
+                        <assignToReference>ResearchCentreAccountId</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -2490,6 +2571,18 @@
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -2499,7 +2592,6 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -2598,7 +2690,6 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2695,6 +2786,18 @@
                             <stringValue>Mandatory Field</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -2725,13 +2828,11 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2816,6 +2917,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>FacultyAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>IsQUTInternalParticipant</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -2855,6 +2963,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>ResearchCentreAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>RoleIsActive</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -2873,5 +2988,12 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>SchoolAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
 </Flow>

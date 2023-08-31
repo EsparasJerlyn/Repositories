@@ -59,7 +59,7 @@
             <assignToReference>IP_Management_Relationship_To_Insert.Engagement__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>srcId</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -106,7 +106,7 @@
             <assignToReference>IP_Management_Relationship_To_Insert.Opportunity__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>srcId</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -129,7 +129,7 @@
             <assignToReference>IP_Management_Relationship_To_Insert.Opportunity_Outcome__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>srcId</elementReference>
+                <elementReference>ParentId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -156,7 +156,7 @@
             <name>Engagement</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>srcSobjectType</leftValueReference>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Engagement__c</stringValue>
@@ -171,7 +171,7 @@
             <name>Opportunity</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>srcSobjectType</leftValueReference>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Opportunity</stringValue>
@@ -186,7 +186,7 @@
             <name>Opportunity_Outcome</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>srcSobjectType</leftValueReference>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Opportunity_Outcome__c</stringValue>
@@ -436,6 +436,13 @@
     </start>
     <status>Active</status>
     <variables>
+        <name>DynamicDataTableInput</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>IP_Management_Relationship_To_Insert</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -454,14 +461,28 @@
         </value>
     </variables>
     <variables>
-        <name>srcId</name>
+        <name>ParentId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>srcSobjectType</name>
+        <name>ParentObjectApiName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RecordTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RecordTypeName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

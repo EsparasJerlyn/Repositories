@@ -170,6 +170,7 @@
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>IP_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>RECORDTYPE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>WIPO_Country_Code__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Stage_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>OWNER.FIRST_NAME</searchResultsAdditionalFields>

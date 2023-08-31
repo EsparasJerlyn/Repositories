@@ -803,6 +803,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
             p.Delivery__c.contains('Brisbane Classroom') || 
             p.Delivery__c.contains('Canberra Classroom') || 
             p.Delivery__c.contains('Cairns Classroom') ||
+            p.Delivery__c.contains('NSW Classroom') ||
             p.Delivery__c.contains('Sydney Classroom') ||             
             p.Delivery__c.contains('Melbourne Classroom') || 
             p.Delivery__c.contains('Online Classroom')||
@@ -859,6 +860,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
             p.Delivery__c.contains('Brisbane Classroom') || 
             p.Delivery__c.contains('Canberra Classroom') || 
             p.Delivery__c.contains('Cairns Classroom') ||
+            p.Delivery__c.contains('NSW Classroom') ||
             p.Delivery__c.contains('Sydney Classroom') ||             
             p.Delivery__c.contains('Melbourne Classroom') || 
             p.Delivery__c.contains('Online Classroom')||

@@ -9,6 +9,7 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
  *    | eugene.andrew.abuan            | July 12, 2023         | DEPP-5483              | Created file                               |
  *    | kenneth.f.alsay                | July 13, 2023         | DEPP-5475              | Added all IPManagemet Record Types         |
+ *    | kenneth.f.alsay                | August 28, 2023       | DEPP-6466              | Added getIPManagementRecordsBySetIds       |
  */
 public inherited sharing class IPManagementsDAO extends DmlBase implements IIPManagementsDAO {
     public static final Id DESIGN_RIGHTS_RECTYPE_ID = Schema.SObjectType.IP_Management__c.getRecordTypeInfosByDeveloperName()
@@ -32,5 +33,16 @@ public inherited sharing class IPManagementsDAO extends DmlBase implements IIPMa
         return (IIPManagementsDAO) ImplementationSelector.DAO.newInstance(
             IP_Management__c.SObjectType
         );
+    }
+
+    public List<IP_Management__c> getIPManagementRecordsBySetIds(
+        Set<Id> ipManagementIds
+    ) {
+        return [ //NOPMD
+            SELECT Id, OwnerId
+            FROM IP_Management__c
+            WHERE Id IN: ipManagementIds
+            WITH USER_MODE
+        ];
     }
 }

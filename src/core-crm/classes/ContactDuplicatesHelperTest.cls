@@ -172,6 +172,7 @@ private class ContactDuplicatesHelperTest {
     private static void testBatchInsertDuplicatesWithinAndExisting() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> newContacts = createTestContactRecords(0, recordsCount);
+            
             for (Integer i = 0; i < recordsCount / 2; i++) {
                 newContacts[i].Email = EMAIL;
                 newContacts[i].QUT_Learner_Email__c = 'learner' + EMAIL;
@@ -200,16 +201,20 @@ private class ContactDuplicatesHelperTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> conList = ContactsDAO.newInstance()
                 .getPersonContactsWithLimit(recordsCount);
+            List<Contact> conToUpdate = new List<Contact>();
             for (Integer i = 0; i < recordsCount; i++) {
-                conList[i].Email = 'new' + i + EMAIL;
-                conList[i].QUT_Learner_Email__c = 'newlearner' + i + EMAIL;
-                conList[i].QUT_Staff_Email__c = 'newstaff' + i + EMAIL;
-                conList[i].Work_Email__c = 'newwork' + i + EMAIL;
+                conToUpdate.add(new Contact(
+                    id = conList[i].Id,
+                    Email = 'new' + i + EMAIL,
+                    QUT_Learner_Email__c =  'newlearner' + i + EMAIL,
+                    QUT_Staff_Email__c = 'newstaff' + i + EMAIL,
+                    Work_Email__c = 'newwork' + i + EMAIL
+                ));
             }
 
             Test.startTest();
             Database.SaveResult[] srList = ContactsDAO.newInstance()
-                .updateRecords(conList, false, AccessLevel.USER_MODE);
+                .updateRecords(conToUpdate, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (Database.SaveResult sr : srList) {
@@ -225,19 +230,23 @@ private class ContactDuplicatesHelperTest {
                 .getPersonContactsWithLimit(recordsCount);
             List<Contact> conListToUpdate = new List<Contact>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {
-                conList[i].Email = conList[i + (recordsCount / 2)].Email;
-                conList[i].QUT_Learner_Email__c = conList[i + (recordsCount / 2)]
-                    .QUT_Learner_Email__c;
-                conList[i].QUT_Staff_Email__c = conList[i + (recordsCount / 2)].QUT_Staff_Email__c;
-                conList[i].Work_Email__c = conList[i + (recordsCount / 2)].Work_Email__c;
-                conListToUpdate.add(conList[i]);
+                conListToUpdate.add(new Contact(
+                    id = conList[i].Id,
+                    Email = conList[i + (recordsCount / 2)].Email,
+                    QUT_Learner_Email__c =  conList[i + (recordsCount / 2)]
+                    .QUT_Learner_Email__c,
+                    QUT_Staff_Email__c = conList[i + (recordsCount / 2)].QUT_Staff_Email__c,
+                    Work_Email__c = conList[i + (recordsCount / 2)].Work_Email__c
+                ));
             }
             for (Integer i = (recordsCount / 2) / 2; i < recordsCount / 2; i++) {
-                conList[i].Email = 'newemail' + i + EMAIL;
-                conList[i].QUT_Learner_Email__c = 'newlearneremail' + i + EMAIL;
-                conList[i].QUT_Staff_Email__c = 'newstaffemail' + i + EMAIL;
-                conList[i].Work_Email__c = 'newworkemail' + i + EMAIL;
-                conListToUpdate.add(conList[i]);
+                conListToUpdate.add(new Contact(
+                    id = conList[i].Id,
+                    Email = 'newemail' + i + EMAIL,
+                    QUT_Learner_Email__c =  'newlearneremail' + i + EMAIL,
+                    QUT_Staff_Email__c = 'newstaffemail' + i + EMAIL,
+                    Work_Email__c = 'newworkemail' + i + EMAIL
+                ));
             }
 
             Test.startTest();
@@ -277,18 +286,22 @@ private class ContactDuplicatesHelperTest {
                 .getPersonContactsWithLimit(recordsCount);
             List<Contact> conListToUpdate = new List<Contact>();
             for (Integer i = 0; i < recordsCount / 4; i++) {
-                conList[i].Email = 'newemaildupe' + EMAIL;
-                conList[i].QUT_Learner_Email__c = 'newlearneremaildupe' + EMAIL;
-                conList[i].QUT_Staff_Email__c = 'newstaffemaildupe' + EMAIL;
-                conList[i].Work_Email__c = 'newworkemaildupe' + EMAIL;
-                conListToUpdate.add(conList[i]);
+                conListToUpdate.add(new Contact(
+                    id = conList[i].Id,
+                    Email = 'newemaildupe' + EMAIL,
+                    QUT_Learner_Email__c =  'newlearneremaildupe' + EMAIL,
+                    QUT_Staff_Email__c = 'newstaffemaildupe' + EMAIL,
+                    Work_Email__c = 'newworkemaildupe' + EMAIL
+                ));
             }
             for (Integer i = recordsCount / 4; i < recordsCount / 2; i++) {
-                conList[i].Email = 'newemail' + i + EMAIL;
-                conList[i].QUT_Learner_Email__c = 'newlearneremaildupe' + i + EMAIL;
-                conList[i].QUT_Staff_Email__c = 'newstaffemaildupe' + i + EMAIL;
-                conList[i].Work_Email__c = 'newworkemail' + i + EMAIL;
-                conListToUpdate.add(conList[i]);
+                conListToUpdate.add(new Contact(
+                    id = conList[i].Id,
+                    Email = 'newemail' + i + EMAIL,
+                    QUT_Learner_Email__c =  'newlearneremaildupe' + i + EMAIL,
+                    QUT_Staff_Email__c = 'newstaffemaildupe' + i + EMAIL,
+                    Work_Email__c = 'newworkemail' + i + EMAIL
+                ));
             }
 
             Test.startTest();
@@ -328,19 +341,23 @@ private class ContactDuplicatesHelperTest {
                 .getPersonContactsWithLimit(recordsCount);
             List<Contact> conListToUpdate = new List<Contact>();
             for (Integer i = 0; i < (recordsCount / 2) / 2; i++) {
-                conList[i].Email = 'newemaildupe' + EMAIL;
-                conList[i].QUT_Learner_Email__c = 'newlearneremaildupe' + EMAIL;
-                conList[i].QUT_Staff_Email__c = 'newstaffemaildupe' + EMAIL;
-                conList[i].Work_Email__c = 'newworkemaildupe' + EMAIL;
-                conListToUpdate.add(conList[i]);
+                conListToUpdate.add(new Contact(
+                    id = conList[i].Id,
+                    Email = 'newemaildupe' + EMAIL,
+                    QUT_Learner_Email__c = 'newlearneremaildupe' + EMAIL,
+                    QUT_Staff_Email__c = 'newstaffemaildupe' + EMAIL,
+                    Work_Email__c = 'newworkemaildupe' + EMAIL
+                ));
             }
             for (Integer i = (recordsCount / 2) / 2; i < recordsCount / 2; i++) {
-                conList[i].Email = conList[i + recordsCount / 2].Email;
-                conList[i].QUT_Learner_Email__c = conList[i + recordsCount / 2]
-                    .QUT_Learner_Email__c;
-                conList[i].QUT_Staff_Email__c = conList[i + recordsCount / 2].QUT_Staff_Email__c;
-                conList[i].Work_Email__c = conList[i + recordsCount / 2].Work_Email__c;
-                conListToUpdate.add(conList[i]);
+                conListToUpdate.add(new Contact(
+                    id = conList[i].Id,
+                    Email = conList[i + recordsCount / 2].Email,
+                    QUT_Learner_Email__c =  conList[i + recordsCount / 2]
+                    .QUT_Learner_Email__c,
+                    QUT_Staff_Email__c = conList[i + recordsCount / 2].QUT_Staff_Email__c,
+                    Work_Email__c = conList[i + recordsCount / 2].Work_Email__c
+                ));
             }
 
             Test.startTest();

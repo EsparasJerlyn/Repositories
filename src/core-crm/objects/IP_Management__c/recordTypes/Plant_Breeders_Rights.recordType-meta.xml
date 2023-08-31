@@ -5,6 +5,17 @@
     <description>Capture Intellectual Property Plant Breeders Rights.</description>
     <label>Plant Breeders Rights</label>
     <picklistValues>
+        <picklist>Parent_Relationship_Type__c</picklist>
+        <values>
+            <fullName>Continuation In-Part</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Divisional</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Stage_Name__c</picklist>
         <values>
             <fullName>Granted</fullName>
@@ -20,10 +31,6 @@
         </values>
         <values>
             <fullName>Rejected</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewed</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -679,6 +686,10 @@
         </values>
         <values>
             <fullName>PA -%C2%A0Panama</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PCT - International</fullName>
             <default>false</default>
         </values>
         <values>

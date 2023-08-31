@@ -12,7 +12,7 @@
       |                                |                       |                        |                              |
  */
 public without sharing class MarketingSegmentationTriggerHandler implements Disableable, AfterInsert, AfterUpdate {
-
+    public static Boolean isRunning = false;
     
     /**
      * @description after insert
@@ -20,7 +20,7 @@ public without sharing class MarketingSegmentationTriggerHandler implements Disa
      */
     public void afterInsert(Map<Id, SObject> newItems) {
         LeadScoringManager.rollupScore(newItems, null);
-        MarketingSegmentationTriggerHelper.setSegmentationAsParent(newItems, null);
+        MarketingSegmentationTriggerHelper.updateRelatedRecords(newItems);
     }
 
     
@@ -33,9 +33,11 @@ public without sharing class MarketingSegmentationTriggerHandler implements Disa
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ) {
-        LeadScoringManager.rollupScore(newItems, oldItems);
-        MarketingSegmentationTriggerHelper.setSegmentationAsParent(newItems, oldItems);
-
+        if(!isRunning){
+            isRunning = true;
+            LeadScoringManager.rollupScore(newItems, oldItems);
+            MarketingSegmentationTriggerHelper.updateRelatedRecords(newItems, oldItems);
+        }
     }
 
     
