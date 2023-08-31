@@ -29,24 +29,18 @@ public without sharing class LeadScoreSectionCtrl {
 
     @AuraEnabled(cacheable=true)
     public static List<Nurture_Track_Configuration__c> getScoreDomesticStrongInterestPreApplication(String citizenshipStatus) {
-        try {
-            String cadenceName = 'International Strong Interest Pre-Application';
-            if (citizenshipStatus == 'Domestic') {
-                cadenceName = 'Domestic Strong Interest Pre-Application';
-            }
-
-            return [//NOPMD
-                SELECT
-                Id, Cadence_Name__c, Lead_Score_Threshold__c
-                FROM Nurture_Track_Configuration__c
-                WHERE Cadence_Name__c =: cadenceName
-                AND Criteria_Type__c = 'Entry'
-                LIMIT 1
-            ];
-        } catch (Exception e) {
-            // prettier-ignore
-            NebulaLoggerService.logExceptionDetails('Exception caught in LeadScoreSectionCtrl.cls',e);
-            throw e;
+        String cadenceName = 'International Strong Interest Pre-Application';
+        if (citizenshipStatus == 'Domestic') {
+            cadenceName = 'Domestic Strong Interest Pre-Application';
         }
+
+        return [//NOPMD
+            SELECT
+            Id, Cadence_Name__c, Lead_Score_Threshold__c
+            FROM Nurture_Track_Configuration__c
+            WHERE Cadence_Name__c =: cadenceName
+            AND Criteria_Type__c = 'Entry'
+            LIMIT 1
+        ];
     }
 }
