@@ -8747,6 +8747,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Application_Preference__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Application_Preference__c.Is_Current_Preference__c</field>
         <readable>true</readable>
     </fieldPermissions>
