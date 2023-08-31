@@ -19,16 +19,14 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
 
     public List<Lead_Score_Configuration__c> getLeadScoreConfigByCitizenshipStudyLvl(
         String citizenshipStatus,
-        String primaryStudyLevel,
-        String accessLevel
+        String primaryStudyLevel
     ) {
-        return Database.query(
-            'SELECT Id, Max_Score__c, Study_Level__c, Domestic_International__c ' +
-            'FROM Lead_Score_Configuration__c ' +
-            'WHERE Domestic_International__c =: citizenshipStatus ' +
-            'AND Study_Level__c =: primaryStudyLevel ' +
-            'WITH ' +
-            String.escapeSingleQuotes(accessLevel)
-        );
+        return [
+            SELECT Id, Max_Score__c, Study_Level__c, Domestic_International__c
+            FROM Lead_Score_Configuration__c
+            WHERE Domestic_International__c =: citizenshipStatus
+            AND Study_Level__c =: primaryStudyLevel
+            WITH USER_MODE
+        ];
     }
 }

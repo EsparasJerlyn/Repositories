@@ -11,7 +11,6 @@
 public interface ILeadScoreConfigurationDAO extends DmlInterface {
     List<Lead_Score_Configuration__c> getLeadScoreConfigByCitizenshipStudyLvl(
         String citizenshipStatus,
-        String primaryStudyLevel,
-        String accessLevel
+        String primaryStudyLevel
     );
 }

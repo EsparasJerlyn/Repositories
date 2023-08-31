@@ -20,8 +20,7 @@ public without sharing class LeadScoreSectionCtrl {
 
         List<Lead_Score_Configuration__c> nurtureList = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigByCitizenshipStudyLvl(
             citizenshipStatus,
-            primaryStudyLevel,
-            'USER_MODE'
+            primaryStudyLevel
         );
 
         return nurtureList;

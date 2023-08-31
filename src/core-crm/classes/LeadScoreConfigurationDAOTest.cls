@@ -16,8 +16,7 @@ public with sharing class LeadScoreConfigurationDAOTest {
         List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance()
             .getLeadScoreConfigByCitizenshipStudyLvl(
                 '',
-                '',
-                'USER_MODE'
+                ''
             );
         System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should not be empty.');
         Test.stopTest();
