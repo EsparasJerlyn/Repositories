@@ -13,20 +13,18 @@ public with sharing class LeadWithLeadScoreDetails {
      * @description creating Lead Score Detail to converted lead's contact
      * @param newItems - list inserted or updated leads
      */
-    public static void createLeadScoreDetailToContact(List<Contact> newContacts) {
-
+    public static void createLeadScoreDetailToContact(Map<Id,Lead> newItems, Map<Id, Lead> oldItems) {
         List<Lead_Score_Detail__c> leadScoreDetailToInsert = new List<Lead_Score_Detail__c>();
 
-        for(Contact contacts: newContacts){
-            if(contacts.Parent_Person_Lead__c != null && 
-               contacts.Parent_Person_Lead__r.IsConverted  == true &&
-               contacts.Id == contacts.Parent_Person_Lead__r.ConvertedContactId
-            ){
-                leadScoreDetailToInsert.add(
-                    new Lead_Score_Detail__c(  
-                        Contact__c = contacts.Id
+        //Create Lead Score Detail record for the Contact converted
+        for(Lead lead:newItems.values()){
+            if( oldItems.get(lead.Id).IsConverted != lead.IsConverted && 
+                lead.IsConverted == true && lead.ConvertedContactId != null){
+                    leadScoreDetailToInsert.add(
+                        new Lead_Score_Detail__c(  
+                            Contact__c = lead.ConvertedContactId
                         )
-                );
+                    );
             }
         }
         if(!leadScoreDetailToInsert.isEmpty()){

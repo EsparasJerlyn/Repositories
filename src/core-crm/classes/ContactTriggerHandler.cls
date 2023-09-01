@@ -98,7 +98,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());
-    LeadWithLeadScoreDetails.createLeadScoreDetailToContact((List<Contact>) newItems.values());
+    
   }
 
   /**
