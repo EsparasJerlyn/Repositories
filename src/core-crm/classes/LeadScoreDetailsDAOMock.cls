@@ -1,0 +1,39 @@
+/**
+ * @description Mock DAO Class for Lead_Score_Detail__c object
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
+ *    | julie.jane.alegre              | August 31, 2023       |DEPP-5965               | Created File                        |
+ */
+@isTest
+public inherited sharing class LeadScoreDetailsDAOMock extends DmlBaseMock implements ILeadScoreDetailsDAO{
+    public Map<Id, Lead_Score_Detail__c> leadScoreDetailsMap;
+
+    public LeadScoreDetailsDAOMock() {
+        super(new Map<Id, Lead_Score_Detail__c>(), Schema.Lead_Score_Detail__c.SObjectType);
+        this.leadScoreDetailsMap = (Map<Id, Lead_Score_Detail__c>) super.records;
+    }
+
+    public Schema.SObjectType getSObjectType() {
+        return Lead_Score_Detail__c.SObjectType;
+    }
+
+    public List<Lead_Score_Detail__c> getLeadScoreDetailByContactSetIds(
+        Set<Id> contactIds,
+		String accessLevel 
+    ) {
+        List<Lead_Score_Detail__c> leadScoreDetailsList = new List<Lead_Score_Detail__c>();
+
+        for (Lead_Score_Detail__c record : leadScoreDetailsMap.values()) {
+            if (contactIds.contains(record.Contact__c)) {
+                leadScoreDetailsList.add(record);
+            }
+        }
+
+        return leadScoreDetailsList;
+    }
+
+}
