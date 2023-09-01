@@ -10,11 +10,25 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Enquiry Management</label>
-    <navType>Standard</navType>
+    <navType>Console</navType>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Case</tabs>
     <tabs>Knowledge__kav</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Enquiry_Management_UtilityBar</utilityBar>
+    <workspaceConfig>
+        <mappings>
+            <tab>Knowledge__kav</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-Case</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-Contact</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-Lead</tab>
+        </mappings>
+    </workspaceConfig>
 </CustomApplication>
