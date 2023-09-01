@@ -38,7 +38,6 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        LeadWithLeadScoreDetails.createLeadScoreDetailToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLeadStatus((List<Lead>) newItems.values(), null);
