@@ -13,6 +13,11 @@ import LEAD_LEAD_SCORE from '@salesforce/schema/Lead.Lead_Score__c';
 import LEAD_CITIZENSHIP_STATUS from '@salesforce/schema/Lead.Marketing_Segmentation__r.My_Citizenship_Status__c';
 import LEAD_PRIMARY_STUDY_LEVEL from '@salesforce/schema/Lead.Marketing_Segmentation__r.My_Primary_Study_Level__c';
 
+const LEAD = 'Lead';
+const CONTACT= 'Contact';
+const DOMESTIC= 'Domestic';
+const INTERNATIONAL= 'International';
+
 export default class LeadScoreSection extends LightningElement {
     @api recordId;
     @api objectApiName;
@@ -33,22 +38,22 @@ export default class LeadScoreSection extends LightningElement {
             let primaryStudyLevel = '';
             let citizenshipStatus = '';
 
-            if (this.objectApiName === 'Lead') {
+            if (this.objectApiName === LEAD) {
                 leadScore = getFieldValue(data, LEAD_LEAD_SCORE);
                 this.leadScore = leadScore;
                 citizenshipStatus = getFieldValue(data, LEAD_CITIZENSHIP_STATUS);
-                citizenshipStatus = citizenshipStatus == 'International Student' ? 'International' : 'Domestic';
+                citizenshipStatus = citizenshipStatus == 'International Student' ? INTERNATIONAL : DOMESTIC;
                 primaryStudyLevel = getFieldValue(data, LEAD_PRIMARY_STUDY_LEVEL);
             }
 
-            if (this.objectApiName === 'Contact') {
+            if (this.objectApiName === CONTACT) {
                 leadScore = getFieldValue(data, CONTACT_LEAD_SCORE);
                 this.leadScore = leadScore;
                 citizenshipStatus = getFieldValue(data, CONTACT_CITIZENSHIP_STATUS);
                 primaryStudyLevel = getFieldValue(data, CONTACT_PRIMARY_STUDY_LEVEL);
             }
 
-            if (citizenshipStatus === 'Domestic' || citizenshipStatus === 'International') {
+            if (citizenshipStatus === DOMESTIC || citizenshipStatus === INTERNATIONAL) {
                 getScoreByCitizenshipStudyLvl({citizenshipStatus, primaryStudyLevel})
                     .then(async(response) => {
                         if (response.length) {
@@ -91,7 +96,7 @@ export default class LeadScoreSection extends LightningElement {
     }
 
     connectedCallback() {
-        if (this.objectApiName === 'Lead') {
+        if (this.objectApiName === LEAD) {
             this.fieldApiNames = [
                 LEAD_LEAD_SCORE,
                 LEAD_CITIZENSHIP_STATUS,
@@ -99,7 +104,7 @@ export default class LeadScoreSection extends LightningElement {
             ];
         }
 
-        if (this.objectApiName === 'Contact') {
+        if (this.objectApiName === CONTACT) {
             this.fieldApiNames = [
                 CONTACT_LEAD_SCORE,
                 CONTACT_CITIZENSHIP_STATUS,
@@ -111,7 +116,6 @@ export default class LeadScoreSection extends LightningElement {
     generateProgressRing(leadScore, totalLeadScore) {
         if (totalLeadScore) {
             this.totalLeadScore = totalLeadScore;
-            console.log('generateProgressRing', leadScore, totalLeadScore);
             this.progress = this.getRingProgress(leadScore, totalLeadScore);
 
             const width = 0.75;
@@ -131,7 +135,7 @@ export default class LeadScoreSection extends LightningElement {
             quotient = 1;
         }
 
-        let negativePercentage = 1 - (leadScore / totalLeadScore);
+        const negativePercentage = 1 - (leadScore / totalLeadScore);
 
         const x = Math.cos(2 * Math.PI * negativePercentage).toFixed(2);
         const y = Math.sin(2 * Math.PI * negativePercentage).toFixed(2);
