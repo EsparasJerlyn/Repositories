@@ -22,7 +22,7 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
         String primaryStudyLevel
     ) {
         return [
-            SELECT Id, Max_Score__c, Study_Level__c, Domestic_International__c
+            SELECT Id, Max_Score__c, Study_Level__c, Domestic_International__c, RecordType.Name
             FROM Lead_Score_Configuration__c
             WHERE Domestic_International__c =: citizenshipStatus
             AND Study_Level__c =: primaryStudyLevel

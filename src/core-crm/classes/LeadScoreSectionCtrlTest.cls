@@ -18,16 +18,25 @@ private class LeadScoreSectionCtrlTest {
     public static void testGetScoreByCitizenshipStudyLvl() {
         Test.startTest();
 
-        Lead_Score_Configuration__c leadScoreConfiguration = new Lead_Score_Configuration__c(
+        List<RecordType> recordType = [
+            SELECT id, Name
+            FROM RecordType
+            WHERE SobjectType = 'Lead_Score_Configuration__c'
+                AND Name = 'Configuration'
+        ];
+
+        List<Lead_Score_Configuration__c> leadScoreConfiguration = new List<Lead_Score_Configuration__c>();
+        leadScoreConfiguration.add(new Lead_Score_Configuration__c(
             Max_Score__c = 100,
             Study_Level__c = 'Undergraduate',
-            Domestic_International__c = 'Domestic'
-        );
+            Domestic_International__c = 'Domestic',
+            RecordTypeId = recordType[0].Id
+        ));
 
-        insert leadScoreConfiguration;
+        String domesticInternational = leadScoreConfiguration[0].Domestic_International__c;
+        String studyLevel = leadScoreConfiguration[0].Study_Level__c;
 
-        String domesticInternational = leadScoreConfiguration.Domestic_International__c;
-        String studyLevel = leadScoreConfiguration.Study_Level__c;
+        LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreConfiguration, false, AccessLevel.USER_MODE);
 
         try {
             LeadScoreSectionCtrl.getScoreByCitizenshipStudyLvl(domesticInternational, studyLevel);
@@ -42,13 +51,16 @@ private class LeadScoreSectionCtrlTest {
     @isTest
     public static void testGetScoreDomesticStrongInterestPreApplication() {
         Test.startTest();
-        Nurture_Track_Configuration__c nurtureTrackConfiguration = new Nurture_Track_Configuration__c(
+
+        List<Nurture_Track_Configuration__c> nurtureTrackConfiguration = new List<Nurture_Track_Configuration__c>();
+        nurtureTrackConfiguration.add(new Nurture_Track_Configuration__c(
             Cadence_Name__c = 'Domestic Strong Interest Pre-Application',
             Lead_Score_Threshold__c = 100,
-            Criteria_Type__c = 'Entry'
-        );
+            Criteria_Type__c = 'Entry',
+            Status__c = 'Active'
+        ));
 
-        insert nurtureTrackConfiguration;
+        LeadScoreConfigurationDAO.newInstance().insertRecords(nurtureTrackConfiguration, false, AccessLevel.USER_MODE); 
 
         try {
             LeadScoreSectionCtrl.getScoreDomesticStrongInterestPreApplication('Domestic');

@@ -52,12 +52,12 @@ export default class LeadScoreSection extends LightningElement {
                 getScoreByCitizenshipStudyLvl({citizenshipStatus, primaryStudyLevel})
                     .then(async(response) => {
                         if (response.length) {
-                            this.generateProgressRing(leadScore, response[0].Max_Score__c);
                             try {
                                 const nurtureTrack = await getScoreDomesticStrongInterestPreApplication({citizenshipStatus});
 
                                 if (nurtureTrack.length) {
                                     this.nurtureTrack = nurtureTrack[0].Lead_Score_Threshold__c;
+                                    this.generateProgressRing(leadScore, response[0].Max_Score__c);
                                 }
                             } catch (error) {
                                 console.error(error);
@@ -109,17 +109,20 @@ export default class LeadScoreSection extends LightningElement {
     }
 
     generateProgressRing(leadScore, totalLeadScore) {
-        this.totalLeadScore = totalLeadScore;
-        this.progress = this.getRingProgress(leadScore, totalLeadScore);
+        if (totalLeadScore) {
+            this.totalLeadScore = totalLeadScore;
+            console.log('generateProgressRing', leadScore, totalLeadScore);
+            this.progress = this.getRingProgress(leadScore, totalLeadScore);
 
-        const width = 0.7;
-        const height = 0.7;
-        const anglePercentage = (leadScore / totalLeadScore) * 100;;  // Percentage of the circumference
+            const width = 0.75;
+            const height = 0.75;
+            const anglePercentage = (leadScore / totalLeadScore) * 100;  // Percentage of the circumference
 
-        const coordinates = this.calculateNodeCoordinates(width, height, anglePercentage);
+            const coordinates = this.calculateNodeCoordinates(width, height, anglePercentage);
 
-        this.cx = coordinates.x;
-        this.cy = coordinates.y;
+            this.cx = coordinates.x;
+            this.cy = coordinates.y;
+        }
     }
 
     getRingProgress(leadScore, totalLeadScore) {
@@ -132,6 +135,10 @@ export default class LeadScoreSection extends LightningElement {
 
         const x = Math.cos(2 * Math.PI * negativePercentage).toFixed(2);
         const y = Math.sin(2 * Math.PI * negativePercentage).toFixed(2);
+
+        if (this.nurtureTrack === undefined) {
+            return;
+        }
 
         return `M 1 0 A 1 1 0 ${quotient} 0 ${x} ${y} L 0 0`;
     }

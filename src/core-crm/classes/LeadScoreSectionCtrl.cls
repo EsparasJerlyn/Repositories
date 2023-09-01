@@ -18,12 +18,20 @@ public without sharing class LeadScoreSectionCtrl {
         String primaryStudyLevel
     ) {
 
-        List<Lead_Score_Configuration__c> nurtureList = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigByCitizenshipStudyLvl(
+        List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigByCitizenshipStudyLvl(
             citizenshipStatus,
             primaryStudyLevel
         );
 
-        return nurtureList;
+        List<Lead_Score_Configuration__c> leadScoreConfigMap = new List<Lead_Score_Configuration__c>();
+
+        for (Lead_Score_Configuration__c rec: leadScoreConfig) {
+            if(rec.RecordType.Name == 'Category'){
+                leadScoreConfigMap.add(rec);
+            }
+        }
+
+        return leadScoreConfigMap;
     }
 
     @AuraEnabled(cacheable=true)
@@ -34,7 +42,7 @@ public without sharing class LeadScoreSectionCtrl {
         }
 
         Set<String> cadenceNames = new Set<String>();
-		cadenceNames.add(cadenceName);
+        cadenceNames.add(cadenceName);
 
         List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(cadenceNames,'USER_MODE');
         List<Nurture_Track_Configuration__c> nurtureMap = new List<Nurture_Track_Configuration__c>();
