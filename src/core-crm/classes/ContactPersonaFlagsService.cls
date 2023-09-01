@@ -184,62 +184,12 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
     }
 
     /**
-     * @description: Checks existing affilition records linked to contact
-     *
-     * @param Set<Id> contactIds to evaluate
-     * @return Map<Id,Contact> contact to be updated
-     */
-    private static void updateContactOnAffiliation(Set<Id> contactIds) {
-        Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
-        List<hed__Affiliation__c> affiliationList = AffiliationsDAO.newInstance()
-            .getAffiliationByContactIds(contactIds, 'Current', 'SYSTEM_MODE');
-        Map<Id, List<hed__Affiliation__c>> accountAffiliationMap = new Map<Id, List<hed__Affiliation__c>>();
-
-        for (hed__Affiliation__c af : affiliationList) {
-            if (accountAffiliationMap.containsKey(af.hed__Account__c)) {
-                accountAffiliationMap.get(af.hed__Account__c).add(af);
-            } else {
-                List<hed__Affiliation__c> afList = new List<hed__Affiliation__c>();
-                afList.add(af);
-                accountAffiliationMap.put(af.hed__Account__c, afList);
-            }
-        }
-
-        List<Opportunity> oppList = OpportunitiesDAO.newInstance()
-            .getOpportunityByAccountIds(accountAffiliationMap.keySet(), 'SYSTEM_MODE');
-
-        for (Opportunity opp : oppList) {
-            if (accountAffiliationMap.containsKey(opp.AccountId)) {
-                for (hed__Affiliation__c af : accountAffiliationMap.get(opp.AccountId)) {
-                    updateContactMap.put(
-                        af.hed__Contact__c,
-                        new Contact(id = af.hed__Contact__c, QUT_Partner__c = true)
-                    );
-                }
-            }
-        }
-
-        for (Id contactId : contactIds) {
-            if (!updateContactMap.containsKey(contactId)) {
-                updateContactMap.put(
-                    contactId,
-                    new Contact(id = contactId, QUT_Student__c = false)
-                );
-            }
-        }
-
-        if (!updateContactMap.values().isEmpty()) {
-            updateContactRecord(updateContactMap.values());
-        }
-    }
-
-    /**
      * @description: Checks existing program enrollment records linked to contact
      *
      * @param Set<Id> contactIds to evaluate
      * @return Map<Id,Contact> contact to be updated
      */
-    private static void updateContactOnContextualRole(Set<Id> contactIds) {
+    private static void updateContactOnContextualRoleOrOpportunityContactRole(Set<Id> contactIds) {
         Map<Id,Contact> updateContactMap = new Map<Id,Contact>();         
         Set<String> recordTypeIds = new Set<String>{ContextualRolesDAO.ENGAGEMENT_ROLE_RECTYPE_ID,ContextualRolesDAO.OPPORTUNITY_ROLE_RECTYPE_ID};
         List<Contextual_Role__c> contextualRoleList = ContextualRolesDAO.newInstance().getActiveContextualRoleByContactIds(contactIds,recordTypeIds,'SYSTEM_MODE');  
@@ -253,6 +203,23 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
                 )
             );             
         }
+
+        for (OpportunityContactRole ocr : [
+                                           SELECT Id, ContactId,role
+                                           FROM OpportunityContactRole
+                                           WHERE
+                                               role ='Client Decision-Maker'
+                                               AND ContactId IN :contactIds
+                                           WITH SYSTEM_MODE
+        ]) {
+            updateContactMap.put(
+                ocr.ContactId,
+                new Contact(
+                    id = ocr.ContactId,
+                    QUT_Partner__c = true
+                )
+            );
+        }         
         
         for (Id contactId : contactIds) {
             if (!updateContactMap.containsKey(contactId)) {
@@ -346,11 +313,8 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
             if (methodNames == 'updateContactOnApplication') {
                 updateContactOnApplication(contactIds);
             }
-            if (methodNames == 'updateContactOnAffiliation') {
-                updateContactOnAffiliation(contactIds);
-            }
-            if (methodNames == 'updateContactOnContextualRole') {
-                updateContactOnContextualRole(contactIds);
+            if (methodNames == 'updateContactOnContextualRoleOrOpportunityContactRole') {
+                updateContactOnContextualRoleOrOpportunityContactRole(contactIds);
             }
         }
     }
