@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Parent_Category__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>The Parent Category the sub category belongs to. This would be null for category record types</description>
+    <description>The Parent Category the sub category or category belongs to. This would be null for configuration record types</description>
     <externalId>false</externalId>
     <inlineHelpText>The Category the scoring for this Sub Category will be added to</inlineHelpText>
     <label>Parent Category</label>
