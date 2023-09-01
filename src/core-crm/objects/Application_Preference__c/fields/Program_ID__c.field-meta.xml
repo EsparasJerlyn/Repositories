@@ -6,6 +6,7 @@
     <label>Program ID</label>
     <precision>13</precision>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <scale>0</scale>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
