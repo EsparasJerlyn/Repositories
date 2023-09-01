@@ -136,10 +136,6 @@ export default class LeadScoreSection extends LightningElement {
         const x = Math.cos(2 * Math.PI * negativePercentage).toFixed(2);
         const y = Math.sin(2 * Math.PI * negativePercentage).toFixed(2);
 
-        if (this.nurtureTrack === undefined) {
-            return;
-        }
-
         return `M 1 0 A 1 1 0 ${quotient} 0 ${x} ${y} L 0 0`;
     }
 
