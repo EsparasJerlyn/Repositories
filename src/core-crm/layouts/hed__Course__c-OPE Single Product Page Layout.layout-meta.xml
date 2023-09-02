@@ -101,10 +101,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Enrolment_Rules__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Minimum_Participants__c</field>
             </layoutItems>
             <layoutItems>

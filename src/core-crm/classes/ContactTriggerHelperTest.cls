@@ -11,6 +11,7 @@
       | angelika.j.s.galang       | November 3, 2021      | DEPP-734     | Created file                                              | 
       | roy.nino.s.regala         | January  18,2022      | DEPP-1178    | Updated for logic when primary bussiness org is populated | 
       |                           |                       |              |                                                           |
+      | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Added test class coverage for can nurture logic           |
 */
 @isTest
 private class ContactTriggerHelperTest {
@@ -29,7 +30,6 @@ private class ContactTriggerHelperTest {
         acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
         accountList.add(acc);
         insert accountList;
-        
     } 
 
     @isTest
@@ -92,4 +92,91 @@ private class ContactTriggerHelperTest {
         }
     }
 
+    @isTest
+    private static void testContactCanNurtureFlag() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
+            nurtureConfig.Lead_Score_Threshold__c = 1;
+            nurtureConfig.Status__c = 'Active';
+            nurtureList.add(nurtureConfig);
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
+            
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.startTest();            
+            List<Contact> updateContactList = new List<Contact>();
+            for(Contact con: newContacts){
+                Contact conRec = new Contact();
+                conRec.Id = con.Id;
+                conRec.Score__c = 3;
+                updateContactList.add(conRec);
+            }            
+            Database.SaveResult[] srList = ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.stopTest();
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record was not updated.');
+            }
+            List<Contact> con = [SELECT Id,Can_Nurture__c FROM Contact WHERE RecordTypeId =: ContactsDAO.PERSON_RECORDTYPE_ID];
+            System.assert(con[0].Can_Nurture__c,'Contacts can nurture flag not updated');
+            
+        }
+    } 
+    
+    @isTest
+    private static void testGetContactCalculatedCadence() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);            
+            List<Contact> updateContactList = new List<Contact>();
+            for(Contact con: newContacts){
+                Contact conRec = new Contact();
+                conRec.Id = con.Id;
+                conRec.Calculated_Cadence__c = 'Test Cadences automated1';
+                updateContactList.add(conRec);
+            }            
+            
+            Test.startTest();
+            ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'SalesCadenceCalloutService'].isEmpty() , 'SalesCadenceCalloutService Queueable Job was not executed');
+        }
+    }
+
+    @isTest
+    private static void testUpdateMovingToBrisbaneOnInsert() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
+            insert marSeg;
+            Contact con = new Contact(LastName = 'Test', Marketing_Segmentation__c = marSeg.Id);
+            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
+            Test.stopTest();
+            System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
+        }
+    }
+    
+    @isTest
+    private static void testUpdateMovingToBrisbaneOnUpdate() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
+            insert marSeg;
+            Contact con = new Contact(LastName = 'Test');
+            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            con.Marketing_Segmentation__c = marSeg.Id;
+            ContactsDAO.newInstance().updateRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
+            Test.stopTest();
+            System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
+        }
+    }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Code__c</fullName>
+    <description>A unique, business formatted code to identify a Project being managed under an Opportunity Outcome.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Where record type = Research Partnership Project THEN format should be: RPP-00001
+Where record type = IPU Project THEN format should be: INP-00001
+Where record type = Research Commercialisation Project THEN format should be: RCP-00001
+Where record type = Startup THEN format should be: RCC-00001</inlineHelpText>
+    <label>Code</label>
+    <length>20</length>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

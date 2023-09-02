@@ -13,8 +13,8 @@
 @isTest
 private class LoqateMobileValidationBatchTest {
     
-    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
-	private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe().getLocalName();
+    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+	private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String AU_LOCALE = 'Australia (+61)';
     private static final String NZ_LOCALE = 'New Zealand (+64)';
     private static final String NONE_STATUS = 'None';

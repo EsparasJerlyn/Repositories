@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Negotiate_Stage_Validation</fullName>
+    <active>true</active>
+    <description>Ensures that user can only progress to the next stage which is Contract or mark the Opportunity as Discontinued</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
+ISCHANGED(StageName),
+ISPICKVAL( PRIORVALUE(StageName) ,&apos;Negotiate&apos;),
+NOT(ISPICKVAL(StageName,&apos;Contract&apos;)),
+NOT(ISPICKVAL(StageName,&apos;Discontinued&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>You can only progress to next stage which is Contract or choose to discontinue the opportunity</errorMessage>
+</ValidationRule>

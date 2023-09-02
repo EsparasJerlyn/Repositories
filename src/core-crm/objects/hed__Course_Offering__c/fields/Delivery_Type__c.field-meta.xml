@@ -5,6 +5,8 @@
     <externalId>false</externalId>
     <label>Delivery Type</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

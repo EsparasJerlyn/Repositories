@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contextual_Role__c</fullName>
+    <description>The role the participant is playing in the context of the business process.</description>
+    <externalId>false</externalId>
+    <label>Contextual Role</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Contextual_Role_Group__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Academic</fullName>
+                <default>false</default>
+                <label>Academic</label>
+            </value>
+            <value>
+                <fullName>Board Chairman</fullName>
+                <default>false</default>
+                <label>Board Chairman</label>
+            </value>
+            <value>
+                <fullName>Board Vice-Chairman</fullName>
+                <default>false</default>
+                <label>Board Vice-Chairman</label>
+            </value>
+            <value>
+                <fullName>Chief Investigator</fullName>
+                <default>false</default>
+                <label>Chief Investigator</label>
+            </value>
+            <value>
+                <fullName>Co-Investigator</fullName>
+                <default>false</default>
+                <label>Co-Investigator</label>
+            </value>
+            <value>
+                <fullName>Faculty</fullName>
+                <default>false</default>
+                <label>Faculty</label>
+            </value>
+            <value>
+                <fullName>Finance Manager</fullName>
+                <default>false</default>
+                <label>Finance Manager</label>
+            </value>
+            <value>
+                <fullName>Funding Body</fullName>
+                <default>false</default>
+                <label>Funding Body</label>
+            </value>
+            <value>
+                <fullName>Inventor</fullName>
+                <default>false</default>
+                <label>Inventor</label>
+            </value>
+            <value>
+                <fullName>Lead Researcher</fullName>
+                <default>false</default>
+                <label>Lead Researcher</label>
+            </value>
+            <value>
+                <fullName>Lead Trainer</fullName>
+                <default>false</default>
+                <label>Lead Trainer</label>
+            </value>
+            <value>
+                <fullName>ORS Contact</fullName>
+                <default>false</default>
+                <label>ORS Contact</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Partner</fullName>
+                <default>false</default>
+                <label>Partner</label>
+            </value>
+            <value>
+                <fullName>Partner Contact</fullName>
+                <default>false</default>
+                <label>Partner Contact</label>
+            </value>
+            <value>
+                <fullName>Primary Partner Contact</fullName>
+                <default>false</default>
+                <label>Primary Partner Contact</label>
+            </value>
+            <value>
+                <fullName>Public Officer</fullName>
+                <default>false</default>
+                <label>Public Officer</label>
+            </value>
+            <value>
+                <fullName>Relationship Manager</fullName>
+                <default>false</default>
+                <label>Relationship Manager</label>
+            </value>
+            <value>
+                <fullName>Research Centre</fullName>
+                <default>false</default>
+                <label>Research Centre</label>
+            </value>
+            <value>
+                <fullName>Researcher</fullName>
+                <default>false</default>
+                <label>Researcher</label>
+            </value>
+            <value>
+                <fullName>School</fullName>
+                <default>false</default>
+                <label>School</label>
+            </value>
+            <value>
+                <fullName>Secondary Investigator</fullName>
+                <default>false</default>
+                <label>Secondary Investigator</label>
+            </value>
+            <value>
+                <fullName>Support</fullName>
+                <default>false</default>
+                <label>Support</label>
+            </value>
+            <value>
+                <fullName>Trainer</fullName>
+                <default>false</default>
+                <label>Trainer</label>
+            </value>
+            <value>
+                <fullName>Training Support</fullName>
+                <default>false</default>
+                <label>Training Support</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Academic Team</controllingFieldValue>
+            <valueName>Academic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Board of Directors</controllingFieldValue>
+            <valueName>Board Chairman</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Board of Directors</controllingFieldValue>
+            <valueName>Board Vice-Chairman</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Chief Investigator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Co-Investigator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Finance Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Inventor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Lead Researcher</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>ORS Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Relationship Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Researcher</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Secondary Investigator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contributors</controllingFieldValue>
+            <valueName>Support</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Faculty</controllingFieldValue>
+            <valueName>Faculty</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funding Bodies</controllingFieldValue>
+            <valueName>Funding Body</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Partners</controllingFieldValue>
+            <valueName>Partner Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Partners</controllingFieldValue>
+            <valueName>Primary Partner Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Public Officers</controllingFieldValue>
+            <valueName>Public Officer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Research Centre</controllingFieldValue>
+            <valueName>Research Centre</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>School</controllingFieldValue>
+            <valueName>School</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Training Team</controllingFieldValue>
+            <valueName>Lead Trainer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Training Team</controllingFieldValue>
+            <valueName>Trainer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Training Team</controllingFieldValue>
+            <valueName>Training Support</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

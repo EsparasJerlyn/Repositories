@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Contact_Compact_Layout</fullName>
-    <fields>Preferred_Full_Name__c</fields>
-    <fields>Title</fields>
-    <fields>AccountId</fields>
+    <fields>Name</fields>
+    <fields>Preferred_Given_Name__c</fields>
     <fields>Phone</fields>
+    <fields>hed__WorkPhone__c</fields>
     <fields>MobilePhone</fields>
     <fields>Email</fields>
-    <fields>OwnerId</fields>
     <label>Contact Compact Layout</label>
 </CompactLayout>

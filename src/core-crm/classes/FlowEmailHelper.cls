@@ -49,14 +49,15 @@ public without sharing class FlowEmailHelper {
                 }
             }
             EmailTemplate emailTemplate = emailTemplates.get(emailParam.emailTemplateName);
-            Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-                emailParam.recipientEmailAddresses,
-                !String.isBlank(emailParam.emailSubject) ? emailParam.emailSubject : emailTemplate.Subject,
-                emailTemplate.HtmlValue,
-                convertedParams,
-                emailParam.orgWideEmailAddressId
-            );
-            emails.add(mail);
+            Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+            msg.setToAddresses(emailParam.recipientEmailAddresses);
+            msg.setSubject(!String.isBlank(emailParam.emailSubject) ? emailParam.emailSubject : emailTemplate.Subject);
+            msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate.HtmlValue, convertedParams, true));
+            msg.setOrgWideEmailAddressId(String.isNotBlank(emailParam.orgWideEmailAddressId)? Id.valueOf(emailParam.orgWideEmailAddressId) : null);
+            msg.setTreatTargetObjectAsRecipient(false);
+            msg.setUseSignature(false);
+
+            emails.add(msg);
         }
         
         Messaging.sendEmail(emails);

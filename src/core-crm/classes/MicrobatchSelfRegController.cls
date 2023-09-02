@@ -13,8 +13,6 @@ public class MicrobatchSelfRegController {
 
     public PageReference registerUser() {
         String userName = email;
-        String accountName; // to be filled by customer
-        String contactName; //to be filled by customer
         String profileId = null; //to be filled by customer
         String UUID;
 
@@ -42,10 +40,8 @@ public class MicrobatchSelfRegController {
             for (String error : errors)  {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, error));
             }
-
-            // This message is used for debugging. Do not display this in the UI to the end user.
-            // It has the information around why the user creation failed.
-            System.debug(LoggingLevel.DEBUG, ex.getMessage());//NOPMD
+            Logger.error('"ExternalUserCreateException" caught in method registerUser in class MicrobatchSelfRegController.').setExceptionDetails(ex);
+            Logger.saveLog();
         }
         if (UUID != null) {
            PageReference page = System.Page.CommunitiesSelfRegConfirm;

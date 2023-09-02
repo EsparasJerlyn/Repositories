@@ -31,7 +31,6 @@ public with sharing class SendWelcomeEmailBatchTest {
     @isTest
     private static void sendWelcomEmailTest() {
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            Set<Id> contactIdSet = new Set<Id>();
             List<Contact> contacts = new List<Contact>();
             contacts.add(new Contact(
                 FirstName = 'test firstname',
@@ -75,7 +74,7 @@ public with sharing class SendWelcomeEmailBatchTest {
             insert courseConnections;
 
 			      SendWelcomeEmailBatch batch = new SendWelcomeEmailBatch();
-            Id batchId = Database.executeBatch(batch);
+            Database.executeBatch(batch);
 
             Test.stopTest();
             

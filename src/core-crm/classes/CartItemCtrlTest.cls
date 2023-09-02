@@ -11,7 +11,7 @@
 @isTest
 public with sharing class CartItemCtrlTest {
 
-  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe().getLocalName();
+  private static final String PRODUCT_API_NAME = Product2.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
   private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
   private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 

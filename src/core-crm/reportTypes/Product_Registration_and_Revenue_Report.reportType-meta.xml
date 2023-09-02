@@ -381,11 +381,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Enrolment_Rules__c</field>
-            <table>hed__Course__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Resource_Details__c</field>
             <table>hed__Course__c</table>
         </columns>

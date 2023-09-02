@@ -2,12 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Owning_Faculty__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>This field is used to store the Program Plan&apos;s owning faculty.</description>
+    <description>This field is used to store the program plan&apos;s owning faculty</description>
     <externalId>false</externalId>
     <inlineHelpText>CourseLoop Field</inlineHelpText>
     <label>Owning Faculty</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
@@ -18,12 +19,19 @@
             <operation>equals</operation>
             <value>2</value>
         </filterItems>
+        <filterItems>
+            <field>$Profile.Name</field>
+            <operation>contains</operation>
+            <value>Integration</value>
+        </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Program Plans (Owning Faculty)</relationshipLabel>
     <relationshipName>Program_Plans</relationshipName>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

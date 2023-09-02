@@ -146,7 +146,12 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                 }
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerPostCourseBatch.start ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method start in class EmailTriggerPostCourseBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
         return wrapperList;
@@ -157,7 +162,12 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
         try{
             EmailTriggerBatchHelper.sendEmailWithoutAttachment(records);
         }catch(Exception e){
-            System.debug(LoggingLevel.WARN,'EmailTriggerPostCourseBatch.execute ERROR: ' + e.getMessage()); //NOPMD
+            Logger.error('Exception caught in method execute in class EmailTriggerPostCourseBatch.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
 
     }

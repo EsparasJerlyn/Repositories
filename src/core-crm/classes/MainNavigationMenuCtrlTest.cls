@@ -26,101 +26,113 @@ private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getR
     @isTest
     public static void getOpportunityContractTypeTest(){
         
-    	User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-        insert currentUser;
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
 
-        Test.startTest();
-		List<Opportunity> opp = MainNavigationMenuCtrl.getOpportunityContractType(currentUser.id);
-        Test.stopTest();
-		System.assert(opp != null, 'Pass');        
+            User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
+            insert currentUser;
+            Test.startTest();
+            List<Opportunity> opp = MainNavigationMenuCtrl.getOpportunityContractType(currentUser.id);
+            Test.stopTest();
+            System.assert(opp != null, 'Pass');
+        }     
     }
     
     @isTest
     public static void defaultMenuTest(){
-        Test.startTest();
-        List<NavigationMenuItem> navMenu = MainNavigationMenuCtrl.defaultMenu();
-		System.assert(navMenu.size() == 0, 'Pass');
-        Test.stopTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            Test.startTest();
+            List<NavigationMenuItem> navMenu = MainNavigationMenuCtrl.defaultMenu();
+            System.assert(navMenu.size() == 0, 'Pass');
+            Test.stopTest();
+        }
 
     }
 
         @isTest
     public static void getStoreFrontCategoriesCCETest(){
-        final String COMMUNITY_NAME = 'CCE';
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
-		
-        ProductCatalog cat =new ProductCatalog(Name='CCE');
-        insert cat;
-        ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
-                                                  Name='Corporate Bundle');
-        insert cate;
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            final String COMMUNITY_NAME = 'CCE';
+            String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+            
+            ProductCatalog cat =new ProductCatalog(Name='CCE');
+            insert cat;
+            ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
+                                                    Name='Corporate Bundle');
+            insert cate;
 
-        Test.startTest();
-        List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
-		System.assert(categories != null, 'Pass');
-        Test.stopTest();
+            Test.startTest();
+            List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
+            System.assert(categories != null, 'Pass');
+            Test.stopTest();
+        }
 
     }
     
     @isTest
     public static void getStoreFrontCategoriesStudyTest(){
-        final String COMMUNITY_NAME = 'STUDY';
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
-		
-        ProductCatalog cat =new ProductCatalog(Name='STUDY');
-        insert cat;
-        ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
-                                                  Name='Products');
-        insert cate;
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            final String COMMUNITY_NAME = 'STUDY';
+            String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+            
+            ProductCatalog cat =new ProductCatalog(Name='STUDY');
+            insert cat;
+            ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
+                                                    Name='Products');
+            insert cate;
 
-        WebStore store = new WebStore();
-        store.Name='MyStore';
-        insert store;
+            WebStore store = new WebStore();
+            store.Name='MyStore';
+            insert store;
 
-        WebStoreCatalog catalog = TestDataFactory.createWebStoreCatalog(cat.Id, store.Id);
-        insert catalog;
+            WebStoreCatalog catalog = TestDataFactory.createWebStoreCatalog(cat.Id, store.Id);
+            insert catalog;
 
-        B2BUtils.communityIdToWebStoreIdCache.put(communityId, (String)catalog.SalesStoreId);
-        
-        Test.startTest();
-        List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
-		System.assert(categories != null, 'Pass');
-        Test.stopTest();
+            B2BUtils.communityIdToWebStoreIdCache.put(communityId, (String)catalog.SalesStoreId);
+            
+            Test.startTest();
+            List<ProductCategory> categories = MainNavigationMenuCtrl.getStoreFrontCategories(communityId);
+            System.assert(categories != null, 'Pass');
+            Test.stopTest();
+        }
 
     }
     
     @isTest
     public static void getStudyProductsTest(){
-        final String COMMUNITY_NAME = 'STUDY';
-        String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
-        ProductCatalog cat =new ProductCatalog(Name='STUDY');
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            final String COMMUNITY_NAME = 'STUDY';
+            String communityId = B2BUtils.getCommunityIdByName(COMMUNITY_NAME);
+            ProductCatalog cat =new ProductCatalog(Name='STUDY');
+            
+            insert cat;
+            ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
+                                                    Name='Products');
+            insert cate;
         
-        insert cat;
-        ProductCategory cate = new ProductCategory(CatalogId=cat.Id,
-                                                  Name='Products');
-        insert cate;
-     
-        WebStore store = new WebStore();
-        store.Name='MyStore';
-        insert store;
+            WebStore store = new WebStore();
+            store.Name='MyStore';
+            insert store;
 
-        WebStoreCatalog catalog = TestDataFactory.createWebStoreCatalog(cat.Id, store.Id);
-        insert catalog;
+            WebStoreCatalog catalog = TestDataFactory.createWebStoreCatalog(cat.Id, store.Id);
+            insert catalog;
 
-        B2BUtils.communityIdToWebStoreIdCache.put(communityId, (String)catalog.SalesStoreId);
+            B2BUtils.communityIdToWebStoreIdCache.put(communityId, (String)catalog.SalesStoreId);
 
-        Test.startTest();     
-        List<ProductCategory> categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
-		System.assert(categories != null, 'Pass');
-        Test.stopTest();
+            Test.startTest();     
+            List<ProductCategory> categories = MainNavigationMenuCtrl.getStudyProducts(communityId);
+            System.assert(categories != null, 'Pass');
+            Test.stopTest();
+        }
         
     }
     @isTest
     public static void getAccountNameTest(){
-        Test.startTest();     
-        String accountName = MainNavigationMenuCtrl.getAccountName('');
-		System.assert(String.isBlank(accountName), 'Has account name');
-        Test.stopTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            Test.startTest();     
+            String accountName = MainNavigationMenuCtrl.getAccountName('');
+            System.assert(String.isBlank(accountName), 'Has account name');
+            Test.stopTest();
+        }
     }    
     
 }

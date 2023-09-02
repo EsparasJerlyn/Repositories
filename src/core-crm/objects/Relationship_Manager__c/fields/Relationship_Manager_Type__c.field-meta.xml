@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Relationship_Manager_Type__c</fullName>
+    <description>Indicates the business context the Relationship Manager is responsible for or can assist other DEP users with.</description>
+    <externalId>false</externalId>
+    <label>Relationship Manager Type</label>
+    <required>true</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Research Engagement</fullName>
+                <default>false</default>
+                <label>Research Engagement</label>
+            </value>
+            <value>
+                <fullName>Corporate Education</fullName>
+                <default>false</default>
+                <label>Corporate Education</label>
+            </value>
+            <value>
+                <fullName>Advancement</fullName>
+                <default>false</default>
+                <label>Advancement</label>
+            </value>
+            <value>
+                <fullName>Corporate Partnerships</fullName>
+                <default>false</default>
+                <label>Corporate Partnerships</label>
+            </value>
+            <value>
+                <fullName>Commercialisation</fullName>
+                <default>false</default>
+                <label>Commercialisation</label>
+            </value>
+            <value>
+                <fullName>Events Management</fullName>
+                <default>false</default>
+                <label>Events Management</label>
+            </value>
+            <value>
+                <fullName>QUT Wide</fullName>
+                <default>false</default>
+                <label>QUT Wide</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

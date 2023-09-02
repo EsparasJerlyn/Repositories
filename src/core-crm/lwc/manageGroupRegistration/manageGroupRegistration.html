@@ -14,41 +14,42 @@
                         <p class="item-label slds-p-around_xx-small bodyRegular">{modalDescription}</p>
                         <p class="item-label slds-p-around_xx-small"><b>{noteLabel}</b>{noteLabelValue}</p>
                         <p class="item-label slds-p-around_xx-small">{totalNumPlacesLabel} <strong>{availableSeats}</strong></p>
-                        <p class="item-label slds-p-around_xx-small" if:true={productCategoryCheck}>Total Available Credit: <strong>12</strong></p>
-                        <p class="item-label slds-p-around_xx-small" if:true={productCategoryCheck}>Total Amount: <strong>12</strong></p>
                     </lightning-layout-item>
                     <div class="slds-form-element" if:false={isTailoredProductCategory}>
-                        <lightning-combobox
-                            label="Pricing"
-                            value={pbEntryRecord}
-                            options={pbEntryRecords}
-                            onchange={handleSelectedPricing}>
-                        </lightning-combobox>
+                        <div class="slds-grid slds-wrap slds-form-element">
+                            <div class="slds-size_5-of-12">
+                                <lightning-combobox
+                                    class="slds-p-right_large"
+                                    label="Pricing"
+                                    value={pbEntryRecord}
+                                    options={pbEntryRecords}
+                                    onchange={handleSelectedPricing}>
+                                </lightning-combobox>
+                            </div>
+                            <template if:true={showDiscountSection}>
+                                <div class="slds-size_3-of-12">
+                                    <div>
+                                        <div style="display: flex">
+                                            <p>{discountCodeLabel}</p>
+                                            <lightning-helptext content={couponHelpText}></lightning-helptext>
+                                        </div>
+                                        <lightning-input data-id="grpRegdiscountField" name={productIndex} type="text" variant="label-hidden" class="grpRegDiscountField"></lightning-input>
+                                    </div>
+                                </div>
+                                <div class="slds-size_4-of-12">
+                                    <p class="slds-p-top_xx-small">&nbsp;</p>
+                                    <lightning-button class="slds-m-left_x-small" variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
+                                </div>
+                                <p class={discountMessageClass}>{discountMessage}</p>
+                            </template>
+                        </div>
                     </div>
                     <div class="slds-form-element" if:true={hasAsset}>
                         <div class="slds-grid slds-wrap">
-                            <div class="slds-size_1-of-1">Total Value: {relatedAsset.Total_Value__c} </div>
-                            <div class="slds-size_1-of-1">Remaining Value : {relatedAsset.Remaining_Value__c}</div>
+                            <div class="slds-size_1-of-1 item-label">{totalValueLabel}<strong>{relatedAsset.Total_Value__c}</strong></div>
+                            <div class="slds-size_1-of-1 item-label">{remainingValueLabel}<strong>{relatedAsset.Remaining_Value__c}</strong></div>
                         </div>
-                    </div>
-                    <template if:true={showDiscountSection}>
-                        <div class="slds-grid slds-wrap slds-form-element">
-                            <div class="slds-size_4-of-12">
-                                <div>
-                                    <div style="display: flex">
-                                        <p class="bodyBold">Discount code</p>
-                                        <lightning-helptext content="Coupon code will apply a discount on the Standard Price only"></lightning-helptext>
-                                    </div>
-                                    <lightning-input data-id="grpRegdiscountField" name={productIndex} type="text" variant="label-hidden" class="grpRegDiscountField"></lightning-input>
-                                </div>
-                            </div>
-                            <div class="slds-size_4-of-12">
-                                <p class="slds-p-top_xx-small">&nbsp;</p>
-                                <lightning-button class="slds-m-left_x-small" variant="brand" label="Apply" title="Apply code" onclick={applyCoupon}></lightning-button>
-                            </div>
-                        </div>
-                        <p class={discountMessageClass}>{discountMessage}</p>
-                    </template>
+                    </div>                    
                     
                     <!-- buttons -->
                     <span class='action-button-container'>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Study_Area_Version__c</fullName>
+    <description>This corresponds to SAMS study package version number. Enabling Integration to keep study area reference lists in sync with SAMS</description>
+    <externalId>false</externalId>
+    <label>Study Area Version</label>
+    <precision>13</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

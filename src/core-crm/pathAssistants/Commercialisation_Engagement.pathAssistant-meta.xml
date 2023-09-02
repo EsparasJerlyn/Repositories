@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Engagement__c</entityName>
+    <fieldName>Stage_Name__c</fieldName>
+    <masterLabel>Commercialisation Engagement</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Commercialisation Ready’ indicates that the research is suitable for commercialisation. The ‘Relationships’ tab allows you to create new opportunity(s) that are being progressed with partners for the commercialisation.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Commercialisation Ready</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Development’ indicates you are completing the supporting documents.&lt;/li&gt;&lt;li&gt;Once the development is complete, proceed with commercialisation ready. Use the ‘Commercialisation Ready Summary&amp;#39; to record development progress. Record the documents that have been created with links to where they are stored under the &amp;#39;Documents’ tab.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Development</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Disclosure’ indicates that you have identified new research that has potential to be commercialised.&lt;/li&gt;&lt;li&gt;Complete the ‘Engagement Summary’ field to capture meaningful detail on what you’re engaging about.&lt;/li&gt;&lt;li&gt;The ‘Relationships’ tab allows you to record who is involved and create the opportunity/opportunities that has/have arisen from your engagement.&lt;/li&gt;&lt;li&gt;Use ‘Notes’ to record relevant information to help you manage the relationship and/or opportunity. Use the ‘Activity’ panel to record your interactions and track tasks.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Disclosure</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Evaluation’ indicates you are completing the due diligence and assessment analysis tabs to confirm that you have evaluated the readiness to progress. &lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Evaluation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘On Hold’ indicates that engagement is not being progressed at the moment. Update the ‘On Hold Comment’ field to capture the reasons why the engagement is currently on hold.&lt;/li&gt;&lt;li&gt;Should the engagement become active again, change the ‘Stage&amp;#39; to the appropriate status.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>On Hold</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Commercialisation</recordTypeName>
+</PathAssistant>

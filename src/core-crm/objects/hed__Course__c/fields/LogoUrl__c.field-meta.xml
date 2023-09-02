@@ -5,5 +5,7 @@
     <label>LogoUrl</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>Url</type>
 </CustomField>

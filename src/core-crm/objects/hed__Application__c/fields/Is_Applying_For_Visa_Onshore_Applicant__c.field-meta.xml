@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Applying_For_Visa_Onshore_Applicant__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicating if the applicant is an onshore international student</description>
+    <externalId>false</externalId>
+    <label>Applying for Visa Onshore Applicant</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

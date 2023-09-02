@@ -28,8 +28,8 @@
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
       | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
       | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
-
-
+      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  |
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag      |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -56,6 +56,10 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems, null);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems);
     setContactOwner((List<Contact>)newItems);
+    ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems);
+    FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems, null);
+    ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems,null);
+    ContactTriggerHelper.updateMovingToBrisbane(newItems);
   }
 
   /**
@@ -76,7 +80,10 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
-   
+    ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems.values());
+    FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
+    ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
+    ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
   }
 
   /**
@@ -109,6 +116,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     processWelcomeEmail(newMap, oldMap);
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
+    ContactTriggerHelper.getContactCalculatedCadence((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
   }
 
   /**
@@ -204,9 +212,12 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         ContactUserNameCreatedHelper.sendEmailUsernameCreated(contactsToSendWelcomeEmailSet);
       }
     }catch(Exception e){
-      System.debug(LoggingLevel.WARN, 'ContactTriggerHandler Welcome email failed, Error: ' + e.getMessage());//NOPMD
+      Logger.error('Exception caught in method sendWelcomeEmail in class ContactTriggerHandler.').setExceptionDetails(e);
+    } finally {
+      if(Logger.getBufferSize() > 0) {
+        Logger.saveLog();
+      }
     }
-
   }
 
   private void createChildMCPersona(List<Contact> newContacts){
@@ -263,8 +274,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
             Logger.error('Error in Inserting Contact').setDatabaseResult(result);
           }            
         }
-        if(Logger.getBufferSize() < 0){
-            Logger.saveLog();                
+        if(Logger.getBufferSize() > 0){
+          Logger.saveLog();                
         }
       }
 
@@ -325,8 +336,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
           Logger.error('Error in Updating Contact').setDatabaseResult(result);
         }            
       }
-      if(Logger.getBufferSize() < 0){
-          Logger.saveLog();                
+      if(Logger.getBufferSize() > 0){
+        Logger.saveLog();                
       }
   }
 

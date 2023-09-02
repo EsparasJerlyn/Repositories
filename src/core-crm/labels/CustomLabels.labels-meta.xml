@@ -95,6 +95,20 @@
         <value>PLEASE ENSURE THAT ALL CHILD PRODUCT REQUESTS &lt;br&gt; &lt;div class=&apos;slds-align_absolute-center&apos;&gt; ARE IN A RELEASE STATUS &lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>LWC_FlowLookupFieldsToDisplayForContactObject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Flow Lookup Fields To Display For Contact Object</shortDescription>
+        <value>Name,hed__Primary_Organization__r.Name,Email</value>
+    </labels>
+    <labels>
+        <fullName>LWC_FlowLookupFieldsToSearchForContactObject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Flow Lookup Fields To Search For Contact Object</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
         <fullName>LWC_HelpText_FlexibleProgram</fullName>
         <categories>LWC,HelpText</categories>
         <language>en_US</language>
@@ -125,6 +139,13 @@
         <protected>false</protected>
         <shortDescription>LWC_HelpText_StandardPriceBookRequired</shortDescription>
         <value>Please create first the standard pricing before creating pricing for non standard pricebooks.</value>
+    </labels>
+    <labels>
+        <fullName>LWC_List_FacilitatorTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LWC_List_FacilitatorTitle</shortDescription>
+        <value>Dr,Professor,Associate Professor,Adjunct Associate Professor,Adjunct Professor</value>
     </labels>
     <labels>
         <fullName>LWC_List_CCEChildFilter</fullName>
@@ -723,5 +744,37 @@
         <protected>false</protected>
         <shortDescription>RT_ProgramPlan_Program_Without_Pathway</shortDescription>
         <value>Program_Without_Pathway</value>
+    </labels>
+    <labels>
+        <fullName>Dedup_Mismatch_Personal_CRM_Error</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dedup_Mismatch_Personal_CRM_Error</shortDescription>
+        <value>The personal details do not match with the email provided. Please check the detail/s:</value>
+    </labels>
+    <labels>
+        <fullName>Dedup_Mismatch_Personal_Portal_Error</fullName>
+        <categories>LWC,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dedup_Mismatch_Personal_CRM_Error</shortDescription>
+        <value>The personal details do not match with the email provided. Please check the detail/s or contact QUTeX:</value>
+    </labels>
+    <labels>
+        <fullName>SalesCadenceAssignTargetEndpoint</fullName>
+        <categories>Assign Target To Cadence Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SalesCadenceAssignTargetEndpoint</shortDescription>
+        <value>/services/data/v45.0/actions/standard/assignTargetToSalesCadence</value>
+    </labels>
+    <labels>
+        <fullName>SalesCadenceRemoveTargetEndpoint</fullName>
+        <categories>Remove Target from Cadence</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SalesCadenceRemoveTargetEndpoint</shortDescription>
+        <value>/services/data/v45.0/actions/standard/removeTargetFromSalesCadence</value>
     </labels>
 </CustomLabels>

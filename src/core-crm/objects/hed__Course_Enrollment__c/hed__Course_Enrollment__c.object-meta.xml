@@ -128,17 +128,17 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Course_Connection_Lightning_Page</content>
-        <formFactor>Large</formFactor>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <content>Course_Connection_Record_Page</content>
+        <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Course_Connection_Lightning_Page</content>
-        <formFactor>Small</formFactor>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <content>Course_Connection_Record_Page</content>
+        <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
     </actionOverrides>
@@ -147,7 +147,7 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>hed__HEDA_Course_Enrollment_Compact_Layout</compactLayoutAssignment>
+    <compactLayoutAssignment>Course_Connection_Compact_Layout</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <deprecated>false</deprecated>
     <description>Represents a connection to a Course Offering.</description>
@@ -165,9 +165,11 @@
     <nameField>
         <displayFormat>CC-{0000}</displayFormat>
         <label>Course Connection ID</label>
+        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Course Connections</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

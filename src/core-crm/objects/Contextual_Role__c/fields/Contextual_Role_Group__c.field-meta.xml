@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contextual_Role_Group__c</fullName>
+    <description>Allows users to assign each Contextual Role record to a business defined group. This supports UI display requirements.</description>
+    <externalId>false</externalId>
+    <label>Contextual Role Group</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Academic Team</fullName>
+                <default>false</default>
+                <label>Academic Team</label>
+            </value>
+            <value>
+                <fullName>Board of Directors</fullName>
+                <default>false</default>
+                <label>Board of Directors</label>
+            </value>
+            <value>
+                <fullName>Contributors</fullName>
+                <default>false</default>
+                <label>Contributors</label>
+            </value>
+            <value>
+                <fullName>Faculty</fullName>
+                <default>false</default>
+                <label>Faculty</label>
+            </value>
+            <value>
+                <fullName>Funding Bodies</fullName>
+                <default>false</default>
+                <label>Funding Bodies</label>
+            </value>
+            <value>
+                <fullName>Partners</fullName>
+                <default>false</default>
+                <label>Partners</label>
+            </value>
+            <value>
+                <fullName>Public Officers</fullName>
+                <default>false</default>
+                <label>Public Officers</label>
+            </value>
+            <value>
+                <fullName>Research Centre</fullName>
+                <default>false</default>
+                <label>Research Centre</label>
+            </value>
+            <value>
+                <fullName>School</fullName>
+                <default>false</default>
+                <label>School</label>
+            </value>
+            <value>
+                <fullName>Training Team</fullName>
+                <default>false</default>
+                <label>Training Team</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

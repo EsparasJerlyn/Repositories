@@ -118,13 +118,20 @@ public with sharing class ManageCertificateSectionCtrl {
      @AuraEnabled
      public static String updateCourseConnDetails(Object data, String programOfferingId){ 
           List<hed__Course_Enrollment__c> dataToUpdate = new List<hed__Course_Enrollment__c>();          
+
+          Set<Id> enrolmentIds = new Set<Id>();
+          
           List<ManageCertificateDetails> wrapperList = (List<ManageCertificateDetails>) JSON.deserialize(
                JSON.serialize(data),
                List<ManageCertificateDetails>.class
           );
 
+          for(ManageCertificateDetails recordFromList : wrapperList){
+               enrolmentIds.add(recordFromList.id);
+          }
+
           Map<Id, Id> studentMap = new Map<Id, Id>();
-          List<hed__Course_Enrollment__c> studentList = [SELECT Id, hed__Contact__c, Marks__c FROM hed__Course_Enrollment__c WHERE Program_Offering__c =: programOfferingId];
+          List<hed__Course_Enrollment__c> studentList = [SELECT Id, hed__Contact__c, Marks__c FROM hed__Course_Enrollment__c WHERE Program_Offering__c =: programOfferingId AND Id IN:enrolmentIds];
           for(hed__Course_Enrollment__c student : studentList){
                studentMap.put(student.Id, student.hed__Contact__c);
           }
@@ -136,9 +143,7 @@ public with sharing class ManageCertificateSectionCtrl {
                     student.Id = recordFromList.id;
                     student.Marks__c = recordFromList.marks;
                     dataToUpdate.add(student);
-                    if(studentMap.containsKey(recordFromList.id)){
-                         recordMap.put(studentMap.get(recordFromList.id), recordFromList.marks);
-                    }
+                    recordMap.put(studentMap.get(recordFromList.id), recordFromList.marks);
                }  
           }
 
@@ -207,14 +212,16 @@ public with sharing class ManageCertificateSectionCtrl {
                               };
                               pdfContentMap.putAll(createPDF(id, certDetails, attachTemplate));
                               Blob pdfContent = pdfContentMap.get(id).VersionData;
-                              Messaging.SingleEmailMessage mail = emailBuilder(certDetails.contactEmail, mailSubject, coverTemplate.HtmlValue, coverEmailParams);
+                              Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+                              msg.setToAddresses(new String[]{certDetails.contactEmail});
+                              msg.setSubject(mailSubject);
+                              msg.setHtmlBody(EmailHelper.setBodyValues(coverTemplate.HtmlValue, coverEmailParams, true));
+                              msg.setOrgWideEmailAddressId(owea[0].Id);
+                              msg.setTreatTargetObjectAsRecipient(false);
+                              msg.setUseSignature(false);
                               Messaging.EmailFileAttachment attachment = attachmentBuilder(type + '.pdf', pdfContent);  
-                              mail.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });          
-                              if(!owea.isEmpty()){
-                                   mail.setOrgWideEmailAddressId(owea[0].Id);
-                               }
-                                          
-                              emailList.add(mail);  
+                              msg.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });          
+                              emailList.add(msg);  
                          }
      
                          insert pdfContentMap.values();
@@ -351,23 +358,16 @@ public with sharing class ManageCertificateSectionCtrl {
                attach.setInline(true);
                attach.Body = emailContent;
           }catch(Exception e){
-               System.debug(LoggingLevel.DEBUG, 'Error: ' + e.getMessage());//NOPMD
+               Logger.error('Exception caught in method attachmentBuilder in class ManageCertificatSectionCtrl.')
+                    .setExceptionDetails(e);
                attach = new Messaging.EmailFileAttachment();
+          } finally {
+               if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+               }
           }
           
           return attach;
-     }
-    
-     private static Messaging.SingleEmailMessage emailBuilder(String email, String subject, String emailHtml, Map<String,String> emailContent){
-          Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-          mail.setUseSignature(false);
-          mail.setToAddresses(new String[]{email});
-          mail.setSubject(subject);
-          String body = emailHtml;
-          body = setBodyValues(body, emailContent);
-          body = EmailHelper.addHeaderAndFooter(body);
-          mail.setHtmlBody(body);
-          return mail;
      }
 
      private static EmailTemplate getEmailTemplate(String name){  

@@ -1,0 +1,25 @@
+/**
+ * @description Mock DAO Class for Product Object. 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+ */
+@isTest
+public inherited sharing class ProductsDAOMock extends DmlBaseMock implements IProductsDAO {
+
+	public Map<Id, Product2> productsMap;
+
+    public Schema.SObjectType getSObjectType()
+	{
+		return Product2.SObjectType;
+	}
+
+	public ProductsDAOMock() {
+		super(new Map<Id, Product2>(), Schema.Product2.SObjectType);
+		this.productsMap = (Map<Id, Product2>) super.records;
+	}
+}

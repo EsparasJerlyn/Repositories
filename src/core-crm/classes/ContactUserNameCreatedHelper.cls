@@ -67,23 +67,17 @@ public without sharing class ContactUserNameCreatedHelper {
 					};
 
 					// Build the Email
-					Messaging.SingleEmailMessage mail = EmailHelper.emailBuilder(
-						c.Registered_Email__c,
-						subject,
-						emailTemplate.HtmlValue,
-						emailParams,
-						null,
-						c.Id,
-						true
-					);
-
-					// Set Org Wide Email Address
-					if (!owea.isEmpty()) {
-						mail.setOrgWideEmailAddressId(owea[0].Id);
-					}
-
+					Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+					msg.setToAddresses(new String[]{c.Registered_Email__c});
+					msg.setSubject(subject);
+					msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate.HtmlValue, emailParams, true));
+					msg.setOrgWideEmailAddressId(owea[0]?.Id);
+					msg.setTargetObjectId(c.Id);
+					msg.setSaveAsActivity(true);
+					msg.setTreatTargetObjectAsRecipient(false);
+					msg.setUseSignature(false);
 					// Add Email to List
-					sendEmailList.add(mail);
+					sendEmailList.add(msg);
 				}
 			}
 

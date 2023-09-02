@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IP_Engagement_Relationship</fullName>
+    <active>true</active>
+    <description>Capture relationship between IP Management and an Engagement.</description>
+    <label>IP Engagement Relationship</label>
+</RecordType>

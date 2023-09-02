@@ -113,7 +113,12 @@ public with sharing class ContactImageHelper {
         createContactImageFile(imageURLMap);
       }
     } catch (Exception e) {
-      System.debug(LoggingLevel.DEBUG, e); //NOPMD
+      Logger.error('Exception caught in method generateContactImageFile in class ContactImageHelper.')
+        .setExceptionDetails(e);
+    } finally {
+      if(Logger.getBufferSize() > 0) {
+        Logger.saveLog();
+      }
     }
   }
 

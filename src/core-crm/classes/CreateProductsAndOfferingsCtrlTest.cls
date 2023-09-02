@@ -17,7 +17,7 @@
 public with sharing class CreateProductsAndOfferingsCtrlTest {
 
    private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
-   private static Map <String,Schema.RecordTypeInfo> productRequestRecordTypes = Product_Request__c.sObjectType.getDescribe().getRecordTypeInfosByName();
+   private static Map <String,Schema.RecordTypeInfo> productRequestRecordTypes = Product_Request__c.sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getRecordTypeInfosByName();
    private static Id programRequestRTId = productRequestRecordTypes.get('Program Request').getRecordTypeId();
    private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
    private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();

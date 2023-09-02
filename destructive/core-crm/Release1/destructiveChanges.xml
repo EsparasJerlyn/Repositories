@@ -14,16 +14,147 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <!--(Start) DEPP-6047 -->
+        <members>newEngagementDocument</members>
+        <members>newOpportunityDocument</members>
+        <members>newOpportunityOutcomeDocument</members>
+        <!-- (End) DEPP-6047 -->
+        <!--(Start) DEPP-6336 -->
+        <members>newFinancialSplit</members>
+        <!-- (End) DEPP-6336 -->
+        <!--(Start) DEPP-6331 -->
+        <members>linkIpManagement</members>
+        <!--(End) DEPP-6331 -->
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+    <!--DEPP-5673 Satrt-->
+        <members>Future_Student_Engagement.app-meta.xml</members>
+    <!-- DEPP-5673 End-->
+        <name>application</name>
+    </types>
+    <types>
         <!--DEPP-4144-->
         <members>Consultancy__c.Publish_to_the_Portal__c</members>
         <!--DEPP-4144 end-->
+        <!--DEPP-5205 START-->
+        <members>hed__Course__c.Enrolment_Rules__c</members>
+        <members>hed__Program_Plan__c.Enrolment_Rulesv2__c</members>
+        <!--DEPP-5205 END  -->
+        <!--DEPP-5638 START-->
+        <members>Opportunity.Memo_Endorsed__c</members>
+        <!--DEPP-5638 START-->
+        <!-- (Start) DEPP-5775 -->
+        <members>IP_Management__c.IP_Management_Name__c</members>
+        <members>IP_Management__c.Outcome_Summary__c</members>
+        <!-- (End) DEPP-5775 -->
+        <!-- Start DEPP-5776-->
+        <members>IP_Management_Application__c.IP_Management__c</members>
+        <!-- End DEPP-5776-->
+        <!-- Start DEPP-5993-->
+        <members>IP_Management_Application__c.Status_Date__c</members>
+        <!-- End DEPP-5993-->
+        <!-- Start DEPP-6051-->
+        <members>IP_Management_Application__c.Due_Date__c</members>
+        <members>IP_Management_Application__c.Provisional_Reference_Number__c</members>
+        <members>IP_Management_Application__c.Reference_Number__c</members>
+        <!-- End DEPP-6051-->
+		<!-- Start DEPP-5832-->
+		<members>IP_Management__c.Engagement__c</members>
+		<members>IP_Management__c.Opportunity__c</members>
+		<members>IP_Management__c.Opportunity_Outcome__c</members>
+		<!-- End DEPP-5832-->
+        <!-- Start DEPP-5992-->
+		<members>IP_Management__c.IP_Type__c</members>
+		<members>IP_Management__c.Country__c</members>
+		<!-- End DEPP-5992-->
+        <!-- Start DEPP-5937 -->
+        <members>IP_Management_Relationship___c.Stage_Name__c</members>
+        <members>IP_Management_Relationship___c.Owner__c</members>
+        <members>IP_Management_Relationship___c.Created_Date__c</members>
+        <!-- End DEPP-5937 -->
+        <!-- Start DEPP-6130 -->
+        <members>hed__Application__c.Applied_Major__c</members>
+        <members>hed__Application__c.App_Condition_Verification_Status__c</members>
+        <members>hed__Application__c.Pathway_Principal_Program__c</members>
+        <members>hed__Application__c.Agency_AccountID__c</members>
+        <members>hed__Application__c.StudyLink_Program_Code__c</members>
+        <members>hed__Application__c.StudyLink_Program_Name__c</members>
+        <members>hed__Application__c.StudyLink_Program_Location__c</members>
+        <members>hed__Application__c.StudyLink_Program_Level__c</members>
+        <members>hed__Application__c.StudyLink_Program_Faculty__c</members>
+        <members>hed__Application__c.StudyLink_Program_URL__c</members>
+        <members>hed__Application__c.Studylink_Offered_Program_Name__c</members>
+        <!-- End DEPP-6130 -->       
+        <!-- Start DEPP-6232-->
+		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
+		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
+		<!-- End DEPP-6232-->
+        <!-- Start DEPP-6232-->
+		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
+		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
+		<!-- End DEPP-6232-->
+        <!-- Start DEPP-6136-->
+        <members>QTAC_Preference__c.External_ID__c</members>
+        <members>QTAC_Preference__c.Migration_ID__c</members>
+        <members>QTAC_Preference__c.Migration_Key__c</members>
+        <members>QTAC_Preference__c.QTAC_Application__c</members>
+        <members>QTAC_Preference__c.QTAC_Faculty__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Exists__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Lapse_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Round__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Start_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Status__c</members>
+        <members>QTAC_Preference__c.QTAC_Offer_Status_Date__c</members>
+        <members>QTAC_Preference__c.QTAC_Preference_Number__c</members>
+        <members>QTAC_Preference__c.QTAC_Program_ID__c</members>
+        <members>QTAC_Preference__c.QTAC_Program_Name__c</members>
+        <!-- End DEPP-6136-->
+        <!-- Start DEPP-6482-->
+        <members>Contact.Australian_South_Sea_Islander__c</members>
+        <members>Contact.First_Peoples__c</members>
+        <members>Contact.Is_Maori_and_Pasifika__c</members>
+        <members>Contact.QLD_School_Name__c</members>
+        <members>Contact.Year_of_Arrival__c</members>
+        <!-- End DEPP-6482-->
         <name>CustomField</name>
+    </types>
+    <types>
+        <!--Start DEPP-5837-->
+        <members>Project_Milestone__c</members>
+        <!--End DEPP-5837-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference__c</members>
+        <!--End DEPP-6136-->
+        <name>CustomObject</name>
     </types>
     <types>
         <!--DEPP-5055-->
         <members>Opportunity_Record_Page.flexipage-meta.xml</members>
         <!--DEPP-5055 end-->
+        <!--DEPP-5433-->
+        <members>Opportunity_Outcome_Research_Partnership_Record_Page</members>
+        <!--DEPP-5433 end-->
+        <!--Start DEPP-5837-->
+        <members>Project_Milestone_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-5837-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <members>Application_Record_Page.flexipage.xml</members>
+        <!--End DEPP-6136-->
+        <!--Start DEPP-6248 / DEPP-6201-->
+        <members>Application_SAMS_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-6248 / DEPP-6201-->
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <!--Start DEPP-5392-->
+        <members>New_Document_Standard_Record_Type_Custom.xml</members>
+        <!--End DEPP-5392-->
+        <!--Start DEPP-5995-->
+        <members>Update_Opportunity_Outcome_to_New.flow-meta.xml</members>
+        <!--End DEPP-5995-->
+        <name>Flow</name>
     </types>
     <types>
         <!--DEPP-4625 / DEPP-4223-->
@@ -33,6 +164,15 @@
         <members>Opportunity-Opportunity Details.layout-meta.xml</members>
         <members>Opportunity-Opportunity Layout.layout-meta.xml</members>
         <!--DEPP-5055 end-->
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference__c-QTAC Preference Layout.layout-meta.xml</members>
+        <!--End DEPP-6136-->
+        <!--Start DEPP-6306-->
+        <members>Task-Nurture.layout-meta.xml</members>
+        <!--End DEPP-6306-->
+        <!--Start DEPP-6248 / DEPP-6201-->
+        <members>hed__Application__c-SAMS Application Layout.layout-meta.xml</members>
+        <!--End DEPP-6248 / DEPP-6201-->
         <name>Layout</name>
     </types>
     <types>
@@ -42,10 +182,62 @@
         <name>LightningComponentBundle</name>
     </types>
     <types>
+        <!--Start DEPP-3616-->
+        <members>QTAC_Preference__c.tab-meta</members>
+        <!--End DEPP-2616-->
+        <name>CustomTab</name>
+    </types>
+    <types>
         <!--Start DEPP-4925-->
         <members>Contact.Enable_Partner_Portal_Access</members>
         <!--End DEPP-4925-->
+        <!--Start DEPP-6275-->
+        <members>Pure_Project__c.Show_CLMS_Contract_ID</members>
+        <members>Pure_Project__c.Show_Pure_Project_in_Opportunity_Outcome_Tab</members>
+        <members>Pure_Project__c.Show_Record_In_Opportunity_Outcome_Record_Page</members>
+        <members>Pure_Project__c.Update_Pure_Project_In_Opportunity_Tab</members>
+        <members>Pure_Project__c.View_Pure_Project_In_Opportunity_Tab</members>
+        <!--End DEPP-6275-->
         <name>QuickAction</name>
+    </types>
+    <types>
+        <members>Opportunity.ClosingNextMonth</members>
+        <members>Opportunity.ClosingThisMonth</members>
+        <members>Opportunity.My_Closed_Opportunities</members>
+        <members>Opportunity.My_Open_Opportunities</members>
+        <members>Opportunity.NewThisWeek</members>
+        <members>Opportunity.Won</members>
+        <members>Opportunity.Default_Opportunity_Pipeline</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-5917 -->
+        <members>Engagement__c.Engagement_Summary_is_Required</members>
+        <!-- (End) DEPP-5917 -->
+        <!--(Start) DEPP-5947 -->
+        <members>Opportunity_Outcome__c.IPU_Opportunity_Outcome_Lock_Opportunity</members>
+        <!-- (End) DEPP-5947 -->
+        <name>ValidationRule</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6047 -->
+        <members>Document__c.CreateEngagementDocument</members>
+        <members>Document__c.CreateOpportunityDocument</members>
+        <members>Document__c.CreateOpportunityOutcomeDocument</members>
+        <!-- (End) DEPP-6047 -->
+        <!--(Start) DEPP-6336 -->
+        <members>Financial_Split__c.NewFinancialSplit</members>
+        <!-- (End) DEPP-6336 -->
+        <!--(Start) DEPP-6331 -->
+        <members>IP_Management_Relationship__c.Link</members>
+        <!-- (End) DEPP-6331 -->
+        <name>WebLink</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6135 -->
+        <members>hed__Application__c.SAMS</members>
+        <name>RecordType</name>
+        <!--(Start) DEPP-6135 -->
     </types>
     <version>52.0</version>
 </Package>

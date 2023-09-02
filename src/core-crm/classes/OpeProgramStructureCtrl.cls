@@ -40,7 +40,7 @@ public with sharing class OpeProgramStructureCtrl {
                     courseProdRequestIds.add(relatedPR.Course__c);
                 }
                 List<hed__Course__c> coursesList = new List<hed__Course__c>([SELECT Id,Name,RecordType.Name, Start_Date__c, End_Date__c,
-                                                                           (SELECT Id, hed__Sequence__c, hed__Category__c from hed__Plan_Requirements__r WHERE hed__Program_Plan__c =:relatedProgramPlanList)
+                                                                           (SELECT Id, hed__Sequence__c, hed__Category__c, IsActive__c FROM hed__Plan_Requirements__r WHERE hed__Program_Plan__c =:relatedProgramPlanList)
                                                                            FROM hed__Course__c 
                                                                            WHERE ProductRequestID__c in:courseProdRequestIds]);
 

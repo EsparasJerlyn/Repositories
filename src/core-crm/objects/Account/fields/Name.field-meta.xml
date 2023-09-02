@@ -3,5 +3,5 @@
     <fullName>Name</fullName>
     <securityClassification>Sensitive</securityClassification>
     <trackFeedHistory>true</trackFeedHistory>
-    <trackHistory>true</trackHistory>
+    <trackHistory>false</trackHistory>
 </CustomField>

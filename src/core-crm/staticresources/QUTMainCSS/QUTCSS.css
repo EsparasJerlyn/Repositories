@@ -1467,6 +1467,11 @@ span[c-customaccountcombobox_customaccountcombobox].slds-listbox__option-meta_en
 	font-family: 'ProximaNova-Bold';
 }
 
+ 
+.availStartDates * span[c-customcombobox_customcombobox].slds-listbox__option-meta_entity{
+    color: var(--sec-color-notification) !important;
+}
+
 
 .slds-listbox__option-text--entity,
 .slds-listbox__option-text_entity

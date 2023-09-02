@@ -183,6 +183,7 @@
         </connector>
         <fields>
             <name>Create_External_Requestor_Contact_Section1</name>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Create_External_Requestor_Contact_Section1_Column1</name>

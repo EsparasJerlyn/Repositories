@@ -36,10 +36,191 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>QUTeX CCE</label>
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>International Student Recruitment</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>International Student Recruitment</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>International Student Recruitment</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>International Student Recruitment</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Product_Request_Lightning_Page_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
@@ -878,38 +1059,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Course_Offering_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Course_Offering__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Course_Offering_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Course_Offering__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Course_Offering_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Course_Offering__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Course_Offering_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Course_Offering__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>OPE_Product_Request_Lightning_Page_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Product_Request__c</pageOrSobjectType>
@@ -961,6 +1110,168 @@
         <recordType>Product_Request__c.OPE_Program_Request</recordType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_StudyLink_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_StudyLink_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
+        <recordType>hed__Application__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Contact_Record_Page_OIE</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+        <recordType>Contact.Person</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Contact_Record_Page_OIE</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+        <recordType>Contact.Person</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUTeX</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Lead</tabs>
@@ -973,6 +1284,7 @@
     <tabs>Product_Request__c</tabs>
     <tabs>Product_Specification__c</tabs>
     <tabs>hed__Program_Plan__c</tabs>
+    <tabs>hed__Course_Offering__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>QUTeX_CCE_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -981,6 +1293,9 @@
         </mappings>
         <mappings>
             <tab>Product_Specification__c</tab>
+        </mappings>
+        <mappings>
+            <tab>hed__Course_Offering__c</tab>
         </mappings>
         <mappings>
             <tab>hed__Program_Plan__c</tab>

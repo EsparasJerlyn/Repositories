@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Record_Name__c</fullName>
+    <description>Returns the Name field value from the related Engagement, Opportunity or Opportunity Outcome record.</description>
+    <externalId>false</externalId>
+    <formula>IF(RecordType.DeveloperName = &quot;IP_Engagement_Relationship&quot; ,
+HYPERLINK(
+  &quot;/lightning/r/&quot; &amp;  Engagement__c &amp; &quot;/view&quot;,
+   Engagement__r.Name,
+  &quot;_self&quot;
+),
+IF( RecordType.DeveloperName = &quot;IP_Opportunity_Relationship&quot; ,
+HYPERLINK(
+  &quot;/lightning/r/&quot; &amp;  Opportunity__c  &amp; &quot;/view&quot;,
+  Opportunity__r.Name ,
+  &quot;_self&quot;
+),
+IF( RecordType.DeveloperName = &quot;IP_Opportunity_Outcome_Relationship&quot; ,
+HYPERLINK(
+  &quot;/lightning/r/&quot; &amp;  Opportunity_Outcome__c &amp; &quot;/view&quot;,
+  Opportunity_Outcome__r.Name,
+  &quot;_self&quot;
+), &quot;&quot; )))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Related Record Name</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

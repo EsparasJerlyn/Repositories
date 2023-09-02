@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Com_Com_Ready_Stage_Validation</fullName>
+    <active>true</active>
+    <description>Ensures that user can only choose to Close the Engagement or put it On Hold when current stage is Commercialisation Ready.</description>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
+ISCHANGED(Stage_Name__c),
+ISPICKVAL( PRIORVALUE(Stage_Name__c) ,&quot;Commercialisation Ready&quot;),
+NOT(ISPICKVAL(Stage_Name__c,&quot;On Hold&quot;)),
+NOT(ISPICKVAL(Stage_Name__c,&quot;Closed&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Stage_Name__c</errorDisplayField>
+    <errorMessage>You can only choose to Close the Engagement or put it On Hold</errorMessage>
+</ValidationRule>

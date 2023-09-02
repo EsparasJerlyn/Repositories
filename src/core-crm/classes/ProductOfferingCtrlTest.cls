@@ -16,20 +16,23 @@ public class ProductOfferingCtrlTest {
     private static final String STR_QUTEXPROD = 'QUTeX Products';
     private static final String STR_QUTEX = 'QUTeX';
     private static final String STR_QUTEX_TERM = STR_QUTEX + ' Term';
-    private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
+    private static final String ACCT_BUSI_ORG = System.Label.RT_Account_Business_Org;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
+    private static final Id ACCT_BUSI_ORG_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_BUSI_ORG).getRecordTypeId();
 
     @testSetup static void setup() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
     }
     
     @isTest
     static void getTermIdTest() {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             acc.Name = STR_QUTEXPROD;
+            acc.RecordTypeId = ACCT_BUSI_ORG_ID;
             insert acc;
+
             Test.startTest();
             String termId = ProductOfferingCtrl.getTermId();
             Test.stopTest();
@@ -39,7 +42,7 @@ public class ProductOfferingCtrlTest {
 
     @isTest
     static void getSearchedFacilitatorTest() {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
             con.FirstName = 'Test';
             con.LastName = 'Contact';
@@ -59,7 +62,7 @@ public class ProductOfferingCtrlTest {
 
     @isTest
     static void getSearchedContactTest() {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
             con.FirstName = 'Test';
             con.LastName = 'Contact';
@@ -75,7 +78,7 @@ public class ProductOfferingCtrlTest {
 
     @isTest
     static void updateFacilitatorDataTest() {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
             insert con;
             List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
@@ -112,7 +115,7 @@ public class ProductOfferingCtrlTest {
 
     @isTest
     static void getProductOfferingDataTest() {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Test.startTest();
             List<Product_Request__c> prodRequest =new List<Product_Request__c>();
 
@@ -156,7 +159,7 @@ public class ProductOfferingCtrlTest {
 
     @isTest
     static void getOfferingLayoutTest() {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Test.startTest();
             Map<String,List<Field_Layout_Setting__mdt>> layoutMap = ProductOfferingCtrl.getOfferingLayout();
             Test.stopTest();
@@ -166,7 +169,7 @@ public class ProductOfferingCtrlTest {
 
     @isTest
     static void updateCourseOfferingsTest() {
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
             List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
             insert prodRequest;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -199,7 +202,7 @@ public class ProductOfferingCtrlTest {
     }
 
     @isTest static void getFacilitatorBiosTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             List<Id> idList = new List<Id>();
             Contact con = new Contact( LastName = 'Test' );
             insert con;
@@ -218,7 +221,7 @@ public class ProductOfferingCtrlTest {
     }
     
     @isTest static void isNewFacilitatorTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             Boolean isException = false;
             String errorMsg;
             Test.startTest();

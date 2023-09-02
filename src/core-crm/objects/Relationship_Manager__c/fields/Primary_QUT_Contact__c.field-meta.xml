@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_QUT_Contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Identifies the DEP User who has a relationship with the Contact.</description>
+    <externalId>false</externalId>
+    <label>Primary QUT Contact</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>User.UserType</field>
+            <operation>equals</operation>
+            <value>Standard</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRoleId</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>notEqual</operation>
+            <value>System Administration</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Relationship_Managers</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

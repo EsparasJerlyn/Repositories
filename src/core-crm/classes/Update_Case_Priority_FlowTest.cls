@@ -71,7 +71,7 @@ private class Update_Case_Priority_FlowTest{
             Database.DMLOptions dmo = new Database.DMLOptions();
             dmo.assignmentRuleHeader.useDefaultRule= true;
 
-            Account acc = TestDataFactory.createTestAccount(true);
+            TestDataFactory.createTestAccount(true);
 
             Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
             marketingSeg.My_Country_Of_Citizenship__c = 'Indonesia';

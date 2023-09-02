@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_First_In_Family_Applicant__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicating if applicant is qualified for EAS due to being the first member of the family to study at tertiary education.</description>
+    <externalId>false</externalId>
+    <label>First In Family Applicant</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

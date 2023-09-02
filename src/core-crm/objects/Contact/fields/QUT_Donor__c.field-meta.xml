@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QUT_Donor__c</fullName>
+    <defaultValue>false</defaultValue>
+    <externalId>false</externalId>
+    <inlineHelpText>‘Benefactor’ identifies a person who donates or bequeaths financial, material, service, or other gifts to the institution. Accepted alternative/s: Donor, Philanthropist.</inlineHelpText>
+    <label>QUT Donor</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

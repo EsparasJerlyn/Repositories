@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IPU_AssessmentSupportingComment_Required</fullName>
+    <active>true</active>
+    <description>Checks if Assessment Supporting comment is not blank before moving the stage to Development</description>
+    <errorConditionFormula>AND (
+   RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
+   ISCHANGED(StageName),
+   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Assessment&quot;),
+   ISPICKVAL(StageName, &quot;Development&quot;),
+   ISBLANK(Assessment_Supporting_Comment__c)
+ 
+)</errorConditionFormula>
+    <errorDisplayField>Assessment_Supporting_Comment__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

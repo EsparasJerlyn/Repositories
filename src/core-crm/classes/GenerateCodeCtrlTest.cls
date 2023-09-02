@@ -319,20 +319,56 @@ public with sharing class GenerateCodeCtrlTest{
                List<CCE_PWP_Code_Generator__c> ccePWPList = [SELECT Id FROM CCE_PWP_Code_Generator__c LIMIT 1];
                for(CCE_PWP_Code_Generator__c p : ccePWPList){ ccePWPId = p.Id; }
 
-               String actCode = GenerateCodeCtrl.updateCodeGenerator(RT_ACTIVITY, actId, 1, 'test', RT_OPE_PRODSPECS);
-               String progCode = GenerateCodeCtrl.updateCodeGenerator(RT_PROGRAM, prgId, 1, 'test', RT_OPE_PRODSPECS);
-               String modCode = GenerateCodeCtrl.updateCodeGenerator(RT_MODULE, modId, 1, 'test', RT_OPE_PRODSPECS);
-               String scCode = GenerateCodeCtrl.updateCodeGenerator(RT_SHORT_COURSE, scId, 1, 'test', RT_OPE_PRODSPECS);
-               String pwpCode = GenerateCodeCtrl.updateCodeGenerator(RT_PWP, pwpId, 601, 'test', RT_OPE_PRODSPECS);
-               String cceActCode = GenerateCodeCtrl.updateCodeGenerator(RT_ACTIVITY, cceActId, 601, 'test', RT_CCE_PRODSPECS);
-               String cceProgCode = GenerateCodeCtrl.updateCodeGenerator(RT_PROGRAM, ccePrgId, 601, 'test', RT_CCE_PRODSPECS);
-               String cceModCode = GenerateCodeCtrl.updateCodeGenerator(RT_MODULE, cceModId, 601, 'test', RT_CCE_PRODSPECS);
-               String cceScCode = GenerateCodeCtrl.updateCodeGenerator(RT_SHORT_COURSE, cceScId, 601, 'test', RT_CCE_PRODSPECS);
-               String cceUnitCode = GenerateCodeCtrl.updateCodeGenerator(RT_UNIT, cceUnitId, 601, 'test', RT_CCE_PRODSPECS);
-               String cceGroupCoachingCode = GenerateCodeCtrl.updateCodeGenerator(RT_GROUP_COACHING, cceCoachingId, 601, 'test', RT_CCE_PRODSPECS);
-               String cceIndiCoachingCode = GenerateCodeCtrl.updateCodeGenerator(RT_INDIVIDUAL_COACHING, cceIndiCoachingId, 601, 'test', RT_CCE_PRODSPECS);
-               String cceDiagToolCode = GenerateCodeCtrl.updateCodeGenerator(RT_DIAGNOSTIC_TOOL, cceDiagToolId, 600, 'test', RT_CCE_PRODSPECS);
-               String ccePWPCode = GenerateCodeCtrl.updateCodeGenerator(RT_PWP, ccePWPId, 601, 'test', RT_CCE_PRODSPECS);
+               GenerateCodeCtrl.CodeGenDetails details = new GenerateCodeCtrl.CodeGenDetails();
+               details.recordType = RT_ACTIVITY;
+               details.recordId = actId;
+               details.recordNumber = 1;
+               details.recordCode = 'test';
+               details.prodSpecsRecordType = RT_OPE_PRODSPECS;
+               String actCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_PROGRAM;
+               details.recordId = prgId;
+               String progCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_MODULE;
+               details.recordId = modId;
+               String modCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_SHORT_COURSE;
+               details.recordId = scId;
+               String scCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_PWP;
+               details.recordId = pwpId;
+               details.recordNumber = 601;
+               String pwpCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_ACTIVITY;
+               details.recordId = cceActId;
+               details.prodSpecsRecordType = RT_CCE_PRODSPECS;
+               String cceActCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_PROGRAM;
+               details.recordId = ccePrgId;
+               String cceProgCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_MODULE;
+               details.recordId = cceModId;
+               String cceModCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_SHORT_COURSE;
+               details.recordId = cceScId;
+               String cceScCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_UNIT;
+               details.recordId = cceUnitId;
+               String cceUnitCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_GROUP_COACHING;
+               details.recordId = cceCoachingId;
+               String cceGroupCoachingCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_INDIVIDUAL_COACHING;
+               details.recordId = cceIndiCoachingId;
+               String cceIndiCoachingCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_DIAGNOSTIC_TOOL;
+               details.recordId = cceDiagToolId;
+               details.recordNumber = 600;
+               String cceDiagToolCode = GenerateCodeCtrl.updateCodeGenerator(details);
+               details.recordType = RT_PWP;
+               details.recordId = ccePWPId;
+               details.recordNumber = 601;
+               String ccePWPCode = GenerateCodeCtrl.updateCodeGenerator(details);
 
                Test.stopTest();
 
@@ -451,7 +487,6 @@ public with sharing class GenerateCodeCtrlTest{
                     insert prodSpecs;
                }
 
-               System.debug('prodSpecs' + prodSpecs);
                List<Product_Request__c> productRequests = TestDataFactory.createTestProductRequestRecords(1);
                for(Product_Request__c productRequest : productRequests){
                     productRequest.RecordTypeId = productRequestRecordType;

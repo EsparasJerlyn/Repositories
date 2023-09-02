@@ -1,0 +1,30 @@
+/**
+ * @description Interface for Application DAO framework
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
+      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
+      | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                               |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added list getApplicationsByLeadIds        |
+      | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added list getApplicationsByContactIds     |
+ */
+public interface IApplicationsDAO extends DmlInterface{ 
+    List<hed__Application__c> getApplicationsBySetIds(
+        Set<Id> applicationIds,
+        String accessLevel
+    );
+    List<hed__Application__c> getApplicationsByLeadIds(
+        Set<Id> leadIds,
+        String accessLevel
+    );
+    List<hed__Application__c> getApplicationsByContactIds(
+        Set<Id> contactIds,
+        String accessLevel
+    );
+    List<hed__Application__c> getQtacApplicationsWithQtacApplicantId(
+        List<String> qtacApplicantId,
+        String accessLevel
+    );
+}

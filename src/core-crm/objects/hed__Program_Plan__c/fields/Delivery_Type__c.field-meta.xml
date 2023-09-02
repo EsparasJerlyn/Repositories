@@ -4,6 +4,8 @@
     <externalId>false</externalId>
     <label>Delivery Type</label>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -29,6 +31,46 @@
                 <fullName>Online</fullName>
                 <default>false</default>
                 <label>Online</label>
+            </value>
+            <value>
+                <fullName>Non-Supervised Candidature</fullName>
+                <default>false</default>
+                <label>Non-Supervised Candidature</label>
+            </value>
+            <value>
+                <fullName>All</fullName>
+                <default>false</default>
+                <label>All</label>
+            </value>
+            <value>
+                <fullName>Block</fullName>
+                <default>false</default>
+                <label>Block</label>
+            </value>
+            <value>
+                <fullName>External</fullName>
+                <default>false</default>
+                <label>External</label>
+            </value>
+            <value>
+                <fullName>Internal</fullName>
+                <default>false</default>
+                <label>Internal</label>
+            </value>
+            <value>
+                <fullName>Multi Modal</fullName>
+                <default>false</default>
+                <label>Multi Modal</label>
+            </value>
+            <value>
+                <fullName>Not entered</fullName>
+                <default>false</default>
+                <label>Not entered</label>
+            </value>
+            <value>
+                <fullName>Unknown</fullName>
+                <default>false</default>
+                <label>Unknown</label>
             </value>
         </valueSetDefinition>
     </valueSet>

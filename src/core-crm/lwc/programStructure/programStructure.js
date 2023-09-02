@@ -7,7 +7,7 @@
       | roy.nino.s.regala         | November 15, 2021     | DEPP-362                        | Created                              |
  */
 
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import PROGRAM_PLAN_OBJECT from '@salesforce/schema/hed__Program_Plan__c';
@@ -50,8 +50,8 @@ export default class ProgramStructure extends LightningElement {
     @api prodReqStatus; // indicates the status of the product request
     @api isDesignComplete; // indicates the mark design stage as complete
     
+    @track draftTableData = [];//draft plan requirement data
 
-    draftTableData = [];//draft plan requirement data
     columns = COLUMNS;
     errors = {};
     mandatory = true;
@@ -59,6 +59,7 @@ export default class ProgramStructure extends LightningElement {
     hasSavedSequence = false;
     programDeliveryStructureValue;
     isProcessing = false;
+    showPlanRequirementIsActiveColumn = true;
 
     /*
     *gets object info of program plan
@@ -92,6 +93,18 @@ export default class ProgramStructure extends LightningElement {
         }
     }
 
+     /*
+    *decides if isFlexibleProgramType show
+    */
+    get isFlexibleProgramType(){
+        if(this.programDeliveryStructure === FLEXIBLE_TYPE){
+            return true;
+        }else{
+            return false;
+        }   
+        
+    }
+
     /*
     *decides if cancel button is disabled and sequence input field is read only
     */
@@ -104,7 +117,8 @@ export default class ProgramStructure extends LightningElement {
     *save can be clickable as well if it has a plan requirement on render and sequence is valid
     */
     get cantSave(){
-        return (!this.sequenceEdited && this.hasPlanRequirementOnRender) || 
+        return (!this.sequenceEdited && this.hasPlanRequirementOnRender) ||
+            (!this.sequenceEdited && this.hasPlanRequirementOnRender && !this.showPlanRequirementIsActiveColumn) ||
             this.sequenceHasRepeatsEmptyAndZeroes ||
             (this.prodReqStatus === PL_ProductRequest_Complete || this.prodReqStatus === PL_ProductRequest_Not_Proceeding) ||
             this.tableData.length < 0 ||
@@ -142,6 +156,7 @@ export default class ProgramStructure extends LightningElement {
     */
      @api 
      handleCancel(){
+        this.showPlanRequirementIsActiveColumn = false;
          this.draftTableData = this.tableData.map(row=>({
             ...row,category:this.programDeliveryStructureValue === 'Flexible Program'?'Optional':'Required',
         }));
@@ -156,11 +171,17 @@ export default class ProgramStructure extends LightningElement {
             ...row,sequence:event.target.name === row.courseid?parseInt(event.target.value):row.sequence,
         }));
      }
+     handleCheck(event){
+            this.draftTableData  = this.draftTableData.map(row=>({
+            ...row,isactive:event.target.name === row.courseid?event.target.checked:row.isactive,
+        }));
+     }
 
      /*
     *upserts the program plan and plan requirement
     */
      handleSave(){
+
         this.isProcessing = true;
          upsertProgramPlanAndPlanRequirement({recordsToUpsert:this.createObjectRecord().planRequirement})
         .then(()=>{
@@ -185,12 +206,14 @@ export default class ProgramStructure extends LightningElement {
          recordsToUpsert.programPlan = {...this.programPlan};
          recordsToUpsert.planRequirement = this.draftTableData.map(result =>{
             let planRequirement = {};
+
             if(result.recordId){
                 planRequirement['Id'] = result.recordId;
             }
             planRequirement['hed__Sequence__c'] = result.sequence !== ''?parseInt(result.sequence):null;
             planRequirement['hed__Category__c'] = result.category;
             planRequirement['hed__Course__c'] = result.courseid;
+            planRequirement['IsActive__c'] = result.isactive; 
             planRequirement['hed__Program_Plan__c'] = this.programPlan.Id; 
             return planRequirement;
         });

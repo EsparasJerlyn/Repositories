@@ -131,12 +131,32 @@
     <picklistValues>
         <picklist>hed__Status__c</picklist>
         <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Archived</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Current</fullName>
             <default>true</default>
+        </values>
+        <values>
+            <fullName>Discontinued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phasing Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planned</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
 </RecordType>

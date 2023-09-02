@@ -4,10 +4,12 @@
  * @author Accenture
  * 
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | w.li                           | June 05, 2022         | DEPP-1058              | Created file                 |
-      |                                |                       |                        |                              |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+      | w.li                           | June 05, 2022         | DEPP-1058              | Created file                                   |
+      |                                |                       |                        |                                                |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Remove scoring for marketing course application|
+      | mark.j.mahilum                 | August 18, 2023       | DEPP-6391              | Marketing Course Application retrofit          |
  */
 public without sharing class LeadScoringManager {
     
@@ -88,7 +90,6 @@ public without sharing class LeadScoringManager {
 
         Map<Id, Decimal> leadToMCAScore = new Map<Id, Decimal>();
         Map<Id, Decimal> contactToMCAScore = new Map<Id, Decimal>();
-
         for (Marketing_Course_Application__c marketingCourseApplication : existingMarketingCourseApplications) {
             if (marketingCourseApplication.Lead__c != null && marketingCourseApplication.Lead__r.IsConverted != true) {
                 if (leadToMCAScore.get(marketingCourseApplication.Lead__r.Id) != null) {
@@ -99,7 +100,6 @@ public without sharing class LeadScoringManager {
                     leadToMCAScore.put(marketingCourseApplication.Lead__r.Id, marketingCourseApplication.Score__c);
                 }    
             }
-
             if (marketingCourseApplication.Contact__c != null) {
                 if (contactToMCAScore.get(marketingCourseApplication.Contact__r.Id) != null) {
                     if (marketingCourseApplication.Score__c > contactToMCAScore.get(marketingCourseApplication.Contact__r.Id)) {
@@ -110,7 +110,6 @@ public without sharing class LeadScoringManager {
                 }
             }
         }
-
         for (Id id : leadToMCAScore.keySet()) {
             if (leadToScore.get(id) != null) {
                 Map<String, Decimal> fieldToScore = leadToScore.get(id);
@@ -122,7 +121,6 @@ public without sharing class LeadScoringManager {
                 leadToScore.put(id, fieldToScore);
             }
         }
-
         
         for (Id id : contactToMCAScore.keySet()) {
             if (contactToScore.get(id) != null) {

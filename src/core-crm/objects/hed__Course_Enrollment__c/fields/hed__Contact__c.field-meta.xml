@@ -11,6 +11,7 @@
     <relationshipLabel>Course Connections</relationshipLabel>
     <relationshipName>Student_Course_Enrollments</relationshipName>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

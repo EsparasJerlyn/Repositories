@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------|
       | roy.nino.s.regala              | June 27, 2022         | DEPP-3252              | Created file                               |
  */
+
 @isTest
 public with sharing class CartPaymentTriggerHelperTest {
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
@@ -154,8 +155,15 @@ public with sharing class CartPaymentTriggerHelperTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemHelper.CartItemDetails details;
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(courseOfferings[0].Id,cart.Id, pbEntry,false,cartDeliveryGroup.Id));
+                details = new CartItemHelper.CartItemDetails();
+                details.offeringId = courseOfferings[0].Id;
+                details.newWebCartId = cart.Id;
+                details.pbEntry = pbEntry;
+                details.prescribedProgram = false;
+                details.cartDeliveryGroupId = cartDeliveryGroup.Id;
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -199,8 +207,15 @@ public with sharing class CartPaymentTriggerHelperTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemHelper.CartItemDetails details;
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(programOffering[0].Id,cart.Id, pbEntry,true,cartDeliveryGroup.Id));
+                details = new CartItemHelper.CartItemDetails();
+                details.offeringId = programOffering[0].Id;
+                details.newWebCartId = cart.Id;
+                details.pbEntry = pbEntry;
+                details.prescribedProgram = true;
+                details.cartDeliveryGroupId = cartDeliveryGroup.Id;
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -244,8 +259,15 @@ public with sharing class CartPaymentTriggerHelperTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemHelper.CartItemDetails details;
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(courseOfferings[0].Id,cart.Id, pbEntry,false,cartDeliveryGroup.Id));
+                details = new CartItemHelper.CartItemDetails();
+                details.offeringId = courseOfferings[0].Id;
+                details.newWebCartId = cart.Id;
+                details.pbEntry = pbEntry;
+                details.prescribedProgram = false;
+                details.cartDeliveryGroupId = cartDeliveryGroup.Id;
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -290,8 +312,15 @@ public with sharing class CartPaymentTriggerHelperTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
+            CartItemHelper.CartItemDetails details;
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(courseOfferings[0].Id,cart.Id, pbEntry,false,cartDeliveryGroup.Id));
+                details = new CartItemHelper.CartItemDetails();
+                details.offeringId = courseOfferings[0].Id;
+                details.newWebCartId = cart.Id;
+                details.pbEntry = pbEntry;
+                details.prescribedProgram = false;
+                details.cartDeliveryGroupId = cartDeliveryGroup.Id;
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -303,26 +332,4 @@ public with sharing class CartPaymentTriggerHelperTest {
             System.assert(![SELECT ID FROM hed__Course_Enrollment__c LIMIT 100].isEmpty(),'No Course Connection Created');
         }
     }
-
-
-    private static CartItem createCartItem(Id offeringId, Id newWebCartId,  PricebookEntry pbEntry, Boolean prescribedProgram, Id cartDeliveryGroupId){
-
-        CartItem cartItem = new CartItem();
-        cartItem.CartId = newWebCartId;
-        cartItem.Name = 'Cart Item';
-        cartItem.CartDeliveryGroupId = cartDeliveryGroupId;
-        if(!prescribedProgram){
-             cartItem.Course_Offering__c = offeringId;
-        }else{
-             cartItem.Program_Offering__c = offeringId;
-        }
-        cartItem.Product2Id = pbEntry.Product2Id;
-        cartItem.Pricebook_Entry_ID__c = pbEntry.Id;
-        cartItem.Quantity = 1;
-        cartItem.TotalPrice = pbEntry.UnitPrice;
-        cartItem.Type = 'Product';
-        return cartItem;
-   }
-
-
 }

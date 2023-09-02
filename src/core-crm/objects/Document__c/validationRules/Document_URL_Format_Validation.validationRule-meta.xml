@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_URL_Format_Validation</fullName>
+    <active>true</active>
+    <description>Validate if URL is in correct format.</description>
+    <errorConditionFormula>NOT(
+        OR(
+            REGEX(Document_URL__c , &apos;^(?i)(https?|ftp):\\/\\/[a-zA-Z0-9.-]+(?:\\.[a-zA-Z]{2,})+(?:\\/[^\\s]*)?$&apos;),
+            REGEX(Document_URL__c , &apos;^(?i)www\\.[a-zA-Z0-9.-]+(?:\\.[a-zA-Z]{2,})+(?:\\/[^\\s]*)?$&apos;),
+            REGEX(Document_URL__c , &apos;^(?i)[a-zA-Z0-9.-]+(?:\\.[a-zA-Z]{2,})+(?:\\/[^\\s]*)?$&apos;)
+        )
+    )</errorConditionFormula>
+    <errorDisplayField>Document_URL__c</errorDisplayField>
+    <errorMessage>This value doesn&apos;t follow the required pattern. Try a different format or contact your admin for help.</errorMessage>
+</ValidationRule>

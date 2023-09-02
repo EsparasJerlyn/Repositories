@@ -1,0 +1,46 @@
+.customAccordion .slds-accordion__summary-heading .slds-button {
+    color: #706e6b !important;
+    background: var(--slds-g-color-neutral-base-95, var(--lwc-colorBackground,rgb(243, 243, 243)));
+}
+    
+.customAccordion .slds-accordion__summary-heading .slds-button:focus{
+    text-decoration: none !important;
+    box-shadow: var(--lwc-shadowButtonFocus,0 0 3px #0176d3) !important;
+}
+
+.customAccordion button.section-control.slds-button.slds-button_reset.slds-accordion__summary-action span {
+    color: #181818 !important;
+}
+
+.custom-checkbox-right-label .slds-form-element_horizontal .slds-form-element__control{
+    padding-left: 0 !important;
+    margin-left: -35px;
+}
+
+.custom-checkbox-label .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+    font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol') !important;
+    font-size: 12px !important;
+}
+
+.custom-field-label{
+    font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol') !important;
+    font-size: 12px !important;
+}
+
+.custom-field-label-upper{
+    font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol') !important;
+    font-size: 12px !important;
+    text-transform:uppercase !important;
+}
+
+.custom-contact-image span p img {
+    width: 200px !important;
+    height: 200px !important;
+}
+
+.custom-modal-image span p img {
+    width: 400px !important;
+    height: 400px !important;
+  }
+
+

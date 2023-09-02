@@ -45,7 +45,12 @@ public with sharing class DocuSignContentVersionTriggerHandler implements Disabl
                 }  
             }
         }catch(Exception e){
-            System.debug(LoggingLevel.DEBUG, 'Error on DocuSignContentVersionTriggerHandler.UpdateProposalTitle'); //NOPMD
+            Logger.error('Exception caught in method updatePropasalTitle in class DocuSignContentVersionTriggerHandler.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
     }
 

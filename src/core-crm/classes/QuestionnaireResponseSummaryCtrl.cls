@@ -119,9 +119,6 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
   @AuraEnabled(cacheable=false)
   public static void updateApplicationStatus(String qrsId, String qrsStatus, String reasonForRejection) {
     if (String.isNotBlank(qrsId)) {
-
-      Id cartDeliveryGroupId;
-
       List<Questionnaire_Response_Summary__c> qrs = [
         SELECT Id, Application_Status__c, Contact__c, 
         Contact__r.Registered_Email__c, Contact__r.Name,
@@ -157,26 +154,28 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
           Name = 'Default Delivery'
         );
         insert cartDeliveryGroup;
-
-        CartItem newCartItem = createCartItem(offeringId,newCart.Id,pbEntry,isPrescribed,cartDeliveryGroup.Id);
+        
+        CartItemHelper.CartItemDetails details = new CartItemHelper.CartItemDetails();
+        details.offeringId = offeringId;
+        details.newWebCartId = newCart.Id;
+        details.pbEntry = pbEntry;
+        details.prescribedProgram = isPrescribed;
+        details.cartDeliveryGroupId = cartDeliveryGroup.Id;
+        CartItem newCartItem = CartItemHelper.createCartItem(details);
         newCartItem.Contact__c = portalUser.ContactId;
         insert newCartItem;
 
         //Cart_Payment__c updateCartPayment = new Cart_Payment__c(Id = cartPayment.Id, Payment_Status__c ='Aprroved');
         //update cart payment to invoiced after it has webcart and cartitems
         //update updateCartPayment;
-
-        Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-
-        String communityUrl = storeLinkSettings.Study_Store_Link__c != null?String.valueOf(storeLinkSettings.Study_Store_Link__c):'';
-
-
-        qrs[0].Payment_URL__c = paymentGatewayURLBuilder([Select Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c,
-                                                    qrs[0].Contact__r.Registered_Email__c,
-                                                    qrs[0].Contact__r.Name,
-                                                    pbEntry.UnitPrice,
-                                                    qrs[0].Course_Name__c
-                                                    );
+        
+        PaymentGatewayUrlDetails urlDetails = new PaymentGatewayUrlDetails();
+        urlDetails.cartExternalId = [SELECT Id, External_Id__c FROM WebCart WHERE Id =: newCart.Id]?.External_Id__c;
+        urlDetails.email = qrs[0].Contact__r.Registered_Email__c;
+        urlDetails.name = qrs[0].Contact__r.Name;
+        urlDetails.amount = pbEntry.UnitPrice;
+        urlDetails.productName = qrs[0].Course_Name__c;
+        qrs[0].Payment_URL__c = paymentGatewayURLBuilder(urlDetails);
         }
 
         update qrs;
@@ -188,24 +187,21 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
   //must used custom settings for the other hard coded query params
      /**
       * Generates Payment Gateway URL based on the provided parameters
-      * @param <String> cartExternalId
-      * @param <String> email
-      * @param <String> name
-      * @param <Decimal> amount
+      * @param PaymentGatewayUrlDetails
       * @return String - URL Generated
       */
-      private static String paymentGatewayURLBuilder(String cartExternalId, String email, String name, Decimal amount, String productName){
+      private static String paymentGatewayURLBuilder(PaymentGatewayUrlDetails urlDetails){
 
         Payment_Gateway_Settings__c paymentGatewaySettings = Payment_Gateway_Settings__c.getorgdefaults();
 
         return paymentGatewaySettings.Payment_URL__c +
              'tran-type=' + paymentGatewaySettings.TransType_PayNow__c +
-             '&OPETransactionID=' + cartExternalId +
-             '&OPEDescription=' + productName +
-             '&Email=' + email +
-             '&FullName=' + name +
+             '&OPETransactionID=' + urlDetails.cartExternalId +
+             '&OPEDescription=' + urlDetails.productName +
+             '&Email=' + urlDetails.email +
+             '&FullName=' + urlDetails.name +
              '&GLCode=' + paymentGatewaySettings.GL_Code__c +
-             '&UnitAmountIncTax=' + String.valueOf(amount);
+             '&UnitAmountIncTax=' + String.valueOf(urlDetails.amount);
    }
 
 
@@ -241,70 +237,36 @@ public without sharing class QuestionnaireResponseSummaryCtrl {
       return webCart;
  }
 
-
- /**
-     * Creates cartitem based on parameters passed
-     * @param <Id> offeringId - course/program offering
-     * @param <Id> newWebCartId - new cart created
-     * @param <PricebookEntry> pbEntry - price book entry
-     * @param <Boolean> prescribedProgram
-     * @param <Id>  cartDeliveryGroupId
-     * @return CartItem
-     */
-    private static CartItem createCartItem(Id offeringId, Id newWebCartId,  PricebookEntry pbEntry, Boolean prescribedProgram, Id cartDeliveryGroupId){
-      
-      CartItem cartItem = new CartItem();
-      cartItem.CartId = newWebCartId;
-      cartItem.Name = pbEntry.Product2.Name;
-      cartItem.CartDeliveryGroupId = cartDeliveryGroupId;
-      if(!prescribedProgram){
-           cartItem.Course_Offering__c = offeringId;
-      }else{
-           cartItem.Program_Offering__c = offeringId;
-      }
-      cartItem.Product2Id = pbEntry.Product2Id;
-      cartItem.Pricebook_Entry_ID__c = pbEntry.Id;
-      cartItem.Quantity = 1;
-      cartItem.TotalPrice = pbEntry.UnitPrice;
-      cartItem.Type = 'Product';
-      return cartItem;
- }
-
   /**
    * @description wrapper that contains the Quesionnaire Response Summary list
    */
   public class QuestionnaireResponseSummaryWrapper {
-    @AuraEnabled
-    public String qrsType;
-    @AuraEnabled
-    public String qrsProduct;
-    @AuraEnabled
-    public String qrsProductURL;
-    @AuraEnabled
-    public String qrsContact;
-    @AuraEnabled
-    public String qrsContactURL;
-    @AuraEnabled
-    public String qrsStatus;
-    @AuraEnabled
-    public List<QuestionAnswerWrapper> qaList;
+    @AuraEnabled public String qrsType;
+    @AuraEnabled public String qrsProduct;
+    @AuraEnabled public String qrsProductURL;
+    @AuraEnabled public String qrsContact;
+    @AuraEnabled public String qrsContactURL;
+    @AuraEnabled public String qrsStatus;
+    @AuraEnabled public List<QuestionAnswerWrapper> qaList;
   }
 
   /**
    * @description wrapper that contains the Quesionnaire Response Summary Question & Answers
    */
   public class QuestionAnswerWrapper {
-    @AuraEnabled
-    public String qId;
-    @AuraEnabled
-    public String question;
-    @AuraEnabled
-    public String aId;
-    @AuraEnabled
-    public String answer;
-    @AuraEnabled
-    public Boolean isFile;
-    @AuraEnabled
-    public String qaSequence;
+    @AuraEnabled public String qId;
+    @AuraEnabled public String question;
+    @AuraEnabled public String aId;
+    @AuraEnabled public String answer;
+    @AuraEnabled public Boolean isFile;
+    @AuraEnabled public String qaSequence;
+  }
+
+  private class PaymentGatewayUrlDetails {
+    public String cartExternalId { get; set; }
+    public String email { get; set; }
+    public String name { get; set; }
+    public Decimal amount { get; set; }
+    public String productName { get; set; }
   }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mitigation_Plan__c</fullName>
+    <description>A description of the business’s mitigation plan for the risk.</description>
+    <externalId>false</externalId>
+    <label>Mitigation Plan</label>
+    <length>1000</length>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

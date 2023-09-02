@@ -288,11 +288,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Enrolment_Rules__c</field>
-            <table>Product_Request__c.Courses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Evolve_with_QUTeXv2__c</field>
             <table>Product_Request__c.Courses__r</table>
         </columns>

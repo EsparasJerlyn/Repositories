@@ -66,13 +66,12 @@ public with sharing class ContactTriggerMDMIntegration implements Database.Allow
             httpResponse = IntegrationCallOutCtrl.doCallout(endpoint, 'POST', JSON.serialize(contacts));
             if(httpResponse.getStatusCode() != 200){
                Logger.error('Callout Exception on Inserting/Updating Contact ').setHttpResponseDetails(httpResponse);
-               Logger.saveLog();
             }
 
         }catch(Exception e){
             Logger.error('Callout Exception on Inserting/Updating Contact ').setExceptionDetails(e).setHttpResponseDetails(httpResponse);
+        } finally {
             Logger.saveLog();
         }
     }
-
 }

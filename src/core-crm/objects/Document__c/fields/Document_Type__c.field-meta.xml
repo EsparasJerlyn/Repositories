@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <description>The document type.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The name of the Startup Company.</inlineHelpText>
+    <label>Document Type</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Shareholder Agreement</fullName>
+                <default>false</default>
+                <label>Shareholder Agreement</label>
+            </value>
+            <value>
+                <fullName>Constitution Agreement</fullName>
+                <default>false</default>
+                <label>Constitution Agreement</label>
+            </value>
+            <value>
+                <fullName>Share Certificate</fullName>
+                <default>false</default>
+                <label>Share Certificate</label>
+            </value>
+            <value>
+                <fullName>Director Indemnity</fullName>
+                <default>false</default>
+                <label>Director Indemnity</label>
+            </value>
+            <value>
+                <fullName>Director Consent</fullName>
+                <default>false</default>
+                <label>Director Consent</label>
+            </value>
+            <value>
+                <fullName>Subscription</fullName>
+                <default>false</default>
+                <label>Subscription</label>
+            </value>
+            <value>
+                <fullName>License Option and Assignment</fullName>
+                <default>false</default>
+                <label>License Option and Assignment</label>
+            </value>
+            <value>
+                <fullName>Distribution Deed</fullName>
+                <default>false</default>
+                <label>Distribution Deed</label>
+            </value>
+            <value>
+                <fullName>Contract Research Agreement</fullName>
+                <default>false</default>
+                <label>Contract Research Agreement</label>
+            </value>
+            <value>
+                <fullName>Confidentiality Agreement</fullName>
+                <default>false</default>
+                <label>Confidentiality Agreement</label>
+            </value>
+            <value>
+                <fullName>Material Transfer</fullName>
+                <default>false</default>
+                <label>Material Transfer</label>
+            </value>
+            <value>
+                <fullName>Grant Agreement</fullName>
+                <default>false</default>
+                <label>Grant Agreement</label>
+            </value>
+            <value>
+                <fullName>Funding Agreement</fullName>
+                <default>false</default>
+                <label>Funding Agreement</label>
+            </value>
+            <value>
+                <fullName>Collaborative Research Agreement</fullName>
+                <default>false</default>
+                <label>Collaborative Research Agreement</label>
+            </value>
+            <value>
+                <fullName>Consultancy Agreement</fullName>
+                <default>false</default>
+                <label>Consultancy Agreement</label>
+            </value>
+            <value>
+                <fullName>Commercial Revenue Waiver</fullName>
+                <default>false</default>
+                <label>Commercial Revenue Waiver</label>
+            </value>
+            <value>
+                <fullName>Start-up Company Legals</fullName>
+                <default>false</default>
+                <label>Start-up Company Legals</label>
+            </value>
+            <value>
+                <fullName>IP Filing</fullName>
+                <default>false</default>
+                <label>IP Filing</label>
+            </value>
+            <value>
+                <fullName>IP Renewal</fullName>
+                <default>false</default>
+                <label>IP Renewal</label>
+            </value>
+            <value>
+                <fullName>IP Prosecution</fullName>
+                <default>false</default>
+                <label>IP Prosecution</label>
+            </value>
+            <value>
+                <fullName>Proposal</fullName>
+                <default>false</default>
+                <label>Proposal</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Board Meeting Minutes</fullName>
+                <default>false</default>
+                <label>Board Meeting Minutes</label>
+            </value>
+            <value>
+                <fullName>Shareholder and Constitution Amendment</fullName>
+                <default>false</default>
+                <label>Shareholder and Constitution Amendment</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

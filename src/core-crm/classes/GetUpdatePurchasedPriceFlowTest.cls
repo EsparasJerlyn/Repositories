@@ -36,8 +36,6 @@ public with sharing class GetUpdatePurchasedPriceFlowTest {
             List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(10,acc[0].Id,conList.iterator().next()?.Id);
             insert oppList;
 
-            Product_Specification__c prodSpecs = TestDataFactory.retrieveCCEProductSpecifications().iterator().next();
-
             List<Product_Request__c> prodRequest = TestDataFactory.createTestProductRequestRecords(1);
             insert prodRequest;
 

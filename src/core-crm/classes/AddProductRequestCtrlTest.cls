@@ -14,7 +14,7 @@
 @isTest
 private class AddProductRequestCtrlTest {
 
-    private static final String PRODUCT_REQ_API_NAME = Product_Request__c.SObjectType.getDescribe().getLocalName();
+    private static final String PRODUCT_REQ_API_NAME = Product_Request__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String ACTIVITY = System.Label.RT_ProductRequest_Activity;
     private static final Id ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get(ACTIVITY).getRecordTypeId();
     private static final string PR_PROGRAM = System.Label.RT_ProductRequest_Program;
@@ -130,7 +130,12 @@ private class AddProductRequestCtrlTest {
 
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
-            List<Product_Request__c> searchProduct = AddProductRequestCtrl.getSearchedProductRequests('Course',new List<Product_Request__c>(),PRODUCT_SPEC_RT,false);
+            AddProductRequestCtrl.SearchProductRequestParameters searchParameters = new AddProductRequestCtrl.SearchProductRequestParameters();
+            searchParameters.filterPRList = new List<Product_Request__c>();
+            searchParameters.filterString = 'Course';
+            searchParameters.prodSpecRecordType = PRODUCT_SPEC_RT;
+            searchParameters.isSOA = false;
+            List<Product_Request__c> searchProduct = AddProductRequestCtrl.getSearchedProductRequests(searchParameters);
             Test.stopTest();
             System.assert(!searchProduct.isEmpty(),'Could not find search product');
         }
@@ -141,7 +146,12 @@ private class AddProductRequestCtrlTest {
 
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
-            List<Product_Request__c> searchProduct = AddProductRequestCtrl.getSearchedProductRequests('Course',new List<Product_Request__c>(),PRODUCT_SPEC_RT,true);
+            AddProductRequestCtrl.SearchProductRequestParameters searchParameters = new AddProductRequestCtrl.SearchProductRequestParameters();
+            searchParameters.filterPRList = new List<Product_Request__c>();
+            searchParameters.filterString = 'Course';
+            searchParameters.prodSpecRecordType = PRODUCT_SPEC_RT;
+            searchParameters.isSOA = true;
+            List<Product_Request__c> searchProduct = AddProductRequestCtrl.getSearchedProductRequests(searchParameters);
             Test.stopTest();
             System.assert(!searchProduct.isEmpty(),'Could not find search product');
         }
@@ -160,7 +170,13 @@ private class AddProductRequestCtrlTest {
         System.runAs(TestDataFactory.getPortalSysAdminUser()){
             Test.startTest();
             productRequestId = [SELECT Id FROM Product_Request__c LIMIT 1]?.Id;
-            AddProductRequestCtrl.createBuyerGroupAndEntitlement(productRequestId,acc.Id,acc.Name,true,false);
+            AddProductRequestCtrl.BuyerGroupAndEntDetails details = new AddProductRequestCtrl.BuyerGroupAndEntDetails();
+            details.productRequestId = productRequestId;
+            details.accountId = acc.Id;
+            details.accountName = acc.Name;
+            details.isCorporateBundle = true;
+            details.isSoa = false;
+            AddProductRequestCtrl.createBuyerGroupAndEntitlement(details);
             Test.stopTest();
         }
 

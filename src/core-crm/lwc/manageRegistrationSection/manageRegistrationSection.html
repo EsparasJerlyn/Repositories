@@ -249,13 +249,6 @@
                             <template if:false={isCorporateBundlePricebook}>
                                 <div class="slds-var-top_medium" if:false={isTailoredProductCategory}>
                                     <lightning-button
-                                        label="Bulk Registration"
-                                        variant="brand"
-                                        type="submit"
-                                        onclick={handleGroupRegister}
-                                        disabled={disableGroupRegistration}
-                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
-                                    <lightning-button
                                         label="Proceed without Invoice"
                                         variant="brand"
                                         type="submit"
@@ -271,13 +264,6 @@
                                     ></lightning-button>
                                 </div>
                                 <div class="slds-var-top_medium" if:true={isTailoredProductCategory}>
-                                    <lightning-button
-                                        label="Bulk Registration"
-                                        variant="brand"
-                                        type="submit"
-                                        onclick={handleGroupRegister}
-                                        disabled={disableGroupRegistration}
-                                    ></lightning-button> &nbsp;&nbsp;&nbsp;
                                     <lightning-button
                                         label="Confirm Registration"
                                         variant="brand"

@@ -9,6 +9,7 @@ public with sharing class EmailTemplateCtrlTest {
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 
     @testSetup static void setupMethod() {
+        TestDataFactory.generateTestUsers();
         List<Account> accounts;
         accounts = TestDataFactory.createTestAccountRecords(1);
         for(Account acc : accounts){
@@ -48,14 +49,15 @@ public with sharing class EmailTemplateCtrlTest {
 
     @isTest
     static void getEmailTemplateTest(){
-
-        EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
-        e.FolderId = UserInfo.getUserId();
-        insert e;
-        Test.startTest();
-            List<Map<String,String>> emailTemplate = EmailTemplateCtrl.getEmailTemplate('testEmail');
-            System.assertEquals('testEmail', emailTemplate[0].get('label'),'Email Name did not match as expected');
-        Test.stopTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            EmailTemplate e = new EmailTemplate (developerName = 'testEmail', TemplateType= 'Text', Name = 'testEmail');
+            e.FolderId = UserInfo.getUserId();
+            insert e;
+            Test.startTest();
+                List<Map<String,String>> emailTemplate = EmailTemplateCtrl.getEmailTemplate('testEmail');
+                System.assertEquals('testEmail', emailTemplate[0].get('label'),'Email Name did not match as expected');
+            Test.stopTest();
+        }
     }
 
     @isTest

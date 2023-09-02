@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Personal_Assistant__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The lookup to the Contact’s Personal Assistant Contact record.</description>
+    <externalId>false</externalId>
+    <label>Personal Assistant</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Contacts (Personal Assistant)</relationshipLabel>
+    <relationshipName>Contacts_Personal_Assistant</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

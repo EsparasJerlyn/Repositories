@@ -1,0 +1,68 @@
+<template>
+  <c-dynamic-data-table-form onrefreshdata={handleRefreshData}>
+  </c-dynamic-data-table-form>
+
+  <c-logger></c-logger>
+
+  <lightning-layout>
+    <article
+      class="slds-card slds-card_boundary lightning-card slds-theme_shade">
+      <div class="slds-card__header slds-grid">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          <div class="slds-media__figure">
+            <lightning-icon icon-name={icon} size="small"></lightning-icon>
+          </div>
+          <div class="slds-media__body">
+            <h2 class="slds-card__header-title">
+              <a
+                class="slds-card__header-link disable-link"
+                >{relatedListLabel}{numberOfRowsDisplay}</a
+              >
+            </h2>
+          </div>
+          <lightning-button-icon
+            icon-name="utility:refresh"
+            alternative-text="Refresh"
+            variant="border-filled"
+            class="slds-m-right_xx-small"
+            tooltip="Refresh"
+            onclick={handleRefreshData}></lightning-button-icon>
+          <lightning-button
+            label={newActionLabel}
+            onclick={handleNewRecord}
+            if:true={isShowNewButton}></lightning-button>
+        </header>
+      </div>
+      <div if:true={dataTableIsLoading}>
+        <lightning-spinner
+          variant="brand"
+          alternative-text="Loading Records"
+          size="small">
+        </lightning-spinner>
+      </div>
+      <template if:true={hasRecords}>
+        <div class={heightLimit}>
+          <lightning-datatable
+            key-field="Id"
+            data={finalSObjectDataList}
+            columns={finalColumns}
+            onloadmore={loadMoreData}
+            enable-infinite-loading={enableInfiniteLoading}
+            load-more-offset="1"
+            hide-checkbox-column
+            show-row-number-column
+            onrowaction={handleRowAction}
+            sorted-by={sortBy}
+            sorted-direction={sortDirection}
+            onsort={doSorting}>
+          </lightning-datatable>
+        </div>
+        <footer
+          class="slds-card__footer slds-theme_default"
+          if:true={enableInfiniteLoading}>
+          <a class="disable-link">Scroll to View More</a>
+        </footer>
+      </template>
+    </article>
+  </lightning-layout>
+</template>

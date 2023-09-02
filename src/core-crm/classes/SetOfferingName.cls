@@ -20,8 +20,6 @@ public with sharing class SetOfferingName {
         Map<String, List<SObject>> parentIdOfferingMap = new Map<String, List<SObject>>();
         String sobjectname = String.valueOf(newItems[0].getSObjectType());
         String objType = sobjectname == 'hed__Course_Offering__c' ? 'hed__Course__c' : 'hed_Program_Plan__c';
-        String startDateStr = sobjectname == 'hed__Course_Offering__c' ? 'hed__Start_Date__c' : 'Start_Date__c';
-        String recName;
         
         for (SObject obj : newItems) {
             if(obj.get('Name') == null){

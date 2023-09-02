@@ -40,21 +40,21 @@ export default class EnabledPortalAccessModal extends LightningElement {
                     let userId = result.userId;
                     if (result.hasOpeUser) {
                         if(!result.isNoUpdateNeeded){
-                            return enableCCECorporateUserForOPE({
-                                'recordId': result.contactId,
-                                'contactFirstName': result.contactFirstName,
-                                'contactLastName': result.contactLastName,
-                                'email': result.email
-                            });
+                            return enableCCECorporateUserForOPE({ conDetails: {
+                                recordId: result.contactId,
+                                contactFirstName: result.contactFirstName,
+                                contactLastName: result.contactLastName,
+                                email: result.email
+                            }});
                         }
                     } else {
                         if(!result.isNoUpdateNeeded){
-                            return createExtManagedAcct({
-                                'accountId': result.accountId,
-                                'primaryBusinessAcctId': result.primaryBusinessAcctId,
-                                'accountName': result.accountName,
-                                'userId': userId
-                            });
+                            return createExtManagedAcct({ extAccDetails: {
+                                accountId: result.accountId,
+                                primaryBusinessAcctId: result.primaryBusinessAcctId,
+                                accountName: result.accountName,
+                                userId: userId
+                            } });
                         }
                     } 
                 }

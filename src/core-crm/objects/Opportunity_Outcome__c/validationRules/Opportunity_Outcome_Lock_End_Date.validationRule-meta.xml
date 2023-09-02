@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_Outcome_Lock_End_Date</fullName>
+    <active>true</active>
+    <description>Restrict editing for End Date once Decommission details are populated</description>
+    <errorConditionFormula>AND( 
+ OR(ISCHANGED( End_Date__c ) ,
+ISCHANGED( Decommissioned_Date__c ) ) 
+,
+NOT( ISBLANK( End_Date__c ) ), 
+ISBLANK (PRIORVALUE(End_Date__c)),
+NOT( ISBLANK( Decommissioned_Date__c ) ), 
+NOT( ISBLANK( Decommissioned_Reason__c ) ))</errorConditionFormula>
+    <errorDisplayField>End_Date__c</errorDisplayField>
+    <errorMessage>You cannot edit the End Date once Decommission details are populated.</errorMessage>
+</ValidationRule>

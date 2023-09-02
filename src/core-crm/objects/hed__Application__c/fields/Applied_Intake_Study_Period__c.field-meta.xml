@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Applied_Intake_Study_Period__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The starting study period applied for.</description>
+    <externalId>false</externalId>
+    <label>Applied Intake Study Period</label>
+    <referenceTo>hed__Term__c</referenceTo>
+    <relationshipLabel>Applications (Applied Intake Study Period)</relationshipLabel>
+    <relationshipName>Applications</relationshipName>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

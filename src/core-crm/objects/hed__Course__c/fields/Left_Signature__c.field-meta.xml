@@ -5,6 +5,8 @@
     <label>Left Signature</label>
     <length>256</length>
     <trackTrending>false</trackTrending>
+    <trackHistory>false</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>Html</type>
     <visibleLines>25</visibleLines>
 </CustomField>

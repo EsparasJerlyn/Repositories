@@ -1538,18 +1538,16 @@ handleNextPage(evt) {
 
   /**
    * Handles a user request to add the product to their active cart.
-   *
    * @private
    */
   handleAction(evt) {
     evt.stopPropagation();
-
-    addToCart({
+    addToCart({ details: {
       communityId: communityId,
       productId: evt.detail.productId,
       quantity: "1",
       effectiveAccountId: this.resolvedEffectiveAccountId
-    })
+    } })
       .then(() => {
         this.dispatchEvent(
           new CustomEvent("cartchanged", {

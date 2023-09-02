@@ -29,19 +29,24 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     @testSetup
     static void setup(){
         Test.startTest();
-        Contact facultyContact = new Contact(FirstName = FACULTY_CONTACT_FNAME, LastName = FACULTY_CONTACT_LNAME);
-        insert facultyContact;
+        TestDataFactory.generateTestUsers();
 
-        hed__Course_Enrollment__c faculty = new hed__Course_Enrollment__c();
-        faculty.hed__Contact__c = facultyContact.Id;
-        faculty.RecordTypeId = facultyRecTypeId;
-        insert faculty;
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Contact facultyContact = new Contact(Salutation = 'DR', FirstName = FACULTY_CONTACT_FNAME, LastName = FACULTY_CONTACT_LNAME);
+            insert facultyContact;
+
+            hed__Course_Enrollment__c faculty = new hed__Course_Enrollment__c();
+            faculty.hed__Contact__c = facultyContact.Id;
+            faculty.RecordTypeId = facultyRecTypeId;
+            insert faculty;
+        }
+        
         Test.stopTest();
     }
 
     @isTest
     static void testSetupCertificateCourse(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
             createCourseRecord(opeActProdReqRecType);
             List<hed__Course_Enrollment__c> courseConnections = [SELECT Id, hed__Course_Offering__c 
@@ -63,7 +68,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
 
     @isTest
     static void testSetupCertificateProgram(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
             createProgramRecord();
             List<hed__Course_Enrollment__c> courseConnections = [SELECT Id, Program_Offering__c 
@@ -84,7 +89,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     }
 
     private static void createProgramRecord(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Id offeringId = null;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -136,7 +141,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     }
 
     private static void createCourseRecord(String productRequestRecordType){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Id offeringId = null;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -201,7 +206,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     
      @isTest
      private static void getFontSizeXSmallTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(122);
@@ -213,7 +218,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     
      @isTest
      private static void getFontSizeSmallTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(120);
@@ -225,7 +230,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     
     @isTest
      private static void getFontSizeMediumTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(32);
@@ -237,7 +242,7 @@ public with sharing class SetupCertificateVFPageCtrlTest {
     
      @isTest
      private static void getFontSizeLargeTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
          Test.startTest();
          
 		 SetupCertificateVFPageCtrl.getFontSize(30);

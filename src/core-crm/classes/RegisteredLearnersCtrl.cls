@@ -12,7 +12,7 @@
       |                           |                       |                      |                              |
  */
 public with sharing class RegisteredLearnersCtrl {
-    private static Map <String,Schema.RecordTypeInfo> courseConnectionRecordTypes = hed__Course_Enrollment__c.sObjectType.getDescribe().getRecordTypeInfosByName();
+    private static Map <String,Schema.RecordTypeInfo> courseConnectionRecordTypes = hed__Course_Enrollment__c.sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getRecordTypeInfosByName();
     private static Id studentRTId = courseConnectionRecordTypes.get('Student').getRecordTypeId();
 
     @AuraEnabled(cacheable=true)

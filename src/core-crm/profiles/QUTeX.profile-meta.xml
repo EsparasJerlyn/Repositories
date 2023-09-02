@@ -52,6 +52,14 @@
         <layout>ApiAnomalyEventStore-API Anomaly Event Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Asset-Asset Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -512,6 +520,17 @@
         <layout>Related_Product_Request__c-Related Product Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Contact Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ReportAnomalyEventStore-Report Anomaly Event Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -598,6 +617,25 @@
         <layout>WorkThanks-Thanks Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS CIAnywhere Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Legacy Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-hed__EDA Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>hed__Attendance_Event__c-QUT Attendance Event Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -653,6 +691,10 @@
     <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
         <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
     </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>

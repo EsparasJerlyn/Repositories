@@ -135,7 +135,11 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
 
 
     } catch (Exception e) {
-      System.debug(LoggingLevel.DEBUG, e); //NOPMD
+      Logger.error('Exception caught in method updateCartItemCounter in class CartItemTriggerHandler').setExceptionDetails(e);
+    } finally {
+      if(Logger.getBufferSize() > 0) {
+        Logger.saveLog();
+      }
     }
   }
 

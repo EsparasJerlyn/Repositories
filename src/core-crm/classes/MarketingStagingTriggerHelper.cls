@@ -14,6 +14,8 @@
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
       | roy.nino.s.regala              | Oct 20, 2022          | DEPP-4672              | Removed mobile number criteria for matching    |
       | roy.nino.s.regala              | Mar 3, 2022           | DEPP-5327              | Update lead's last name if unknown             |
+      | mark.j.mahilum                 | July 3, 2023          | DEPP-5961              | Remove reference to MarketingCourseApplication |
+      | mark.j.mahilum                 | August 18, 2023       | DEPP-6391              | Marketing Application logic revert changes     |
  */
 
 public without sharing class MarketingStagingTriggerHelper{
@@ -21,8 +23,8 @@ public without sharing class MarketingStagingTriggerHelper{
 
 
 
-    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe().getLocalName();
-    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe().getLocalName();
+    private static final String CONTACT_API_NAME = Contact.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+    private static final String LEAD_API_NAME = Lead.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     public static Map<Id,Contact> contactMatches = new Map<Id,Contact>();
     public static Map<Id,Lead> leadMatches = new Map<Id,Lead>();
     /**
@@ -431,7 +433,6 @@ public without sharing class MarketingStagingTriggerHelper{
 
         if(!marCourseAppToUpsertMap.keySet().isEmpty()){
             List<Database.UpsertResult> marCourseAppToUpsertMapResult = Database.upsert(marCourseAppToUpsertMap.values(),false);
-
             for (Database.UpsertResult result : marCourseAppToUpsertMapResult){
                 if (!result.isSuccess() && !result.isCreated()){
                     Logger.error('Error in upserting marketingcourseapplication').setDatabaseResult(result);
@@ -441,7 +442,7 @@ public without sharing class MarketingStagingTriggerHelper{
                 Logger.saveLog();                
             }
         }
-
+        
         if(!marStageToUpdateMap.keySet().isEmpty()){
             List<Database.SaveResult> marStageToUpdateMapResult = Database.update(marStageToUpdateMap.values(),false);
 

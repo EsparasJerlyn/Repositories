@@ -17,36 +17,41 @@ private class Assign_PriceBookTest {
     private static final String STR_PB_NAME = 'Custom Corporate Products & Services';
 
     @testSetup static void setupMethod() {
-        Pricebook2 priceBook = new Pricebook2(Name=STR_PB_NAME,IsActive=true);
-        insert priceBook;
+        TestDataFactory.generateTestUsers();
 
-        Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
-        insert acc;
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Pricebook2 priceBook = new Pricebook2(Name=STR_PB_NAME,IsActive=true);
+            insert priceBook;
 
-        List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
-        contacts[0].email = 'testContact@testmail.com';
-        insert contacts;
+            Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
+            insert acc;
+
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
+            contacts[0].email = 'testContact@testmail.com';
+            insert contacts;
+        }
     }
 
     @isTest
     private static void assignPricebookToOpportunityTest(){
-
-        Account acc = [SELECT Id From Account LIMIT 1];
-        Contact con = [SELECT Id From Contact LIMIT 1];
-        Id cceRecTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('QUTeX CCE').getRecordTypeId();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Account acc = [SELECT Id From Account LIMIT 1];
+            Contact con = [SELECT Id From Contact LIMIT 1];
+            Id cceRecTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('QUTeX CCE').getRecordTypeId();
         
-        List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(100,acc?.Id,con?.Id);
-        for(Opportunity oppty : oppList){
-            oppty.recordTypeId = cceRecTypeId;
-        }
+            List<Opportunity> oppList = TestDataFactory.createTestOpportunityRecords(100,acc?.Id,con?.Id);
+            for(Opportunity oppty : oppList){
+                oppty.recordTypeId = cceRecTypeId;
+            }
 
-        Test.startTest();
-        insert(oppList);
-        Test.stopTest();
+            Test.startTest();
+            insert(oppList);
+            Test.stopTest();
 
-        List<Opportunity> insertedOppList = [SELECT Pricebook2.Name FROM Opportunity LIMIT 100];
-        for(Opportunity opp : insertedOppList){
-            System.assertEquals(STR_PB_NAME, opp.Pricebook2.Name,'Pricebook was not assigned as expected');
+            List<Opportunity> insertedOppList = [SELECT Pricebook2.Name FROM Opportunity LIMIT 100];
+            for(Opportunity opp : insertedOppList){
+                System.assertEquals(STR_PB_NAME, opp.Pricebook2.Name,'Pricebook was not assigned as expected');
+            }
         }
     }
 }

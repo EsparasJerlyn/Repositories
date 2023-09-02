@@ -129,7 +129,12 @@ public class B2BStoreSearchIndexSchedulerTest {
             try{
                 B2BStoreSearchIndexScheduler.postCCESearchIndexRequest();
             }catch(Exception e){
-                System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
+                Logger.error('Exception caught in method testCatchErr in Apex class B2BStoreSearchIndexSchedulerTest.')
+                    .setExceptionDetails(e);
+            } finally {
+                if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+                }
             }
             Test.stopTest();
             System.assertEquals(true, true, 'Catch error');
@@ -146,7 +151,12 @@ public class B2BStoreSearchIndexSchedulerTest {
             try{
                 B2BStoreSearchIndexScheduler.postStudySearchIndexRequest();
             }catch(Exception e){
-                System.debug(LoggingLevel.DEBUG, 'POST Err: '+e.getMessage());//NOPMD
+                Logger.error('Exception caught in method testStudyCatchErr in Apex class B2BStoreSearchIndexSchedulerTest.')
+                    .setExceptionDetails(e);
+            } finally {
+                if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+                }
             }
             Test.stopTest();
             System.assertEquals(true, true, 'Catch error');

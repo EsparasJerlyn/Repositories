@@ -36,6 +36,9 @@
                     <div class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
                         Course Name
                     </div>
+                    <div if:true={isFlexibleProgramType} class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
+                        IsActive
+                    </div>
                     <div class="slds-col slds-size_1-of-6 slds-p-top_small text-bold"> 
                     </div>
                 </div>
@@ -53,6 +56,9 @@
                             </div>
                             <div class="slds-col slds-size_1-of-6 slds-p-top_x-small"> 
                                 {data.coursename}
+                            </div>
+                            <div if:true={isFlexibleProgramType} class="slds-col slds-size_1-of-6 slds-p-top_xx-small"> 
+                                <input onchange={handleCheck} name={data.courseid} checked={data.isactive} type="checkbox">
                             </div>
                         </div>
                     </template>

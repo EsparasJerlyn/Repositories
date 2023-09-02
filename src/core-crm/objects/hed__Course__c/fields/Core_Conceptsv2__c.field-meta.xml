@@ -5,6 +5,8 @@
     <externalId>false</externalId>
     <label>Core Concepts</label>
     <length>75000</length>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>25</visibleLines>

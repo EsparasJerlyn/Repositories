@@ -4,7 +4,8 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <label>Mark Design Stage as Complete</label>
-    <trackTrending>false</trackTrending>
+    <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

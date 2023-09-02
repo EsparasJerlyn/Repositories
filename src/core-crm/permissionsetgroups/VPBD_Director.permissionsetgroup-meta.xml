@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group to be added to users that are VP Business Development &amp; Executive Director Business Development</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>VPBD/Director</label>
+    <mutingPermissionSets>VPBD_Director_Muted</mutingPermissionSets>
+    <permissionSets>Business_Development_Base</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

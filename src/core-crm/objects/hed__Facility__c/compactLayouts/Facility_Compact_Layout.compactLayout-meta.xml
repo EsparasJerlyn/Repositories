@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Facility_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>hed__Account__c</fields>
+    <fields>hed__Facility_Type__c</fields>
+    <fields>hed__Capacity__c</fields>
+    <label>Facility Compact Layout</label>
+</CompactLayout>

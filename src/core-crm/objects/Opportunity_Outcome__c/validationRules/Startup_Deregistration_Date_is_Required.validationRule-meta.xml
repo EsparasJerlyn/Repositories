@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Startup_Deregistration_Date_is_Required</fullName>
+    <active>true</active>
+    <description>Deregistration Date is required to update stage to Deregistered</description>
+    <errorConditionFormula>AND(
+    RecordType.DeveloperName = &quot;Startup&quot;,
+    ISPICKVAL(  Stage_Name__c  , &quot;Deregistered&quot;),
+    ISCHANGED( Stage_Name__c ) ,
+    ISBLANK(    Deregistration_Date__c    )
+)</errorConditionFormula>
+    <errorDisplayField>Deregistration_Date__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

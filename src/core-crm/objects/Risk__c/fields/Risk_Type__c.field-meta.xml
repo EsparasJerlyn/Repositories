@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Risk_Type__c</fullName>
+    <description>The type of risk.</description>
+    <externalId>false</externalId>
+    <label>Risk Type</label>
+    <required>true</required>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Health and Safety</fullName>
+                <default>false</default>
+                <label>Health and Safety</label>
+            </value>
+            <value>
+                <fullName>DFAT Travel Risks</fullName>
+                <default>false</default>
+                <label>DFAT Travel Risks</label>
+            </value>
+            <value>
+                <fullName>Logistical</fullName>
+                <default>false</default>
+                <label>Logistical</label>
+            </value>
+            <value>
+                <fullName>Political</fullName>
+                <default>false</default>
+                <label>Political</label>
+            </value>
+            <value>
+                <fullName>Economic</fullName>
+                <default>false</default>
+                <label>Economic</label>
+            </value>
+            <value>
+                <fullName>Technological</fullName>
+                <default>false</default>
+                <label>Technological</label>
+            </value>
+            <value>
+                <fullName>Environment</fullName>
+                <default>false</default>
+                <label>Environment</label>
+            </value>
+            <value>
+                <fullName>Legal</fullName>
+                <default>false</default>
+                <label>Legal</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

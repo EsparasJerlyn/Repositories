@@ -1,0 +1,5 @@
+
+.datatable-unlink a[href] {
+    pointer-events: none;
+    color: black;
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_QUT_Internal_Participant__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Identifies if the participant is QUT internal staff member or from outside QUT.</description>
+    <externalId>false</externalId>
+    <label>Is QUT Internal Participant</label>
+    <securityClassification>Official</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

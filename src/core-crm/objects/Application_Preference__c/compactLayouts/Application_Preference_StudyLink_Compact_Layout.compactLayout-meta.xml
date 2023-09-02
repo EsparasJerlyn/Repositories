@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Preference_StudyLink_Compact_Layout</fullName>
+    <fields>Program_Name__c</fields>
+    <fields>Preference_Number__c</fields>
+    <fields>RecordTypeId</fields>
+    <label>Application Preference StudyLink Compact Layout</label>
+</CompactLayout>

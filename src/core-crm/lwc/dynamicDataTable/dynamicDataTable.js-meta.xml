@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property
+                name="icon"
+                label="Icon"
+                type="String"
+                description="Text, icon used before heading, sourcing from Lightning Design System Icons, input for example: custom:custom1. "
+                default="standard:custom" />
+            <property
+                name="relatedListLabel"
+                label="Related List Label"
+                type="String"
+                description="Text, used as table heading. E.g. Partners. "
+                required="true" />
+            <property
+                name="parentRecord"
+                label="Parent Record"
+                type="String"
+                description="Text, use the API name. E.g. Account. "
+                required="true" />
+            <property
+                name="relatedRecord"
+                label="Related Record"
+                type="String"
+                description="Text, use the API name. E.g. Contact. "
+                required="true" />
+            <property
+                name="relatedField"
+                label="Related Field"
+                type="String"
+                description="Text, use the API name. E.g. AccountId. "
+                required="true" />
+            <property
+                name="relatedListFields"
+                label="Related List Fields"
+                type="String"
+                description='Text, written in array JSON format, use to provide information relevant to fields. E.g. [{"label":"Name","fieldName":"Name","type":"text"}]). '
+                required="true" />
+            <property
+                name="relatedListFilters"
+                label="Related List Filters"
+                type="String"
+                description="Text, use to filter data. E.g. ‘Role_type__c = ‘Trainer’ OR Role_Type__c = 'Academic’. " />
+            <property
+                name="sortOrder"
+                label="Sort Order"
+                type="String"
+                datasource="DESC,ASC"
+                default="DESC" />
+            <property
+                name="sortField"
+                label="Sort Field"
+                type="String"
+                default="CreatedDate"
+                required="true"
+                description="Text, use the API name. E.g. CreatedDate" />
+            <property
+                name="recordTypeName"
+                label="Record Type Name"
+                type="String"
+                description="Optional, text, pass through related record’s record type if any. E.g. Person. " />
+            <property
+                name="showNewButton"
+                label="Show New Button"
+                type="Boolean" />
+            <property
+                name="newActionType"
+                label="New Action Type"
+                datasource="Default,Screen Flow"
+                type="String"
+                default="Default" />
+            <property
+                name="newActionTypeLabel"
+                label="New Action Label"
+                type="String"
+                default="New"
+                description="Optional, text, pass through the datatable to generate New Button Label." />
+            <property
+                name="newScreenFlowApiName"
+                label="New Action Screen Flow Name"
+                type="String"
+                description="Optional, text, flow API name. " />
+            <property
+                name="defaultValues"
+                label="Default Values"
+                type="String"
+                description='Text, written in JSON format, use to provide default field values for new record. E.g. {"Milestone_Type__c":"Compliance"}). '/>
+            <property
+                name="showEditButton"
+                label="Show Edit Button"
+                type="Boolean" />
+            <property
+                name="editActionType"
+                label="Edit Action Type"
+                datasource="Default,Screen Flow"
+                type="String"
+                default="Default" />
+            <property
+                name="editScreenFlowApiName"
+                label="Edit Action Screen Flow Name"
+                type="String"
+                description="Optional, text, flow API name. " />
+            <property
+                name="dynamicDataTableInput"
+                label="Dynamic Data Table Inputs"
+                type="String"
+                description="Optional, text, field value of the record used in Flow, LWC, or Platform Event as identifier. E.g. Academic Team. " />
+            <property
+                name="visibilityByParent"
+                label="Controlled Visibility By Parent"
+                type="String"
+                description="Optional, text, controls the visibility of new and edit buttons by parent records. E.g. Stage != 'Completed' " />
+            <property
+                name="visibilityByUser"
+                label="Controlled Visibility By User"
+                type="String"
+                description="Optional, text, controls the visibility of new and edit buttons by current user details. E.g. Role.Name != 'Partnership Manager' " />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

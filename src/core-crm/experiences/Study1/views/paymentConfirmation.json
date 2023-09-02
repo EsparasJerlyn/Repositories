@@ -1,6 +1,7 @@
 {
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
   "id" : "d68d9473-b23c-4955-aa65-47e98297f1de",
   "label" : "Payment Confirmation",
   "regions" : [ {

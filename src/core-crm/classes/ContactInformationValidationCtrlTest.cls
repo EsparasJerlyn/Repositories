@@ -14,8 +14,8 @@
 @isTest
 private class ContactInformationValidationCtrlTest {
     
-    private static final String ACCOUNT_API_NAME = Account.SObjectType.getDescribe().getLocalName();
-	private static final String OPP_API_NAME = Opportunity.SObjectType.getDescribe().getLocalName();
+    private static final String ACCOUNT_API_NAME = Account.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
+	private static final String OPP_API_NAME = Opportunity.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String AURA_EX_MSG = 'Error while getting field mapping.';
     private static final String ACCOUNT_MAPPING = '{"label": "ABN","apiName":"ABN__c","statusValidationField":"AccountABNEntity_Validation__c","loqateRequest":"name","loqateResponse":"status"}';
     private static final String STR_QUTeX = 'QUTeX';

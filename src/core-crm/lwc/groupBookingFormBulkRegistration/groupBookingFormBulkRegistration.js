@@ -11,8 +11,10 @@
       | dodge.j.palattao          |  July 26, 2022        | DEPP-3484            | Created file                          |
       | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation                  |
       | dodge.j.palattao          | September 27, 2022    | DEPP-4428            | Fix for input participant             |
-      | julie.jane.alegre         | September 29, 2022    |  DEPP-4471           | Add validation for available seats    |
+      | julie.jane.alegre         | September 29, 2022    | DEPP-4471            | Add validation for available seats    |
       | dodge.j.palattao          | September 29, 2022    | DEPP-4466            | Fix for input participant in Firefox  |
+      | julie.jane.alegre         | August    28, 2022    | DEPP-6515            | Add Country code to the required      |
+      |                           |                       |                      | validation fields                     |
       
 
 */
@@ -27,6 +29,7 @@ import addCartItems from '@salesforce/apex/GroupBookingFormCtrl.addCartItems';
 import removeCartItems from '@salesforce/apex/GroupBookingFormCtrl.removeCartItems';
 import getAvailableSeats from '@salesforce/apex/GroupBookingFormCtrl.getAvailableSeats';
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
+import DEDUP_PERSONAL_MISMATCH from "@salesforce/label/c.Dedup_Mismatch_Personal_Portal_Error";
 import getMobileLocaleOptions from "@salesforce/apex/RegistrationFormCtrl.getMobileLocaleOptions";
 import qutResourceImg from "@salesforce/resourceUrl/QUTImages";
 import { NavigationMixin } from 'lightning/navigation';
@@ -477,12 +480,12 @@ export default class GroupBookingForm extends NavigationMixin(LightningElement) 
             hasNoParticipant = true;
         }
 
-        let form = [...this.template.querySelectorAll('lightning-input'),
+        let form = [...this.template.querySelectorAll('lightning-input, lightning-combobox'),
         ];
         
         if(form.length > 0){
             const allValid = [
-                ...this.template.querySelectorAll('lightning-input'),
+                ...this.template.querySelectorAll('lightning-input, lightning-combobox'),
             ].reduce((validSoFar, inputCmp) => {
                 inputCmp.reportValidity();
                 return validSoFar && inputCmp.checkValidity();
@@ -499,7 +502,7 @@ export default class GroupBookingForm extends NavigationMixin(LightningElement) 
 
     submitDetails() {
         const allValid = [
-            ...this.template.querySelectorAll('lightning-input'),
+            ...this.template.querySelectorAll('lightning-input, lightning-combobox'), 
         ].reduce((validSoFar, inputCmp) => {
             inputCmp.reportValidity();
             return validSoFar && inputCmp.checkValidity();
@@ -574,7 +577,7 @@ export default class GroupBookingForm extends NavigationMixin(LightningElement) 
                                 let record = item;
                                 if(record.Email === row.email ){
                                     record.hasError = true;
-                                    record.errorMessage = 'Your personal details do not match with the email provided. Please check your details or contact QUTeX.';
+                                    record.errorMessage = DEDUP_PERSONAL_MISMATCH + row.fieldsMismatch;
                                     record.fieldsMismatch = row.fieldsMismatch;
                                 }
                                 return record;
@@ -805,27 +808,26 @@ paymentOptionButtons(){
                     composed: true
                 })
             );
-            return saveBooking({
+            return saveBooking({ details : {
                 participants:this.contactMap,
                 offeringId:this.selectedOffering,
                 relatedAnswer:this.responseData2,
                 answerMap:this.answerMap,
                 fileUpload:this.fileUploadMap,
                 isPrescribed: this.isPrescribed
-            })
+            }})
         })
         .then((result)=>{
-            return addCartItems({
+            return addCartItems({ details : {
                 productId:this.productId,
                 productName:this.productCourseName,
                 isPrescribed:this.isPrescribed,
                 offeringId:this.selectedOffering,
                 pricebookEntryId:this.priceBookEntry,
                 pricebookUnitPrice:this.amount,
-                userId:this.userId,
                 contacts:result,
                 cartId:this.cartId,
-            })
+            }})
         })
         .then(()=>{
             this.dispatchEvent(

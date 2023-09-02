@@ -1,0 +1,20 @@
+.lightning-card {
+  width: 100%;
+}
+.slds-card__header {
+  padding: var(--lwc-varSpacingVerticalSmall, 0.75rem)
+    var(--lwc-varSpacingHorizontalMedium, 1rem)
+    var(--lwc-varSpacingVerticalSmall, 0.75rem);
+}
+
+.slds-card__footer {
+  margin: 0 0 0;
+}
+
+.table-height-limit {
+  height: 326px;
+}
+
+.disable-link {
+  pointer-events: none;
+}

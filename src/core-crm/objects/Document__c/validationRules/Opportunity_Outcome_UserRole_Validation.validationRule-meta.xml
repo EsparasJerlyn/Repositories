@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_Outcome_UserRole_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    Opportunity_Outcome__r.Id !=null,
+    NOT(ISNEW()),
+    OR(
+        $UserRole.Name = &quot;VP Business Development&quot;,
+        $UserRole.Name = &quot;Executive Director Business Development&quot;,
+        $UserRole.Name = &quot;Partnership Manager&quot;
+      )
+)</errorConditionFormula>
+    <errorMessage>You don’t have the right permission to create or edit this record</errorMessage>
+</ValidationRule>

@@ -1,6 +1,7 @@
 {
   "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
   "id" : "33b74d79-554a-4eba-a4a5-c85937d33612",
   "label" : "Category Detail",
   "regions" : [ {
@@ -18,11 +19,7 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "effectiveAccountId" : "{!CurrentUser.effectiveAccountId}",
-        "recordId" : "{!recordId}",
-        "resultsLayout" : "grid",
-        "showProductImage" : true,
-        "term" : "{!term}"
+        "recordId" : "{!recordId}"
       },
       "componentName" : "c:portalListingPage",
       "id" : "f4d93520-91c9-4f5a-956c-3a5243a50b61",

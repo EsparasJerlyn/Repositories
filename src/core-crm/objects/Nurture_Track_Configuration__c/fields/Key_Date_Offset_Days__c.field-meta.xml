@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Key_Date_Offset_Days__c</fullName>
+    <description>The number days to offset from key dates, e.g., 4 days after Offer Date or 14 days before Class Reg Start Date</description>
+    <externalId>false</externalId>
+    <label>Key Date Offset Days</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

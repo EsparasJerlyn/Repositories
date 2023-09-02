@@ -71,11 +71,6 @@ public with sharing class ProductCtrlTest {
 			}
 			insert accounts;
 
-			List<BuyerGroupMember> bgm = [
-				SELECT Id, Name, BuyerId, BuyerGroupId FROM BuyerGroupMember 
-				WHERE BuyerId = :accounts[1].Id
-			];
-
 			List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
 			insert contacts;
 

@@ -3,14 +3,29 @@
     <fullName>Owning_Faculty__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>The QUT Faculty leading the Opportunity.</inlineHelpText>
     <label>Owning Faculty</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Account.Organization_Unit_Level__c</field>
+            <operation>equals</operation>
+            <value>2</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.End_Date__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Opportunities</relationshipLabel>
     <relationshipName>Opportunities</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

@@ -14,7 +14,7 @@
 @isTest
 private class CustomCreateEditRecordCtrlTest {
 
-    private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe().getLocalName();
+    private static final String COURSE_API_NAME = hed__Course__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getLocalName();
     private static final String STR_QUTEX = 'QUTEX';
     private static User currentUser = TestDataFactory.createUserRecords(1, STR_QUTEX).iterator().next();
 

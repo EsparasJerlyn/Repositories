@@ -24,71 +24,55 @@ public with sharing class CustomLayoutCtrl {
     * @return Id of Child
     */
     @AuraEnabled(cacheable=true)
-    public static Id getChildRecordId(
-        String parentId,
-        String parentField, 
-        String childObjectType, 
-        Map<String,String> grandChildInfo
-    ){  
-        Id currentRecord = queryRecord(ID, childObjectType, parentField, parentId);
-        if(grandChildInfo.isEmpty()){
+    public static Id getChildRecordId(GetRecordFilter filter){  
+        QueryParts q = new QueryParts();
+        q.fields = ID;
+        q.objectApiName = filter.childObjectType;
+        q.conditionField = filter.parentField;
+        q.conditionValue = filter.parentId;
+        Id currentRecord = queryRecord(q);
+        if(filter.grandChildInfo.isEmpty()){
             return currentRecord;
         }else{
-            Id parent = currentRecord;
-            return queryRecord(
-                ID,
-                grandChildInfo.get('objectApiName'),
-                grandChildInfo.get('conditionField'),
-                parent
-            );
+            q.objectApiName = filter.grandChildInfo.get('objectApiName');
+            q.conditionField = filter.grandChildInfo.get('conditionField');
+            q.conditionValue = currentRecord;
+            return queryRecord(q);
         }
     }
 
     @AuraEnabled(cacheable=true)
-    public static sObject getParentRecord(
-        String parentId,
-        String parentField, 
-        String childObjectType, 
-        String fields,
-        Map<String,String> grandChildInfo
-    ){  
-        sObject currentRecord = queryRecordObject(fields, childObjectType, parentField, parentId);
-        if(grandChildInfo.isEmpty()){
+    public static sObject getParentRecord(GetRecordFilter filter){
+        QueryParts q = new QueryParts();
+        q.fields = filter.fields;
+        q.objectApiName = filter.childObjectType;
+        q.conditionField = filter.parentField;
+        q.conditionValue = filter.parentId; 
+        sObject currentRecord = queryRecordObject(q);
+        if(filter.grandChildInfo.isEmpty()){
             return currentRecord;
         }else{
-            Id parent = currentRecord.Id;
-            return queryRecordObject(
-                fields,
-                grandChildInfo.get('objectApiName'),
-                grandChildInfo.get('conditionField'),
-                parent
-            );
+            q.objectApiName = filter.grandChildInfo.get('objectApiName');
+            q.conditionField = filter.grandChildInfo.get('conditionField');
+            q.conditionValue = currentRecord.Id;
+            return queryRecordObject(q);
         }
     }
     
 
     /**
     * @description Method for getting the Id of an SObject
-    * @param fields - fields to query
-    * @param objectApiName - object to query from
-    * @param conditionField - field api name for condition
-    * @param conditionValue -value of condition
+    * @param q - parts of the query
     * @return Id of SObject record
     */
-    private static Id queryRecord(
-        String fields,
-        String objectApiName,
-        String conditionField,
-        String conditionValue
-    ){
+    private static Id queryRecord(QueryParts q){
         Id record;
-        String queryStr = 
-            'SELECT ' + fields + 
-            ' FROM ' + objectApiName + 
-            ' WHERE ' + conditionField + ' = \'' + String.escapeSingleQuotes(conditionValue) + 
-            '\' LIMIT 1';
-        List<SObject> records = Database.query(queryStr);
-                
+        List<SObject> records = Database.query(
+            'SELECT ' + String.escapeSingleQuotes(q.fields) + 
+            ' FROM ' + String.escapeSingleQuotes(q.objectApiName) + 
+            ' WHERE ' + String.escapeSingleQuotes(q.conditionField) + 
+            ' = \'' + String.escapeSingleQuotes(q.conditionValue) + 
+            '\' LIMIT 1');
         if(!records.isEmpty()){
             record = (Id) records.iterator().next().get(ID);
         }
@@ -98,25 +82,18 @@ public with sharing class CustomLayoutCtrl {
 
     /**
     * @description Method for getting the Id of an SObject
-    * @param fields - fields to query
-    * @param objectApiName - object to query from
-    * @param conditionField - field api name for condition
-    * @param conditionValue -value of condition
+    * @param q - parts of the query
     * @return Id of SObject record
     */
-    private static sObject queryRecordObject(
-        String fields,
-        String objectApiName,
-        String conditionField,
-        String conditionValue
-    ){
+    private static sObject queryRecordObject(QueryParts q){
         sObject record;
-        String queryStr = 
-            'SELECT ' + fields + 
-            ' FROM ' + objectApiName + 
-            ' WHERE ' + conditionField + ' = \'' + String.escapeSingleQuotes(conditionValue) + 
-            '\' LIMIT 1';
-        List<SObject> records = Database.query(queryStr);
+        List<SObject> records = Database.query(
+            'SELECT ' + String.escapeSingleQuotes(q.fields) + 
+            ' FROM ' + String.escapeSingleQuotes(q.objectApiName) + 
+            ' WHERE ' + String.escapeSingleQuotes(q.conditionField) + 
+            ' = \'' + String.escapeSingleQuotes(q.conditionValue) + 
+            '\' LIMIT 1'
+        );
                 
         if(!records.isEmpty()){
             record = (sObject) records.iterator().next();
@@ -161,12 +138,12 @@ public with sharing class CustomLayoutCtrl {
         Map<String,String> objectInfo,
         String recordId
     ){
-        sObject tempObj = queryRecordObject(
-            objectInfo.get('fieldApiName'),
-            objectInfo.get('childObject'),
-            objectInfo.get('parentField'),
-            recordId
-        );
+        QueryParts q = new QueryParts();
+        q.fields = objectInfo.get('fieldApiName');
+        q.objectApiName = objectInfo.get('childObject');
+        q.conditionField = objectInfo.get('parentField');
+        q.conditionValue = recordId;
+        sObject tempObj = queryRecordObject(q);
         return [
             SELECT  MasterLabel, Section_Label__c, Left_Right_Column_Long__c, Left_Column_Long__c, Right_Column_Long__c, Single_Column_Long__c, Order__c
             FROM Field_Layout_Setting__mdt
@@ -177,4 +154,18 @@ public with sharing class CustomLayoutCtrl {
         ];
     }
 
+    public class GetRecordFilter {
+        @AuraEnabled public String parentId { get; set; }
+        @AuraEnabled public String parentField { get; set; }
+        @AuraEnabled public String childObjectType { get; set; }
+        @AuraEnabled public String fields { get; set; }
+        @AuraEnabled public Map<String,String> grandChildInfo { get; set; }
+    }
+
+    private class QueryParts {
+        public String fields { get; set; }
+        public String objectApiName { get; set; }
+        public String conditionField { get; set; }
+        public String conditionValue { get; set; }
+    }    
 }

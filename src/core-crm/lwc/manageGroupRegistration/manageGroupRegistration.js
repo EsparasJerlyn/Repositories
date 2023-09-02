@@ -14,6 +14,7 @@ import readCSV from '@salesforce/apex/CsvBulkRegistrationCtrl.readCSVFile';
 import getAsset from '@salesforce/apex/CorporateBundleAndSOAHelper.getAsset';
 import getDiscount from '@salesforce/apex/PromotionDiscountCtrl.getDiscount';
 import CSV_TEMP from '@salesforce/resourceUrl/BulkRegistrationCSVTemplate';
+import DEDUP_PERSONAL_MISMATCH from "@salesforce/label/c.Dedup_Mismatch_Personal_CRM_Error";
 
 import CONTACT_SCHEMA from '@salesforce/schema/Contact';
 
@@ -32,8 +33,12 @@ const ERROR_FOR_TEMPLATE = 'Template does not exist, Please contact your admin';
 const AGE_OF_15_ERR = 'Must be 15 years or older to register.';
 const DUPLICATE_EMAIL_ERR = 'Duplicate email entered. Please review your csv file or modify the table.';
 const DEDUP_EMAIL_ERR = 'The email address doesn’t match the contact details provided. Please check the details.';
-const DEDUP_PERSONAL_ERR = 'The personal details do not match with the email provided. Please check the details.';
+const DEDUP_PERSONAL_ERR = DEDUP_PERSONAL_MISMATCH;
 const LEARNER_ALREADY_REG = 'Learner Already registered.';
+const DISCOUNT_CODE_LBL = 'Discount code';
+const COUPON_CODE_HELP_TXT = 'Coupon code will apply a discount on the Standard Price only';
+const TOTAL_VALUE_LABEL = 'Total Value: ';
+const REMAINING_VALUE_LABEL = 'Remaining Value: '; 
 
 const actions = [
     { label: 'Delete', name: 'delete' },
@@ -178,7 +183,7 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                     if(validateResponse != undefined && validateResponse.contactRecord != undefined){  
                         if(validateResponse.isEmailMatch && validateResponse.isPartialMatch){
                             hasErrors = true;
-                            rowsValidation[index + 1] = { title: 'We found an error.', messages: [DEDUP_PERSONAL_ERR] };
+                            rowsValidation[index + 1] = { title: 'We found an error.', messages: [DEDUP_PERSONAL_ERR + validateResponse.fieldsMismatch] };
                         } else if(!validateResponse.isEmailMatch && validateResponse.isPartialMatch){
                             hasErrors = true;
                             rowsValidation[index + 1] = { title: 'We found an error.', messages: [DEDUP_EMAIL_ERR] };
@@ -257,6 +262,7 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                     return {
                         ...contact,
                         Birthdate :  contact.Birthdate ? this.convertDate(contact.Birthdate) : '',
+                        MobileLocale : contact.MobileLocale ? contact.MobileLocale : 'Australia (+61)',
                         id
                     }
             });  
@@ -264,6 +270,8 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
             if (this.contacts.length > this.availableSeats) {
                 this.contacts = [];
                 this.generateToast('Reminder', 'There are not enough seats available to complete this transaction.', 'warning');
+            } else if(this.contacts.length === 0){
+                this.generateToast('Reminder', 'Uploaded file does not have contact/s.', 'warning');
             } else {
                 //COMPUTE TOTAL AMOUNT HERE
                 if(this.productCategoryCheck){
@@ -671,4 +679,8 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
     get buttonProceedLabel(){ return BUTTON_PROCEED_LBL; }
     get availableSeats(){ return this.availableSeats;}
     get standardHeaderLabel(){ return true;}
+    get discountCodeLabel(){ return DISCOUNT_CODE_LBL;}
+    get couponHelpText(){ return COUPON_CODE_HELP_TXT; }
+    get totalValueLabel(){ return TOTAL_VALUE_LABEL; }
+    get remainingValueLabel(){ return REMAINING_VALUE_LABEL; }
 }

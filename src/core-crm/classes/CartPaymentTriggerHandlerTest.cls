@@ -154,15 +154,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
-            CartItemWrapper cartItemWrapper = new CartItemWrapper();
-            cartItemWrapper.offeringId = courseOfferings[0].Id;
-            cartItemWrapper.newWebCartId = cart.Id;
-            cartItemWrapper.pbEntry = pbEntry;
-            cartItemWrapper.prescribedProgram = false;
-            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+            CartItemHelper.CartItemDetails details = new CartItemHelper.CartItemDetails();
+            details.offeringId = courseOfferings[0].Id;
+            details.newWebCartId = cart.Id;
+            details.pbEntry = pbEntry;
+            details.prescribedProgram = false;
+            details.cartDeliveryGroupId = cartDeliveryGroup.Id;
 
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(cartItemWrapper));
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -206,15 +206,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
-            CartItemWrapper cartItemWrapper = new CartItemWrapper();
-            cartItemWrapper.offeringId = programOffering[0].Id;
-            cartItemWrapper.newWebCartId = cart.Id;
-            cartItemWrapper.pbEntry = pbEntry;
-            cartItemWrapper.prescribedProgram = true;
-            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+            CartItemHelper.CartItemDetails details = new CartItemHelper.CartItemDetails();
+            details.offeringId = programOffering[0].Id;
+            details.newWebCartId = cart.Id;
+            details.pbEntry = pbEntry;
+            details.prescribedProgram = true;
+            details.cartDeliveryGroupId = cartDeliveryGroup.Id;
 
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(cartItemWrapper));
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -258,15 +258,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
-            CartItemWrapper cartItemWrapper = new CartItemWrapper();
-            cartItemWrapper.offeringId = courseOfferings[0].Id;
-            cartItemWrapper.newWebCartId = cart.Id;
-            cartItemWrapper.pbEntry = pbEntry;
-            cartItemWrapper.prescribedProgram = false;
-            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+            CartItemHelper.CartItemDetails details = new CartItemHelper.CartItemDetails();
+            details.offeringId = courseOfferings[0].Id;
+            details.newWebCartId = cart.Id;
+            details.pbEntry = pbEntry;
+            details.prescribedProgram = false;
+            details.cartDeliveryGroupId = cartDeliveryGroup.Id;
 
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(cartItemWrapper));
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -311,15 +311,15 @@ public with sharing class CartPaymentTriggerHandlerTest {
 
             PriceBookEntry pbEntry = [SELECT Id, Product2Id, UnitPrice FROM PriceBookEntry LIMIT 1];
 
-            CartItemWrapper cartItemWrapper = new CartItemWrapper();
-            cartItemWrapper.offeringId = courseOfferings[0].Id;
-            cartItemWrapper.newWebCartId = cart.Id;
-            cartItemWrapper.pbEntry = pbEntry;
-            cartItemWrapper.prescribedProgram = false;
-            cartItemWrapper.cartDeliveryGroupId = cartDeliveryGroup.Id;
+            CartItemHelper.CartItemDetails details = new CartItemHelper.CartItemDetails();
+            details.offeringId = courseOfferings[0].Id;
+            details.newWebCartId = cart.Id;
+            details.pbEntry = pbEntry;
+            details.prescribedProgram = false;
+            details.cartDeliveryGroupId = cartDeliveryGroup.Id;
 
             for(Integer i = 0; i < 100 ; i++){
-                cartItemsToInsert.add(createCartItem(cartItemWrapper));
+                cartItemsToInsert.add(CartItemHelper.createCartItem(details));
             }
             Test.startTest();
             insert cartItemsToInsert;
@@ -331,36 +331,4 @@ public with sharing class CartPaymentTriggerHandlerTest {
             System.assert(![SELECT ID FROM hed__Course_Enrollment__c LIMIT 100].isEmpty(),'No Course Connection Created');
         }
     }
-
-
-    private static CartItem createCartItem(CartItemWrapper cartItemWrapper){
-
-        
-
-        CartItem cartItem = new CartItem();
-        cartItem.CartId = cartItemWrapper.newWebCartId;
-        cartItem.Name = 'Cart Item';
-        cartItem.CartDeliveryGroupId = cartItemWrapper.cartDeliveryGroupId;
-        if(!cartItemWrapper.prescribedProgram){
-             cartItem.Course_Offering__c = cartItemWrapper.offeringId;
-        }else{
-             cartItem.Program_Offering__c = cartItemWrapper.offeringId;
-        }
-        cartItem.Product2Id = cartItemWrapper.pbEntry.Product2Id;
-        cartItem.Pricebook_Entry_ID__c = cartItemWrapper.pbEntry.Id;
-        cartItem.Quantity = 1;
-        cartItem.TotalPrice = cartItemWrapper.pbEntry.UnitPrice;
-        cartItem.Type = 'Product';
-        return cartItem;
-   }
-
-   private class CartItemWrapper{
-       Id offeringId;
-       Id newWebCartId;
-       PricebookEntry pbEntry;
-       Boolean prescribedProgram;
-       Id cartDeliveryGroupId;
-   }
-
-
 }

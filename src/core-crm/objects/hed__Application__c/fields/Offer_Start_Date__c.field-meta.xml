@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Offer_Start_Date__c</fullName>
+    <description>At conclusion of assessment an offer is created for the applied study. The offer is active from Offer Start Date.</description>
+    <externalId>false</externalId>
+    <label>Offer Start Date</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

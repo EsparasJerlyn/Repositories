@@ -10,6 +10,7 @@
       | angelika.j.s.galang       | September 8, 2021     | DEP1-157     | Added mock response for email,phone,company callout |
       | angelika.j.s.galang       | September 16, 2021    | DEP1-22      | Added mock response for CLMS                        | 
       | alexander.cadalin         | February 7, 2023      | DEPP-4988    | Added mock response for MDM Lead Persona            | 
+      | mark.j.mahilum            | July 27, 2023         | DEPP-6107    | Added mock response for Sales Cadence callout       |
  */
 @isTest
 public class MockHttpResponseGenerator implements HttpCalloutMock {
@@ -22,11 +23,17 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
     private static final String ENDPOINT_CLMS_CONTRACT = 'callout:ESB' + System.Label.ESBEndpointCreateContract;
     private static final String ENDPOINT_MDM_CONTACT = 'callout:ESB' + System.Label.ESBEndpointMDMStudent;
     private static final String ENDPOINT_MDM_STUDENTENROLMENT = 'callout:ESB' + System.Label.ESBEndpointMDMStudentEnrolment;
+    private static final String ENDPOINT_ASSIGN_TARGET_CADENCE = System.Label.SalesCadenceAssignTargetEndpoint;
+    private static final String ENDPOINT_REMOVE_TARGET_CADENCE = System.Label.SalesCadenceRemoveTargetEndpoint;    
     private static final String PAYLOAD_CLMS = '{"status":"OK","CLMS_Agreement_Id":"1234","CLMS_Agreement_URL":"5678"}';
     private static final String PAYLOAD_ADDRESS = '{"payload":[{"fullAddress":"testAddress","country":"testCountry"}]}';
     private static final String PAYLOAD_PHONE = '{"payload":[{"fullPhone":"1234","country":"AU","phoneStatus":"connected|Network confirmed connection"}]}';
     private static final String PAYLOAD_COMPANY = '{"payload":[{"abn":"54321","name":"testEntityName"}]}';
-    private static final String PAYLOAD_PHONE_NZ = '{"payload":[{"fullPhone":"1234","country":"NZ","phoneStatus":"connected|Network confirmed connection"}]}';
+    private static final String PAYLOAD_PHONE_NZ = '{"payload":[{"fullPhone":"1234","country":"NZ","phoneStatus":"connected|Network confirmed connection"}]}';    
+    private static final String PAYLOAD_ASSIGN_CADENCE = '[{"version" : 1,"outputValues" : { },"isSuccess" : true,"errors" : null,"actionName" : "assignTargetToSalesCadence"}]';
+    private static final String PAYLOAD_REMOVE_CADENCE = '[{"errors": [{"statusCode": "UNKNOWN_EXCEPTION","message": "The object needs to be a valid cadence entity.","fields": []}],"isSuccess": false}]';
+    
+    
 
     /**
     * @description Implements interface method for HTTP Callout response
@@ -39,9 +46,43 @@ public class MockHttpResponseGenerator implements HttpCalloutMock {
         if(req.getEndpoint() == ENDPOINT_MDM_STUDENTENROLMENT ||
             req.getEndpoint() == ENDPOINT_MDM_CONTACT) {
             res = esbNotFoundMockResponse();
+        } else if(req.getEndpoint().contains(ENDPOINT_ASSIGN_TARGET_CADENCE)){
+            res = assignTargetCadenceMockResponse(req);
+        } else if(req.getEndpoint().contains(ENDPOINT_REMOVE_TARGET_CADENCE)){
+            res = removeTargetCadenceMockResponse(req);
         } else {
             res = loqateMockResponse(req);
         }
+        return res;
+    }
+    
+   /**
+    * @description Creates a mock HTTP Response for assignTargetCadence
+    * @param payload - mock body of the response
+    * @return res - mock HTTP response
+    */
+    private static HttpResponse assignTargetCadenceMockResponse(HTTPRequest req){
+        String payload = PAYLOAD_ASSIGN_CADENCE;
+        HttpResponse res = new HttpResponse();
+		res.setHeader('Content-Type', 'application/json');
+        res.setBody(payload);
+        res.setStatusCode(200);
+
+        return res;
+    }
+    
+   /**
+    * @description Creates a mock HTTP Response for removeTargetCadence
+    * @param payload - mock body of the response
+    * @return res - mock HTTP response
+    */
+    private static HttpResponse removeTargetCadenceMockResponse(HTTPRequest req){
+        String payload = PAYLOAD_REMOVE_CADENCE;
+		HttpResponse res = new HttpResponse();
+        res.setHeader('Content-Type', 'application/json');
+        res.setBody(payload);
+        res.setStatusCode(404);
+
         return res;
     }
     

@@ -63,11 +63,13 @@ public without sharing class RegistrationFormCtrl {
       if(!userList.isEmpty() && !opeBuyerGroup.IsEmpty()){
         if(userList[0].Profile.Name == 'Corporate Partner'){
           
+          AdminAccountDetails adminAcc = new AdminAccountDetails();
+          adminAcc.buyerGroupId = opeBuyerGroup[0].Id;
+          adminAcc.accountId = userList[0].AccountId;
+          adminAcc.lastName = userList[0].LastName;
+          adminAcc.firstName = userList[0].FirstName;
           //Assign account to the BuyerGroup Member
-          Id assignBuyerGroupMember = createAdministrativeAccount( opeBuyerGroup[0].Id, 
-                                                                   userList[0].AccountId, 
-                                                                   userList[0].LastName, 
-                                                                   userList[0].FirstName);
+          createAdministrativeAccount(adminAcc);
         }
       }
       return userList;
@@ -338,12 +340,17 @@ public without sharing class RegistrationFormCtrl {
           LIMIT 1
         ];
 
+        AdminAccountDetails adminAcc = new AdminAccountDetails();
+        adminAcc.buyerGroupId = opeBuyerGroup[0].Id;
+        adminAcc.lastName = parsedRegistrationData.contactRecord.LastName;
+        adminAcc.firstName = parsedRegistrationData.contactRecord.FirstName;
         if(contactAdministrativeAcc.isEmpty()){
-          accId = createAdministrativeAccount(opeBuyerGroup[0].Id, null, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
+          adminAcc.accountId = null;
         }else{
-          accId = createAdministrativeAccount(opeBuyerGroup[0].Id, contactAdministrativeAcc[0].AccountId, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
+          adminAcc.accountId = contactAdministrativeAcc[0].AccountId;
         }
-
+        accId = createAdministrativeAccount(adminAcc);
+        
         Contact existingContact = new Contact();
         existingContact.Id = parsedRegistrationData.contactRecord.Id;
         existingContact.AccountId = accId;
@@ -386,11 +393,16 @@ public without sharing class RegistrationFormCtrl {
           LIMIT 1
         ];
 
+        AdminAccountDetails adminAcc = new AdminAccountDetails();
+        adminAcc.buyerGroupId = opeBuyerGroup[0].Id;
+        adminAcc.lastName = parsedRegistrationData.contactRecord.LastName;
+        adminAcc.firstName = parsedRegistrationData.contactRecord.FirstName;
         if(contactAdministrativeAcc.isEmpty()){
-          createAdministrativeAccount(opeBuyerGroup[0].Id, null, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
+          adminAcc.accountId = null;
         }else{
-          createAdministrativeAccount(opeBuyerGroup[0].Id, contactAdministrativeAcc[0].AccountId, parsedRegistrationData.contactRecord.LastName, parsedRegistrationData.contactRecord.FirstName);
+          adminAcc.accountId = contactAdministrativeAcc[0].AccountId;
         }
+        createAdministrativeAccount(adminAcc);
 
         parsedRegistrationData.contactRecord.Id = newContactId;
         confirmPageName = createNewUser(
@@ -409,13 +421,13 @@ public without sharing class RegistrationFormCtrl {
    * @param firstName - first name of the contact
    * @return accountId - Id of the Administrative Account that was created
    */
-  public static Id createAdministrativeAccount (Id buyerGroupId , Id accountId, String lastName, String firstName){
+  public static Id createAdministrativeAccount(AdminAccountDetails adminAcc){
     Id accId;
     String accName;
-    if(accountId == null ){
+    if(adminAcc.accountId == null ){
       //Create Administrative Account Record
       Account adminstrativeAccount = new Account();
-      adminstrativeAccount.Name = lastName + ' (' + firstName + ')' + ' Administrative Account';
+      adminstrativeAccount.Name = adminAcc.lastName + ' (' + adminAcc.firstName + ')' + ' Administrative Account';
       adminstrativeAccount.RecordTypeId = ADMINISTRATIVE_ACC_RECTYPEID;
       insert adminstrativeAccount;
 
@@ -424,11 +436,11 @@ public without sharing class RegistrationFormCtrl {
     }else{
       Account accAdministrative = [SELECT Name 
                                    FROM Account 
-                                   WHERE Id =: accountId 
+                                   WHERE Id =: adminAcc.accountId 
                                    AND RecordTypeId =: ADMINISTRATIVE_ACC_RECTYPEID
                                    LIMIT 1];
       accName = accAdministrative.Name;
-      accId = accountId;
+      accId = adminAcc.accountId;
     }
 
     // Query if Buyer Account is Existing
@@ -449,14 +461,14 @@ public without sharing class RegistrationFormCtrl {
       SELECT Id 
       FROM buyerGroupMember 
       WHERE BuyerId =: accId
-      AND BuyerGroupId =: buyerGroupId
+      AND BuyerGroupId =: adminAcc.buyerGroupId
       ];
 
     if(buyerGroupMember.isEmpty()){
       // Create Buyer Group Member Record 
       BuyerGroupMember bgMember = new BuyerGroupMember();
       bgMember.BuyerId = accId;
-      bgMember.BuyerGroupId = buyerGroupId;
+      bgMember.BuyerGroupId = adminAcc.buyerGroupId;
       insert bgMember;
     }
 
@@ -521,7 +533,6 @@ public without sharing class RegistrationFormCtrl {
     RegistrationDataWrapper registrationData
   ) {
     //Query Ecommerece Learner Profile
-    String userId;
     String invalidChar = '[^0-9]';
     datetime myDate = datetime.now();
     String retURL;
@@ -735,5 +746,12 @@ public without sharing class RegistrationFormCtrl {
     public Integer month;
     @AuraEnabled
     public Integer year;
+  }
+
+  public class AdminAccountDetails {
+    public Id buyerGroupId;
+    public Id accountId;
+    public String lastName;
+    public String firstName;
   }
 }

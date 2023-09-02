@@ -56,7 +56,11 @@ public class AssetToPublishBatch implements Database.Batchable<sObject> {
             }
 
         }catch(Exception e){
-           System.debug(LoggingLevel.WARN, 'AssetToPublishBatch Error: ' + e.getMessage());//NOPMD
+           Logger.error('Exception caught in method execute in Apex class AssetToPublishBatch.').setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
         }
        
     } 

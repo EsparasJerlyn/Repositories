@@ -7,6 +7,7 @@
     <label>Owning Faculty</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
@@ -17,6 +18,11 @@
             <operation>equals</operation>
             <value>2</value>
         </filterItems>
+        <filterItems>
+            <field>$Profile.Name</field>
+            <operation>contains</operation>
+            <value>Integration</value>
+        </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Account</referenceTo>
@@ -24,5 +30,7 @@
     <relationshipName>Courses1</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>true</trackHistory>
+    <securityClassification>Official</securityClassification>
     <type>Lookup</type>
 </CustomField>

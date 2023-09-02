@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity_Outcome__c</entityName>
+    <fieldName>Stage_Name__c</fieldName>
+    <masterLabel>Start-Up Opportunity Outcome</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Active&amp;#39; indicates that the Start Up is being actively managed. The Start Up becomes ‘Active’ from the date specified in the ‘Start Date’ field.&lt;/li&gt;&lt;li&gt;Use the ‘Activity’ panel to create and track the tasks related to managing this organisation.&lt;/li&gt;&lt;li&gt;Update the ‘Governance’, ‘Compliance’ and ‘Finance Summary’ tabs with the governance activities, compliance targets and annual dividends relevant to this Start Up. Under the ‘Documents’ tab, record the documents that have been created with links to where they are stored.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Active</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Deregistered’ indicates that the Start Up is no longer operating. Update the ‘Deregistration Date’ to trigger the &amp;#39;Deregistered’ state and the ‘Deregistration Reason’ field to capture deregistration details.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Deregistered</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘New&amp;#39; indicates that a new Start Up has been created from a commercialisation opportunity. &lt;/li&gt;&lt;li&gt;Complete the ‘Opportunity Outcome Summary’ section by updating the ‘Company Name’, ‘Startup Company Description’, ‘Startup ABN&amp;#39; and ‘End Date’ fields.&lt;/li&gt;&lt;li&gt;Use the ‘Activity’ panel to create and track the tasks related to managing this organisation.&lt;/li&gt;&lt;li&gt;Update the ‘Governance’, ‘Compliance’ and ‘Finance Summary’ tabs with the governance activities, compliance targets and annual dividends relevant to this Start Up. Under the ‘Documents’ tab, record the documents that have been created with links to where they are stored.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Sold’ indicates that the Start Up has been sold and is no longer managed by QUT. Update the ‘Revenue from Sale’ and ‘Sold Reason’ fields to capture sale details. Change the ‘Stage’ field from ‘Active’ to ‘Sold’ to trigger the ‘Sold’ state.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Sold</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Startup</recordTypeName>
+</PathAssistant>

@@ -87,14 +87,8 @@ private class SendQuestionnaireResponseEmailFlowTest{
             List<Contact> contacts;
             List<hed__Term__c> terms;
             List<Product_Request__c> prodRequest;
-            List<hed__Course_Offering__c> courseOfferings;
             List<hed__Course__c> courses;
             List<hed__Program_Plan__c> programPlans;
-            List<Program_Offering__c> programOfferings;
-            List<Product2> products;
-            List<Expression_of_Interest__c> interests;
-            Pricebook2 priceBook;
-            PricebookEntry priceBookEntry;
 
             accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account account : accounts){

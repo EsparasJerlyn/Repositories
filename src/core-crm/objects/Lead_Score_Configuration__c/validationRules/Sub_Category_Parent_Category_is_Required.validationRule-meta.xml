@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Category_Parent_Category_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( RecordType.DeveloperName = &quot;Sub_Category&quot; , ISBLANK( Parent_Category__c ) )</errorConditionFormula>
+    <errorDisplayField>Parent_Category__c</errorDisplayField>
+    <errorMessage>Parent Category is required for Sub Category record type</errorMessage>
+</ValidationRule>

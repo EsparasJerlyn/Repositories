@@ -6,9 +6,10 @@
  *
  * @history
  *
- *    | Developer                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------|------------------------------|
-      | w.li                     | June 15, 2022         | DEPP-1489              | Created file                 |
+ *    | Developer                | Date                  | JIRA                   | Change Summary                     |
+      |--------------------------|-----------------------|------------------------|------------------------------------|
+      | w.li                     | June 15, 2022         | DEPP-1489              | Created file                       |
+      | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts |
  */
 
 @isTest
@@ -23,9 +24,11 @@ public without sharing class Contact_Lead_ScoringTest {
         System.runAs(currentUser){
             Test.startTest();
             contacts = TestDataFactory.createTestContactRecords(1);
-            insert contacts;
+            Database.SaveResult[] saveResultList = Database.insert(contacts);
             Test.stopTest();
+            for(Database.SaveResult saveResult : saveResultList) {
+            	System.assert(saveResult.isSuccess(), 'A contact record was not saved successfully.');
+            }
         }
     }
-
  }

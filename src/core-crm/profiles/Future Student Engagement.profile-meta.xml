@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-International Enquiry Layout2</layout>
+        <recordType>Case.International_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS CIAnywhere Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Legacy Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-hed__EDA Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Default</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Faculty</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
+    </layoutAssignments>
+     <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+        <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-QUTeX Leads</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Contact Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+    </layoutAssignments>
+</Profile>
