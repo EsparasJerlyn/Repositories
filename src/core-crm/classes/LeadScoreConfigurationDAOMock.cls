@@ -6,7 +6,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                 |
+      | neil.s.h.lesidan               | August 30, 2023       | DEPP-5835              | Created file                 |
  */
 @isTest
 public inherited sharing class LeadScoreConfigurationDAOMock extends DmlBaseMock implements ILeadScoreConfigurationDAO {
