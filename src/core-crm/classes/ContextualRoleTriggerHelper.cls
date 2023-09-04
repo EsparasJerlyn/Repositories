@@ -31,7 +31,7 @@ public with sharing class ContextualRoleTriggerHelper {
          }
          
          if(!contactIds.isEmpty()){
-             ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnContextualRole');
+             ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnContextualRoleOrOpportunityContactRole');
          }      
      }
 

@@ -113,7 +113,7 @@ public with sharing class AddressInformationValidationCtrl {
             Wrapper serviceWrapper = new Wrapper();
             if(!String.isEmpty(req.searchValue) && !String.isEmpty(req.country)){
                 serviceWrapper = createWrapper('searchAddress'); 
-                serviceWrapper.body = '{"payload": [{ "'+req.filter+'": "'+req.searchValue+'", "req.country": "'+req.country+'"} ]}';
+                serviceWrapper.body = '{"payload": [{ "'+req.filter+'": "'+req.searchValue+'", "country": "'+req.country+'"} ]}';
                 string res = doCallout('/harmony/rest/address/'+req.requestType+'','POST', serviceWrapper.body);
                 Map<String,Object> result = (Map<String,Object>)JSON.deserializeUntyped(res);
                 string respStr = JSON.serialize(result);
