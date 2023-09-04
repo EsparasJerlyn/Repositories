@@ -9,6 +9,8 @@
  *    | neil.s.h.lesidan               | August 30, 2023       | DEPP-5835              | Created file
  */
 public inherited sharing class LeadScoreConfigurationDAO extends DmlBase implements ILeadScoreConfigurationDAO {
+    public static final String RECORD_TYPE_CONFIGURATION = 'Configuration';
+
     public Schema.SObjectType getSObjectType() {
         return Lead_Score_Configuration__c.SObjectType;
     }
