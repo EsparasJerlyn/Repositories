@@ -27,7 +27,7 @@ private class LeadScoreSectionCtrlTest {
                 SELECT id, Name
                 FROM RecordType
                 WHERE SobjectType = 'Lead_Score_Configuration__c'
-                    AND Name = 'Configuration'
+                    AND DeveloperName = 'Configuration'
             ];
 
             List<Lead_Score_Configuration__c> leadScoreConfiguration = new List<Lead_Score_Configuration__c>();
@@ -40,6 +40,8 @@ private class LeadScoreSectionCtrlTest {
 
             String domesticInternational = leadScoreConfiguration[0].Domestic_International__c;
             String studyLevel = leadScoreConfiguration[0].Study_Level__c;
+
+            ImplementationSelector.DAO.setMock(new LeadScoreConfigurationDAOMock());
 
             LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreConfiguration, false, AccessLevel.USER_MODE);
 
@@ -63,6 +65,8 @@ private class LeadScoreSectionCtrlTest {
                 Criteria_Type__c = 'Entry',
                 Status__c = 'Active'
             ));
+
+            ImplementationSelector.DAO.setMock(new NurtureTrackConfigurationsDAOMock());
 
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureTrackConfiguration, false, AccessLevel.USER_MODE);
 

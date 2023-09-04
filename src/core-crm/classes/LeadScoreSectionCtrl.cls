@@ -26,7 +26,7 @@ public with sharing class LeadScoreSectionCtrl {
         List<Lead_Score_Configuration__c> leadScoreConfigMap = new List<Lead_Score_Configuration__c>();
 
         for (Lead_Score_Configuration__c rec: leadScoreConfig) {
-            if(rec.RecordType.Name == LeadScoreConfigurationDAO.RECORD_TYPE_CONFIGURATION){
+            if(rec.RecordType.DeveloperName == LeadScoreConfigurationDAO.RECORD_TYPE_CONFIGURATION){
                 leadScoreConfigMap.add(rec);
             }
         }
