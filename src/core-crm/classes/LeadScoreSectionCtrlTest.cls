@@ -41,8 +41,6 @@ private class LeadScoreSectionCtrlTest {
             String domesticInternational = leadScoreConfiguration[0].Domestic_International__c;
             String studyLevel = leadScoreConfiguration[0].Study_Level__c;
 
-            ImplementationSelector.DAO.setMock(new LeadScoreConfigurationDAOMock());
-
             LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreConfiguration, false, AccessLevel.USER_MODE);
 
             List<Lead_Score_Configuration__c> scoreByCitizenshipStudyLvl = LeadScoreSectionCtrl.getScoreByCitizenshipStudyLvl(domesticInternational, studyLevel);
