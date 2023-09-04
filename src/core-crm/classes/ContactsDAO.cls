@@ -232,4 +232,18 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             nominatedStudentId = new Set<String>();
         }
     }
+    public static List<Contact> getContactsFromConvertedLead(
+        Set<Id> newContactIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Lead_Score_Detail__c ' +
+                'FROM Contact ' +
+                'WHERE Id IN: newContactIds ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
 }
