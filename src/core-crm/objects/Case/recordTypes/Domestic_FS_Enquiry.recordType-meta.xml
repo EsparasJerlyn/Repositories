@@ -14,27 +14,7 @@
     <picklistValues>
         <picklist>Category__c</picklist>
         <values>
-            <fullName>Acceptance process</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Agent matters</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Application process</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Application status</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Change application</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Compliance documentation</fullName>
+            <fullName>Applying for a course</fullName>
             <default>false</default>
         </values>
         <values>
@@ -42,39 +22,23 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Enrolment</fullName>
+            <fullName>Entry requirements %26 study pathways</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Events</fullName>
+            <fullName>Fees%2C costs and scholarships</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Orientation and onboarding</fullName>
+            <fullName>My application and offer</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Progression</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Scholarships</fullName>
+            <fullName>My enrolment</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Student life</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Technical issues</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Why QUT</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -240,6 +204,157 @@
         </values>
         <values>
             <fullName>Prospect</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Category__c</picklist>
+        <values>
+            <fullName>Accepting my offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accommodation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accreditation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advanced standing%2FCredit prior learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application and acceptance dates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application status</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application technical support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assumed knowledge%2FPrerequisites</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Campus and transport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Careers and outcomes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Changing my QTAC preferences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Changing my application</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Classes and timetables</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Commonwealth supported place</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course overview</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deferring my offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English language and academic pathway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entry requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entry%2FATAR adjustments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government loans</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>How to apply</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>How to enroll into a unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>How to register for a class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Moving to Brisbane</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pathways without prior study</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Placements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prior Australian study</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prior international study</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scholarships</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sport and clubs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student services and amenities fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transfer to QUT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tuition fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome and orientation events</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Work experience</fullName>
             <default>false</default>
         </values>
     </picklistValues>
