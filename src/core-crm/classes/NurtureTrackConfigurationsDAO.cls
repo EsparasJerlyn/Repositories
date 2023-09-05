@@ -12,6 +12,9 @@
 public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase implements INurtureTrackConfigurationsDAO {
 
     public static final String NURTURE_FIELDS = 'Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c,Key_Date_Offset_Days__c,Criteria_Type__c ';
+    public static final String INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'International Strong Interest Pre-Application';
+    public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'Domestic Strong Interest Pre-Application';
+    public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 
     public static INurtureTrackConfigurationsDAO newInstance() {
         return (INurtureTrackConfigurationsDAO) ImplementationSelector.DAO.newInstance(Nurture_Track_Configuration__c.SObjectType);
