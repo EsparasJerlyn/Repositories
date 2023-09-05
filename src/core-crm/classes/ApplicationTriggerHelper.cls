@@ -6,11 +6,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
-      | mark.j.mahilum                 | July 12, 2023         | DEPP-5799              | Created file                                     |
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag         |
-      | alexander.cadalin              | Aug 16, 2023          | DEPP-6124              | Refactor to consider multiple field updates      |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                 |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------|
+      | mark.j.mahilum                 | July 12, 2023         | DEPP-5799              | Created file                                                   |
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag                       |
+      | alexander.cadalin              | Aug 16, 2023          | DEPP-6124              | Refactor to consider multiple field updates                    |
+      | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Updated getContactOnApplication to get the old Contact Id      |
  */
 public with sharing class ApplicationTriggerHelper {
     /**
@@ -42,32 +43,34 @@ public with sharing class ApplicationTriggerHelper {
      * @param newItems  List of new hed__Application__c records
      * @param oldItems  Map of old hed__Application__c records (Id => hed__Application__c)
      */
-     public static void getContactOnApplication(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {         
-         Set<Id> contactIds = new Set<Id>();
-         
-         for (hed__Application__c app : newItems) {
-             
-             boolean isStudylinkRecType = app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-             boolean isSAMSRecType = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
-             boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
-             boolean isValidRecType = isStudylinkRecType || isSAMSRecType || isQTACRecType;
-                          
-             if(String.isNotEmpty(app.hed__Applicant__c) && isValidRecType){
-                 contactIds.add(app.hed__Applicant__c);
-             }
-                      
-             if(oldItems != null && String.isEmpty(app.hed__Applicant__c)) {              
-                 hed__Application__c oldApp = oldItems.get(app.Id);
-                 if(String.isNotEmpty(oldApp.hed__Applicant__c)){
-                     contactIds.add(oldApp.hed__Applicant__c); 
-                 }                 
-             }
-         }
-         
-         if(!contactIds.isEmpty()){
-             ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnApplication');
-         }      
-     }
+    public static void getContactOnApplication(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {         
+        Set<Id> contactIds = new Set<Id>();
+        
+        for (hed__Application__c app : newItems) {
+            
+            boolean isStudylinkRecType = app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            boolean isSAMSRecType = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
+            boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+            boolean isValidRecType = isStudylinkRecType || isSAMSRecType || isQTACRecType;
+                         
+            if(String.isNotEmpty(app.hed__Applicant__c) && isValidRecType){
+                contactIds.add(app.hed__Applicant__c);
+            }
+            
+            if(oldItems != null) {              
+                hed__Application__c oldApp = oldItems.get(app.Id);              
+                Boolean isContactChanged = (app.hed__Applicant__c != oldApp.hed__Applicant__c);
+                
+                if(String.isNotEmpty(oldApp.hed__Applicant__c) && isContactChanged){
+                    contactIds.add(oldApp.hed__Applicant__c); 
+                }                 
+            }         
+        }
+        
+        if(!contactIds.isEmpty()){
+            ContactPersonaFlagsService.processContactIds(contactIds,'updateContactApplicantFlag');
+        }      
+    }
 
     /**
      * @description Set field values on the related contact of an inserted application. One-liner field setting only. Use another method if otherwise
