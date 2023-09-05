@@ -26,14 +26,11 @@ public inherited sharing class LeadScoreDetailsDAOMock extends DmlBaseMock imple
 		String accessLevel 
     ) {
         List<Lead_Score_Detail__c> leadScoreDetailsList = new List<Lead_Score_Detail__c>();
-
         for (Lead_Score_Detail__c record : leadScoreDetailsMap.values()) {
             if (contactIds.contains(record.Contact__c)) {
                 leadScoreDetailsList.add(record);
             }
         }
-
         return leadScoreDetailsList;
     }
-
 }

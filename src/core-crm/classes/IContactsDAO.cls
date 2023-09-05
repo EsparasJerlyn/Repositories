@@ -11,6 +11,7 @@
  *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new list for 5846 Methods     |
  *    | roy.nino.s.regala              | July 20, 2023         | DEPP-5677              | Added new list                      |
  *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new list                      |
+ *    | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added method for DEPP-5965          |
  */
 public interface IContactsDAO extends DmlInterface {
     List<Contact> getExistingPersonContactsWithMatchingEmails(

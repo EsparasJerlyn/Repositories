@@ -10,7 +10,7 @@
       | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist   |
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method                     |
  *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677     |
-
+      | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added method for DEPP-5965           |
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -170,11 +170,8 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         String accessLevel
     ) {
         List<Contact> contactList = new List<Contact>();
-        
         for (Contact record : contactsMap.values()) {
-            if (
-                recordIds.contains(record.Id)
-            ) {
+            if (recordIds.contains(record.Id)){
                 contactList.add(record);
             }
         }
