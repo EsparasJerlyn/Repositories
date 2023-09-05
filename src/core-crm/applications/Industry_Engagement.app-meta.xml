@@ -424,7 +424,7 @@
         <content>Research_Engagement_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Engagement__c</pageOrSobjectType>
-        <recordType>Engagement__c.Research_Partnership </recordType>
+        <recordType>Engagement__c.Research_Partnership</recordType>
         <type>Flexipage</type>
         <profile>Industry Engagement</profile>
     </profileActionOverrides>
