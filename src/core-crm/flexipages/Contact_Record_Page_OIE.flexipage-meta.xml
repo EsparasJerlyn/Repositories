@@ -963,6 +963,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>runtime_sales_cadence:cadenceStepsCard</componentName>
+                <identifier>runtime_sales_cadence_cadenceStepsCard</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
@@ -970,7 +976,7 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Lead_Source__c|NOT_EQUAL|Event</value>
+                            <value>Lead_Source_Category__c|NOT_EQUAL|[&quot;Event&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1036,7 +1042,7 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Lead_Source__c|EQUALS|Event</value>
+                            <value>Lead_Source_Category__c|EQUALS|[&quot;Event&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
