@@ -25,6 +25,7 @@
  *    | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Added Object mapping for Package_Component__c obj             |
  *  * | julie.jane.alegre              | August 31, 2023       | DEPP-5965              | Added Object mapping for Lead_Score_Detail__c obj             |
  *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
+ *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  */
 public class ImplementationSelector {
 
@@ -61,6 +62,7 @@ public class ImplementationSelector {
             IP_Management_Relationship__c.SObjectType => IPManagementRelationshipsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
             Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
+            Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
             Nurture_Track_Configuration__c.SObjectType => NurtureTrackConfigurationsDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
