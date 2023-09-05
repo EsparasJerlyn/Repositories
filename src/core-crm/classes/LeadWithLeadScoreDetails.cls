@@ -12,11 +12,12 @@ public with sharing class LeadWithLeadScoreDetails {
     /**
      * @description creating Lead Score Detail to converted lead's contact
      * @param newItems - list inserted or updated leads
+     * * @param oldItems - list inserted or updated leads
      */
     public static void createLeadScoreDetailToContact(Map<Id,Lead> newItems, Map<Id, Lead> oldItems) {
         List<Lead_Score_Detail__c> leadScoreDetailToInsert = new List<Lead_Score_Detail__c>();
-        List<Contact> contactConverted = new Lis<Contact>();
-        Set<Id> contactIDSet = new Set<Id>();
+        //Map<Id, Id> leadScoreDetailMap = new Map<Id, Id>();
+        Set<Id> convertedContactIds = new Set<Id>();
         //Create Lead Score Detail record for the Contact converted
         for(Lead lead:newItems.values()){
             if( oldItems.get(lead.Id).IsConverted != lead.IsConverted && 
@@ -26,20 +27,36 @@ public with sharing class LeadWithLeadScoreDetails {
                             Contact__c = lead.ConvertedContactId
                         )
                     );
-                    contactIDSet.add(lead.ConvertedContactId);
+                    convertedContactIds.add(lead.ConvertedContactId);
             }
         }
         if(!leadScoreDetailToInsert.isEmpty()){
-            LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailToInsert, false, AccessLevel.USER_MODE);
+            LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailToInsert, false, AccessLevel.SYSTEM_MODE);
         }
-        contactConverted = ContactsDAO.newInstance().getContactsFromConvertedLead(contactIDSet, 'USER_MODE');
-
+        updateConvertedContact(convertedContactIds);
     }
-    private static void updateConvertedContact(Set<Id> contactIDSet){
-        Map<Id, Lead_Score_Detail__c> leadScoreDetailMap = new Map<Id, Lead_Score_Detail__c>();
-        // List<Lead_Score_Detail__C>  
-        
+    /**
+     * @description updating new Contact from a converted Lead
+     * @param convertedContactIds - set of converted Contact Ids
+     */
+    @Future
+    public static void updateConvertedContact(Set<Id> convertedContactIds){
+        List<Contact> contactList = ContactsDAO.newInstance().getContactsFromConvertedLead(convertedContactIds, 'USER_MODE');
+        List<Lead_Score_Detail__c> leadScoreDetailList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailByContactSetIds(convertedContactIds, 'USER_MODE');
+        Map<Id, Id> leadScoreDetaildMap = new Map<Id, Id>();
+        List<Contact> contactToUpdate = new List<Contact>();
+        for(Lead_Score_Detail__c lsd: leadScoreDetailList){
+            leadScoreDetaildMap.put(lsd.Contact__c, lsd.Id);
+        }
+        //Update Contact to get the newly created Lead Score Detail
+        for(Contact contacts: contactList){
+            if(leadScoreDetaildMap.containsKey(contacts.Id)){
+                contacts.Lead_Score_Detail__c = leadScoreDetaildMap.get(contacts.Id);
+                contactToUpdate.add(contacts);
+            }
+        }
+        if(!contactToUpdate.isEmpty()){
+            ContactsDAO.newInstance().updateRecords(contactToUpdate, false, AccessLevel.USER_MODE);
+        }
     }
-
-
 }

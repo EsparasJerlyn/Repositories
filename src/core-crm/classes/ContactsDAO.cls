@@ -213,6 +213,20 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             String.escapeSingleQuotes(accessLevel)
         );
     }
+    
+    public static List<Contact> getContactsFromConvertedLead(
+        Set<Id> recordIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Lead_Score_Detail__c ' +
+                'FROM Contact ' +
+                'WHERE Id IN: recordIds ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
+        );
+    }
 
     /**
      * @Description:Wrapper Class that represents the extracted application details.
@@ -232,18 +246,4 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             nominatedStudentId = new Set<String>();
         }
     }
-    public static List<Contact> getContactsFromConvertedLead(
-        Set<Id> newContactIds,
-        String accessLevel
-    ) {
-        return Database.query(
-            'SELECT  Id, Lead_Score_Detail__c ' +
-                'FROM Contact ' +
-                'WHERE Id IN: newContactIds ' +
-                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
-                'WITH ' +
-                String.escapeSingleQuotes(accessLevel)
-        );
-    }
-
 }

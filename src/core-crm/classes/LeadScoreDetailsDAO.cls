@@ -19,14 +19,14 @@ public inherited sharing class LeadScoreDetailsDAO extends DmlBase implements IL
 	}
 
     public static List<Lead_Score_Detail__c> getLeadScoreDetailByContactSetIds(
-        Set<Id> contactIds,
-		String accessLevel
+        Set<Id> recordIds,
+        String accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Email, Work_Email__c, AccountId ' +
-             'FROM Contact ' +
-             'WHERE Id IN : contactIds ' +
-			 'AND Parent_Person_Contact__c = null ' +
+            'SELECT Id, Contact__c ' +
+             'FROM Lead_Score_Detail__c ' +
+             'WHERE Contact__c IN: recordIds ' +
+             'WITH ' +
              String.escapeSingleQuotes(accessLevel)
         );
     }

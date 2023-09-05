@@ -39,4 +39,8 @@ public interface IContactsDAO extends DmlInterface {
         Set<String> recordIds,
         String accessLevel
     );
+    List<Contact> getContactsFromConvertedLead(
+        Set<Id> recordIds,
+        String accessLevel
+    );
 }
