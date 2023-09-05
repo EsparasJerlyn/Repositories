@@ -14,15 +14,11 @@
 private class LeadWithLeadScoreDetailsTest {
     @testSetup
     static void setupMethod(){     
-        Test.startTest();
-        TestDataFactory.generateTestUsers();
-        Test.stopTest(); 
-
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'});
         System.runAs(TestDataFactory.getProgramAdminUser()){ 
             List<Lead> leads = TestDataFactory.createTestLeadRecords(100);
             insert leads;
         }
-        
     }
     
     @isTest 
@@ -32,13 +28,13 @@ private class LeadWithLeadScoreDetailsTest {
             Test.startTest();  
             convertLead(leads);
             Test.stopTest();
-            List<Lead_Score_Detail__c> listOfNewLeadScore = [SELECT Id FROM Lead_Score_Detail__c LIMIT 100];
-            System.debug('LeadScoreDetail: ' + listOfNewLeadScore.size());
-            System.debug('Leads created: ' + leads.size());
-            //System.assert(![].isEmpty(), 'No Lead Score Detail is created upon convertion from lead');
-            
+            List<Lead_Score_Detail__c> listOfNewLeadScore = [SELECT Id, Contact__c FROM Lead_Score_Detail__c WHERE Contact__c != null LIMIT 100];
+            List<Contact> contactList = [SELECT Id FROM Contact WHERE Lead_Score_Detail__c != null LIMIT 100];
+            System.assert(listOfNewLeadScore.size() > 0, 'No lead score detail is created.');
+            System.assert(contactList.size() > 0, 'No contacts record is updated');
         }     
     }
+
     private static void convertLead(List<Lead> leads){
         List<Database.LeadConvert> leadstoConvert = new List<Database.LeadConvert>(); 
         LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = true LIMIT 1];
@@ -50,5 +46,4 @@ private class LeadWithLeadScoreDetailsTest {
         }
         Database.convertLead(leadstoConvert);  
     }
-    
 }
