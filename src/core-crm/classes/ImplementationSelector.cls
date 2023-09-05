@@ -23,6 +23,7 @@
  *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Object mapping for hed__Program_Enrollment__c Object    |
  *    | eccarius.munoz                 | August 10, 2023       | DEPP-5760              | Added Object mapping for hed__Term__c and hed__Facility__c obj|
  *    | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Added Object mapping for Package_Component__c obj             |
+ *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  */
 public class ImplementationSelector {
@@ -64,6 +65,7 @@ public class ImplementationSelector {
             Nurture_Track_Configuration__c.SObjectType => NurtureTrackConfigurationsDAO.class,
             Opportunity.SObjectType => OpportunitiesDAO.class,
             Opportunity_Code_Auto_Number__c.SobjectType => OpportunityCodeAutoNumbersDAO.class,
+            OpportunityContactRole.SobjectType => OpportunityContactRolesDAO.class,
             Opportunity_Outcome__c.SobjectType => OpportunityOutcomesDAO.class,
             Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,

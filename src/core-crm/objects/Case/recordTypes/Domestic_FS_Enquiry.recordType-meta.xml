@@ -2,32 +2,12 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Domestic_FS_Enquiry</fullName>
     <active>true</active>
-    <businessProcess>International Enquiry</businessProcess>
+    <businessProcess>FS Enquiry</businessProcess>
     <label>Domestic FS Enquiry</label>
     <picklistValues>
         <picklist>Awaiting_Response_From__c</picklist>
         <values>
-            <fullName>Agent</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Enquirer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Faculty</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>International Admissions</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>International Office</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other QUT Department</fullName>
             <default>false</default>
         </values>
     </picklistValues>
