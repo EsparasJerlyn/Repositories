@@ -5,11 +5,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
-      | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                               |
-      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds      |
-      | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------|
+      | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                                |
+      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds       |
+      | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds    |
+      | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Added method getApplicationsActiveApplicants|
  */
 @isTest
 public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implements IApplicationsDAO {
@@ -85,4 +86,18 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
         return applicationList;
     }
 
+    public List<hed__Application__c> getApplicationsActiveApplicants(
+        Set<Id> contactIds,
+        String accessLevel
+    ) {
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+
+        for (hed__Application__c record : applicationMap.values()) {
+            if (contactIds.contains(record.hed__Applicant__c)) {
+                applicationList.add(record);
+            }
+        }
+
+        return applicationList;
+    }
 }

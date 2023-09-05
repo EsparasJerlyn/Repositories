@@ -20,6 +20,11 @@
                 <label>International Admissions</label>
             </value>
             <value>
+                <fullName>Admissions</fullName>
+                <default>false</default>
+                <label>Admissions</label>
+            </value>
+            <value>
                 <fullName>International Office</fullName>
                 <default>false</default>
                 <label>International Office</label>
@@ -47,7 +52,7 @@
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Awaiting Response</controllingFieldValue>
-            <valueName>International Admissions</valueName>
+            <valueName>Admissions</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Awaiting Response</controllingFieldValue>
@@ -69,6 +74,5 @@
             <controllingFieldValue>Awaiting Response</controllingFieldValue>
             <valueName>Other QUT Department</valueName>
         </valueSettings>
-       
     </valueSet>
 </CustomField>
