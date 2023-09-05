@@ -682,6 +682,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>runtime_sales_cadence:cadenceStepsCard</componentName>
+                <identifier>runtime_sales_cadence_cadenceStepsCard</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                     <valueList>

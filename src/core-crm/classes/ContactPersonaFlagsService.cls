@@ -10,6 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------------------------|
  *    | mark.j.mahilum                 | July 10,2023          | DEPP-5799	            | Created File                                                                         |
  *    | mark.j.mahilum                 | Aug 29.2023           | DEPP-6523              | Updated updateContactOnApplication to include removal of application link to contact |
+ *    | mark.j.mahilum                 | Aug 31,2023           | DEPP-6455              | Updated multiple method name to describe the field in contact to be updated          | 
  */
 public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not methods) can have a high amount of complexity and public methods
     /**
@@ -17,24 +18,16 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
      *
      * @param Set<Id> contactIds to evaluate
      */
-    private static void updateContactOnApplication(Set<Id> contactIds) {
+    private static void updateContactApplicantFlag(Set<Id> contactIds) {
         Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
         String newJourneyStatus = '';
 
         List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance()
-            .getApplicationsByContactIds(contactIds, 'SYSTEM_MODE');
+            .getApplicationsActiveApplicants(contactIds, 'SYSTEM_MODE');
 
         for (hed__Application__c app : existingApplicationList) {
             //check if contact is applicant
-            boolean isApplicant =
-                (studyLinkApplicationChecking(app) ||
-                qtacApplicationChecking(app) ||
-                samsApplicationChecking(app));
-
-            //do not overwrite QUT Applicant value if it is already upated to true
-            isApplicant = updateContactMap.containsKey(app.hed__Applicant__c)
-            ? updateContactMap.get(app.hed__Applicant__c).QUT_Applicant__c
-            : isApplicant;
+            boolean isApplicant = true;
 
             //get new journey status
             //this will have a value if conditions are satisfied
@@ -102,7 +95,7 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
      * @param Set<Id> contactIds to evaluate
      * @return Map<Id,Contact> contact to be updated
      */
-    private static void updateContactOnProgramEnrollment(Set<Id> contactIds) {
+    private static void updateContactOnStudentFlag(Set<Id> contactIds) {
         Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
         Set<Id> contactIdsToReEvaluateApplication = new Set<Id>();
         List<hed__Program_Enrollment__c> programEnrollmentsList =  ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsByContactIds(contactIds,'SYSTEM_MODE'); 
@@ -184,12 +177,13 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
     }
 
     /**
-     * @description: Checks existing program enrollment records linked to contact
+     * @description: Checks existing contextual role or opportunity contact role linked to 
+     *               contact and update the Contact partner flag
      *
      * @param Set<Id> contactIds to evaluate
      * @return Map<Id,Contact> contact to be updated
      */
-    private static void updateContactOnContextualRoleOrOpportunityContactRole(Set<Id> contactIds) {
+    private static void updateContactPartnerFlag(Set<Id> contactIds) {
         Map<Id,Contact> updateContactMap = new Map<Id,Contact>();         
         Set<String> recordTypeIds = new Set<String>{ContextualRolesDAO.ENGAGEMENT_ROLE_RECTYPE_ID,ContextualRolesDAO.OPPORTUNITY_ROLE_RECTYPE_ID};
         List<Contextual_Role__c> contextualRoleList = ContextualRolesDAO.newInstance().getActiveContextualRoleByContactIds(contactIds,recordTypeIds,'SYSTEM_MODE');  
@@ -220,6 +214,18 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
                 )
             );
         }         
+        
+        List<OpportunityContactRole> ocrList = OpportunityContactRolesDAO.newInstance().getOpportunityContactRoleByRoleContactIds(contactIds,new Set<String>{'Client Decision-Maker'},'SYSTEM_MODE');
+
+        for (OpportunityContactRole ocr : ocrList){
+            updateContactMap.put(
+                ocr.ContactId,
+                new Contact(
+                    id = ocr.ContactId,
+                    QUT_Partner__c = true
+                )
+            );
+        }      
         
         for (Id contactId : contactIds) {
             if (!updateContactMap.containsKey(contactId)) {
@@ -254,44 +260,7 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
     private static void updateContactRecord(List<Contact> updateContactList) {
         ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
     }
-
-    /**
-     * @description: Checks if the given application is a new StudyLink application based on specified conditions.
-     *
-     * @param hed__Application__c record to evaluate
-     * @return boolean True or False
-     */
-    private static boolean studyLinkApplicationChecking(hed__Application__c app) {
-        boolean isStudylinkRecType = app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-        return (isStudylinkRecType &&
-        !ApplicationsDAO.studyLinkStatuses.contains(app.Application_Status__c));
-    }
-
-    /**
-     * @description: Check if a QTAC Application exists for offer rounds in the future time period
-     *
-     * @param hed__Application__c record to evaluate
-     * @return boolean True or False
-     */
-    private static boolean qtacApplicationChecking(hed__Application__c app) {
-        boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
-        return (isQTACRecType &&
-        app.Applied_Intake_Study_Period__c != null &&
-        app.Applied_Intake_Study_Period__r.hed__Start_Date__c > SYSTEM.today());
-    }
-
-    /**
-     * @description: Check if a SAMS Application exists with statuses other than the excluded ones
-     *
-     * @param hed__Application__c record to evaluate
-     * @return boolean True or False
-     */
-    private static boolean samsApplicationChecking(hed__Application__c app) {
-        boolean isSAMSRecType = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
-        app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
-        return (isSAMSRecType && !ApplicationsDAO.samsStatuses.contains(app.Application_Status__c));
-    }
-
+    
     /**
      * @description: Queueable local apex class that execute method into queuable callout
      *
@@ -307,14 +276,14 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
             this.methodNames = methodName;
         }
         public void execute(QueueableContext context) {
-            if (methodNames == 'updateContactOnProgramEnrollment') {
-                updateContactOnProgramEnrollment(contactIds);
+            if (methodNames == 'updateContactOnStudentFlag') {
+                updateContactOnStudentFlag(contactIds);
             }
-            if (methodNames == 'updateContactOnApplication') {
-                updateContactOnApplication(contactIds);
+            if (methodNames == 'updateContactApplicantFlag') {
+                updateContactApplicantFlag(contactIds);
             }
-            if (methodNames == 'updateContactOnContextualRoleOrOpportunityContactRole') {
-                updateContactOnContextualRoleOrOpportunityContactRole(contactIds);
+            if (methodNames == 'updateContactPartnerFlag') {
+                updateContactPartnerFlag(contactIds);
             }
         }
     }

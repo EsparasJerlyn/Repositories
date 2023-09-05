@@ -5,13 +5,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
- *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
- *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added getApplicationsByLeadIds             |
- *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds   |
- *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Program_Enrollment__c in SOQL under  |
- *    |                                |                       |                        | getApplicationsByContactIds method         |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------------|
+ *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                                |
+ *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added getApplicationsByLeadIds              |
+ *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds    |
+ *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Program_Enrollment__c in SOQL under   |
+ *    |                                |                       |                        | getApplicationsByContactIds method          |
+ *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6455              | Added getApplicationsActiveApplicants method|
+ *    |                                |                       |                        | to get active applicants                    |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -154,7 +156,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             'SELECT Id,Program_Enrollment__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, ' +
                 'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
                 'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
-                'Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, hed__Applicant__r.QUT_Applicant__c, ' +
+                'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, hed__Applicant__r.QUT_Applicant__c, ' +
                 'hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c ' +
                 'FROM hed__Application__c ' +
                 'WHERE hed__Applicant__c IN :contactIds '+
@@ -174,6 +176,28 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             'FROM hed__Application__c ' +
             'WHERE Id IN: qtacApplicantId '+
             'AND RecordTypeId =: QTAC_RECTYPE_ID ' +  
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<hed__Application__c> getApplicationsActiveApplicants(
+        Set<Id> contactIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id,Program_Enrollment__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, ' +
+            'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
+            'Applied_Intake_Study_Period__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
+            'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, hed__Applicant__r.QUT_Applicant__c, ' +
+            'hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE hed__Applicant__c IN :contactIds ' +
+            'AND Calculated_Intake_Date__c >= TODAY ' +
+            'AND ((RecordType.DeveloperName = \'QTAC\' AND Is_Active__c = TRUE) ' +
+            'OR (RecordType.DeveloperName = \'StudyLink\' AND Application_Status__c NOT IN: studyLinkStatuses) ' +
+            'OR ((RecordType.DeveloperName = \'SAMS_Legacy\' OR RecordType.DeveloperName = \'SAMS_CIAnywhere\') ' +
+            'AND Application_Status__c NOT IN: samsStatuses)) ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
         );
