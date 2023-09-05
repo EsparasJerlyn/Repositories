@@ -121,7 +121,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-International Enquiry Layout2</layout>
+        <recordType>Case.Domestic_FS_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-International Enquiry Layout2</layout>
         <recordType>Case.International_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-International Enquiry Layout2</layout>
+        <recordType>Case.International_FS_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Application__c-QTAC Application Layout</layout>
