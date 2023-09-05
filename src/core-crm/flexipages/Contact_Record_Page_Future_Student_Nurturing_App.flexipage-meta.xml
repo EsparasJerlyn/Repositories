@@ -281,6 +281,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>leadScoreSection</componentName>
+                <identifier>c_leadScoreSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-26d20886-80bb-46a7-8c18-baf15f1e07fa</value>
