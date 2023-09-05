@@ -359,12 +359,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>home:workQueueSummary</componentName>
-                <identifier>home_workQueueSummary</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>accordionSections</name>
                     <value>Facet-2958a2fa-ef57-422b-8e7f-8c09303ab7a6</value>
