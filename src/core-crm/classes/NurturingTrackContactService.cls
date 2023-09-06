@@ -138,11 +138,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
+                application.Calculated_Intake_Date__c >= System.today() &&
                 application.Is_Agent_Assisted__c == false
             ) {
                 internationalDirectApplicants.put(application.Id, application);
@@ -190,11 +186,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 application.Is_Agent_Assisted__c == false &&
                 application.Application_Status__c == 'Acceptance - Pending Payment' &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                )
+                application.Calculated_Intake_Date__c >= System.today()
             ) {
                 internationalDirectApplicants.put(application.Id, application);
             }
@@ -343,10 +335,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 isStudyLinkRecordType &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 ApplicationsDAO.OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE'))
+                application.Calculated_Intake_Date__c >= System.today()
             ) {
                 processCompletedInternationalOffertoAcceptance(application, internationalOffertoAcceptanceManual, internationalOffertoAcceptanceAutomated);
             }
@@ -517,11 +506,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         for (hed__Application__c application : filteredApplicationList) {
             if (
                 validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c,
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c?.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c),
-                    System.today()
-                )
+                application.Calculated_Intake_Date__c >= System.today()
             ) {
                 applicationMap.put(application.Id, application);
             }
@@ -826,6 +811,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
                 app.Application_Status__c != 'Admitted' &&
+                app.Is_Active__c &&
                 app.QTAC_ApplicantID__c != null &&
                 appToQtacMap.containsKey(app.Id) &&
                 samsAppWithQtac.containsKey(appToQtacMap.get(app.Id)) &&
@@ -1391,11 +1377,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID  &&
                 ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
+                application.Calculated_Intake_Date__c >= System.today() &&
                 application.Is_Agent_Assisted__c == false &&
                 withinOffSetDays
             ) {

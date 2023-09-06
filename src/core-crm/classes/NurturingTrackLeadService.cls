@@ -106,11 +106,7 @@ public with sharing class NurturingTrackLeadService {
                 internationalEntryLeadMap.containsKey(application.Lead__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
+                application.Calculated_Intake_Date__c >= System.today() &&
                 application.Is_Agent_Assisted__c == false
             ) {
                 internationalDirectApplicants.put(application.Id, application);
