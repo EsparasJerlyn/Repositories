@@ -177,11 +177,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Interaction__c.Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Marketing_Interaction__c.UTM_Campaign__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -678,11 +673,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Segmentation__c.SE_Year_12_Expected_Completion_Year__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Marketing_Segmentation__c.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -72,7 +72,7 @@ private class ContactTriggerHelperTest {
                 }else if(acc.RecordTypeId == ADMINISTRATIVE){
                     adminAccount = acc.Id;
                 }
-            }            
+            }   
             
             List<Contact> conList = TestDataFactory.createTestContactRecords(100);
             for(Integer i = 0;i<conList.size(); i++){
@@ -106,13 +106,17 @@ private class ContactTriggerHelperTest {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
+
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 70;
+            insert lcd;
+
             Test.startTest();            
             List<Contact> updateContactList = new List<Contact>();
             for(Contact con: newContacts){
                 Contact conRec = new Contact();
                 conRec.Id = con.Id;
-                conRec.Score__c = 3;
+                conRec.Lead_Score_Detail__c = lcd.Id;
                 updateContactList.add(conRec);
             }            
             Database.SaveResult[] srList = ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
