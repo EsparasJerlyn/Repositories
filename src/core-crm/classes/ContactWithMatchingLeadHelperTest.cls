@@ -62,8 +62,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
                 LinkedIn_Profile_URL__c = 'test@record.com',
                 WorkPhone_Validation__c = 'Valid',
                 Phone_No_Locale__c  = '012345678',
-                Lead_Type__c = 'Learner',
-                Marketing_Segmentation_Score__c = 75
+                Lead_Type__c = 'Learner'
             ));
         }
         insert leads;
@@ -78,7 +77,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             marketingCourseAppList.add(new Marketing_Course_Application__c(Lead__c = leads[i].Id));
             appList.add(new hed__Application__c(Lead__c = leads[i].Id));
             marketingSegmentationList.add(new Marketing_Segmentation__c(Lead__c = leads[i].Id));
-            contactList.add(new Contact(FirstName = 'MC Test', LastName = 'MC Record', Email = 'mctest@record.com', Company_Name__c = 'mcTestCompany', Marketing_Segmentation_Score__c = 80, RecordTypeId = MC_PERSONA, Parent_Person_Lead__c = leads[i].Id));
+            contactList.add(new Contact(FirstName = 'MC Test', LastName = 'MC Record', Email = 'mctest@record.com', Company_Name__c = 'mcTestCompany', RecordTypeId = MC_PERSONA, Parent_Person_Lead__c = leads[i].Id));
         }
         insert marketingInteractionList;
         insert marketingCourseAppList;
@@ -102,8 +101,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
                     LastName = 'Record' + i,
                     Email = 'test@record.com' + i,
                     Company_Name__c = 'TestCompany',
-                    RecordTypeId = PERSON,
-                    Marketing_Segmentation_Score__c = 80)
+                    RecordTypeId = PERSON)
                 );
             }
 
@@ -163,8 +161,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
                     LastName = 'Record' + i,
                     Email = 'test@record.comw' + i,
                     Company_Name__c = 'TestCompany',
-                    RecordTypeId = PERSON,
-                    Marketing_Segmentation_Score__c = 80)
+                    RecordTypeId = PERSON)
                 );
             }
             insert contacts;
@@ -217,9 +214,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
                 LastName = 'MS Record',
                 Email = 'temptest@record.com',
                 Company_Name__c = 'TestCompany',
-                RecordTypeId = PERSON,
-                Marketing_Segmentation_Score__c = 80
-            );
+                RecordTypeId = PERSON);
             insert contactWithMarketingSeg;
 
             Marketing_Segmentation__c marketingSegsLinkedToContact = new Marketing_Segmentation__c();
