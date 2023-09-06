@@ -352,9 +352,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         
         if(application.Offered_Program_Plan__c != null &&
             nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c !=null &&
-            application.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c) <= System.today() &&
-            application.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()){
-                    //contactIds.add(app.hed__Applicant__c);
+            application.Calculated_Intake_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c) <= System.today()){
             internationalOffertoAcceptanceManual.put(application.Id, application);
         }else{
             internationalOffertoAcceptanceAutomated.put(application.Id, application);
@@ -1363,12 +1361,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
             Boolean withinOffSetDays = false;
             if(
                 offsetDays != null &&
-                application.Offered_Program_Plan__c != null &&
-                application.Offered_Program_Plan__r.Availability_Start_Date__c != null
+                application.Calculated_Intake_Date__c  != null
             ){
                 withinOffSetDays = (
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer) offsetDays) <= System.today() &&
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
+                    application.Calculated_Intake_Date__c.addDays(-(Integer) offsetDays) <= System.today() &&
+                    application.Calculated_Intake_Date__c >= System.today()
                 );
             }
             if (
@@ -1377,7 +1374,6 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID  &&
                 ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                application.Calculated_Intake_Date__c >= System.today() &&
                 application.Is_Agent_Assisted__c == false &&
                 withinOffSetDays
             ) {
