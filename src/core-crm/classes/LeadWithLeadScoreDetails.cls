@@ -16,7 +16,6 @@ public with sharing class LeadWithLeadScoreDetails {
      */
     public static void createLeadScoreDetailToContact(Map<Id,Lead> newItems, Map<Id, Lead> oldItems) {
         List<Lead_Score_Detail__c> leadScoreDetailToInsert = new List<Lead_Score_Detail__c>();
-        //Map<Id, Id> leadScoreDetailMap = new Map<Id, Id>();
         Set<Id> convertedContactIds = new Set<Id>();
         //Create Lead Score Detail record for the Contact converted
         for(Lead lead:newItems.values()){
