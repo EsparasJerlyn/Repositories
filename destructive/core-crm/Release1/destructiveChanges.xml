@@ -50,7 +50,7 @@
     </types>
     <types>
     <!--DEPP-5673 Satrt-->
-        <members>Future_Student_Engagement.app-meta.xml</members>
+        <members>Future_Student_Engagement</members>
     <!-- DEPP-5673 End-->
         <name>application</name>
     </types>
@@ -167,38 +167,34 @@
     </types>
     <types>
         <!--DEPP-5055-->
-        <members>Opportunity_Record_Page.flexipage-meta.xml</members>
+        <members>Opportunity_Record_Page</members>
         <!--DEPP-5055 end-->
         <!--DEPP-5433-->
         <members>Opportunity_Outcome_Research_Partnership_Record_Page</members>
         <!--DEPP-5433 end-->
         <!--Start DEPP-5837-->
-        <members>Project_Milestone_Record_Page.flexipage-meta.xml</members>
+        <members>Project_Milestone_Record_Page</members>
         <!--End DEPP-5837-->
         <!--Start DEPP-6136-->
-        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
-        <members>Application_Record_Page.flexipage.xml</members>
+        <members>QTAC_Preference_Record_Page</members>
+        <members>Application_Record_Page</members>
         <!--End DEPP-6136-->
         <!--Start DEPP-6248 / DEPP-6201-->
-        <members>Application_SAMS_Record_Page.flexipage-meta.xml</members>
+        <members>Application_SAMS_Record_Page</members>
         <!--End DEPP-6248 / DEPP-6201-->
         <name>FlexiPage</name>
     </types>
     <types>
-        <!--Start DEPP-5392-->
-        <members>New_Document_Standard_Record_Type_Custom.xml</members>
-        <!--End DEPP-5392-->
-        <!--Start DEPP-5995-->
-        <members>Update_Opportunity_Outcome_to_New.flow-meta.xml</members>
-        <!--End DEPP-5995-->
-        <!--Start DEPP-5797-->
-        <members>Lead_Lead_Scoring</members>
+        <members>New_Document_Standard_Record_Type_Custom</members>
+        <members>Update_Opportunity_Outcome_to_New</members>
+        <!--(Start) DEPP-6585-->
         <members>Contact_Lead_Scoring</members>
-        <members>Marketing_Segmentation_Lead_Scoring</members>
-        <members>Marketing_Interaction_Lead_Scoring</members>
-        <members>Marketing_Course_Application_Lead_Scoring</members>
         <members>Individual_Email_Result_Lead_Scoring</members>
-        <!--End DEPP-5797-->
+        <members>Lead_Lead_Scoring</members>
+        <members>Marketing_Course_Application_Lead_Scoring</members>
+        <members>Marketing_Interaction_Lead_Scoring</members>
+        <members>Marketing_Segmentation_Lead_Scoring</members>
+        <!--(End) DEPP-6585-->
         <name>Flow</name>
     </types>
     <types>
@@ -206,17 +202,17 @@
         <members>Case-International Enquiry Layout</members>
         <!--DEPP-4625/ DEPP-4223 end-->
         <!--DEPP-5055-->
-        <members>Opportunity-Opportunity Details.layout-meta.xml</members>
-        <members>Opportunity-Opportunity Layout.layout-meta.xml</members>
+        <members>Opportunity-Opportunity Details</members>
+        <members>Opportunity-Opportunity Layout</members>
         <!--DEPP-5055 end-->
         <!--Start DEPP-6136-->
-        <members>QTAC_Preference__c-QTAC Preference Layout.layout-meta.xml</members>
+        <members>QTAC_Preference__c-QTAC Preference Layout</members>
         <!--End DEPP-6136-->
         <!--Start DEPP-6306-->
-        <members>Task-Nurture.layout-meta.xml</members>
+        <members>Task-Nurture</members>
         <!--End DEPP-6306-->
         <!--Start DEPP-6248 / DEPP-6201-->
-        <members>hed__Application__c-SAMS Application Layout.layout-meta.xml</members>
+        <members>hed__Application__c-SAMS Application Layout</members>
         <!--End DEPP-6248 / DEPP-6201-->
         <name>Layout</name>
     </types>
@@ -228,7 +224,7 @@
     </types>
     <types>
         <!--Start DEPP-3616-->
-        <members>QTAC_Preference__c.tab-meta</members>
+        <members>QTAC_Preference__c</members>
         <!--End DEPP-2616-->
         <name>CustomTab</name>
     </types>
