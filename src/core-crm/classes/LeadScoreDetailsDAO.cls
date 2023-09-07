@@ -18,19 +18,6 @@ public inherited sharing class LeadScoreDetailsDAO extends DmlBase implements IL
 		return (ILeadScoreDetailsDAO) ImplementationSelector.DAO.newInstance(Lead_Score_Detail__c.SObjectType);
 	}
 
-    public static List<Lead_Score_Detail__c> getLeadScoreDetailByContactSetIds(
-        Set<Id> recordIds,
-        String accessLevel
-    ) {
-        return Database.query(
-            'SELECT Id, Contact__c ' +
-             'FROM Lead_Score_Detail__c ' +
-             'WHERE Contact__c IN: recordIds ' +
-             'WITH ' +
-             String.escapeSingleQuotes(accessLevel)
-        );
-    }
-    
     public static List<Lead_Score_Detail__c> getLeadScoreDetailWithLimit(Integer recordsCount) {
         return [//NOPMD
             SELECT Id, Contact__c

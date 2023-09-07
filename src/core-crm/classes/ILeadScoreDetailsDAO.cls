@@ -10,10 +10,6 @@
  */
 public interface ILeadScoreDetailsDAO extends DmlInterface{
 
-    List<Lead_Score_Detail__c> getLeadScoreDetailByContactSetIds(
-        Set<Id> recordIds,    
-        String accessLevel
-    );
     List<Lead_Score_Detail__c> getLeadScoreDetailWithLimit(
         Integer recordsCount
     );

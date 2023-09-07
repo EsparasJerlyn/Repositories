@@ -21,16 +21,16 @@ public inherited sharing class LeadScoreDetailsDAOMock extends DmlBaseMock imple
         return Lead_Score_Detail__c.SObjectType;
     }
 
-    public List<Lead_Score_Detail__c> getLeadScoreDetailByContactSetIds(
-        Set<Id> contactIds,
-		String accessLevel 
+    public List<Lead_Score_Detail__c> getLeadScoreDetailWithLimit(
+        Integer recordsCount
     ) {
-        List<Lead_Score_Detail__c> leadScoreDetailsList = new List<Lead_Score_Detail__c>();
+        List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
         for (Lead_Score_Detail__c record : leadScoreDetailsMap.values()) {
-            if (contactIds.contains(record.Contact__c)) {
-                leadScoreDetailsList.add(record);
+            leadScoreDetailList.add(record);
+            if (leadScoreDetailList.size() == recordsCount) {
+                break;
             }
         }
-        return leadScoreDetailsList;
+        return leadScoreDetailList;
     }
 }

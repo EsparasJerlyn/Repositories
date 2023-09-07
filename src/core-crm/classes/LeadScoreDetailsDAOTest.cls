@@ -34,4 +34,14 @@ public with sharing class LeadScoreDetailsDAOTest{
         }
         Test.stopTest();
     }
+    @isTest
+    static void getLeadsWithLimitTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Lead_Score_Detail__c> leadScoreDetailList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailWithLimit(1);
+            System.assert(leadScoreDetailList.isEmpty(), 'leadScoreDetailList should not be empty');
+        }
+        Test.stopTest();
+    }
+
 }
