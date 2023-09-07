@@ -86,7 +86,6 @@ public with sharing class PackageComponentServiceTest { //NOPMD
                     LastName = i + LASTNAME,
                     BirthDate = Date.valueOf(BIRTHDAY),
                     Email = i + EMAIL,
-                    IER_Score__c = 350, //Updates Lead Score to above the threshold so Can Nurture becomes true, and contact will be processed in the batch,
                     QUT_Learner_Email__c = 'learner' + i + EMAIL,
                     QUT_Staff_Email__c = 'staff' + i + EMAIL,
                     Work_Email__c = 'work' + i + EMAIL,

@@ -65,11 +65,15 @@ private class LeadServiceTest {
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveFifty() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 70;
+            insert lcd;
+
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 256.00;
+                ldList[i].Lead_Score_Detail__c = lcd.Id;
             }
 
             Test.startTest();
@@ -95,11 +99,15 @@ private class LeadServiceTest {
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveOneHundred() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 300;
+            insert lcd;
+
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 300.00;
+                ldList[i].Lead_Score_Detail__c = lcd.Id;
             }
 
             Test.startTest();
@@ -125,6 +133,10 @@ private class LeadServiceTest {
     @isTest
     private static void testLeadBatchUpdateCanNurtureIsCheck() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 300;
+            insert lcd;
             
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
@@ -137,7 +149,7 @@ private class LeadServiceTest {
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 300.00;
+                ldList[i].Lead_Score_Detail__c = lcd.Id;
             }
             
             Test.startTest();
@@ -167,7 +179,6 @@ private class LeadServiceTest {
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 300.00;
                 ldList[i].Calculated_Cadence__c = 'Test Cadences automated';
             }
             Test.startTest();

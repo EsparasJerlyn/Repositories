@@ -28,9 +28,14 @@ private class FutureStudentJourneyStatusHelperTest {
     @isTest
     private static void testContactCreationWithExploreStatus() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);    
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 70;
+            insert lcd;
+
             for(Contact con: newContacts){
                 con.Future_Student_Journey_Status__c = '';
+                con.Lead_Score_Detail__c = lcd.Id;
             }        
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
