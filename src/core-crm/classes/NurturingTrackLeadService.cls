@@ -9,6 +9,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | mark.j.mahilum                 | July 18, 2023         | DEPP-6105              | Created file                                     |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace Term Intake Date to   |
+      |                                |                       |                        | Calculated Intake Date on application records    |
  */
 public with sharing class NurturingTrackLeadService {
     private static List<hed__Application__c> applicationList;

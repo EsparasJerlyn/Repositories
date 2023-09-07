@@ -10,7 +10,9 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                     |
       | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International    |  
-      |                                |                       |                        | Enrolment to Census                              |  
+      |                                |                       |                        | Enrolment to Census                              | 
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace the Term Intake to    |
+      |                                |                       |                        | Calculated Intake Date on application record     | 
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
