@@ -92,19 +92,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>LiveChat After Hours</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Phone</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Twitter</fullName>
             <default>false</default>
         </values>
         <values>
