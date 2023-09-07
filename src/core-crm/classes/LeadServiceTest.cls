@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|--------------|----------------------------------------------|
       | mark.j.mahilum            | June 13,2023          | DEPP-5798    | Created file                                 |
       | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Updated test class to cover can nurture logic|
+      | julie.jane.alegre         | Sept 07, 2023         | DEPP-5965    | Add test method testCreateLeadScoreDetail    |
 */
 @isTest
 private class LeadServiceTest {
