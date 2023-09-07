@@ -350,8 +350,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
     private static void processCompletedInternationalOffertoAcceptance(hed__Application__c application, Map<Id,hed__Application__c> internationalOffertoAcceptanceManual, Map<Id, hed__Application__c> internationalOffertoAcceptanceAutomated){
         
-        if(application.Offered_Program_Plan__c != null &&
-            nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c !=null &&
+        if( nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c !=null &&
             application.Calculated_Intake_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c) <= System.today()){
             internationalOffertoAcceptanceManual.put(application.Id, application);
         }else{
