@@ -14,4 +14,7 @@ public interface ILeadScoreDetailsDAO extends DmlInterface{
         Set<Id> recordIds,    
         String accessLevel
     );
+    List<Lead_Score_Detail__c> getLeadScoreDetailWithLimit(
+        Integer recordsCount
+    );
 }
