@@ -31,11 +31,6 @@
                 <field>My_Primary_NSA__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>Score__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
         </quickActionLayoutColumns>
     </quickActionLayout>
     <standardLabel>Update</standardLabel>
