@@ -1,5 +1,5 @@
 /**
- * @description DAO Class for Lead_Score_Detail__c Object. Contains soql and constants related to the Lead_Score_Detail__c object.
+ * @description Test class for LeadScoreDetailsDAO
  * @author Accenture
  *
  * @history
