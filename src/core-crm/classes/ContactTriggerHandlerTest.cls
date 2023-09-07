@@ -407,7 +407,17 @@ public with sharing class ContactTriggerHandlerTest {
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE); 
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 60;
+            insert lcd;
+            
+            for (Contact record : newContacts) {  
+                record.Lead_Score_Detail__c = lcd.Id;
+            }
+
+            ContactsDAO.newInstance().updateRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
             for (Contact record : ContactsDAO.newInstance().getPersonContactsWithLimit(10)) {  
                 System.assert(record.Future_Student_Journey_Status__c == 'Explore','Contact Future_Student_Journey_Status__c did not match');
@@ -422,8 +432,12 @@ public with sharing class ContactTriggerHandlerTest {
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE); 
 
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = -50;
+            insert lcd;
+
             for (Contact record : newContacts) {  
-                record.IER_Score__c = -50;
+                record.Lead_Score_Detail__c = lcd.Id;
             }
 
             ContactsDAO.newInstance().updateRecords(newContacts, false, AccessLevel.SYSTEM_MODE); 

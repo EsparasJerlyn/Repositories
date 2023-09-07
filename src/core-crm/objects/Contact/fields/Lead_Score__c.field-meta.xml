@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Lead_Score__c</fullName>
     <externalId>false</externalId>
-    <formula>Score__c +  IER_Score__c +  Marketing_Course_Application_Score__c  +  Marketing_Interaction_Score__c +  Marketing_Segmentation_Score__c</formula>
+    <formula>Lead_Score_Detail__r.Total_Lead_Score__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Lead Score</label>
     <precision>18</precision>
