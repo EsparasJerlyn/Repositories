@@ -29,4 +29,5 @@ public interface ILeadsDAO extends DmlInterface {
         Set<String> recordIds,
         String accessLevel
     );
+    List<Lead> getLeadsToConvert(Integer recordsCount);
 }

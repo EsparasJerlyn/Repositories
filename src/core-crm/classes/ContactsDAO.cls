@@ -83,7 +83,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 hed__Preferred_Email__c,
                 hed__AlternateEmail__c,
                 Future_Student_Journey_Status__c,
-                Lead_Score__c
+                Lead_Score__c,
+                Lead_Score_Detail__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates

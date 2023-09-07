@@ -30,4 +30,13 @@ public inherited sharing class LeadScoreDetailsDAO extends DmlBase implements IL
              String.escapeSingleQuotes(accessLevel)
         );
     }
+    
+    public static List<Lead_Score_Detail__c> getLeadScoreDetailWithLimit(Integer recordsCount) {
+        return [//NOPMD
+            SELECT Id, Contact__c
+            FROM Lead_Score_Detail__c
+            WITH SYSTEM_MODE//Only used in test class to verify record insert/update
+            LIMIT :recordsCount
+        ];
+    }
 }
