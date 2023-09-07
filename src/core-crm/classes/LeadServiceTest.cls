@@ -192,14 +192,14 @@ private class LeadServiceTest {
     private static void testCreateLeadScoreDetail() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(recordsCount);     
-            AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.SYSTEM_MODE);     
+            AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
             List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
             for(Lead lead : leads){   
                 lead.Company_Category__c = 'Corporate';
                 lead.Description = 'Test Description';
                 lead.Lead_Type__c = 'CCE Corporate Partner';
             }   
-            LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.SYSTEM_MODE);
+            LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
             Test.startTest();
             convertLead(leads);
             Test.stopTest();

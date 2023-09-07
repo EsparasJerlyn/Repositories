@@ -16,22 +16,25 @@ private class LeadScoreDetailTriggerHandlerTest {
 
     @testSetup
     static void setupMethod(){  
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent' });
+        System.runAs(TestDataFactory.getProgramAdminUser()){ 
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);     
+            AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
+            List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);
+            for(Lead lead : leads){   
+                lead.Company_Category__c = 'Corporate';
+                lead.Description = 'Test Description';
+                lead.Lead_Type__c = 'CCE Corporate Partner';
+            }   
+            LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
+        }    
     }
     @isTest 
     private static void linkLeadScoreDetailToContactTest(){ 
         System.runAs(TestDataFactory.getProgramAdminUser()){ 
+            List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords);
             Test.startTest();
-            List<Lead_Score_Detail__c> lsdToInsert = new List<Lead_Score_Detail__c>();
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(numberOfRecords);
-            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
-            
-            for(Integer i = 0; i < numberOfRecords; i++){
-                lsdToInsert.add( new Lead_Score_Detail__c(
-                    Contact__c = contactList[i].Id
-                ));
-            }
-            LeadScoreDetailsDAO.newInstance().insertRecords(lsdToInsert, false, AccessLevel.SYSTEM_MODE);
+            convertLead(leads);
             Test.stopTest();
             List<Contact> updatedContact = ContactsDAO.newInstance().getPersonContactsWithLimit(numberOfRecords);
             for(Contact contact: updatedContact){
@@ -39,4 +42,15 @@ private class LeadScoreDetailTriggerHandlerTest {
             }
         }     
     }
+    private static void convertLead(List<Lead> leads){
+        List<Database.LeadConvert> leadstoConvert = new List<Database.LeadConvert>(); 
+        LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = true LIMIT 1];
+        for(Lead lead : leads) {
+            Database.LeadConvert lc = new Database.LeadConvert();
+            lc.setLeadId(lead.id);
+            lc.setConvertedStatus(convertStatus.MasterLabel);
+            leadstoConvert.add(lc);
+        }
+        Database.convertLead(leadstoConvert);  
+    }    
 }
