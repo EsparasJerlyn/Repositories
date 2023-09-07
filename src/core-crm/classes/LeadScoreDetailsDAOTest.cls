@@ -15,7 +15,6 @@ public with sharing class LeadScoreDetailsDAOTest{
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
     }
-
     @isTest
     static void newInstanceTest() {
         Test.startTest();
@@ -24,7 +23,6 @@ public with sharing class LeadScoreDetailsDAOTest{
         }
         Test.stopTest();
     }
-
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
