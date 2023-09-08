@@ -2,13 +2,8 @@
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <custom>true</custom>
     <userLicense>Salesforce</userLicense>
-     <applicationVisibilities>
-        <application>standard__AllTabSet</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
     <applicationVisibilities>
-        <application>standard__Insights</application>
+        <application>standard__AllTabSet</application>
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
@@ -29,11 +24,6 @@
     </applicationVisibilities>
     <applicationVisibilities>
         <application>standard__Community</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__DataManager</application>
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
