@@ -1,14 +1,14 @@
 /**
- * @description Test class for NurturingTrackLeadService
+ * @description Batch class for NurturingTrackLeadService
  * 
  * @author Accenture
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
-      |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
-      | mark.j.mahilum       	       | July 25, 2023         | DEPP-6105              | Created file                                         | 
-      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated test class to include calculated intake date |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                 |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date | 
  */
 @isTest
 public with sharing class NurturingTrackLeadServiceTest {

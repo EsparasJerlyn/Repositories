@@ -6,13 +6,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                     |
-      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International    |  
-      |                                |                       |                        | Enrolment to Census                              | 
-      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace the Term Intake to    |
-      |                                |                       |                        | Calculated Intake Date on application record     | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                  |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International                                 |  
+      |                                |                       |                        | Enrolment to Census                                                           | 
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace the Term Intake to                                 |
+      |                                |                       |                        | Calculated Intake Date on application record                                  | 
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove CURRENT_INTAKE_PERIOD and NurturingTrackService.isDateWithinRange call |
+      |                                |                       |                        | as it's no longer used                                                        |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
@@ -30,7 +32,6 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static final String DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE = 'DomesticDeferredOfferToAcceptance';
     private static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     private static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
-    private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
     private static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
 
     /**
