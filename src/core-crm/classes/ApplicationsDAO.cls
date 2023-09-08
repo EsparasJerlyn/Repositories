@@ -139,7 +139,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     public List<hed__Application__c> getApplicationsByLeadIds(Set<Id> leadIds, String accessLevel) {
         return Database.query(
             'SELECT Id, hed__Applicant__c, Lead__c, Application_Status__c,RecordTypeId, ' +
-                'Applied_Intake_Study_Period__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
+                'Applied_Intake_Study_Period__c, Calculated_Intake_Date__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
                 'Is_Agent_Assisted__c ' +
                 'FROM hed__Application__c ' +
                 'WHERE Lead__c IN :leadIds ' +

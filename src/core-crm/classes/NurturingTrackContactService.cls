@@ -6,11 +6,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                     |
-      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International    |  
-      |                                |                       |                        | Enrolment to Census                              |  
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                  |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International                                 |  
+      |                                |                       |                        | Enrolment to Census                                                           | 
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace the Term Intake to                                 |
+      |                                |                       |                        | Calculated Intake Date on application record                                  | 
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove CURRENT_INTAKE_PERIOD and NurturingTrackService.isDateWithinRange call |
+      |                                |                       |                        | as it's no longer used                                                        |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
@@ -28,7 +32,6 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static final String DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE = 'DomesticDeferredOfferToAcceptance';
     private static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     private static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
-    private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
     private static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
 
     /**
@@ -138,11 +141,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
+                application.Calculated_Intake_Date__c >= System.today() &&
                 application.Is_Agent_Assisted__c == false
             ) {
                 internationalDirectApplicants.put(application.Id, application);
@@ -190,11 +189,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 application.Is_Agent_Assisted__c == false &&
                 application.Application_Status__c == 'Acceptance - Pending Payment' &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                )
+                application.Calculated_Intake_Date__c >= System.today()
             ) {
                 internationalDirectApplicants.put(application.Id, application);
             }
@@ -343,10 +338,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 isStudyLinkRecordType &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 ApplicationsDAO.OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE'))
+                application.Calculated_Intake_Date__c >= System.today()
             ) {
                 processCompletedInternationalOffertoAcceptance(application, internationalOffertoAcceptanceManual, internationalOffertoAcceptanceAutomated);
             }
@@ -361,11 +353,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
     private static void processCompletedInternationalOffertoAcceptance(hed__Application__c application, Map<Id,hed__Application__c> internationalOffertoAcceptanceManual, Map<Id, hed__Application__c> internationalOffertoAcceptanceAutomated){
         
-        if(application.Offered_Program_Plan__c != null &&
-            nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c !=null &&
-            application.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c) <= System.today() &&
-            application.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()){
-                    //contactIds.add(app.hed__Applicant__c);
+        if( nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c !=null &&
+            application.Calculated_Intake_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get('International Offer to Acceptance')?.Key_Date_Offset_Days__c) <= System.today()){
             internationalOffertoAcceptanceManual.put(application.Id, application);
         }else{
             internationalOffertoAcceptanceAutomated.put(application.Id, application);
@@ -517,11 +506,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         for (hed__Application__c application : filteredApplicationList) {
             if (
                 validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c,
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c?.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c),
-                    System.today()
-                )
+                application.Calculated_Intake_Date__c >= System.today()
             ) {
                 applicationMap.put(application.Id, application);
             }
@@ -826,6 +811,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
                 app.Application_Status__c != 'Admitted' &&
+                app.Is_Active__c &&
                 app.QTAC_ApplicantID__c != null &&
                 appToQtacMap.containsKey(app.Id) &&
                 samsAppWithQtac.containsKey(appToQtacMap.get(app.Id)) &&
@@ -1377,12 +1363,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
             Boolean withinOffSetDays = false;
             if(
                 offsetDays != null &&
-                application.Offered_Program_Plan__c != null &&
-                application.Offered_Program_Plan__r.Availability_Start_Date__c != null
+                application.Calculated_Intake_Date__c  != null
             ){
                 withinOffSetDays = (
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer) offsetDays) <= System.today() &&
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
+                    application.Calculated_Intake_Date__c.addDays(-(Integer) offsetDays) <= System.today() &&
+                    application.Calculated_Intake_Date__c >= System.today()
                 );
             }
             if (
@@ -1391,11 +1376,6 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID  &&
                 ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
                 application.Is_Agent_Assisted__c == false &&
                 withinOffSetDays
             ) {
