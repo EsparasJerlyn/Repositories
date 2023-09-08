@@ -1,5 +1,5 @@
 /**
- * @description Batch class for NurturingTrackLeadService
+ * @description Test class for NurturingTrackLeadService
  * 
  * @author Accenture
  *
@@ -8,7 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                 |
-      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date | 
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date |
  */
 @isTest
 public with sharing class NurturingTrackLeadServiceTest {
