@@ -7,10 +7,10 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
       |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
-      | mark.j.mahilum       	       | July 25, 2023         | DEPP-6105              | Created file                                         | 
-      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and                      |  
-      |                                |                       |                        | International Enrolment to Census                    | 
-      | mark.j.mahilum                 | Sept 07,2023          | DEPP-6479              | Updated test class to include Calculated Intake Date | 
+      | mark.j.mahilum       	       | July 25, 2023         | DEPP-6105              | Created file                                         |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and                      |
+      |                                |                       |                        | International Enrolment to Census                    |
+      | mark.j.mahilum                 | Sept 07,2023          | DEPP-6479              | Updated test class to include Calculated Intake Date |
  */
 @isTest
 public with sharing class NurturingTrackContactServiceTest { //NOPMD
