@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum       	       | July 25, 2023         | DEPP-6105              | Created file                 | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                  |
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Added test method to cover exception handling |
  */
 @isTest
 public with sharing class NurturingTrackLeadBatchTest {
@@ -84,6 +85,20 @@ public with sharing class NurturingTrackLeadBatchTest {
             batchableId != null,
             'The batch job failed to execute.'
         );
+    }
+    
+    // Test method for exception handling
+    @isTest
+    static void testExceptionHandling() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            // Call the batch class execute method
+            NurturingTrackLeadBatch batchable = new NurturingTrackLeadBatch();
+            batchable.execute(null,null);
+            Test.stopTest();
+        }       
+        //Perform assertions that the batch didn't execute
+        System.assert([SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'NurturingTrackLeadBatch'].isEmpty() , 'NurturingTrackLeadBatch Job is not empty');
     }
     
     private static List<hed__Application__c> createTestApplicationRecords(List<Lead> leadList, String recordType, String applicationStatus) {

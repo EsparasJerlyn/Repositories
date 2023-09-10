@@ -6,9 +6,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
-      | mark.j.mahilum                 | July 18, 2023         | DEPP-6105              | Created file                                     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                      |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 18, 2023         | DEPP-6105              | Created file                                                        |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace Term Intake Date to                      |
+      |                                |                       |                        | Calculated Intake Date on application records                       |
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove method call to getCurrentIntakePeriod as it's no longer used |
  */
 public with sharing class NurturingTrackLeadService {
     private static List<hed__Application__c> applicationList;
@@ -18,8 +21,6 @@ public with sharing class NurturingTrackLeadService {
     private static Map<Id, Lead> domesticExitLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalEntryLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalExitLeadMap = new Map<Id, Lead>();
-
-    private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
 
     /**
      * @description: process All leads for Entry and Exit in Cadences assignment
@@ -106,11 +107,7 @@ public with sharing class NurturingTrackLeadService {
                 internationalEntryLeadMap.containsKey(application.Lead__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Applied_Intake_Study_Period__r.hed__Start_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
+                application.Calculated_Intake_Date__c >= System.today() &&
                 application.Is_Agent_Assisted__c == false
             ) {
                 internationalDirectApplicants.put(application.Id, application);
