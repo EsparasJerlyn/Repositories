@@ -1,0 +1,43 @@
+/**
+ * @description Test class for ActionCadenceStepTrackersDAO
+ * 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | eccarius.munoz                 | September 4, 2023     | DEPP-6138              | Created file                 |
+      |                                |                       |                        |                              |
+ */
+@isTest
+public with sharing class ActionCadenceStepTrackersDAOTest {
+    @testSetup
+    static void testSetup() {
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+    }
+
+    @isTest
+    static void getSObjectTypeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+            System.assert(
+                new ActionCadenceStepTrackersDAO().getSObjectType() == ActionCadenceStepTracker.SObjectType,
+                'SObject is not ActionCadenceStepTracker'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getUsersByNameSetTest() {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+            Test.startTest();
+            System.assert(
+                ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(new List<String>(), AccessLevel.SYSTEM_MODE) != null,
+                'ActionCadenceStepTracker retrieved is not empty'
+            );
+            Test.stopTest();
+        }
+    }
+}
