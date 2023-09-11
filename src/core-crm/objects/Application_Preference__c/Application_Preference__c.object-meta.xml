@@ -155,10 +155,9 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Application Preference</label>
     <nameField>
-        <displayFormat>A-{000000000}</displayFormat>
         <label>Preference Name</label>
         <trackHistory>false</trackHistory>
-        <type>AutoNumber</type>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Application Preferences</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
