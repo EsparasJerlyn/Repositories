@@ -42,6 +42,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLeadStatus((List<Lead>) newItems.values(), null);
         LeadService.updateCanNurtureFlag((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+        LeadService.createLeadScoreDetail((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
     }
  
   /**
