@@ -137,4 +137,17 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
+    @isTest
+    static void getContactsFromConvertedLeadTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsFromConvertedLead(
+                    new Set<Id>(),
+                    'USER_MODE'
+                );
+            System.assert(contactList.isEmpty(), 'contactList should not be empty');
+        }
+        Test.stopTest();
+    }
 }

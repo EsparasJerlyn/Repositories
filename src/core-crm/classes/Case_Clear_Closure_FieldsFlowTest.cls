@@ -27,7 +27,7 @@ public with sharing class Case_Clear_Closure_FieldsFlowTest {
             c.Origin = 'Email';
             c.Priority = 'Low';
             c.Student_LifeCycle_Status__c = 'Prospect';
-            c.Category__c = 'Events';
+            c.Category__c = 'Student life';
             c.Status = 'Pending Closure';
             c.Closure_Code__c = 'Response Given';
             c.Closure_Details__c = 'Test Closure Details with more than 20 characters.';

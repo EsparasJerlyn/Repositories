@@ -7,7 +7,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum       	       | July 25, 2023         | DEPP-6105              | Created file                 | 
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                 |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date |
  */
 @isTest
 public with sharing class NurturingTrackLeadServiceTest {
@@ -72,6 +73,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
             newApplications[0].Is_Agent_Assisted__c = false;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
@@ -113,6 +115,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
             newApplications[0].Is_Agent_Assisted__c = false;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
