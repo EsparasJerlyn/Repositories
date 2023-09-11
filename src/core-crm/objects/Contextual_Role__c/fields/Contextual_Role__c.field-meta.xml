@@ -29,6 +29,11 @@
                 <label>Board Vice-Chairman</label>
             </value>
             <value>
+                <fullName>Branding Manager</fullName>
+                <default>false</default>
+                <label>Branding Manager</label>
+            </value>
+            <value>
                 <fullName>Chief Investigator</fullName>
                 <default>false</default>
                 <label>Chief Investigator</label>
@@ -202,6 +207,10 @@
         <valueSettings>
             <controllingFieldValue>Funding Bodies</controllingFieldValue>
             <valueName>Funding Body</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Partners</controllingFieldValue>
+            <valueName>Branding Manager</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Partners</controllingFieldValue>
