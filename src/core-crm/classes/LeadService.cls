@@ -11,6 +11,7 @@
  *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | Created File                             | 
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag |
  *    | mark.j.mahilum                 | July 27, 2023         | DEPP-6107              | Added new method getLeadCalculatedCadence|
+ *    | julie.jane.alegre              | Sept 6, 2023          | DEPP-5965              | Added new method createLeadScoreDetail   |
  */
 public with sharing class LeadService {
  
@@ -136,5 +137,29 @@ public with sharing class LeadService {
             SalesCadenceCalloutService.processSaleCadences(assignLeadToCadenceMap, removeLeadToCadenceMap);
         }
     }  
+    /**
+     * @description creating Lead Score Detail to converted lead's contact
+     * @param newItems - Map of new leads
+     * @param oldItems - Map of old leads
+     */
+    public static void createLeadScoreDetail(Map<Id,Lead> newItems, Map<Id, Lead> oldItems) {
+        List<Lead_Score_Detail__c> leadScoreDetailToInsert = new List<Lead_Score_Detail__c>();
+        Set<Id> convertedContactIds = new Set<Id>();
+        //Create Lead Score Detail record for the Contact converted
+        for(Lead lead:newItems.values()){
+            if( oldItems.get(lead.Id).IsConverted != lead.IsConverted && 
+                lead.IsConverted == true && lead.ConvertedContactId != null){
+                    leadScoreDetailToInsert.add(
+                        new Lead_Score_Detail__c(  
+                            Contact__c = lead.ConvertedContactId
+                        )
+                    );
+                    convertedContactIds.add(lead.ConvertedContactId);
+            }
+        }
+        if(!leadScoreDetailToInsert.isEmpty()){
+            LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
 
 }

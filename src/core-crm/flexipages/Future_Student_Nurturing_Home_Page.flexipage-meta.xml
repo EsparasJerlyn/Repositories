@@ -447,10 +447,16 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard2</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>NE</operator>
-                        <rightValue>Future_Student_Agent</rightValue>
+                        <rightValue>Future_Student_Agent_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Future_Student_Agent_International</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

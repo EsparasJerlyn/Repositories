@@ -1690,11 +1690,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>hed__Contact__c.IER_Score__c</field>
-            <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>hed__Contact__c.Individual</field>
             <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
         </columns>
@@ -1835,27 +1830,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>hed__Contact__c.Marketing_Course_Application_Score__c</field>
-            <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Contact__c.Marketing_Interaction_Score__c</field>
-            <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>hed__Contact__c.Marketing_Mobile_Locale__c</field>
             <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>hed__Contact__c.Marketing_Segmentation__c</field>
-            <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Contact__c.Marketing_Segmentation_Score__c</field>
             <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
         </columns>
         <columns>
@@ -2146,11 +2126,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>hed__Contact__c.SAMS_Integration_Status__c</field>
-            <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>hed__Contact__c.Score__c</field>
             <table>hed__Course_Offering__c.hed__Course_Enrollment__r</table>
         </columns>
         <columns>

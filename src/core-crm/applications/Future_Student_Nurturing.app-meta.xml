@@ -57,6 +57,22 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>International_Tier_Future_Student_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>International_Tier__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>International_Tier_Future_Student_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>International_Tier__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>QUT_Program_Recordpage</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>

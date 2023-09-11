@@ -23,8 +23,10 @@
  *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Object mapping for hed__Program_Enrollment__c Object    |
  *    | eccarius.munoz                 | August 10, 2023       | DEPP-5760              | Added Object mapping for hed__Term__c and hed__Facility__c obj|
  *    | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Added Object mapping for Package_Component__c obj             |
+ *  * | julie.jane.alegre              | August 31, 2023       | DEPP-5965              | Added Object mapping for Lead_Score_Detail__c obj             |
  *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
+ *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
  */
 public class ImplementationSelector {
 
@@ -34,10 +36,13 @@ public class ImplementationSelector {
             Account.SObjectType => AccountsDAO.class,
             Action__c.SObjectType => ActionsDAO.class,
             ActionCadenceTracker.SObjectType => ActionCadenceTrackersDAO.class,
+            ActionCadenceStepTracker.SObjectType => ActionCadenceStepTrackersDAO.class,
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class, 
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
+            Communication_Queue__c.SObjectType => CommunicationQueuesDAO.class,
+            Case.SObjectType => CasesDAO.class,
             Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
             Contact.SObjectType => ContactsDAO.class,
             ContentDocument.SObjectType => ContentDocumentsDAO.class,
@@ -46,6 +51,7 @@ public class ImplementationSelector {
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
+            EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
@@ -60,6 +66,7 @@ public class ImplementationSelector {
             IP_Management__c.SObjectType => IPManagementsDAO.class,
             IP_Management_Relationship__c.SObjectType => IPManagementRelationshipsDAO.class,
             Lead.SObjectType => LeadsDAO.class,
+            Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
             Nurture_Track_Configuration__c.SObjectType => NurtureTrackConfigurationsDAO.class,
@@ -68,6 +75,7 @@ public class ImplementationSelector {
             OpportunityContactRole.SobjectType => OpportunityContactRolesDAO.class,
             Opportunity_Outcome__c.SobjectType => OpportunityOutcomesDAO.class,
             Opportunity_Outcome_Code_Auto_Number__c.SobjectType => OpportunityOutcomeCodeAutoNumbersDAO.class,
+            OrgWideEmailAddress.SobjectType => OrgWideEmailAddressesDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Package_Component__c.SObjectType => PackageComponentDAO.class,
             Product2.SObjectType => ProductsDAO.class,
@@ -76,6 +84,7 @@ public class ImplementationSelector {
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
             Task.SObjectType => TasksDAO.class,
+            User.SObjectType => UsersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
             UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,
             Expense__c.SObjectType => ExpensesDAO.class

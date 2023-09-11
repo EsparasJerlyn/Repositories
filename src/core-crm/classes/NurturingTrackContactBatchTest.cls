@@ -137,6 +137,26 @@ public with sharing class NurturingTrackContactBatchTest {
         return newContacts;
     }
 
+    private static List<Nurture_Track_Configuration__c> createCensusCadence(String name, String criteriaType, Integer keyDateOffSet){
+        
+        List<Nurture_Track_Configuration__c> initialNurtureTrackConfigList = TestDataFactory.createNurtureTrackConfigRecords(1);
+        
+        List<Nurture_Track_Configuration__c> nurtureTrackConfigList = new List<Nurture_Track_Configuration__c>();
+        for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureTrackConfigList){
+            nurtureTrackConfigList.add(
+                new Nurture_Track_Configuration__c(
+                    Id = nurtureTrackConfig.Id,
+                    Cadence_Name__c = name,
+                    Status__c = 'Active',
+                    Criteria_Type__c = criteriaType,
+                    Key_Date_Offset_Days__c = keyDateOffSet
+                )
+            );
+        }
+        
+        return nurtureTrackConfigList;
+    }
+
     /**
      * @description This method creates facility records. Refer to the confluence below for
      * a list of expect facility values/records.

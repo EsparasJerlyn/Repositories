@@ -13,6 +13,7 @@
       | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added new method getContactsWithMatchingSamsApplications  |
 *     | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677                                |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
+      | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
     /**
@@ -82,7 +83,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 hed__Preferred_Email__c,
                 hed__AlternateEmail__c,
                 Future_Student_Journey_Status__c,
-                Lead_Score__c
+                Lead_Score__c,
+                Lead_Score_Detail__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -211,6 +213,20 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'AND Calculated_Cadence__c != NULL ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
+        );
+    }
+    
+    public static List<Contact> getContactsFromConvertedLead(
+        Set<Id> recordIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Lead_Score_Detail__c ' +
+                'FROM Contact ' +
+                'WHERE Id IN: recordIds ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
         );
     }
 
