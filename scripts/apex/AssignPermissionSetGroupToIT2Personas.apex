@@ -7,7 +7,8 @@ List<PermissionSetAssignment> newAssignmentList = new List<PermissionSetAssignme
 
 PermissionSetGroup futureStudentSuperUserPermSetGrp = [SELECT Id, DeveloperName FROM PermissionSetGroup WHERE DeveloperName = 'Future_Student_Super_User' LIMIT 1];
 
-List<User> users = [SELECT Id, Name, UserRole.DeveloperName FROM User WHERE UserRole.DeveloperName = 'Future_Student_Super_User' ];
+// DEPP-6570: Separate Future Student roles for Domestic and International
+List<User> users = [SELECT Id, Name, UserRole.DeveloperName FROM User WHERE UserRole.DeveloperName LIKE 'Future_Student_Super_User_%' ];
 
 for(User user : users){    
     newAssignmentList.add(new PermissionSetAssignment(

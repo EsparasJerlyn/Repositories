@@ -2893,7 +2893,7 @@ public class TestDataFactory {
             } else if (name == 'QUT_Domestic_Future_Student_Agent') {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
-                roleName = 'Future Student Agent';
+                roleName = 'Future Student Agent - Domestic';
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
