@@ -79,6 +79,10 @@
                 <identifier>RecordNameField</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-93dc51a1-d573-407b-97cc-02c180b05cbb</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -97,20 +101,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Title</fieldItem>
                 <identifier>RecordTitleField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-93dc51a1-d573-407b-97cc-02c180b05cbb</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.OwnerId</fieldItem>
-                <identifier>RecordOwnerIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
