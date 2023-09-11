@@ -4,16 +4,18 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
-      |--------------------------------|-----------------------|------------------------|----------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                 |
-      | roy.nino.s.regala              | Auh 09, 2023          | DEPP-5677              | Added  criteria type field                   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                        |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                          |
+      | roy.nino.s.regala              | Auh 09, 2023          | DEPP-5677              | Added  criteria type field                            |
+      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added fields in getNurtureTrackLeadScoreThreshold     |
  */
 public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase implements INurtureTrackConfigurationsDAO {
 
-    public static final String NURTURE_FIELDS = 'Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c,Key_Date_Offset_Days__c,Criteria_Type__c ';
+    public static final String NURTURE_FIELDS = 'Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c,Key_Date_Offset_Days__c,Criteria_Type__c,Enquiry_Category_L1__c ';
     public static final String INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'International Strong Interest Pre-Application';
     public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'Domestic Strong Interest Pre-Application';
+    public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED = 'Domestic Strong Interest Pre-Application (Automated)';
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 
     public static INurtureTrackConfigurationsDAO newInstance() {
@@ -28,7 +30,7 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c,Key_Date_Offset_Days__c,Criteria_Type__c ' +
+            'SELECT  Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c,Key_Date_Offset_Days__c,Criteria_Type__c,Enquiry_Category_L1__c ' +
             'FROM Nurture_Track_Configuration__c ' +
             'WHERE Status__c = \'Active\' '+
             'AND Lead_Score_Threshold__c != NULL ' +

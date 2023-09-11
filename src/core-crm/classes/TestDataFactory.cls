@@ -44,18 +44,21 @@
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                        |     
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |     
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
  *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
  *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                        |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                     |
  *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
  *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
  *    |                           |                       |                     | createPackageComponentRecords                                           |
  *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
  *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
+ *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
+ * 
+ * 
  **/
 
 @isTest
@@ -1973,6 +1976,25 @@ public class TestDataFactory {
         return caseList;
     }
 
+    /**
+     * @description Method for creating Communication_Queue__c object
+     * @param Set<Id> recordIds - Contact/Lead record Ids to be set as Who Id
+     * @param String status 
+     * @return records - list of Communication_Queue__c records
+     */
+    public static List<Communication_Queue__c> createCommunicationQueuePerContactOrLead(Set<Id> recordIds, String status){
+        List<Communication_Queue__c> communicationQueueList = new List<Communication_Queue__c> ();
+        for(Id recordId : recordIds){
+            communicationQueueList.add(
+                new Communication_Queue__c(
+                    WhoId__c = recordId,
+                    Status__c = status
+                )
+            );
+        }
+        return communicationQueueList;
+    }
+
     public static List<EmailMessage> queryEmailMessageRecords() {
         Id courseConnectionId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1]?.Id;
         List<EmailMessage> emailMessageList = [
@@ -2871,7 +2893,7 @@ public class TestDataFactory {
             } else if (name == 'QUT_Domestic_Future_Student_Agent') {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
-                roleName = 'Future Student Agent';
+                roleName = 'Future Student Agent - Domestic';
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;

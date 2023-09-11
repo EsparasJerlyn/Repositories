@@ -3,7 +3,7 @@
     <caseAccessLevel>Edit</caseAccessLevel>
     <contactAccessLevel>None</contactAccessLevel>
     <mayForecastManagerShare>false</mayForecastManagerShare>
-    <name>Future Student Super User</name>
+    <name>Future Student Agent - Domestic</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>System_Administrator</parentRole>
+    <parentRole>Future_Student_Team_Leader_Domestic</parentRole>
 </Role>

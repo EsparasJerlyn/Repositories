@@ -50,16 +50,9 @@ public with sharing class NurturingTrackService {
         SObjectType objectType
     ) {
         Map<Id, List<String>> completedCadencesByApplicantId = new Map<Id, List<String>>();
-        for (Completed_Cadence__c completedCadence : [
-                                                        SELECT Id, Contact__c,Lead__c,Nurture_Track_Configuration__c
-                                                        FROM Completed_Cadence__c
-                                                        WHERE
-                                                            (Contact__c IN :applicantIdsSet
-                                                            OR Lead__c IN :applicantIdsSet)
-                                                            AND Nurture_Track_Configuration__r.Cadence_Name__c IN :candenceNamesSet
-                                                            AND Completed_Cadence_Status__c !='Unsuccessful'
-                                                        WITH SYSTEM_MODE
-        ]) {
+
+        List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(applicantIdsSet,candenceNamesSet,'SYSTEM_MODE');
+        for (Completed_Cadence__c completedCadence : completedCadenceList) {
             String completedCadenceApiName = (String) OBJECT_TO_FIELD_MAP.get(objectType)
                 .get('CompletedCadence');
             if (

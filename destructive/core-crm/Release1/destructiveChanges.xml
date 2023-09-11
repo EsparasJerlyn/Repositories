@@ -289,5 +289,13 @@
         <!--(Start) DEPP-5797 -->
         <name>CustomMetadata</name>
     </types>
+    <types>
+        <!--(Start) DEPP-6570 -->
+        <members>Future_Student_Agent</members>
+        <members>Future_Student_Team_Leader</members>
+        <members>Future_Student_Super_User</members>
+        <name>UserRole</name>
+        <!--(Start) DEPP-6570 -->
+    </types>
     <version>52.0</version> 
 </Package>
