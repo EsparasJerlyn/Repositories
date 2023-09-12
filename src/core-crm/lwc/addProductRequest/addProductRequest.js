@@ -17,6 +17,7 @@
       | eccarius.munoz            | July 11, 2022         | DEPP-2035            | Added handling for Educational Consultancy                                | 
       | john.m.tambasen           | July 28, 2022         | DEPP-3480            | Corporate Bundle product request                                          |
       | alexander.cadalin         | August 04, 2022       | DEPP-2498            | SOA PR Buyer Group and Entitlement                                        |
+      | roy.nino.s.regala         | Sep 4, 2022           | DEPP-6579            | Refactor to sequentially process data and added nebula logger             |
 */
 
 import { LightningElement, api, wire } from 'lwc';
@@ -96,7 +97,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     programDeliveryStructure;
     primaryAccountId;
     primaryAccountName;
-    lastModifiedDateProdReq;
 
     recordTypeLabel = RECORD_TYPE_LABEL;
 
@@ -267,12 +267,11 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     @wire(getRecord, { recordId: '$productSpecId', fields: [PRIMARY_ACC_ID_FIELD,PRIMARY_ACC_NAME_FIELD] })
     prodSpecData({error, data}) {
-        if (data) {
+        if (data && data.fields) {
             this.primaryAccountId = data.fields.Opportunity_Name__r.value.fields.AccountId.value;
             this.primaryAccountName = data.fields.Opportunity_Name__r.value.fields.Account.value.fields.Name.value;
 
         } else if (error) {
-            console.log(error);
             this.generateToast(ERROR_TOAST_TITLE, LWC_Error_General, ERROR_TOAST_VARIANT);
         }
     }
@@ -288,14 +287,6 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     //closes main selection modal
     closeSelectionModal() {
-        this.resetSelectionModalFlags();
-    }
-
-    handleCreateNewRecord(){
-        this.openSelectionModal(true,this.parentRecord,this.recordTypeFilter,[],true,this.prodSpecData);
-    }
-
-    resetSelectionModalFlags(){
         this.isSelectionModalOpen = false;
         this.isAddExistingModal = false;
         this.existingProdReqId = '';
@@ -303,9 +294,14 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         this.setRecordTypeDetails('');
         this.lookupItemsFormatted = [];
     }
+
+    handleCreateNewRecord(){
+        this.openSelectionModal(true,this.parentRecord,this.recordTypeFilter,[],true,this.prodSpecData);
+    }
     
     handleSearch(event){
         this.searchInProgress = true;
+        const logger = this.template.querySelector("c-logger");
         getSearchedProductRequests({ searchParameters: {
             filterPRList: this.currentChildren,
             filterString: event.detail.filterString,
@@ -326,6 +322,14 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         })
         .catch(error =>{
             this.showToastoast('Error.',LWC_Error_General,'error');
+            if (logger) {
+                logger
+                  .error(
+                    "Exception caught in method handleSearch in LWC addProductRequest: "
+                  )
+                  .setError(error);
+                logger.saveLog();
+            }
         });
     }
 
@@ -422,6 +426,7 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //returns list of users based on input
     handleUserSearch(event){
         this.searchUserInProgress = true;
+        const logger = this.template.querySelector("c-logger");
         getSearchedUsers({ filterString: event.detail.filterString })
         .then(result =>{
             this.userSearchItems = result;
@@ -431,6 +436,14 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         })
         .catch(error =>{
             this.showToastoast('Error.',LWC_Error_General,'error');
+            if (logger) {
+                logger
+                  .error(
+                    "Exception caught in method handleUserSearch in LWC addProductRequest: "
+                  )
+                  .setError(error);
+                logger.saveLog();
+            }
         });
     }
 
@@ -449,27 +462,27 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
     //creates product request on save
     createProductRequest(event){
         event.preventDefault();
+        const logger = this.template.querySelector("c-logger");
         if(!this.selectedUserId){
             this.showOwnerError = true;
         }else{
             this.saveInProgress = true;
-
-            const prRtis = this.objectInfo.data.recordTypeInfos;
-            let productRequestfields = {};
-            productRequestfields.Product_Specification__c  = this.prodSpecData.id;
-            productRequestfields.RecordTypeId = Object.keys(prRtis).find(rti => prRtis[rti].name == this.selectedRecordTypeName);
-
-            const fields = {...productRequestfields};
-            const recordInput = { apiName: PRODUCT_REQUEST_OBJECT.objectApiName, fields};
-            createRecord(recordInput)
+            createRecord(this.buildProductRequestToCreate())
             .then(record => {
-                this.prodReqId=record.id;
-                this.showToast('Product Request created.',this.selectedRecordTypeName,SUCCESS_VARIANT);
-                this.lastModifiedDateProdReq = record.lastModifiedDate;
-                this.handleSubmit(event);
-            })
-            .catch(error => {
+                this.prodReqId = record.id;
+                this.handleSubmit(event,record);
+            }).catch(error => {
                 this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+                if (logger) {
+                    logger
+                    .error(
+                        "Exception caught in method createProductRequest in LWC addProductRequest: "
+                    )
+                    .setError(error);
+                    logger.saveLog();
+                }
+                this.saveInProgress = false;
+                this.closeRecordCreation();
             });
         }
     }
@@ -482,36 +495,35 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
 
     //creates related product request record on added existing 
     createRelatedProdRequest(prodReqId){
-      
-        let relatedProdFields = {};
-        relatedProdFields.Program__c = this.parentRecord.recordId;
-        relatedProdFields.Course__c = prodReqId;
-        const fields = {...relatedProdFields};
-        const recordInput = { apiName: RELATED_PRODUCT_REQUEST_OBJECT.objectApiName, fields};
-        createRecord(recordInput)
+        const logger = this.template.querySelector("c-logger");
+        createRecord(this.buildRelatedProductRequestToCreate(prodReqId))
         .then(() => {
-            if(this.isAddExistingModal && this.productRequestForOpe){
-                this.showToast('Product Request added.',this.selectedRecordTypeName,SUCCESS_VARIANT);
-                this.dispatchEvent(new CustomEvent('created'));
-            }else if(!this.productRequestForOpe){
-                this.dispatchEvent(new CustomEvent('created'));
-            }
+            this.dispatchEvent(new CustomEvent('created'));
+            this.showToast('Product Request added.',this.selectedRecordTypeName,SUCCESS_VARIANT);
         })
         .catch(error => {
             this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+            if (logger) {
+                logger
+                  .error(
+                    "Exception caught in method createRelatedProdRequest in LWC addProductRequest: "
+                  )
+                  .setError(error);
+                logger.saveLog();
+            }
         })
-        .finally(() =>{
-            this.resetSelectionModalFlags();
+        .finally(()=>{
+            this.closeSelectionModal();
         })
     }
 
     //creates course/program plan on save
-    handleSubmit(event){
+    handleSubmit(event,prodReqRecord){
         const programPlanRtis = this.programPlanObjectInfo.data.recordTypeInfos;
         const courseRtis = this.courseObjectInfo.data.recordTypeInfos;
 
         let fields = event.detail.fields;
-        let formattedDate = this.lastModifiedDateProdReq.substring(0,19).replace('T',' ');
+        let formattedDate = prodReqRecord.lastModifiedDate.substring(0,19).replace('T',' ');
        
         //if Standing Offer Arrangement record is selected
         if(this.isSOASelected){
@@ -519,121 +531,97 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
             if(fields.Name.length > 80){
                 fields.Name = fields.Name.substring(0,80) + ' ' + formattedDate;
             }
-            fields.Product_Request__c = this.prodReqId;
+            fields.Product_Request__c = prodReqRecord.id;
             fields.Primary_Account__c = this.primaryAccountId;
 
         } else if (this.isEducConsultancy) {
-            fields.Product_Request__c = this.prodReqId;
+            fields.Product_Request__c = prodReqRecord.id;
             
         } else if (this.isCorporateBundleSelected) {
-            fields.Product_Request__c = this.prodReqId;
+            fields.Product_Request__c = prodReqRecord.id;
             fields.AccountId = this.primaryAccountId;
             
         } else if(!this.isProgramSelected){
-            fields.ProductRequestID__c = this.prodReqId;
+            fields.ProductRequestID__c = prodReqRecord.id;
             fields.RecordTypeId=Object.keys(courseRtis).find(rti => courseRtis[rti].name == this.selectedRecordTypeName);
             fields.hed__Account__c=this.accountId;
 
         } else{
-            fields.Product_Request__c = this.prodReqId;
+            fields.Product_Request__c = prodReqRecord.id;
             fields.RecordTypeId=Object.keys(programPlanRtis).find(rti => programPlanRtis[rti].name == this.selectedRecordTypeName);
             this.programDeliveryStructure = fields.Program_Delivery_Structure__c;
         }
+
         this.template.querySelector('lightning-record-edit-form').submit(fields);
     }
 
     //updates product request status after course/program plan insert to avoid hitting validation rules
     //navigates to updated product request after
-    updateProductRequestStatusAndRedirect(event){
+    updateProductRequestStatusAndRedirect(){
+        const logger = this.template.querySelector("c-logger");
+        updateRecord(this.buildProductRequestToUpdate())
+        .then((record) => {
+            //if corporate bundle or soa create buyer group and entitlement
+            if (this.isCorporateBundleSelected || this.isSOASelected) {
+                return createBuyerGroupAndEntitlement({ details: {
+                    productRequestId: record.id,
+                    accountId: this.primaryAccountId, 
+                    accountName: this.primaryAccountName,
+                    isCorporateBundle: this.isCorporateBundleSelected,
+                    isSoa: this.isSOASelected
+                }});
+            }
+        }) 
+        .then(()=>{
+            //if product request is a child create related product request record
+            if(this.isChild){
+                return createRecord(this.buildRelatedProductRequestToCreate(this.prodReqId));
+            }
+        })
+        .then(()=>{
+            //show success toast and navigate to created record
+            if(this.prodReqId){
+                this.dispatchEvent(new CustomEvent('created'));
+                this.showToast('Product Request created.',this.selectedRecordTypeName,SUCCESS_VARIANT);
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: this.prodReqId,
+                        objectApiName: PRODUCT_REQUEST_OBJECT.objectApiName,
+                        actionName: 'view'
+                    }
+                })
+            }
+        })
+        .catch((error)=>{
+            this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+            if (logger) {
+                logger
+                  .error(
+                    "Exception caught in method updateProductRequestStatusAndRedirect in LWC addProductRequest: "
+                  )
+                  .setError(error);
+                logger.saveLog();
+            }
+        })
+        .finally(() => {
+            this.saveInProgress = false;
+            this.closeRecordCreation();
+        });
+    }
 
-        //if corporate bundle need to create these records
-        if (this.isCorporateBundleSelected || this.isSOASelected) {
-            // Get Product Category Id
-            createBuyerGroupAndEntitlement({ details: {
-                productRequestId: this.prodReqId,
-                accountId: this.primaryAccountId, 
-                accountName: this.primaryAccountName,
-                isCorporateBundle: this.isCorporateBundleSelected,
-                isSoa: this.isSOASelected
-            }})
-            .then((result) => {
-                //code
-            })
-            .catch((error) => {
-                this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
-                console.log("error createBuyerGroupEntitlement");
-                console.log(error);
-            });
-            
-            // //create BuyerGroup
-            // let bgFields = {};
-            // bgFields.Name = this.primaryAccountName;
-            // const fields = {...bgFields};
-            // const recordInput = { apiName: BUYER_GROUP_OBJECT.objectApiName, fields};
-            // createRecord(recordInput)
-            // .then(bgRecord => {
+    buildRelatedProductRequestToCreate(prodReqId){
+        let relatedProdFields = {};
+        relatedProdFields.Program__c = this.parentRecord.recordId;
+        relatedProdFields.Course__c = prodReqId;
+        const fields = {...relatedProdFields};
+        const recordInput = { apiName: RELATED_PRODUCT_REQUEST_OBJECT.objectApiName, fields};
+        return recordInput;
+    }
 
-            //     //create BuyerGroupMember
-            //     let bgMemberFields = {};
-            //     bgMemberFields.BuyerGroupId = bgRecord.Id;
-            //     bgMemberFields.BuyerId = this.primaryAccountId;
-            //     const fields = {...bgMemberFields};
-            //     const recordInput = { apiName: BG_MEMBER_OBJECT.objectApiName, fields};
-            //     createRecord(recordInput)
-            //     .then(bgMemberRecord => {
-            //         //code
-            //     })
-            //     .catch(error => {
-            //         this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
-            //         console.log("error BuyerGroupMember");
-            //         console.log(error);
-            //     });
-
-            //     //create CommerceEntitlementPolicy
-            //     let commerceEntitlementFields = {};
-            //     commerceEntitlementFields.CanViewPrice = true;
-            //     commerceEntitlementFields.CanViewProduct = true;
-            //     commerceEntitlementFields.IsActive = true;
-            //     commerceEntitlementFields.Name = this.primaryAccountName;
-            //     const fieldsEnt = {...commerceEntitlementFields};
-            //     const recordInputEnt = { apiName: COMMERCE_ENTITLEMENT_OBJECT.objectApiName, fieldsEnt};
-            //     createRecord(recordInputEnt)
-            //     .then(commerceEntitlementRecord => {
-
-            //         //create CommerceEntitlementBuyerGroup
-            //         let commerceEntitlementBGFields = {};
-            //         commerceEntitlementBGFields.BuyerGroupId = bgRecord.Id;
-            //         commerceEntitlementBGFields.PolicyId = commerceEntitlementRecord.Id;
-            //         const fieldsEnt = {...commerceEntitlementFields};
-            //         const recordInputEnt = { apiName: COMMERCE_ENTITLEMENT_BG_OBJECT.objectApiName, fieldsEnt};
-            //         createRecord(recordInputEnt)
-            //         .then(record => {
-            //             //code
-            //         })
-            //         .catch(error => {
-            //             this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
-            //             console.log("error CommerceEntitlementBuyerGroup");
-            //             console.log(error);
-            //         });
-
-            //     })
-            //     .catch(error => {
-            //         this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
-            //         console.log("error CommerceEntitlementPolicy");
-            //         console.log(error);
-            //     });   
-            // })
-            // .catch(error => {
-            //     this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
-            //     console.log("error BuyerGroup");
-            //     console.log(error);
-            // });
-            
-        }
-
+    buildProductRequestToUpdate(){
         let productReqfields = {};
         if(this.isChild){
-            this.createRelatedProdRequest(this.prodReqId);
             productReqfields.Child_of_Prescribed_Program__c = this.parentRecord.isPrescribedProgram;
         }
         productReqfields.Id= this.prodReqId;
@@ -644,26 +632,36 @@ export default class AddProductRequest extends NavigationMixin(LightningElement)
         }
         const fields = {...productReqfields};
         const recordInput = {fields};
-        updateRecord(recordInput).then((record) => {
-            this[NavigationMixin.Navigate]({
-                type: 'standard__recordPage',
-                attributes: {
-                    recordId: record.id,
-                    objectApiName: PRODUCT_REQUEST_OBJECT.objectApiName,
-                    actionName: 'view'
-                }
-            })
-        })
-        .finally(() => {
-            this.saveInProgress = false;
-            this.dispatchEvent(new CustomEvent('created'));
-            this.closeRecordCreation();
-        });
+
+        return recordInput;
+    }
+
+    buildProductRequestToCreate(){
+        const prRtis = this.objectInfo.data.recordTypeInfos;
+        let productRequestfields = {};
+        productRequestfields.Product_Specification__c  = this.prodSpecData.id;
+        productRequestfields.RecordTypeId = Object.keys(prRtis).find(rti => prRtis[rti].name == this.selectedRecordTypeName);
+
+        const fields = {...productRequestfields};
+        const recordInput = { apiName: PRODUCT_REQUEST_OBJECT.objectApiName, fields};
+
+        return recordInput;
     }
 
     //shows toast on error upon saving the course/program plan
     handleRecordError(event){
+        const logger = this.template.querySelector("c-logger");
+        if (logger && event.detail && event.detail.detail) {
+            logger
+              .error(
+                event.detail.detail
+              )
+              .setError(event.detail);
+            logger.saveLog();
+        }
         this.showToast(ERROR_TITLE,LWC_Error_General,ERROR_VARIANT);
+        this.saveInProgress = false;
+        this.closeRecordCreation();
     }
 
     //closes course/program plan name form modal
