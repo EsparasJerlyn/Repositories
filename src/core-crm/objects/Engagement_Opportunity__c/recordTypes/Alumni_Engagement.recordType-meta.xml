@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alumni_Engagement</fullName>
+    <active>true</active>
+    <description>The specific business development interaction that has been identified for alumni participation</description>
+    <label>Alumni Engagement</label>
+</RecordType>

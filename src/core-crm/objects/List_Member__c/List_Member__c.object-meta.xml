@@ -143,7 +143,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>List supports information capture about a request to compile a list of Contacts for a defined business reason.</description>
+    <description>List Member contains information about the Contacts who have been included in a Contact List and details about the staff member who contributed to compiling the list of contacts.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -154,13 +154,12 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>List</label>
+    <label>List Member</label>
     <nameField>
-        <displayFormat>LIST-{000000}</displayFormat>
-        <label>List Number</label>
-        <type>AutoNumber</type>
+        <label>List Member Name</label>
+        <type>Text</type>
     </nameField>
-    <pluralLabel>Lists</pluralLabel>
+    <pluralLabel>List Members</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Corporate_Partnership</fullName>
+    <active>true</active>
+    <businessProcess>Corporate Partnership</businessProcess>
+    <description>Create a corporate partnership opportunity to identify new specific interactions with contacts and organisations to support and grow industry, corporate and educational partnerships.</description>
+    <label>Corporate Partnership</label>
+</RecordType>

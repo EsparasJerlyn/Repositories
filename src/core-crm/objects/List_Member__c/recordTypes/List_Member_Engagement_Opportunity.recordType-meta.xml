@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_Member_Engagement_Opportunity</fullName>
+    <active>true</active>
+    <description>Individual contact included that meets the list criteria that has been qualified for inclusion in the engagement</description>
+    <label>List Member Engagement Opportunity</label>
+</RecordType>
