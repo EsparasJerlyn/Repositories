@@ -182,6 +182,10 @@
         <!--Start DEPP-6248 / DEPP-6201-->
         <members>Application_SAMS_Record_Page</members>
         <!--End DEPP-6248 / DEPP-6201-->
+        <!--Start DEPP-6659-->
+        <members>Applicatioon_SAMS_CIAnywhere_Record_Page.flexipage-meta.xml</members>
+        <members>Applicatioon_SAMS_Legacy_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-6659-->
         <name>FlexiPage</name>
     </types>
     <types>
