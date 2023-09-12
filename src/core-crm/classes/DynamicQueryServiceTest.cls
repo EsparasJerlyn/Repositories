@@ -14,38 +14,52 @@
 private class DynamicQueryServiceTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
-            Test.startTest();
-            List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);
-            AccountsDAO.newInstance()
-                .insertRecords(accountListToInsert, false, AccessLevel.USER_MODE);
-
-            List<Contact> contactListToInsert = TestDataFactory.createTestContactRecords(1);
-            contactListToInsert[0].AccountId = accountListToInsert[0].Id;
-
-            ContactsDAO.newInstance()
-                .insertRecords(contactListToInsert, false, AccessLevel.USER_MODE);
-            Test.stopTest();
-        }
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance()
+            .getOrganizationalDefaults();
+        oppOutcomeCodeAutoNum.Start_Up__c = 1;
+        OpportunityOutcomeCodeAutoNumbersDAO.newInstance()
+            .insertRecords(
+                new List<Opportunity_Outcome_Code_Auto_Number__c>{ oppOutcomeCodeAutoNum },
+                false,
+                AccessLevel.USER_MODE
+            );
+            System.runAs(TestDataFactory.getOperationsManager()) {
+                List<Opportunity_Outcome__c> oppOutcomes = TestDataFactory.createTestOpportunityOutcomeRecords(
+                    1,
+                    'Sample Company',
+                    OpportunityOutcomesDAO.STARTUP_RECTYPE_ID
+                );
+                oppOutcomes[0].Company_Name__c = 'Test Company';
+    
+                OpportunityOutcomesDAO.newInstance()
+                    .insertRecords(oppOutcomes, false, AccessLevel.USER_MODE);
+    
+                List<Finance_Summary__c> newFinSummaries = TestDataFactory.createFinanceSummaryRecords(
+                    1,
+                    FinanceSummariesDAO.VALUATION_RECTYPE_ID,
+                    oppOutcomes[0].Id
+                );
+                FinanceSummariesDAO.newInstance()
+                        .insertRecords(newFinSummaries, false, AccessLevel.USER_MODE);
+            }
     }
 
     @isTest
     private static void getRelatedRecordsWithOffSetInOrderTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Test.startTest();
-            List<Account> accountList = new List<Account>();
-            accountList = AccountsDAO.newInstance()
-                .getAccountBySetNamesWithLimit(new Set<String>{ 'TestAccount0' }, 1);
-
-            String filterValue = 'Test0';
-            String filter = 'AND FirstName ' + ' = \'' + filterValue + '\'';
+             List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
+             oppOutcomes = OpportunityOutcomesDAO.newInstance()
+                .getRecordsSortByCodeAsc();
+            String filterValue = String.valueOf(System.Today().year());
+            String filter = 'AND Year__c ' + ' = \'' + filterValue + '\'';
 
             Map<String, String> parametersMap = new Map<String, String>{
-                'recordId' => accountList[0].Id,
-                'relatedRecord' => 'Contact',
-                'relatedField' => 'AccountId',
-                'relatedFieldApiNames' => 'Name,Account.Name',
+                'recordId' => oppOutcomes[0].Id,
+                'relatedRecord' => 'Finance_Summary__c',
+                'relatedField' => 'Opportunity_Outcome__c',
+                'relatedFieldApiNames' => 'Year__c',
                 'relatedListFilters' => filter,
                 'rowOffSet' => '0',
                 'rowLimit' => '10',
@@ -68,25 +82,25 @@ private class DynamicQueryServiceTest {
 
     @isTest
     private static void getRecordWithFilterTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Test.startTest();
-            List<Account> accountList = new List<Account>();
-            accountList = AccountsDAO.newInstance()
-                .getAccountBySetNamesWithLimit(new Set<String>{ 'TestAccount0' }, 1);
+            List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
+            oppOutcomes = OpportunityOutcomesDAO.newInstance()
+                .getRecordsSortByCodeAsc();
 
-            String filterValue = 'TestAccount0';
-            String filter = 'Name ' + ' = \'' + filterValue + '\'';
+            String filterValue = 'Test Company';
+            String filter = 'Company_Name__c ' + ' = \'' + filterValue + '\'';
 
             Map<String, String> parametersMap = new Map<String, String>{
-                'recordId' => accountList[0].Id,
-                'sObjectApiName' => 'Account',
+                'recordId' => oppOutcomes[0].Id,
+                'sObjectApiName' => 'Opportunity_Outcome__c',
                 'filter' => filter
             };
 
             System.assert(
                 !DynamicQueryService.getRecordWithFilter(parametersMap, AccessLevel.USER_MODE)
                     .isEmpty(),
-                'no acocunt records queried'
+                'no opportunity outcome records queried'
             );
 
             Test.stopTest();
@@ -95,19 +109,19 @@ private class DynamicQueryServiceTest {
 
     @isTest
     private static void getRelatedRecordsCountWithFilterTest() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Test.startTest();
-            List<Account> accountList = new List<Account>();
-            accountList = AccountsDAO.newInstance()
-                .getAccountBySetNamesWithLimit(new Set<String>{ 'TestAccount0' }, 1);
+            List<Opportunity_Outcome__c> oppOutcomes = new List<Opportunity_Outcome__c>();
+            oppOutcomes = OpportunityOutcomesDAO.newInstance()
+                .getRecordsSortByCodeAsc();
 
-            String filterValue = 'Test0';
-            String filter = 'AND FirstName ' + ' = \'' + filterValue + '\'';
+            String filterValue = String.valueOf(System.Today().year());
+            String filter = 'AND Year__c ' + ' = \'' + filterValue + '\'';
 
             Map<String, String> parametersMap = new Map<String, String>{
-                'recordId' => accountList[0].Id,
-                'relatedRecord' => 'Contact',
-                'relatedField' => 'AccountId',
+                'recordId' => oppOutcomes[0].Id,
+                'relatedRecord' => 'Finance_Summary__c',
+                'relatedField' => 'Opportunity_Outcome__c',
                 'relatedListFilters' => filter
             };
 
