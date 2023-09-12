@@ -858,6 +858,11 @@
     </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
+        <recordType>Account.Administrative</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
         <recordType>Account.Academic_Program</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
@@ -875,7 +880,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Educational_Institution</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
@@ -890,7 +895,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.University_Department</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
