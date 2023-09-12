@@ -15,7 +15,18 @@
 private class DynamicQueryServiceTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager','QUT_IE_Partnership_Manager' });
+
+        List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);
+        AccountsDAO.newInstance()
+            .insertRecords(accountListToInsert, false, AccessLevel.USER_MODE);
+
+        List<Contact> contactListToInsert = TestDataFactory.createTestContactRecords(1);
+        contactListToInsert[0].AccountId = accountListToInsert[0].Id;
+
+        ContactsDAO.newInstance()
+            .insertRecords(contactListToInsert, false, AccessLevel.USER_MODE);
+
         Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         oppOutcomeCodeAutoNum.Start_Up__c = 1;
