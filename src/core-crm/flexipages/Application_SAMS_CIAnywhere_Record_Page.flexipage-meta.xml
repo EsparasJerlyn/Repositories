@@ -47,6 +47,60 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Is_International_Applicant__c</fieldItem>
+                <identifier>RecordIs_International_Applicant_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Applied_Intake_Study_Period__c</fieldItem>
+                <identifier>RecordApplied_Intake_Study_Period_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Admission_Process__c</fieldItem>
+                <identifier>RecordAdmission_Process_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__Application_Status__c</fieldItem>
+                <identifier>Recordhed_Application_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5ca39763-c50c-40da-9335-4dfe0761ea03</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Applied_Program__c</fieldItem>
                 <identifier>RecordApplied_Program_cField</identifier>
             </fieldInstance>
@@ -79,50 +133,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Application_Status_Date__c</fieldItem>
                 <identifier>RecordApplication_Status_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-5ca39763-c50c-40da-9335-4dfe0761ea03</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Name</fieldItem>
-                <identifier>RecordNameField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Applied_Intake_Study_Period__c</fieldItem>
-                <identifier>RecordApplied_Intake_Study_Period_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Admission_Process__c</fieldItem>
-                <identifier>RecordAdmission_Process_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.hed__Application_Date__c</fieldItem>
-                <identifier>Recordhed_Application_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e3c9e451-12a8-4f1c-96c4-7df79cb35c2c</name>
@@ -440,7 +450,7 @@
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Applicatioon SAMS CIAnywhere Record Page</masterLabel>
+    <masterLabel>Application SAMS CIAnywhere Record Page</masterLabel>
     <sobjectType>hed__Application__c</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>

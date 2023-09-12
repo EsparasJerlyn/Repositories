@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Automation_Username__c</field>
-        <value xsi:type="xsd:string">autoproc@00d9h000001aqyleaw</value>
+        <value xsi:type="xsd:string"></value>
     </values>
     <values>
         <field>Maximum_Retry_Count__c</field>
