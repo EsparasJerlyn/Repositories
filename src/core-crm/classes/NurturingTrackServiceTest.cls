@@ -176,30 +176,30 @@ public with sharing class NurturingTrackServiceTest {
 
     @isTest
     private static void getCurrentIntakePeriodTest(){
+        Test.startTest();
+        List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
+        accounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
+        AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);
+        hed__Facility__c facility = new hed__Facility__c(Name = 'U', hed__Facility_Type__c='Classroom');
+        insert facility;
+        List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(3, accounts[0].Id);
+        terms[0].Location__c = facility.Id;
+        terms[1].Location__c = facility.Id;
+        terms[2].Location__c = facility.Id;
+
+        terms[0].Study_Period_Type_Code__c = 'SEM-1';
+        terms[1].Study_Period_Type_Code__c = 'SEM-2';
+        terms[2].Study_Period_Type_Code__c = 'SUM';
+
+        terms[0].hed__Start_Date__c = System.today() + 50;
+        terms[0].hed__End_Date__c = System.today() + 60;
+        terms[1].hed__Start_Date__c = System.today() + 70;
+        terms[1].hed__End_Date__c = System.today() + 80;
+        terms[2].hed__Start_Date__c = System.today() + 100;
+        terms[2].hed__End_Date__c = System.today() + 120;
+        insert terms;
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
-            List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
-            accounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
-            AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);
-            hed__Facility__c facility = new hed__Facility__c(Name = 'U', hed__Facility_Type__c='Classroom');
-            insert facility;
-            List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(3, accounts[0].Id);
-            terms[0].Location__c = facility.Id;
-            terms[1].Location__c = facility.Id;
-            terms[2].Location__c = facility.Id;
-
-            terms[0].Study_Period_Type_Code__c = 'SEM-1';
-            terms[1].Study_Period_Type_Code__c = 'SEM-2';
-            terms[2].Study_Period_Type_Code__c = 'SUM';
-
-            terms[0].hed__Start_Date__c = System.today() + 50;
-            terms[0].hed__End_Date__c = System.today() + 60;
-            terms[1].hed__Start_Date__c = System.today() + 70;
-            terms[1].hed__End_Date__c = System.today() + 80;
-            terms[2].hed__Start_Date__c = System.today() + 100;
-            terms[2].hed__End_Date__c = System.today() + 120;
-            insert terms;
-
+            
             Map<String, Date> currentIntakePeriod= NurturingTrackService.getCurrentIntakePeriod();
 
             System.assert(currentIntakePeriod!= null, 'currentIntakePeriod is null');
@@ -219,8 +219,9 @@ public with sharing class NurturingTrackServiceTest {
             Boolean result = NurturingTrackService.isDateWithinRange(dateToCheck, lowerDate, upperDate);
 
             System.assert(result, 'isDateWithinRange should return true');
-            Test.stopTest();
+            
         }
+        Test.stopTest();
     }
 
     @isTest
