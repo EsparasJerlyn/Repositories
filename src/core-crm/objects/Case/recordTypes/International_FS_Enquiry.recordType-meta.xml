@@ -3,6 +3,7 @@
     <fullName>International_FS_Enquiry</fullName>
     <active>true</active>
     <businessProcess>FS Enquiry</businessProcess>
+    <compactLayoutAssignment>Case_Compact_Layout</compactLayoutAssignment>
     <label>International FS Enquiry</label>
     <picklistValues>
         <picklist>Awaiting_Response_From__c</picklist>
