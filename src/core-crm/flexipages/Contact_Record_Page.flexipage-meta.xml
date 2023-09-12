@@ -112,16 +112,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__Gender__c</fieldItem>
-                <identifier>Recordhed_Gender_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.ATSI_Code__c</fieldItem>
                 <identifier>RecordATSI_Code_cField</identifier>
             </fieldInstance>
@@ -296,16 +286,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.LinkedIn_Profile_URL__c</fieldItem>
-                <identifier>RecordLinkedIn_Profile_URL_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.IsStaff_Active__c</fieldItem>
                 <identifier>RecordIsStaff_Active_cField</identifier>
             </fieldInstance>
@@ -449,16 +429,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.LinkedIn_Profile_URL__c</fieldItem>
-                <identifier>RecordLinkedIn_Profile_URL_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
