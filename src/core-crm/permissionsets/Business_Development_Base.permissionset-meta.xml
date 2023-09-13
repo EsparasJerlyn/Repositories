@@ -5826,11 +5826,15 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
-        <tab>IP_Management__c</tab>
+        <tab>Engagement__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>IP_Management_Relationship__c</tab>
+        <tab>Engagement_Opportunity__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Engagement_Score_Configuration__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -5846,11 +5850,19 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>Engagement__c</tab>
+        <tab>hed__Affiliation__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>hed__Affiliation__c</tab>
+        <tab>IP_Management__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>IP_Management_Relationship__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
