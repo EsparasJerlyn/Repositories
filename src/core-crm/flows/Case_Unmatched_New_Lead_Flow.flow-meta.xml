@@ -109,7 +109,7 @@
         <label>Create Lead Record</label>
         <locationX>314</locationX>
         <locationY>350</locationY>
-        <assignRecordIdToReference>CreatedLeadId</assignRecordIdToReference>
+        <assignRecordIdToReference>LeadId</assignRecordIdToReference>
         <connector>
             <targetReference>is_lead_created</targetReference>
         </connector>
@@ -240,7 +240,7 @@
         <inputAssignments>
             <field>Lead__c</field>
             <value>
-                <elementReference>CreatedLeadId</elementReference>
+                <elementReference>LeadId</elementReference>
             </value>
         </inputAssignments>
         <object>Case</object>
@@ -458,7 +458,14 @@
         <name>CreatedLeadId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>true</isInput>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>LeadId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
