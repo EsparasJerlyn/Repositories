@@ -463,7 +463,7 @@
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Applicatioon SAMS Legacy Record Page</masterLabel>
+    <masterLabel>Application SAMS Legacy Record Page</masterLabel>
     <sobjectType>hed__Application__c</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
