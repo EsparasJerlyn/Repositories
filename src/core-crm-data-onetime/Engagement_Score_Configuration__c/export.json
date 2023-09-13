@@ -1,0 +1,12 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Score_Category__c, Score_Subcategory__c,Is_Active__c,Score__c FROM Engagement_Score_Configuration__c",
+            "operation": "Upsert",
+            "externalId": "Score_Category__c,Score_Subcategory__c,Score__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Engagement_Score_Configuration__c",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}
