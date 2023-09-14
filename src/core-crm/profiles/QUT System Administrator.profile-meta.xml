@@ -10,8 +10,16 @@
         <recordType>Application_Preference__c.QTAC</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Case-International Enquiry Layout2</layout>
+        <layout>Case-Case Layout</layout>
+        <recordType>Case.Domestic_FS_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout</layout>
         <recordType>Case.International_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout</layout>
+        <recordType>Case.International_FS_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-Contact Page Layout</layout>

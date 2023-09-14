@@ -19,10 +19,8 @@ public without sharing class MarketingSegmentationTriggerHandler implements Disa
      * @param newItems - List of MarketingSegmentation.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems) {
-        LeadScoringManager.rollupScore(newItems, null);
         MarketingSegmentationTriggerHelper.updateRelatedRecords(newItems);
     }
-
     
   /**
    * @description after update
@@ -35,11 +33,9 @@ public without sharing class MarketingSegmentationTriggerHandler implements Disa
     ) {
         if(!isRunning){
             isRunning = true;
-            LeadScoringManager.rollupScore(newItems, oldItems);
             MarketingSegmentationTriggerHelper.updateRelatedRecords(newItems, oldItems);
         }
     }
-
     
     /**
      * @description indicates it the trigger is disabled

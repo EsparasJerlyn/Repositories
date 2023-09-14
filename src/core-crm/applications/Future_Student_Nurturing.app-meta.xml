@@ -57,7 +57,59 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>International_Tier_Future_Student_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>International_Tier__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>International_Tier_Future_Student_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>International_Tier__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>QUT_Program_Recordpage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -66,7 +118,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -75,7 +127,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -84,7 +136,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -93,7 +145,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -102,7 +154,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -111,7 +163,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -120,7 +172,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -129,7 +181,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -138,7 +190,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_CIAnywhere_Record_Page</content>
+        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -147,7 +199,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -156,7 +208,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -165,7 +217,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -174,7 +226,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -183,7 +235,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -192,7 +244,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -201,7 +253,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -210,7 +262,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -219,7 +271,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -228,7 +280,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Applicatioon_SAMS_Legacy_Record_Page</content>
+        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -488,28 +540,13 @@
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
-    <tabs>standard-Account</tabs>
-    <tabs>standard-Contact</tabs>
-    <tabs>standard-Lead</tabs>
-    <tabs>standard-Case</tabs>
     <tabs>standard-report</tabs>
-    <tabs>standard-WorkQueue</tabs>
+    <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
+    <utilityBar>Future_Student_Nurturing_UtilityBar</utilityBar>
     <workspaceConfig>
         <mappings>
-            <tab>standard-Account</tab>
-        </mappings>
-        <mappings>
-            <tab>standard-Case</tab>
-        </mappings>
-        <mappings>
-            <tab>standard-Contact</tab>
-        </mappings>
-        <mappings>
-            <tab>standard-Lead</tab>
-        </mappings>
-        <mappings>
-            <tab>standard-WorkQueue</tab>
+            <tab>standard-Dashboard</tab>
         </mappings>
         <mappings>
             <tab>standard-home</tab>

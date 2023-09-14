@@ -6,15 +6,27 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------|
- *    | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created file                   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------|
+ *    | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created file                                  |
+ *    | eccarius.munoz                 | September 2, 2023     | DEPP-6138              | added method getRecordsWithFieldsByIdSetTest  |
  */
 @isTest
 private class DynamicQueryServiceTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager','QUT_IE_Partnership_Manager' });
+
+        List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);
+        AccountsDAO.newInstance()
+            .insertRecords(accountListToInsert, false, AccessLevel.USER_MODE);
+
+        List<Contact> contactListToInsert = TestDataFactory.createTestContactRecords(1);
+        contactListToInsert[0].AccountId = accountListToInsert[0].Id;
+
+        ContactsDAO.newInstance()
+            .insertRecords(contactListToInsert, false, AccessLevel.USER_MODE);
+
         Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         oppOutcomeCodeAutoNum.Start_Up__c = 1;
@@ -31,10 +43,10 @@ private class DynamicQueryServiceTest {
                     OpportunityOutcomesDAO.STARTUP_RECTYPE_ID
                 );
                 oppOutcomes[0].Company_Name__c = 'Test Company';
-    
+
                 OpportunityOutcomesDAO.newInstance()
                     .insertRecords(oppOutcomes, false, AccessLevel.USER_MODE);
-    
+
                 List<Finance_Summary__c> newFinSummaries = TestDataFactory.createFinanceSummaryRecords(
                     1,
                     FinanceSummariesDAO.VALUATION_RECTYPE_ID,
@@ -136,4 +148,28 @@ private class DynamicQueryServiceTest {
             Test.stopTest();
         }
     }
+
+    @isTest
+    private static void getRecordsWithFieldsByIdSetTest() {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+
+            Test.startTest();
+            List<Account> accountList = new List<Account>();
+            accountList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String>{ 'TestAccount0' }, 1);
+
+            List<Account> accountListWithFilter =
+                (List<Account>) DynamicQueryService.getRecordsWithFieldsByIdSet(
+                    new DynamicQueryService.FilterWrapper(new Set<Id>{accountList[0].Id}, Account.getSObjectType(), new List<String>()),
+                    AccessLevel.USER_MODE
+                );
+
+            System.assert(
+                !accountListWithFilter.isEmpty(),
+                'List should not be empty.'
+            );
+
+            Test.stopTest();
+        }
+    }
+
 }
