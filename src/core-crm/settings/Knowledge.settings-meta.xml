@@ -33,7 +33,7 @@
                 <name>Subject</name>
             </field>
         </caseFields>
-        <useSuggestedArticlesForCase>false</useSuggestedArticlesForCase>
+        <useSuggestedArticlesForCase>true</useSuggestedArticlesForCase>
         <workOrderFields>
             <field>
                 <name>Subject</name>
