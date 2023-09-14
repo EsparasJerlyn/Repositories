@@ -57,6 +57,7 @@
  *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
  *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
  *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
+ *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base             |
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
  * 
  * 
@@ -2871,7 +2872,7 @@ public class TestDataFactory {
                 userName = 'QUT_IE_Partnership_Manager';
                 profileName = 'Industry Engagement';
                 roleName = 'Partnership Manager';
-                permSets = 'Business_Development_Base';
+                permSets = 'Office_of_Industry_Engagement_Base';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2885,7 +2886,7 @@ public class TestDataFactory {
                 userName = 'QUT_Operations_Manager';
                 profileName = 'Industry Engagement';
                 roleName = 'Operations Manager';
-                permSets = 'Business_Development_Base';
+                permSets = 'Office_of_Industry_Engagement_Base';
                 publicGroups = 'Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;

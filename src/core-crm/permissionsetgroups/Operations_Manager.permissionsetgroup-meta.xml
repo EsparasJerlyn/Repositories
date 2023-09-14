@@ -4,6 +4,6 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Operations Manager</label>
     <mutingPermissionSets>Operations_Manager_Muted</mutingPermissionSets>
-    <permissionSets>Business_Development_Base</permissionSets>
+    <permissionSets>Office_of_Industry_Engagement_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
