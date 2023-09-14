@@ -16,6 +16,8 @@
     </filters>
     <label>My Open Cases</label>
     <sharedTo>
+        <group>Future_Students_Domestic</group>
+        <group>Future_Students_International</group>
         <group>International_Recruitment</group>
     </sharedTo>
 </ListView>
