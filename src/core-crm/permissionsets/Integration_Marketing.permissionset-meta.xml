@@ -5424,6 +5424,11 @@
         <editable>false</editable>
         <field>hed__Course_Offering__c.Course_Code__c</field>
         <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course_Offering__c.Delivery_Mode__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
