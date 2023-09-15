@@ -3,7 +3,7 @@
     <sharingCriteriaRules>
         <fullName>ACP_Alumni_Engagement_Share</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Share Corporate Partnership Opportunity records to Alumni Engagement team with Read access</description>
+        <description>Share Corporate Partnership Opportunity Outcome records to Alumni Engagement team with Read access</description>
         <label>ACP - Alumni Engagement Share</label>
         <sharedTo>
             <roleAndSubordinatesInternal>Alumni_Engagement</roleAndSubordinatesInternal>
@@ -17,8 +17,8 @@
     </sharingCriteriaRules>
     <sharingCriteriaRules>
         <fullName>ACP_Corporate_Engagement_Share</fullName>
-        <accessLevel>Edit</accessLevel>
-        <description>Share Corporate Partnership Opportunity records to Corporate Engagement team with Read access</description>
+        <accessLevel>Read</accessLevel>
+        <description>Share Corporate Partnership Opportunity Outcome records to Corporate Engagement team with Read access</description>
         <label>ACP - Corporate Engagement Share</label>
         <sharedTo>
             <roleAndSubordinatesInternal>Corporate_Engagement</roleAndSubordinatesInternal>
@@ -33,7 +33,7 @@
     <sharingCriteriaRules>
         <fullName>ACP_Corporate_Events_Share</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Share Corporate Partnership Opportunity records to Corporate Events team with Read access</description>
+        <description>Share Corporate Partnership Opportunity Outcome records to Corporate Events team with Read access</description>
         <label>ACP - Corporate Events Share</label>
         <sharedTo>
             <roleAndSubordinatesInternal>Corporate_Events</roleAndSubordinatesInternal>
@@ -48,7 +48,7 @@
     <sharingCriteriaRules>
         <fullName>ACP_Corporate_Partnerships_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Corporate Partnership Opportunity records to Corporate Partnership roles and subordinate with Read/Write access</description>
+        <description>Share Corporate Partnership Opportunity Outcome records to Corporate Partnership roles and subordinate with Read/Write access</description>
         <label>ACP - Corporate Partnerships Share</label>
         <sharedTo>
             <roleAndSubordinatesInternal>Corporate_Partnerships</roleAndSubordinatesInternal>
@@ -61,66 +61,54 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>IE_Operations_Manager_Share</fullName>
-        <accessLevel>Read</accessLevel>
-        <description>Share Industry Engagement related Opportunity records to Operations Manager
-            with Read/Write access</description>
-        <label>IE Operations Manager Share</label>
-        <sharedTo>
-            <role>Operations_Manager</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>RecordTypeId</field>
-            <operation>equals</operation>
-            <value>Research Partnership,International Projects Unit,Commercialisation</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>IE_Partnership_Manager_Share</fullName>
+        <fullName>OIE_Operations_Manager_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Industry Engagement related Opportunity records to Partnership Manager
-            with Read/Write access</description>
-        <label>IE Partnership Manager Share</label>
+        <description>Share OIE Opportunity Outcome records to Operations Manager team with Read/Write access</description>
+        <label>OIE - Operations Manager Share</label>
         <sharedTo>
-            <role>Partnership_Manager</role>
+            <roleAndSubordinatesInternal>Operations_Manager</roleAndSubordinatesInternal>
         </sharedTo>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>Research Partnership,International Projects Unit,Commercialisation</value>
+            <value>Research Partnership Project</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Research Commercialisation Project</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Startup</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>Industry_Engagement_Read_Only</fullName>
+        <fullName>OIE_Partnership_Manager_Share</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Share Industry Engagement related Opportunity records to all industry
-            engagement users with Read Only access</description>
-        <label>Industry Engagement Read Only</label>
+        <description>Share OIE Opportunity Outcome records to Partnership Manager team with Read access</description>
+        <label>OIE - Partnership Manager Share</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>VP_Business_Development</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>Partnership_Manager</roleAndSubordinatesInternal>
         </sharedTo>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>Research Partnership,International Projects Unit,Commercialisation</value>
+            <value>Research Partnership Project</value>
         </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>QUTeX_CCE_Share</fullName>
-        <accessLevel>Edit</accessLevel>
-        <description>Share QUTeX CCE Opportunity records to QUTeX roles and subordinate with
-            Read/Write access</description>
-        <label>QUTeX CCE Share</label>
-        <sharedTo>
-            <roleAndSubordinatesInternal>QUTeX_Leadership</roleAndSubordinatesInternal>
-        </sharedTo>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>QUTeX CCE</value>
+            <value>Research Commercialisation Project</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Startup</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
