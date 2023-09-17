@@ -39,7 +39,7 @@ public with sharing class NurturingTrackServiceTest {
     }
 
     @isTest
-    private static void getApplicationIdsWithCompletedCadence(){
+    private static void getApplicantIdsWithCompletedCadence(){
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             List<Contact> conList = TestDataFactory.createTestContactRecords(1);
@@ -67,9 +67,9 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Lead__c = leadID;
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             insert cadence2;
-            Map<Id, List<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicationIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
+            Map<Id, List<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
             System.assertEquals(1,applicationWithCadenceMapContact.size(),'Cadence map should not be empty');
-            Map<Id, List<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicationIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
+            Map<Id, List<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
             System.assertEquals(1,applicationWithCadenceMapLead.size(),'Cadence map should not be empty');
             Test.stopTest();
         }
@@ -106,8 +106,8 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Lead__c = leadID;
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             insert cadence2;
-            Map<Id, List<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicationIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
-            Map<Id, List<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicationIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
+            Map<Id, List<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
+            Map<Id, List<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
 
             List<hed__Application__c> appListContact = new List<hed__Application__c>();
             hed__Application__c appContact = new hed__Application__c();

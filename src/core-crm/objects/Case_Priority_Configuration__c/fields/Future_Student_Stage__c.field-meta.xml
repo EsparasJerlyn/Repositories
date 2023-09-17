@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Future_Student_Stage__c</fullName>
+    <description>The stage the Future Student is, in their journey to becoming a student in QUT</description>
+    <externalId>false</externalId>
+    <label>Future Student Stage</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Explore</fullName>
+                <default>false</default>
+                <label>Explore</label>
+            </value>
+            <value>
+                <fullName>Apply</fullName>
+                <default>false</default>
+                <label>Apply</label>
+            </value>
+            <value>
+                <fullName>Offer</fullName>
+                <default>false</default>
+                <label>Offer</label>
+            </value>
+            <value>
+                <fullName>Accept-Admit</fullName>
+                <default>false</default>
+                <label>Accept-Admit</label>
+            </value>
+            <value>
+                <fullName>Study</fullName>
+                <default>false</default>
+                <label>Study</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

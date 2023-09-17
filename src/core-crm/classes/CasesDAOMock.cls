@@ -25,7 +25,7 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
 
     public List<Case> getCasesByContactIds(
         Set<Id> contactIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         List<Case> caseList = new List<Case>();
 
@@ -40,12 +40,30 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
 
     public List<Case> getCasesByLeadIds(
         Set<Id> leadIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         List<Case> caseList = new List<Case>();
 
         for (Case record : caseMap.values()) {
             if (leadIds.contains(record.Lead__c)) {
+                caseList.add(record);
+            }
+        }
+
+        return caseList;
+    }
+
+    public List<Case> getCasesByContactOrLeadIds(
+        Set<Id> contactOrLeadIds,
+        AccessLevel accessLevel
+    ) {
+        List<Case> caseList = new List<Case>();
+
+        for (Case record : caseMap.values()) {
+            if (
+                contactOrLeadIds.contains(record.Lead__c) ||
+                contactOrLeadIds.contains(record.ContactId)
+            ) {
                 caseList.add(record);
             }
         }

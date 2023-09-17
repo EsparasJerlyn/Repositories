@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enquiry_Sub_Category__c</fullName>
+    <description>The sub Classification of the enquiries based on selected enquiry Category.</description>
+    <externalId>false</externalId>
+    <label>Enquiry Sub-Category</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prior Australian study</fullName>
+                <default>false</default>
+                <label>Prior Australian study</label>
+            </value>
+            <value>
+                <fullName>Prior international study</fullName>
+                <default>false</default>
+                <label>Prior international study</label>
+            </value>
+            <value>
+                <fullName>Work experience</fullName>
+                <default>false</default>
+                <label>Work experience</label>
+            </value>
+            <value>
+                <fullName>Pathways without prior study</fullName>
+                <default>false</default>
+                <label>Pathways without prior study</label>
+            </value>
+            <value>
+                <fullName>Entry requirements</fullName>
+                <default>false</default>
+                <label>Entry requirements</label>
+            </value>
+            <value>
+                <fullName>English language and academic pathway</fullName>
+                <default>false</default>
+                <label>English language and academic pathway</label>
+            </value>
+            <value>
+                <fullName>Assumed knowledge/Prerequisites</fullName>
+                <default>false</default>
+                <label>Assumed knowledge/Prerequisites</label>
+            </value>
+            <value>
+                <fullName>Entry/ATAR adjustments</fullName>
+                <default>false</default>
+                <label>Entry/ATAR adjustments</label>
+            </value>
+            <value>
+                <fullName>Advanced standing/Credit prior learning</fullName>
+                <default>false</default>
+                <label>Advanced standing/Credit prior learning</label>
+            </value>
+            <value>
+                <fullName>Placements</fullName>
+                <default>false</default>
+                <label>Placements</label>
+            </value>
+            <value>
+                <fullName>Careers and outcomes</fullName>
+                <default>false</default>
+                <label>Careers and outcomes</label>
+            </value>
+            <value>
+                <fullName>Accreditation</fullName>
+                <default>false</default>
+                <label>Accreditation</label>
+            </value>
+            <value>
+                <fullName>Course overview</fullName>
+                <default>false</default>
+                <label>Course overview</label>
+            </value>
+            <value>
+                <fullName>How to apply</fullName>
+                <default>false</default>
+                <label>How to apply</label>
+            </value>
+            <value>
+                <fullName>Application and acceptance dates</fullName>
+                <default>false</default>
+                <label>Application and acceptance dates</label>
+            </value>
+            <value>
+                <fullName>Transfer to QUT</fullName>
+                <default>false</default>
+                <label>Transfer to QUT</label>
+            </value>
+            <value>
+                <fullName>Application status</fullName>
+                <default>false</default>
+                <label>Application status</label>
+            </value>
+            <value>
+                <fullName>Changing my application</fullName>
+                <default>false</default>
+                <label>Changing my application</label>
+            </value>
+            <value>
+                <fullName>Changing my QTAC preferences</fullName>
+                <default>false</default>
+                <label>Changing my QTAC preferences</label>
+            </value>
+            <value>
+                <fullName>Accepting my offer</fullName>
+                <default>false</default>
+                <label>Accepting my offer</label>
+            </value>
+            <value>
+                <fullName>Deferring my offer</fullName>
+                <default>false</default>
+                <label>Deferring my offer</label>
+            </value>
+            <value>
+                <fullName>Application technical support</fullName>
+                <default>false</default>
+                <label>Application technical support</label>
+            </value>
+            <value>
+                <fullName>Application documentation</fullName>
+                <default>false</default>
+                <label>Application documentation</label>
+            </value>
+            <value>
+                <fullName>How to enroll into a unit</fullName>
+                <default>false</default>
+                <label>How to enroll into a unit</label>
+            </value>
+            <value>
+                <fullName>How to register for a class</fullName>
+                <default>false</default>
+                <label>How to register for a class</label>
+            </value>
+            <value>
+                <fullName>Classes and timetables</fullName>
+                <default>false</default>
+                <label>Classes and timetables</label>
+            </value>
+            <value>
+                <fullName>Scholarships</fullName>
+                <default>false</default>
+                <label>Scholarships</label>
+            </value>
+            <value>
+                <fullName>Government loans</fullName>
+                <default>false</default>
+                <label>Government loans</label>
+            </value>
+            <value>
+                <fullName>Tuition fees</fullName>
+                <default>false</default>
+                <label>Tuition fees</label>
+            </value>
+            <value>
+                <fullName>Student services and amenities fees</fullName>
+                <default>false</default>
+                <label>Student services and amenities fees</label>
+            </value>
+            <value>
+                <fullName>Commonwealth supported place</fullName>
+                <default>false</default>
+                <label>Commonwealth supported place</label>
+            </value>
+            <value>
+                <fullName>Payment of acceptance fees</fullName>
+                <default>false</default>
+                <label>Payment of acceptance fees</label>
+            </value>
+            <value>
+                <fullName>Student support</fullName>
+                <default>false</default>
+                <label>Student support</label>
+            </value>
+            <value>
+                <fullName>Welcome and orientation events</fullName>
+                <default>false</default>
+                <label>Welcome and orientation events</label>
+            </value>
+            <value>
+                <fullName>Campus and transport</fullName>
+                <default>false</default>
+                <label>Campus and transport</label>
+            </value>
+            <value>
+                <fullName>Accommodation</fullName>
+                <default>false</default>
+                <label>Accommodation</label>
+            </value>
+            <value>
+                <fullName>Sport and clubs</fullName>
+                <default>false</default>
+                <label>Sport and clubs</label>
+            </value>
+            <value>
+                <fullName>Moving to Brisbane</fullName>
+                <default>false</default>
+                <label>Moving to Brisbane</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -23,6 +23,9 @@
         <members>MarketingSegmentationTriggerHandler</members>
         <members>MarketingSegmentationTriggerHandlerTest</members>
         <!--(End) DEPP-5797 -->
+        <!--(Start) DEPP-6421 -->
+        <members>CaseLeadMatchingTest</members>
+        <!--(End) DEPP-6421 -->
         <name>ApexClass</name>
     </types>
     <types>
@@ -199,6 +202,9 @@
         <members>Marketing_Interaction_Lead_Scoring</members>
         <members>Marketing_Segmentation_Lead_Scoring</members>
         <!--(End) DEPP-6585-->
+        <!--(Start) DEPP-6421-->
+        <members>Case_Lead_Matching</members>
+        <!--(End) DEPP-6421-->
         <name>Flow</name>
     </types>
     <types>
