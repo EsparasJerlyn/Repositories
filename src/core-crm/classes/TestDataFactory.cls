@@ -57,6 +57,7 @@
  *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
  *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
  *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
+ *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
  * 
  * 
  **/
@@ -2481,7 +2482,7 @@ public class TestDataFactory {
 
         private void getPortalSysAdminUser() {
             portalSysAdmin = [
-                SELECT Id
+                SELECT Id, UserRoleId
                 FROM User
                 WHERE
                     IsActive = TRUE
@@ -2491,15 +2492,19 @@ public class TestDataFactory {
                     OR Profile.Name = 'System Administrator')
                 LIMIT 1
             ];
-            //add UserRole
-            portalSysAdmin.UserRoleId = [
-                SELECT Id
-                FROM UserRole
-                WHERE Name = 'System Administrator'
-                LIMIT 1
-            ]
-            ?.Id;
-            update portalSysAdmin;
+
+            if(String.isBlank(portalSysAdmin.UserRoleId)){
+                //add UserRole
+                portalSysAdmin.UserRoleId = [
+                    SELECT Id
+                    FROM UserRole
+                    WHERE Name = 'System Administrator'
+                    LIMIT 1
+                ]
+                ?.Id;
+                update portalSysAdmin;
+            }
+            
         }
     }
 

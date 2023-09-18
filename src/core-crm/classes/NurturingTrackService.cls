@@ -39,12 +39,14 @@ public with sharing class NurturingTrackService {
     }
 
     /**
-     * @description From a set of applications, return a set of application ids that has a related completed
-     * cadence record
-     * @param Set<Id> applicantIdsSet
-     * @return Set<Id> a set of application ids that has a related completed cadence record
+     * @description Generate a map between applicant ids (either contact or lead) and a list of
+     *              the cadence names of their completed cadences if they have.
+     * @param {Set<Id>} applicantIdsSet A set of ids containing either contacts or leads to find completed cadences with
+     * @param {Set<String>} cadenceNamesSet A set of cadence names to filter through completed cadences
+     * @param {SObjectType} objectType Needed to identify whether this method is used for leads or contacts
+     * @return {Set<Id>} a set of application ids that has a related completed cadence record
      */
-    public static Map<Id, List<String>> getApplicationIdsWithCompletedCadence(
+    public static Map<Id, List<String>> getApplicantIdsWithCompletedCadence(
         Set<Id> applicantIdsSet, // Ids contact/lead
         Set<String> candenceNamesSet,
         SObjectType objectType
@@ -135,6 +137,29 @@ public with sharing class NurturingTrackService {
         }
 
         return objectForUpdatingMap.values();
+    }
+
+    /**
+     * @description Get cases within the last specified months that are related to a set of contact or leads
+     *              While there's nothing stopping you from mixing both contact or lead ids in the parameter,
+     *              be reminded that this method does not sort or separate the contact and leads from the keyset.
+     * @param {Set<Id>} contactOrLeadsIds A set containing the ids of the contacts and leads you are looking for.
+     * @param {Integer} months The number of months to look back when checking for case records.
+     * @return {Map<Id, Case}
+     */
+    public static Map<Id, Case> getCasesWithinLastXMonths(Set<Id> contactOrLeadIds, Integer months) {
+        Date checkDate = System.today().addMonths(-months);
+        List<Case> relatedCases = CasesDAO.newInstance().getCasesByContactOrLeadIds(contactOrLeadIds, AccessLevel.SYSTEM_MODE);
+        Map<Id, Case> contactIdToCaseMap = new Map<Id, Case>();
+        for(Case relatedCase : relatedCases) {
+            if(relatedCase.CreatedDate >= checkDate) {
+                contactIdToCaseMap.put(
+                    relatedCase.ContactId != null ? relatedCase.ContactId : relatedCase.Lead__c, 
+                    relatedCase
+                );
+            }
+        }
+        return contactIdToCaseMap;
     }
 
     private static Integer getLength(Map<Id, List<String>> completedCadenceByApplicantId, String applicantApiName,SObject application){
