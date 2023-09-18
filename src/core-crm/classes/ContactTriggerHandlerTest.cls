@@ -19,7 +19,7 @@
      | eugene.andrew.abuan            | July 04, 2022         | DEPP-3387              | Update Email to Registered   |
      |                                |                       |                        | Email in sendEmailOnContact  |
      | alexander.cadalin              | July 30, 2022         | DEPP-3623              | Commented out old dupe checker
-
+     | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentationTest|
 */
 @isTest
 public with sharing class ContactTriggerHandlerTest {
@@ -444,6 +444,32 @@ public with sharing class ContactTriggerHandlerTest {
 
             for (Contact record : ContactsDAO.newInstance().getPersonContactsWithLimit(10)) {  
                 System.assert(String.isBlank(record.Future_Student_Journey_Status__c),'Contact Future_Student_Journey_Status__c did not match');
+            }
+        }
+    }
+    
+    @isTest
+    private static void createMarketingSegmentationTest() {        
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].email = i + 'test@email.com'; 
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+            }
+            Database.SaveResult[] srList = ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+            Set<Id> contactIds = new Set<Id>();            
+            for (Database.SaveResult sr : srList) {
+                contactIds.add(sr.getId());
+            }
+            List<Marketing_Segmentation__c> marketingSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(contactIds, AccessLevel.USER_MODE);
+            
+            for(Marketing_Segmentation__c marketingSeg : marketingSegList){
+                System.assert(marketingSeg.Contact__c != null, 'No Marketing Segmentation record created for the contact');
             }
         }
     }
