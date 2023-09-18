@@ -20,8 +20,6 @@
         <members>MarketingCourseApplicationTHTest</members>
         <members>MarketingInteractionTriggerHandler</members>
         <members>MarketingInteractionTriggerHandlerTest</members>
-        <members>MarketingSegmentationTriggerHandler</members>
-        <members>MarketingSegmentationTriggerHandlerTest</members>
         <!--(End) DEPP-5797 -->
         <!--(Start) DEPP-6421 -->
         <members>CaseLeadMatchingTest</members>
@@ -33,7 +31,6 @@
         <members>IndividualEmailResultTrigger</members>
         <members>MarketingCourseApplicationTrigger</members>
         <members>MarketingInteractionTrigger</members>
-        <members>MarketingSegmentationTrigger</members>
         <name>ApexTrigger</name>
         <!--(End) DEPP-5797 -->
     </types>

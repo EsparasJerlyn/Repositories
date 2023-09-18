@@ -145,6 +145,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
         for(hed__Application__c app : applications){
             Date calculatedDate = getCalculatedDateForStudyLink(app, applicationPreferenceMap, packageCompMap);
             app.Calculated_Intake_Date__c = calculatedDate;
+            app.Current_Preference__c = applicationPreferenceMap.get(app.Id).Id;
             appMapToUpdate.put(app.Id, app);
         }
 

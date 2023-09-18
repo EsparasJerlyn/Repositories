@@ -40,6 +40,11 @@
                 <field>Phone</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Lead_Score__c</field>
+                <uiBehavior>Readonly</uiBehavior>
+            </quickActionLayoutItems>
         </quickActionLayoutColumns>
     </quickActionLayout>
     <standardLabel>Update</standardLabel>
