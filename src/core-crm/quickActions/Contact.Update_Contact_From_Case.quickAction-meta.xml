@@ -17,16 +17,11 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>QUT_Staff_Email__c</field>
-                <uiBehavior>Readonly</uiBehavior>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>MobilePhone</field>
-                <uiBehavior>Readonly</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>Preferred_Contact_Method__c</field>
+                <field>hed__Citizenship_Status__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
@@ -37,28 +32,24 @@
         </quickActionLayoutColumns>
         <quickActionLayoutColumns>
             <quickActionLayoutItems>
-                <emptySpace>true</emptySpace>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Work_Email__c</field>
+                <field>QUT_Student_ID__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>QUT_Learner_Email__c</field>
-                <uiBehavior>Readonly</uiBehavior>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Phone</field>
-                <uiBehavior>Readonly</uiBehavior>
+                <field>MobilePhone</field>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>QUT_Student_ID__c</field>
-                <uiBehavior>Readonly</uiBehavior>
+                <field>Citizenship_Country__c</field>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>
     </quickActionLayout>
