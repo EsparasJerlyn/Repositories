@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|--------------|----------------------------------------------|
       | mark.j.mahilum            | June 13,2023          | DEPP-5798    | Created file                                 |
       | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Updated test class to cover can nurture logic|
+      | julie.jane.alegre         | Sept 07, 2023         | DEPP-5965    | Add test method testCreateLeadScoreDetail    |
 */
 @isTest
 private class LeadServiceTest {
@@ -65,11 +66,15 @@ private class LeadServiceTest {
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveFifty() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 70;
+            insert lcd;
+
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 256.00;
+                ldList[i].Lead_Score_Detail__c = lcd.Id;
             }
 
             Test.startTest();
@@ -95,11 +100,15 @@ private class LeadServiceTest {
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveOneHundred() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 300;
+            insert lcd;
+
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 300.00;
+                ldList[i].Lead_Score_Detail__c = lcd.Id;
             }
 
             Test.startTest();
@@ -125,6 +134,10 @@ private class LeadServiceTest {
     @isTest
     private static void testLeadBatchUpdateCanNurtureIsCheck() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+
+            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
+            lcd.Total_Lead_Score__c = 300;
+            insert lcd;
             
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
@@ -137,7 +150,7 @@ private class LeadServiceTest {
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 300.00;
+                ldList[i].Lead_Score_Detail__c = lcd.Id;
             }
             
             Test.startTest();
@@ -167,7 +180,6 @@ private class LeadServiceTest {
             for (Integer i = 0; i < recordsCount; i++) {
                 ldList[i].Email = 'new' + i + EMAIL;
                 ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Marketing_Interaction_Score__c  = 300.00;
                 ldList[i].Calculated_Cadence__c = 'Test Cadences automated';
             }
             Test.startTest();
@@ -176,5 +188,37 @@ private class LeadServiceTest {
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'SalesCadenceCalloutService'].isEmpty() , 'SalesCadenceCalloutService Queueable Job was not executed');
         }
     }    
+    @isTest
+    private static void testCreateLeadScoreDetail() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(recordsCount);     
+            AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
+            List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
+            for(Lead lead : leads){   
+                lead.Company_Category__c = 'Corporate';
+                lead.Description = 'Test Description';
+                lead.Lead_Type__c = 'CCE Corporate Partner';
+            }   
+            LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
+            Test.startTest();
+            convertLead(leads);
+            Test.stopTest();
+            List<Lead_Score_Detail__c> lsdList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailWithLimit(recordsCount);
+            System.assert(lsdList.size() > 0, 'No record created');
+
+        }
+    }
+    private static void convertLead(List<Lead> leads){
+        List<Database.LeadConvert> leadstoConvert = new List<Database.LeadConvert>(); 
+        LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = true LIMIT 1];
+        for(Lead lead : leads) {
+            Database.LeadConvert lc = new Database.LeadConvert();
+            lc.setLeadId(lead.id);
+            lc.setConvertedStatus(convertStatus.MasterLabel);
+            leadstoConvert.add(lc);
+        }
+        Database.convertLead(leadstoConvert);  
+    }    
+
 
 }

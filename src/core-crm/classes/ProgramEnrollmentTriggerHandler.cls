@@ -76,7 +76,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
             }
         
         if(!contactIds.isEmpty()){
-            ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnProgramEnrollment');
+            ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnStudentFlag');
         }      
     }
 }

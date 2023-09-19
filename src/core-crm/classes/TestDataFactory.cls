@@ -44,18 +44,22 @@
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                        |     
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |     
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
  *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
  *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                        |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                     |
  *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
  *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
  *    |                           |                       |                     | createPackageComponentRecords                                           |
  *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
  *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
+ *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
+ *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
+ * 
+ * 
  **/
 
 @isTest
@@ -1973,6 +1977,25 @@ public class TestDataFactory {
         return caseList;
     }
 
+    /**
+     * @description Method for creating Communication_Queue__c object
+     * @param Set<Id> recordIds - Contact/Lead record Ids to be set as Who Id
+     * @param String status 
+     * @return records - list of Communication_Queue__c records
+     */
+    public static List<Communication_Queue__c> createCommunicationQueuePerContactOrLead(Set<Id> recordIds, String status){
+        List<Communication_Queue__c> communicationQueueList = new List<Communication_Queue__c> ();
+        for(Id recordId : recordIds){
+            communicationQueueList.add(
+                new Communication_Queue__c(
+                    WhoId__c = recordId,
+                    Status__c = status
+                )
+            );
+        }
+        return communicationQueueList;
+    }
+
     public static List<EmailMessage> queryEmailMessageRecords() {
         Id courseConnectionId = [SELECT Id FROM hed__Course_Enrollment__c LIMIT 1]?.Id;
         List<EmailMessage> emailMessageList = [
@@ -2205,6 +2228,20 @@ public class TestDataFactory {
             LIMIT 1
         ];
         return pm;
+    }
+    /**
+     * @description Method for getting System Administrator
+     * @param void
+     * @return sysAdmin - QUTeX System Admin User
+     */
+    public static User getSystemAdminUser() {
+        User sysAdmin = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_System_Administrator%'
+            LIMIT 1
+        ];
+        return sysAdmin;
     }
 
     class TestUserGenerator {
@@ -2445,7 +2482,7 @@ public class TestDataFactory {
 
         private void getPortalSysAdminUser() {
             portalSysAdmin = [
-                SELECT Id
+                SELECT Id, UserRoleId
                 FROM User
                 WHERE
                     IsActive = TRUE
@@ -2455,15 +2492,19 @@ public class TestDataFactory {
                     OR Profile.Name = 'System Administrator')
                 LIMIT 1
             ];
-            //add UserRole
-            portalSysAdmin.UserRoleId = [
-                SELECT Id
-                FROM UserRole
-                WHERE Name = 'System Administrator'
-                LIMIT 1
-            ]
-            ?.Id;
-            update portalSysAdmin;
+
+            if(String.isBlank(portalSysAdmin.UserRoleId)){
+                //add UserRole
+                portalSysAdmin.UserRoleId = [
+                    SELECT Id
+                    FROM UserRole
+                    WHERE Name = 'System Administrator'
+                    LIMIT 1
+                ]
+                ?.Id;
+                update portalSysAdmin;
+            }
+            
         }
     }
 
@@ -2573,7 +2614,7 @@ public class TestDataFactory {
                 userName = 'QUT_System_Administrator';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User';
+                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2857,7 +2898,7 @@ public class TestDataFactory {
             } else if (name == 'QUT_Domestic_Future_Student_Agent') {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
-                roleName = 'Future Student Agent';
+                roleName = 'Future Student Agent - Domestic';
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
@@ -3418,5 +3459,21 @@ public class TestDataFactory {
             ));
         }
         return packageComponentList;
+    }
+    /**
+     * @description Method for creating test Lead Score Configuration records
+     * @return List<Lead_Score_Configuration__c> leadScoreConfigurationList - List of Lead Score Configuration Records
+     */
+    public static List<Lead_Score_Configuration__c> createLeadScoreConfigurationRecords(Id parentCategoryId, Id recordTypeId, Integer numberOfRecordsToCreate) {
+        List<Lead_Score_Configuration__c> leadScoreConfigurationList = new List<Lead_Score_Configuration__c>();
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            leadScoreConfigurationList.add(new Lead_Score_Configuration__c(
+                Name = 'Test LSC ' + (i + 1),
+                Parent_Category__c  = parentCategoryId,
+                RecordTypeId = recordTypeId,
+                Max_Score__c = i + 1
+            ));
+        }
+        return leadScoreConfigurationList;
     }
 }

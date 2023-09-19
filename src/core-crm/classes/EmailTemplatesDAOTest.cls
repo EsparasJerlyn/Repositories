@@ -1,0 +1,56 @@
+/**
+ * @description Test Class for EmailTemplatesDAO
+ * 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | eccarius.munoz                 | August 31, 2023       | DEPP-6138              | Created file                 |
+      |                                |                       |                        |                              |
+ */
+@isTest
+public with sharing class EmailTemplatesDAOTest {
+    
+    @testSetup
+    static void testSetup() {
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+    }
+
+    @isTest
+    static void newInstanceTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(EmailTemplatesDAO.newInstance() != null, 'EmailTemplatesDAO instance is null');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getSObjectTypeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(
+                new EmailTemplatesDAO().getSObjectType() == EmailTemplate.SObjectType,
+                'SObject is not EmailTemplate'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getEmailTemplatesByNameSetTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<EmailTemplate> emailTempList = EmailTemplatesDAO.newInstance()
+                .getEmailTemplatesByNameSet(
+                    new Set<String>(),
+                    'USER_MODE'
+                );
+            System.assert(emailTempList.isEmpty(), 'emailTempList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+}

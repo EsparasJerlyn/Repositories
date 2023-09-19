@@ -4,6 +4,26 @@
         <application>Future_Student_Configuration</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <classAccesses>
+        <apexClass>ILeadScoreConfigurationDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadScoreConfigurationDAO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadScoreConfigurationDAOTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadScoreSectionCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadScoreSectionCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Give access for Future Student Configuration activities.</description>
     <fieldPermissions>
         <editable>false</editable>
@@ -156,6 +176,10 @@
     </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Lead_Score_Configuration__c.Category</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Lead_Score_Configuration__c.Configuration</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

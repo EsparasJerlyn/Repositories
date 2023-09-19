@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 24, 2023        |DEPP-5567               | Created File                 | 
+      | julie.jane.alegre              | Sept  11, 2023        |DEPP-5697               | Update email error messages  | 
  */
 public with sharing class DuplicateCheckerHelper {
     public static Map<String, Integer> newItemsMatchCount;
@@ -23,8 +24,8 @@ public with sharing class DuplicateCheckerHelper {
     };
     //map of field api name to error message against the field
     private static final Map<String, String> ERROR_MSG_MAP = new Map<String, String>{
-        'Email' => 'Email must be unique across the organization and this batch.',
-        'Work_Email__c' => 'Work Email must be unique across the organization and this batch.',
+        'Email' => 'Email must be unique across the organization.',
+        'Work_Email__c' => 'Work Email must be unique across the organization.',
         'QUT_Learner_Email__c' => 'Student Email must be unique across the organization.',
         'QUT_Staff_Email__c' => 'Staff Email must be unique across the organization.'
     };

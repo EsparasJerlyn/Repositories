@@ -359,12 +359,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>home:workQueueSummary</componentName>
-                <identifier>home_workQueueSummary</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>accordionSections</name>
                     <value>Facet-2958a2fa-ef57-422b-8e7f-8c09303ab7a6</value>
@@ -453,10 +447,16 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard2</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>NE</operator>
-                        <rightValue>Future_Student_Agent</rightValue>
+                        <rightValue>Future_Student_Agent_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Future_Student_Agent_International</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

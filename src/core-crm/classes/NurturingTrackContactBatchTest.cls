@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum       	       | July 25, 2023         | DEPP-6105              | Created file                 | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                  |
+      |--------------------------------|-----------------------|------------------------|---------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                    |
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Added method to cover exception |
  */
 @isTest
 public with sharing class NurturingTrackContactBatchTest {
@@ -78,6 +79,20 @@ public with sharing class NurturingTrackContactBatchTest {
         );
         
     }
+
+    // Test method for exception handling
+    @isTest
+    static void testExceptionHandling() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            // Call the batch class execute method
+            NurturingTrackContactBatch batchable = new NurturingTrackContactBatch();
+            batchable.execute(null,null);
+            Test.stopTest();
+        }
+        //Perform assertions that the batch didn't execute
+        System.assert([SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'NurturingTrackContactBatch'].isEmpty() , 'NurturingTrackContactBatch Job is not empty');
+    }
     
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String recordType, String applicationStatus) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();
@@ -120,6 +135,26 @@ public with sharing class NurturingTrackContactBatchTest {
             );
         }
         return newContacts;
+    }
+
+    private static List<Nurture_Track_Configuration__c> createCensusCadence(String name, String criteriaType, Integer keyDateOffSet){
+        
+        List<Nurture_Track_Configuration__c> initialNurtureTrackConfigList = TestDataFactory.createNurtureTrackConfigRecords(1);
+        
+        List<Nurture_Track_Configuration__c> nurtureTrackConfigList = new List<Nurture_Track_Configuration__c>();
+        for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureTrackConfigList){
+            nurtureTrackConfigList.add(
+                new Nurture_Track_Configuration__c(
+                    Id = nurtureTrackConfig.Id,
+                    Cadence_Name__c = name,
+                    Status__c = 'Active',
+                    Criteria_Type__c = criteriaType,
+                    Key_Date_Offset_Days__c = keyDateOffSet
+                )
+            );
+        }
+        
+        return nurtureTrackConfigList;
     }
 
     /**

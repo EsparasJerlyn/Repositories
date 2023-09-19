@@ -13,7 +13,7 @@
  */
 
 @isTest
-public without sharing class MarketingSegmentationTriggerHelperTest{
+public without sharing class MarketingSegmentationTriggerHelperTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();

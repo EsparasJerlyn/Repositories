@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum       	       | July 25, 2023         | DEPP-6105              | Created file                 | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                  |
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Added test method to cover exception handling |
  */
 @isTest
 public with sharing class NurturingTrackLeadBatchTest {
@@ -84,6 +85,62 @@ public with sharing class NurturingTrackLeadBatchTest {
             batchableId != null,
             'The batch job failed to execute.'
         );
+    }
+
+    @isTest
+    private static void testManualInternationalDirectApplicantEntry() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            // create marketing segmentation
+            Marketing_Segmentation__c internationalMS = new Marketing_Segmentation__c(My_Citizenship_Status__c = 'International Student');
+            insert internationalMS;
+            // create lead
+            List<Lead> newLeads = createTestLeadRecords(0, 1);
+            newLeads[0].Marketing_Segmentation__c = internationalMS.Id;
+            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
+            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
+            newLeads[0] = [
+                SELECT Id, Marketing_Segmentation__r.My_Citizenship_Status__c, 
+                Can_Nurture__c, Calculated_Cadence__c 
+                FROM Lead LIMIT 1];
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            insert appliedIntakeTerm;
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            newApplications[0].Is_Agent_Assisted__c = false;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            NurturingTrackLeadBatch batchable = new NurturingTrackLeadBatch();
+            Id batchableId = Database.executeBatch(batchable);
+            Test.stopTest();
+            // assert
+            System.assert(
+                batchableId != null,
+                'The batch job failed to execute.'
+            );
+        }
+    }
+
+    // Test method for exception handling
+    @isTest
+    static void testExceptionHandling() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            // Call the batch class execute method
+            NurturingTrackLeadBatch batchable = new NurturingTrackLeadBatch();
+            batchable.execute(null,null);
+            Test.stopTest();
+        }       
+        //Perform assertions that the batch didn't execute
+        System.assert([SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'NurturingTrackLeadBatch'].isEmpty() , 'NurturingTrackLeadBatch Job is not empty');
     }
     
     private static List<hed__Application__c> createTestApplicationRecords(List<Lead> leadList, String recordType, String applicationStatus) {

@@ -2,6 +2,12 @@
 <StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <sorted>false</sorted>
     <standardValue>
+        <fullName>Created</fullName>
+        <default>false</default>
+        <label>Created</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
         <fullName>New</fullName>
         <default>true</default>
         <label>New</label>

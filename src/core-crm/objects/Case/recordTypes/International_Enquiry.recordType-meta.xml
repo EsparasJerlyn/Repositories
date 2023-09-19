@@ -3,7 +3,7 @@
     <fullName>International_Enquiry</fullName>
     <active>true</active>
     <businessProcess>International Enquiry</businessProcess>
-    <compactLayoutAssignment>International_Enquiry_Compact_Layout</compactLayoutAssignment>
+    <compactLayoutAssignment>Case_Compact_Layout</compactLayoutAssignment>
     <description>International Enquiry is used for the International Student Recruitment Team</description>
     <label>International Enquiry</label>
     <picklistValues>
@@ -30,6 +30,37 @@
         </values>
         <values>
             <fullName>Other QUT Department</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Category__c</picklist>
+        <values>
+            <fullName>Applying for a course</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entry requirements %26 study pathways</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fees%2C costs and scholarships</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>My application and offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>My enrolment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student life</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -63,7 +94,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>LiveChat after Hours</fullName>
+            <fullName>LiveChat After Hours</fullName>
             <default>false</default>
         </values>
         <values>
@@ -199,6 +230,141 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Sub_Category__c</picklist>
+        <values>
+            <fullName>Accepting my offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accommodation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accreditation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advanced standing%2FCredit prior learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application and acceptance dates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application status</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application technical support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assumed knowledge%2FPrerequisites</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Campus and transport</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Careers and outcomes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Changing my application</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Classes and timetables</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Commonwealth supported place</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Course overview</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deferring my offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English language and academic pathway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entry requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Government loans</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>How to apply</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>How to enroll into a unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>How to register for a class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Moving to Brisbane</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment of acceptance fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Placements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prior Australian study</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prior international study</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scholarships</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sport and clubs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student services and amenities fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tuition fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome and orientation events</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Sub_Status__c</picklist>
         <values>
             <fullName>Agent</fullName>
@@ -237,7 +403,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Category__c</picklist>
+        <picklist>hed__Category__c</picklist>
         <values>
             <fullName>Acceptance process</fullName>
             <default>false</default>
