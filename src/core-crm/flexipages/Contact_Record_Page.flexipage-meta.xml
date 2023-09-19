@@ -939,6 +939,9 @@
                         <valueListItems>
                             <value>RECORDTYPE|EQUALS|[&quot;StudyLink&quot;]</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Current_Preference__c|NOT_EQUAL|</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1009,6 +1012,12 @@
                     <valueList>
                         <valueListItems>
                             <value>RECORDTYPE|EQUALS|[&quot;QTAC&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Current_Preference__c|NOT_EQUAL|</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Is_Active__c|EQUALS|true</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

@@ -11,6 +11,7 @@
       | mark.j.mahilum            | June 13,2023          | DEPP-5798    | Created file                                 |
       | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Updated test class to cover can nurture logic|
       | julie.jane.alegre         | Sept 07, 2023         | DEPP-5965    | Add test method testCreateLeadScoreDetail    |
+      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class testCreateMarketingSegmentation|
 */
 @isTest
 private class LeadServiceTest {
@@ -220,5 +221,29 @@ private class LeadServiceTest {
         Database.convertLead(leadstoConvert);  
     }    
 
-
+    @isTest
+    private static void testCreateMarketingSegmentationForLeads() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(recordsCount);     
+            AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
+            List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
+            for(Lead lead : leads){   
+                lead.Company_Category__c = 'Corporate';
+                lead.Description = 'Test Description';
+                lead.Lead_Type__c = 'CCE Corporate Partner';
+            }   
+            Database.SaveResult[] srList = LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
+            Test.startTest();
+            
+            Set<Id> leadIds = new Set<Id>();            
+            for (Database.SaveResult sr : srList) {
+                leadIds.add(sr.getId());
+            }
+            List<Marketing_Segmentation__c> marketingSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(leadIds, AccessLevel.USER_MODE);
+            
+            for(Marketing_Segmentation__c marketingSeg : marketingSegList){
+                System.assert(marketingSeg.Lead__c != null, 'No Marketing Segmentation record created for the lead');
+            }
+        }
+    }
 }

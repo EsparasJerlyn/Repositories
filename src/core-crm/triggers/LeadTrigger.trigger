@@ -12,11 +12,13 @@
       | angelika.j.s.galang            | May 19, 2022          | DEPP-1455              | Created file                 |
       | alexander.cadalin              | June 22, 2022         | DEPP-3056              | Added before insert, update  |
       |                                | June 24, 2022         | DEPP-3056              | Removed after update         |
-      | mark.j.mahilum                 | July 26, 2023         | DEPP-6107              | Added after update           |     
+      | mark.j.mahilum                 | July 26, 2023         | DEPP-6107              | Added after update           |  
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added after insert           |   
  */
 trigger LeadTrigger on Lead(
     before insert,
     before update,
+    after insert,
     after update
 ) {
   TriggerDispatcher.dispatch(
