@@ -959,7 +959,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
                     app.Offered_Program_Plan__c != null &&
                     nurturingTrackWithOffSetDaysMap.get('Domestic Acceptance to Enrolment')
                         ?.Key_Date_Offset_Days__c != null &&
-                    app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
+                        app.Offered_Program_Plan__r.Availability_Start_Date__c!=null &&
+                        app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
                         -(Integer) nurturingTrackWithOffSetDaysMap.get(
                                 'Domestic Acceptance to Enrolment'
                             )
@@ -1102,7 +1103,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
                 domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.Offer_Status__c == 'Offer' &&
-                application.Admission_Process__c != 'RTN_DEFER/RTN_QTAC'
+                application.Admission_Process__c != 'RTN_DEFER/RTN_QTAC' &&
+                application.hed__Application_Date__c != null
             ) {
                 processCompletedDomesticFirstOffertoAcceptance(
                     application,
@@ -1218,8 +1220,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Date currentDate = System.TODAY();
 
         if (
-            currentDate.daysBetween(application.Offer_Start_Date__c) <= 2 &&
-            currentDate.daysBetween(application.Offer_Start_Date__c) >= 0
+            application.Offer_Status_Date__c != null &&
+            currentDate.daysBetween(application.Offer_Status_Date__c) > 2
         ) {
             domesticFirstOffertoAcceptanceManual.put(application.Id, application); // Group Manual Application
         } else {

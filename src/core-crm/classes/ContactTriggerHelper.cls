@@ -13,6 +13,7 @@
       | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation                             |
       | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added new method to set Person Contact flag      |
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag         |
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added new method to create Marketing Segmentation|
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
@@ -321,4 +322,26 @@ public without sharing class ContactTriggerHelper {
             SalesCadenceCalloutService.processSaleCadences(assignContactToCadenceMap,removeContactToCadenceMap);
         }
     }  
+ /**
+    * @description create a Marketing Segmentation on the newly created contact
+    *
+    * @param Map<Id, Contact> newItems
+    */         
+    public static void createMarketingSegmentation(Map<Id, Contact> newItems) {   
+        List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
+
+        for(Contact contacts: newItems.values()){
+            if(contacts.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID){
+                marketingSegToInsert.add(
+                    new Marketing_Segmentation__c(
+                        Contact__c = contacts.Id
+                    )
+                );
+            }
+        }
+        if(!marketingSegToInsert.IsEmpty()){
+            MarketingSegmentationsDAO.newInstance().insertRecords(marketingSegToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
 }

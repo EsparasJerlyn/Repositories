@@ -12,7 +12,9 @@
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag |
  *    | mark.j.mahilum                 | July 27, 2023         | DEPP-6107              | Added new method getLeadCalculatedCadence|
  *    | julie.jane.alegre              | Sept 6, 2023          | DEPP-5965              | Added new method createLeadScoreDetail   |
+ *    | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added new method createMarketingSegmentation|
  */
+@SuppressWarnings('PMD')
 public with sharing class LeadService {
  
    /**
@@ -159,6 +161,26 @@ public with sharing class LeadService {
         }
         if(!leadScoreDetailToInsert.isEmpty()){
             LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    /**
+    * @description create a Marketing Segmentation on the newly created contact
+    *
+    * @param Map<Id, Lead> newItems
+    */         
+    public static void createMarketingSegmentationForLeads(Map<Id, Lead> newItems) {    
+        List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
+
+        for(Lead leads: newItems.values()){
+                marketingSegToInsert.add(
+                    new Marketing_Segmentation__c(
+                        Lead__c = leads.Id
+                    )
+                );       
+        }
+        if(!marketingSegToInsert.IsEmpty()){
+            MarketingSegmentationsDAO.newInstance().insertRecords(marketingSegToInsert, false, AccessLevel.SYSTEM_MODE);
         }
     }
 

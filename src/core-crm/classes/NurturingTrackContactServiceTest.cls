@@ -193,7 +193,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
             newApplications[0].Offer_Status__c = 'Offer';
             newApplications[0].hed__Application_Date__c = Date.today().addMonths(4);
-            newApplications[0].Offer_Start_Date__c = Date.today().addDays(3);
+            newApplications[0].Offer_Status_Date__c = Date.today().addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -329,18 +329,16 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
 
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplications[0].Offer_Status__c = 'Offer';
             newApplications[0].hed__Application_Date__c = Date.today().addMonths(4);
-            newApplications[0].Offer_Start_Date__c = Date.today().addDays(2);
+            newApplications[0].Offer_Status_Date__c = Date.today().addDays(2);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
-            List<hed__Application__c> newApplicationsSecond = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplicationsSecond[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            List<hed__Application__c> newApplicationsSecond = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplicationsSecond[0].Offer_Status__c = 'Offer';
             newApplicationsSecond[0].hed__Application_Date__c = Date.today().addMonths(3);
-            newApplicationsSecond[0].Offer_Start_Date__c = Date.today().addDays(3);
+            newApplicationsSecond[0].Offer_Status_Date__c = Date.today().addDays(3);
             ApplicationsDAO.newInstance().insertRecords(newApplicationsSecond, false, AccessLevel.SYSTEM_MODE);
 
             // Create Nurture Track Configuration
@@ -354,6 +352,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                     )
                 );
             }
+
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE); 
 
             // create completed cadence
@@ -396,29 +395,25 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
 
             // create application
-            List<hed__Application__c> newApplicationsOne = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplicationsOne[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            List<hed__Application__c> newApplicationsOne = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplicationsOne[0].Offer_Status__c = 'Offer';
             newApplicationsOne[0].hed__Application_Date__c = Date.today().addMonths(1);
-            newApplicationsOne[0].Offer_Start_Date__c = Date.today().addDays(-1);
+            newApplicationsOne[0].Offer_Status_Date__c = Date.today().addDays(-1);
             ApplicationsDAO.newInstance().insertRecords(newApplicationsOne, false, AccessLevel.SYSTEM_MODE);
 
-            List<hed__Application__c> newApplicationsTwo = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplicationsTwo[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            List<hed__Application__c> newApplicationsTwo = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplicationsTwo[0].Offer_Status__c = 'Offer';
             newApplicationsTwo[0].hed__Application_Date__c = Date.today().addMonths(2);
-            newApplicationsTwo[0].Offer_Start_Date__c = Date.today().addDays(3);
+            newApplicationsTwo[0].Offer_Status_Date__c = Date.today().addDays(3);
             ApplicationsDAO.newInstance().insertRecords(newApplicationsTwo, false, AccessLevel.SYSTEM_MODE);
 
-            List<hed__Application__c> newApplicationsThree = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplicationsThree[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            List<hed__Application__c> newApplicationsThree = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplicationsThree[0].Offer_Status__c = 'Offer';
             newApplicationsThree[0].hed__Application_Date__c = Date.today().addMonths(3);
-            newApplicationsThree[0].Offer_Start_Date__c = Date.today().addDays(1);
+            newApplicationsThree[0].Offer_Status_Date__c = Date.today().addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplicationsThree, false, AccessLevel.SYSTEM_MODE);
 
-            List<hed__Application__c> newApplicationsFour = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplicationsFour[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            List<hed__Application__c> newApplicationsFour = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplicationsFour[0].Offer_Status__c = 'Offer';
             newApplicationsFour[0].hed__Application_Date__c = Date.today().addMonths(4);
             newApplicationsFour[0].Offer_Start_Date__c = Date.today().addDays(2);
@@ -732,6 +727,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         }
 
     }
+
     @isTest
     private static void testAutomatedDomesticFirstOffertoAcceptanceExit() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
@@ -743,7 +739,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
-            
+
             List<hed__Term__c> newTerms  = new List<hed__Term__c>();
             newTerms.add(new hed__Term__c(
                 hed__Start_Date__c = Date.today().addMonths(4),
@@ -752,7 +748,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
 
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplications[0].Offer_Status__c = 'Accepted';
             newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
@@ -767,7 +763,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             );
         }
     }
-    
+
     @isTest
     private static void testAutomatedInternationalOffertoAcceptanceExit() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
@@ -822,9 +818,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
             
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplications[0].Offer_Status__c = 'Accepted';
-            newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));

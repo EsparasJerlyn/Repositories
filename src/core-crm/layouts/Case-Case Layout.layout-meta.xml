@@ -111,7 +111,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Web Details</label>
+        <label>Enquirer Details</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
