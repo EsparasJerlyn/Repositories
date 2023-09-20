@@ -11,6 +11,7 @@
  *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added test method for DEPP-5846     |
  *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added test method for DEPP-5847     |
  *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added test method for DEPP-5677     |
+ *    | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | method getPersonContactsBySetIds    |
  */
 @isTest
 private class ContactsDAOTest {
@@ -147,6 +148,20 @@ private class ContactsDAOTest {
                     'USER_MODE'
                 );
             System.assert(contactList.isEmpty(), 'contactList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPersonContactsBySetIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getPersonContactsBySetIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
         }
         Test.stopTest();
     }

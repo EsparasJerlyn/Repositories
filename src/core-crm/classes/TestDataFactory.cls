@@ -1936,6 +1936,24 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating WebCart
+     * @param accountId - portal account id
+     * @param ownerId - owner id
+     * @param webstoreId - webstore id
+     * @return WebCart - to be created WebCart
+     */
+    public static WebCart createWebCart(Id accountId, Id ownerId, Id webstoreId) {
+        return new WebCart(
+            Name = 'Cart',
+            AccountId = accountId,
+            Status = 'Active',
+            Status__c = 'Active',
+            WebStoreId = webstoreId,
+            OwnerId = ownerId
+        );
+    }
+
+    /**
      * @description Method for creating WebStoreCatalog
      * @return records - list of International_Tier__c records
      */
@@ -2087,7 +2105,7 @@ public class TestDataFactory {
      */
     public static User getCorporatePartnerUser() {
         User coporateUser = [
-            SELECT Id
+            SELECT Id, AccountId, ContactId
             FROM User
             WHERE Username LIKE 'QUT_Corporate_Partner_User%'
             LIMIT 1

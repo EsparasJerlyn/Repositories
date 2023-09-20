@@ -11,6 +11,7 @@
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method                     |
  *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677     |
       | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added getContactsFromConvertedLead   |
+ *    | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | method getPersonContactsBySetIds    |
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -169,6 +170,19 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         Set<Id> recordIds,
         String accessLevel
     ) {
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if (recordIds.contains(record.Id)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getPersonContactsBySetIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
         List<Contact> contactList = new List<Contact>();
         for (Contact record : contactsMap.values()) {
             if (recordIds.contains(record.Id)){
