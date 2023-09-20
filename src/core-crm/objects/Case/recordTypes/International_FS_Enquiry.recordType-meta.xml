@@ -66,6 +66,10 @@
     <picklistValues>
         <picklist>Closure_Code__c</picklist>
         <values>
+            <fullName>Invalid Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>No response given</fullName>
             <default>false</default>
         </values>
