@@ -14,7 +14,7 @@
       |                                |                       |                        | Calculated Intake Date on application records                       |
       | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove method call to getCurrentIntakePeriod as it's no longer used |
  */
-public with sharing class NurturingTrackLeadService { //NOPMD
+public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationList;
     private static List<Case> caseList;
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = NurturingTrackService.getNurturingTrackRecords();

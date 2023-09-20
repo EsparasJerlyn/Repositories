@@ -331,7 +331,7 @@ public without sharing class ContactTriggerHelper {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
 
         for(Contact contacts: newItems.values()){
-            if(contacts.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID){
+            if(contacts.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && contacts.Marketing_Segmentation__c == null){
                 marketingSegToInsert.add(
                     new Marketing_Segmentation__c(
                         Contact__c = contacts.Id

@@ -15,7 +15,7 @@
 @isTest
 public with sharing class ContactWithMatchingLeadHelperTest {
 
-    public static final Integer NUM_RECORDS = 100;
+    public static final Integer NUM_RECORDS = 50;
 
     public static final Id PERSON = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get('Person')
@@ -27,8 +27,11 @@ public with sharing class ContactWithMatchingLeadHelperTest {
 
     @testSetup 
     static void setupMethod() {
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Sys_Admin'});
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
+            makeData(NUM_RECORDS);
+        }
         Test.stopTest();
     }
 
@@ -70,19 +73,16 @@ public with sharing class ContactWithMatchingLeadHelperTest {
         List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
         List<Marketing_Course_Application__c> marketingCourseAppList = new List<Marketing_Course_Application__c>();
         List<hed__Application__c> appList = new List<hed__Application__c>();
-        List<Marketing_Segmentation__c> marketingSegmentationList = new List<Marketing_Segmentation__c>();
         List<Contact> contactList = new List<Contact>();
         for(Integer i = 0; i < recNum; i++){
             marketingInteractionList.add(new Marketing_Interaction__c(Lead__c = leads[i].Id));
             marketingCourseAppList.add(new Marketing_Course_Application__c(Lead__c = leads[i].Id));
             appList.add(new hed__Application__c(Lead__c = leads[i].Id));
-            marketingSegmentationList.add(new Marketing_Segmentation__c(Lead__c = leads[i].Id));
             contactList.add(new Contact(FirstName = 'MC Test', LastName = 'MC Record', Email = 'mctest@record.com', Company_Name__c = 'mcTestCompany', RecordTypeId = MC_PERSONA, Parent_Person_Lead__c = leads[i].Id));
         }
         insert marketingInteractionList;
         insert marketingCourseAppList;
         ApplicationsDAO.newInstance().insertRecords(appList, false, AccessLevel.SYSTEM_MODE);
-        insert marketingSegmentationList;
         insert contactList;
     }
 
@@ -90,10 +90,10 @@ public with sharing class ContactWithMatchingLeadHelperTest {
     static void detectLeadDuplicatesAndConvertTest(){
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN) {
-            makeData(NUM_RECORDS);
+            Test.startTest();
+        
             List<Lead> leadList = [SELECT Id FROM Lead WHERE Lead_Type__c = 'Learner'];
 
-            Test.startTest();
             List<Contact> contacts = new List<Contact>();
             for(Integer i = 0; i < NUM_RECORDS; i++){
                 contacts.add(new Contact(
@@ -113,12 +113,12 @@ public with sharing class ContactWithMatchingLeadHelperTest {
                 contactsMap.put(con.Id, con);
             }
 
-            ContactWithMatchingLeadHelper.detectLeadDuplicates(contactsMap);
-
             Set<Id> leadIds = new Set<Id>();
             for(Lead lead : leadList){
                 leadIds.add(lead.Id);
             }
+
+            Test.stopTest();
 
             List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];
             List<Marketing_Course_Application__c> mktCourseAppContacts = [SELECT Contact__r.Id FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIds];
@@ -126,7 +126,7 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
             List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
 
-            Test.stopTest();
+            
 
             for(Marketing_Interaction__c mi : mktInteractionContacts){
                 System.assert(contactsMap.containsKey(mi.Contact__r.Id), 'Marketing Interaction was not updated.');
@@ -150,10 +150,10 @@ public with sharing class ContactWithMatchingLeadHelperTest {
     static void detectLeadDuplicatesAndConvertWorkEmailMatchTest(){
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN) {
-            makeData(NUM_RECORDS);
+            Test.startTest();
+
             List<Lead> leadList = [SELECT Id, Email, Work_Email__c FROM Lead WHERE Lead_Type__c = 'Learner'];
 
-            Test.startTest();
             List<Contact> contacts = new List<Contact>();
             for(Integer i = 0; i < NUM_RECORDS; i++){
                 contacts.add(new Contact(
@@ -172,20 +172,17 @@ public with sharing class ContactWithMatchingLeadHelperTest {
                 contactsMap.put(con.Id, con);
             }
 
-            ContactWithMatchingLeadHelper.detectLeadDuplicates(contactsMap);
-
             Set<Id> leadIds = new Set<Id>();
             for(Lead lead : leadList){
                 leadIds.add(lead.Id);
             }
+            Test.stopTest();
 
             List<Marketing_Interaction__c> mktInteractionContacts = [SELECT Contact__r.Id FROM Marketing_Interaction__c WHERE Lead__c IN : leadIds];
             List<Marketing_Course_Application__c> mktCourseAppContacts = [SELECT Contact__r.Id FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIds];
             List<hed__Application__c> appContacts = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds,'SYSTEM_MODE'); 
             List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
             List<Contact> mcContacts = [SELECT Parent_Person_Contact__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIds];
-
-            Test.stopTest();
 
             for(Marketing_Interaction__c mi : mktInteractionContacts){
                 System.assert(contactsMap.containsKey(mi.Contact__r.Id), 'Marketing Interaction was not updated.');
@@ -209,6 +206,8 @@ public with sharing class ContactWithMatchingLeadHelperTest {
     static void updateSingleContactWithMarketingSegTest(){
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
         System.runAs(PORTAL_SYS_ADMIN) {
+            Test.startTest();
+
             Contact contactWithMarketingSeg = new Contact(
                 FirstName = 'Test',
                 LastName = 'MS Record',
@@ -216,10 +215,6 @@ public with sharing class ContactWithMatchingLeadHelperTest {
                 Company_Name__c = 'TestCompany',
                 RecordTypeId = PERSON);
             insert contactWithMarketingSeg;
-
-            Marketing_Segmentation__c marketingSegsLinkedToContact = new Marketing_Segmentation__c();
-            marketingSegsLinkedToContact.Contact__c = contactWithMarketingSeg.Id;
-            insert marketingSegsLinkedToContact;
 
             Lead lead = new Lead(
                 FirstName = 'Test',
@@ -233,12 +228,6 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             );
             insert lead;
 
-            Marketing_Segmentation__c marketingSegsLinkedToLead = new Marketing_Segmentation__c();
-            marketingSegsLinkedToLead.Lead__c = lead.Id;
-            insert marketingSegsLinkedToLead;
-
-            Test.startTest();
-
             Map<Id,Contact> contactsMap = new Map<Id,Contact>();
             List<Contact> contactList = [SELECT Id, Email, Work_Email__c, AccountId, Parent_Person_Contact__r.Id, Parent_Person_Contact__r.Email, Parent_Person_Contact__r.Work_Email__c, Parent_Person_Contact__r.AccountId FROM Contact WHERE LastName = 'MS Record' AND RecordTypeId =: PERSON];
             List<Contact> contactsToUpdate = new List<Contact>();
@@ -250,9 +239,11 @@ public with sharing class ContactWithMatchingLeadHelperTest {
             for(Contact con : contactsToUpdate){
                 contactsMap.put(con.Id, con);
             }
+
             ContactWithMatchingLeadHelper.detectLeadDuplicates(contactsMap);
 
             List<Marketing_Segmentation__c> mktSegContacts = [SELECT Contact__r.Id FROM Marketing_Segmentation__c WHERE Contact__c IN : contactsMap.keySet()];
+            
             Test.stopTest();
 
             for(Marketing_Segmentation__c ms : mktSegContacts){
