@@ -27,7 +27,9 @@
  *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
- *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj             |
+ *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj        |
+ *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Adde mapping for cartdeliverygroup,webstore,webcart,cartitem, |
+ *    |                                |                       |                        | pricebook and pricebookentry                                  |
  */
 public class ImplementationSelector {
 
@@ -43,6 +45,8 @@ public class ImplementationSelector {
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             Communication_Queue__c.SObjectType => CommunicationQueuesDAO.class,
+            CartDeliveryGroup.SObjectType => CartDeliveryGroupsDAO.class,
+            CartItem.SObjectType => CartItemsDAO.class,
             Case.SObjectType => CasesDAO.class,
             Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
             Contact.SObjectType => ContactsDAO.class,
@@ -80,6 +84,8 @@ public class ImplementationSelector {
             OrgWideEmailAddress.SobjectType => OrgWideEmailAddressesDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Package_Component__c.SObjectType => PackageComponentDAO.class,
+            Pricebook2.SObjectType => PricebooksDAO.class,
+            PricebookEntry.SObjectType => PricebookEntriesDAO.class,
             Product2.SObjectType => ProductsDAO.class,
             Profile.SObjectType => ProfilesDAO.class,            
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
@@ -89,7 +95,9 @@ public class ImplementationSelector {
             User.SObjectType => UsersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
             UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,
-            Expense__c.SObjectType => ExpensesDAO.class
+            Expense__c.SObjectType => ExpensesDAO.class,
+            WebCart.SObjectType => WebCartsDAO.class,
+            WebStore.SOBjectType => WebStoresDAO.class
         }
     ); 
 
