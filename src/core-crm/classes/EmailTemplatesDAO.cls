@@ -13,7 +13,8 @@
 public with sharing class EmailTemplatesDAO extends DmlBase implements IEmailTemplatesDAO{
 
     //Add Template Names here
-    public static final String TEMPLATE_NURTURE_MANAGEMENT = 'Nurture Management Email';
+    public static final String TEMPLATE_NURTURE_MANAGEMENT_DOM = 'Nurture Management Email - Domestic';
+    public static final String TEMPLATE_NURTURE_MANAGEMENT_INT = 'Nurture Management Email - International';
 
     public Schema.SObjectType getSObjectType(){
 		return EmailTemplate.SObjectType;

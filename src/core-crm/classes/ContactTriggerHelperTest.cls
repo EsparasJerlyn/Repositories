@@ -12,6 +12,7 @@
       | roy.nino.s.regala         | January  18,2022      | DEPP-1178    | Updated for logic when primary bussiness org is populated | 
       |                           |                       |              |                                                           |
       | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Added test class coverage for can nurture logic           |
+      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class createMarketingSegmentationTest          |
 */
 @isTest
 private class ContactTriggerHelperTest {
@@ -181,6 +182,32 @@ private class ContactTriggerHelperTest {
             Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
             Test.stopTest();
             System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
+        }
+    }
+
+    @isTest
+    private static void createMarketingSegmentationTest() {        
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].email = i + 'test@email.com'; 
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+            }
+            Database.SaveResult[] srList = ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+            Set<Id> contactIds = new Set<Id>();            
+            for (Database.SaveResult sr : srList) {
+                contactIds.add(sr.getId());
+            }
+            List<Marketing_Segmentation__c> marketingSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(contactIds, AccessLevel.USER_MODE);
+            
+            for(Marketing_Segmentation__c marketingSeg : marketingSegList){
+                System.assert(marketingSeg.Contact__c != null, 'No Marketing Segmentation record created for the contact');
+            }
         }
     }
 }

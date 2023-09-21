@@ -11,6 +11,7 @@
       | angelika.j.s.galang       | May 27, 2022          | DEPP-1455    | Created file                                |
       | alexander.cadalin         | June 22, 2022         | DEPP-3056    | leadDuplicateEmailsTestOnInsert             |
       |                           | June 24, 2022         | DEPP-3056    | removed global dupes handler tests          |
+      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added testCreateMarketingSegmentationAfterInsert|  
 */
 @isTest
 private class LeadTriggerHandlerTest { 
@@ -24,6 +25,8 @@ private class LeadTriggerHandlerTest {
     private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
 
     @testSetup static void setupMethod() {
+        
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'});
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next(); 
         insert acc;
 
@@ -107,6 +110,32 @@ private class LeadTriggerHandlerTest {
             test.stopTest();
             
             System.assert(!sr.isSuccess(), 'Halcyon\'s lead record was created.');
+        }
+    }
+
+    @isTest
+    private static void testCreateMarketingSegmentationForLeads() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Account> accounts = TestDataFactory.createTestAccountRecords(10);     
+            AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
+            List<Lead> leads = TestDataFactory.createTestLeadRecords(10);
+            for(Lead lead : leads){   
+                lead.Company_Category__c = 'Corporate';
+                lead.Description = 'Test Description';
+                lead.Lead_Type__c = 'CCE Corporate Partner';
+            }   
+            Database.SaveResult[] srList = LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
+            Test.startTest();
+            
+            Set<Id> leadIds = new Set<Id>();            
+            for (Database.SaveResult sr : srList) {
+                leadIds.add(sr.getId());
+            }
+            List<Marketing_Segmentation__c> marketingSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(leadIds, AccessLevel.USER_MODE);
+            
+            for(Marketing_Segmentation__c marketingSeg : marketingSegList){
+                System.assert(marketingSeg.Lead__c != null, 'No Marketing Segmentation record created for the lead');
+            }
         }
     }
 }

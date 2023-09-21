@@ -84,6 +84,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
+                    <value>Study Interest</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
@@ -112,6 +113,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
+                    <value>Study Interest</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>

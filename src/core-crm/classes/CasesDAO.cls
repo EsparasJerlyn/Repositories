@@ -22,30 +22,38 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
     public List<Case> getCasesByContactIds(
         Set<Id> contactIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         return Database.query(
             'SELECT  Id, Category__c, CreatedDate, ContactId ' +
-                'FROM Case ' +
-                'WHERE ContactId IN :contactIds '+
-                'WITH ' +
-                String.escapeSingleQuotes(accessLevel)
+            'FROM Case ' +
+            'WHERE ContactId IN :contactIds ',
+            accessLevel
         );
     }
 
-    public List<Case> getCasesByleadIds(
+    public List<Case> getCasesByLeadIds(
         Set<Id> leadIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         return Database.query(
             'SELECT  Id, Category__c, CreatedDate, Lead__c ' +
-                'FROM Case ' +
-                'WHERE Lead__c IN :leadIds '+
-                'WITH ' +
-                String.escapeSingleQuotes(accessLevel)
+            'FROM Case ' +
+            'WHERE Lead__c IN :leadIds ',
+            accessLevel
         );
     }
 
-
-
+    public List<Case> getCasesByContactOrLeadIds(
+        Set<Id> contactOrLeadIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Category__c, CreatedDate, Lead__c, ContactId ' +
+            'FROM Case ' +
+            'WHERE Lead__c IN :contactOrLeadIds ' + 
+            'OR ContactId IN :contactOrLeadIds ',
+            accessLevel
+        );
+    }
 }

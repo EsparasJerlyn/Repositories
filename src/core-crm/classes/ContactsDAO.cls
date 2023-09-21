@@ -14,6 +14,7 @@
 *     | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677                                |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
       | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
+      | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
     /**
@@ -227,6 +228,20 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<Contact> getPersonContactsBySetIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, ' +
+            'IsStaff_Active__c, Staff_Verified__c ' +
+                'FROM Contact ' +
+                'WHERE Id IN: recordIds ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
+                accessLevel
         );
     }
 

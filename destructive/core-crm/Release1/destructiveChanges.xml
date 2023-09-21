@@ -20,9 +20,10 @@
         <members>MarketingCourseApplicationTHTest</members>
         <members>MarketingInteractionTriggerHandler</members>
         <members>MarketingInteractionTriggerHandlerTest</members>
-        <members>MarketingSegmentationTriggerHandler</members>
-        <members>MarketingSegmentationTriggerHandlerTest</members>
         <!--(End) DEPP-5797 -->
+        <!--(Start) DEPP-6421 -->
+        <members>CaseLeadMatchingTest</members>
+        <!--(End) DEPP-6421 -->
         <name>ApexClass</name>
     </types>
     <types>
@@ -30,7 +31,6 @@
         <members>IndividualEmailResultTrigger</members>
         <members>MarketingCourseApplicationTrigger</members>
         <members>MarketingInteractionTrigger</members>
-        <members>MarketingSegmentationTrigger</members>
         <name>ApexTrigger</name>
         <!--(End) DEPP-5797 -->
     </types>
@@ -199,6 +199,12 @@
         <members>Marketing_Interaction_Lead_Scoring</members>
         <members>Marketing_Segmentation_Lead_Scoring</members>
         <!--(End) DEPP-6585-->
+        <!--(Start) DEPP-6421-->
+        <members>Case_Lead_Matching</members>
+        <!--(End) DEPP-6421-->
+        <!--(Start) DEPP-6714-->
+        <members>Course_Connection_Pricing_Validation</members>
+        <!--(End) DEPP-6714-->
         <name>Flow</name>
     </types>
     <types>

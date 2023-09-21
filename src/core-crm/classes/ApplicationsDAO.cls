@@ -40,6 +40,18 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'Declined by Applicant'
     };
 
+    // TODO: confirm relationship between this list to above.
+    // From developer notes in DEPP-5743
+    public static final Set<String> STUDYLINK_TERMINAL_STATUSES = new Set<String>{
+        'Accepted',
+        'Application Archived',
+        'Application Closed',
+        'Incomplete withdrawn',
+        'Unsuccessful',
+        'Withdrawn',
+        'Declined by applicant'
+    };
+
     public static final Set<String> OFFER_BY_OFFER_STATUSES = new Set<String>{
         'No Response'
     };
