@@ -251,6 +251,13 @@
                     <stringValue>Partnership_Manager</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Industry_Engagement_Super_User</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Do_Not_Have_Access_General_Screen</targetReference>
             </connector>

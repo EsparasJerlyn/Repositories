@@ -117,7 +117,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>calculatedCadence</name>
-                    <value>Domestic Acceptance to Enrolment</value>
+                    <value>Domestic Accepted not yet Enrolled</value>
                 </componentInstanceProperties>
                 <componentName>salesCadenceListView</componentName>
                 <identifier>c_salesCadenceListView9</identifier>
@@ -307,7 +307,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Domestic Acceptance to Enrolment</value>
+                    <value>Domestic Accepted not yet Enrolled</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>name</name>

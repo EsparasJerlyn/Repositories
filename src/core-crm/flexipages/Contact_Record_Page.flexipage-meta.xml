@@ -276,6 +276,23 @@
                 <identifier>RecordQUT_Employee_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Dietary_Requirement__c</fieldItem>
+                <identifier>RecordDietary_Requirement_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>QUTeX</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-1690bb37-6912-495d-8cc1-bfbc803894cd</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -298,6 +315,23 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Deceased__c</fieldItem>
                 <identifier>Recordhed_Deceased_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Accessibility_Requirement__c</fieldItem>
+                <identifier>RecordAccessibility_Requirement_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>QUTeX</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e5da54a2-d010-4e66-a2fe-49e8c93d74ae</name>

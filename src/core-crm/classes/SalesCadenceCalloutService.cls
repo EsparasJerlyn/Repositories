@@ -13,6 +13,7 @@
  *    |                                |                       |                        | added logic to get the unsuccessful task         |
  *    |                                |                       |                        | and update any existing completed cadence        |
  *    |                                |                       |                        | to succesful once the task is Contact Successful |
+ *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -111,9 +112,10 @@ public with sharing class SalesCadenceCalloutService {
             if(mapTasks.containsKey(recId)){
                 
                 String taskCadenceName = mapTasks.get(recId).ActionCadenceStepTracker.ActionCadenceName;
+                String taskStatus = mapTasks.get(recId).Status;
                 
                 if(taskCadenceName == cadenceName){
-                    calculatedStatus = 'Unsuccessful';
+                    calculatedStatus = (taskStatus =='Closed - Follow Up')?taskStatus:'Unsuccessful';
                 }               
             }
             
@@ -351,10 +353,7 @@ public with sharing class SalesCadenceCalloutService {
         for (ActionCadenceTracker act: actionCadencesTrackerList){
             
             String recId = act.TargetId;                   
-            if(act.CompletionReason !='ManuallyRemoved'){
-                updateContactOrLead(recId,contacts,leads);
-            }
-            
+            updateContactOrLead(recId,contacts,leads);
             targetCadenceMap.put(recId,act.ActionCadence.Name);
             actionCadenceIds.add(act.Id);                    
         }  

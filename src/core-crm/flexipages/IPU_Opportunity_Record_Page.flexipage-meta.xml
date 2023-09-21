@@ -649,7 +649,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable</identifier>
@@ -733,7 +733,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
@@ -811,7 +811,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable3</identifier>
@@ -892,7 +892,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable4</identifier>
@@ -1340,7 +1340,7 @@
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList9</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
+                    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>NE</operator>
@@ -1360,6 +1360,11 @@
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>System Administrator</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Industry_Engagement_Super_User</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -3173,7 +3178,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable5</identifier>

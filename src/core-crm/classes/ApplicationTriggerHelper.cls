@@ -12,6 +12,7 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag                       |
       | alexander.cadalin              | Aug 16, 2023          | DEPP-6124              | Refactor to consider multiple field updates                    |
       | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Updated getContactOnApplication to get the old Contact Id      |
+      | julie.jane.alegre              | September 19, 2023    |DEPP-6667               | Added new method updateContactWhenQTACAppIsInactive            |
  */
 public with sharing class ApplicationTriggerHelper {
     /**
@@ -174,4 +175,63 @@ public with sharing class ApplicationTriggerHelper {
             return new Lead(Id = recordId);
         }
     }
+    /**
+     * @description Update related Contacts Marketing Preference when QTAC application is inactive 
+     * @param newItems
+     */
+    public static void updateContactWhenQTACAppIsInactive(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {
+        Set<Id> applicantIds = new Set<Id>();
+        for(hed__Application__c app : newItems){
+            Boolean isForUpdate = oldItems != null && oldItems.get(app.Id).Is_Active__c != app.Is_Active__c;
+            Boolean isQTAC = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+            if( isForUpdate && 
+                isQTAC &&
+                app.Is_Active__c == false &&
+                app.hed__Applicant__c != null
+            ){
+                applicantIds.add(app.hed__Applicant__c);
+            }
+        }
+        if(!mapContactToUpdate(applicantIds).isEmpty()){
+            ContactsDAO.newInstance().updateRecords(mapContactToUpdate(applicantIds), false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+    /**
+     * @description Map related Contacts Marketing Preference 
+     * @param applicantIds
+     */
+    private static List<Contact> mapContactToUpdate(Set<Id> applicantIds) {
+        List<Contact> contactsToUpdate = new List<Contact>();
+        List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsBySetIds(applicantIds, AccessLevel.SYSTEM_MODE);
+        Map<Id,List<Case>> caseMap = ContactService.mapExistingCasesToContact(applicantIds, AccessLevel.SYSTEM_MODE);
+        Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = ContactService.mapExistingMarketingInteractionToContact(applicantIds, AccessLevel.SYSTEM_MODE);
+        Map<Id,List<hed__Application__c>> applicationMap = ContactService.mapExisitngApplicationsToContact(applicantIds, AccessLevel.SYSTEM_MODE);
+        
+        for(Contact contacts: contactList){
+            Boolean noCaseandInteractiinRecord = !caseMap.containsKey(contacts.Id) && !marketingInteractionMap.containsKey(contacts.Id);
+            Boolean hasOneApp = applicationMap.containsKey(contacts.Id) && applicationMap.get(contacts.Id).size() == 1;
+            Boolean isForUpdate = noCaseandInteractiinRecord && hasOneApp;
+            if(isForUpdate){
+                contacts.HasOptedOutOfEmail = true;
+                contacts.Email_Opt_Out_DateTime__c = System.today();
+                contacts.Learner_Email_Opt_Out__c = true;
+                contacts.Learner_Email_Opt_Out_DateTime__c = System.today(); 
+                contacts.Staff_Email_Opt_Out__c = true;
+                contacts.Staff_Email_Opt_Out_DateTime__c = System.today();
+                contacts.Work_Email_Opt_Out__c = true;
+                contacts.Work_Email_Opt_Out_DateTime__c = System.today();
+                contacts.Work_SMS_Opt_Out__c = true;
+                contacts.Work_SMS_Opt_Out_DateTime__c = System.today();
+                contacts.hed__SMS_Opt_Out__c = true;
+                contacts.SMS_Opt_Out_DateTime__c = System.today(); 
+                contacts.DoNotCall = true;
+                contacts.Sync_to_MC__c = false;
+                contacts.Do_Not_Sync_To_MC_Override__c = false;
+                contacts.Dont_Market_Reason__c = 'QTAC Application QUT preferences withdrawn';
+                contactsToUpdate.add(contacts);
+            }
+        }
+        return contactsToUpdate;
+    }
+
 }

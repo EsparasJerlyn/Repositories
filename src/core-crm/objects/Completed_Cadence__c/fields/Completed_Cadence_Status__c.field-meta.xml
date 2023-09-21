@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>Unsuccessful</label>
             </value>
+            <value>
+                <fullName>Closed - Follow Up</fullName>
+                <default>false</default>
+                <label>Closed - Follow Up</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
