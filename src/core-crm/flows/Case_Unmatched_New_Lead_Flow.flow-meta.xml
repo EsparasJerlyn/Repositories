@@ -1,11 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <apiVersion>54.0</apiVersion>
+    <actionCalls>
+        <name>Validate_Mobile_of_Lead</name>
+        <label>Validate Mobile of Lead</label>
+        <locationX>314</locationX>
+        <locationY>1274</locationY>
+        <actionName>MobileLoqateValidationService</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>NewTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>apiName</name>
+            <value>
+                <stringValue>MobilePhone</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>leadId</name>
+            <value>
+                <elementReference>LeadId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>locale</name>
+            <value>
+                <elementReference>LocaleVar</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>localePicklistValue</name>
+            <value>
+                <elementReference>Mobile_Locale</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>loqateRequest</name>
+            <value>
+                <elementReference>loqateRequest</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>statusValidationField</name>
+            <value>
+                <elementReference>statusValidationField</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>value</name>
+            <value>
+                <elementReference>Mobile.value</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>56.0</apiVersion>
+    <assignments>
+        <name>Set_Locale_to_AU</name>
+        <label>Set Locale to AU</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>LocaleVar</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>AU</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>loqateRequest</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>fullPhone</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>statusValidationField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>LeadMobile_Validation__c</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>is_lead_created</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Locale_to_NZ</name>
+        <label>Set Locale to NZ</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>LocaleVar</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>NZ</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>loqateRequest</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>fullPhone</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>statusValidationField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>LeadMobile_Validation__c</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>is_lead_created</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_Mobile_Locale</name>
+        <label>Check Mobile Locale</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>is_lead_created</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_AU</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Mobile_Locale</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Australia (+61)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Locale_to_AU</targetReference>
+            </connector>
+            <label>Is AU</label>
+        </rules>
+        <rules>
+            <name>Is_NZ</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Mobile_Locale</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Zealand (+64)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Locale_to_NZ</targetReference>
+            </connector>
+            <label>Is NZ</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>is_lead_created</name>
         <label>is lead created?</label>
         <locationX>314</locationX>
-        <locationY>458</locationY>
+        <locationY>758</locationY>
         <defaultConnector>
             <targetReference>Update_Case</targetReference>
         </defaultConnector>
@@ -14,14 +165,14 @@
             <name>Yes</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>CreatedLeadId</leftValueReference>
+                <leftValueReference>LeadId</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Marketing_Segmentation_Record</targetReference>
+                <targetReference>Get_Marketing_Segmentation</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -111,9 +262,10 @@
         <locationY>350</locationY>
         <assignRecordIdToReference>LeadId</assignRecordIdToReference>
         <connector>
-            <targetReference>is_lead_created</targetReference>
+            <targetReference>Check_Mobile_Locale</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Message</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -141,6 +293,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>LeadMobile_Locale__c</field>
+            <value>
+                <elementReference>Mobile_Locale</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Lead_Type__c</field>
             <value>
                 <stringValue>Learner</stringValue>
@@ -153,51 +311,6 @@
             </value>
         </inputAssignments>
         <object>Lead</object>
-    </recordCreates>
-    <recordCreates>
-        <name>Create_Marketing_Segmentation_Record</name>
-        <label>Create Marketing Segmentation Record</label>
-        <locationX>50</locationX>
-        <locationY>566</locationY>
-        <connector>
-            <targetReference>Update_Case</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Message</targetReference>
-        </faultConnector>
-        <inputAssignments>
-            <field>Lead__c</field>
-            <value>
-                <elementReference>CreatedLeadId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>My_Country_Of_Citizenship__c</field>
-            <value>
-                <elementReference>MyCountryofCitizenship</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>My_Country_Of_Residency__c</field>
-            <value>
-                <elementReference>MyCountryofResidency</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>My_Primary_BSA__c</field>
-            <value>
-                <elementReference>MyPrimaryBSA</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>My_Primary_NSA__c</field>
-            <value>
-                <elementReference>MyPrimaryNSA</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Marketing_Segmentation__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
         <name>Get_Case_Record</name>
@@ -220,13 +333,36 @@
         <object>Case</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Marketing_Segmentation</name>
+        <label>Get Marketing Segmentation</label>
+        <locationX>182</locationX>
+        <locationY>866</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Marketing_Seg</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Lead__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>LeadId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Marketing_Segmentation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Case</name>
         <label>Update Case</label>
         <locationX>314</locationX>
-        <locationY>806</locationY>
+        <locationY>1166</locationY>
+        <connector>
+            <targetReference>Validate_Mobile_of_Lead</targetReference>
+        </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Message</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
@@ -244,6 +380,48 @@
             </value>
         </inputAssignments>
         <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Marketing_Seg</name>
+        <label>Update Marketing Seg</label>
+        <locationX>182</locationX>
+        <locationY>974</locationY>
+        <connector>
+            <targetReference>Update_Case</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Lead__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>LeadId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>My_Country_Of_Citizenship__c</field>
+            <value>
+                <elementReference>My_Country_of_Citizenship</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>My_Country_Of_Residency__c</field>
+            <value>
+                <elementReference>My_Country_of_Residency</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>My_Primary_BSA__c</field>
+            <value>
+                <elementReference>My_Primary_BSA</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>My_Primary_NSA__c</field>
+            <value>
+                <elementReference>My_Primary_NSA</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Marketing_Segmentation__c</object>
     </recordUpdates>
     <screens>
         <name>Create_Lead</name>
@@ -276,6 +454,14 @@
                     <fieldText>First Name</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>Mobile_Locale</name>
+                    <choiceReferences>MobileLocale</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Mobile Locale</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>false</isRequired>
                 </fields>
                 <fields>
                     <name>Email</name>
@@ -359,6 +545,16 @@
                     <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <fields>
+                    <name>Filler2</name>
+                    <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt; &lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Filler</name>
+                    <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt; &lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
                     <name>My_Country_of_Residency</name>
                     <choiceReferences>MyCountryofResidency</choiceReferences>
                     <dataType>String</dataType>
@@ -433,8 +629,8 @@
     <screens>
         <name>Error_Message</name>
         <label>Error Message</label>
-        <locationX>1018</locationX>
-        <locationY>458</locationY>
+        <locationX>754</locationX>
+        <locationY>1274</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -469,10 +665,31 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>LocaleVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>loqateRequest</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>statusValidationField</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>
