@@ -30,6 +30,7 @@
       | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
       | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  |
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag      |
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentation|
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -95,6 +96,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
     processLeadOnInsert(newMap);
     createChildMCPersona(newMap.values());
+    ContactTriggerHelper.createMarketingSegmentation(newMap);
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());

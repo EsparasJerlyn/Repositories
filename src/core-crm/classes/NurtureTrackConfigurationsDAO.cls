@@ -44,7 +44,7 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c, Criteria_Type__c ' +
+            'SELECT  Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c, Criteria_Type__c, Enquiry_Category_L1__c ' +
             'FROM Nurture_Track_Configuration__c ' +
             'WHERE Status__c = \'Active\' '+
             'AND Cadence_Name__c IN :cadenceNames ' +

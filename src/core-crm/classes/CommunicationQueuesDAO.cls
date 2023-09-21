@@ -31,7 +31,7 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
 
     public Database.QueryLocator queryLocatorScheduledCommunicationQueue() {        
         String query =
-            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c ' + 
+            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c ' + 
               'FROM Communication_Queue__c ' + 
              'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING';
         return Database.getQueryLocator(query);
@@ -39,7 +39,7 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
 
     public List<Communication_Queue__c> getComminicationQueueRecordsByStatus(Set<String> status, AccessLevel accessLevel) {
         return Database.query(
-            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c ' + 
+            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c ' + 
               'FROM Communication_Queue__c ' + 
              'WHERE Status__c IN: status', accessLevel
         );

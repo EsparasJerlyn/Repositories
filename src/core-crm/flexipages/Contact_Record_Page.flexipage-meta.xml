@@ -72,10 +72,6 @@
                 <identifier>RecordNameField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-5cbccaf7-7ed3-40b4-ad4b-a151d634b5ec</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -92,18 +88,22 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.AccountId</fieldItem>
-                <identifier>RecordAccountIdField</identifier>
+                <fieldItem>Record.Birthdate</fieldItem>
+                <identifier>RecordBirthdateField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-5cbccaf7-7ed3-40b4-ad4b-a151d634b5ec</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Birthdate</fieldItem>
-                <identifier>RecordBirthdateField</identifier>
+                <fieldItem>Record.AccountId</fieldItem>
+                <identifier>RecordAccountIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -154,6 +154,33 @@
                 <identifier>RecordEmailField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Work_Email__c</fieldItem>
+                <identifier>RecordWork_Email_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Registered_Email__c</fieldItem>
+                <identifier>RecordRegistered_Email_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>QUTeX</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-eff27c10-68b6-4b25-b9ad-8e2af8869635</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -164,8 +191,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Work_Email__c</fieldItem>
-                <identifier>RecordWork_Email_cField</identifier>
+                <fieldItem>Record.QUT_Learner_Email__c</fieldItem>
+                <identifier>RecordQUT_Learner_Email_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.QUT_Staff_Email__c</fieldItem>
+                <identifier>RecordQUT_Staff_Email_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ed0105ad-7dd8-4de2-b85f-8230cfe310c4</name>
@@ -939,6 +976,9 @@
                         <valueListItems>
                             <value>RECORDTYPE|EQUALS|[&quot;StudyLink&quot;]</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Current_Preference__c|NOT_EQUAL|</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1009,6 +1049,12 @@
                     <valueList>
                         <valueListItems>
                             <value>RECORDTYPE|EQUALS|[&quot;QTAC&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Current_Preference__c|NOT_EQUAL|</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Is_Active__c|EQUALS|true</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

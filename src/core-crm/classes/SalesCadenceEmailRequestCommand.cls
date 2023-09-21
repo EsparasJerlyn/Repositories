@@ -8,6 +8,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | August 29, 2023       | DEPP-6138              | Created file                 |
+      | eccarius.munoz                 | September 18, 2023    | sit dep fix            | added handling for new email |
+      |                                |                       |                        | templates (int and dom)      |
       |                                |                       |                        |                              |
  */
 public with sharing class SalesCadenceEmailRequestCommand implements IRequestCommand{
@@ -22,21 +24,34 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
 
         Map<Id, Communication_Queue__c> commsQueueMap = new Map<Id, Communication_Queue__c>();
         Map<String, String> recipientMap = setEmailRecipientMap(communicationQueueList);
-        EmailTemplate emailTemplate = getEmailTemplate(EmailTemplatesDAO.TEMPLATE_NURTURE_MANAGEMENT);
+        EmailTemplate emailTemplateDom = getEmailTemplate(EmailTemplatesDAO.TEMPLATE_NURTURE_MANAGEMENT_DOM);
+        EmailTemplate emailTemplateInt = getEmailTemplate(EmailTemplatesDAO.TEMPLATE_NURTURE_MANAGEMENT_INT);
 
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         for(Communication_Queue__c commsQueue : communicationQueueList){
             if(recipientMap.containsKey(commsQueue.WhoId__c)){
                 Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
                 email.setToAddresses(new List<String>(recipientMap.keySet()));
-                email.setSubject(emailTemplate.Subject);  
-                email.setHtmlBody(
-                    EmailHelper.setBodyValues(
-                        emailTemplate.HtmlValue, 
-                        setupHTMLBodyParams(commsQueue, recipientMap), 
-                        true 
-                    )
-                );
+                if(commsQueue.Business_Process__c == 'Domestic Automated Cadence Email'){
+                    email.setSubject(emailTemplateDom.Subject);  
+                    email.setHtmlBody(
+                        EmailHelper.setBodyValues(
+                            emailTemplateDom.HtmlValue, 
+                            setupHTMLBodyParams(commsQueue, recipientMap), 
+                            true 
+                        )
+                    );
+                }else{
+                    email.setSubject(emailTemplateInt.Subject);  
+                    email.setHtmlBody(
+                        EmailHelper.setBodyValues(
+                            emailTemplateInt.HtmlValue, 
+                            setupHTMLBodyParams(commsQueue, recipientMap), 
+                            true 
+                        )
+                    );
+                }
+                
                 email.setOrgWideEmailAddressId(commsQueue.Sender__c);
                 email.setTargetObjectId(commsQueue.WhoId__c);
                 emailList.add(email);

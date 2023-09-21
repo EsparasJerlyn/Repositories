@@ -36,7 +36,7 @@ public with sharing class CasesDAOTest {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCasesByContactIds(
                     new Set<Id>(),
-                    'SYSTEM_MODE'
+                    AccessLevel.SYSTEM_MODE
                 );
             System.assert(caseList.isEmpty(), 'caseList should not be empty.');
         }
@@ -50,11 +50,24 @@ public with sharing class CasesDAOTest {
             List<Case> caseList = CasesDAO.newInstance()
                 .getCasesByLeadIds(
                     new Set<Id>(),
-                    'SYSTEM_MODE'
+                    AccessLevel.SYSTEM_MODE
                 );
             System.assert(caseList.isEmpty(), 'caseList should not be empty.');
         }
         Test.stopTest();
     }
 
+    @isTest
+    static void getCasesByContactOrLeadIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Case> caseList = CasesDAO.newInstance()
+                .getCasesByContactOrLeadIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(caseList.isEmpty(), 'caseList should not be empty.');
+        }
+        Test.stopTest();
+    }
 }

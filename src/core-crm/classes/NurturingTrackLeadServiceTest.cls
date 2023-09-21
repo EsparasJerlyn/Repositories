@@ -35,13 +35,12 @@ public with sharing class NurturingTrackLeadServiceTest {
             newTerms.addAll(createTestIntakePeriodRecords(newFacilities[0].Id, newAccounts[0].Id));
             insert newTerms;
             
-            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
-            Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
-            nurtureConfig.Cadence_Name__c = 'TEST 1';
-            nurtureConfig.Lead_Score_Threshold__c = 3;
-            nurtureConfig.Status__c = 'Active';
-            nurtureList.add(nurtureConfig);
-            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);   
+            List<Nurture_Track_Configuration__c> configsList = generateNurtureTrackConfigurations();
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(configsList, false, AccessLevel.SYSTEM_MODE);
+            // Alex-offshore: Interesting behavior. Some criterias will always read configs even if there are no valid records for entry/exit
+            //                This breaks testing if the test method hasn't set up all the needed configs. Add your config to the method above
+            //                instead of creating them in your test method itself.
+
         }
     }
 
@@ -139,18 +138,6 @@ public with sharing class NurturingTrackLeadServiceTest {
             lsd.Total_Lead_Score__c = 200;
             insert lsd;
 
-            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
-
-            Nurture_Track_Configuration__c ntc = new Nurture_Track_Configuration__c(
-                        Cadence_Name__c = 'Domestic Strong Interest Pre-Application (Automated)',
-                        Lead_Score_Threshold__c = 180,
-                        Criteria_Type__c = 'Entry',
-                        Enquiry_Category_L1__c = 'Applying for a course',
-                        Status__c = 'Active'
-                    );
-            nurtureList.add(ntc);
-            insert nurtureList;
-
             Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
             marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
             insert marketingSeg;
@@ -195,28 +182,10 @@ public with sharing class NurturingTrackLeadServiceTest {
             lsd.Total_Lead_Score__c = 200;
             insert lsd;
 
-            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
-
-            Nurture_Track_Configuration__c ntc = new Nurture_Track_Configuration__c(
-                        Cadence_Name__c = 'Domestic Strong Interest Pre-Application',
-                        Lead_Score_Threshold__c = 180,
-                        Criteria_Type__c = 'Entry',
-                        Enquiry_Category_L1__c = 'Applying for a course',
-                        Status__c = 'Active'
-                    );
-            nurtureList.add(ntc);
-            insert nurtureList;
-
-            List<Nurture_Track_Configuration__c> nurtureList1 = new List<Nurture_Track_Configuration__c>();
-            Nurture_Track_Configuration__c ntc1 = new Nurture_Track_Configuration__c(
-                        Cadence_Name__c = 'Domestic Strong Interest Pre-Application (Automated)',
-                        Lead_Score_Threshold__c = 180,
-                        Criteria_Type__c = 'Entry',
-                        Enquiry_Category_L1__c = 'Applying for a course',
-                        Status__c = 'Active'
-                    );
-            nurtureList1.add(ntc1);
-            insert nurtureList1;
+            List<Nurture_Track_Configuration__c> nurtureList1 = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
+                new Set<String>{'Domestic Strong Interest Pre-Application (Automated)'},
+                'SYSTEM_MODE'
+            );
 
             Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
             marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
@@ -326,8 +295,173 @@ public with sharing class NurturingTrackLeadServiceTest {
         }
     }
 
+    @isTest 
+    private static void getEntryInternationalStrongInterestPreApplicationTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c(
+                Total_Lead_Score__c = 200
+            );
+            insert leadScoreDetail;
+    
+            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(
+                My_Citizenship_Status__c = 'International Student'
+            );
+            insert marSeg;
+            
+            List<Lead> leadList = createTestLeadRecords(0, 1);
+            leadList[0].Lead_Score_Detail__c = leadScoreDetail.Id;
+            leadList[0].Marketing_Segmentation__c = marSeg.Id;
+            LeadsDAO.newInstance().insertRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+            // emulate batch job's queryFilter
+            leadList[0] = [
+                SELECT Id, Can_Nurture__c, Lead_Score__c, Calculated_Cadence__c, 
+                HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c 
+                FROM Lead LIMIT 1
+            ];
+            
+            List<Case> caseList = new List<Case>();
+            caseList.add(new Case(
+                Category__c = 'Applying for a course',
+                Lead__c = leadList[0].Id
+            ));
+            CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
 
+            List<hed__Application__c> applList = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Accepted');
+            applList[0].hed__Application_Date__c = System.now().addYears(-2);
+            ApplicationsDAO.newInstance().insertRecords(applList, false, AccessLevel.SYSTEM_MODE);
 
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+
+            Boolean isAutoEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == 'International Strong Interest Pre-Application (Automated)';
+            
+            leadList[0].Calculated_Cadence__c = '';
+            
+			List<Nurture_Track_Configuration__c> configList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
+                new Set<String> {'International Strong Interest Pre-Application'},
+                'SYSTEM_MODE'
+            );
+            
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            completedCadenceList.add(new Completed_Cadence__c(
+                Application__c = applList[0].Id,
+                Lead__c = leadList[0].Id,
+                Nurture_Track_Configuration__c = configList[0].Id
+            ));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
+            
+            processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
+            Boolean isManualEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == 'International Strong Interest Pre-Application';
+            Test.stopTest();
+
+            System.assert(isAutoEntrySuccess, 'Automatic entry calculated cadence population failed.');
+            System.assert(isManualEntrySuccess, 'Manual entry calculated cadence population failed.');
+        }
+    }
+    
+    @isTest
+    private static void getExitInternationalStrongInterestPreApplicationTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(
+                My_Citizenship_Status__c = 'International Student'
+            );
+            insert marSeg;
+            
+            List<Lead> leadList = createTestLeadRecords(0, 1);
+            leadList[0].Calculated_Cadence__c = 'International Strong Interest Pre-Application (Automated)';
+            leadList[0].Marketing_Segmentation__c = marSeg.Id;
+            LeadsDAO.newInstance().insertRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+            // emulate batch job's queryFilter
+            leadList[0] = [
+                SELECT Id, Can_Nurture__c, Lead_Score__c, Calculated_Cadence__c, 
+                HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c 
+                FROM Lead LIMIT 1
+            ];
+            
+            List<hed__Application__c> applList = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Active');
+            applList[0].hed__Application_Date__c = System.now().addYears(-2);
+            ApplicationsDAO.newInstance().insertRecords(applList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
+            Boolean isAutoExitSuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == '';
+            
+            leadList[0].Calculated_Cadence__c = 'International Strong Interest Pre-Application';
+            
+            List<Nurture_Track_Configuration__c> configList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
+                new Set<String> {'International Strong Interest Pre-Application'},
+                'SYSTEM_MODE'
+            );
+            
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            completedCadenceList.add(new Completed_Cadence__c(
+                Application__c = applList[0].Id,
+                Lead__c = leadList[0].Id,
+                Nurture_Track_Configuration__c = configList[0].Id
+            ));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
+            
+            processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
+            Boolean isManualExitSuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == '';
+            Test.stopTest();
+            
+            System.assert(isAutoExitSuccess, 'Automatic exit calculated cadence clearing failed.');
+            System.assert(isManualExitSuccess, 'Manual exit calculated cadence clearing failed.');
+        }
+    }
+
+    /**
+     * Generate nurture track configurations and return them as a list of records.
+     * Some criterias will always read configs even if there are no valid records for entry/exit
+     * This breaks testing if the test method hasn't set up all the needed configs. Add your config to the method above
+     * instead of creating them in your test method itself.
+     * @return {List<Nurture_Track_Configuration__c>} A list of the configuration records
+     */
+    private static List<Nurture_Track_Configuration__c> generateNurtureTrackConfigurations() {
+        List<Nurture_Track_Configuration__c> configsList = new List<Nurture_Track_Configuration__c>();
+        // Alex-offshore: This was in the setup already... o- o?
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = 'TEST 1',
+            Lead_Score_Threshold__c = 3,
+            Status__c = 'Active'
+        ));
+        //  Domestic Strong Interest Pre-Application (Automated) [Entry]
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = 'Domestic Strong Interest Pre-Application (Automated)',
+            Criteria_Type__c = 'Entry',
+            Enquiry_Category_L1__c = 'Applying for a course',
+            Lead_Score_Threshold__c = 180,
+            Status__c = 'Active'
+        ));
+        // Domestic Strong Interest Pre-Application [Entry]
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = 'Domestic Strong Interest Pre-Application',
+            Criteria_Type__c = 'Entry',
+            Enquiry_Category_L1__c = 'Applying for a course',
+            Lead_Score_Threshold__c = 180,
+            Status__c = 'Active'
+        ));
+        // International Strong Interest Pre-Application (Automated) [Entry]
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = 'International Strong Interest Pre-Application (Automated)',
+            Criteria_Type__c = 'Entry',
+            Enquiry_Category_L1__c = 'Course information;Applying for a course',
+            Lead_Score_Threshold__c = 180,
+            Status__c = 'Active'
+        ));
+        // International Strong Interest Pre-Application [Entry]
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = 'International Strong Interest Pre-Application',
+            Criteria_Type__c = 'Entry',
+            Enquiry_Category_L1__c = 'Course information;Applying for a course',
+            Lead_Score_Threshold__c = 180,
+            Status__c = 'Active'
+        ));
+        return configsList;
+    }
 
     private static List<hed__Application__c> createTestApplicationRecords(List<Lead> leadList, String recordType, String applicationStatus) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();

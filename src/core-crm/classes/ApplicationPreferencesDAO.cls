@@ -25,9 +25,10 @@ public inherited sharing class ApplicationPreferencesDAO extends DmlBase impleme
 		String accessLevel 
     ) {
         return Database.query(
-            'SELECT Id, Application__c, Is_Current_Preference__c, RecordTypeId, Preference_Number__c, Starting_Month__c ' +
+            'SELECT Id, Application__c, Is_Current_Preference__c, RecordTypeId, Preference_Number__c, Starting_Month__c, Is_Active__c ' +
              'FROM Application_Preference__c ' +
              'WHERE Application__c IN : applicationIDSet ' +
+             'AND Is_Active__c = TRUE ' +
 			 'AND Preference_Number__c != null ' +
 			 'AND RecordTypeId =: QTAC_RECTYPE_ID WITH ' +
              String.escapeSingleQuotes(accessLevel) +

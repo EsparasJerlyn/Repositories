@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_or_Lead_Validation</fullName>
+    <active>true</active>
+    <description>Lead and Contact cannot be linked to the case at the same time.</description>
+    <errorConditionFormula>AND (
+!ISBLANK( ContactId ),
+!ISBLANK( Lead__c )
+)</errorConditionFormula>
+    <errorMessage>Lead and Contact cannot be linked to the case at the same time.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,53 @@
+/* @description  Mock DAO Class for Marketing Segmentation 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Created file                 |
+ */
+@isTest
+public inherited sharing  class MarketingSegmentationsDAOMock extends DmlBaseMock implements IMarketingSegmentationsDAO{
+    public Map<Id, Marketing_Segmentation__c> marketingSegmentationMap;
+
+    public Schema.SObjectType getSObjectType() {
+        return Marketing_Segmentation__c.SObjectType;
+    }
+
+    public MarketingSegmentationsDAOMock() {
+        super(new Map<Id, Marketing_Segmentation__c>(), Schema.Marketing_Segmentation__c.SObjectType);
+        this.marketingSegmentationMap = (Map<Id, Marketing_Segmentation__c>) super.records;
+    }
+
+    public List<Marketing_Segmentation__c> getMarketingSegmentationByContactIds(
+        Set<Id> contactIds,
+        AccessLevel accessLevel
+    ) {
+        List<Marketing_Segmentation__c> marketingSegmentationList = new List<Marketing_Segmentation__c>();
+
+        for (Marketing_Segmentation__c record : marketingSegmentationMap.values()) {
+            if (contactIds.contains(record.Contact__c)) {
+                marketingSegmentationList.add(record);
+            }
+        }
+
+        return marketingSegmentationList;
+    }
+
+    public List<Marketing_Segmentation__c> getMarketingSegmentationByLeadIds(
+        Set<Id> leadIds,
+        AccessLevel accessLevel
+    ) {
+        List<Marketing_Segmentation__c> marketingSegmentationList = new List<Marketing_Segmentation__c>();
+
+        for (Marketing_Segmentation__c record : marketingSegmentationMap.values()) {
+            if (leadIds.contains(record.Lead__c)) {
+                marketingSegmentationList.add(record);
+            }
+        }
+
+        return marketingSegmentationList;
+    }
+
+}
