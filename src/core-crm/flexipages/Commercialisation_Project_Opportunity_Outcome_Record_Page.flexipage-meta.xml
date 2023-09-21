@@ -667,7 +667,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable7</identifier>
@@ -697,6 +697,9 @@
                 <componentInstanceProperties>
                     <name>newActionType</name>
                     <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionTypeLabel</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newScreenFlowApiName</name>
@@ -751,7 +754,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable5</identifier>
@@ -835,7 +838,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable6</identifier>
@@ -919,7 +922,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable3</identifier>
@@ -1003,7 +1006,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable8</identifier>
@@ -1087,7 +1090,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable4</identifier>
@@ -1175,7 +1178,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable15</identifier>
@@ -1258,7 +1261,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable11</identifier>
@@ -1340,7 +1343,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable</identifier>
@@ -1422,7 +1425,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
@@ -1508,7 +1511,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable9</identifier>
@@ -1587,7 +1590,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable12</identifier>
@@ -1670,7 +1673,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable14</identifier>
@@ -1751,7 +1754,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable10</identifier>
@@ -1838,7 +1841,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Operations_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable13</identifier>
@@ -2042,8 +2045,43 @@
     <template>
         <name>flexipage:recordHomeWithSubheaderTemplateDesktop</name>
         <properties>
+            <name>actionNames</name>
+            <valueList>
+                <valueListItems>
+                    <value>Global.LogACall</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
+                    <value>Global.NewTask</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
+                    <value>Global.NewEvent</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+            </valueList>
+        </properties>
+        <properties>
             <name>enablePageActionConfig</name>
-            <value>false</value>
+            <value>true</value>
         </properties>
     </template>
     <type>RecordPage</type>
