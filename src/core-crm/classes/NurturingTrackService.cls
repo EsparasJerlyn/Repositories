@@ -9,7 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                      |
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                        |
-      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove methods getCurrentIntakePeriod and isDateWithinRange as it is no longer used |
+      | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriod and isDateWithinRange                         |
  */
 public with sharing class NurturingTrackService {
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_FIELD_MAP = new Map<SObjectType, Map<String, String>>{
@@ -170,6 +170,52 @@ public with sharing class NurturingTrackService {
         return length;
     }
 
+    /**
+     * @description Get the current intake period
+     * @return Map<String, Date> key-value pair, start date and end date
+     */
+    public static Map<String, Date> getCurrentIntakePeriod() {
+        Map<String, Date> universityTermMap = new Map<String, Date>{
+            'START_DATE' => null,
+            'END_DATE' => null
+        };
+        for (hed__Term__c term : [
+            SELECT Id, hed__Start_Date__c, hed__End_Date__c
+            FROM hed__Term__c
+            WHERE
+                Location__r.Name = 'U'
+                AND Study_Period_Type_Code__c IN ('SEM-1', 'SEM-2', 'SUM')
+                AND hed__Start_Date__c > :System.today()
+            WITH SYSTEM_MODE
+            ORDER BY hed__Start_Date__c ASC
+            LIMIT 1
+        ]) {
+            universityTermMap.put('START_DATE', term.hed__Start_Date__c);
+            universityTermMap.put('END_DATE', term.hed__End_Date__c);
+        }
+        return universityTermMap;
+    }
+    /**
+     * @description Check if a date is within the range of two dates
+     * @param Date dateToCheck
+     * @param Date lowerDate
+     * @param Date upperDate
+     * @return Boolean true if the date is within the two other dates, false otherwise
+     */
+    public static Boolean isDateWithinRange(Date dateToCheck, Date lowerDate, Date upperDate) {
+        // just in case, to prevent unnecessary behavior, swap if lowerDate is later than upperDate
+        Boolean isNotNull = false; // Boolean variable to track if both lowerDate and upperDate are not null
+        if (lowerDate != null && upperDate != null) {
+            isNotNull = true;
+        }
+        if (isNotNull && (lowerDate > upperDate)) {
+            Date tempDate = lowerDate;
+            lowerDate = upperDate;
+            upperDate = tempDate;
+        }
+        return isNotNull ? dateToCheck >= lowerDate && dateToCheck <= upperDate : false;
+    }
+    
     public class CadenceWrapper{
         SObjectType objectType;
         String cadenceNameManual;

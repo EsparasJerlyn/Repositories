@@ -23,6 +23,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static Map<Id, Lead> domesticExitLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalEntryLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalExitLeadMap = new Map<Id, Lead>();
+    private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
 
     /**
      * @description: process All leads for Entry and Exit in Cadences assignment
@@ -114,7 +115,12 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                 internationalEntryLeadMap.containsKey(application.Lead__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                application.Calculated_Intake_Date__c >= System.today() &&
+                application.Calculated_Intake_Date__c !=NULL &&
+                NurturingTrackService.isDateWithinRange(
+                    application.Calculated_Intake_Date__c,
+                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                    CURRENT_INTAKE_PERIOD.get('END_DATE')
+                ) &&
                 application.Is_Agent_Assisted__c == false
             ) {
                 internationalDirectApplicants.put(application.Id, application);

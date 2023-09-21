@@ -31,4 +31,10 @@
         <label>Closed - Unsuccessful Call</label>
         <closed>true</closed>
     </standardValue>
+    <standardValue>
+        <fullName>Closed - Follow Up</fullName>
+        <default>false</default>
+        <label>Closed - Follow Up</label>
+        <closed>true</closed>
+    </standardValue>
 </StandardValueSet>
