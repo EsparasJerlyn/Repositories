@@ -202,9 +202,6 @@
         <!--(Start) DEPP-6421-->
         <members>Case_Lead_Matching</members>
         <!--(End) DEPP-6421-->
-        <!--(Start) DEPP-6714-->
-        <members>Course_Connection_Pricing_Validation</members>
-        <!--(End) DEPP-6714-->
         <name>Flow</name>
     </types>
     <types>
