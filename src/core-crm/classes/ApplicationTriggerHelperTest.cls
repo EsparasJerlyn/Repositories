@@ -10,6 +10,7 @@
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | mark.j.mahilum            | July 18,2023          | DEPP-5799    | Created file                                |
       | alexander.cadalin         | Aug 16, 2023          | DEPP-6124    | Refactor to consider multiple field updates |
+      | julie.jane.alegre         | September 20, 2023    | DEPP-6667    | Added testUpdateContactWhenQTACAppIsInactive|
 */
 @isTest
 private class ApplicationTriggerHelperTest {
@@ -35,7 +36,10 @@ private class ApplicationTriggerHelperTest {
                 createTestApplicationRecords(newContacts,'Existing',ApplicationsDAO.STUDYLINK_RECTYPE_ID),
                 false,
                 AccessLevel.SYSTEM_MODE
-            );
+            );    
+
+            List<Marketing_Interaction__c> marketingInteractionList = TestDataFactory.createMarketingInteractionRecords(newContacts[0].Id, 1, 'QTAC');
+            MarketingInteractionsDAO.newInstance().insertRecords(marketingInteractionList, false, AccessLevel.SYSTEM_MODE);
         }
     }
 
@@ -199,6 +203,32 @@ private class ApplicationTriggerHelperTest {
             System.assert(applicationsToUpdate[0].Agency_Email__c == updatedContact.Agency_Email__c, 'Agency_Email__c not updated correctly.');
         }
     }
+
+    @isTest
+    private static void testUpdateContactWhenQTACAppIsInactive(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
+            List<hed__Application__c> applicationToUpdate = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'USER_MODE');   
+            for(hed__Application__c app : applicationToUpdate){
+                app.RecordTypeId = ApplicationsDAO.QTAC_RECTYPE_ID;
+                app.Is_Active__c = false;
+            }
+            Test.startTest();
+            ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
+            List<Contact> contactUpdated = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.USER_MODE);
+            Test.stopTest();
+            System.assert(contactUpdated[0].HasOptedOutOfEmail == true, 'HasOptedOutOfEmail should be updated to true.');
+            System.assert(contactUpdated[0].HasOptedOutOfEmail == true, 'Learner_Email_Opt_Out__c should be updated to true.');
+            System.assert(contactUpdated[0].Staff_Email_Opt_Out__c == true, 'Staff_Email_Opt_Out__c should be updated to true.');
+            System.assert(contactUpdated[0].Work_Email_Opt_Out__c == true, 'Work_Email_Opt_Out__c should be updated to true.');
+            System.assert(contactUpdated[0].Work_SMS_Opt_Out__c == true, 'Work_SMS_Opt_Out__c should be updated to true.');
+            System.assert(contactUpdated[0].hed__SMS_Opt_Out__c == true, 'hed__SMS_Opt_Out__c should be updated to true.');
+            System.assert(contactUpdated[0].DoNotCall == true, 'DoNotCall should be updated to true.');
+            System.assert(contactUpdated[0].Sync_to_MC__c == false, 'Sync_to_MC__c should be updated to false.');
+            System.assert(contactUpdated[0].Do_Not_Sync_To_MC_Override__c == false, 'Do_Not_Sync_To_MC_Override__c should be updated to false.');
+            System.assert(contactUpdated[0].Dont_Market_Reason__c == 'QTAC Application QUT preferences withdrawn', 'Dont_Market_Reason__c does not have the correct value.');
+        }
+    }
     
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String applicationStatus,String recordType) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();
@@ -212,6 +242,7 @@ private class ApplicationTriggerHelperTest {
                     Application_Status__c = applicationStatus,
                     hed__Applicant__c = con.Id,
                     RecordTypeId = recordType
+    
                 )
             );
         }
@@ -241,4 +272,5 @@ private class ApplicationTriggerHelperTest {
         }
         return newContacts;
     }
+
 }
