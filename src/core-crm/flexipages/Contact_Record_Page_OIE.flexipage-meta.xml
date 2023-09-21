@@ -429,6 +429,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.LinkedIn_Profile_URL__c</fieldItem>
+                <identifier>RecordLinkedIn_Profile_URL_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Position__c</fieldItem>
                 <identifier>RecordPosition_cField</identifier>
             </fieldInstance>
