@@ -90,5 +90,10 @@
         <!--End DEPP-6208-->
         <name>CustomPageWebLink</name>
     </types>
+
+    <types>
+        <members>Course_Connection_Pricing_Validation</members>
+        <name>Flow</name>
+    </types>
     <version>52.0</version>
 </Package>
