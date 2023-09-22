@@ -1,15 +1,15 @@
 /**
- * @description test class for WebCartsDAO
+ * @description Test class for CourseOfferingsDAO. 
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                 |                                                     |
  */
 @isTest
-public with sharing class WebCartsDAOTest {
+public with sharing class CourseOfferingsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
@@ -19,7 +19,7 @@ public with sharing class WebCartsDAOTest {
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            System.assert(WebCartsDAO.newInstance() != null, 'WebCartsdao instance is null');
+            System.assert(CourseOfferingsDAO.newInstance() != null, 'CoureOfferingsDAO instance is null');
         }
         Test.stopTest();
     }
@@ -29,10 +29,10 @@ public with sharing class WebCartsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             System.assert(
-                new WebCartsDAO().getSObjectType() == WebCart.SObjectType,
-                'SObject is not WebCart'
+                new CourseOfferingsDAO().getSObjectType() == hed__Course_Offering__c.SObjectType,
+                'SObject is not hed__Course__Offering__c'
             );
         }
         Test.stopTest();
     }
-}
+} 

@@ -3,12 +3,20 @@
     <label>Course Offering Information</label>
     <protected>false</protected>
     <values>
+        <field>Field_Dependency__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Left_Column_Long__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Delivery_Type__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Start_Date__c&quot;, &quot;mandatory&quot;:true},
 {&quot;field&quot;:&quot;Registration_Start_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Minimum_Participants__c&quot;, &quot;mandatory&quot;:true,&quot;isPrePopulated&quot;:true},{&quot;field&quot;:&quot;LMS_Integration_Status__c&quot;}]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Right_Column_Long__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -21,10 +29,16 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;IsActive__c&quot;},{&quot;field&quot;:&quot;hed__End_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Registration_End_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Capacity__c&quot;, &quot;mandatory&quot;:true,&quot;isPrePopulated&quot;:true}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;IsActive__c&quot;},{&quot;field&quot;:&quot;hed__End_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Registration_End_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;hed__Capacity__c&quot;, &quot;mandatory&quot;:true,&quot;isPrePopulated&quot;:true},
+{&quot;field&quot;:&quot;LMS_Creation_Date__c&quot;}
+]</value>
     </values>
     <values>
         <field>Right_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Label__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>

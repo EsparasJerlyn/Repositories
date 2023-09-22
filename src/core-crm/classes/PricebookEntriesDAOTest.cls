@@ -1,12 +1,12 @@
 /**
- * @description test class for PricebookEntriesdao.
+ * @description test class for PricebookEntriesDAO.
  * @author Accenture
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                        |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                     |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------|
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                       |
  */
 @isTest
 private class PricebookEntriesDAOTest {

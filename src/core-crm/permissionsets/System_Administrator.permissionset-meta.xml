@@ -23590,6 +23590,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.LMS_Creation_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.LMS_Integration_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
