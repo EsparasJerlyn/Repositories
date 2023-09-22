@@ -637,7 +637,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable</identifier>
@@ -715,7 +715,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
@@ -793,7 +793,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable3</identifier>
@@ -2238,6 +2238,9 @@
                     <value>Default</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>newActionTypeLabel</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>newScreenFlowApiName</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -2289,7 +2292,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Partnership_Manager&apos;</value>
+                    <value>(UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable4</identifier>
