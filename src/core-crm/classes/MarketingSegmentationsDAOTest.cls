@@ -64,4 +64,4 @@ public with sharing class MarketingSegmentationsDAOTest {
         Test.stopTest();
     }
 
-}
+} 

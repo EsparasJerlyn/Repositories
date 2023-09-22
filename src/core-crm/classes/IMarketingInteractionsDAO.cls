@@ -5,8 +5,8 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | julie.jane.alegre              | Sept 18, 2023         | DEPP-6667              | Created file                 |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | julie.jane.alegre              | Sept 18, 2023         | DEPP-6667              | Created file                 |
  */
 public interface IMarketingInteractionsDAO extends DmlInterface{
     List<Marketing_Interaction__c> getMarketingInteractionByApplicantIds(

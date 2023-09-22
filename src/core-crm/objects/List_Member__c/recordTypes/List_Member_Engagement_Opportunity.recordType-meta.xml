@@ -4,4 +4,23 @@
     <active>true</active>
     <description>Individual contact included that meets the list criteria that has been qualified for inclusion in the engagement</description>
     <label>List Member Engagement Opportunity</label>
+    <picklistValues>
+        <picklist>Activity_Status__c</picklist>
+        <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unable to contact</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>

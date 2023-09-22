@@ -59,6 +59,7 @@
  *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
  *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base             |
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
+ *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          | 
  *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
  * 
  * 
@@ -1815,7 +1816,70 @@ public class TestDataFactory {
         }
         return docsList;
     }
+    /**
+     * @description Method for creating test List records
+     * @return listRecords - Lists created
+     */
+    public static List<List__c> createListRecords(
+        Integer numOfList
+    ) {
+        List<List__c> listRecords = new List<List__c>();
 
+        for (Integer i = 0; i < numOfList; i++) {
+            listRecords.add(
+                new List__c(
+                   List_Name__c = 'New List '+i,
+                   Stage__c = 'New'
+                )
+            );
+        }
+        return listRecords;
+    }
+    /**
+     * @description Method for creating test List Member records
+     * @return listMemberRecords - List Members created
+     */
+    public static List<List_Member__c> createListMemberRecords(
+        Integer numOfList,
+        Id listId,
+        Id listMemberId
+    ) {
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
+
+        for (Integer i = 0; i < numOfList; i++) {
+            listMemberRecords.add(
+                new List_Member__c(
+                   List__c = listId,
+                   Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
+                   List_Member__c = listMemberId
+                )
+            );
+        }
+        return listMemberRecords;
+    }
+    /**
+     * @description Method for creating test List Member records
+     * with multiple list records
+     * @return listMemberRecords - List Members created
+     */
+    public static List<List_Member__c> createListMemberBatchRecords(
+        Integer numOfList,
+        List<List__c> listrecords,
+        Id listMemberId
+    ) {
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
+
+        for (Integer i = 0; i < numOfList; i++) {
+            listMemberRecords.add(
+                new List_Member__c(
+                   List__c = listrecords[i].Id,
+                   Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
+                   List_Member__c = listMemberId
+                )
+            );
+        }
+        return listMemberRecords;
+    } 
     /**
      * @description Method for creating Communication Schedule
      * @param nCommSched - number of Communication Schedule to be created

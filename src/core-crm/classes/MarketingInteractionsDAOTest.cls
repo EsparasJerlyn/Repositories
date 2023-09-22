@@ -1,5 +1,5 @@
 /**
- * @description DAO TestClass for Marketing_Interaction__c Object. Contains soql and constants related to the Marketing_Interaction__c object.
+ * @description DAO TestClass for Marketing_Interaction__c Object. Contains SOQL and Constants related to the Marketing_Interaction__c object.
  * @author Accenture
  *
  * @history

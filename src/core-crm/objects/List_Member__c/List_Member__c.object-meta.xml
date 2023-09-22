@@ -153,14 +153,15 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>Private</externalSharingModel>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>List Member</label>
     <nameField>
-        <label>List Member Name</label>
-        <type>Text</type>
+        <displayFormat>LM-{0000000}</displayFormat>
+        <label>List Member Number</label>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>List Members</pluralLabel>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

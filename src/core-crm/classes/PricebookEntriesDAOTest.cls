@@ -1,5 +1,5 @@
 /**
- * @description test class for PricebookEntriesdao.
+ * @description test class for PricebookEntriesDAO.
  * @author Accenture
  *
  * @history

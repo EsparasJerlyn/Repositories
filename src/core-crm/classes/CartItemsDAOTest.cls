@@ -1,5 +1,5 @@
 /**
- * @description test class for cartitemsdao.
+ * @description test class for CartItemsDAO.
  * @author Accenture
  *
  * @history

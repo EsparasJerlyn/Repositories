@@ -48,4 +48,4 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         return Database.query(marketingSegmentationQuery, accessLevel);
     }
 
-}
+} 

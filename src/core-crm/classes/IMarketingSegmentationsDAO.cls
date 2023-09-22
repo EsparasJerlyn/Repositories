@@ -18,4 +18,4 @@ public interface IMarketingSegmentationsDAO extends DmlInterface{
           Set<Id> leadIds,
           AccessLevel accessLevel
      );
-}
+} 

@@ -27,6 +27,7 @@
  *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
+ *    | carl.alvin.cabiles             | September 15, 2023    | DEPP-6510              | Added Object mapping for List and List Member obj             |
  *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj        |
  *    | julie.jane.alegre              | September 18, 2023    | DEPP-6667              | Added Object mapping for Marketing_Interaction__c obj         |
  *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Adde mapping for cartdeliverygroup,webstore,webcart,cartitem, |
@@ -98,6 +99,8 @@ public class ImplementationSelector {
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
             UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,
             Expense__c.SObjectType => ExpensesDAO.class,
+            List_Member__c.SObjectType => ListMembersDAO.class,
+            List__c.SObjectType => ListsDAO.class,
             WebCart.SObjectType => WebCartsDAO.class,
             WebStore.SOBjectType => WebStoresDAO.class
         }
