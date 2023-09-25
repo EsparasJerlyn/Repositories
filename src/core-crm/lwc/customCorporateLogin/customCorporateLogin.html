@@ -27,7 +27,7 @@
                 <span class="required-text">*</span><br />
                 <div class="inputContainer">
                     <p class="helpText">Please enter your mobile number in the following format 614XXXXXXXX</p>
-                    <input type="number" id="mobile" class={requiredInputClass.mobile} onchange={handleMobileInput} onkeypress={onlyNumericAllowed} onpaste={onlyNumericAllowedInPaste}
+                    <input type="number" id="mobile" class={requiredInputClass.mobile} value ={mobile} onchange={handleMobileInput} onkeypress={onlyNumericAllowed} onpaste={onlyNumericAllowedInPaste}
                         placeholder="Mobile" />
                 </div>
                 <template if:true={hasErrorMobile}>
