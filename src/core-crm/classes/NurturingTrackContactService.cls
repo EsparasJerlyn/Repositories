@@ -1957,8 +1957,10 @@ public with sharing class NurturingTrackContactService { //NOPMD
         String nurtureTrackName,
         Boolean isManual
     ) {
-        String manualCategs = (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c');
-        String autoCategs = (String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c');
+        String manualCategs = String.isBlank((String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')) ?
+            '' : (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c');
+        String autoCategs = String.isBlank((String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c')) ?
+            '' : (String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c');
         return isManual ?
             manualCategs.split(';') :
             autoCategs.split(';');
