@@ -28,6 +28,7 @@
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
  *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj        |
+ *    | julie.jane.alegre              | September 18, 2023    | DEPP-6667              | Added Object mapping for Marketing_Interaction__c obj         |
  *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Adde mapping for cartdeliverygroup,webstore,webcart,cartitem, |
  *    |                                |                       |                        | pricebook and pricebookentry                                  |
  */
@@ -73,6 +74,7 @@ public class ImplementationSelector {
             Lead.SObjectType => LeadsDAO.class,
             Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
+            Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
             Marketing_Segmentation__c.SObjectType => MarketingSegmentationsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
             Nurture_Track_Configuration__c.SObjectType => NurtureTrackConfigurationsDAO.class,
