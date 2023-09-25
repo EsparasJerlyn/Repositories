@@ -99,7 +99,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Flow Lookup Fields To Display For Contact Object</shortDescription>
-        <value>Name,hed__Primary_Organization__r.Name,Email</value>
+        <value>Name,Email,QUT_Staff_Email__c,Position__c</value>
     </labels>
     <labels>
         <fullName>LWC_FlowLookupFieldsToSearchForContactObject</fullName>
