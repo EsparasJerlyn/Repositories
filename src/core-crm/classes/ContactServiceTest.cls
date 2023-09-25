@@ -9,6 +9,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Created file                 | 
+      | julie.jane.alegre              | Sept 21, 2023         | DEPP-6667              | Add methods to check related | 
+      |                                |                       |                        | records to contact           | 
  */
 @IsTest
 public class ContactServiceTest {
@@ -61,6 +63,51 @@ public class ContactServiceTest {
             } catch (Exception e){
                 System.assert(e !=null, 'Error in ContactCtrl in get Existing Contact Duplicates for Work Email');
             }
+        }
+        Test.stopTest(); 
+    }
+
+    @IsTest
+    public static void mapExistingCasesToContactTest(){
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()){
+            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+            ImplementationSelector.DAO.setMock(new CasesDAOMock());
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+            List<Case> caseList = TestDataFactory.createTestCaseRecords(1, null, contactList);
+            CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.USER_MODE);
+            System.assert(!ContactService.mapExistingCasesToContact(new Set<Id>{contactList[0].Id}, AccessLevel.USER_MODE).keySet().isEmpty(), 'No cases related to contact.');
+        }
+        Test.stopTest(); 
+    }
+
+    @IsTest
+    public static void mapExistingMarketingInteractionToContactTest(){
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()){
+            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+            ImplementationSelector.DAO.setMock(new CasesDAOMock());
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+            List<Marketing_Interaction__c> marketingInteractionList = TestDataFactory.createMarketingInteractionRecords(contactList[0].Id, 1, 'QTAC');
+            MarketingInteractionsDAO.newInstance().insertRecords(marketingInteractionList, false, AccessLevel.USER_MODE);
+            System.assert(ContactService.mapExistingMarketingInteractionToContact(new Set<Id>{contactList[0].Id}, AccessLevel.USER_MODE).keySet().isEmpty(), 'No Marketing Interactions related to contact.');
+        }
+        Test.stopTest(); 
+    }
+
+    @IsTest
+    public static void mapExisitngApplicationsToContactTest(){
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()){
+            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+            ImplementationSelector.DAO.setMock(new ApplicationsDAOMock());
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+            List<hed__Application__c> applicationList = TestDataFactory.createApplicationRecords(contactList[0].Id, ApplicationsDAO.QTAC_RECTYPE_ID, 1);
+            ApplicationsDAO.newInstance().insertRecords(applicationList, false, AccessLevel.USER_MODE);
+            System.assert(!ContactService.mapExisitngApplicationsToContact(new Set<Id>{contactList[0].Id}, AccessLevel.USER_MODE).keySet().isEmpty(), 'There are other applications related to contact.');
         }
         Test.stopTest(); 
     }
