@@ -3502,7 +3502,7 @@ public class TestDataFactory {
      */
     public static List<Marketing_Interaction__c> createMarketingInteractionRecords(Id contactId, Integer numberOfRecordsToCreate, String leadSource) {
         List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
-        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+        for(Integer i= 0; i < numberOfRecordsToCreate; i++) {
             marketingInteractionList.add(new Marketing_Interaction__c(
                 Contact__c = contactId, 
                 Lead_Source__c = leadSource

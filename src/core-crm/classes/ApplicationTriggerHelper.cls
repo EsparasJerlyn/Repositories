@@ -12,29 +12,113 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag                       |
       | alexander.cadalin              | Aug 16, 2023          | DEPP-6124              | Refactor to consider multiple field updates                    |
       | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Updated getContactOnApplication to get the old Contact Id      |
-      | julie.jane.alegre              | September 19, 2023    |DEPP-6667               | Added new method updateContactWhenQTACAppIsInactive            |
+      | julie.jane.alegre              | September 19, 2023    | DEPP-6667              | Added new method updateContactWhenQTACAppIsInactive            |
+      | alexander.cadalin              | Sep. 22, 2023         | DEPP-6652, 6653, 6654  | Added methods for contact field updates on match to application|
  */
 public with sharing class ApplicationTriggerHelper {
     /**
-     * @description Perform field updates on related records of the inserted marketing segmentations passing thru the trigger.
-     * @param newItems A map of insert marketing segmentations
+     * @description If a QTAC application has an applicant, creates or updates addresses for the applicant record
+     * @param Map<Id, SObject> newItems - An application id to new/updated application record map
+     * @param Map<Id, SObject> oldItems - An application id to replaced application record map
      */
-    public static void updateRelatedRecords(Map<Id, SObject> newItems) {
-        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
-        Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
-        for(hed__Application__c app : (List<hed__Application__c>) newItems.values()) {
-            // contact updates start here
-            setLogiclessFieldValuesOnContact(contactsToUpdate, app);
-            // contact updates end here
-            // lead updates start here
-            setLogiclessFieldValuesOnLead(leadsToUpdate, app);
-            // lead updates end here
+    public static void createAddressesForMatchingQTACApplicant(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        Map<Id, hed__Application__c> qtacApplicationsMap = new Map<Id, hed__Application__c>();
+        Set<Id> qtacApplicantIdSet = new Set<Id>();
+        for(hed__Application__c application : (List<hed__Application__c>) newItems.values()) {
+            if(ApplicationService.isContactMatchedQTACApplication(application, oldItems)) {
+                qtacApplicationsMap.put(application.Id, application);
+                qtacApplicantIdSet.add(application.hed__Applicant__c);
+            }
         }
-        if(!contactsToUpdate.keySet().isEmpty()) {
-            ContactsDAO.newInstance().updateRecords(contactsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
+        if(qtacApplicationsMap.keySet().isEmpty()) { return; } // if no valid application, stop here.
+
+        Map<Id, Contact> contactsMap = new Map<Id, Contact>(
+            ContactsDAO.newInstance().getContactsForQTACAddressUpdate(qtacApplicantIdSet, AccessLevel.SYSTEM_MODE)
+        );
+
+        Map<String, hed__Address__c> contactTypeToAddressMap = new Map<String, hed__Address__c>();
+
+        processAddresses(qtacApplicationsMap, contactsMap, contactTypeToAddressMap);
+        
+        if(!contactTypeToAddressMap.keySet().isEmpty()) {
+            AddressesDAO.newInstance().upsertRecords(contactTypeToAddressMap.values(), false, AccessLevel.SYSTEM_MODE);
         }
-        if(!leadsToUpdate.keySet().isEmpty()) {
-            LeadsDAO.newInstance().updateRecords(leadsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
+    }
+    
+    private static void processAddresses(
+        Map<Id, hed__Application__c> qtacApplicationsMap,
+        Map<Id, Contact> contactsMap,
+        Map<String, hed__Address__c> contactTypeToAddressMap
+    ) {
+        for(hed__Application__c application : qtacApplicationsMap.values()) {
+            Boolean hasMailing = false;
+            Boolean hasOther = false;
+            Contact applicant = (Contact) contactsMap.get(application.hed__Applicant__c);
+            for(hed__Address__c address : applicant.hed__Addresses__r) {
+                address = ApplicationService.fillAddressLines(address, application, address.hed__Address_Type__c);
+                switch on address.hed__Address_Type__c {
+                    when 'Mailing' { 
+                        hasMailing = true; 
+                    }
+                    when 'Other' { 
+                        hasOther = true; 
+                    }
+                }
+                contactTypeToAddressMap.put((String) applicant.Id + address.hed__Address_Type__c, address);
+            }
+            if(!hasMailing) {
+                contactTypeToAddressMap.put(
+                    (String) applicant.Id + 'Mailing',
+                    ApplicationService.fillAddressLines(new hed__Address__c(), application, 'Mailing')
+                );
+            }
+            if(!hasOther) {
+                contactTypeToAddressMap.put(
+                    (String) applicant.Id + 'Other',
+                    ApplicationService.fillAddressLines(new hed__Address__c(), application, 'Other')
+                );
+            }
+        }
+    }
+
+    /**
+     * @description Perform field updates on related records of the applications
+     * @param Map<Id, SObject> newItems - An application id to new/updated application record map
+     * @param Map<Id, SObject> oldItems - An application id to replaced application record map
+     */
+    public static void updateRelatedRecords(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        // update/upsert maps/list
+        Map<Id, Contact> contactMapToUpdate = new Map<Id, Contact>();
+        Map<Id, Lead> leadMapToUpdate = new Map<Id, Lead>();
+        // related maps
+        Map<Id, Contact> relatedContactMap = new Map<Id, Contact>(ApplicationService.getApplicantsFromApplications((List<hed__Application__c>) newItems.values()));
+        // process
+        for(hed__Application__c application : (List<hed__Application__c>) newItems.values()) {
+            if(application.hed__Applicant__c != null){
+                // initial steps...
+                Contact applicant = ApplicationService.getContactFromUpdateMap(contactMapToUpdate, application.hed__Applicant__c);
+                ApplicationService.RecordsToReferenceWrapper recordsToReference = new ApplicationService.RecordsToReferenceWrapper();
+                recordsToReference.existingContact = relatedContactMap.get(application.hed__Applicant__c);
+                recordsToReference.application = application;
+                recordsToReference.oldApplication = oldItems == null ? null : (hed__Application__c) oldItems.get(application.Id);
+                // field updates...
+                ApplicationService.mapFieldsToApplicant(applicant, recordsToReference.application);
+                ApplicationService.switchMapFieldsByRecordType(applicant, recordsToReference);
+            }
+                
+            if(application.Lead__c != null) {
+                // initial steps...
+                Lead lead = ApplicationService.getLeadFromUpdateMap(leadMapToUpdate, application.Lead__c);
+                // field updates...
+                ApplicationService.mapFieldsToLead(lead, application);
+            }
+        }
+        // update
+        if(!contactMapToUpdate.keySet().isEmpty()) {
+            ContactsDAO.newInstance().updateRecords(contactMapToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
+        }
+        if(!leadMapToUpdate.keySet().isEmpty()) {
+            LeadsDAO.newInstance().updateRecords(leadMapToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
         }
     }
     
@@ -74,30 +158,6 @@ public with sharing class ApplicationTriggerHelper {
     }
 
     /**
-     * @description Set field values on the related contact of an inserted application. One-liner field setting only. Use another method if otherwise
-     * @param contactsToUpdate An id-contact map of contacts to be updated
-     * @param app The application record to process
-     */
-    private static void setLogiclessFieldValuesOnContact(Map<Id, Contact> contactsToUpdate, hed__Application__c app) {
-        if(app.hed__Applicant__c != null) {
-            Contact con = getRecordFromContactMap(contactsToUpdate, app.hed__Applicant__c);
-            // field mapping starts here
-            con.Can_Nurture__c = isActiveApplication(app);
-            con.Is_Agent_Assisted__c = app.Is_Agent_Assisted__c;
-            con.Is_International_Applicant__c = app.Is_International_Applicant__c;
-            con.Personal_Illness_Disability_Applicant__c = app.Is_Personal_Illness_Disability_Applicant__c;
-            con.Elite_Athlete_Applicant__c = app.Is_Elite_Athlete_Applicant__c;
-            con.Education_Disruption_Applicant__c = app.Is_Education_Disruption_Applicant__c;
-            con.First_in_Family_Applicant__c = app.Is_First_In_Family_Applicant__c;
-            con.Financial_Hardship_Applicant__c = app.Is_Financial_Hardship_Applicant__c;
-            con.Agency_Name__c = app.Agency_Name__c;
-            con.Agency_Country__c = app.Agency_Country__c;
-            con.Agency_Email__c = app.Agency_Email__c;
-            // field mapping ends here
-            contactsToUpdate.put(con.Id, con);
-        }
-    }
-    /**
      * @description update the inserted Sams application record
      *
      * @param newItems  List of new hed__Application__c records
@@ -121,60 +181,8 @@ public with sharing class ApplicationTriggerHelper {
                 Logger.saveLog();
             }
         }
-    }     
-    
-    
-    /**
-     * @description Set field values on a related lead. Add your field mapping here if it can be done in ONE LINE ONLY. Otherwise, use another method.
-     * @param leadsToUpdate an id-lead map of leads to be updated
-     * @param app The application record to process
-     */
-    private static void setLogiclessFieldValuesOnLead(Map<Id, Lead> leadsToUpdate, hed__Application__c app) {
-        if(app.Lead__c != null) {
-            Lead ld = getRecordFromLeadMap(leadsToUpdate, app.Lead__c);
-            // field mapping starts here
-            ld.Can_Nurture__c = isActiveApplication(app);
-            // field mapping ends here
-            leadsToUpdate.put(ld.Id, ld);
-        }
     }
-    
-    /**
-     * @description Return a boolean value to indicate whether the provided application is active
-     * @param app The application record
-     * @return Boolean
-     */
-    private static Boolean isActiveApplication(hed__Application__c app) {
-        return !ApplicationsDAO.samsStatuses.contains(app.Application_Status__c) && !ApplicationsDAO.studyLinkStatuses.contains(app.Application_Status__c); 
-    }
-    
-    /**
-     * @description Get a record from an ids-contact map given a record Id. If it does not exist, it returns a new contact Sobject.
-     * @param contactMap The contact map to get the record from
-     * @param recordId The record to look for, or to create a new record from.
-     * @return Contact
-     */
-    private static Contact getRecordFromContactMap(Map<Id, Contact> contactMap, Id recordId) {
-        if(contactMap.containsKey(recordId)) {
-            return contactMap.get(recordId);
-        } else {
-            return new Contact(Id = recordId);
-        }
-    }
-    
-    /**
-     * @description Get a record from an ids-lead map given a record Id. If it does not exist, it returns a new lead Sobject.
-     * @param leadMap The lead map to get the record from
-     * @param recordId The record to look for, or to create a new record from.
-     * @return Lead
-     */
-    private static Lead getRecordFromLeadMap(Map<Id, Lead> leadMap, Id recordId) {
-        if(leadMap.containsKey(recordId)) {
-            return leadMap.get(recordId);
-        } else {
-            return new Lead(Id = recordId);
-        }
-    }
+
     /**
      * @description Update related Contacts Marketing Preference when QTAC application is inactive 
      * @param newItems
@@ -182,56 +190,13 @@ public with sharing class ApplicationTriggerHelper {
     public static void updateContactWhenQTACAppIsInactive(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {
         Set<Id> applicantIds = new Set<Id>();
         for(hed__Application__c app : newItems){
-            Boolean isForUpdate = oldItems != null && oldItems.get(app.Id).Is_Active__c != app.Is_Active__c;
-            Boolean isQTAC = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
-            if( isForUpdate && 
-                isQTAC &&
-                app.Is_Active__c == false &&
-                app.hed__Applicant__c != null
-            ){
+            if(ApplicationService.isInactiveQTACApp(app, oldItems)){
                 applicantIds.add(app.hed__Applicant__c);
             }
         }
-        if(!mapContactToUpdate(applicantIds).isEmpty()){
-            ContactsDAO.newInstance().updateRecords(mapContactToUpdate(applicantIds), false, AccessLevel.SYSTEM_MODE);
+        List<Contact> contactsToUpdate = ApplicationService.mapContactToUpdate(applicantIds);
+        if(!contactsToUpdate.isEmpty()){
+            ContactsDAO.newInstance().updateRecords(contactsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
     }
-    /**
-     * @description Map related Contacts Marketing Preference 
-     * @param applicantIds
-     */
-    private static List<Contact> mapContactToUpdate(Set<Id> applicantIds) {
-        List<Contact> contactsToUpdate = new List<Contact>();
-        List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsBySetIds(applicantIds, AccessLevel.SYSTEM_MODE);
-        Map<Id,List<Case>> caseMap = ContactService.mapExistingCasesToContact(applicantIds, AccessLevel.SYSTEM_MODE);
-        Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = ContactService.mapExistingMarketingInteractionToContact(applicantIds, AccessLevel.SYSTEM_MODE);
-        Map<Id,List<hed__Application__c>> applicationMap = ContactService.mapExisitngApplicationsToContact(applicantIds, AccessLevel.SYSTEM_MODE);
-        
-        for(Contact contacts: contactList){
-            Boolean noCaseandInteractiinRecord = !caseMap.containsKey(contacts.Id) && !marketingInteractionMap.containsKey(contacts.Id);
-            Boolean hasOneApp = applicationMap.containsKey(contacts.Id) && applicationMap.get(contacts.Id).size() == 1;
-            Boolean isForUpdate = noCaseandInteractiinRecord && hasOneApp;
-            if(isForUpdate){
-                contacts.HasOptedOutOfEmail = true;
-                contacts.Email_Opt_Out_DateTime__c = System.today();
-                contacts.Learner_Email_Opt_Out__c = true;
-                contacts.Learner_Email_Opt_Out_DateTime__c = System.today(); 
-                contacts.Staff_Email_Opt_Out__c = true;
-                contacts.Staff_Email_Opt_Out_DateTime__c = System.today();
-                contacts.Work_Email_Opt_Out__c = true;
-                contacts.Work_Email_Opt_Out_DateTime__c = System.today();
-                contacts.Work_SMS_Opt_Out__c = true;
-                contacts.Work_SMS_Opt_Out_DateTime__c = System.today();
-                contacts.hed__SMS_Opt_Out__c = true;
-                contacts.SMS_Opt_Out_DateTime__c = System.today(); 
-                contacts.DoNotCall = true;
-                contacts.Sync_to_MC__c = false;
-                contacts.Do_Not_Sync_To_MC_Override__c = false;
-                contacts.Dont_Market_Reason__c = 'QTAC Application QUT preferences withdrawn';
-                contactsToUpdate.add(contacts);
-            }
-        }
-        return contactsToUpdate;
-    }
-
 }
