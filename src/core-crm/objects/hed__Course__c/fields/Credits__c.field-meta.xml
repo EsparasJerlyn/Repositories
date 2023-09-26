@@ -3,7 +3,7 @@
     <fullName>Credits__c</fullName>
     <externalId>false</externalId>
     <label>Credits</label>
-    <precision>2</precision>
+    <precision>3</precision>
     <required>false</required>
     <scale>0</scale>
     <trackTrending>false</trackTrending>

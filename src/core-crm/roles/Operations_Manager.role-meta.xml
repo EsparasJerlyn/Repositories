@@ -6,5 +6,5 @@
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Operations Manager</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>System_Administrator</parentRole>
+    <parentRole>Industry_Engagement_Super_User</parentRole>
 </Role>

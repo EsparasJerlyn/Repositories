@@ -10,6 +10,9 @@
       | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Created File                               |
       | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                         |
       |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
+      | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                         |
+      |                                |                       |                        | getActiveCourseConnectionsBySetContactIds  |
+      
  */
 @isTest
 public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock implements ICourseConnectionsDAO { 
@@ -47,6 +50,21 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
 
         for (hed__Course_Enrollment__c record : courseConnectionMap.values()) {
             if (programEnrollmentIds.contains(record.Id)) {
+                courseConnectionList.add(record);
+            }
+        }
+
+        return courseConnectionList;
+    }
+
+    public List<hed__Course_Enrollment__c> getActiveCourseConnectionsBySetContactIds(
+        Set<String> contactIds,
+        AccessLevel accessLevel
+    ) {
+        List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
+
+        for (hed__Course_Enrollment__c record : courseConnectionMap.values()) {
+            if (contactIds.contains(record.hed__Contact__c) && record.hed__Status__c == 'Active') {
                 courseConnectionList.add(record);
             }
         }

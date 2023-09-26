@@ -613,7 +613,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Partnership_Manager&apos;)</value>
+                    <value>(UserRole.DeveloperName = &apos;Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Partnership_Manager&apos; OR UserRole.DeveloperName = &apos;Industry_Engagement_Super_User&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
@@ -784,6 +784,41 @@
     <sobjectType>IP_Management__c</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
+        <properties>
+            <name>actionNames</name>
+            <valueList>
+                <valueListItems>
+                    <value>Global.LogACall</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
+                    <value>Global.NewTask</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
+                    <value>Global.NewEvent</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+            </valueList>
+        </properties>
         <properties>
             <name>enablePageActionConfig</name>
             <value>true</value>

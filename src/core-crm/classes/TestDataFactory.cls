@@ -58,6 +58,7 @@
  *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
  *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
+ *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
  * 
  * 
  **/
@@ -1936,6 +1937,24 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating WebCart
+     * @param accountId - portal account id
+     * @param ownerId - owner id
+     * @param webstoreId - webstore id
+     * @return WebCart - to be created WebCart
+     */
+    public static WebCart createWebCart(Id accountId, Id ownerId, Id webstoreId) {
+        return new WebCart(
+            Name = 'Cart',
+            AccountId = accountId,
+            Status = 'Active',
+            Status__c = 'Active',
+            WebStoreId = webstoreId,
+            OwnerId = ownerId
+        );
+    }
+
+    /**
      * @description Method for creating WebStoreCatalog
      * @return records - list of International_Tier__c records
      */
@@ -2087,7 +2106,7 @@ public class TestDataFactory {
      */
     public static User getCorporatePartnerUser() {
         User coporateUser = [
-            SELECT Id
+            SELECT Id, AccountId, ContactId
             FROM User
             WHERE Username LIKE 'QUT_Corporate_Partner_User%'
             LIMIT 1
@@ -3422,6 +3441,7 @@ public class TestDataFactory {
             applicationList.add(new hed__Application__c(
                 hed__Applicant__c = contactId,
                 RecordTypeId = recordTypeId,
+                Is_Active__c = true,
                 Intake_Year__c = String.valueOf(System.Today().year())
             ));
         }
@@ -3475,5 +3495,19 @@ public class TestDataFactory {
             ));
         }
         return leadScoreConfigurationList;
+    }
+    /**
+     * @description Method for creating test Marketing Interaction records
+     * @return List<Marketing_Interaction__c> leadScoreConfigurationList - List of Lead Score Configuration Records
+     */
+    public static List<Marketing_Interaction__c> createMarketingInteractionRecords(Id contactId, Integer numberOfRecordsToCreate, String leadSource) {
+        List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            marketingInteractionList.add(new Marketing_Interaction__c(
+                Contact__c = contactId, 
+                Lead_Source__c = leadSource
+            ));
+        }
+        return marketingInteractionList;
     }
 }

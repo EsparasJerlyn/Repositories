@@ -10,6 +10,8 @@
       | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Created File                               |
       | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                         |
       |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
+      | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                         |
+      |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
  */
 @isTest
 public with sharing class CourseConnectionsDAOTest {
@@ -56,6 +58,20 @@ public with sharing class CourseConnectionsDAOTest {
                     'SYSTEM_MODE'
                 );
             System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getActiveCourseConnectionsBySetContactIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
+                .getActiveCourseConnectionsBySetContactIds(
+                    new Set<String>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should be empty.');
         }
         Test.stopTest();
     }

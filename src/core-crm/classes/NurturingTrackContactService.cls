@@ -15,7 +15,9 @@
       |                                |                       |                        | Calculated Intake Date on application record                                  | 
       | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove CURRENT_INTAKE_PERIOD and NurturingTrackService.isDateWithinRange call |
       |                                |                       |                        | as it's no longer used                                                        |
-      | arsenio.jr.dayrit              | September 07, 2023    | DEPP-5652              | Added handling for Domestic Strong Interest Pre-Application         |
+      | arsenio.jr.dayrit              | September 07, 2023    | DEPP-5652              | Added handling for Domestic Strong Interest Pre-Application                   |
+      | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6677              | Updated name of sales cadence from Domestic Acceptance to Enrollment to       |
+      |                                |                       |                        | Domestic Accepted not yet Enrolled
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
@@ -35,6 +37,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     private static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
     private static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
+    private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
 
     /**
      * @description: process All contacts for Entry and Exit in Cadences assignment
@@ -58,7 +61,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
          *   Domestic Deferred Offer to Acceptance (DEPP-5755)
          *   International Offer to Acceptance (DEPP-5756)
          *   International Acceptance Deposit not Paid (DEPP-5757)
-         *   Domestic Acceptance to Enrolment (DEPP-5758)
+         *   Domestic Accepted not yet Enrolled (DEPP-5758)
          *   Domestic and International Enrolment to Census (DEPP-5760)
          *   Domestic Offer Lapsed (DEPP-5761)
          */
@@ -149,7 +152,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                application.Calculated_Intake_Date__c >= System.today() &&
+                NurturingTrackService.isDateWithinRange(
+                    application.Calculated_Intake_Date__c,
+                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                    CURRENT_INTAKE_PERIOD.get('END_DATE')
+                ) &&
                 application.Is_Agent_Assisted__c == false
             ) {
                 internationalDirectApplicants.put(application.Id, application);
@@ -197,7 +204,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 application.Is_Agent_Assisted__c == false &&
                 application.Application_Status__c == 'Acceptance - Pending Payment' &&
-                application.Calculated_Intake_Date__c >= System.today()
+                NurturingTrackService.isDateWithinRange(
+                    application.Calculated_Intake_Date__c,
+                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                    CURRENT_INTAKE_PERIOD.get('END_DATE')
+                )
             ) {
                 internationalDirectApplicants.put(application.Id, application);
             }
@@ -242,12 +253,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         );
         Set<Id> existingContactIdOnAppWithProgram = getContactOnApplicationWithProgramPlan(
             applicationList,
-            'Domestic Acceptance to Enrolment'
+            'Domestic Accepted not yet Enrolled'
         );
 
         Map<Id, List<String>> existingContactOnCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             domesticEntryContactMap.keySet(),
-            new Set<String>{ 'Domestic Acceptance to Enrolment (Automated)' },
+            new Set<String>{ 'Domestic Accepted not yet Enrolled (Automated)' },
             Contact.getSObjectType()
         );
 
@@ -350,7 +361,10 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 isStudyLinkRecordType &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 ApplicationsDAO.OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                application.Calculated_Intake_Date__c >= System.today()
+                NurturingTrackService.isDateWithinRange(
+                    application.Calculated_Intake_Date__c,
+                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                    CURRENT_INTAKE_PERIOD.get('END_DATE'))
             ) {
                 processCompletedInternationalOffertoAcceptance(application, internationalOffertoAcceptanceManual, internationalOffertoAcceptanceAutomated);
             }
@@ -518,7 +532,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
         for (hed__Application__c application : filteredApplicationList) {
             if (
                 validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
-                application.Calculated_Intake_Date__c >= System.today()
+                NurturingTrackService.isDateWithinRange(
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c,
+                    application.Offered_Program_Plan__r.Availability_Start_Date__c?.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c),
+                    System.today()
+                )
             ) {
                 applicationMap.put(application.Id, application);
             }
@@ -860,8 +878,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
         boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
         Boolean hasCalculatedCadence =
-                (app.hed__Applicant__r.Calculated_Cadence__c == 'Domestic Acceptance to Enrolment (Automated)') ||
-                (app.hed__Applicant__r.Calculated_Cadence__c == 'Domestic Acceptance to Enrolment');
+                (app.hed__Applicant__r.Calculated_Cadence__c == 'Domestic Accepted not yet Enrolled (Automated)') ||
+                (app.hed__Applicant__r.Calculated_Cadence__c == 'Domestic Accepted not yet Enrolled');
         if (methodName == DOMESTIC_ACCEPTANCE_TO_ENROLLMENT) {
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
@@ -954,15 +972,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         Set<Id> contactIds = new Set<Id>();
         for (hed__Application__c app : applications) {
-            if (cadenceName == 'Domestic Acceptance to Enrolment') {
+            if (cadenceName == 'Domestic Accepted not yet Enrolled') {
                 if (
                     app.Offered_Program_Plan__c != null &&
-                    nurturingTrackWithOffSetDaysMap.get('Domestic Acceptance to Enrolment')
+                    nurturingTrackWithOffSetDaysMap.get('Domestic Accepted not yet Enrolled')
                         ?.Key_Date_Offset_Days__c != null &&
                         app.Offered_Program_Plan__r.Availability_Start_Date__c!=null &&
                         app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
                         -(Integer) nurturingTrackWithOffSetDaysMap.get(
-                                'Domestic Acceptance to Enrolment'
+                                'Domestic Accepted not yet Enrolled'
                             )
                             ?.Key_Date_Offset_Days__c
                     ) <= System.today() &&
@@ -1000,14 +1018,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             domesticEntryContactMap.keySet(),
-            new Set<String>{ 'Domestic Acceptance to Enrolment (Automated)' },
+            new Set<String>{ 'Domestic Accepted not yet Enrolled (Automated)' },
             Contact.getSObjectType()
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
             Contact.getSObjectType(),
             null,
-            'Domestic Acceptance to Enrolment (Automated)'
+            'Domestic Accepted not yet Enrolled (Automated)'
         );
 
         List<Contact> contactToUpdateListAutomated = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
@@ -1028,14 +1046,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             domesticEntryContactMap.keySet(),
-            new Set<String>{ 'Domestic Acceptance to Enrolment' },
+            new Set<String>{ 'Domestic Accepted not yet Enrolled' },
             Contact.getSObjectType()
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
             Contact.getSObjectType(),
             null,
-            'Domestic Acceptance to Enrolment'
+            'Domestic Accepted not yet Enrolled'
         );
 
         List<Contact> contactToUpdateListManual = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
@@ -1804,6 +1822,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
         app.Applied_Intake_Study_Period__r.hed__Start_Date__c != null &&
         app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID  &&
         ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(app.Application_Status__c) &&
+        NurturingTrackService.isDateWithinRange(
+            app.Calculated_Intake_Date__c,
+            CURRENT_INTAKE_PERIOD.get('START_DATE'),
+            CURRENT_INTAKE_PERIOD.get('END_DATE')
+        ) &&        
         app.Is_Agent_Assisted__c == false);
     }
 
@@ -1934,8 +1957,10 @@ public with sharing class NurturingTrackContactService { //NOPMD
         String nurtureTrackName,
         Boolean isManual
     ) {
-        String manualCategs = (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c');
-        String autoCategs = (String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c');
+        String manualCategs = String.isBlank((String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')) ?
+            '' : (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c');
+        String autoCategs = String.isBlank((String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c')) ?
+            '' : (String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c');
         return isManual ?
             manualCategs.split(';') :
             autoCategs.split(';');

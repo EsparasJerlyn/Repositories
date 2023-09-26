@@ -173,11 +173,13 @@ public with sharing class LeadService {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
 
         for(Lead leads: newItems.values()){
+            if(leads.Marketing_Segmentation__c == null){
                 marketingSegToInsert.add(
                     new Marketing_Segmentation__c(
                         Lead__c = leads.Id
                     )
-                );       
+                );   
+            }     
         }
         if(!marketingSegToInsert.IsEmpty()){
             MarketingSegmentationsDAO.newInstance().insertRecords(marketingSegToInsert, false, AccessLevel.SYSTEM_MODE);
