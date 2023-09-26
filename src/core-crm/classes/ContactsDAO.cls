@@ -16,8 +16,10 @@
       | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
       | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                | 
       | julie.jane.alegre              | Sept 20, 2023         | DEPP-6667              | Added fields in method getPersonContactsBySetIds          |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
+ *    |                                |                       | DEPP-6652,6653,6654    | added fields to getPersonContactsBySetIds                 |
  */
-public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
+public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
      * Contact Constants
      */
@@ -75,7 +77,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return [//NOPMD
             SELECT
                 Id,
+                FirstName,
                 LastName,
+                Birthdate,
                 Email,
                 QUT_Learner_Email__c,
                 QUT_Staff_Email__c,
@@ -242,11 +246,26 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
-            'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c ' +
+            'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, ' +
+            'FirstName, LastName, Birthdate ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
                 accessLevel
+        );
+    }
+    
+    public static List<Contact> getContactsForQTACAddressUpdate(
+        Set<Id> qtacApplicantIdSet,
+        AccessLevel accessLevel
+    ) {
+        return Database.query( 'SELECT Id, (' +
+            'SELECT hed__Address_Type__c, hed__MailingStreet__c, hed__MailingStreet2__c, ' +
+            'hed__MailingCity__c, hed__MailingState__c, hed__MailingCountry__c, ' +
+            'hed__MailingPostalCode__c, hed__Parent_Contact__c ' +
+            'FROM hed__Addresses__r' +
+            ') FROM Contact WHERE Id IN :qtacApplicantIdSet',
+            accessLevel
         );
     }
 

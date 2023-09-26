@@ -4,15 +4,16 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                        |
- *    | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist  |
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new list for 5846 Methods     |
- *    | roy.nino.s.regala              | July 20, 2023         | DEPP-5677              | Added new list                      |
- *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new list                      |
- *    | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added getContactsFromConvertedLead  |
- *    | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | method getPersonContactsBySetIds    |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
+ *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                           |
+ *    | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist     |
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new list for 5846 Methods        |
+ *    | roy.nino.s.regala              | July 20, 2023         | DEPP-5677              | Added new list                         |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new list                         |
+ *    | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added getContactsFromConvertedLead     |
+ *    | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | method getPersonContactsBySetIds       |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate |
  */
 public interface IContactsDAO extends DmlInterface {
     List<Contact> getExistingPersonContactsWithMatchingEmails(
@@ -47,6 +48,10 @@ public interface IContactsDAO extends DmlInterface {
     );
     List<Contact> getPersonContactsBySetIds(
         Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
+    List<Contact> getContactsForQTACAddressUpdate(
+        Set<Id> qtacApplicantIdSet,
         AccessLevel accessLevel
     );
 }

@@ -4,14 +4,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                        |
- *    | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist  |
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added test method for DEPP-5846     |
- *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added test method for DEPP-5847     |
- *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added test method for DEPP-5677     |
- *    | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | method getPersonContactsBySetIds    |
+ *    | Developer Email                | Date                | JIRA                   | Change Summary                            |
+ *    |--------------------------------|---------------------|------------------------|-------------------------------------------|
+ *    | roy.nino.s.regala              | April 25, 2023      | DEPP-5567              | Created file                              |
+ *    | eugene.andrew.abuan            | June 08, 2023       | DEPP-5414              | Added checkWorkEmailFlowInputExist        |
+ *    | mark.j.mahilum                 | June 26, 2023       | DEPP-5846              | Added test method for DEPP-5846           |
+ *    | arsenio.jr.dayrit              | July 06, 2023       | DEPP-5847              | Added test method for DEPP-5847           |
+ *    | roy.nino.s.regala              | Aug 09, 2023        | DEPP-5677              | Added test method for DEPP-5677           |
+ *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
+ *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
  */
 @isTest
 private class ContactsDAOTest {
@@ -162,6 +163,17 @@ private class ContactsDAOTest {
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactsForQTACAddressUpdate() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance().
+                getContactsForQTACAddressUpdate(new Set<Id>(), AccessLevel.SYSTEM_MODE);
+            System.assert(contactList.isEmpty(), 'contactList should not be empty');
         }
         Test.stopTest();
     }
