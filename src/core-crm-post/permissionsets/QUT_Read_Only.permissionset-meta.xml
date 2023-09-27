@@ -12971,6 +12971,15 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>et4ae5__IndividualEmailResult__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>Expense__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -14324,6 +14333,10 @@
         <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabSettings>
+        <tab>et4ae5__IndividualEmailResult__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <tabSettings>
         <tab>Facilitator_Bio__c</tab>
         <visibility>Visible</visibility>
