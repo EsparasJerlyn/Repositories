@@ -14,6 +14,7 @@
  *    |                                |                       |                        | and update any existing completed cadence        |
  *    |                                |                       |                        | to succesful once the task is Contact Successful |
  *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes |
+ *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation   |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -36,17 +37,21 @@ public with sharing class SalesCadenceCalloutService {
      *
      * @param Map<String,String> assignCadenceMap)
      */
-     private static void assignTargetToCadence(Map<String,String> assignCadenceMap) {
+    private static void assignTargetToCadence(Map<String,String> assignCadenceMap) {
         // Create an instance of the wrapper class
         SalesCadenceWrapper wrapper = new SalesCadenceWrapper();
         
         for(String key: assignCadenceMap.keySet()){
-           wrapper.addInputData(assignCadenceMap.get(key), key,null);
+            if(assignCadenceMap.get(key).containsIgnoreCase('automated')){
+                wrapper.addInputData(assignCadenceMap.get(key), key,null);  
+            }
         }
    
         if(!wrapper.inputs.isEmpty()){
             sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT);            
         }
+        //create initial completed completed cadence without status
+        createInitialCompletedCadences(assignCadenceMap); 
     }
     
     /**
@@ -74,14 +79,22 @@ public with sharing class SalesCadenceCalloutService {
             targetIdRunningCadence.add(aCadenceTracker.TargetId);
         }
         
+        Map<String,String> manualRemoveCadenceMap = new Map<String,String>();
+        
         for(String key: removeCadenceMap.keySet()){
             if(targetIdRunningCadence.contains(key)){
                 wrapper.addInputData(null, key,'ManuallyRemoved');                                                   
+            }else{
+                manualRemoveCadenceMap.put(key,removeCadenceMap.get(key));
             }
         }
         
         if(!wrapper.inputs.isEmpty()){
             sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT);
+        }
+        
+        if(!manualRemoveCadenceMap.isEmpty()){
+            createCompletedCadence(manualRemoveCadenceMap,null);
         }
     }
     
@@ -400,4 +413,47 @@ public with sharing class SalesCadenceCalloutService {
             LeadsDAO.newInstance().updateRecords(leads, false, AccessLevel.SYSTEM_MODE);
         }   
     }
+
+   /**
+    * @description: create the initial completed cadence on cadences assignment
+    *
+    * @param Map<String,String> cadenceMap
+    */ 
+    public static void createInitialCompletedCadences(Map<String,String> targetCadenceMap){
+        
+        //get the related nurture track config record of the targetIds
+        Map<String,String> nurtureMap = getNurtureTrackConfigMap(new Set<String>(targetCadenceMap.values()));        
+        Map<String, String> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);       
+        List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+        
+        for(String recId: targetCadenceMap.keySet()){           
+            
+            if(completedCadenceStatusMap.containsKey(recId)){
+                continue;
+            }
+            
+            String cadenceName = targetCadenceMap.get(recId);
+            String nurtureId =  nurtureMap.get(cadenceName);
+            
+            if(recId.startsWith('003')){
+                completedCadenceList.add(
+                    new Completed_Cadence__c(
+                        Nurture_Track_Configuration__c = nurtureId,
+                        Contact__c = recId
+                    )
+                );   
+            }else{
+                completedCadenceList.add(
+                    new Completed_Cadence__c(
+                        Nurture_Track_Configuration__c = nurtureId,
+                        Lead__c = recId
+                    )
+                );
+            }
+        }
+        
+        if(!completedCadenceList.isEmpty()){
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
+        }        
+    }    
 }

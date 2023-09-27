@@ -14,6 +14,8 @@
       | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Added new method to set Person Contact flag      |
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag         |
       | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added new method to create Marketing Segmentation|
+      | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Updated getContactCalculatedCadence to includes  |
+      |                                |                       |                        | the automated cadences in the processSaleCadences|
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
@@ -310,7 +312,7 @@ public without sharing class ContactTriggerHelper {
             String oldCalculatedCadence = oldContact.Calculated_Cadence__c;
             
             if(calculatedCadence != oldCalculatedCadence){
-                if (String.isNotEmpty(calculatedCadence) && calculatedCadence.containsIgnoreCase('automated')) {
+                if (String.isNotEmpty(calculatedCadence) && String.isEmpty(oldCalculatedCadence)) {
                     assignContactToCadenceMap.put(con.Id,calculatedCadence);
                 } else if (String.isEmpty(calculatedCadence)) {
                     removeContactToCadenceMap.put(con.Id,oldCalculatedCadence);
