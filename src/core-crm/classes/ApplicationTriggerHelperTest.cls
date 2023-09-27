@@ -338,6 +338,7 @@ private class ApplicationTriggerHelperTest {
     @isTest
     private static void testQTACMatching() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
             List<Contact> contacts = new List<Contact>{
                 new Contact(
                     FirstName = 'Gordon',
@@ -350,13 +351,12 @@ private class ApplicationTriggerHelperTest {
                 createTestQTACApplicationForContactMatching(contacts[0])
             };
             ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
-            Test.startTest();
             applications[0].RecordTypeId = ApplicationsDAO.QTAC_RECTYPE_ID;
             Map<Id, SObject> newItems = new Map<Id, SObject>((List<Sobject>) applications);
             ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, null);
             ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
-            Test.stopTest();
             Contact createdContact = retrieveQTACCreatedContact(contacts[0].Email);
+            Test.stopTest();
             System.assertEquals(applications[0].Indigenous_Status__c, createdContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
             System.assertEquals(applications[0].Birth_Country__c, createdContact.Birth_Country__c, 'Birth_Country__c update failed.');
             System.assertEquals(applications[0].BirthDate__c, createdContact.BirthDate, 'BirthDate update failed.');
@@ -371,7 +371,7 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].Salutation__c, createdContact.Salutation, 'Salutation update failed.');
         }
     }
-    
+
     private static Contact createTestContactForApplicationMatching() {
         return new Contact(
             RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID,

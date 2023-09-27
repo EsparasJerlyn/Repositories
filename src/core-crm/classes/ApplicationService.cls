@@ -12,7 +12,7 @@
  *    | jerlyn.esparas                 | July 06, 2023         | DEPP-5845              | Added method for QTAC application |
  *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added method for SAMS application |
  *    | mark.j.mahilum                 | August 01, 2023       | DEPP-6135              | Added new record type condition   |
- *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652, 6653, 6654  | Added methods for contact field   |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added methods for contact field   |
  *    |                                |                       |                        | updates on match with application |
  */
 public with sharing class ApplicationService { //NOPMD

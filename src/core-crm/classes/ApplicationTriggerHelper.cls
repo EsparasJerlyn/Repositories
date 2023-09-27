@@ -13,7 +13,7 @@
       | alexander.cadalin              | Aug 16, 2023          | DEPP-6124              | Refactor to consider multiple field updates                    |
       | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Updated getContactOnApplication to get the old Contact Id      |
       | julie.jane.alegre              | September 19, 2023    | DEPP-6667              | Added new method updateContactWhenQTACAppIsInactive            |
-      | alexander.cadalin              | Sep. 22, 2023         | DEPP-6652, 6653, 6654  | Added methods for contact field updates on match to application|
+      | alexander.cadalin              | Sep. 22, 2023         | DEPP-6652,6653,6654    | Added methods for contact field updates on match to application|
  */
 public with sharing class ApplicationTriggerHelper {
     /**
