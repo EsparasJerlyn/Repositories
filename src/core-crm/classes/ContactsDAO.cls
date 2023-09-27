@@ -14,7 +14,8 @@
 *     | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677                                |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
       | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
-      | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                | 
+      | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for getContactByCaseMobile                   |
       | julie.jane.alegre              | Sept 20, 2023         | DEPP-6667              | Added fields in method getPersonContactsBySetIds          |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
  *    |                                |                       | DEPP-6652,6653,6654    | added fields to getPersonContactsBySetIds                 |
@@ -266,6 +267,20 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'FROM hed__Addresses__r' +
             ') FROM Contact WHERE Id IN :qtacApplicantIdSet',
             accessLevel
+        );
+    }
+
+    public List<Contact> getContactByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone ' +
+                'FROM Contact ' +
+                'WHERE MobilePhone != NULL ' +
+                'AND MobilePhone IN: caseMobile ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
+                accessLevel
         );
     }
 

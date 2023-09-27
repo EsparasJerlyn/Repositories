@@ -14,6 +14,7 @@
  *    | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added getContactsFromConvertedLead     |
  *    | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | method getPersonContactsBySetIds       |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate |
+ *    | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added getContactByCaseMobile           |
  */
 public interface IContactsDAO extends DmlInterface {
     List<Contact> getExistingPersonContactsWithMatchingEmails(
@@ -50,6 +51,11 @@ public interface IContactsDAO extends DmlInterface {
         Set<Id> recordIds,
         AccessLevel accessLevel
     );
+    List<Contact> getContactByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    );
+
     List<Contact> getContactsForQTACAddressUpdate(
         Set<Id> qtacApplicantIdSet,
         AccessLevel accessLevel

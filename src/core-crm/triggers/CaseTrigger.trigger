@@ -8,8 +8,9 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | mark.j.mahilum                 | Sept 11, 2023         | DEPP-6421              | Created file                 |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added before insert          |
  */
-trigger CaseTrigger on Case(after insert) {
+trigger CaseTrigger on Case(before insert, after insert) {
     TriggerDispatcher.dispatch(
         TriggerHandlerFactory.getHandlersForSObjectType('Case'),
         Trigger.operationType

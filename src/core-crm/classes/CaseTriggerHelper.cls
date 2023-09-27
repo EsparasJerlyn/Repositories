@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | mark.j.mahilum                 | Sept 11,2023          | DEPP-6421              | Created file                                     |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for updating case using WhatsApp    |
  */
 public with sharing class CaseTriggerHelper {
     
@@ -219,4 +220,36 @@ public with sharing class CaseTriggerHelper {
             caseToUpdate.addAll(processCaseRecordsToLeadMatch(suppliedEmails,caseWithNoContactMatch));
         }   
     }
+
+
+    public static void caseRecordByMobileMatching (List<Case> newCaseList){
+        Map<String,Case> caseWithSuppliedPhoneMap = new Map<String,Case>();
+        for(Case caseRec: newCaseList){           
+            Boolean isContactAndLeadEmpty = (String.isEmpty(caseRec.contactId) && String.isEmpty(caseRec.Lead__c));
+            Boolean isCaseOriginWhatsApp = (caseRec.Origin == CasesDAO.ORIGIN_WHATSAPP);
+            Boolean isSuppliedPhoneEmpty = String.isNotEmpty(caseRec.SuppliedPhone);
+            if(isCaseOriginWhatsApp && isSuppliedPhoneEmpty && isContactAndLeadEmpty)
+            {
+                caseWithSuppliedPhoneMap.put(caseRec.SuppliedPhone,caseRec);
+            }               
+        }
+        
+        if(!caseWithSuppliedPhoneMap.isEmpty()){
+            processAndUpdateCaseRecordsForMobileMatch(caseWithSuppliedPhoneMap);
+        }
+    }
+
+    private static void processAndUpdateCaseRecordsForMobileMatch(Map<String,Case> caseWithSuppliedPhoneMap){
+        Map<String,List<Contact>> contactMap = CaseService.mapExistingContactMatchToCase(caseWithSuppliedPhoneMap.keySet());
+        Map<String,List<Lead>> leadtMap = CaseService.mapExistingLeadMatchToCase(caseWithSuppliedPhoneMap.keySet());
+        for(Case caseRec : caseWithSuppliedPhoneMap.values()){
+            if(contactMap.containsKey(caseRec.SuppliedPhone) && contactMap.get(caseRec.SuppliedPhone).size() == 1){
+                caseRec.ContactId = contactMap.get(caseRec.SuppliedPhone)[0].Id;
+            }
+            else if(leadtMap.containsKey(caseRec.SuppliedPhone) && leadtMap.get(caseRec.SuppliedPhone).size() == 1){
+                caseRec.Lead__c = leadtMap.get(caseRec.SuppliedPhone)[0].Id;
+            }
+        }
+    }
+    
 }

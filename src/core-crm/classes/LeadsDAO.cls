@@ -9,7 +9,8 @@
       | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                    |
       | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads    |
       | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                |
-      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds | 
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           | 
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -103,6 +104,20 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             'AND Calculated_Cadence__c != NULL ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<Lead> getLeadsByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone ' +
+            'FROM Lead ' +
+            'WHERE MobilePhone != NULL ' +
+            'AND MobilePhone IN: caseMobile ' +
+            'AND IsConverted = FALSE ',
+            accessLevel
         );
     }
 }
