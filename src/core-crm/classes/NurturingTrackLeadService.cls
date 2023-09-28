@@ -17,8 +17,8 @@
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationList;
     private static List<Case> caseList;
-    private static Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = NurturingTrackService.getNurturingTrackRecords();
-    private static Map<String, Nurture_Track_Configuration__c> nurturingTrackWithThreshold = new Map<String, Nurture_Track_Configuration__c>();
+    private static Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = new Map<String, Nurture_Track_Configuration__c>();
+    private static Map<String, Nurture_Track_Configuration__c> nurturingTrackWithThresholdForEntry = new Map<String, Nurture_Track_Configuration__c>();
     private static Map<Id, Lead> domesticEntryLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> domesticExitLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalEntryLeadMap = new Map<Id, Lead>();
@@ -41,9 +41,9 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
         //Lead entry criteria to process //SAMPLE METHOD ONLY
         //leadToUpdate.putAll(getEntryDomesticStrongInterestPreApplication(domesticEntryLeadMap));
-        leadToUpdate.putAll(getEntryInternationalDirectApplicants(internationalEntryLeadMap));
         leadToUpdate.putAll(getEntryDomesticStrongInterestPreApplication(domesticEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalStrongInterestPreApplication(internationalEntryLeadMap));
+        leadToUpdate.putAll(getEntryInternationalDirectApplicants(internationalEntryLeadMap));
 
         //Lead exit criteria to //SAMPLE METHOD ONLY
         //leadToUpdate.putAll(.getExitDomesticStrongInterestPreApplication(domesticExitLeadMap));
@@ -61,7 +61,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static void getAllRelatedRecords(Map<Id, Lead> mapOfLeads) {
         applicationList = ApplicationsDAO.newInstance().getApplicationsByLeadIds(mapOfLeads.keySet(), 'SYSTEM_MODE');
         getLeadRecordCitizenship(mapOfLeads);
-        filterNurturingTrackRecords();
+        getFilteredNurturingTrackRecords();
     }
 
     /**
@@ -272,8 +272,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Boolean isAppStatusValid = app.Application_Status__c == 'Admitted' || app.Application_Status__c == 'Unsuccessful' || app.Application_Status__c == 'Withdrawn';
         if ((app.Offer_Status__c == 'Deffered' || isAppStatusValid) &&
             app.Lead__r.Lead_Score__c != null &&
-            nurturingTrackWithThreshold.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
-            app.Lead__r.Lead_Score__c > nurturingTrackWithThreshold.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
+            nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
+            app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
             (app.hed__Application_Date__c <= System.Now() && app.hed__Application_Date__c >= System.Now().addYears(-3))
         ) {
             return true;
@@ -285,8 +285,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Boolean isAppStatusValid = app.Application_Status__c == 'Admitted' || app.Application_Status__c == 'Unsuccessful' || app.Application_Status__c == 'Withdrawn';
         if ((app.Offer_Status__c == 'Deffered' || isAppStatusValid) &&
             app.Lead__r.Lead_Score__c != null &&
-            nurturingTrackWithThreshold.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
-            app.Lead__r.Lead_Score__c > nurturingTrackWithThreshold.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
+            nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
+            app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
             (app.hed__Application_Date__c <= System.Now() && app.hed__Application_Date__c >= System.Now().addYears(-3))
         ) {
             return true;
@@ -309,8 +309,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static boolean checkQtacDomesticStrongInterestPreApplicationAutomated(hed__Application__c app){
         if (!app.Is_Active__c &&
             app.Lead__r.Lead_Score__c != null &&
-            nurturingTrackWithThreshold.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
-            app.Lead__r.Lead_Score__c > nurturingTrackWithThreshold.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
+            nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
+            app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
             (app.hed__Application_Date__c <= System.today() && app.hed__Application_Date__c >= System.today().addYears(-3))
         ) {
             return true;
@@ -321,8 +321,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static boolean checkQtacDomesticStrongInterestPreApplicationManual(hed__Application__c app){
         if (!app.Is_Active__c &&
             app.Lead__r.Lead_Score__c != null &&
-            nurturingTrackWithThreshold.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
-            app.Lead__r.Lead_Score__c > nurturingTrackWithThreshold.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
+            nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
+            app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
             (app.hed__Application_Date__c <= System.today() && app.hed__Application_Date__c >= System.today().addYears(-3))
         ) {
             return true;
@@ -346,25 +346,30 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
     private static Set<Id> getCaseRecordsFromLead(Set<Id> leadIds){
         Set<Id> caseFromLeadIds = new Set<Id>();
+        Map<Id, List<String>> leadsWithCompletedCadenceManualMap = new  Map<Id, List<String>>();
+        List<Case> caseList = new List<Case>();
 
-        Map<Id, List<String>> leadsWithCompletedCadenceManualMap = NurturingTrackService.getApplicantIdsWithCompletedCadence(
-            domesticEntryLeadMap.keySet(),
-            new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
-            Lead.getSObjectType()
-        );
+        if(nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED)){
 
-        List<Case> caseList = CasesDAO.newInstance().getCasesByLeadIds(leadIds, AccessLevel.SYSTEM_MODE);
+            leadsWithCompletedCadenceManualMap = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+                domesticEntryLeadMap.keySet(),
+                new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
+                Lead.getSObjectType()
+            );
+            caseList = CasesDAO.newInstance().getCasesByLeadIds(leadIds, AccessLevel.SYSTEM_MODE);
+        }
+
 
         for(Case caseRec : caseList){
             if(!leadsWithCompletedCadenceManualMap.containsKey(caseRec.Lead__c) &&
-                checkCaseCreatedDate(caseRec) &&
-                nurturingTrackWithThreshold.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED)?.Enquiry_Category_L1__c.split(';').contains(caseRec.Category__c)
+                checkCaseCreatedDate(caseRec) && 
+                nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED)?.Enquiry_Category_L1__c.split(';').contains(caseRec.Category__c)
             ){
                 caseFromLeadIds.add(caseRec.Lead__c);
             }
             else if(leadsWithCompletedCadenceManualMap.containsKey(caseRec.Lead__c) &&
                 checkCaseCreatedDate(caseRec) &&
-                nurturingTrackWithThreshold.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL)?.Enquiry_Category_L1__c.split(';').contains(caseRec.Category__c)
+                nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL)?.Enquiry_Category_L1__c.split(';').contains(caseRec.Category__c)
             ){
                 caseFromLeadIds.add(caseRec.Lead__c);
             }
@@ -381,10 +386,13 @@ public with sharing class NurturingTrackLeadService { //NOPMD
      * @description: Get the nurturing Track Records and set the key to Cadence Name
      *
      */
-    private static void filterNurturingTrackRecords() {
-        for (Nurture_Track_Configuration__c nurture : nurturingTrackMap.values()) {
-            if (nurture.Criteria_Type__c == 'Entry' && nurture.Enquiry_Category_L1__c != null) {
-                nurturingTrackWithThreshold.put(nurture.Cadence_Name__c, nurture);
+    private static void getFilteredNurturingTrackRecords() {
+        for (Nurture_Track_Configuration__c nurture : NurtureTrackConfigurationsDAO.newInstance().getNurtureTrack(NurtureTrackConfigurationsDAO.NURTURE_FIELDS,'SYSTEM_MODE')) {
+            if (nurture.Criteria_Type__c == 'Entry' && nurture.Enquiry_Category_L1__c != null && nurture.Lead_Score_Threshold__c != null) {
+                nurturingTrackWithThresholdForEntry.put(nurture.Cadence_Name__c, nurture);
+            }
+            if(nurture.Lead_Score_Threshold__c != null){
+                nurturingTrackMap.put(nurture.Cadence_Name__c, nurture);
             }
         }
     }
@@ -400,12 +408,12 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         for(Lead internationalEntryLead : internationalEntryLeadMap.values()) {
             try {
                 Boolean isManual = leadIdsWithCmpltdCadenceSet.contains(internationalEntryLead.Id);
-                Decimal threshold = selectThreshold(
+                Decimal threshold = NurturingTrackService.selectThreshold(
                     nurturingTrackMap, 
                     'International Strong Interest Pre-Application',
                     isManual
                 );
-                List<String> l1Categories = selectL1Categories(
+                List<String> l1Categories = NurturingTrackService.selectL1Categories(
                     nurturingTrackMap, 
                     'International Strong Interest Pre-Application',
                     isManual
@@ -486,27 +494,4 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         return isWithActive ? false : isWithInactive;
     }
 
-    private static Decimal selectThreshold(
-        Map<String, Nurture_Track_Configuration__c> configurationPair,
-        String nurtureTrackName, 
-        Boolean isManual
-    ) {
-        return isManual ? 
-            (Decimal) configurationPair.get(nurtureTrackName).get('Lead_Score_Threshold__c') :
-            (Decimal) configurationPair.get(nurtureTrackName + ' (Automated)').get('Lead_Score_Threshold__c');
-    }
-
-    private static List<String> selectL1Categories(
-        Map<String, Nurture_Track_Configuration__c> configurationPair,
-        String nurtureTrackName,
-        Boolean isManual
-    ) {
-        String manualCategs = String.isBlank((String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')) ?
-            '' : (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c');
-        String autoCategs = String.isBlank((String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c')) ?
-            '' : (String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c');
-        return isManual ?
-            manualCategs.split(';') :
-            autoCategs.split(';');
-    }
 }

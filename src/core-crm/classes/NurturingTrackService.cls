@@ -215,6 +215,45 @@ public with sharing class NurturingTrackService {
         }
         return isNotNull ? dateToCheck >= lowerDate && dateToCheck <= upperDate : false;
     }
+
+    public static Decimal selectThreshold(
+        Map<String, Nurture_Track_Configuration__c> configurationPair,
+        String nurtureTrackName,
+        Boolean isManual
+    ) {
+        if (!configurationPair.containsKey(nurtureTrackName)) {
+            return 0;
+        }
+
+        return isManual
+            ? (Decimal) configurationPair.get(nurtureTrackName).get('Lead_Score_Threshold__c')
+            : (Decimal) configurationPair.get(nurtureTrackName + ' (Automated)')
+                  .get('Lead_Score_Threshold__c');
+    }
+
+    public static List<String> selectL1Categories(
+        Map<String, Nurture_Track_Configuration__c> configurationPair,
+        String nurtureTrackName,
+        Boolean isManual
+    ) {
+        String manualCategs = configurationPair.containsKey(nurtureTrackName) &&
+            String.isNotBlank(
+                (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')
+            )
+            ? (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')
+            : '';
+
+        String autoCategs = configurationPair.containsKey(nurtureTrackName + ' (Automated)') &&
+            String.isNotBlank(
+                (String) configurationPair.get(nurtureTrackName + ' (Automated)')
+                    .get('Enquiry_Category_L1__c')
+            )
+            ? (String) configurationPair.get(nurtureTrackName + ' (Automated)')
+                  .get('Enquiry_Category_L1__c')
+            : '';
+
+        return isManual ? manualCategs.split(';') : autoCategs.split(';');
+    }
     
     public class CadenceWrapper{
         SObjectType objectType;
