@@ -9,26 +9,31 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | mark.majilum                   | September 4,2023      | DEPP-6138              | Created file                 |
       | eccarius.munoz                 | September 4,2023      | DEPP-6138              | Added to trigger handler     |
+      | eccarius.munoz                 | September 28, 2023    | DEPP-6763              | Updated handling of event    |
+      |                                |                       |                        | listener to map all action   |
+      |                                |                       |                        | cadence step tracker to C.Q. | 
  */
 public with sharing class ActionCadenceStepTrackerTriggerHelper {
     
     public static void insertCommunicationQueue(List<ActionCadenceStepTrackerChangeEvent> newItems){
-
+        
         List<String> recordIds = new List<String>();  
         for(ActionCadenceStepTrackerChangeEvent event : newItems) {
             EventBus.ChangeEventHeader header = event.ChangeEventHeader;
-            recordIds = header.getRecordIds();
+            
+            recordIds.addAll(header.getRecordIds());
             if(recordIds.size() == 0) {
                 continue;
             }       
         }
-        
+
         if(!recordIds.isEmpty()){
             try{
                 
                 // Get ActionCadenceStepTracker records for send an email steps
-                List<ActionCadenceStepTracker> stepTrackers = ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(recordIds, AccessLevel.USER_MODE);
+                List<ActionCadenceStepTracker> stepTrackers = ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(recordIds, AccessLevel.SYSTEM_MODE);
                 List<Communication_Queue__c> insertCommunicationQueue = createCommunicationQueueRecords(stepTrackers);
+
                 if(!insertCommunicationQueue.isEmpty()){
                     CommunicationQueuesDAO.newInstance().insertRecords(insertCommunicationQueue, false, AccessLevel.SYSTEM_MODE);
                 }
@@ -44,26 +49,24 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
     }
 
     private static List<Communication_Queue__c> createCommunicationQueueRecords(List<ActionCadenceStepTracker> stepTrackers){
-        List<Communication_Queue__c> insertCommunicationQueue = new List<Communication_Queue__c>();
-        if(stepTrackers != null && stepTrackers.size() > 0) {
-            OrgWideEmailAddress orgWideEmailAddress = getOrgWideEmailAddress();
-            //logic to create Communication Queue record here            
-            for(ActionCadenceStepTracker ac: stepTrackers){
-                // map Communication_Queue__c for insert
-                insertCommunicationQueue.add(
-                    new Communication_Queue__c(
-                        ActionCadenceStepTrackerId__c = ac.Id,
-                        Status__c = 'Scheduled',
-                        Type__c = 'Email',
-                        WhoId__c = ac.TargetId,
-                        Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email',
-                        Sender__c = orgWideEmailAddress?.Id,
-                        Template_Id__c = ac.ActionCadenceStep.TemplateId
-                    )
-                );
-            }
+
+        OrgWideEmailAddress orgWideEmailAddress = getOrgWideEmailAddress();
+
+        List<Communication_Queue__c> commsQueueToInsert = new List<Communication_Queue__c>();
+        for(ActionCadenceStepTracker ac: stepTrackers){
+            commsQueueToInsert.add(
+                new Communication_Queue__c(
+                    ActionCadenceStepTrackerId__c = ac.Id,
+                    Status__c = 'Scheduled',
+                    Type__c = 'Email',
+                    WhoId__c = ac.TargetId,
+                    Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email',
+                    Sender__c = orgWideEmailAddress?.Id,
+                    Template_Id__c = ac.ActionCadenceStep.TemplateId
+                )
+            );
         }
-        return insertCommunicationQueue;
+        return commsQueueToInsert;
     }
 
     /**
