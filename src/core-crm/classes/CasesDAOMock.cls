@@ -9,6 +9,7 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------------|
       | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Created File                                |
       | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
+      | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                |
  */
 @isTest
 public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICasesDAO {
@@ -81,6 +82,23 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
         for (Case record : caseMap.values()) {
             if (
                 suppliedMobile.contains(record.SuppliedPhone)  
+            ) {
+                caseList.add(record);
+            }
+        }
+
+        return caseList;
+    }
+
+    public List<Case> getCaseBySuppliedEmail(
+        String suppliedEmail,
+        AccessLevel accessLevel
+    ) {
+        List<Case> caseList = new List<Case>();
+
+        for (Case record : caseMap.values()) {
+            if (
+                suppliedEmail == record.SuppliedEmail
             ) {
                 caseList.add(record);
             }

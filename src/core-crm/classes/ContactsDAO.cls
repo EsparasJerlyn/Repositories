@@ -15,6 +15,8 @@
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
       | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
       | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getContactByEmailOrName                             |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName                        |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for getContactByCaseMobile                   |
       | julie.jane.alegre              | Sept 20, 2023         | DEPP-6667              | Added fields in method getPersonContactsBySetIds          |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
@@ -222,7 +224,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             String.escapeSingleQuotes(accessLevel)
         );
     }
-    
+
     public static List<Contact> getContactsFromConvertedLead(
         Set<Id> recordIds,
         String accessLevel
@@ -235,6 +237,64 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );
+    }
+
+    public static List<Contact> getContactByEmailOrName(
+        QueryParamWrapperEmailOrName queryParam,
+        AccessLevel accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+        String email = queryParam.email; //NOPMD
+        String firstName = queryParam.firstName; //NOPMD
+        String lastName = queryParam.lastName; //NOPMD
+        String mobile = queryParam.mobile; //NOPMD
+        String toQuery = removeEmptyParamsInQueryEmail(queryParam);
+        toQuery = removeEmptyParamsInQueryName(queryParam, toQuery);
+        toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
+
+        if (toQuery != '') {
+            contactList = Database.query(
+                'SELECT Id, Name, Email, Mobile_No_Locale__c, hed__WorkEmail__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE ' +
+                toQuery,
+                AccessLevel
+            );
+        }
+
+        return contactList;
+    }
+
+    private static String removeEmptyParamsInQueryEmail(QueryParamWrapperEmailOrName queryParam) {
+        String email = queryParam.email;
+        String toQuery = '';
+
+        if (email != null && email != '') {
+            toQuery = toQuery + '(Email =: email OR hed__WorkEmail__c =: email OR QUT_Learner_Email__c =: email OR QUT_Staff_Email__c =: email)';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryName(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String firstName = queryParam.firstName;
+        String lastName = queryParam.lastName;
+
+        if (firstName != null && firstName != '' && lastName != null  && lastName != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(FirstName =: firstName AND LastName =: lastName )';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryMobile(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String mobile = queryParam.mobile;
+
+        if (mobile != null && mobile != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(Mobile_No_Locale__c =: mobile)';
+        }
+
+        return toQuery;
     }
 
     public List<Contact> getPersonContactsBySetIds(
@@ -300,6 +360,20 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             lastNames = new Set<String>();
             birthdates = new Set<Date>();
             nominatedStudentId = new Set<String>();
+        }
+    }
+
+    public class QueryParamWrapperEmailOrName{
+        public String email;
+        public String firstName;
+        public String lastName;
+        public String mobile;
+
+        public QueryParamWrapperEmailOrName(String strEmail, String strFirstName, String strLastName, String strMobile) { //NOPMD
+            email = strEmail;
+            firstName = strFirstName;
+            lastName = strLastName;
+            mobile = strMobile;
         }
     }
 }
