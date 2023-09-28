@@ -74,10 +74,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Location__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Maximum_Participants__c</field>
             </layoutItems>
         </layoutColumns>

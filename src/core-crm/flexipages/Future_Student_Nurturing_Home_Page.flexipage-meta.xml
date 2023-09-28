@@ -4,367 +4,161 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>Domestic Strong Interest Pre-Application</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-ad883998-fb42-4d3c-99c0-89f3f867d324</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>International Strong Interest Pre-Application</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-737ad646-9fc3-424b-959d-7d7aaae14225</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>International Application Submission - Direct Applicant</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-b7d7ff33-539f-4392-a6c1-25e5dcec7b7c</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>International Application to Offer</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-lkem0rps4w</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>Domestic First Offer to Acceptance</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-82a5111d-4cd1-45b2-b24a-42a35db019c7</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>Domestic Deferred Offer to Acceptance</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-1b57840d-3b02-465a-a2e1-b2f3e66dbdcb</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>International Offer to Acceptance</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-2cabf0b3-4e6b-429e-9d11-3bf6480ef791</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>International Acceptance Deposit not Paid</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView8</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-414f5255-3491-4cdc-b488-f47865d1fb71</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>Domestic Accepted not yet Enrolled</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView9</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-48859c0d-0a62-46ae-8a81-3f5a52c78fd1</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>Domestic and International Enrolment to Census</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView10</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-4c6e7823-91bf-4750-bf13-645db5c8871d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>calculatedCadence</name>
-                    <value>Domestic Offer Lapsed</value>
-                </componentInstanceProperties>
-                <componentName>salesCadenceListView</componentName>
-                <identifier>c_salesCadenceListView11</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-0c873707-8515-44da-bb4f-04d7ddd6ca40</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-ad883998-fb42-4d3c-99c0-89f3f867d324</value>
+                    <name>dashboardName</name>
+                    <value>Future_Student_Nurturing_Home_Page_Domestic_FS_Dashboard</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Domestic Strong Interest Pre-Application</value>
+                    <name>hideOnError</name>
+                    <value>true</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection1</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection</identifier>
+                <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Agent_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Team_Leader_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Super_User_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Concierge_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>System_Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-737ad646-9fc3-424b-959d-7d7aaae14225</value>
+                    <name>dashboardName</name>
+                    <value>Future_Student_Nurturing_Home_Page_International_FS_Dashboard</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>label</name>
-                    <value>International Strong Interest Pre-Application</value>
+                    <name>hideOnError</name>
+                    <value>true</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection2</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection2</identifier>
+                <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard2</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Agent_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Team_Leader_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Super_User_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Concierge_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>System_Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-b7d7ff33-539f-4392-a6c1-25e5dcec7b7c</value>
+                    <name>nurtureTrackList</name>
+                    <value>{!$Label.Domestic_Nurture_Track_List}</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>International Application Submission - Direct Applicant</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--3o37pohguw5</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection3</identifier>
+                <componentName>salesCadenceAccordion</componentName>
+                <identifier>c_salesCadenceAccordion</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4 or 5</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Agent_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Team_Leader_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Super_User_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Concierge_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>System_Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-lkem0rps4w</value>
+                    <name>nurtureTrackList</name>
+                    <value>{!$Label.International_Nurture_Track_List}</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>International Application to Offer</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--fip33r6zic9</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-82a5111d-4cd1-45b2-b24a-42a35db019c7</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Domestic First Offer to Acceptance</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--horqf0zo73</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-1b57840d-3b02-465a-a2e1-b2f3e66dbdcb</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Domestic Deferred Offer to Acceptance</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--76lyip4vdnd</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-2cabf0b3-4e6b-429e-9d11-3bf6480ef791</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>International Offer to Acceptance</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--k3my1rzkzk</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-414f5255-3491-4cdc-b488-f47865d1fb71</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>International Acceptance Deposit not Paid</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--45d3upfxlvs</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection8</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-48859c0d-0a62-46ae-8a81-3f5a52c78fd1</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Domestic Accepted not yet Enrolled</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--xru42i2n7do</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection9</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-4c6e7823-91bf-4750-bf13-645db5c8871d</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Domestic and International Enrolment to Census</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--4cfezigczes</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection10</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-0c873707-8515-44da-bb4f-04d7ddd6ca40</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Domestic Offer Lapsed</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>name</name>
-                    <value>accordionSection--kmqlwcveqr</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordionSection</componentName>
-                <identifier>flexipage_accordionSection11</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-2958a2fa-ef57-422b-8e7f-8c09303ab7a6</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>accordionSections</name>
-                    <value>Facet-2958a2fa-ef57-422b-8e7f-8c09303ab7a6</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:accordion</componentName>
-                <identifier>flexipage_accordion</identifier>
+                <componentName>salesCadenceAccordion</componentName>
+                <identifier>c_salesCadenceAccordion2</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Agent_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Team_Leader_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Super_User_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Future_Student_Concierge_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>System_Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -447,7 +241,7 @@
                 <componentName>flexipage:filterListCard</componentName>
                 <identifier>flexipage_filterListCard2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>NE</operator>
@@ -457,6 +251,16 @@
                         <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
                         <operator>NE</operator>
                         <rightValue>Future_Student_Agent_International</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Future_Student_Concierge_Domestic</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Future_Student_Concierge_International</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

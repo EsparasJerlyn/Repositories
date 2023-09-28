@@ -213,7 +213,8 @@ public with sharing class NurturingTrackLeadServiceTest {
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
                 Lead__c = newLeads[0].Id,
-                Nurture_Track_Configuration__c = nurtureList1[0].Id
+                Nurture_Track_Configuration__c = nurtureList1[0].Id,
+                Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
 
@@ -346,7 +347,8 @@ public with sharing class NurturingTrackLeadServiceTest {
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = applList[0].Id,
                 Lead__c = leadList[0].Id,
-                Nurture_Track_Configuration__c = configList[0].Id
+                Nurture_Track_Configuration__c = configList[0].Id,
+                Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
             

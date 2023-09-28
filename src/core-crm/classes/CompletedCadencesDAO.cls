@@ -14,12 +14,14 @@
       | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added method for getCompletedCadenceByTargetIds    |
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6524              | Added logic to include follow-up call in Completed |
       |                                |                       |                        | Cadence statuses                                   |
+      | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added addition fields for soql                     |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
     public static final Set<String> completedCadenceStatuses = new Set<String>{
         'Unsuccessful',
-        'Closed - Follow Up'
+        'Closed - Follow Up',
+        ''
     };   
 
     public static ICompletedCadencesDAO newInstance() {
@@ -66,7 +68,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Contact__c, Lead__c, Completed_Cadence_Status__c ' +
+            'SELECT  Id, Contact__c, Lead__c, Completed_Cadence_Status__c, CreatedDate, ' +
+            'Application__r.Offered_Preference__r.Name ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Nurture_Track_Configuration__r.Cadence_Name__c IN :cadenceNames ' +
             'AND Completed_Cadence_Status__c IN: completedCadenceStatuses ' +

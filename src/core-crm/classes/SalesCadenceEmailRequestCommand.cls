@@ -10,6 +10,7 @@
       | eccarius.munoz                 | August 29, 2023       | DEPP-6138              | Created file                 |
       | eccarius.munoz                 | September 18, 2023    | sit dep fix            | added handling for new email |
       |                                |                       |                        | templates (int and dom)      |
+      | eccarius.munoz                 | September 26, 2023    | DEPP-6741              | added handling for new emails|      
       |                                |                       |                        |                              |
  */
 public with sharing class SalesCadenceEmailRequestCommand implements IRequestCommand{
@@ -21,37 +22,25 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
     }      
 
     public void execute() {
-
         Map<Id, Communication_Queue__c> commsQueueMap = new Map<Id, Communication_Queue__c>();
         Map<String, String> recipientMap = setEmailRecipientMap(communicationQueueList);
-        EmailTemplate emailTemplateDom = getEmailTemplate(EmailTemplatesDAO.TEMPLATE_NURTURE_MANAGEMENT_DOM);
-        EmailTemplate emailTemplateInt = getEmailTemplate(EmailTemplatesDAO.TEMPLATE_NURTURE_MANAGEMENT_INT);
+        Map<Id,EmailTemplate> emailTemplateMap = getEmailTemplateMap(communicationQueueList);
 
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         for(Communication_Queue__c commsQueue : communicationQueueList){
             if(recipientMap.containsKey(commsQueue.WhoId__c)){
                 Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-                email.setToAddresses(new List<String>(recipientMap.keySet()));
-                if(commsQueue.Business_Process__c == 'Domestic Automated Cadence Email'){
-                    email.setSubject(emailTemplateDom.Subject);  
-                    email.setHtmlBody(
-                        EmailHelper.setBodyValues(
-                            emailTemplateDom.HtmlValue, 
-                            setupHTMLBodyParams(commsQueue, recipientMap), 
-                            true 
-                        )
-                    );
-                }else{
-                    email.setSubject(emailTemplateInt.Subject);  
-                    email.setHtmlBody(
-                        EmailHelper.setBodyValues(
-                            emailTemplateInt.HtmlValue, 
-                            setupHTMLBodyParams(commsQueue, recipientMap), 
-                            true 
-                        )
-                    );
+                if(emailTemplateMap.containsKey(commsQueue.Template_Id__c)){
+                    email.setToAddresses(new List<String>{commsQueue.WhoId__c});
+                    email.setSubject(emailTemplateMap.get(commsQueue.Template_Id__c).Subject);  
+                        email.setHtmlBody(
+                            EmailHelper.setBodyValues(
+                                emailTemplateMap.get(commsQueue.Template_Id__c).HtmlValue, 
+                                setupHTMLBodyParams(commsQueue, recipientMap), 
+                                true 
+                            )
+                        );
                 }
-                
                 email.setOrgWideEmailAddressId(commsQueue.Sender__c);
                 email.setTargetObjectId(commsQueue.WhoId__c);
                 emailList.add(email);
@@ -64,7 +53,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
         Set<Id> failedCommsQueueIds = getFailedResultWhoIDs(errorResults);
         
         List<Communication_Queue__c> commsQueueListToUpdate = setupCommunicationQueueListToUpdate(commsQueueMap.values(), failedCommsQueueIds);
-        CommunicationQueuesDAO.newInstance().updateRecords(commsQueueListToUpdate, false, AccessLevel.USER_MODE);
+        CommunicationQueuesDAO.newInstance().updateRecords(commsQueueListToUpdate, false, AccessLevel.SYSTEM_MODE);
 
     }    
 
@@ -103,7 +92,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
         List<Contact> contactList =  
             (List<Contact>) DynamicQueryService.getRecordsWithFieldsByIdSet(
                 new DynamicQueryService.FilterWrapper(whoIDset, Contact.getSObjectType(), fields), 
-                AccessLevel.USER_MODE
+                AccessLevel.SYSTEM_MODE
             );
         return contactList;
     }
@@ -116,7 +105,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
         List<Lead> leadList =  
             (List<Lead>) DynamicQueryService.getRecordsWithFieldsByIdSet(
                 new DynamicQueryService.FilterWrapper(whoIDset, Lead.getSObjectType(), fields), 
-                AccessLevel.USER_MODE
+                AccessLevel.SYSTEM_MODE
             );
         return leadList;
     }
@@ -153,17 +142,36 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
         }
         return commQueueMetadata; 
     }
+
+    /**
+     * retrieve email template map by comms queue
+     */
+    private static Map<Id,EmailTemplate> getEmailTemplateMap(List<Communication_Queue__c> communicationQueueList){
+        
+        Set<Id> emailTemplateIdSet = new Set<Id>();
+        for(Communication_Queue__c commsQueue : communicationQueueList){
+            emailTemplateIdSet.add(commsQueue.Template_Id__c);
+        }
+
+        Map<Id,EmailTemplate> emailTemplateMap = new Map<Id,EmailTemplate>();
+        for(EmailTemplate emailTemplate : getEmailTemplates(emailTemplateIdSet)){
+            emailTemplateMap.put(emailTemplate.Id, emailTemplate);
+        }
+
+        return emailTemplateMap;
+    }
     
     /**
      * retrieves email template to be used in email sending
      */
-    private static EmailTemplate getEmailTemplate(String name){
-        EmailTemplate response = new EmailTemplate();
-        List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{name}, 'USER_MODE');
-        for(EmailTemplate emaailTemp : emailTemplates){
-            response = emaailTemp;
-        }
-        return response;
+    private static List<EmailTemplate> getEmailTemplates(Set<Id> emailTemplateIdSet){
+        List<String> fields = new List<String>{'Name, Subject, HtmlValue, Body'};
+        List<EmailTemplate> emailTemplateList =  
+            (List<EmailTemplate>) DynamicQueryService.getRecordsWithFieldsByIdSet(
+                new DynamicQueryService.FilterWrapper(emailTemplateIdSet, EmailTemplate.getSObjectType(), fields), 
+                AccessLevel.SYSTEM_MODE
+            );
+        return emailTemplateList;
     }
 
     /**
@@ -202,5 +210,4 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
         }
        return bodyParams;
     }
-    
 }

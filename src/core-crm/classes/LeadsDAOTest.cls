@@ -10,6 +10,8 @@
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new test method                                             |
       | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | added new test method                                             |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new test method coverage for getLeadsCalculatedCadenceByIds |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrNameTest                                    |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new test method getLeadsByCaseMobile                        |
  */
 @isTest
 public with sharing class LeadsDAOTest {
@@ -90,6 +92,43 @@ public with sharing class LeadsDAOTest {
                 .getLeadsCalculatedCadenceByIds(
                     new Set<String>(),
                     'SYSTEM_MODE'
+                );
+            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+        }
+        Test.stopTest(); 
+    }
+
+    @isTest
+    static void getLeadsByCaseMobileTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getLeadsByCaseMobile(
+                    new Set<String>(),
+                    AccessLevel.USER_MODE
+                );
+            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getLeadByEmailOrNameTest() {
+        Test.startTest();
+        List<Lead> objList = TestDataFactory.createTestLeadRecords(1);
+        objList[0].FirstName = 'firstname';
+        objList[0].LastName = 'lastname';
+        objList[0].Email = 'firstlast@mail.test';
+        objList[0].MobilePhone = '1234567';
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            LeadsDAO.QueryParamWrapperEmailOrName leadQueryParam = new LeadsDAO.QueryParamWrapperEmailOrName(
+                objList[0].Email, objList[0].FirstName, objList[0].LastName , objList[0].MobilePhone
+            );
+
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getLeadByEmailOrName(
+                    leadQueryParam,
+                    AccessLevel.SYSTEM_MODE
                 );
             System.assert(leadList.isEmpty(), 'leadList should not be empty');
         }

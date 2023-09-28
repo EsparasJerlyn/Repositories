@@ -11,7 +11,7 @@
       | mark.j.mahilum            | July 25, 2023         | DEPP-6106    | Added new method setCanNurtureOnContactOrLeadBasedOnApplicationStatus |
       | julie.jane.alegre         | September 19, 2023    | DEPP-6667    | Added new method updateContactWhenQTACAppIsInactive                   |
 */
- public with sharing class ApplicationTriggerHandler implements Disableable, BeforeInsert,  AfterInsert, AfterUpdate {
+public with sharing class ApplicationTriggerHandler implements Disableable, BeforeInsert,  AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
 
     /**
@@ -32,7 +32,8 @@
           isRunning = true; 
           ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
           ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null);
-          ApplicationTriggerHelper.updateRelatedRecords(newItems);
+          ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, null);
+          ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
       }
   }
 
@@ -49,7 +50,8 @@
             isRunning = true;
             ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
             ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems);
-            ApplicationTriggerHelper.updateRelatedRecords(newItems);
+            ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, oldItems);
+            ApplicationTriggerHelper.updateRelatedRecords(newItems, oldItems);
             ApplicationTriggerHelper.updateContactWhenQTACAppIsInactive((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         }
     }

@@ -6,13 +6,15 @@
  * @author Accenture
  * 
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                           |
- *    |--------------------------------|-----------------------|------------------------|------------------------------------------|
- *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | Created File                             | 
- *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag |
- *    | mark.j.mahilum                 | July 27, 2023         | DEPP-6107              | Added new method getLeadCalculatedCadence|
- *    | julie.jane.alegre              | Sept 6, 2023          | DEPP-5965              | Added new method createLeadScoreDetail   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------------|
+ *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | Created File                                | 
+ *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added new method to set Can Nurture flag    |
+ *    | mark.j.mahilum                 | July 27, 2023         | DEPP-6107              | Added new method getLeadCalculatedCadence   |
+ *    | julie.jane.alegre              | Sept 6, 2023          | DEPP-5965              | Added new method createLeadScoreDetail      |
  *    | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added new method createMarketingSegmentation|
+ *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Updated getLeadCalculatedCadence to include |
+ *    |                                |                       |                        | automated cadence in the processSaleCadences|
  */
 @SuppressWarnings('PMD')
 public with sharing class LeadService {
@@ -127,9 +129,9 @@ public with sharing class LeadService {
             String oldCalculatedCadence = oldLead.Calculated_Cadence__c; 
             
             if(calculatedCadence != oldCalculatedCadence){              
-                if (String.isNotEmpty(calculatedCadence) && calculatedCadence.containsIgnoreCase('automated')) {
+                if (String.isNotEmpty(calculatedCadence) && String.isEmpty(oldCalculatedCadence)) {
                     assignLeadToCadenceMap.put(lead.Id,calculatedCadence);
-                } else if (String.isEmpty(calculatedCadence)) {
+                } else if (String.isEmpty(calculatedCadence) && String.isNotEmpty(oldCalculatedCadence)) {
                     removeLeadToCadenceMap.put(lead.Id,oldCalculatedCadence);
                 }                
             }          

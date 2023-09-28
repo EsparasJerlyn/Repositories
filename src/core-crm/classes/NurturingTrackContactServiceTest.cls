@@ -118,7 +118,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
                 Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = [SELECT Id FROM Nurture_Track_Configuration__c LIMIT 1].Id
+                Nurture_Track_Configuration__c = [SELECT Id FROM Nurture_Track_Configuration__c LIMIT 1].Id,
+                Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
             
@@ -293,7 +294,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
              Completed_Cadence__c completedCadence = new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
                 Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureListCon[0].Id
+                Nurture_Track_Configuration__c = nurtureListCon[0].Id,
+                Completed_Cadence_Status__c ='Successful'
             );
             insert completedCadence;
 			
@@ -360,7 +362,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
                 Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureList[0].Id
+                Nurture_Track_Configuration__c = nurtureList[0].Id,
+                Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
 
@@ -585,7 +588,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
             completedCadenceList.add(new Completed_Cadence__c(
                 Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureListAuto[0].Id
+                Nurture_Track_Configuration__c = nurtureListAuto[0].Id,
+                Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
 
@@ -1049,7 +1053,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
                 Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureListAutomated[0].Id
+                Nurture_Track_Configuration__c = nurtureListAutomated[0].Id,
+                Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
@@ -1437,7 +1442,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
                 Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureList1[0].Id
+                Nurture_Track_Configuration__c = nurtureList1[0].Id,
+                Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
 

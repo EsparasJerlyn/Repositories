@@ -10,6 +10,8 @@
       | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method                                     |
       | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                     |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new mock method getLeadsCalculatedCadenceByIds |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new mock method getLeadsByCaseMobile           |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                           |
  */
 @isTest
 public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILeadsDAO {
@@ -99,6 +101,40 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
             }
         }
         
+        return leadList;
+    }
+
+    public List<Lead> getLeadsByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    ) {
+        List<Lead> leadList = new List<Lead>();
+        
+        for (Lead record : leadsMap.values()) {
+            if (
+                caseMobile.contains(record.MobilePhone)
+            ) {
+                leadList.add(record);
+            }
+        }
+        
+        return leadList;
+    }
+
+    public List<Lead> getLeadByEmailOrName(
+        LeadsDAO.QueryParamWrapperEmailOrName queryParam,
+        AccessLevel accessLevel
+    ){
+
+        String email = queryParam.email;
+        List<Lead> leadList = new List<Lead>();
+
+        for (Lead record : leadsMap.values()) {
+            if (email != null && email != '' && email == record.Email) {
+                leadList.add(record);
+            }
+        }
+
         return leadList;
     }
 }
