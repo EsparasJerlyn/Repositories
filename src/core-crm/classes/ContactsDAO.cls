@@ -19,6 +19,7 @@
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName                        |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for getContactByCaseMobile                   |
       | julie.jane.alegre              | Sept 20, 2023         | DEPP-6667              | Added fields in method getPersonContactsBySetIds          |
+      | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added addition fields for soql                            |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
  *    |                                |                       | DEPP-6652,6653,6654    | added fields to getPersonContactsBySetIds                 |
  */
@@ -200,7 +201,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Email,
                 Citizenship_Country__c,
                 Lead_Score__c,
-                Marketing_Segmentation__r.My_Country_Of_Residency__c
+                Is_Agent_Assisted__c,
+                Marketing_Segmentation__r.My_Country_Of_Residency__c,
+                Marketing_Segmentation__r.My_Primary_BSA__c
             FROM Contact
             WHERE
                 RecordTypeId = :PERSON_RECORDTYPE_ID

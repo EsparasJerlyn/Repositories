@@ -33,7 +33,7 @@
  *    |                                |                       |                        | pricebook and pricebookentry                                  |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added object mapping for Address                              |
  */
-public class ImplementationSelector {
+public class ImplementationSelector { 
 
     // Configure and create the DAOFactory for this ImplementationSelector
     public static final DAOFactory DAO = new DAOFactory(

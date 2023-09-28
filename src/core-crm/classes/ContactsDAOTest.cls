@@ -182,7 +182,7 @@ private class ContactsDAOTest {
     }
 
     @isTest
-    static void getPersonContactsBySetIdsTest() {
+    static void getPersonContactsBySetIdsTest() { 
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> contactList = ContactsDAO.newInstance()

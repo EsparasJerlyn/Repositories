@@ -83,7 +83,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
                 Email,
                 Lead_Score__c,
                 Marketing_Segmentation__r.My_Country_Of_Residency__c,
-                Marketing_Segmentation__r.My_Country_Of_Citizenship__c
+                Marketing_Segmentation__r.My_Country_Of_Citizenship__c,
+                Marketing_Segmentation__r.My_Primary_BSA__c
             FROM Lead
             WHERE
                 Lead_Type__c = 'Learner'
