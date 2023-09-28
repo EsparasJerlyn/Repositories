@@ -1,5 +1,5 @@
 /**
- * @description Test class for EmailTriggerSalesCadenceBatch
+ * @description Test class for CompleteCadenceBatch
  * 
  * @author Accenture
  *
@@ -7,13 +7,13 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eccarius.munoz      	       | August 31, 2023       | DEPP-6138              | Created file                 | 
+      | eccarius.munoz      	       | September 27, 2023    | DEPP-6763              | Created file                 | 
  */
 @isTest
-public with sharing class EmailTriggerSalesCadenceBatchTest {
-
+public with sharing class CompleteCadenceBatchTest {
     @TestSetup
     static void setupData(){
+        
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
         System.runAs(TestDataFactory.getSystemAdminUser()) { 
             List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
@@ -30,9 +30,11 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
             }
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
 
+            List<Lead_Score_Detail__c> lsdList = new List<Lead_Score_Detail__c>();
             Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
             lsd.Total_Lead_Score__c = 350;
-            insert lsd;
+            lsdList.add(lsd);
+            LeadScoreDetailsDAO.newInstance().insertRecords(lsdList, false, AccessLevel.SYSTEM_MODE); 
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1,2);
             for(Contact c :contactList ){
@@ -54,11 +56,18 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
 
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
             List<Communication_Queue__c> commsQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(
-                resultIds,                 
-                CommunicationQueuesDAO.STATUS_SCHEDULED,
+                resultIds, 
+                CommunicationQueuesDAO.STATUS_SENT,
                 emailTemplate.Id
             );
-            
+
+            ImplementationSelector.DAO.setMock(new ActionCadenceStepTrackersDAOMock());
+            List<ActionCadenceStepTracker> actionCadenceTracker = ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(new List<String>(), AccessLevel.SYSTEM_MODE);
+
+            for(Communication_Queue__c comsQueue : commsQueueList){
+                comsQueue.ActionCadenceStepTrackerId__c = actionCadenceTracker[0].Id;
+            }
+
             CommunicationQueuesDAO.newInstance().insertRecords(commsQueueList, false, AccessLevel.USER_MODE);
         }
     }
@@ -66,9 +75,11 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
     @isTest
     private static void executeBatchTest() {
         Id batchableId;
+        
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
-            EmailTriggerSalesCadenceBatch batchable = new EmailTriggerSalesCadenceBatch();
+            ImplementationSelector.DAO.setMock(new ActionCadenceStepTrackersDAOMock());
+            CompleteCadenceBatch batchable = new CompleteCadenceBatch();
             batchableId = Database.executeBatch(batchable);            
             Test.stopTest();
         }
@@ -78,5 +89,4 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
             'The batch job failed to execute.'
         );
     }
-
 }

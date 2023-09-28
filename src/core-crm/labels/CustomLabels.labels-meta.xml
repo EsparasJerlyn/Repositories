@@ -778,6 +778,14 @@
         <value>/services/data/v56.0/actions/standard/removeTargetFromSalesCadence</value>
     </labels>
     <labels>
+        <fullName>SalesCadenceUpdateTargetEndpoint</fullName>
+        <categories>Complete Cadence Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SalesCadenceUpdateTargetEndpoint</shortDescription>
+        <value>/services/data/v56.0/actions/standard/sendSalesCadenceEvent</value>
+    </labels>
+    <labels>
         <fullName>Email_Trigger_Cadence_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>

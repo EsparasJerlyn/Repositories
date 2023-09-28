@@ -14,6 +14,8 @@ public interface ICommunicationQueuesDAO extends DmlInterface{
 
     Database.QueryLocator queryLocatorScheduledCommunicationQueue();
 
+    Database.QueryLocator queryLocatorSentCommunicationQueue();
+
     List<Communication_Queue__c> getComminicationQueueRecordsByStatus(
         Set<String> status, 
         AccessLevel accessLevel

@@ -20,6 +20,7 @@ public with sharing class SalesCadenceCalloutService {
     
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
     private static final String REMOVE_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceRemoveTargetEndpoint;
+    private static final String UPDATE_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceUpdateTargetEndpoint;
 
     /**
      * @description Enqueues the Contact or Lead to Sales Cadence
@@ -96,6 +97,23 @@ public with sharing class SalesCadenceCalloutService {
         if(!manualRemoveCadenceMap.isEmpty()){
             createCompletedCadence(manualRemoveCadenceMap,null);
         }
+    }
+
+    /**
+     * API call to complete cadence
+     */
+    public static void updateCadenceStepTracker(Set<Id> targetIds, String eventType){
+
+        SendCadenceEventPayload payload = new SendCadenceEventPayload();
+        
+        for(String targetId: targetIds){
+            payload.addSendCadenceEventPayInputs(targetId, eventType);
+        }
+   
+        if(!payload.inputs.isEmpty()){
+            sendRequest(JSON.serialize(payload, true), UPDATE_TARGET_CADENCE_ENDPOINT);            
+        }
+
     }
     
     /**
@@ -456,4 +474,33 @@ public with sharing class SalesCadenceCalloutService {
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }        
     }    
+    
+    /**
+     * Wrapper class for Send Cadence Event Payload
+     */
+    public class SendCadenceEventPayload{
+        public List<SendCadenceEventPayInputs> inputs;
+
+        public SendCadenceEventPayload() {
+            inputs = new List<SendCadenceEventPayInputs>();
+        }
+
+        public void addSendCadenceEventPayInputs(String recordId, String eventType){
+            SendCadenceEventPayInputs sendCadenceEventPayInputs = new SendCadenceEventPayInputs(recordId, eventType);
+            inputs.add(sendCadenceEventPayInputs);
+        }
+    }
+
+    /**
+     * Wrapper class for Send Cadence Event Payload Body
+     */
+    public class SendCadenceEventPayInputs{
+        public String recordId;
+        public String eventType;
+
+        public SendCadenceEventPayInputs(String recordId, String eventType){
+            this.recordId = recordId;
+            this.eventType = eventType;
+        }
+    }
 }

@@ -12,25 +12,25 @@
  */
 public with sharing class ActionCadenceStepTrackersDAO extends DmlBase implements IActionCadenceStepTrackersDAO {
     
-    public static final String STATE_ACTIVE = 'Active';
-    public static final String STEP_TYPE_SEND_EMAIL = 'SendAnEmail';
+  public static final String STATE_ACTIVE = 'Active';
+  public static final String STEP_TYPE_SEND_EMAIL = 'SendAnEmail';
 
-    public Schema.SObjectType getSObjectType(){
-		return ActionCadenceStepTracker.SObjectType;
-	}
+  public Schema.SObjectType getSObjectType(){
+    return ActionCadenceStepTracker.SObjectType;
+  }
 
-    public static IActionCadenceStepTrackersDAO newInstance(){
+  public static IActionCadenceStepTrackersDAO newInstance(){
 		return (IActionCadenceStepTrackersDAO) ImplementationSelector.DAO.newInstance(ActionCadenceStepTracker.SObjectType);
 	}
 
-    public List<ActionCadenceStepTracker> getActionCadenceStepTrackerForEmail(List<String> recordIds, AccessLevel accessLevel) {
-        return Database.query(
-            'SELECT Id, ActionCadenceStepId, ActionCadenceName, TargetId, StepType, StepTitle ' + 
-              'FROM ActionCadenceStepTracker ' + 
-             'WHERE Id IN: recordIds ' + 
-               'AND State =: STATE_ACTIVE ' + 
-               'AND StepType =: STEP_TYPE_SEND_EMAIL', accessLevel
-        );
-    }
+  public List<ActionCadenceStepTracker> getActionCadenceStepTrackerForEmail(List<String> recordIds, AccessLevel accessLevel) {
+      return Database.query(
+          'SELECT Id, ActionCadenceStepId, ActionCadenceName, TargetId, StepType, StepTitle, ActionCadenceStep.TemplateId ' + 
+            'FROM ActionCadenceStepTracker ' + 
+            'WHERE Id IN: recordIds ' + 
+              'AND State =: STATE_ACTIVE ' + 
+              'AND StepType =: STEP_TYPE_SEND_EMAIL', accessLevel
+      );
+  }
     
 }

@@ -119,5 +119,5 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             'AND IsConverted = FALSE ',
             accessLevel
         );
-    }
+    } 
 }

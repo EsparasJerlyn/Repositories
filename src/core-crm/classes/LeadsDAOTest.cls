@@ -109,5 +109,5 @@ public with sharing class LeadsDAOTest {
             System.assert(leadList.isEmpty(), 'leadList should not be empty');
         }
         Test.stopTest();
-    }
+    } 
 }
