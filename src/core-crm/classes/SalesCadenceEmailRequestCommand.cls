@@ -31,7 +31,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
             if(recipientMap.containsKey(commsQueue.WhoId__c)){
                 Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
                 if(emailTemplateMap.containsKey(commsQueue.Template_Id__c)){
-                    email.setToAddresses(new List<String>(recipientMap.keySet()));
+                    email.setToAddresses(new List<String>{commsQueue.WhoId__c});
                     email.setSubject(emailTemplateMap.get(commsQueue.Template_Id__c).Subject);  
                         email.setHtmlBody(
                             EmailHelper.setBodyValues(
@@ -210,5 +210,4 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
         }
        return bodyParams;
     }
-    
 }
