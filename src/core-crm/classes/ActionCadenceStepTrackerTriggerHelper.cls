@@ -57,7 +57,8 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
                         Type__c = 'Email',
                         WhoId__c = ac.TargetId,
                         Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email',
-                        Sender__c = orgWideEmailAddress?.Id
+                        Sender__c = orgWideEmailAddress?.Id,
+                        Template_Id__c = ac.ActionCadenceStep.TemplateId
                     )
                 );
             }

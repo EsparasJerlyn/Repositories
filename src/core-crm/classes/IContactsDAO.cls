@@ -59,5 +59,5 @@ public interface IContactsDAO extends DmlInterface {
     List<Contact> getContactsForQTACAddressUpdate(
         Set<Id> qtacApplicantIdSet,
         AccessLevel accessLevel
-    );
+    ); 
 }

@@ -31,6 +31,18 @@ public with sharing class CommunicationQueuesDAOTest {
     }
 
     @isTest
+    static void queryLocatorSentCommunicationQueueTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                CommunicationQueuesDAO.newInstance().queryLocatorSentCommunicationQueue() != null,
+                'Communication queues retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
+
+    @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {

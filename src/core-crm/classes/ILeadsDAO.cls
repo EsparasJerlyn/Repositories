@@ -33,5 +33,5 @@ public interface ILeadsDAO extends DmlInterface {
     List<Lead> getLeadsByCaseMobile(
         Set<String> caseMobile,
         AccessLevel accessLevel
-    );
+    ); 
 }

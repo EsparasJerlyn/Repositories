@@ -2002,13 +2002,14 @@ public class TestDataFactory {
      * @param String status 
      * @return records - list of Communication_Queue__c records
      */
-    public static List<Communication_Queue__c> createCommunicationQueuePerContactOrLead(Set<Id> recordIds, String status){
+    public static List<Communication_Queue__c> createCommunicationQueuePerContactOrLead(Set<Id> recordIds, String status, Id emailTemplateId){
         List<Communication_Queue__c> communicationQueueList = new List<Communication_Queue__c> ();
         for(Id recordId : recordIds){
             communicationQueueList.add(
                 new Communication_Queue__c(
                     WhoId__c = recordId,
-                    Status__c = status
+                    Status__c = status,
+                    Template_Id__c = emailTemplateId
                 )
             );
         }

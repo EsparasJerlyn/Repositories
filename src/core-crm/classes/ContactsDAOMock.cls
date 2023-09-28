@@ -218,5 +218,6 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             }
         }
         return contactList;
-    }
+    } 
+
 }
