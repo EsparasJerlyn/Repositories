@@ -19,7 +19,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
 
     public static final Set<String> completedCadenceStatuses = new Set<String>{
         'Unsuccessful',
-        'Closed - Follow Up'
+        'Closed - Follow Up',
+        ''
     };   
 
     public static ICompletedCadencesDAO newInstance() {

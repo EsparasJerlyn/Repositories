@@ -13,6 +13,7 @@
  *    | julie.jane.alegre              | Sept 05, 2023       | DEPP-5965              | Added getContactsFromConvertedLead        |
  *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
  *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
+ *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added method for getContactByCaseMobile   |
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -187,6 +188,19 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         List<Contact> contactList = new List<Contact>();
         for (Contact record : contactsMap.values()) {
             if (recordIds.contains(record.Id)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getContactByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    ){
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if (caseMobile.contains(record.MobilePhone)){
                 contactList.add(record);
             }
         }

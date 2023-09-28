@@ -116,11 +116,13 @@ export default class LeadScoreSection extends LightningElement {
     generateProgressRing(leadScore, totalLeadScore) {
         if (totalLeadScore) {
             this.totalLeadScore = totalLeadScore;
-            this.progress = this.getRingProgress(leadScore, totalLeadScore);
+            let newLeadScore = leadScore >= totalLeadScore ? totalLeadScore - 1 : leadScore;
+
+            this.progress = this.getRingProgress(newLeadScore, totalLeadScore);
 
             const width = 0.75;
             const height = 0.75;
-            const anglePercentage = (leadScore / totalLeadScore) * 100;  // Percentage of the circumference
+            const anglePercentage = (newLeadScore / totalLeadScore) * 100;  // Percentage of the circumference
 
             const coordinates = this.calculateNodeCoordinates(width, height, anglePercentage);
 

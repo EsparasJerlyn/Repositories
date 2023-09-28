@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
       |--------------------------------|-----------------------|------------------------|---------------------------------------------|
       | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Created File                                |
+      | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
  */
 @isTest
 public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICasesDAO {
@@ -63,6 +64,23 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
             if (
                 contactOrLeadIds.contains(record.Lead__c) ||
                 contactOrLeadIds.contains(record.ContactId)
+            ) {
+                caseList.add(record);
+            }
+        }
+
+        return caseList;
+    }
+
+    public List<Case> getCasesBySuppliedPhone(
+        Set<String> suppliedMobile,
+        AccessLevel accessLevel
+    ) {
+        List<Case> caseList = new List<Case>();
+
+        for (Case record : caseMap.values()) {
+            if (
+                suppliedMobile.contains(record.SuppliedPhone)  
             ) {
                 caseList.add(record);
             }

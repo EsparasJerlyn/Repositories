@@ -8,8 +8,12 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
  *    |--------------------------------|-----------------------|------------------------|---------------------------------------------|
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | created file                                |
+ *    | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
  */
 public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
+
+    public static final String ORIGIN_WHATSAPP = 'WhatsApp';
+
     public static ICasesDAO newInstance() {
         return (ICasesDAO) ImplementationSelector.DAO.newInstance(
             Case.SObjectType
@@ -56,4 +60,18 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
             accessLevel
         );
     }
+
+    public List<Case> getCasesBySuppliedPhone(
+        Set<String> suppliedPhone,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, SuppliedPhone, ContactId, Lead__c ' +
+            'FROM Case ' +
+            'WHERE SuppliedPhone != NULL ' +
+            'AND suppliedPhone IN :SuppliedPhone ', 
+            accessLevel
+        );
+    }
+
 }

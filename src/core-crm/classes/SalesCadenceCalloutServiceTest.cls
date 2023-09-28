@@ -42,7 +42,7 @@ private class SalesCadenceCalloutServiceTest {
             Map<String,String> assignCadenceMap = new Map<String,String>();
             
             for(Contact con: newContacts){
-                assignCadenceMap.put(con.Id,con.Calculated_Cadence__c);
+                assignCadenceMap.put(con.Id,'Test Cadences automated');
             } 
             
             Test.startTest();

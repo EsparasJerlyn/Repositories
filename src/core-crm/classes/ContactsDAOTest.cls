@@ -13,6 +13,7 @@
  *    | roy.nino.s.regala              | Aug 09, 2023        | DEPP-5677              | Added test method for DEPP-5677           |
  *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
  *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
+ *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added getContactByCaseMobile              |
  */
 @isTest
 private class ContactsDAOTest {
@@ -168,6 +169,19 @@ private class ContactsDAOTest {
     }
 
     @isTest
+    static void getContactByCaseMobileTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactByCaseMobile(
+                    new Set<String>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
+    }
+
     static void getContactsForQTACAddressUpdate() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
