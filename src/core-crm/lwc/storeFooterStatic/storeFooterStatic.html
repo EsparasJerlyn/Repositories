@@ -1,34 +1,45 @@
 <template>
-
-    <div if:false={isCCELogin} class="parent-staticFooter-nav">
-        <div style="max-width:1140px; margin:0px auto;">
-            <div class="slds-grid slds-wrap staticFooterNav">
-                <div class="slds-size_1-of-1 flex-list">
-                    <ul>
-                        <li><a href={homeLink} class={subMenuHome} target="_self">Home</a></li>
-                        <li><a href={tailoredExecEducLink}  onclick={handleMenuClick} target="_self">Tailored Executive Education</a></li>
-                        <li><a href={corpBundleLink} onclick={handleMenuClick} target="_self">Corporate Bundle</a></li>
-                        <li><a href={qutexLearnLink} onclick={handleMenuClick} target="_self">QUTeX Learning Solutions</a></li>
-                        <li><a href={legal_Link} target="_blank">Legal</a></li>
-                        <li><a href={privacy_Link} target="_blank">Privacy</a></li>
-                    </ul>
-                </div>
-                
-            </div>
+  <div if:false={isCCELogin} class="parent-staticFooter-nav">
+    <div style="max-width: 1140px; margin: 0px auto">
+      <div class="slds-grid slds-wrap staticFooterNav">
+        <div class="slds-size_1-of-1 flex-list">
+          <ul>
+            <li>
+              <a href={homeLink} class={subMenuHome} target="_self">Home</a>
+            </li>
+            <!-- <li><a href={tailoredExecEducLink}  onclick={handleMenuClick} target="_self">Tailored Executive Education</a></li> -->
+            <!-- <li><a href={corpBundleLink} onclick={handleMenuClick} target="_self">Corporate Bundle</a></li> -->
+            <!-- <li><a href={qutexLearnLink} onclick={handleMenuClick} target="_self">QUTeX Learning Solutions</a></li> -->
+            <li><a href={legalLink} target="_blank">Legal</a></li>
+            <li><a href={privacy_Link} target="_blank">Privacy</a></li>
+            <li>
+              <a href={why_we_collect_Link} target="_blank"
+                >Why we collect personal information</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="parent-staticFooter">
-        <div style="max-width:1140px; margin:0px auto;">
-            <div class="slds-grid slds-wrap staticFooterStyle">
-                <div class="slds-size_1-of-1  slds-medium-size_7-of-12 slds-large-size_7-of-12 textLeft mb">
-                    <span>QUT acknowledges the Traditional Owners of the lands where QUT now stands.</span>
-                </div>
-                <div class="slds-size_1-of-1  slds-medium-size_5-of-12 slds-large-size_5-of-12 ">
-                    <span>CRICOS No. 00213J <span class="pipe">|</span> ABN 83 791 724 622 </span>
-                </div>
-            </div>
+  <div class="parent-staticFooter">
+    <div style="max-width: 1140px; margin: 0px auto">
+      <div class="slds-grid slds-wrap staticFooterStyle">
+        <div
+          class="slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_7-of-12 textLeft mb">
+          <span
+            >QUT acknowledges the Traditional Owners of the lands where QUT now
+            stands.</span
+          >
         </div>
+        <div
+          class="slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12">
+          <span
+            >CRICOS No. 00213J <span class="pipe">|</span> ABN 83 791 724 622
+          </span>
+        </div>
+      </div>
     </div>
-    
+  </div>
 </template>
