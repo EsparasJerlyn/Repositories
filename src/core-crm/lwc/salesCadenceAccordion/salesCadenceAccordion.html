@@ -1,0 +1,12 @@
+<template>
+  <div class="slds-card">
+    <lightning-accordion>
+      <template for:each={accordionList} for:item="item">
+        <lightning-accordion-section name={item} label={item} key={item}>
+          <c-sales-cadence-list-view calculated-cadence={item}>
+          </c-sales-cadence-list-view>
+        </lightning-accordion-section>
+      </template>
+    </lightning-accordion>
+  </div>
+</template>

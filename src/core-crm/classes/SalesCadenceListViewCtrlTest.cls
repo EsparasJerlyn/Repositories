@@ -9,12 +9,13 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                              |
       |---------------------------|-----------------------|--------------|---------------------------------------------|
       | roy.nino.s.regala         | Aug 09,2023           | DEPP-5677    | Created file                                |
+      | roy.nino.s.regala         | Sep 22, 2023          | DEPP-6365    | remove unused method                        |
 */
 @isTest
 public with sharing class SalesCadenceListViewCtrlTest {
     @isTest
     // prettier-ignore
-    static void getTableDataWrapperTest() {// NOPMD - test class is mocked
+    static void getTableDataWrapperTest() {// NOPMD - test class is mocked 
         List<Contact> contactList;
         List<Lead> leadList;
         Test.startTest();
@@ -141,40 +142,6 @@ public with sharing class SalesCadenceListViewCtrlTest {
         SalesCadenceListViewCtrl.updateCalculatedCadence(JSON.serialize(targetsToRemove));
         Test.stopTest();
         System.assert(SalesCadenceListViewCtrl.getTableDataWrapper('test cadenc').isEmpty(), 'was able to get table wrapper');
-    }
-
-    @isTest
-    // prettier-ignore
-    static void createCompletedTaskTest() {// NOPMD - test class is mocked
-
-        ImplementationSelector.DAO.setMock(new TasksDAOMock());
-        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
-
-        List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
-        contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
-        contactList[0].Calculated_Cadence__c = 'test cadence';
-        ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
-
-        List<Task> taskRecordsToInsert = TestDataFactory.createTaskRecords(1, new Map<String,String>{
-            'Subject'=>'Removed from Cadence',
-            'OwnerId'=>UserInfo.getUserId(),
-            'Status'=>'Completed',
-            'Priority'=>'Normal',
-            'WhoId'=>contactList[0].Id,
-            'Description'=>'test cadence'
-        });
-
-        Boolean creationSuccessful = true;
-
-        Test.startTest();
-        try{
-            SalesCadenceListViewCtrl.createCompletedTask(taskRecordsToInsert);
-        }catch(Exception e){
-            creationSuccessful = false;
-        }
-        Test.stopTest();
-        
-        System.assert(creationSuccessful,'creation of task unnsuccessful');
     }
 
     @isTest

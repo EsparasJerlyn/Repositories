@@ -12,8 +12,10 @@
  *    | jerlyn.esparas                 | July 06, 2023         | DEPP-5845              | Added method for QTAC application |
  *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added method for SAMS application |
  *    | mark.j.mahilum                 | August 01, 2023       | DEPP-6135              | Added new record type condition   |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added methods for contact field   |
+ *    |                                |                       |                        | updates on match with application |
  */
-public with sharing class ApplicationService {
+public with sharing class ApplicationService { //NOPMD
 
     /**
      * @description Executes the matching rule for new applications and enqueues applications for future processing.
@@ -279,4 +281,281 @@ public with sharing class ApplicationService {
              Logger.saveLog();
          }
      }    
- }
+
+    /**
+     * @description Return a boolean value to indicate whether the provided application is active
+     * @param app The application record
+     * @return Boolean
+     */
+    public static Boolean isActiveApplication(hed__Application__c app) {
+        return !ApplicationsDAO.samsStatuses.contains(app.Application_Status__c) && !ApplicationsDAO.studyLinkStatuses.contains(app.Application_Status__c); 
+    }
+    
+    /**
+     * @description Get a list of contact records from applicants related to a list of applications.
+     * @param List<hed__Application__c> applications - A list of applications to get the contacts (applicants) from.
+     * @return List<Contact>
+     */
+    public static List<Contact> getApplicantsFromApplications(List<hed__Application__c> applications) {
+        Set<Id> applicantIdSet = new Set<Id>();
+        for(hed__Application__c application : applications) {
+            if(String.isNotBlank(application.hed__Applicant__c)) {
+            	applicantIdSet.add(application.hed__Applicant__c);   
+            }
+        }
+        if(!applicantIdSet.isEmpty()) {
+            return ContactsDAO.newInstance().getPersonContactsBySetIds(applicantIdSet, AccessLevel.SYSTEM_MODE);
+        }
+        return new List<Contact>();
+    }
+    
+    /**
+     * @description For use in updateRelatedRecords method. This method returns a contact record which depends if it
+     * already exists in the to-update map. If it is in the map, simply gets the contact within the map. Otherwise, it
+     * creates a new contact instance, inserts it into the map, and then returns the new instance from the map.
+     * @param Map<Id, Contact> contactsMapToUpdate - The contacts map from the updateRelatedRecords method.
+     * @param Id applicantId - The id of the contact/applicant record to pull for.
+     * @return Contact
+     */
+    //TO-DO: Reduce these similar methods into one single reusable getFromUpdateMap method that any SObject map can use.
+    public static Contact getContactFromUpdateMap(Map<Id, Contact> contactMapToUpdate, Id applicantId) {
+        if(!contactMapToUpdate.containsKey(applicantId)) {
+            contactMapToUpdate.put(
+                applicantId, 
+                new Contact(Id = applicantId)
+            );
+        }
+        return contactMapToUpdate.get(applicantId);
+    }
+    
+    /**
+     * @description For use in updateRelatedRecords method. This method returns a lead record which depends if it
+     * already exists in the to-update map. If it is in the map, simply gets the lead within the map. Otherwise, it
+     * creates a new lead instance, inserts it into the map, and then returns the new instance from the map.
+     * @param Map<Id, Lead> leadsMapToUpdate - The lead map from the updateRelatedRecords method.
+     * @param Id leadId - The id of the lead record to pull for.
+     * @return Lead
+     */
+    //TO-DO: Reduce these similar methods into one single reusable getFromUpdateMap method that any SObject map can use.
+    public static Lead getLeadFromUpdateMap(Map<Id, Lead> leadMapToUpdate, Id leadId) {
+        if(!leadMapToUpdate.containsKey(leadId)) {
+            leadMapToUpdate.put(
+                leadId, 
+                new Lead(Id = leadId)
+            );
+        }
+        return leadMapToUpdate.get(leadId);
+    }
+    
+    /**
+     * @description Set fields on a contact record. This method contains field settings that are not bound by complex conditions.
+     * If the field/s needs to follow certain rules, especially if it's complex, use a different method instead.
+     * @param Contact contact - The contact record to modify.
+     */
+    public static void mapFieldsToApplicant(Contact applicant, hed__Application__c application) {
+        applicant.Agency_Country__c = application.Agency_Country__c;
+        applicant.Agency_Email__c = application.Agency_Email__c;
+        applicant.Agency_Name__c = application.Agency_Name__c;
+        applicant.Can_Nurture__c = isActiveApplication(application);
+        applicant.Education_Disruption_Applicant__c = application.Is_Education_Disruption_Applicant__c;
+        applicant.Elite_Athlete_Applicant__c = application.Is_Elite_Athlete_Applicant__c;
+        applicant.Financial_Hardship_Applicant__c = application.Is_Financial_Hardship_Applicant__c;
+        applicant.First_in_Family_Applicant__c = application.Is_First_In_Family_Applicant__c;
+        applicant.Is_Agent_Assisted__c = application.Is_Agent_Assisted__c;
+        applicant.Is_International_Applicant__c = application.Is_International_Applicant__c;
+        applicant.Personal_Illness_Disability_Applicant__c = application.Is_Personal_Illness_Disability_Applicant__c;
+    }
+    
+    /**
+     * @description Set fields on a lead record. This method contains field settings that are not bound by complex conditions.
+     * If the field/s needs to follow certain rules, especially if it's complex, use a different method instead.
+     * @param Lead lead - The lead record to modify.
+     */
+    public static void mapFieldsToLead(Lead lead, hed__Application__c application) {
+        lead.Can_Nurture__c = isActiveApplication(application);
+    }
+    
+    /**
+     * @description Switch between various field mapping methods based on the record type of the application.
+     * @param Contact applicant - The applicant/contact records to update.
+     * @param RecordsToReferenceWrapper recordsToReference - The collection of records to base the updates from.
+     */
+    public static void switchMapFieldsByRecordType(
+        Contact applicant,
+        RecordsToReferenceWrapper recordsToReference
+    ) {
+        if(recordsToReference.application.hed__Applicant__c != recordsToReference.oldApplication.hed__Applicant__c) {
+            Id applicationRecordType = recordsToReference.application.RecordTypeId;
+            if(applicationRecordType == ApplicationsDAO.STUDYLINK_RECTYPE_ID) {
+                mapFieldsToStudyLinkApplicant(applicant, recordsToReference);
+            } else if(applicationRecordType == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID) {
+                mapFieldsToSAMSCIAnywhereApplicant(applicant, recordsToReference);
+            } else if(applicationRecordType == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID) {
+                mapFieldsToSAMSLegacyApplicant(applicant, recordsToReference);
+            } else if(applicationRecordType == ApplicationsDAO.QTAC_RECTYPE_ID) {
+                mapFieldsToQTACApplicant(applicant, recordsToReference);
+            }
+        }
+    }
+    
+    /**
+     * @description Set fields on a contact record of a StudyLink application. This method does not check the recordtype.
+     * Identify the record type first before using this method!
+     * @param Contact applicantToUpdate - The applicant/contact record to map the fields to.
+     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
+     */
+    private static void mapFieldsToStudyLinkApplicant(
+        Contact applicantToUpdate, 
+        RecordsToReferenceWrapper recordsToReference
+    ) {
+        applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
+        applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate == null ? 
+            recordsToReference.application.BirthDate__c : recordsToReference.existingContact.Birthdate;
+        applicantToUpdate.Citizenship_Country__c = recordsToReference.application.Citizenship_Country__c;
+        applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;
+        applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
+    }
+    
+    /** 
+     * @description Set fields on a contact record of a SAMS CIAnywhere application. This method does not check the recordtype.
+     * Identify the record type first before using this method!
+     * @param Contact applicantToUpdate - The applicant/contact record to map the fields to.
+     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
+     */
+    private static void mapFieldsToSAMSCIAnywhereApplicant(
+        Contact applicantToUpdate, 
+        RecordsToReferenceWrapper recordsToReference
+    ) {
+        // As of 2023-09-21, StudyLink, SAMS CIAnywhere, and SAMS Legacy all follow the same mapping.
+        mapFieldsToStudyLinkApplicant(applicantToUpdate, recordsToReference);
+    }
+    
+    /** 
+     * @description Set fields on a contact record of a SAMS Legacy application. This method does not check the recordtype.
+     * Identify the record type first before using this method!
+     * @param Contact applicantToUpdate - The applicant/contact record to map the fields to.
+     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
+     */
+    private static void mapFieldsToSAMSLegacyApplicant(
+        Contact applicantToUpdate, 
+        RecordsToReferenceWrapper recordsToReference
+    ) {
+        // As of 2023-09-21, StudyLink, SAMS CIAnywhere, and SAMS Legacy all follow the same mapping.
+        mapFieldsToStudyLinkApplicant(applicantToUpdate, recordsToReference);
+    }
+    
+    /**
+     * @description Set fields on a contact record of a QTAC application. This method does not check the recordtype.
+     * Identify the record type first before using this method!
+     * @param Contact applicantToUpdate - The applicant/contact to update.
+     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
+     */
+    private static void mapFieldsToQTACApplicant(
+        Contact applicantToUpdate, 
+        RecordsToReferenceWrapper recordsToReference
+    ) {
+        applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
+        applicantToUpdate.Birth_Country__c = recordsToReference.application.Birth_Country__c;
+        applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate == null ? 
+            recordsToReference.application.BirthDate__c : recordsToReference.existingContact.Birthdate;
+        applicantToUpdate.Citizenship_Type__c = recordsToReference.application.Citizenship_Type__c;
+        applicantToUpdate.Home_Language__c = recordsToReference.application.Home_Language__c;
+        applicantToUpdate.MiddleName = recordsToReference.application.MiddleName__c;
+        applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;
+        applicantToUpdate.Salutation = recordsToReference.application.Salutation__c;
+    }
+    
+    /**
+     * @description Fill the address lines of an address record using address lines from an application.
+     * NOTE: This method is assuming that at least one field below is populated, or that the address record
+     * is always created.
+     * @param hed__Address__c address - the address record to fill.
+     * @param hed__Application__c application - the application record to get data from.
+     * @param String addressType - the type of address (fills hed__Address_Type__c).
+     * @return hed__Address__c
+     */
+    public static hed__Address__c fillAddressLines(hed__Address__c address, hed__Application__c application, String addressType) {
+        Map<String, String> typeToFieldMap = new Map<String, String>();
+        typeToFieldMap.put('Mailing', 'Postal');
+        typeToFieldMap.put('Other', 'Residential');
+        String field = typeToFieldMap.get(addressType);
+        address.hed__Address_Type__c = addressType;
+        address.hed__MailingStreet__c = (String) application.get(field + '_Address_Line1__c');
+        address.hed__MailingStreet2__c = (String) application.get(field + '_Address_Line2__c') + 
+            ' ' + application.get(field + '_Address_Line3__c');
+        address.hed__MailingCity__c = (String) application.get(field + '_Town__c');
+        address.hed__MailingState__c = (String) application.get(field + '_State__c');
+        address.hed__MailingCountry__c = (String) application.get(field + '_Country__c');
+        address.hed__MailingPostalCode__c = (String) application.get(field + '_Postcode__c');
+        address.hed__Parent_Contact__c = (Id) application.hed__Applicant__c;
+        return address;
+    }
+    
+    public static Boolean isContactMatchedQTACApplication(hed__Application__c application, Map<Id, SObject> oldItems) {
+        Boolean isQTAC = application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+        Boolean isContactMatched = 
+            oldItems == null &&
+            application.hed__Applicant__c != null;
+        Boolean isContactChanged = 
+            oldItems != null && 
+            application.hed__Applicant__c != null &&
+            application.hed__Applicant__c != (Id) oldItems.get(application.Id).get('hed__Applicant__c');
+        return isQTAC && (isContactMatched || isContactChanged);
+    }
+    
+    public class RecordsToReferenceWrapper {
+        public Contact existingContact { get; set; }
+        public hed__Application__c application { get; set; }
+        public hed__Application__c oldApplication { get; set; }
+    }
+
+    /**
+     * @description Map related Contacts Marketing Preference 
+     * @param applicantIds
+     */
+    public static List<Contact> mapContactToUpdate(Set<Id> applicantIds) {
+        List<Contact> contactsToUpdate = new List<Contact>();
+        List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsBySetIds(applicantIds, AccessLevel.SYSTEM_MODE);
+        Map<Id,List<Case>> caseMap = ContactService.mapExistingCasesToContact(applicantIds, AccessLevel.SYSTEM_MODE);
+        Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = ContactService.mapExistingMarketingInteractionToContact(applicantIds, AccessLevel.SYSTEM_MODE);
+        Map<Id,List<hed__Application__c>> applicationMap = ContactService.mapExisitngApplicationsToContact(applicantIds, AccessLevel.SYSTEM_MODE);
+        
+        for(Contact contacts: contactList){
+            Boolean noCaseandInteractiinRecord = !caseMap.containsKey(contacts.Id) && !marketingInteractionMap.containsKey(contacts.Id);
+            Boolean hasOneApp = applicationMap.containsKey(contacts.Id) && applicationMap.get(contacts.Id).size() == 1;
+            Boolean isForUpdate = noCaseandInteractiinRecord && hasOneApp;
+            if(isForUpdate){
+                contacts.HasOptedOutOfEmail = true;
+                contacts.Email_Opt_Out_DateTime__c = System.today();
+                contacts.Learner_Email_Opt_Out__c = true;
+                contacts.Learner_Email_Opt_Out_DateTime__c = System.today(); 
+                contacts.Staff_Email_Opt_Out__c = true;
+                contacts.Staff_Email_Opt_Out_DateTime__c = System.today();
+                contacts.Work_Email_Opt_Out__c = true;
+                contacts.Work_Email_Opt_Out_DateTime__c = System.today();
+                contacts.Work_SMS_Opt_Out__c = true;
+                contacts.Work_SMS_Opt_Out_DateTime__c = System.today();
+                contacts.hed__SMS_Opt_Out__c = true;
+                contacts.SMS_Opt_Out_DateTime__c = System.today(); 
+                contacts.DoNotCall = true;
+                contacts.Sync_to_MC__c = false;
+                contacts.Do_Not_Sync_To_MC_Override__c = false;
+                contacts.Dont_Market_Reason__c = 'QTAC Application QUT preferences withdrawn';
+                contactsToUpdate.add(contacts);
+            }
+        }
+        return contactsToUpdate;
+    }
+
+    public static Boolean isInactiveQTACApp(hed__Application__c app, Map<Id, SObject> oldItems) {
+        Boolean isForUpdate = 
+            oldItems != null && 
+            (Boolean) oldItems.get(app.Id).get('Is_Active__c') != app.Is_Active__c;
+        Boolean isQTAC = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+        return 
+            isForUpdate && 
+            isQTAC &&
+            app.Is_Active__c == false &&
+            app.hed__Applicant__c != null;
+    }
+}

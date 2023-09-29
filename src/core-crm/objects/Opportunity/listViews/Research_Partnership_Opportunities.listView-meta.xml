@@ -2,6 +2,7 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Research_Partnership_Opportunities</fullName>
     <columns>OPPORTUNITY.NAME</columns>
+    <columns>Opportunity_Code__c</columns>
     <columns>OPPORTUNITY.RECORDTYPE</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
     <columns>CORE.USERS.FULL_NAME</columns>

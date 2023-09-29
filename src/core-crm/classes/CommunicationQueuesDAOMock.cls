@@ -26,6 +26,10 @@ public inherited sharing class CommunicationQueuesDAOMock extends DmlBaseMock im
         return null;
     }
 
+    public Database.QueryLocator queryLocatorSentCommunicationQueue() {
+        return null;
+    }
+
     public List<Communication_Queue__c> getComminicationQueueRecordsByStatus(
         Set<String> status,     
         AccessLevel accessLevel){

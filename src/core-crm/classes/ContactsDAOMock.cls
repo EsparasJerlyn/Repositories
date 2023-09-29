@@ -4,14 +4,17 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                       |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                         |   
-      | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist   |
-      | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added new method                     |
- *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677     |
-      | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added getContactsFromConvertedLead   |
- *    | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | method getPersonContactsBySetIds    |
+ *    | Developer Email                | Date                | JIRA                   | Change Summary                            |
+      |--------------------------------|---------------------|------------------------|-------------------------------------------|
+      | roy.nino.s.regala              | April 25, 2023      | DEPP-5567              | Created file                              |
+      | eugene.andrew.abuan            | June 08, 2023       | DEPP-5414              | Added checkWorkEmailFlowInputExist        |
+      | mark.j.mahilum                 | June 26, 2023       | DEPP-5846              | Added new method                          |
+ *    | roy.nino.s.regala              | Aug 09, 2023        | DEPP-5677              | Added method for DEPP-5677                |
+ *    | julie.jane.alegre              | Sept 05, 2023       | DEPP-5965              | Added getContactsFromConvertedLead        |
+ *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
+ *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
+ *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added method for getContactByCaseMobile   |
+ *    | neil.s.h.lesidan               | Sept 20, 2023       | DEPP-6478              | Added getContactByEmailOrName             |
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -191,4 +194,48 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         }
         return contactList;
     }
+
+    public List<Contact> getContactByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    ){
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if (caseMobile.contains(record.MobilePhone)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getContactByEmailOrName(
+        ContactsDAO.QueryParamWrapperEmailOrName queryParam,
+        AccessLevel accessLevel
+    ){
+
+        String email = queryParam.email;
+        List<Contact> contactList = new List<Contact>();
+
+        for (Contact record : contactsMap.values()) {
+            if (email != null && email != '' && email == record.Email) {
+                contactList.add(record);
+            }
+        }
+
+        return contactList;
+    }
+
+    public List<Contact> getContactsForQTACAddressUpdate(
+        Set<Id> qtacApplicantIdSet,
+        AccessLevel accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+        for(Contact contact : contactsMap.values()) {
+            if(qtacApplicantIdSet.contains(contact.Id)) {
+                contactList.add(contact);
+            }
+        }
+        return contactList;
+    } 
+
 }

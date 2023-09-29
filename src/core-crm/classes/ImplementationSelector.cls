@@ -23,7 +23,7 @@
  *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added Object mapping for hed__Program_Enrollment__c Object    |
  *    | eccarius.munoz                 | August 10, 2023       | DEPP-5760              | Added Object mapping for hed__Term__c and hed__Facility__c obj|
  *    | arsenio.jr.dayrit              | August 15, 2023       | DEPP-6370              | Added Object mapping for Package_Component__c obj             |
- *  * | julie.jane.alegre              | August 31, 2023       | DEPP-5965              | Added Object mapping for Lead_Score_Detail__c obj             |
+ *    | julie.jane.alegre              | August 31, 2023       | DEPP-5965              | Added Object mapping for Lead_Score_Detail__c obj             |
  *    | mark.j.mahilum                 | August 31, 2023       | DEPP-6565              | Added Object mapping for OpportunityContactRole obj           |
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
@@ -31,8 +31,9 @@
  *    | julie.jane.alegre              | September 18, 2023    | DEPP-6667              | Added Object mapping for Marketing_Interaction__c obj         |
  *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Adde mapping for cartdeliverygroup,webstore,webcart,cartitem, |
  *    |                                |                       |                        | pricebook and pricebookentry                                  |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added object mapping for Address                              |
  */
-public class ImplementationSelector {
+public class ImplementationSelector { 
 
     // Configure and create the DAOFactory for this ImplementationSelector
     public static final DAOFactory DAO = new DAOFactory(
@@ -62,6 +63,7 @@ public class ImplementationSelector {
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
+            hed__Address__c.SObjectType => AddressesDAO.class,
             hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
             hed__Course_Enrollment__c.SObjectType => CourseConnectionsDAO.class,
