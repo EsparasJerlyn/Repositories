@@ -23,23 +23,15 @@
                                 <p class="bodyBold slds-m-around_none">First name</p>
 
                                 <div if:true={editModeFN}>
-                                    <lightning-input-field field-name="FirstName" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactFname}></lightning-input-field>
+                                    <lightning-input-field field-name="FirstName" variant="label-hidden" onchange={contactFieldChanged} value={contactFname}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeFN}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="FirstName" variant="label-hidden" class="slds-p-right_small" value={contactFname} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
-                                            icon-name="utility:edit"
-                                            alternative-text="Edit"
-                                            title="Edit Field"
-                                            variant="bare"
-                                            size="medium"
-                                            onclick={handleEditFirstName}
-                                        ></lightning-button-icon> -->
                                         <div class="spacer"></div>
                                     </div>
-                                </div>
+                                </div>                             
                             </div>
                         </div>
                     </div>
@@ -49,60 +41,96 @@
                                 <p class="bodyBold slds-m-around_none">Last name</p>
 
                                 <div if:true={editModeLN}>
-                                    <lightning-input-field field-name="LastName" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactLname}></lightning-input-field>
+                                    <lightning-input-field field-name="LastName" variant="label-hidden" onchange={contactFieldChanged} value={contactLname}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeLN}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
                                         <lightning-input-field field-name="LastName" variant="label-hidden" class="slds-p-right_small" value={contactLname} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
-                                            icon-name="utility:edit"
-                                            alternative-text="Edit"
-                                            title="Edit Field"
-                                            variant="bare"
-                                            size="medium"
-                                            onclick={handleEditLastName}
-                                        ></lightning-button-icon> -->
                                         <div class="spacer"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12" >
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                 <p class="bodyBold slds-m-around_none">Email<lightning-helptext class="email_help_text" content={registeredEmailHelpText}></lightning-helptext></p>
 
                                 <div if:true={editModeEmail}>
-                                    <lightning-input-field field-name="Registered_Email__c" class="infomail" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmail}></lightning-input-field>
+                                    <lightning-input-field field-name="Registered_Email__c" class="infomail" variant="label-hidden" onchange={contactFieldChanged} value={contactEmail}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeEmail}>
                                     <div class="slds-grid slds-grid_vertical-align-center infomail">
                                         <lightning-input-field field-name="Registered_Email__c" variant="label-hidden" class="slds-p-right_small" value={contactEmail} disabled></lightning-input-field>
-                                        <!-- <lightning-button-icon
-                                            icon-name="utility:edit"
-                                            alternative-text="Edit"
-                                            title="Edit Field"
-                                            variant="bare"
-                                            size="medium"
-                                            onclick={handleEditEmail}
-                                        ></lightning-button-icon> -->
                                         <div class="spacer"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
-                           <!-- Commentout mobile | DEPP-4125
+                            <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
+                                <p class="bodyBold slds-m-around_none">Company</p>
+
+                                <div if:true={editModeCompany}>
+                                    <lightning-input-field field-name="Company_Name__c" variant="label-hidden" onchange={contactFieldChanged} value={contactCompany}></lightning-input-field>
+                                </div>
+
+                                <div if:false={editModeCompany}>
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <lightning-input-field field-name="Company_Name__c" variant="label-hidden" class="slds-p-right_small" value={contactCompany} disabled></lightning-input-field>
+                                        <lightning-button-icon
+                                            icon-name="utility:edit"
+                                            alternative-text="Edit"
+                                            title="Edit Field"
+                                            variant="bare"
+                                            size="medium"
+                                            onclick={handleEditCompany}
+                                        ></lightning-button-icon>
+                                    </div>
+                                </div>             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
+                        <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
+                            <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
+                                <p class="bodyBold slds-m-around_none">Position</p>
+
+                                <div if:true={editModePosition}>
+                                    <lightning-input-field field-name="Position__c" variant="label-hidden" onchange={contactFieldChanged} value={contactPosition}></lightning-input-field>
+                                </div>
+
+                                <div if:false={editModePosition}>
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <lightning-input-field field-name="Position__c" variant="label-hidden" class="slds-p-right_small" value={contactPosition} disabled></lightning-input-field>
+                                        <lightning-button-icon
+                                            icon-name="utility:edit"
+                                            alternative-text="Edit"
+                                            title="Edit Field"
+                                            variant="bare"
+                                            size="medium"
+                                            onclick={handleEditPosition}
+                                        ></lightning-button-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12" >
+                        <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                 <p class="bodyBold slds-m-around_none">Mobile</p>
 
-                                <div if:true={editModeMob}>
-                                    <lightning-input-field field-name="MobilePhone" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactMobile}></lightning-input-field>
+                                 <div if:true={editModeMob}>
+                                    <lightning-input-field field-name="MobilePhone" variant="label-hidden" onchange={contactFieldChanged} value={contactMobile}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeMob}>
@@ -112,21 +140,21 @@
                                     </div>
                                 </div>
                             </div>
-                              -->
+                           
                         </div>
-                        
                     </div>
-                   <!--/lightning-layout-->
                 </div>
-                <!--lightning-layout multiple-rows-->
-                <div class="slds-grid slds-wrap">
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+              
+                 <!-- this section will hide when staff id/ student id is available-->
+                 <div class="slds-grid slds-wrap" if:false={showStaffOrStudentId}>
+                   
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                 <p class="bodyBold slds-m-around_none">Dietary requirements</p>
 
                                 <div if:true={editModeDietary}>
-                                    <lightning-input-field field-name="Dietary_Requirement__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactDiet}></lightning-input-field>
+                                    <lightning-input-field field-name="Dietary_Requirement__c" variant="label-hidden" onchange={contactFieldChanged} value={contactDiet}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeDietary}>
@@ -146,16 +174,14 @@
 
                         </div>
                     </div>
-
-
-
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+                    
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
                                 <p class="bodyBold slds-m-around_none">Accessibility requirements</p>
 
                                 <div if:true={editModeAccReq}>
-                                    <lightning-input-field field-name="Accessibility_Requirement__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactAccReq}></lightning-input-field>
+                                    <lightning-input-field field-name="Accessibility_Requirement__c" variant="label-hidden" onchange={contactFieldChanged} value={contactAccReq}></lightning-input-field>
                                 </div>
 
                                 <div if:false={editModeAccReq}>
@@ -175,109 +201,131 @@
 
                         </div>
                     </div>
+                </div>
+                 <!--End-->
 
+                <div class="slds-grid slds-wrap" if:true={showStaffOrStudentId}>
 
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                        <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12" if:true={showStaffId}>
+                            <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
+                                    <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
+                                        <p class="bodyBold slds-m-around_none">Staff ID</p>
+                                    
+                                        <div if:true={editModeStaff}>
+                                            <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" onchange={contactFieldChanged} value={contactEmpId}></lightning-input-field>
+                                        </div>
+                                        <div if:false={editModeStaff}>
+                                            <div class="slds-grid slds-grid_vertical-align-center">
+                                                <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" class="slds-p-right_small" value={contactEmpId} disabled></lightning-input-field>
+                                                <lightning-button-icon
+                                                    icon-name="utility:edit"
+                                                    alternative-text="Edit"
+                                                    title="Edit Field"
+                                                    variant="bare"
+                                                    size="medium"
+                                                    onclick={handleEditStaff}
+                                                ></lightning-button-icon>
+                                            </div>
+                                        </div> 
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12" if:true={showStudentId}>
+                                    <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
+                                    <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
+                                        <p class="bodyBold slds-m-around_none">Student ID</p>
+                                        
+                                        <div if:true={editModeStudent}>
+                                            <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" onchange={contactFieldChanged} value={contactStudentId}></lightning-input-field>
+                                        </div>
+                                        <div if:false={editModeStudent}>
+                                            <div class="slds-grid slds-grid_vertical-align-center">
+                                                <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" class="slds-p-right_small" value={contactStudentId} disabled></lightning-input-field>
+                                                <lightning-button-icon
+                                                    icon-name="utility:edit"
+                                                    alternative-text="Edit"
+                                                    title="Edit Field"
+                                                    variant="bare"
+                                                    size="medium"
+                                                    onclick={handleEditStudent}
+                                                ></lightning-button-icon>
+                                            </div>
+                                        </div> 
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                         <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
                             <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
-                                <p class="bodyBold slds-m-around_none">Company</p>
-
-                                <div if:true={editModeCompany}>
-                                    <lightning-input-field field-name="Company_Name__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactCompany}></lightning-input-field>
+                                <p class="bodyBold slds-m-around_none">Accessibility requirements</p>
+                              
+                                <div if:true={editModeAccReq}>
+                                    <lightning-input-field field-name="Accessibility_Requirement__c" variant="label-hidden" onchange={contactFieldChanged} value={contactAccReq}></lightning-input-field>
                                 </div>
 
-                                <div if:false={editModeCompany}>
+                                <div if:false={editModeAccReq}>
                                     <div class="slds-grid slds-grid_vertical-align-center">
-                                        <lightning-input-field field-name="Company_Name__c" variant="label-hidden" class="slds-p-right_small" value={contactCompany} disabled></lightning-input-field>
+                                        <lightning-input-field field-name="Accessibility_Requirement__c" variant="label-hidden" class="slds-p-right_small" value={contactAccReq} disabled></lightning-input-field>
                                         <lightning-button-icon
                                             icon-name="utility:edit"
                                             alternative-text="Edit"
                                             title="Edit Field"
                                             variant="bare"
                                             size="medium"
-                                            onclick={handleEditCompany}
+                                            onclick={handleEditAccReq}
                                         ></lightning-button-icon>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" >
-                        <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
-                            <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
-                                <p class="bodyBold slds-m-around_none">Position</p>
 
-                                <div if:true={editModePosition}>
-                                    <lightning-input-field field-name="Position__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactPosition}></lightning-input-field>
-                                </div>
-
-                                <div if:false={editModePosition}>
-                                    <div class="slds-grid slds-grid_vertical-align-center">
-                                        <lightning-input-field field-name="Position__c" variant="label-hidden" class="slds-p-right_small" value={contactPosition} disabled></lightning-input-field>
-                                        <lightning-button-icon
-                                            icon-name="utility:edit"
-                                            alternative-text="Edit"
-                                            title="Edit Field"
-                                            variant="bare"
-                                            size="medium"
-                                            onclick={handleEditPosition}
-                                        ></lightning-button-icon>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div class="slds-grid slds-wrap">
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" if:true={showStaffId}>
-                        <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
-                                <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
-                                    <p class="bodyBold slds-m-around_none">Staff ID</p>
-                                    <div if:true={editModeStaff}>
-                                        <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactEmpId}></lightning-input-field>
-                                    </div>
-                                    <div if:false={editModeStaff}>
-                                        <div class="slds-grid slds-grid_vertical-align-center">
-                                            <lightning-input-field field-name="Nominated_Employee_ID__c" variant="label-hidden" class="slds-p-right_small" value={contactEmpId} disabled></lightning-input-field>
-                                            <lightning-button-icon
-                                                icon-name="utility:edit"
-                                                alternative-text="Edit"
-                                                title="Edit Field"
-                                                variant="bare"
-                                                size="medium"
-                                                onclick={handleEditStaff}
-                                            ></lightning-button-icon>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12" if:true={showStudentId}>
-                                <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
-                                <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
-                                    <p class="bodyBold slds-m-around_none">Student ID</p>
-                                    <div if:true={editModeStudent}>
-                                        <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" onmouseout={enableReadMode} onchange={contactFieldChanged} value={contactStudentId}></lightning-input-field>
-                                    </div>
-                                    <div if:false={editModeStudent}>
-                                        <div class="slds-grid slds-grid_vertical-align-center">
-                                            <lightning-input-field field-name="Nominated_Student_ID__c" variant="label-hidden" class="slds-p-right_small" value={contactStudentId} disabled></lightning-input-field>
-                                            <lightning-button-icon
-                                                icon-name="utility:edit"
-                                                alternative-text="Edit"
-                                                title="Edit Field"
-                                                variant="bare"
-                                                size="medium"
-                                                onclick={handleEditStudent}
-                                            ></lightning-button-icon>
-                                        </div>
-                                    </div>
-                                </div>
                         </div>
                     </div>
                 </div>
+                 <!--End-->
+
+
+                <!--Dietary reqts will show when staff id/ student id is available-->
+                <div class="slds-grid slds-wrap" if:true={showStaffOrStudentId}>
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12"></div>
+                    <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                        <div class="slds-grid slds-wrap slds-p-bottom_small slds-p-right_small">
+                            <div class="edit-textbox slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-right_medium" >
+                                <p class="bodyBold slds-m-around_none">Dietary requirements</p>
+                                
+                                <div if:true={editModeDietary}>
+                                    <lightning-input-field field-name="Dietary_Requirement__c" variant="label-hidden" onchange={contactFieldChanged} value={contactDiet}></lightning-input-field>
+                                </div>
+
+                                <div if:false={editModeDietary}>
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <lightning-input-field field-name="Dietary_Requirement__c" variant="label-hidden" class="slds-p-right_small" value={contactDiet} disabled></lightning-input-field>
+                                        <lightning-button-icon
+                                            icon-name="utility:edit"
+                                            alternative-text="Edit"
+                                            title="Edit Field"
+                                            variant="bare"
+                                            size="medium"
+                                            onclick={handleEditDietary}
+                                        ></lightning-button-icon>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--end dietary-->
+
                 <!--/lightning-layout-->
+
+                <div class="slds-clearfix slds-m-around_medium btn-save">
+                    <div class="slds-float_right">
+                        <lightning-button  variant="brand" label="Save" title="Save" onclick={updateContactFields}></lightning-button>
+                    </div>
+                </div>
             </div>
         </lightning-record-edit-form>
     </div>

@@ -90,6 +90,7 @@ export default class CartDetails extends LightningElement {
   @track disablePayment = true;
   @track showStaffId;
   @track showStudentId;
+  @track showStaffOrStudentId;
   registeredEmailHelpText = "";
 
   isFreeOnly;
@@ -317,6 +318,11 @@ export default class CartDetails extends LightningElement {
         //set variable if we are showing the staff and/or student ID
         this.showStaffId = result.showStaffId;
         this.showStudentId = result.showStudentId;
+
+        //set variable to true if staff and/or student ID is available
+        if(result.showStaffId == true || result.showStudentId == true){
+          this.showStaffOrStudentId = true;
+        }
 
         //set the cart items data and questions
         this.cartItems = JSON.parse(JSON.stringify(result.cartItemsList));
@@ -553,6 +559,7 @@ export default class CartDetails extends LightningElement {
       .forEach((form) => {
         form.submit();
       });
+      this.enableReadMode();
   }
 
   createAnswerRecord(questions) {
@@ -814,45 +821,17 @@ createFileUploadMap(questions){
   }
 
   //function called everytime the contact fields are updated
-  enableReadMode(event){
-
-    //get the specific field name
-    let fieldName = event.target.fieldName;
-
-    //check for the specific field namne
-    if(fieldName == 'FirstName'){
-      this.editModeFN = false;
-
-    } else if(fieldName == 'LastName'){
-      this.editModeLN = false;
-
-    } else if(fieldName == 'Registered_Email__c'){
-      this.editModeEmail = false;
-
-    } else if(fieldName == 'MobilePhone'){
-      this.editModeMob = false;
-
-    } else if(fieldName == 'Dietary_Requirement__c'){
-      this.editModeDietary = false;
-    }
-      else if(fieldName == 'Accessibility_Requirement__c'){
-        this.editModeAccReq = false;
-
-    } else if(fieldName == 'Company_Name__c'){
-      this.editModeCompany = false;
-
-    } else if(fieldName == 'Position__c'){
-      this.editModePosition = false;
-
-    } else if(fieldName == 'Nominated_Employee_ID__c'){
-      this.editModeStaff= false;
-
-    } else if(fieldName == 'Nominated_Student_ID__c'){
-      this.editModeStudent= false;
-    }
-
-    //update the contact fields on mouse out
-    this.updateContactFields();
+  enableReadMode(){
+    this.editModeFN = false;
+    this.editModeLN = false;
+    this.editModeEmail = false;
+    this.editModeMob = false;
+    this.editModeDietary = false;
+    this.editModeAccReq = false;
+    this.editModeCompany = false;
+    this.editModePosition = false;
+    this.editModeStaff= false;
+    this.editModeStudent= false;
   }
 
   //function called everytime the contact fields are updated
