@@ -341,14 +341,6 @@
             "useCSVValuesMapping": true,
             "targetObject": "Integration_Settings__c",
             "importCSVFilesAsIs": true
-        },
-        {
-            "query": "SELECT Case_Record_Type__c, Country_Tier__c, Enquiry_Category__c, Enquiry_Sub_Category__c, Lead_Score__c, Future_Student_Stage__c, Date_from__c, Date_to__c, Priority__c,Is_Active__c FROM Case_Priority_Configuration__c",
-            "operation": "Upsert",
-            "externalId": "Country_Tier__c;Enquiry_Category__c;Priority__c",
-            "useCSVValuesMapping": true,
-            "targetObject": "Case_Priority_Configuration__c",
-            "importCSVFilesAsIs": true
         }
     ]
 }

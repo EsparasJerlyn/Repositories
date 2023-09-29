@@ -46,7 +46,16 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
             }
 
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
-            
+
+            List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
+            EmailTemplate emailTemplate = new EmailTemplate();
+            emailTemplate.Name = 'Test Email Temp';
+            emailTemplate.Subject = 'Test Subject';
+            emailTemplate.HtmlValue = '<html></html>';
+            emailTemplate.TemplateType = 'custom';
+            emailTemplate.UiType = 'SFX';
+            emailTemplates.add(emailTemplate);
+            EmailTemplatesDAO.newInstance().insertRecords(emailTemplates, false, AccessLevel.SYSTEM_MODE);
         }
     }
 
@@ -65,10 +74,13 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
             }
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
 
+            List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, 'USER_MODE');
+
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
             List<Communication_Queue__c> commsQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(
-                resultIds, 
-                CommunicationQueuesDAO.STATUS_SCHEDULED
+                resultIds,                 
+                CommunicationQueuesDAO.STATUS_SCHEDULED,
+                emailTemplates[0].Id
             );
             CommunicationQueuesDAO.newInstance().insertRecords(commsQueueList, false, AccessLevel.USER_MODE);
             
@@ -106,10 +118,13 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
             }
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
             
+            List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, 'USER_MODE');
+
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
             List<Communication_Queue__c> commsQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(
                 resultIds, 
-                CommunicationQueuesDAO.STATUS_SCHEDULED
+                CommunicationQueuesDAO.STATUS_SCHEDULED,
+                emailTemplates[0].Id
             );
             for(Communication_Queue__c cq : commsQueueList){
                 cq.Business_Process__c = 'Domestic Automated Cadence Email';
@@ -134,5 +149,5 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
 
         System.assert(!commsQueue.isEmpty(), 'List should not be empty.');
     }
-
+ 
 }

@@ -42,7 +42,7 @@ private class SalesCadenceCalloutServiceTest {
             Map<String,String> assignCadenceMap = new Map<String,String>();
             
             for(Contact con: newContacts){
-                assignCadenceMap.put(con.Id,con.Calculated_Cadence__c);
+                assignCadenceMap.put(con.Id,'Test Cadences automated');
             } 
             
             Test.startTest();
@@ -191,6 +191,23 @@ private class SalesCadenceCalloutServiceTest {
             
             Test.stopTest();
             System.assert([SELECT Id FROM Completed_Cadence__c].isEmpty() , 'Completed_Cadence__c record is not created');
+        }
+    }
+
+    @isTest
+    private static void updateCadenceStepTrackerTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+
+            ImplementationSelector.DAO.setMock(new ActionCadenceStepTrackersDAOMock());
+            List<ActionCadenceStepTracker> actionCadenceTracker = ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(new List<String>(), AccessLevel.SYSTEM_MODE);
+            SalesCadenceCalloutService.updateCadenceStepTracker(new Set<Id>{actionCadenceTracker[0].Id}, 'Skip');
+            
+            Test.stopTest();
+
+            System.assert(actionCadenceTracker != null, 'Test muna');
         }
     }
 }

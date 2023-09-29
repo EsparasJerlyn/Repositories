@@ -39,6 +39,13 @@
         <value>QUTeX_Email_Footer</value>
     </labels>
     <labels>
+        <fullName>Domestic_Nurture_Track_List</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Domestic Nurture Track List</shortDescription>
+        <value>Domestic Strong Interest Pre-Application,Domestic First Offer to Acceptance,Domestic Deferred Offer to Acceptance,Domestic Accepted not yet Enrolled,Domestic and International Enrolment to Census,Domestic Offer Lapsed</value>
+    </labels>
+    <labels>
         <fullName>ESBEndpointCreateContract</fullName>
         <categories>Endpoint</categories>
         <language>en_US</language>
@@ -53,6 +60,13 @@
         <protected>false</protected>
         <shortDescription>ESBEndpointMDMStudent</shortDescription>
         <value>/domain/dep/v1/processContact</value>
+    </labels>
+    <labels>
+        <fullName>International_Nurture_Track_List</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>International Nurture Track List</shortDescription>
+        <value>International Strong Interest Pre-Application,International Application Submission - Direct Applicant,International Application to Offer,International Offer to Acceptance,International Acceptance Deposit not Paid</value>
     </labels>
     <labels>
         <fullName>LWC_Error_General</fullName>
@@ -776,6 +790,14 @@
         <protected>false</protected>
         <shortDescription>SalesCadenceRemoveTargetEndpoint</shortDescription>
         <value>/services/data/v56.0/actions/standard/removeTargetFromSalesCadence</value>
+    </labels>
+    <labels>
+        <fullName>SalesCadenceUpdateTargetEndpoint</fullName>
+        <categories>Complete Cadence Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SalesCadenceUpdateTargetEndpoint</shortDescription>
+        <value>/services/data/v56.0/actions/standard/sendSalesCadenceEvent</value>
     </labels>
     <labels>
         <fullName>Email_Trigger_Cadence_Cron_Expression</fullName>

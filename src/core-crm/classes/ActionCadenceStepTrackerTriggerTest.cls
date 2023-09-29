@@ -41,6 +41,6 @@ private class ActionCadenceStepTrackerTriggerTest {
         Test.stopTest();
         // Verify SaveResult value
         System.assertEquals(true, sr.isSuccess(), 'Cadence step tracker event is not created.');
-        Test.getEventBus().deliver();                
-    }   
+        Test.getEventBus().deliver();                 
+    } 
 }

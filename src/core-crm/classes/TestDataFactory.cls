@@ -2002,13 +2002,14 @@ public class TestDataFactory {
      * @param String status 
      * @return records - list of Communication_Queue__c records
      */
-    public static List<Communication_Queue__c> createCommunicationQueuePerContactOrLead(Set<Id> recordIds, String status){
+    public static List<Communication_Queue__c> createCommunicationQueuePerContactOrLead(Set<Id> recordIds, String status, Id emailTemplateId){
         List<Communication_Queue__c> communicationQueueList = new List<Communication_Queue__c> ();
         for(Id recordId : recordIds){
             communicationQueueList.add(
                 new Communication_Queue__c(
                     WhoId__c = recordId,
-                    Status__c = status
+                    Status__c = status,
+                    Template_Id__c = emailTemplateId
                 )
             );
         }
@@ -3502,7 +3503,7 @@ public class TestDataFactory {
      */
     public static List<Marketing_Interaction__c> createMarketingInteractionRecords(Id contactId, Integer numberOfRecordsToCreate, String leadSource) {
         List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
-        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+        for(Integer i= 0; i < numberOfRecordsToCreate; i++) {
             marketingInteractionList.add(new Marketing_Interaction__c(
                 Contact__c = contactId, 
                 Lead_Source__c = leadSource

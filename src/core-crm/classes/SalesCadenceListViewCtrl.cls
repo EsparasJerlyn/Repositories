@@ -10,24 +10,22 @@
  *    |--------------------------------|-----------------------|------------------------|---------------------------------------|
  *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                          |
  *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence |
+ *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings              |
  */
-public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class requires a lot of public variables
-
+public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
 
     /**
      * @description gets the data for the salescadence on the list view
      *
      * @param string calculatedCadence - calculated cadence name
-     * @return List<DataTableWrapper> - list of contact/lead records 
+     * @return List<DataTableWrapper> - list of contact/lead records
      */
     @AuraEnabled
     public static List<DataTableWrapper> getTableDataWrapper(String calculatedCadence) {
-
-        List<DataTableWrapper> wrapper = new List<DataTableWrapper>();
-        DataTableWrapper tempWrapper;
+        
         Set<Id> targetIds = new Set<Id>();
-        Map<String, String> completedCadenceStatusMap = new Map<String, String>();
+        Map<String, Completed_Cadence__c> completedCadenceMap = new Map<String, Completed_Cadence__c>();
 
         //get person contacts with Calculated Cadence
         Map<Id, Contact> contactMap = new Map<Id, Contact>(
@@ -40,7 +38,6 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
             LeadsDAO.newInstance()
                 .getLearnerLeadsByCalculatedCadences(new Set<String>{ calculatedCadence })
         );
-
 
         //store targetids to one set variable
         targetIds.addAll(contactMap.keySet());
@@ -61,9 +58,9 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
                 leadMap.remove(aCadenceTracker.TargetId);
             }
         }
-		
-        Set<String> caTargetIds = new Set<String>( (List<String>)new List<Id>( targetIds ) );
-        
+
+        Set<String> caTargetIds = new Set<String>((List<String>) new List<Id>(targetIds));
+
         //get latest contact/lead record's related completed cadence status against the calculated cadence
         for (
             Completed_Cadence__c completedCadence : CompletedCadencesDAO.newInstance()
@@ -73,13 +70,25 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
                     'USER_MODE'
                 )
         ) {
-            completedCadenceStatusMap.put(
+            completedCadenceMap.put(
                 completedCadence.Contact__c != null
                     ? completedCadence.Contact__c
                     : completedCadence.Lead__c,
-                completedCadence.Completed_Cadence_Status__c
+                completedCadence
             );
         }
+
+        return buildRecordDetails(contactMap, leadMap, completedCadenceMap);
+    }
+
+    private static List<DataTableWrapper> buildRecordDetails(
+        Map<Id, Contact> contactMap,
+        Map<Id, Lead> leadMap,
+        Map<String, Completed_Cadence__c> completedCadenceMap
+    ) {
+        List<DataTableWrapper> recordDetailsWrapper = new List<DataTableWrapper>();
+        DataTableWrapper tempWrapper;
+
         //setup contact records as rows
         for (Contact record : contactMap.values()) {
             tempWrapper = new DataTableWrapper();
@@ -87,13 +96,20 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
             tempWrapper.name = record.Name;
             tempWrapper.gender = record.hed__Gender__c;
             tempWrapper.email = record.Email;
-            tempWrapper.countryOfCitizenship = record.Citizenship_Country__c;
-            tempWrapper.countryOfResidency = record.Marketing_Segmentation__r.My_Country_Of_Residency__c;
+            tempWrapper.citizenshipCountry = record.Citizenship_Country__c;
+            tempWrapper.primaryStudyInterest = record.Marketing_Segmentation__r.My_Primary_BSA__c;
             tempWrapper.leadScore = record.Lead_Score__c;
-            tempWrapper.completedCadenceStatus = completedCadenceStatusMap.containsKey(record.Id)
-                ? completedCadenceStatusMap.get(record.Id)
+            tempWrapper.completedCadenceStatus = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Completed_Cadence_Status__c
                 : '';
-            wrapper.add(tempWrapper);
+            tempWrapper.entryDate = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).CreatedDate
+                : null;
+            tempWrapper.offeredPreference = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name
+                : '';
+            tempWrapper.agentAssisted = record.Is_Agent_Assisted__c;
+            recordDetailsWrapper.add(tempWrapper);
         }
 
         //setup lead records as rows
@@ -103,16 +119,22 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
             tempWrapper.name = record.Name;
             tempWrapper.gender = record.hed__Gender__c;
             tempWrapper.email = record.Email;
-            tempWrapper.countryOfCitizenship = record.Marketing_Segmentation__r.My_Country_Of_Citizenship__c;
-            tempWrapper.countryOfResidency = record.Marketing_Segmentation__r.My_Country_Of_Residency__c;
+            tempWrapper.citizenshipCountry = record.Marketing_Segmentation__r.My_Country_Of_Citizenship__c;
+            tempWrapper.primaryStudyInterest = record.Marketing_Segmentation__r.My_Primary_BSA__c;
             tempWrapper.leadScore = record.Lead_Score__c;
-            tempWrapper.completedCadenceStatus = completedCadenceStatusMap.containsKey(record.Id)
-                ? completedCadenceStatusMap.get(record.Id)
+            tempWrapper.completedCadenceStatus = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Completed_Cadence_Status__c
                 : '';
-            wrapper.add(tempWrapper);
+            tempWrapper.entryDate = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).CreatedDate
+                : null;
+            tempWrapper.offeredPreference = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name
+                : '';
+            recordDetailsWrapper.add(tempWrapper);
         }
 
-        return wrapper;
+        return recordDetailsWrapper;
     }
 
     /**
@@ -134,7 +156,7 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
 
         if (!targetsToEnroll.isEmpty()) {
             targetMap.put('inputs', targetsToEnroll);
-            doNativeCallout(JSON.serialize(targetMap),endPoint);
+            doNativeCallout(JSON.serialize(targetMap), endPoint);
         }
     }
 
@@ -155,7 +177,7 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
 
     /**
      * @description update calcualted cadence field of contact/lead
-     * 
+     *
      * @param String targetToUpdate - payload for the api call e.g. "[{targetId:003A4434F,salesCadenceNameOrId:'Domestic Strong Interest Pre-Application Edit'}]"
      */
     @AuraEnabled
@@ -165,7 +187,7 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
         Map<String, Object> data = new Map<String, Object>();
         String recordId = '';
         String calculatedCadence = '';
-        
+
         Set<String> targetIds = new Set<String>();
 
         for (Object objData : (List<Object>) JSON.deserializeUntyped(targetToUpdate)) {
@@ -173,8 +195,8 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
             data = (Map<String, Object>) objData;
             recordId = (String) data.get('targetId');
             calculatedCadence = (String) data.get('salesCadenceNameOrId');
-            
-            if(String.isEmpty(calculatedCadence)){
+
+            if (String.isEmpty(calculatedCadence)) {
                 targetIds.add(recordId);
             }
 
@@ -194,57 +216,6 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
                 );
             }
         }
-        
-        if(!targetIds.isEmpty()){
-            
-            Map<String,String> targetCadenceMap = new Map<String,String>();
-
-            //get contact calculated cadence
-            for(Contact con: ContactsDAO.newInstance().getContactCalculatedCadenceByIds(targetIds,'USER_MODE')){
-                targetCadenceMap.put(con.Id,con.Calculated_Cadence__c);
-            }
-            //get lead calculated cadence
-            for(Lead lead: LeadsDAO.newInstance().getLeadsCalculatedCadenceByIds(targetIds,'USER_MODE')){
-                targetCadenceMap.put(lead.Id,lead.Calculated_Cadence__c);
-            }
-            
-            //get the related nurture track config record of the targetIds
-            Map<String,String> nurtureMap = SalesCadenceCalloutService.getNurtureTrackConfigMap(new Set<String>(targetCadenceMap.values()));       	
-            //get the unsuccessfull completed cadence of the targetIds and cadence name
-            Map<String, String> completedCadenceStatusMap = SalesCadenceCalloutService.getCompletedCadenceStatusMap(targetCadenceMap);           
-            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
-            
-            for(String recId: targetCadenceMap.keySet()){
-                
-                String cadenceName = targetCadenceMap.get(recId);
-                String nurtureId =  nurtureMap.get(cadenceName);          
-                String calculatedStatus = 'Successful';
-                
-                if(recId.startsWith('003')){
-                    completedCadenceList.add(
-                        new Completed_Cadence__c(
-                            Nurture_Track_Configuration__c = nurtureId,
-                            Contact__c = recId,
-                            Completed_Cadence_Status__c = calculatedStatus,
-                            Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null              
-                        )
-                    );   
-                }else{
-                    completedCadenceList.add(
-                        new Completed_Cadence__c(
-                            Nurture_Track_Configuration__c = nurtureId,
-                            Lead__c = recId,
-                            Completed_Cadence_Status__c = calculatedStatus,
-                            Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null  
-                        )
-                    );
-                }
-            }
-            
-            if(!completedCadenceList.isEmpty()){
-                CompletedCadencesDAO.newInstance().upsertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
-            }
-        }
 
         if (!contactsToUpdate.isEmpty()) {
             ContactsDAO.newInstance().updateRecords(contactsToUpdate, true, AccessLevel.USER_MODE);
@@ -253,16 +224,6 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
         if (!leadsToUpdate.isEmpty()) {
             LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.USER_MODE);
         }
-    }
-
-    /**
-     * @description create a completed task record
-     * 
-     * @param List<Task> taskRecords - task records to create
-     */
-    @AuraEnabled
-    public static void createCompletedTask(List<Task> taskRecords) {
-        TasksDAO.newInstance().insertRecords(taskRecords,true,AccessLevel.USER_MODE);
     }
 
     private class DataTableWrapper {
@@ -275,12 +236,18 @@ public with sharing class SalesCadenceListViewCtrl {// NOPMD - wrapper class req
         @AuraEnabled
         public String email { get; set; }
         @AuraEnabled
-        public String countryOfCitizenship { get; set; }
+        public String citizenshipCountry { get; set; }
         @AuraEnabled
-        public String countryOfResidency { get; set; }
+        public String primaryStudyInterest { get; set; }
         @AuraEnabled
         public Decimal leadScore { get; set; }
         @AuraEnabled
         public String completedCadenceStatus { get; set; }
+        @AuraEnabled
+        public Datetime entryDate { get; set; }
+        @AuraEnabled
+        public String offeredPreference { get; set; }
+        @AuraEnabled
+        public boolean agentAssisted { get; set; }
     }
 }

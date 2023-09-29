@@ -42,11 +42,23 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
             }
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
 
+            List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
+            EmailTemplate emailTemplate = new EmailTemplate();
+            emailTemplate.Name = 'Test Email Temp';
+            emailTemplate.Subject = 'Test Subject';
+            emailTemplate.HtmlValue = '<html></html>';
+            emailTemplate.TemplateType = 'custom';
+            emailTemplate.UiType = 'SFX';
+            emailTemplates.add(emailTemplate);
+            EmailTemplatesDAO.newInstance().insertRecords(emailTemplates, false, AccessLevel.SYSTEM_MODE);
+
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
             List<Communication_Queue__c> commsQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(
-                resultIds, 
-                CommunicationQueuesDAO.STATUS_SCHEDULED
+                resultIds,                 
+                CommunicationQueuesDAO.STATUS_SCHEDULED,
+                emailTemplate.Id
             );
+            
             CommunicationQueuesDAO.newInstance().insertRecords(commsQueueList, false, AccessLevel.USER_MODE);
         }
     }

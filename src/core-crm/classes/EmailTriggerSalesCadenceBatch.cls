@@ -8,9 +8,12 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | August 29, 2023       | DEPP-6138              | Created file                 |
+      | eccarius.munoz                 | September 26, 2023    | DEPP-6763              | Updated finish method to add |
+      |                                |                       |                        | batch class for completing   |
+      |                                |                       |                        | the cadence with sent emails |
       |                                |                       |                        |                              |
  */
-public with sharing class EmailTriggerSalesCadenceBatch implements Database.Batchable<sObject> {
+public with sharing class EmailTriggerSalesCadenceBatch implements Database.Batchable<sObject>, Database.AllowsCallouts {
 
     /**
     * @description Retrieve scheduled communication queue that is created/last modified by communication automation user
@@ -24,7 +27,7 @@ public with sharing class EmailTriggerSalesCadenceBatch implements Database.Batc
     /**
     * @description Method to execute the batch
     * @param bc - BatchableContext
-    * @param assetList - List of assets
+    * @param communicationQueueList - List of Communication_Queue__c
     */
     public void execute(Database.BatchableContext bc, List<Communication_Queue__c> communicationQueueList){
         try{ 
@@ -41,14 +44,11 @@ public with sharing class EmailTriggerSalesCadenceBatch implements Database.Batc
     } 
 
     /**
-    * @description chain current batch job to Calculated Cadence batch job
+    * @description chain current batch job to Complete Cadence job
     * @param bc - BatchableContext
     */
     public void finish(Database.BatchableContext bc) {
-        NurturingTrackLeadBatch nurturetrackLeadBatch = new NurturingTrackLeadBatch();
-        Database.executeBatch(nurturetrackLeadBatch); 
-        
-        NurturingTrackContactBatch nurturetrackContactBatch = new NurturingTrackContactBatch();
-        Database.executeBatch(nurturetrackContactBatch); 
+        CompleteCadenceBatch completeCadenceBatch = new CompleteCadenceBatch();
+        Database.executeBatch(completeCadenceBatch);
     }
 }
