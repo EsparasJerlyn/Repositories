@@ -149,5 +149,5 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
 
         System.assert(!commsQueue.isEmpty(), 'List should not be empty.');
     }
-
+ 
 }

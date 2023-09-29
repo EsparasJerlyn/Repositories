@@ -85,7 +85,7 @@ public with sharing class SalesCadenceCalloutService {
         for(String key: removeCadenceMap.keySet()){
             if(targetIdRunningCadence.contains(key)){
                 wrapper.addInputData(null, key,'ManuallyRemoved');                                                   
-            }else{
+            }else if(!removeCadenceMap.get(key).containsIgnoreCase('automated')){
                 manualRemoveCadenceMap.put(key,removeCadenceMap.get(key));
             }
         }

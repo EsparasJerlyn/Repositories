@@ -13,6 +13,7 @@
  *    | roy.nino.s.regala              | Aug 09, 2023        | DEPP-5677              | Added test method for DEPP-5677           |
  *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
  *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
+ *    | neil.s.h.lesidan               | Sep 20, 2023        | DEPP-6478              | Added getContactByEmailOrNameTest         |
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added getContactByCaseMobile              |
  */
 @isTest
@@ -154,8 +155,34 @@ private class ContactsDAOTest {
         Test.stopTest();
     }
 
+
     @isTest
-    static void getPersonContactsBySetIdsTest() {
+    static void getContactByEmailOrNameTest() {
+        Test.startTest();
+        List<Contact> conList = TestDataFactory.createTestContactRecords(1);
+        conList[0].FirstName = 'firstname';
+        conList[0].LastName = 'lastname';
+        conList[0].Email = 'firstlast@mail.test';
+        conList[0].MobilePhone = '1234567';
+        ContactsDAO.newInstance().insertRecords(conList, false, AccessLevel.SYSTEM_MODE);
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            ContactsDAO.QueryParamWrapperEmailOrName contactQueryParam = new ContactsDAO.QueryParamWrapperEmailOrName(
+                conList[0].Email, conList[0].FirstName, conList[0].LastName , conList[0].MobilePhone
+            );
+
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactByEmailOrName(
+                    contactQueryParam,
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contact should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPersonContactsBySetIdsTest() { 
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> contactList = ContactsDAO.newInstance()

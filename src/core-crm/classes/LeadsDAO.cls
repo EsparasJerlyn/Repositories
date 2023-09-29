@@ -10,7 +10,9 @@
       | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads    |
       | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds |
-      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           | 
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                      |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName              |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           |
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -81,7 +83,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
                 Email,
                 Lead_Score__c,
                 Marketing_Segmentation__r.My_Country_Of_Residency__c,
-                Marketing_Segmentation__r.My_Country_Of_Citizenship__c
+                Marketing_Segmentation__r.My_Country_Of_Citizenship__c,
+                Marketing_Segmentation__r.My_Primary_BSA__c
             FROM Lead
             WHERE
                 Lead_Type__c = 'Learner'
@@ -91,7 +94,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             WITH USER_MODE
         ];
     }
-    
+
     public List<Lead> getLeadsCalculatedCadenceByIds(
         Set<String> recordIds,
         String accessLevel
@@ -119,5 +122,79 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             'AND IsConverted = FALSE ',
             accessLevel
         );
-    } 
+    }
+
+    public static List<Lead> getLeadByEmailOrName(
+        QueryParamWrapperEmailOrName queryParam,
+        AccessLevel accessLevel
+    ) {
+        List<Lead> leadList = new List<Lead>();
+        String email = queryParam.email; //NOPMD
+        String firstName = queryParam.firstName; //NOPMD
+        String lastName = queryParam.lastName; //NOPMD
+        String mobile = queryParam.mobile; //NOPMD
+        String toQuery = removeEmptyParamsInQueryEmail(queryParam);
+        toQuery = removeEmptyParamsInQueryName(queryParam, toQuery);
+        toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
+
+
+        if (toQuery != '') {
+            leadList = Database.query(
+                'SELECT Id, Name, Email, Mobile_No_Locale__c, Work_Email__c FROM Lead WHERE ' +
+                toQuery,
+                AccessLevel
+            );
+        }
+
+        return leadList;
+
+    }
+
+    private static String removeEmptyParamsInQueryEmail(QueryParamWrapperEmailOrName queryParam) {
+        String email = queryParam.email;
+        String toQuery = '';
+
+        if (email != null && email != '') {
+            toQuery = toQuery + '(Email =: email OR Work_Email__c =: email)';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryName(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String firstName = queryParam.firstName;
+        String lastName = queryParam.lastName;
+
+        if (firstName != null && firstName != '' && lastName != null  && lastName != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(FirstName =: firstName AND LastName =: lastName )';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryMobile(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String mobile = queryParam.mobile;
+
+        if (mobile != null && mobile != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(Mobile_No_Locale__c =: mobile)';
+        }
+
+        return toQuery;
+    }
+
+    public class QueryParamWrapperEmailOrName{
+        public String email;
+        public String firstName;
+        public String lastName;
+        public String mobile;
+
+        public QueryParamWrapperEmailOrName(String strEmail, String strFirstName, String strLastName, String strMobile) { //NOPMD
+            email = strEmail;
+            firstName = strFirstName;
+            lastName = strLastName;
+            mobile = strMobile;
+        }
+    }
 }

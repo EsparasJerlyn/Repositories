@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
  *    |--------------------------------|-----------------------|------------------------|---------------------------------------------|
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | created file                                |
+ *    | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                |
  *    | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
  */
 public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
@@ -48,6 +49,18 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         );
     }
 
+    public List<Case> getCaseBySuppliedEmail(
+        String suppliedEmail,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Web_First_Name__c, Web_Last_Name__c, SuppliedEmail, ContactId, Lead__c ' +
+                'FROM Case ' +
+                'WHERE SuppliedEmail =: suppliedEmail ',
+                accessLevel
+        );
+    }
+
     public List<Case> getCasesByContactOrLeadIds(
         Set<Id> contactOrLeadIds,
         AccessLevel accessLevel
@@ -55,7 +68,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         return Database.query(
             'SELECT Id, Category__c, CreatedDate, Lead__c, ContactId ' +
             'FROM Case ' +
-            'WHERE Lead__c IN :contactOrLeadIds ' + 
+            'WHERE Lead__c IN :contactOrLeadIds ' +
             'OR ContactId IN :contactOrLeadIds ',
             accessLevel
         );

@@ -131,7 +131,7 @@ public with sharing class LeadService {
             if(calculatedCadence != oldCalculatedCadence){              
                 if (String.isNotEmpty(calculatedCadence) && String.isEmpty(oldCalculatedCadence)) {
                     assignLeadToCadenceMap.put(lead.Id,calculatedCadence);
-                } else if (String.isEmpty(calculatedCadence)) {
+                } else if (String.isEmpty(calculatedCadence) && String.isNotEmpty(oldCalculatedCadence)) {
                     removeLeadToCadenceMap.put(lead.Id,oldCalculatedCadence);
                 }                
             }          

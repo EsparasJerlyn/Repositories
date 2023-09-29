@@ -314,7 +314,7 @@ public without sharing class ContactTriggerHelper {
             if(calculatedCadence != oldCalculatedCadence){
                 if (String.isNotEmpty(calculatedCadence) && String.isEmpty(oldCalculatedCadence)) {
                     assignContactToCadenceMap.put(con.Id,calculatedCadence);
-                } else if (String.isEmpty(calculatedCadence)) {
+                } else if (String.isEmpty(calculatedCadence) && String.isNotEmpty(oldCalculatedCadence) ) {
                     removeContactToCadenceMap.put(con.Id,oldCalculatedCadence);
                 }  
             }

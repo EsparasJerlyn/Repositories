@@ -7,12 +7,13 @@
       <div class="slds-card__header slds-m-bottom_none slds-grid">
         <header class="slds-media slds-media_center slds-has-flexi-truncate">
           <div class="slds-media__figure">
-            <lightning-icon icon-name="custom:custom22" size="small"></lightning-icon>
+            <lightning-icon
+              icon-name="custom:custom22"
+              size="small"></lightning-icon>
           </div>
           <div class="slds-media__body">
             <h2 class="slds-card__header-title">
-              <a
-                class="disable-link"
+              <a class="disable-link"
                 >{calculatedCadence}{numberOfRowsDisplay}</a
               >
             </h2>
@@ -24,15 +25,11 @@
             class="slds-m-right_xx-small"
             tooltip="Refresh"
             onclick={handleRefreshData}></lightning-button-icon>
-            <lightning-button
+          <lightning-button
             class="slds-m-right_xx-small"
             label="Assign to me"
             disabled={hasNoRowSelected}
             onclick={handleAssignToMe}></lightning-button>
-            <lightning-button
-            label="Remove from Track"
-            disabled={hasNoRowSelected}
-            onclick={handleRemoveTargetFromListView}></lightning-button>
         </header>
       </div>
       <div if:true={dataTableIsLoading}>
@@ -45,21 +42,22 @@
       <template if:true={hasRecords}>
         <div class={heightLimit}>
           <lightning-datatable
-          column-widths-mode
-          key-field="id"
-          data={finalDataList}
-          columns={finalColumns}
-          onloadmore={loadMoreData}
-          enable-infinite-loading={enableInfiniteLoading}
-          load-more-offset="1"
-          show-row-number-column
-          sorted-by={sortBy}
-          sorted-direction={sortDirection}
-          default-sort-direction={sortDirection}
-          onsort={doSorting}
-          onrowselection={getRowSelected}
-          selected-rows={selectedRows}>
-        </lightning-datatable>
+            class="slds-max-medium-table_stacked"
+            column-widths-mode
+            key-field="id"
+            data={finalDataList}
+            columns={finalColumns}
+            onloadmore={loadMoreData}
+            enable-infinite-loading={enableInfiniteLoading}
+            load-more-offset="1"
+            show-row-number-column
+            sorted-by={sortBy}
+            sorted-direction={sortDirection}
+            default-sort-direction={sortDirection}
+            onsort={doSorting}
+            onrowselection={getRowSelected}
+            selected-rows={selectedRows}>
+          </lightning-datatable>
         </div>
         <footer
           class="slds-card__footer slds-theme_default"
