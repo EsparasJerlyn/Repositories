@@ -4,30 +4,28 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary                              |
-      |---------------------------|-----------------------|--------------|---------------------------------------------|
-      | john.bo.a.pineda          | May 07, 2022          | DEPP-2549    | Created file                                |
-      | wli                       | May 08/09/10/11, 2022       | DEPP-2549,2565,2581,2588    | Update                                      |
+ *    | Developer                 | Date                        | JIRA                          | Change Summary                                |
+      |---------------------------|-----------------------------|-------------------------------|-----------------------------------------------|
+      | john.bo.a.pineda          | May 07, 2022                | DEPP-2549                     | Created file                                  |
+      | wli                       | May 08/09/10/11, 2022       | DEPP-2549,2565,2581,2588      | Update                                        |
+      | kenneth.f.alsay           | September 26, 2023          | DEPP-6629                     | Deleted LMSCourseWrapper and calloutLMSCourse |
  */
 public without sharing class LMSIntegrationManager {
 
-    private static final String ENDPOINT_ESB_LMS_COURSE = System.Label.ESBEndpointLMSCourse;
     private static final String ENDPOINT_ESB_LMS_COURSE_OFFERING = System.Label.ESBEndpointLMSCourseOffering;
     private static final String ENDPOINT_ESB_LMS_COURSE_ENROLLMENT = System.Label.ESBLMSCourseEnrolment;
     private static final String ENDPOINT_ESB_SAMS_REGISTER_LEARNER = System.Label.ESBSAMSRegisterLearner;
 
-    public static void calloutLMSCourse(hed__Course__c course) {
-        doCallout(ENDPOINT_ESB_LMS_COURSE, 'POST', JSON.serialize(new LMSCourseWrapper(course)));
-        
-        course.LMS_Integration_Status__c = 'Sent';
-        update course;
-    }
+    public static void calloutLMSCourseOffering(List<hed__Course_Offering__c> courseOfferings) {
+        List<CourseOfferingWrapper> courseOfferingList = new List<CourseOfferingWrapper>();
 
-    public static void calloutLMSCourseOffering(hed__Course_Offering__c courseOffering) {
-        doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOffering)));
+        for (hed__Course_Offering__c courseOffering : courseOfferings) {
+            courseOfferingList.add(new CourseOfferingWrapper(courseOffering));
+            courseOffering.LMS_Integration_Status__c = 'Sent';
+        }
+        doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOfferingList)));
 
-        courseOffering.LMS_Integration_Status__c = 'Sent';
-        update courseOffering;
+        update courseOfferings;
     }
 
     public static void calloutLMSCourseEnrollment(List<hed__Course_Enrollment__c> courseEnrollments) {
@@ -75,24 +73,8 @@ public without sharing class LMSIntegrationManager {
         
         return response;
     }
-  
-    private class LMSCourseWrapper {
-        private String courseSFId {get; set;}
-        private String courseCode {get; set;}
-        private String courseTitle {get; set;}
-        private String courseType {get; set;}
-        private String primaryDeliveryPlatform {get; set;}
 
-        private LMSCourseWrapper(hed__Course__c course) {
-            courseSFId = course.Id;
-            courseCode = course.Course_Code__c;
-            courseTitle = course.Name;
-            courseType = course.Recordtype_Name__c;
-            primaryDeliveryPlatform = course.Primary_Delivery_Platform__c;
-        }
-    }
-
-    private class LMSCourseOfferingWrapper {
+    private class CourseOfferingWrapper {
         private String courseOfferingSFId {get; set;}
         private String courseCode {get; set;}
         private String courseName {get; set;}
@@ -101,7 +83,7 @@ public without sharing class LMSIntegrationManager {
         private String endDate {get; set;}
         private String primaryDeliveryPlatform {get; set;}
 
-        private LMSCourseOfferingWrapper(hed__Course_Offering__c courseOffering) {
+        private CourseOfferingWrapper(hed__Course_Offering__c courseOffering) {
             courseOfferingSFId = courseOffering.Id;
             courseOfferingName = courseOffering.Name;
             courseCode = courseOffering.Course_Code__c;
@@ -109,6 +91,14 @@ public without sharing class LMSIntegrationManager {
             startDate = courseOffering.hed__Start_Date__c != null ? courseOffering.hed__Start_Date__c.year() + '-' + String.valueOf(courseOffering.hed__Start_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__Start_Date__c.day()).leftPad(2,'0') : null;
             endDate = courseOffering.hed__End_Date__c!= null ? courseOffering.hed__End_Date__c.year() + '-' + String.valueOf(courseOffering.hed__End_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__End_Date__c.day()).leftPad(2,'0') : null;
             primaryDeliveryPlatform = courseOffering.hed__Course__r.Primary_Delivery_Platform__c;
+        }
+    }
+
+    private class LMSCourseOfferingWrapper {
+        private List<CourseOfferingWrapper> courseOfferings {get; set;}
+
+        private LMSCourseOfferingWrapper(List<CourseOfferingWrapper> courseOfferings) {
+            this.courseOfferings = courseOfferings;
         }
     }
   
@@ -179,5 +169,4 @@ public without sharing class LMSIntegrationManager {
             email = contact.Registered_Email__c;
         }
     }
-
 }

@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | September 18, 2023    | DEPP-5483              | Created file                 |                                                     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               		|
+      |--------------------------------|-----------------------|------------------------|-----------------------------------|
+      | eugene.andrew.abuan            | September 18, 2023    | DEPP-5483              | Created file                 		|
+	  | kenneth.f.alsay                | September 26, 2023    | DEPP-6629              | Added method getRecordsLikeName 	|                                                           |
  */
 @isTest
 public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implements ICourseOfferingsDAO {
@@ -17,9 +18,23 @@ public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implem
 	{
 		return hed__Course_Offering__c.SObjectType;
 	}
-
+ 
 	public CourseOfferingsDAOMock() {
 		super(new Map<Id, hed__Course_Offering__c>(), Schema.hed__Course_Offering__c.SObjectType);
 		this.courseOfferingsMap = (Map<Id, hed__Course_Offering__c>) super.records;
 	}
+	
+	public List<hed__Course_Offering__c> getRecordsLikeName(
+    	String name
+    ) {
+		List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>();
+
+        for (hed__Course_Offering__c record : courseOfferingsMap.values()) {
+            if (record.Name.startsWith(name) || record.Name.endsWith(name)) {
+                courseOfferingList.add(record);
+            }
+        }
+
+		return courseOfferingList;
+    }
 }

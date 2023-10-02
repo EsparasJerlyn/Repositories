@@ -18,8 +18,8 @@
 | rhea.b.torres                  | August 9, 2022        | DEPP-3723              | Added logic to send Welcome Email for learners with QUT Student Username      |
 | rhea.b.torres                  | August 18, 2022       | DEPP-2002              | Added logic for creating Session records for Diagnostic Tool                  |
 | rhea.b.torres                  | November 25, 2022     | DEPP-4628              | Welcome Email implementation                                                  |
-| roy.nino.s.regala              | Sep 20, 2023          | DEPP-6417              | Added before update method, processEnrolmentPricingValidation                |
-
+| roy.nino.s.regala              | Sep 20, 2023          | DEPP-6417              | Added before update method, processEnrolmentPricingValidation                 |
+| kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | Added before update method, setLMSIntegrationStatusToNull                 	  |
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate, AfterDelete {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -49,6 +49,10 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     Map<Id, SObject> oldItems
   ) {
     CourseConPricingValidationHelper.processEnrolmentPricingValidation(
+      (List<hed__Course_Enrollment__c>) newItems.values(),
+      (Map<Id,hed__Course_Enrollment__c>) oldItems
+    );
+    CourseConnectionTriggerHelper.setLMSIntegrationStatusToNull(
       (List<hed__Course_Enrollment__c>) newItems.values(),
       (Map<Id,hed__Course_Enrollment__c>) oldItems
     );
@@ -99,6 +103,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     );
 
     List<hed__Course_Enrollment__c> courseConNewStatusList = new List<hed__Course_Enrollment__c>();
+    List<hed__Course_Enrollment__c> cancelledCourseConnectionList = new List<hed__Course_Enrollment__c>();
 
     Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>) newItems;
     Map<Id,hed__Course_Enrollment__c> oldMap = (Map<Id, hed__Course_Enrollment__c>) oldItems;
@@ -112,7 +117,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     if(!courseConNewStatusList.isEmpty()){
       ProductLedgerTriggerHelper.productLedgerRollUpUpdate(courseConNewStatusList);
     }   
-      
+
     ESBIntegrateOnCourseConnectionUpsert.calloutToMDM((Map<Id, hed__Course_Enrollment__c>) newItems);
   }
     

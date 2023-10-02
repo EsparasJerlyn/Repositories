@@ -12,6 +12,7 @@
  *    |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
  *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                         |
  *    |                                |                       |                        | getActiveCourseConnectionsBySetContactIds  |
+ *    | kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | added method getCourseConnectionByStatus   |
  */
 
 public inherited sharing class CourseConnectionsDAO extends DmlBase implements ICourseConnectionsDAO {
@@ -73,8 +74,20 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         );
     }
 
+    public List<hed__Course_Enrollment__c> getCourseConnectionByStatus(
+        String status,
+        String lmsIntegrationStatus
+    ){
+        return [ //NOPMD
+            SELECT Id, hed__Status__c,LMS_Integration_Status__c
+            FROM hed__Course_Enrollment__c
+            WHERE hed__Status__c = :status AND LMS_Integration_Status__c = :lmsIntegrationStatus
+            WITH USER_MODE
+        ];
+    }
+
     public List<hed__Course_Enrollment__c> getRegisteredLearnersEmailByCourseOffering (
-        Set<Id> courseOfferingIds, 
+        Set<Id> courseOfferingIds,
         Set<Id> programOfferingIds,
         AccessLevel accessLevel
     ){
@@ -87,5 +100,5 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
             accessLevel
         );
     }
-    
+
 }

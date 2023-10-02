@@ -8,7 +8,7 @@
  */
 public without sharing class LMSCourseEnrollmentBatchHandler implements Database.Batchable<SObject>, Database.AllowsCallouts, Schedulable {
 
-    private static final String PRIMARY_DELIVERY_PLATFORM = 'Blackboard';
+    private static final String PRIMARY_DELIVERY_PLATFORM = 'QUT Canvas';
     private static final String SUCCESS = 'Success';
     private static final String FACULTY = 'Faculty';
     private static final String STUDENT = 'Student';
@@ -23,9 +23,10 @@ public without sharing class LMSCourseEnrollmentBatchHandler implements Database
                         ' FROM hed__Course_Enrollment__c' +
                         ' WHERE LMS_Integration_Status__c = NULL' +
                         ' AND hed__Contact__r.QUT_Identity_ID__c != NULL' +
+                        ' AND hed__Contact__r.QUT_Student_ID__c != NULL' +
                         ' AND hed__Course_Offering__r.LMS_Integration_Status__c = :SUCCESS' +
                         ' AND hed__Course_Offering__r.hed__Course__r.Primary_Delivery_Platform__c = :PRIMARY_DELIVERY_PLATFORM' +
-                        ' AND ( (Recordtype_Name__c = :FACULTY AND hed__Contact__r.QUT_Employee_ID__c != NULL) OR (Recordtype_Name__c = :STUDENT AND hed__Contact__r.QUT_Student_ID__c != NULL) )' + 
+                        ' AND Recordtype_Name__c = :STUDENT' + 
                         ' AND Course_Offering_Start_Date__c <= :TODAY_PLUS_7'
         );
     }
