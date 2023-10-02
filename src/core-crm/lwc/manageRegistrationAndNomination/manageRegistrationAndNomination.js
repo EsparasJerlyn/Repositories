@@ -95,9 +95,30 @@ export default class ManageRegistrationAndNomination extends LightningElement {
     get isLoading() {
         return this._isLoading;
     }
-
-    columns = [
+    registrationColumns = [
+        { 
+            label: 'Created Date', 
+            fieldName: 'createdDate', 
+            type: 'date', 
+            sortable: true, 
+            typeAttributes: {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            }
+        },
         { label: 'Course Name', fieldName: 'courseName', type: 'text', sortable: true, wrapText: true},
+        { 
+            label: 'Offering Start Date', 
+            fieldName: 'offeringStartDate',             
+            type: 'date',
+            sortable: true, 
+            typeAttributes: {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            }
+        },
         { label: 'First Name', fieldName: 'contactFirstName', type: 'text', sortable: true },
         { label: 'Last Name', fieldName: 'contactLastName', type: 'text', sortable: true },
         { label: 'Email', fieldName: 'contactEmail', type: 'text', sortable: true },
@@ -113,33 +134,14 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             }
         },
         { label: 'Mobile', fieldName: 'contactMobile', type: 'text', sortable: true },
-        { 
-            label: 'Offering End Date', 
-            fieldName: 'offeringEndDate', 
-            type: 'date', 
-            sortable: true,
-            typeAttributes: {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric'
-            }
-        },
-        { 
-            label: 'Offering Start Date', 
-            fieldName: 'offeringStartDate',             
-            type: 'date',
-            sortable: true, 
-            typeAttributes: {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric'
-            }
-        },
-        { label: 'Status', fieldName: 'status', type: 'text',  sortable: true },
+        { label: 'Status', fieldName: 'status', type: 'text',  sortable: true }
+    ]
+    nominationColumns = [
+        ...this.registrationColumns,
         {
             type: 'action',
             typeAttributes: { rowActions: [{label: 'Edit Status', name: 'editStatus'}] },
-        },
+        }
     ];
 
     handleRowAction(event) {
