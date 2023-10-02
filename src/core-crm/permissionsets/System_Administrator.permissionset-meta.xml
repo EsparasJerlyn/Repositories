@@ -513,6 +513,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CasePotentialMatchesListCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CasePotentialMatchesListCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CceManageRegistrationSectionCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
