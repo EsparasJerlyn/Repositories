@@ -3,10 +3,14 @@
     <actionCalls>
         <name>Validate_Mobile_of_Lead</name>
         <label>Validate Mobile of Lead</label>
-        <locationX>314</locationX>
-        <locationY>1274</locationY>
+        <locationX>446</locationX>
+        <locationY>1322</locationY>
         <actionName>MobileLoqateValidationService</actionName>
         <actionType>apex</actionType>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>ErrorMessageChecker</targetReference>
+        </faultConnector>
         <flowTransactionModel>NewTransaction</flowTransactionModel>
         <inputParameters>
             <name>apiName</name>
@@ -55,7 +59,7 @@
     <assignments>
         <name>Set_Locale_to_AU</name>
         <label>Set Locale to AU</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>LocaleVar</assignToReference>
@@ -85,7 +89,7 @@
     <assignments>
         <name>Set_Locale_to_NZ</name>
         <label>Set Locale to NZ</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>LocaleVar</assignToReference>
@@ -115,7 +119,7 @@
     <decisions>
         <name>Check_Mobile_Locale</name>
         <label>Check Mobile Locale</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>458</locationY>
         <defaultConnector>
             <targetReference>is_lead_created</targetReference>
@@ -153,9 +157,34 @@
         </rules>
     </decisions>
     <decisions>
+        <name>ErrorMessageChecker</name>
+        <label>ErrorMessageChecker</label>
+        <locationX>1678</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>General_Error</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Email_is_not_unique</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ErrorMessage</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Display_message</targetReference>
+            </connector>
+            <label>Email is not unique</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_lead_created</name>
         <label>is lead created?</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>758</locationY>
         <defaultConnector>
             <targetReference>Update_Case</targetReference>
@@ -234,6 +263,11 @@
         <picklistObject>Contact</picklistObject>
     </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <name>ErrorMessage</name>
+        <dataType>Boolean</dataType>
+        <expression>CONTAINS({!$Flow.FaultMessage},&quot;Email must be unique across the organization.&quot;)</expression>
+    </formulas>
     <interviewLabel>Case - Unmatched New Lead Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case - Unmatched New Lead Flow</label>
     <processMetadataValues>
@@ -258,15 +292,14 @@
     <recordCreates>
         <name>Create_Lead_Record</name>
         <label>Create Lead Record</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>350</locationY>
         <assignRecordIdToReference>LeadId</assignRecordIdToReference>
         <connector>
             <targetReference>Check_Mobile_Locale</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Message</targetReference>
+            <targetReference>ErrorMessageChecker</targetReference>
         </faultConnector>
         <inputAssignments>
             <field>Company</field>
@@ -315,7 +348,7 @@
     <recordLookups>
         <name>Get_Case_Record</name>
         <label>Get Case Record</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -336,12 +369,16 @@
     <recordLookups>
         <name>Get_Marketing_Segmentation</name>
         <label>Get Marketing Segmentation</label>
-        <locationX>182</locationX>
+        <locationX>50</locationX>
         <locationY>866</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Update_Marketing_Seg</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>ErrorMessageChecker</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Lead__c</field>
@@ -357,13 +394,14 @@
     <recordUpdates>
         <name>Update_Case</name>
         <label>Update Case</label>
-        <locationX>314</locationX>
-        <locationY>1166</locationY>
+        <locationX>446</locationX>
+        <locationY>1214</locationY>
         <connector>
             <targetReference>Validate_Mobile_of_Lead</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>Error_Message</targetReference>
+            <isGoTo>true</isGoTo>
+            <targetReference>ErrorMessageChecker</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -384,11 +422,15 @@
     <recordUpdates>
         <name>Update_Marketing_Seg</name>
         <label>Update Marketing Seg</label>
-        <locationX>182</locationX>
+        <locationX>50</locationX>
         <locationY>974</locationY>
         <connector>
             <targetReference>Update_Case</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>ErrorMessageChecker</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Lead__c</field>
@@ -426,7 +468,7 @@
     <screens>
         <name>Create_Lead</name>
         <label>Create Lead</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>242</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -459,6 +501,9 @@
                     <name>Mobile_Locale</name>
                     <choiceReferences>MobileLocale</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue>Australia (+61)</stringValue>
+                    </defaultValue>
                     <fieldText>Mobile Locale</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>false</isRequired>
@@ -617,23 +662,41 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Error_Message</name>
-        <label>Error Message</label>
-        <locationX>754</locationX>
-        <locationY>1274</locationY>
+        <name>Display_message</name>
+        <label>Display_message</label>
+        <locationX>1546</locationX>
+        <locationY>566</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>Fault_Message</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(208, 12, 12);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>Error_message_display</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;Email must be unique across the organization.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
+        <nextOrFinishButtonLabel>Close</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>General_Error</name>
+        <label>General Error</label>
+        <locationX>1810</locationX>
+        <locationY>566</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>GenericError</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0);&quot;&gt;An error has been encountered. Please contact your administrator.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Close</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>188</locationX>
+        <locationX>320</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Case_Record</targetReference>
