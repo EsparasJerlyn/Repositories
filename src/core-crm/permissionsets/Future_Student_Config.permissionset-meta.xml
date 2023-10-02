@@ -5,6 +5,14 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>CasePotentialMatchesListCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CasePotentialMatchesListCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ILeadScoreConfigurationDAO</apexClass>
         <enabled>true</enabled>
     </classAccesses>

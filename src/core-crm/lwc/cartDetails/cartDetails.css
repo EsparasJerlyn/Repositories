@@ -241,6 +241,10 @@ span:hover, span:visited {
     .slds-medium-size_9-of-12, .slds-medium-size--9-of-12 {
         width: 75%;
     }
+
+    .btn-save{
+        padding-right: 2.5rem;
+    }
 }
 
 /*Pay Now*/
@@ -275,4 +279,8 @@ span:hover, span:visited {
 	.checkboxLayout {
         margin: 0px 0px 1.5rem 0px;
     }
-}	 
+
+    .btn-save{
+        padding-right: 1.5rem;
+    }
+}

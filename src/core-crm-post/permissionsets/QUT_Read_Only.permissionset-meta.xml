@@ -668,6 +668,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Communication_Queue__c.Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Communication_Queue__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
