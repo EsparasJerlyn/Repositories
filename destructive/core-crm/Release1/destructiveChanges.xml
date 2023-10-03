@@ -249,6 +249,7 @@
         <name>QuickAction</name>
     </types>
     <types>
+        <members>ActionCadence.Home_Page_Cadence_List</members>
         <members>Opportunity.ClosingNextMonth</members>
         <members>Opportunity.ClosingThisMonth</members>
         <members>Opportunity.My_Closed_Opportunities</members>
