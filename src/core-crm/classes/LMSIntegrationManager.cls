@@ -9,6 +9,7 @@
       | john.bo.a.pineda          | May 07, 2022                | DEPP-2549                     | Created file                                  |
       | wli                       | May 08/09/10/11, 2022       | DEPP-2549,2565,2581,2588      | Update                                        |
       | kenneth.f.alsay           | September 26, 2023          | DEPP-6629                     | Deleted LMSCourseWrapper and calloutLMSCourse |
+      | kenneth.f.alsay           | October 3, 2023             | DEPP-6629                     | Added Logger on doCallout lines               |
  */
 public without sharing class LMSIntegrationManager {
 
@@ -23,9 +24,18 @@ public without sharing class LMSIntegrationManager {
             courseOfferingList.add(new CourseOfferingWrapper(courseOffering));
             courseOffering.LMS_Integration_Status__c = 'Sent';
         }
-        doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOfferingList)));
 
-        update courseOfferings;
+        try {
+            doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOfferingList)));
+            update courseOfferings;
+        } catch(Exception e) {
+            Logger.error('Exception caught in finish in class LMSIntegrationManager, method calloutLMSCourseOffering.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
     }
 
     public static void calloutLMSCourseEnrollment(List<hed__Course_Enrollment__c> courseEnrollments) {
@@ -36,16 +46,32 @@ public without sharing class LMSIntegrationManager {
             courseEnrollment.LMS_Integration_Status__c = 'Sent';
         }
 
-        doCallout(ENDPOINT_ESB_LMS_COURSE_ENROLLMENT, 'POST', JSON.serialize(new LMSCourseEnrollmentWrapper(courseEnrollmentList)));
-
-        update courseEnrollments;
+        try {
+            doCallout(ENDPOINT_ESB_LMS_COURSE_ENROLLMENT, 'POST', JSON.serialize(new LMSCourseEnrollmentWrapper(courseEnrollmentList)));
+            update courseEnrollments;
+        } catch(Exception e) {
+            Logger.error('Exception caught in finish in class LMSIntegrationManager, method calloutLMSCourseEnrollment.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
     }
 
     public static void calloutSAMSRegisterLearner(Contact contact) {
-        doCallout(ENDPOINT_ESB_SAMS_REGISTER_LEARNER, 'POST', JSON.serialize(new LearnerWrapper(contact)));
-
-        contact.put('SAMS_Integration_Status__c', 'Sent');
-        update contact;
+        try {
+            doCallout(ENDPOINT_ESB_SAMS_REGISTER_LEARNER, 'POST', JSON.serialize(new LearnerWrapper(contact)));
+            contact.put('SAMS_Integration_Status__c', 'Sent');
+            update contact;
+        } catch(Exception e) {
+            Logger.error('Exception caught in finish in class LMSIntegrationManager, method calloutSAMSRegisterLearner.')
+                .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
     }
 
     /**
