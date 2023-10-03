@@ -3,6 +3,24 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Contact_Record_Page_OIE</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Contact_Record_Page_OIE</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Contact</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>Research_Engagement_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -20,20 +38,16 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>IPU_Opportunity_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
+        <type>Default</type>
         <pageOrSobjectType>Opportunity</pageOrSobjectType>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>IPU_Opportunity_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
+        <type>Default</type>
         <pageOrSobjectType>Opportunity</pageOrSobjectType>
     </actionOverrides>
     <actionOverrides>
@@ -61,25 +75,23 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
+	<content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -88,7 +100,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
+	<content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
@@ -97,38 +109,34 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>International Student Recruitment</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>International Student Recruitment</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -151,25 +159,23 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
+	<content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -178,7 +184,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
+	<content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
@@ -187,38 +193,34 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>International Student Recruitment</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>International Student Recruitment</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>QUTeX</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -687,20 +689,18 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Contact_Record_Page_OIE</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.Person</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>Industry Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Contact_Record_Page_OIE</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Contact</pageOrSobjectType>
         <recordType>Contact.Person</recordType>
-        <type>Flexipage</type>
+        <type>Default</type>
         <profile>Industry Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -764,6 +764,42 @@
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Industry Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Account</tabs>

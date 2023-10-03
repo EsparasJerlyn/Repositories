@@ -21,6 +21,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CasePotentialMatchesListCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CasePotentialMatchesListCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CompanyInformationValidationCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -671,6 +679,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Communication_Queue__c.Last_Send_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Queue__c.Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

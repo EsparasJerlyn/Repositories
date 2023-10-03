@@ -29,7 +29,7 @@
             <lightning-datatable
                     key-field="id"
                     data={registrationList}
-                    columns={columns}
+                    columns={registrationColumns}
                     onrowaction={handleRowAction}
                     default-sort-direction={defaultSortDirection}
                     sorted-direction={sortRegistrationDirection}
@@ -68,7 +68,7 @@
             <lightning-datatable
                 key-field="id"
                 data={nominationList}
-                columns={columns}
+                columns={nominationColumns}
                 onrowaction={handleRowAction}
                 default-sort-direction={defaultSortDirection}
                 sorted-direction={sortNominationDirection}

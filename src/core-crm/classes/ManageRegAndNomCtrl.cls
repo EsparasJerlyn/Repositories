@@ -146,7 +146,7 @@ public without sharing class ManageRegAndNomCtrl {
                 ? (String.isNotBlank(condition) ? +' AND ' : '') + ' hed__Contact__r.Birthdate =' + String.escapeSingleQuotes(recordSearchParams.birthday) : '');
 
             if (String.isNotBlank(condition)) {
-                query = 'SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, ' +
+                query = 'SELECT Id, CreatedDate, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, ' +
                 'hed__Course_Offering__c, Program_Offering__r.hed_Program_Plan__c, Program_Offering__c, ' +
                 'Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, hed__Course_Offering__r.Name, ' +
                 'hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, ' +
@@ -159,7 +159,7 @@ public without sharing class ManageRegAndNomCtrl {
                 'AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null )) AND' + 
                 condition; 
             } else {
-                query = 'SELECT Id, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, ' +
+                query = 'SELECT Id, CreatedDate, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, ' +
                 'hed__Course_Offering__c, Program_Offering__r.hed_Program_Plan__c, Program_Offering__c, ' +
                 'Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, hed__Course_Offering__r.Name, ' +
                 'hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, ' +
@@ -177,6 +177,7 @@ public without sharing class ManageRegAndNomCtrl {
             for(hed__Course_Enrollment__c student : courseConnections){
                 ManageRegistrationorNominationDetails regDetails = new ManageRegistrationorNominationDetails();
                 regDetails.id = student.Id;
+                regDetails.createdDate = student.CreatedDate.date();
                 regDetails.courseName = student.hed__Course_Offering__c != null ? productNameMap.get(student.hed__Course_Offering__r.hed__Course__c) : productNameMap.get(student.Program_Offering__r.hed_Program_Plan__c);
                 regDetails.contactId = student.hed__Contact__c;
                 regDetails.contactFullName = student.hed__Contact__r.Name;
@@ -221,15 +222,16 @@ public without sharing class ManageRegAndNomCtrl {
                 ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' Account__c = :accountSelected') : '');
 
             if (String.isNotBlank(condition)) {
-                query = 'SELECT Id, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))) AND' + condition; 
+                query = 'SELECT Id, CreatedDate, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))) AND' + condition; 
             } else { 
-                query = 'SELECT Id, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds) OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))';
+                query = 'SELECT Id, CreatedDate, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds) OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))';
             }
             List<Expression_of_Interest__c > eois = Database.query(query);
 
             for(Expression_of_Interest__c student : eois){
                 ManageRegistrationorNominationDetails regDetails = new ManageRegistrationorNominationDetails();
                 regDetails.id = student.Id;
+                regDetails.createdDate = student.CreatedDate.date();
                 regDetails.courseName = student.Course_Offering__c != null ? productNameMap.get(student.Course_Offering__r.hed__Course__c) : productNameMap.get(student.Program_Offering__r.hed_Program_Plan__c);
                 regDetails.contactId = student.Contact__c;
                 regDetails.contactFullName = student.First_Name__c + ' ' + student.Last_Name__c;
@@ -263,7 +265,7 @@ public without sharing class ManageRegAndNomCtrl {
      */
     @AuraEnabled(cacheable=true)
     public static List<String> getNominationStatusValues(){
-        List<String> choosedValues = new List<String>{'Approved', 'Pending', 'Declined'};
+        List<String> choosedValues = new List<String>{'Approved', 'Pending', 'Waitlisted', 'Declined'};
         List<String> response = new List<String>();
         String strObjectName = 'Expression_of_Interest__c';
         String strPicklistField = 'Status__c';
@@ -729,6 +731,8 @@ public without sharing class ManageRegAndNomCtrl {
     public class ManageRegistrationorNominationDetails{
         @AuraEnabled
         public String id;
+        @AuraEnabled
+        public Date createdDate;
         @AuraEnabled
         public String contactId;
         @AuraEnabled

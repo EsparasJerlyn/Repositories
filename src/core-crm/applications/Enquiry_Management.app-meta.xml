@@ -163,6 +163,114 @@
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_QTAC_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.QTAC</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ApplicationPreference_StudyLink_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Application_Preference__c</pageOrSobjectType>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Academic_Program_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Academic_Program</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Contact</tabs>
