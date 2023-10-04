@@ -26,7 +26,7 @@ public inherited sharing class PackageComponentDAOMock extends DmlBaseMock imple
 
     public List<Package_Component__c> getPackageComponentsByAppPrefIdSet(
         Set<Id> applicationPreferenceIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         List<Package_Component__c> packageComponentList = new List<Package_Component__c>();
 
