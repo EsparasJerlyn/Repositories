@@ -51,7 +51,7 @@ public interface IContactsDAO extends DmlInterface {
     List<Contact> getContactByEmailOrName(
         ContactsDAO.QueryParamWrapperEmailOrName queryParam,
         AccessLevel accessLevel
-    );
+    ); 
     List<Contact> getPersonContactsBySetIds(
         Set<Id> recordIds,
         AccessLevel accessLevel
@@ -64,5 +64,5 @@ public interface IContactsDAO extends DmlInterface {
     List<Contact> getContactsForQTACAddressUpdate(
         Set<Id> qtacApplicantIdSet,
         AccessLevel accessLevel
-    ); 
+    );  
 }

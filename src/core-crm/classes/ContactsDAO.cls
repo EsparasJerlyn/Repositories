@@ -39,7 +39,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final Set<String> CONTACT_HAS_OFFERED_STATUSES = new Set<String>{
         'Offer','Accept-Admit','Study'
     };
-
+ 
     public static final Set<String> CONTACT_HAS_ACCEPTED_STATUSES = new Set<String>{
         'Accept-Admit','Study'
     };

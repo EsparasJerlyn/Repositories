@@ -106,4 +106,21 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
 
         return caseList;
     }
+
+    public List<Case> getCasesByIds(
+        Set<Id> caseIds,
+        AccessLevel accessLevel
+    ) {
+        List<Case> caseList = new List<Case>();
+
+        for (Case record : caseMap.values()) {
+            if (
+                caseIds.contains(record.Id)
+            ) {
+                caseList.add(record);
+            }
+        }
+
+        return caseList;
+    }
 }
