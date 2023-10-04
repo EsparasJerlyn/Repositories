@@ -6,6 +6,11 @@
         <quickActionLayoutColumns>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
+                <field>Status</field>
+                <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
                 <field>Subject</field>
                 <uiBehavior>Required</uiBehavior>
             </quickActionLayoutItems>
@@ -16,25 +21,16 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>WhatId</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-        </quickActionLayoutColumns>
-        <quickActionLayoutColumns>
-            <quickActionLayoutItems>
-                <emptySpace>true</emptySpace>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>true</emptySpace>
+                <field>WhoId</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Status</field>
-                <uiBehavior>Required</uiBehavior>
+                <field>WhatId</field>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>
+        <quickActionLayoutColumns/>
     </quickActionLayout>
     <standardLabel>LogACall</standardLabel>
     <targetObject>Task</targetObject>
