@@ -100,5 +100,5 @@ public with sharing class ApplicationsDAOTest {
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
         }
         Test.stopTest();
-    }
+    } 
 }
