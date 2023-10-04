@@ -22,7 +22,7 @@ public inherited sharing class ApplicationPreferencesDAO extends DmlBase impleme
 
 	public List<Application_Preference__c> getApplicationPreferenceByAppSetIdsQTAC(
         Set<Id> applicationIDSet,
-		String accessLevel 
+		AccessLevel accessLevel
     ) {
         return Database.query(
             'SELECT Id, Application__c, Is_Current_Preference__c, RecordTypeId, Preference_Number__c, Starting_Month__c, Is_Active__c ' +
@@ -30,24 +30,24 @@ public inherited sharing class ApplicationPreferencesDAO extends DmlBase impleme
              'WHERE Application__c IN : applicationIDSet ' +
              'AND Is_Active__c = TRUE ' +
 			 'AND Preference_Number__c != null ' +
-			 'AND RecordTypeId =: QTAC_RECTYPE_ID WITH ' +
-             String.escapeSingleQuotes(accessLevel) +
-			 ' ORDER BY Preference_Number__c ASC, LastModifiedDate DESC' 
+			 'AND RecordTypeId =: QTAC_RECTYPE_ID ' +
+			 ' ORDER BY Preference_Number__c ASC, LastModifiedDate DESC ',
+             accessLevel
               
         );
     }
 	
     public List<Application_Preference__c> getApplicationPreferenceByAppSetIdsStudyLink(
         Set<Id> applicationIDSet,
-		String accessLevel   
+		AccessLevel accessLevel   
     ) {
         return Database.query(
             'SELECT Id, Application__c, Is_Current_Preference__c, RecordTypeId, Preference_Number__c, Starting_Month__c ' +
              'FROM Application_Preference__c ' +
              'WHERE Application__c IN : applicationIDSet ' +
-			 'AND RecordTypeId =: STUDYLINK_RECTYPE_ID WITH ' +
-             String.escapeSingleQuotes(accessLevel) +
-			 ' ORDER BY LastModifiedDate DESC' 
+			 'AND RecordTypeId =: STUDYLINK_RECTYPE_ID ' +
+			 ' ORDER BY LastModifiedDate DESC ',
+            accessLevel
         );
     }
 

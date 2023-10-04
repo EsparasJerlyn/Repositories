@@ -15,6 +15,19 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
     public static final String ORIGIN_WHATSAPP = 'WhatsApp';
 
+    public static final Id DOMESTICFS_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
+        .get('Domestic_FS_Enquiry')
+        .getRecordTypeId();
+    public static final Id INCIDENT_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
+        .get('Incident')
+        .getRecordTypeId();
+    public static final Id INTERNATIONAL_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
+        .get('International_Enquiry')
+        .getRecordTypeId();
+    public static final Id INTERNATIONALFS_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
+        .get('International_FS_Enquiry')
+        .getRecordTypeId();
+
     public static ICasesDAO newInstance() {
         return (ICasesDAO) ImplementationSelector.DAO.newInstance(
             Case.SObjectType
@@ -87,4 +100,16 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         );
     }
 
+
+    public List<Case> getCasesByIds(
+        Set<Id> caseIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject  ' +
+            'FROM Case ' +
+            'WHERE Id IN :caseIds ',
+            accessLevel
+        );
+    }
 }

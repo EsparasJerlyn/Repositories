@@ -43,7 +43,7 @@ public with sharing class ApplicationPreferencesDAOTest {
             List<Application_Preference__c> applicationPreferenceList = ApplicationPreferencesDAO.newInstance()
                 .getApplicationPreferenceByAppSetIdsQTAC(
                     new Set<Id>(),
-                    'USER_MODE'
+                    AccessLevel.SYSTEM_MODE
                 );
             System.assert(applicationPreferenceList.isEmpty(), 'applicationPreferenceList should not be empty.');
         }
@@ -56,7 +56,7 @@ public with sharing class ApplicationPreferencesDAOTest {
             List<Application_Preference__c> applicationPreferenceList = ApplicationPreferencesDAO.newInstance()
                 .getApplicationPreferenceByAppSetIdsStudyLink(
                     new Set<Id>(),
-                    'USER_MODE'
+                    AccessLevel.SYSTEM_MODE
                 );
             System.assert(applicationPreferenceList.isEmpty(), 'applicationPreferenceList should not be empty.');
         }

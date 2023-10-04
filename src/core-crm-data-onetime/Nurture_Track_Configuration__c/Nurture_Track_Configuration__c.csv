@@ -114,3 +114,6 @@ Domestic FS (contact) offer has lapsed AND
 4 days after offer lapsed date
 AND Domestic Offer Lapsed (Automated) has been completed",Domestic Offer Lapsed,Entry,,2,,Offer lapsed date,after,4
 NTC-0036,Domestic Offer Lapsed,Active,Domestic FS (Contact) offer was re-instated,Domestic Offer Lapsed,Exit,,2,,,,
+NTC-0037,Domestic Accepted and Admitted,Active,"Domestic FS (contact) has accepted offer AND
+Domestic FS (contact) has been admitted in SAMS.",Domestic Accepted and Admitted,Entry,,1,,,,
+NTC-0038,Domestic Accepted and Admitted,Active,Manual,Domestic Accepted and Admitted,Exit,,1,,,,

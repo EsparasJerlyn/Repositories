@@ -61,7 +61,7 @@
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
  *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          | 
  *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
- * 
+ *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  * 
  **/
 
@@ -3575,5 +3575,62 @@ public class TestDataFactory {
             ));
         }
         return marketingInteractionList;
+    }
+
+    public static List<Case_Priority_Configuration__c> createCasePrioConfigRecords(){
+        List<Case_Priority_Configuration__c> casePrioConfigList = new List<Case_Priority_Configuration__c>();
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International FS Enquiry',
+            Future_Student_Stage__c = 'Apply', 
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International FS Enquiry',
+            Enquiry_Category__c = 'My enrolment',
+            Future_Student_Stage__c = 'Apply', 
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International FS Enquiry',
+            Country_Tier__c = 'Tier 1',
+            Is_Active__c = true,
+            Lead_Score__c = 120,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International FS Enquiry',
+            Country_Tier__c = 'Tier 2',
+            Is_Active__c = true,
+            Priority__c = 'Medium'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International FS Enquiry',
+            Country_Tier__c = 'Tier 3',
+            Is_Active__c = true,
+            Priority__c = 'Medium'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International FS Enquiry',
+            Future_Student_Stage__c = 'Offer',
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International FS Enquiry',
+            Enquiry_Sub_Category__c = 'Student support;Welcome and orientation events',
+            Is_Active__c = true,
+            Priority__c = 'Medium'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(//this test data is always within range
+            Case_Record_Type__c = 'International FS Enquiry',
+            Date_From__c =  Date.newInstance(2023, 01, 01),
+            Date_To__c = System.today().addDays(1),
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+
+        return casePrioConfigList;
     }
 }

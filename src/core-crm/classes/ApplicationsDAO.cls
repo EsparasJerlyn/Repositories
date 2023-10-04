@@ -139,14 +139,13 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
 
     public List<hed__Application__c> getApplicationsBySetIds(
         Set<Id> applicationIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         return Database.query(
             'SELECT Id, Calculated_Intake_Date__c, Intake_Year__c, RecordTypeId, Applied_Intake_Study_Period__r.hed__Start_Date__c ' +
             'FROM hed__Application__c ' +
-            'WHERE Id IN :applicationIds ' + 
-            'WITH ' +
-            String.escapeSingleQuotes(accessLevel)
+            'WHERE Id IN :applicationIds ',
+            accessLevel
         );
     }
 
@@ -168,7 +167,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     ) {
         return Database.query(
             'SELECT Id,Program_Enrollment__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, ' +
-                'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
+                'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c, ' +
                 'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
                 'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, hed__Applicant__r.QUT_Applicant__c, ' +
                 'hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c ' +
@@ -185,7 +184,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     ) {
         return Database.query(
             'SELECT Id,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, '+
-            'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, ' +
+            'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, Related_QTAC_Application__c, ' +
             'Applied_Intake_Study_Period__c, Intake_Year__c,Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c '+
             'FROM hed__Application__c ' +
             'WHERE Id IN: qtacApplicantId '+

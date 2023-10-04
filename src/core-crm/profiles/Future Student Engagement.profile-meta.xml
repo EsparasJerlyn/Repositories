@@ -162,6 +162,11 @@
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Program_Enrollment__c.hed__GPA__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
         <recordType>Account.Academic_Program</recordType>

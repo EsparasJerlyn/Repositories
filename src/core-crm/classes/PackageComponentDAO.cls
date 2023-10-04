@@ -22,14 +22,14 @@ public inherited sharing class PackageComponentDAO extends DmlBase implements IP
 
     public List<Package_Component__c> getPackageComponentsByAppPrefIdSet(
         Set<Id> applicationPreferenceIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         return Database.query(
             'SELECT Id, Start_Date__c, Package_Component_No__c, Application_Preference__c ' +
             'FROM Package_Component__c ' +
-            'WHERE Application_Preference__c IN :applicationPreferenceIds  ' + 
-            'WITH ' +
-            String.escapeSingleQuotes(accessLevel)
+            'WHERE Application_Preference__c IN :applicationPreferenceIds  ',
+            accessLevel
+            
         );
     }
 

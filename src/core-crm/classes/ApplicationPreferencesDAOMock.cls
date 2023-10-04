@@ -23,7 +23,7 @@ public inherited sharing class ApplicationPreferencesDAOMock extends DmlBaseMock
 
     public List<Application_Preference__c> getApplicationPreferenceByAppSetIdsQTAC(
         Set<Id> applicationIDSet,
-		String accessLevel 
+		AccessLevel accessLevel 
     ) {
         List<Application_Preference__c> applicationPrefList = new List<Application_Preference__c>();
 
@@ -38,7 +38,7 @@ public inherited sharing class ApplicationPreferencesDAOMock extends DmlBaseMock
 
     public List<Application_Preference__c> getApplicationPreferenceByAppSetIdsStudyLink(
         Set<Id> applicationIDSet,
-		String accessLevel 
+		AccessLevel accessLevel 
     ) {
         List<Application_Preference__c> applicationPrefList = new List<Application_Preference__c>();
 

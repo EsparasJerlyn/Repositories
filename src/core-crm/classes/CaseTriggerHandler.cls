@@ -21,20 +21,22 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
     */
     public void beforeInsert(List<SObject> newItems) { 
         CaseTriggerHelper.caseRecordByMobileMatching((List<Case>) newItems);
+        CaseTriggerHelper.updateCaseAutoPriorityAssignment((List<Case>) newItems);
     }
-    
+
    /**
     * @description afterInsert trigger event
     * @param newItems - Map<Id, SObject> of Case.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-    
+
         if(!isRunning ){
-            isRunning = true; 
-            CaseTriggerHelper.matchExistingContactOrLeadToCase((List<Case>) newItems.values());           
+            isRunning = true;
+            CaseTriggerHelper.matchExistingContactOrLeadToCase((List<Case>) newItems.values());
+            CaseTriggerHelper.handleAutoPriorityAssignedCase((List<Case>) newItems.values());
         }
     }
-       
+
    /**
     * @description indicates it the trigger is disabled
     * @return disabled bypass
@@ -42,5 +44,5 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
     public Boolean isDisabled() {
         final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
         return bypass.isDisabled();
-    }   
+    }
 }

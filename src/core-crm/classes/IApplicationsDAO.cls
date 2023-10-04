@@ -14,7 +14,7 @@
 public interface IApplicationsDAO extends DmlInterface{ 
     List<hed__Application__c> getApplicationsBySetIds(
         Set<Id> applicationIds,
-        String accessLevel
+        AccessLevel accessLevel
     );
     List<hed__Application__c> getApplicationsByLeadIds(
         Set<Id> leadIds,
@@ -32,4 +32,4 @@ public interface IApplicationsDAO extends DmlInterface{
         Set<Id> contactIds,
         String accessLevel
     );
-}
+} 
