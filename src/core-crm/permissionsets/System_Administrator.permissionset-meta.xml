@@ -1125,14 +1125,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>LMSCourseBatchHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LMSCourseBatchHandlerTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>LMSCourseEnrollmentBatchHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
