@@ -28,7 +28,7 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
 
     public List<hed__Application__c> getApplicationsBySetIds(
         Set<Id> applicationIds,
-        String accessLevel
+        AccessLevel accessLevel
     ) {
         List<hed__Application__c> applicationList = new List<hed__Application__c>();
 

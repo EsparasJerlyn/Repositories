@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
+        <name>Add_Error_Log</name>
+        <label>Add Error Log</label>
+        <locationX>1106</locationX>
+        <locationY>1646</locationY>
+        <actionName>FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Save_Log</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Case_Unmatched_New_Lead_Flow</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>loggingLevelName</name>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error in Case Unmatched New Lead Flow Screen Flow</stringValue>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>1106</locationX>
+        <locationY>1754</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Roll_back_Lead_Records</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+    </actionCalls>
+    <actionCalls>
         <name>Validate_Mobile_of_Lead</name>
         <label>Validate Mobile of Lead</label>
-        <locationX>446</locationX>
-        <locationY>1322</locationY>
+        <locationX>578</locationX>
+        <locationY>1430</locationY>
         <actionName>MobileLoqateValidationService</actionName>
         <actionType>apex</actionType>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>ErrorMessageChecker</targetReference>
         </faultConnector>
         <flowTransactionModel>NewTransaction</flowTransactionModel>
@@ -117,6 +165,35 @@
         </connector>
     </assignments>
     <decisions>
+        <name>Check_if_mobile_locale_or_mobile_no_locale_is_blank</name>
+        <label>Check if mobile locale or mobile no locale is blank</label>
+        <locationX>446</locationX>
+        <locationY>1322</locationY>
+        <defaultConnector>
+            <targetReference>Validate_Mobile_of_Lead</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Mobile_locale_or_mobile_no_locale_is_blank</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Mobile_Locale</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Mobile.value</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Mobile locale or mobile no locale is blank</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Mobile_Locale</name>
         <label>Check Mobile Locale</label>
         <locationX>446</locationX>
@@ -159,10 +236,10 @@
     <decisions>
         <name>ErrorMessageChecker</name>
         <label>ErrorMessageChecker</label>
-        <locationX>1678</locationX>
-        <locationY>458</locationY>
+        <locationX>974</locationX>
+        <locationY>1538</locationY>
         <defaultConnector>
-            <targetReference>General_Error</targetReference>
+            <targetReference>Add_Error_Log</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -299,6 +376,7 @@
             <targetReference>Check_Mobile_Locale</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>ErrorMessageChecker</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -391,13 +469,22 @@
         <object>Marketing_Segmentation__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordRollbacks>
+        <name>Roll_back_Lead_Records</name>
+        <label>Roll back Lead Records</label>
+        <locationX>1106</locationX>
+        <locationY>1862</locationY>
+        <connector>
+            <targetReference>General_Error</targetReference>
+        </connector>
+    </recordRollbacks>
     <recordUpdates>
         <name>Update_Case</name>
         <label>Update Case</label>
         <locationX>446</locationX>
         <locationY>1214</locationY>
         <connector>
-            <targetReference>Validate_Mobile_of_Lead</targetReference>
+            <targetReference>Check_if_mobile_locale_or_mobile_no_locale_is_blank</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -664,8 +751,8 @@
     <screens>
         <name>Display_message</name>
         <label>Display_message</label>
-        <locationX>1546</locationX>
-        <locationY>566</locationY>
+        <locationX>842</locationX>
+        <locationY>1646</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -681,8 +768,8 @@
     <screens>
         <name>General_Error</name>
         <label>General Error</label>
-        <locationX>1810</locationX>
-        <locationY>566</locationY>
+        <locationX>1106</locationX>
+        <locationY>1970</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>

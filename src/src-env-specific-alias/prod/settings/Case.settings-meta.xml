@@ -8,11 +8,11 @@
     </caseFeedItemSettings>
     <caseFeedReadUnreadLtng>false</caseFeedReadUnreadLtng>
     <caseMergeInLightning>false</caseMergeInLightning>
-    <closeCaseThroughStatusChange>false</closeCaseThroughStatusChange>
+    <closeCaseThroughStatusChange>true</closeCaseThroughStatusChange>
     <defaultCaseFeedLayoutOn>false</defaultCaseFeedLayoutOn>
-    <defaultCaseOwner>j.rail@qut.edu.au.dep</defaultCaseOwner>
+    <defaultCaseOwner>case.integration@qut.edu.au.dep</defaultCaseOwner>
     <defaultCaseOwnerType>User</defaultCaseOwnerType>
-    <defaultCaseUser>j.rail@qut.edu.au.dep</defaultCaseUser>
+    <defaultCaseUser>case.integration@qut.edu.au.dep</defaultCaseUser>
     <emailToCase>
         <enableE2CAttachmentAsFile>true</enableE2CAttachmentAsFile>
         <enableE2CSourceTracking>true</enableE2CSourceTracking>
@@ -27,7 +27,7 @@
         <routingAddresses>
             <addressType>EmailToCase</addressType>
             <caseOrigin>Email</caseOrigin>
-            <caseOwner>International_Enquiries</caseOwner>
+            <caseOwner>Future_Student_International_Queue</caseOwner>
             <caseOwnerType>Queue</caseOwnerType>
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
@@ -43,7 +43,7 @@
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
             <emailAddress>futurestudentadvisors@qut.edu.au</emailAddress>
-            <routingName>Direct Email New Student Advisor Enquiry</routingName>
+            <routingName>QUT International Future Student Advisors</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
         <unauthorizedSenderAction>Discard</unauthorizedSenderAction>
@@ -73,6 +73,7 @@
     <notifyOwnerOnCaseComment>false</notifyOwnerOnCaseComment>
     <notifyOwnerOnCaseOwnerChange>false</notifyOwnerOnCaseOwnerChange>
     <showEmailAttachmentsInCaseAttachmentsRL>true</showEmailAttachmentsInCaseAttachmentsRL>
+    <showFewerCloseActions>false</showFewerCloseActions>
     <systemUserEmail>automatedcase@00d5g000001fdgjeao.ext</systemUserEmail>
     <useSystemEmailAddress>true</useSystemEmailAddress>
     <useSystemUserAsDefaultCaseUser>false</useSystemUserAsDefaultCaseUser>

@@ -10,22 +10,6 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Digital Marketing</label>
     <navType>Standard</navType>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Person</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Person</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>Marketing_Staging__c</tabs>
