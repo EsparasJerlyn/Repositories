@@ -368,7 +368,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             if (
                 isStudyLinkRecordType &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
-                ApplicationsDAO.OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
+                ApplicationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK.contains(application.Application_Status__c) &&
                 NurturingTrackService.isDateWithinRange(
                     application.Calculated_Intake_Date__c,
                     CURRENT_INTAKE_PERIOD.get('START_DATE'),
@@ -1396,7 +1396,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             ){
                 withinOffSetDays = setwithinOffSetDays(application, offsetDays);
             }
-            if (checkAppInternationalApplicationToOffer(application) && 
+            if (checkAppInternationalApplicationToOffer(application) &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 withinOffSetDays
             ) {
@@ -1878,8 +1878,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
     }
 
     private static boolean checkAppInternationalApplicationToOffer(hed__Application__c app){
-        return (app.Applied_Intake_Study_Period__c != null &&
-        app.Applied_Intake_Study_Period__r.hed__Start_Date__c != null &&
+        return (
         app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID  &&
         ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(app.Application_Status__c) &&
         NurturingTrackService.isDateWithinRange(

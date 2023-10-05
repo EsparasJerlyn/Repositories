@@ -61,6 +61,10 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'Unconditional Offer'
     };
 
+    public static final Set<String> INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK = new Set<String>{
+        'Unconditional Offer'
+    };
+
     public static final Set<String> DECLINED_OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK = new Set<String>{
         'Deferral Requested',
         'Accepted Deferral'
