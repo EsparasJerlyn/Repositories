@@ -9,6 +9,7 @@
       | eccaiurs.munoz            | Sept. 05, 2022        | DEPP-3747            | Added validation on approval of nomination.  |
       | julie.jane.alegre         | Sept. 15, 2022        | DEPP-4311            | Added download button for Manage Registration|
       | marygrace.li              | Sept. 26, 2022        | DEPP-4422            | Modified catch, removed spinner height       |
+      | julie.jane.alegre         | October 05, 2023      | DEPP-4762            | Add Position and Company Name fields         |
       |                           |                       |                      |                                              |
  */
 import { LightningElement, track, wire } from 'lwc';
@@ -211,7 +212,8 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             Mobile__c : this.selectedStudent.contactMobile,
             Mobile_Locale__c: this.selectedStudent.contactMobileLocale? this.selectedStudent.contactMobileLocale : '',
             Birthdate__c: this.selectedStudent.contactBirthdate,
-            //Birthdate__c: this.selectedStudent.contactBirthdate ? this.formatDate( this.parseDate(this.selectedStudent.contactBirthdate) ) : '' ,
+            Position__c: this.selectedStudent.contactPosition,
+            Company_Name__c: this.selectedStudent.contactCompanyName,
             Accessibility_Requirement__c: this.selectedStudent.contactAccessibilityReq,
             Dietary_Requirement__c: this.selectedStudent.contactDietaryReq,
             Course_Offering__c : this.selectedStudent.courseOfferingId,

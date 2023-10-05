@@ -149,6 +149,57 @@
                   </small>
                 </div>
               </div>
+                <!--Position and Company Name-->
+                <div class="slds-grid slds-gutters slds-wrap">
+                  <div
+                    class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
+                  >
+                    <div class="slds-form-element">
+                      <label for="fname" class="label-text">Position </label>
+                      <span class="required-text">*</span><br />
+                      <div class="slds-form-element__control">
+                        <input
+                          type="text"
+                          id="position"
+                          value={position}
+                          onchange={handlePositionChange}
+                          class={requiredInputClass.position}
+                        />
+                      </div>
+                      <div>
+                        <template if:true={hasErrorFN}>
+                          <c-error-icon></c-error-icon>
+                        </template>
+                        <small class={requiredDisplayData.position}
+                          >{requiredErrorMessage}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="slds-col slds-m-top_medium slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2"
+                  >
+                    <div class="slds-form-element">
+                      <label for="flast" class="label-text">Company Name </label>
+                      <span class="required-text">*</span><br />
+                      <div class="slds-form-element__control">
+                        <input
+                          type="text"
+                          id="companyName"
+                          value={companyName}
+                          onchange={handleCompanyNameChange}
+                          class={requiredInputClass.companyName}
+                        />
+                      </div>
+                      <template if:true={hasErrorLN}>
+                        <c-error-icon></c-error-icon>
+                      </template>
+                      <small class={requiredDisplayData.companyName}
+                        >{requiredErrorMessage}</small
+                      >
+                    </div>
+                  </div>
+                </div>
               <!--Contact Info-->
               <span class="label-text slds-m-top_medium"></span>
               <div class="slds-grid slds-wrap slds-gutters">

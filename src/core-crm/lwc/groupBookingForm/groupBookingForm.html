@@ -67,6 +67,16 @@
                                                     <lightning-input-field disabled="true" id="fieldmobile" variant="label-hidden" field-name="Mobile_No_Locale__c" ></lightning-input-field>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <label for="fieldposition" class="label-text">Position</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-input-field disabled="true" id="fieldposition" variant="label-hidden" field-name="Position__c" onchange={handlePositionChange} ></lightning-input-field>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <label for="fieldCompanyName" class="label-text">Company Name</label>
+                                                    <span class="required-text">*</span>
+                                                    <lightning-input-field  disabled="true" id="fieldCompanyName" variant="label-hidden" field-name="Company_Name__c" onchange={handleCompanyNameChange}></lightning-input-field>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <label for="fieldemail" class="label-text">Email</label>
                                                     <span class="required-text">*</span>
                                                     <lightning-helptext class="emailHelpText" content={registeredEmailHelpText}></lightning-helptext>
@@ -224,6 +234,12 @@
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input class="inputField" required="true" name="Mobile_No_Locale__c" pattern="([0-9][0-9]*)$" type="phone" label="Mobile" key={item.id}></lightning-input>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input class="inputField" required="true" name="Position__c" label="Position" key={item.id} ></lightning-input>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                    <lightning-input class="inputField" required="true" name="Company_Name__c" label="Company Name" key={item.id}></lightning-input>
                                                 </div>
                                                 <div class="slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
                                                     <lightning-input class="inputField" type="email" required="true" name="Email" label="Email" key={item.id}></lightning-input >

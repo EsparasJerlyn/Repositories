@@ -9,6 +9,7 @@
       |---------------------------|-----------------------|----------------------|----------------------------------------------|
       | jessel.bajao              | August 24, 2022       | DEPP-3484            | Created                                      |
       | john.m.tambasen           | September 21, 2022    | DEPP-4388            | UI for other payment status                  |
+      | julie.jane.alegre         | September 28, 2023    | DEPP-4762            | Added Position & Company Name fields         |   
 */
 import { LightningElement, wire, track } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
@@ -69,6 +70,12 @@ export default class RegistrationConfirmation extends NavigationMixin(LightningE
         }},
         {label: 'Email', fieldName: 'Email', type: 'email', cellAttributes:{
             class:{fieldName: 'rowStyle'}}},
+        {label: 'Position', fieldName: 'Position__c', type: 'text', cellAttributes:{
+            class:{fieldName: 'rowStyle'}
+        }},    
+        {label: 'Company Name', fieldName: 'Company_Name__c', type: 'text', cellAttributes:{
+            class:{fieldName: 'rowStyle'}
+        }},
         {label: 'Mobile Locale', fieldName: 'ContactMobile_Locale__c', type: 'text', cellAttributes:{
             class:{fieldName: 'rowStyle'}}},
         {label: 'Mobile Phone', fieldName: 'MobilePhone', type: 'phone', cellAttributes:{

@@ -24,6 +24,7 @@
       | john.bo.a.pineda          | July 15, 2022         | DEPP-3130            | Set startURL param as API             |
       | julie.jane.alegre         | August 15, 2022       | DEPP-3568            | Added Contact Duplication Handling    |
       | keno.domienri.dico        | September 23, 2022    | DEPP-4367            | birthdate validation                  |
+      | julie.jane.alegre         | September 22, 2023    | DEPP-4762            | Added Position & Company Name fields  |
 */
 import { LightningElement, track, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -70,6 +71,8 @@ export default class RegistrationForm extends LightningElement {
   lastName = null;
   mobile = null;
   email = null;
+  position = null;
+  companyName = null;
   date = null;
   month = null;
   year = null;
@@ -95,6 +98,8 @@ export default class RegistrationForm extends LightningElement {
   hasErrorFN = false;
   hasErrorLN = false;
   hasErrorEmail = false;
+  hasErrorPosition = false;
+  hasErrorCompName = false
   hasErrorMob = false;
   hasErrorDate = false;
   hasErrorMonth = false;
@@ -207,6 +212,8 @@ export default class RegistrationForm extends LightningElement {
     this.requiredDisplayData.firstName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.lastName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.email = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+    this.requiredDisplayData.position = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+    this.requiredDisplayData.companyName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.locale = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.mobile = HIDE_ERROR_MESSAGE_ATTRIBUTE;
     this.requiredDisplayData.date = HIDE_ERROR_MESSAGE_ATTRIBUTE;
@@ -217,6 +224,8 @@ export default class RegistrationForm extends LightningElement {
     this.requiredInputClass.firstName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.lastName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    this.requiredInputClass.position = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    this.requiredInputClass.companyName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.locale = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.mobile = HIDE_ERROR_BOARDER_ATTRIBUTE;
     this.requiredInputClass.date = HIDE_ERROR_BOARDER_ATTRIBUTE;
@@ -314,6 +323,8 @@ export default class RegistrationForm extends LightningElement {
       this.firstName &&
       this.lastName &&
       this.email &&
+      this.position &&
+      this.companyName &&
       this.mobile &&
       this.date &&
       this.month &&
@@ -531,6 +542,8 @@ export default class RegistrationForm extends LightningElement {
     contactRecord.FirstName = this.firstName;
     contactRecord.LastName = this.lastName;
     contactRecord.Registered_Email__c = this.email;
+    contactRecord.Position__c = this.position;
+    contactRecord.Company_Name__c = this.companyName;
     contactRecord.MobilePhone = this.mobileFull;
     contactRecord.ContactMobile_Locale__c = this.localeConMobile;
     contactRecord.Mobile_No_Locale__c = this.mobile;
@@ -606,6 +619,26 @@ export default class RegistrationForm extends LightningElement {
       this.hasErrorEmail = false;
       this.requiredDisplayData.email = HIDE_ERROR_MESSAGE_ATTRIBUTE;
       this.requiredInputClass.email = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    }
+
+    if (!this.position) {
+      this.hasErrorPosition = !this.position;
+      this.requiredDisplayData.position = SHOW_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.position = SHOW_ERROR_BOARDER_ATTRIBUTE;
+    } else {
+      this.hasErrorPosition = false;
+      this.requiredDisplayData.position = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.position = HIDE_ERROR_BOARDER_ATTRIBUTE;
+    }
+
+    if (!this.companyName) {
+      this.hasErrorCompName = !this.companyName;
+      this.requiredDisplayData.companyName = SHOW_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.companyName = SHOW_ERROR_BOARDER_ATTRIBUTE;
+    } else {
+      this.hasErrorCompName = false;
+      this.requiredDisplayData.companyName = HIDE_ERROR_MESSAGE_ATTRIBUTE;
+      this.requiredInputClass.companyName = HIDE_ERROR_BOARDER_ATTRIBUTE;
     }
 
     if (!this.locale) {
@@ -693,6 +726,20 @@ export default class RegistrationForm extends LightningElement {
   handleEmailChange(event) {
     this.email = event.target.value;
     this.uniqueEmail = event.target.value;
+  }
+
+    /*
+   * Sets the position via event
+   */
+  handlePositionChange(event) {
+    this.position = event.target.value.trim();
+  }
+
+    /*
+   * Sets the Company Name via event
+   */
+  handleCompanyNameChange(event) {
+    this.companyName = event.target.value.trim();
   }
 
   /*
@@ -885,6 +932,8 @@ export default class RegistrationForm extends LightningElement {
     contactRecord.Id = this.contactId;
     contactRecord.Registered_Email__c = this.email;
     contactRecord.Email = this.uniqueEmail;
+    contactRecord.Position__c = this.position;
+    contactRecord.Company_Name__c = this.companyName;
     contactRecord.MobilePhone = this.mobileFull;
     contactRecord.ContactMobile_Locale__c = this.localeConMobile;
     contactRecord.Mobile_No_Locale__c = this.mobile;

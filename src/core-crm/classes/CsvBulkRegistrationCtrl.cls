@@ -7,6 +7,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | aljohn.p.motas            | December 6, 2021      | DEPP-1025,42         | Created file                 | 
       | aljohn.p.motas            | December 27, 2021     | DEPP-1025,42         | GetCMSContentDataByName      | 
+      | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Add Position & Company Name  |
       |                           |                       |                      |                              | 
  */
 
@@ -65,10 +66,12 @@ public with sharing class CsvBulkRegistrationCtrl {
                 objAcc.LastName = csvRowData[1];
                 objAcc.Email = csvRowData[2];
                 objAcc.MobileLocale = csvRowData[3];
-                objAcc.MobilePhone = csvRowData[4];
-                objAcc.Birthdate = csvRowData[5];
-                objAcc.DietaryRequirement = csvRowData[6];
-                objAcc.AccessibilityRequirement = csvRowData[7];
+                objAcc.Position = csvRowData[4];
+                objAcc.CompanyName = csvRowData[5];
+                objAcc.MobilePhone = csvRowData[6];
+                objAcc.Birthdate = csvRowData[7];
+                objAcc.DietaryRequirement = csvRowData[8];
+                objAcc.AccessibilityRequirement = csvRowData[9];
                 lstAccsToInsert.add(objAcc);
             }
         }
@@ -79,8 +82,9 @@ public with sharing class CsvBulkRegistrationCtrl {
         @AuraEnabled public String FirstName;
         @AuraEnabled public String LastName;
         @AuraEnabled public String Email;
-        // @AuraEnabled public String Suffix;
         @AuraEnabled public String MobileLocale;
+        @AuraEnabled public String Position;
+        @AuraEnabled public String CompanyName;
         @AuraEnabled public String MobilePhone;
         @AuraEnabled public String Birthdate;
         @AuraEnabled public String DietaryRequirement;

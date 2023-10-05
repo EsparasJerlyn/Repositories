@@ -8,6 +8,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | eccarius.karl.munoz       | September 07, 2022    | DEPP-3747            | Created file to .            |
+      | julie.jane.alegre         | October 05, 2023      | DEPP-4762            | Update test method           |
       |                           |                       |                      |                              |
 */
 
@@ -64,7 +65,7 @@ public with sharing class ManageRegAndNomCtrlTest {
         System.runAs(PORTAL_SYS_ADMIN){     
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
-            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
+            List<Expression_of_Interest__c> expOfInterestList = [SELECT Id, Name, Pricebook_Entry_ID__c, First_Name__c, Program_Offering__c, Course_Offering__c, Last_Name__c, Email__c, Position__c, Company_Name__c, Birthdate__c,Accessibility_Requirement__c, Dietary_Requirement__c,Mobile__c, Mobile_Locale__c FROM Expression_of_Interest__c WITH SECURITY_ENFORCED];
             ManageRegAndNomCtrl.StudentDetails details = new ManageRegAndNomCtrl.StudentDetails();
             details.id = expOfInterestList[0].Id;
             details.registrationStatus = 'Approved';
@@ -363,7 +364,11 @@ public with sharing class ManageRegAndNomCtrlTest {
             ContactMobile_Locale__c = 'Australia (+61)',
             Work_Email__c = 'test@workemail.com',
             hed__Preferred_Email__c = 'Alternate Email',
-            hed__AlternateEmail__c = 'testqtest@emailemail.com');
+            hed__AlternateEmail__c = 'testqtest@emailemail.com',
+            Position__c = 'Position',
+            Company_Name__c = 'Company Name'
+            );
+            
             insert newContact;
             List<Contact> contactList = new List<Contact>();
             contactList.add(newContact);
@@ -426,6 +431,8 @@ public with sharing class ManageRegAndNomCtrlTest {
                 First_Name__c = 'test con 1',
                 Last_Name__c = 'rec',
                 Email__c = 'testcon1@email.com',
+                Position__c = 'Position',
+                Company_Name__c = 'Company Name',
                 Birthdate__c = Date.newInstance(1990, 2, 17),
                 Mobile__c = '0412345678',
                 Mobile_Locale__c = 'Australia (+61)',
@@ -445,6 +452,8 @@ public with sharing class ManageRegAndNomCtrlTest {
             contact.Registered_Email__c ='con@rec1.com';
             contact.hed__Preferred_Email__c = 'Alternate Email';
             contact.hed__AlternateEmail__c = 'conpref@rec1.com';
+            contact.Position__c = 'Position';
+            contact.Company_Name__C = 'Company Name';
             contact.Birthdate = Date.newInstance(1991, 2, 17);
             contact.MobilePhone ='0412345678';
             contact.ContactMobile_Locale__c = 'Australia (+61)';
