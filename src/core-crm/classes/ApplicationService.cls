@@ -14,6 +14,7 @@
  *    | mark.j.mahilum                 | August 01, 2023       | DEPP-6135              | Added new record type condition   |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added methods for contact field   |
  *    |                                |                       |                        | updates on match with application |
+ *    | nicole.genon                   | Oct 4, 2023           | DEPP-6821              | Added mapping for QTAC matching   |
  */
 public with sharing class ApplicationService { //NOPMD
 
@@ -459,6 +460,7 @@ public with sharing class ApplicationService { //NOPMD
         applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate == null ? 
             recordsToReference.application.BirthDate__c : recordsToReference.existingContact.Birthdate;
         applicantToUpdate.Citizenship_Type__c = recordsToReference.application.Citizenship_Type__c;
+        applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
         applicantToUpdate.Home_Language__c = recordsToReference.application.Home_Language__c;
         applicantToUpdate.MiddleName = recordsToReference.application.MiddleName__c;
         applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;
