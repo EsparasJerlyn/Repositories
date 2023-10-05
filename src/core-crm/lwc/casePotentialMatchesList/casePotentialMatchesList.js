@@ -30,7 +30,18 @@ export default class CasePotentialMatchesList extends LightningElement {
     ];
 
     get getTitle() {
-        this.isDisabledBtn = this.totalRecord > 0 ? false : true;
+        let isDisabledBtn = true;
+
+        if (this.template.querySelector("lightning-datatable")) {
+            const selectedRecords =  this.template.querySelector("lightning-datatable").getSelectedRows();
+
+            if (selectedRecords.length > 0) {
+                isDisabledBtn = false;
+            }
+
+        }
+
+        this.isDisabledBtn = isDisabledBtn;
         return `We Found (${this.totalRecord}) Possible Matches for Enquirer`
     }
 

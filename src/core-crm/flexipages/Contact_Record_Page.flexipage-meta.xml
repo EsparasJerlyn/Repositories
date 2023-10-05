@@ -189,7 +189,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.QUT_Learner_Email__c</fieldItem>
                 <identifier>RecordQUT_Learner_Email_cField</identifier>
@@ -199,7 +199,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.QUT_Staff_Email__c</fieldItem>
                 <identifier>RecordQUT_Staff_Email_cField</identifier>

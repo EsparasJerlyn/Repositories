@@ -73,38 +73,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
-        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
-        <type>Default</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
-        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
-        <type>Default</type>
-        <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
-        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
-        <type>Default</type>
-        <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Program_Plan__c</pageOrSobjectType>
-        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
-        <type>Default</type>
-        <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Application_SAMS_CIAnywhere_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
@@ -120,54 +88,6 @@
         <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
         <type>Flexipage</type>
         <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Default</type>
-        <profile>International Student Recruitment</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Default</type>
-        <profile>International Student Recruitment</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Default</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
-        <type>Default</type>
-        <profile>QUTeX</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -207,54 +127,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Default</type>
-        <profile>International Student Recruitment</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Default</type>
-        <profile>International Student Recruitment</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Default</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
-        <recordType>hed__Application__c.SAMS_Legacy</recordType>
-        <type>Default</type>
-        <profile>QUTeX</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Application_SAMS_Legacy_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>hed__Application__c</pageOrSobjectType>
@@ -270,22 +142,6 @@
         <recordType>hed__Application__c.SAMS_Legacy</recordType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Academic_Program</recordType>
-        <type>Default</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Academic_Program</recordType>
-        <type>Default</type>
-        <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -466,22 +322,6 @@
         <recordType>Application_Preference__c.StudyLink</recordType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Person</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Person</recordType>
-        <type>Default</type>
-        <profile>Industry Engagement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>

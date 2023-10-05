@@ -4,11 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                        |
-      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                          |
-      | roy.nino.s.regala              | Auh 09, 2023          | DEPP-5677              | Added  criteria type field                            |
-      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added fields in getNurtureTrackLeadScoreThreshold     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                 |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                                   |
+      | roy.nino.s.regala              | Auh 09, 2023          | DEPP-5677              | Added  criteria type field                                     |
+      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added fields in getNurtureTrackLeadScoreThreshold              |
+      | arsenio.jr.dayrit              | October 03, 2023      | DEPP-6816              | Added static variable for International Offer to Acceptance    |
  */
 public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase implements INurtureTrackConfigurationsDAO {
 
@@ -16,6 +17,8 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'International Strong Interest Pre-Application';
     public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'Domestic Strong Interest Pre-Application';
     public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED = 'Domestic Strong Interest Pre-Application (Automated)';
+    public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED = 'International Offer to Acceptance (Automated)';
+    public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL = 'International Offer to Acceptance';
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 
     public static INurtureTrackConfigurationsDAO newInstance() {
