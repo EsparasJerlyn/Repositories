@@ -5,7 +5,7 @@
     <enableACSkipWeekends>false</enableACSkipWeekends>
     <enableCadenceVariantTestingPref>true</enableCadenceVariantTestingPref>
     <enableChgTgtAssigneeUsrPermPref>false</enableChgTgtAssigneeUsrPermPref>
-    <enableDispositionCategory>false</enableDispositionCategory>
+    <enableDispositionCategory>true</enableDispositionCategory>
     <enableEngagementWaveAnalyticsPref>true</enableEngagementWaveAnalyticsPref>
     <enableHighVelocitySales>true</enableHighVelocitySales>
     <enableHighVelocitySalesSetup>true</enableHighVelocitySalesSetup>

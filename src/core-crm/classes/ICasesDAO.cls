@@ -33,4 +33,10 @@ public interface ICasesDAO extends DmlInterface{
         Set<String> suppliedPhone,
         AccessLevel accessLevel
     );
+
+    List<Case> getCasesByIds(
+        Set<Id> caseIds,
+        AccessLevel accessLevel
+    );
+    
 }

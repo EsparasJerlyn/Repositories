@@ -1,14 +1,14 @@
 /**
  * @description Service Class for DynamicQueueableProcess class
- * 
+ *
  * @see DynamicQueueableProcess
- * 
+ *
  * @author Accenture
- * 
+ *
  * @history
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | mark.j.mahilum                 | June 23,2023          | DEPP-5846	            | Created File                  | 
+ *    | mark.j.mahilum                 | June 23,2023          | DEPP-5846	            | Created File                  |
  */
 public class DynamicQueueableProcess implements Queueable {
     private List<SObject> objectList;
@@ -20,10 +20,12 @@ public class DynamicQueueableProcess implements Queueable {
     }
 
     public void execute(QueueableContext context) {
-        
+
         if(serviceClassName =='ApplicationService'){
-            ApplicationService.enqueueApplicationToExecute((List<hed__Application__c>) objectList);                               
+            ApplicationService.enqueueApplicationToExecute((List<hed__Application__c>) objectList);
         }
-        
+        else if(serviceClassName =='CasePriorityAssignment'){
+            CaseTriggerHelper.enqueueCasesToPrioritize((List<Case>)objectList);
+        }
     }
 }

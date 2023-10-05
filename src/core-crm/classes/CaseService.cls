@@ -13,7 +13,7 @@
 public with sharing class CaseService {
 
     /**
-     * @description Check map contact to it's existing case records
+     * @description Check map contact to it's existing case records 
      * @param caseSuppliedPhone
      */
     public static Map<String, List<Contact>> mapExistingContactMatchToCase(Set<String> caseSuppliedPhone) {

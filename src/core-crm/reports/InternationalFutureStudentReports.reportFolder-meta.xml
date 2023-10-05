@@ -7,6 +7,11 @@
     </folderShares>
     <folderShares>
         <accessLevel>View</accessLevel>
+        <sharedTo>Future_Student_Concierge_International</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
         <sharedTo>Future_Student_Team_Leader_International</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>

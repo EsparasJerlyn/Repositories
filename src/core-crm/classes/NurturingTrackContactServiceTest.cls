@@ -602,7 +602,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
-            newApplications[0].QTAC_ApplicantID__c = newQtacApplications[0].Id;
+            newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
@@ -626,7 +626,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
-            newApplications[0].QTAC_ApplicantID__c = newQtacApplications[0].Id;
+            newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));

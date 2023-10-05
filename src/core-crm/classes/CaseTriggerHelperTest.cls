@@ -17,7 +17,16 @@ private class CaseTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'High', 'Tier 1',true);
+            insert tierList;
+            List<Case_Priority_Configuration__c> casePrioConfig = TestDataFactory.createCasePrioConfigRecords();
+            insert casePrioConfig;
+        }
+        Test.stopTest();
+        
     }
     
     @isTest
@@ -144,5 +153,30 @@ private class CaseTriggerHelperTest {
             List<Case> caseRecordList = CasesDAO.newInstance().getCasesBySuppliedPhone(new Set<String>{cases[0].SuppliedPhone}, AccessLevel.USER_MODE);
             System.assert(caseRecordList[0].Lead__c !=null, 'case is not link to existing lead.');
         }
+    }
+
+    @isTest
+    private static void testHandleAutoPriorityAssignedCase(){
+        
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            
+            List<Case> cases = new List<Case>();
+            cases.add(
+                new Case(  
+                    Status = 'Created', 
+                    Auto_Priority_Assignment__c = true,
+                    SuppliedPhone = '090909',
+                    Origin = CasesDAO.ORIGIN_WHATSAPP,
+                    RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                )
+            );
+
+            Test.startTest();
+            CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
+            System.assert(cases[0].Id != null, 'case insert was not successful');
+            Test.stopTest();
+        }
+
+        
     }
 }
