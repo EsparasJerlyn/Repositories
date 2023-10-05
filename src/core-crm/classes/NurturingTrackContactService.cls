@@ -19,6 +19,7 @@
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6677              | Updated name of sales cadence from Domestic Acceptance to Enrollment to       |
       |                                |                       |                        | Domestic Accepted not yet Enrolled                                            |
       | arsenio.jr.dayrit              | October 03, 2023      | DEPP-6816              | Added handling for International Offer to Acceptance                          |
+      | mark.j.mahilum                 | October 04, 2023      | DEPP-6682              | Added new entry criteria for DomesticAcceptedAdmitted sales cadence           |
       | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Update handling for Domestic Accepted not yet Enrolled                        |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
@@ -78,6 +79,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         contactToUpdate.putAll(getInternationalOfferToAcceptanceForEntry(internationalEntryContactMap));
         contactToUpdate.putall(getEntryInternationalAcceptanceDepositNotPaid(internationalEntryContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForEntry(domesticEntryContactMap));
+        contactToUpdate.putAll(getEntryDomesticAcceptedAndAdmitted(domesticEntryContactMap));
         contactToUpdate.putAll(getDomesticEnrollmentToCensusForEntry(domesticEntryContactMap));
         contactToUpdate.putAll(getInternationalEnrollmentToCensusForEntry(internationalEntryContactMap));
         contactToUpdate.putall(getEntryDomesticOfferLapsed(domesticEntryContactMap));
@@ -1480,6 +1482,54 @@ public with sharing class NurturingTrackContactService { //NOPMD
     }
 
     /**
+     * @description Update contact with the “Domestic Accepted and Admitted” when the entry criteria is fulfilled.
+     * @param Map<Id, Contact> domesticContact a map of ids to entry contact records
+     * @return Map<Id, Contact> map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getEntryDomesticAcceptedAndAdmitted(
+        Map<Id, Contact> domesticEntryContactMap
+    ) {
+        Map<Id, hed__Application__c> domesticAcceptedApplicants = new Map<Id, hed__Application__c>();
+
+        for (hed__Application__c app : applicationList) {
+            
+            Boolean isSAMSApplication = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
+            Boolean isProgramEnrollmentAdmitted = (app.Program_Enrollment__c != NULL && String.isNotBlank(app.Program_Enrollment__r.Enrollment_Status__c));
+            Boolean isSAMSLatestApplication = (app.Calculated_Intake_Date__c != NULL && app.Calculated_Intake_Date__c > Date.today());
+    
+            if (isSAMSApplication &&
+                domesticEntryContactMap.containsKey(app.hed__Applicant__c) &&
+                isProgramEnrollmentAdmitted &&
+                isSAMSLatestApplication &&
+                app.Program_Enrollment__r.Enrollment_Status__c =='Admitted'
+            ) {
+                domesticAcceptedApplicants.put(app.Id, app);
+            }
+        }
+
+        Map<Id, List<String>> applicationIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{ 'Domestic Accepted and Admitted' },
+            Contact.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Contact.getSObjectType(),
+            null,
+            'Domestic Accepted and Admitted'
+        );
+
+        List<Contact> contactToUpdateList = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            applicationIdsWithCompletedCadence,
+            domesticAcceptedApplicants.values(),
+            cadenceWrapper
+        );
+
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
+        return contactToUpdateMap;
+    }
+
+    /**
      * @description: Check if the contact is for Exit of Domestic Deferred Offer to Acceptance cadences
      *
      * @param Map<Id,Contact> mapOfContacts record to evaluate
@@ -1951,4 +2001,4 @@ public with sharing class NurturingTrackContactService { //NOPMD
         }
         return configsMap;
     }
-}
+} 
