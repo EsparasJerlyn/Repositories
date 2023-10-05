@@ -49,7 +49,7 @@ public inherited sharing class ApplicationPreferencesDAO extends DmlBase impleme
 			 ' ORDER BY LastModifiedDate DESC ',
             accessLevel
         );
-    }
+    } 
 
     public static List<Application_Preference__c> getCurrentApplicationPreferenceById(
         Set<Id> applicationPreferenceIds,

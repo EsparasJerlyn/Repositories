@@ -32,4 +32,4 @@ public interface IApplicationsDAO extends DmlInterface{
         Set<Id> contactIds,
         String accessLevel
     );
-}
+} 

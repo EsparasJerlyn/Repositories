@@ -13,4 +13,4 @@ public interface IPackageComponentDAO extends DmlInterface{
      
      List<Package_Component__c> getPackageComponentsByAppPrefIdSet(Set<Id> applicationPreferenceIds, AccessLevel accessLevel);
 
-}
+} 

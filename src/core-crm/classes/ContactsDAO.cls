@@ -39,7 +39,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final Set<String> CONTACT_HAS_OFFERED_STATUSES = new Set<String>{
         'Offer','Accept-Admit','Study'
     };
-
+ 
     public static final Set<String> CONTACT_HAS_ACCEPTED_STATUSES = new Set<String>{
         'Accept-Admit','Study'
     };
@@ -257,7 +257,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         if (toQuery != '') {
             contactList = Database.query(
-                'SELECT Id, Name, Email, Mobile_No_Locale__c, hed__WorkEmail__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE ' +
+                'SELECT Id, Name, Email, Mobile_No_Locale__c, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE ' +
                 toQuery,
                 AccessLevel
             );

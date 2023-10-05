@@ -415,6 +415,51 @@ public with sharing class NurturingTrackLeadServiceTest {
         }
     }
 
+    @isTest
+    private static void getDomesticAcceptedAndAdmittedTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+
+            // create Lead Score Detail
+            Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
+            lsd.Total_Lead_Score__c = 200;
+            insert lsd;
+
+            Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
+            marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
+            insert marketingSeg;
+
+            // create contact
+            List<Lead> newLeads = createTestLeadRecords(0, 1);
+            newLeads[0].Lead_Score_Detail__c = lsd.Id;
+            newLeads[0].Marketing_Segmentation__c = marketingSeg.Id;
+            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Course_Enrollment__c> courseEnrollmentList = new List<hed__Course_Enrollment__c>();
+            courseEnrollmentList.add(new hed__Course_Enrollment__c(
+                Enrollment_Status__c = 'Test',
+                hed__Program_Enrollment__c = programEnrollmentList[0].Id
+            )); 
+            CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+        
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
+            newApplications[0].Calculated_Intake_Date__c = System.today().addDays(5);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            // call method
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
+            Test.stopTest();
+            // assert
+            System.assertEquals('Domestic Accepted and Admitted', processLeads[0].Calculated_Cadence__c, 'Calculated cadence is empty.');
+        }
+    }
+
     /**
      * Generate nurture track configurations and return them as a list of records.
      * Some criterias will always read configs even if there are no valid records for entry/exit

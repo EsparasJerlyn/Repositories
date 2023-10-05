@@ -27,7 +27,7 @@ public with sharing class ApplicationsDAOTest {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsBySetIds(
                     new Set<Id>(),
-                    AccessLevel.SYSTEM_MODE
+                    AccessLevel.USER_MODE
                 );
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
         }
@@ -100,5 +100,5 @@ public with sharing class ApplicationsDAOTest {
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
         }
         Test.stopTest();
-    }
+    } 
 }

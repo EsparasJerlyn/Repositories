@@ -11,12 +11,6 @@
         <fullName>Completed</fullName>
         <default>false</default>
         <label>Completed</label>
-        <closed>false</closed>
-    </standardValue>
-    <standardValue>
-        <fullName>Closed - SMS Follow-up</fullName>
-        <default>false</default>
-        <label>Closed - SMS Follow-up</label>
         <closed>true</closed>
     </standardValue>
     <standardValue>
