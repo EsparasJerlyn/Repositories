@@ -13,7 +13,7 @@
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                      |
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName              |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           |
- */
+ */ 
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
      * Lead Constants

@@ -87,10 +87,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Location__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Minimum_Participants__c</field>
             </layoutItems>
         </layoutColumns>
@@ -98,10 +94,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Volume_of_Learning_Hours__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Location_Details__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

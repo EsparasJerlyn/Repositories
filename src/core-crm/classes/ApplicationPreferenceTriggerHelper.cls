@@ -150,7 +150,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
             appMapToUpdate.put(app.Id, app);
         }
 
-        Map<Id, hed__Application__c> qtacAppMap = setQtacApplicationMap();
+        Map<Id, hed__Application__c> qtacAppMap = setQtacApplicationMap(applicationPreferenceMap);
         appMapToUpdate.putAll(qtacAppMap);
 
         ApplicationsDAO.newInstance().updateRecords(appMapToUpdate.values(), false, AccessLevel.USER_MODE);
@@ -160,7 +160,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
      * @description sets the map to be used in updating list of qtac application records
      * @return Map<Id, hed__Application__c> response - map that contains list of qtac apps to update
      */
-    private static Map<Id, hed__Application__c> setQtacApplicationMap(){
+    private static Map<Id, hed__Application__c> setQtacApplicationMap(Map<Id, Application_Preference__c> applicationPreferenceMap){
         Map<Id, hed__Application__c> response = new Map<Id, hed__Application__c>();
         Map<Id, Application_Preference__c> qtacApplicationPreferenceMap = new Map<Id, Application_Preference__c>();
         Set<Id> qtacAppPrefSetIds = new Set<Id>();
@@ -185,6 +185,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
                 calculatedDate = Date.parse(calculatedDateStr);          
             }
             app.Calculated_Intake_Date__c = calculatedDate;
+            app.Current_Preference__c = applicationPreferenceMap.get(app.Id).Id;
             response.put(app.Id, app);
         }
         

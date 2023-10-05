@@ -12,7 +12,21 @@
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for updating case using WhatsApp    |
  */
 public with sharing class CaseTriggerHelper {
-    
+
+    private static final Map<String, Id> CASE_RECTYPE_MAP = new Map<String, Id>{
+        'Domestic FS Enquiry' => CasesDAO.DOMESTICFS_RECTYPE_ID,
+        'Incident' => CasesDAO.INCIDENT_RECTYPE_ID,
+        'International Enquiry' => CasesDAO.INTERNATIONAL_RECTYPE_ID,
+        'International FS Enquiry' => CasesDAO.INTERNATIONALFS_RECTYPE_ID
+    };
+    private static final Map<String, Integer> PRIORITY_ORDER = new Map<String, Integer>{
+        'High' => 3,
+        'Medium' => 2,
+        'Low' => 1,
+        '' => 0,
+        null => 0
+    };
+
     //map of object type to the field api names of the fields to be matched
     private static final Map<SObjectType, List<String>> OBJECT_MAP = new Map<SObjectType, List<String>>{
         Lead.SObjectType => new List<String>{ 'Email', 'Work_Email__c' },
@@ -23,7 +37,7 @@ public with sharing class CaseTriggerHelper {
             'QUT_Staff_Email__c'
         }
     };
-    
+
     /**
      * @description: Match the case supplied email from an existing contact or lead email address to
      *               the new created case record
@@ -52,7 +66,7 @@ public with sharing class CaseTriggerHelper {
            processCaseRecordsToContactMatch(suppliedEmails,emailToCaseMap);
         }       
     }
-    
+
     /**
      * @description: Check contact or lead records for any potential match of an existing contact
      *               or lead records
@@ -252,4 +266,196 @@ public with sharing class CaseTriggerHelper {
         }
     }
     
+
+    /**
+     * @description update the Auto_Priority_Assignment__c based on username mdt
+     *
+     * @param newItems  List of new Case records
+     */
+    public static void updateCaseAutoPriorityAssignment(List<Case> newItems) {
+        Map<String, Auto_Priority_Assignment_Configuration__mdt> usernamesMap = new Map<String, Auto_Priority_Assignment_Configuration__mdt>();
+        List<Auto_Priority_Assignment_Configuration__mdt> autoPriorityConfigs = [SELECT Username__c FROM Auto_Priority_Assignment_Configuration__mdt];
+        for(Auto_Priority_Assignment_Configuration__mdt autoPriorityConfig : autoPriorityConfigs){
+            usernamesMap.put(autoPriorityConfig.Username__c, autoPriorityConfig);
+        }
+        String userEmail = UserInfo.getUserEmail();
+        
+        for(Case item : newItems){
+            if(usernamesMap.containsKey(userEmail)){
+                item.Auto_Priority_Assignment__c = true;
+            }
+        }
+    }
+
+    /**
+     * @description: Set the case priority based on
+     * @param newItems - List of case record
+     */
+    public static void handleAutoPriorityAssignedCase(
+        List<Case> newCaseList
+    ) {
+        List<Case> autoPriorityAssignedCases = new List<Case>();
+        for(Case item : newCaseList){
+            if(
+                item.Auto_Priority_Assignment__c == true &&
+                item.Status == 'Created' &&
+                item.Priority != 'High'
+            ){
+                autoPriorityAssignedCases.add(item);
+            }
+        }
+        if(!autoPriorityAssignedCases.isEmpty()){
+            enqueueQueueableProcess(autoPriorityAssignedCases, 'CasePriorityAssignment');
+        }
+    }
+
+    /**
+     * @description Enqueues the given case for future priority assignment using a DynamicQueueableProcess.
+     *
+     * @param autoPriorityAssignedCases  List of Cases to enqueue
+     * @param methodName name of the method to execute in the DynamicQueueableProcess
+     */
+    private static void enqueueQueueableProcess(List<Case> autoPriorityAssignedCases, String serviceClassName) {
+        DynamicQueueableProcess queueableCalls = new DynamicQueueableProcess(autoPriorityAssignedCases, serviceClassName);
+        System.enqueueJob(queueableCalls);
+    }
+
+    /**
+     * @description: queueable method to set case priorities
+     * @param newItems - List of case record
+     */
+    public static void enqueueCasesToPrioritize(List<Case> autoPriorityAssignedCases){
+        try{
+            Map<Id,Case> prioritizedCases = new Map<Id,Case>();
+            List<Case> completeFieldCases = getCasesWithRequiredFields(autoPriorityAssignedCases);
+            Map<String,String> countryTierMap = getCountryTierMap();
+            List<Case_Priority_Configuration__c> casePriorityConfigs = [
+                SELECT Name, Case_Record_Type__c, Country_Tier__c, Enquiry_Category__c, Enquiry_Sub_Category__c, Lead_Score__c, Future_Student_Stage__c, Date_from__c, Date_to__c, Priority__c
+                FROM Case_Priority_Configuration__c
+                WHERE Is_Active__c = TRUE
+                WITH SYSTEM_MODE
+            ];
+            for(Case_Priority_Configuration__c config: casePriorityConfigs){
+                for(Case item : completeFieldCases){
+                    if(
+                        item.Priority == 'High' ||
+                        PRIORITY_ORDER.get(config.Priority__c) < PRIORITY_ORDER.get(item.Priority)
+                    ){
+                        break;
+                    }
+
+                    boolean isCaseForUpdate = matchConfigToCaseBase(item, config) && matchCountryTier (item, config, countryTierMap) && 
+                    matchCategoryAndSubCategory (item, config) && checkDateDuration(config.Date_from__c, config.Date_to__c, item.CreatedDate);
+
+                    if(isCaseForUpdate){
+                        item.Priority = config.Priority__c;
+                        item.Subject = config.Name;
+                        prioritizedCases.put(item.Id, item);
+                    }
+                }
+            }
+            updateCases(prioritizedCases);
+        } catch (Exception e) {
+            Logger.error('Exception caught in method enqueueCasesToPrioritize in class CaseTriggerHelper.')
+              .setExceptionDetails(e);
+        } finally {
+            if(Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+        }
+    }
+
+    private static List<Case> getCasesWithRequiredFields(List<Case> autoPriorityAssignedCases){
+        Set<Id> caseIds = new Set<Id>();
+        for(Case item : autoPriorityAssignedCases){
+            caseIds.add(item.Id);
+        }
+        return CasesDAO.newInstance().getCasesByIds(caseIds, AccessLevel.SYSTEM_MODE);
+    }
+
+    private static Map<String,String> getCountryTierMap(){
+        Map<String,String> countryTierMap = new Map<String,String>();
+        List<International_Tier__c> countryTierList = [
+            SELECT Country_Name__c, Tier_Category__c
+            FROM International_Tier__c
+            WHERE IsActive__c = TRUE
+            WITH SYSTEM_MODE
+        ];
+        if(!countryTierList.isEmpty()){
+            for (International_Tier__c countryTier : countryTierList){
+                countryTierMap.put(countryTier.Country_Name__c,countryTier.Tier_Category__c);
+            }
+        }
+        return countryTierMap;
+    }
+
+    private static void updateCases(Map<Id,Case> mapCase){
+        if(!mapCase.keyset().isEmpty()){
+            CasesDAO.newInstance().updateRecords(mapCase.values(),false,AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    private static Boolean matchConfigToCaseBase (
+        Case item,
+        Case_Priority_Configuration__c config
+    ){
+        Boolean trueSoFar = config.Case_Record_Type__c != null
+                          ? CASE_RECTYPE_MAP.get(config.Case_Record_Type__c) == item.RecordTypeId
+                          : true;
+        if(
+            config.Lead_Score__c != null &&
+            ( config.Lead_Score__c != item.Lead__r.Lead_Score__c &&
+              config.Lead_Score__c != item.Contact.Lead_Score__c )
+        ){
+            trueSoFar = false;
+        }
+        if(
+            config.Future_Student_Stage__c != null &&
+            ( config.Future_Student_Stage__c != item.Lead__r.Future_Student_Journey_Status__c &&
+              config.Future_Student_Stage__c != item.Contact.Future_Student_Journey_Status__c )
+        ){
+            trueSoFar = false;
+        }
+        return trueSoFar;
+    }
+
+    private static Boolean matchCountryTier(
+        Case item,
+        Case_Priority_Configuration__c config,
+        Map<String,String> countryTierMap
+    ){
+        Boolean trueSoFar = true;
+        if(
+            config.Country_Tier__c != null &&
+            ( config.Country_Tier__c != countryTierMap.get(item.Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c) &&
+              config.Country_Tier__c != countryTierMap.get(item.Contact.Citizenship_Country__c) )
+        ){
+            trueSoFar = false;
+        }
+        return trueSoFar;
+    }
+
+    private static Boolean matchCategoryAndSubCategory(
+        Case item,
+        Case_Priority_Configuration__c config
+    ){
+        Boolean trueSoFar = (
+            config.Enquiry_Category__c != null ? config.Enquiry_Category__c.split(';').contains(item.Category__c) : true &&
+            config.Enquiry_Sub_Category__c != null ? config.Enquiry_Sub_Category__c.split(';').contains(item.Sub_Category__c) : true
+        );
+        return trueSoFar;
+    }
+
+    private static Boolean checkDateDuration(
+        Date fromDate,
+        Date toDate,
+        Datetime caseCreatedDate
+    ){
+        Boolean trueSoFar = true;
+        if(fromDate != null && toDate != null){
+            Date dateToCheck = date.newinstance(caseCreatedDate.year(), caseCreatedDate.month(), caseCreatedDate.day());
+            trueSoFar = fromDate < dateToCheck && toDate > dateToCheck;
+        }
+        return trueSoFar;
+    }
 }

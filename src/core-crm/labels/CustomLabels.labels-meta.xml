@@ -43,7 +43,8 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Domestic Nurture Track List</shortDescription>
-        <value>Domestic Strong Interest Pre-Application,Domestic First Offer to Acceptance,Domestic Deferred Offer to Acceptance,Domestic Accepted not yet Enrolled,Domestic and International Enrolment to Census,Domestic Offer Lapsed</value>
+        <value>Domestic Strong Interest Pre-Application,Domestic First Offer to Acceptance,Domestic Deferred Offer to Acceptance,Domestic Accepted not yet Enrolled,Domestic Accepted and Admitted,Domestic and International Enrolment to Census,Domestic Offer Lapsed
+        </value>
     </labels>
     <labels>
         <fullName>ESBEndpointCreateContract</fullName>

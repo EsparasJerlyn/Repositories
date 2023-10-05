@@ -23,4 +23,4 @@ public interface IApplicationPreferencesDAO extends DmlInterface{
         Set<Id> applicationPreferenceIds,
         String accessLevel
     );
-} 
+}  
