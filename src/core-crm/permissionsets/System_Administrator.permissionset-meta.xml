@@ -9974,7 +9974,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Communication_Queue__c.Due_Date__c</field>
+        <field>Communication_Queue__c.Due_Date__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
