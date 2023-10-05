@@ -2074,7 +2074,8 @@ public class TestDataFactory {
                 new Communication_Queue__c(
                     WhoId__c = recordId,
                     Status__c = status,
-                    Template_Id__c = emailTemplateId
+                    Template_Id__c = emailTemplateId,
+                    Due_Date__c = System.today()
                 )
             );
         }

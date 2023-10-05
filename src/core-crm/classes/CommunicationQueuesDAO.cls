@@ -37,7 +37,7 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
         String query =
             'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c  ' + 
               'FROM Communication_Queue__c ' + 
-             'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING';
+             'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING AND Due_Date__c <= TODAY ';
         return Database.getQueryLocator(query);
     }
 

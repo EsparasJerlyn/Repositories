@@ -12238,6 +12238,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Expression_of_Interest__c.Company_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Expression_of_Interest__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -12274,6 +12279,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Expression_of_Interest__c.Mobile_Locale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Expression_of_Interest__c.Position__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

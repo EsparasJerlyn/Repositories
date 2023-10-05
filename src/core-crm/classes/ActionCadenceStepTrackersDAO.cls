@@ -9,6 +9,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | September 4, 2023     | DEPP-6138              | Created file                 |
       |                                |                       |                        |                              |
+      | mark.j.mahilum                 | Oct 05, 2023          | DEPP-6781              | Added new field DueDateTime  |
  */
 public with sharing class ActionCadenceStepTrackersDAO extends DmlBase implements IActionCadenceStepTrackersDAO {
     
@@ -25,7 +26,7 @@ public with sharing class ActionCadenceStepTrackersDAO extends DmlBase implement
 
   public List<ActionCadenceStepTracker> getActionCadenceStepTrackerForEmail(List<String> recordIds, AccessLevel accessLevel) {
       return Database.query(
-          'SELECT Id, ActionCadenceStepId, ActionCadenceName, TargetId, StepType, StepTitle, ActionCadenceStep.TemplateId ' + 
+          'SELECT Id, ActionCadenceStepId, ActionCadenceName, TargetId, StepType, StepTitle, ActionCadenceStep.TemplateId, DueDateTime ' + 
             'FROM ActionCadenceStepTracker ' + 
             'WHERE Id IN: recordIds ' + 
               'AND State =: STATE_ACTIVE ' + 
