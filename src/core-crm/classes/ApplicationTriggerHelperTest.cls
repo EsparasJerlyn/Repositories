@@ -14,6 +14,7 @@
       | alexander.cadalin         | Sep. 22, 2023         | DEPP-6652    | Added methods for contact field updates on match to application     |
       |                           |                       | DEPP-6653    |                                                                     |
       |                           |                       | DEPP-6654    |                                                                     |  
+      | nicole.genon              | Oct. 4, 2023          | DEPP-6821    | Added Citizenship_Status__c field mapping for QTAC matching         |
 */
 @isTest
 private class ApplicationTriggerHelperTest {
@@ -360,6 +361,7 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].Indigenous_Status__c, createdContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
             System.assertEquals(applications[0].Birth_Country__c, createdContact.Birth_Country__c, 'Birth_Country__c update failed.');
             System.assertEquals(applications[0].BirthDate__c, createdContact.BirthDate, 'BirthDate update failed.');
+            System.assertEquals(applications[0].Citizenship_Status__c, createdContact.hed__Citizenship_Status__c, 'Citizenship_Status__c update failed.');
             System.assertEquals(applications[0].Citizenship_Type__c, createdContact.Citizenship_Type__c, 'Citizenship_Type__c update failed.');
             System.assertEquals(applications[0].Email__c, createdContact.Email, 'Email update failed.');
             System.assertEquals(applications[0].FirstName__c, createdContact.FirstName, 'FirstName update failed.');
@@ -399,6 +401,7 @@ private class ApplicationTriggerHelperTest {
         return new hed__Application__c(
             Indigenous_Status__c = 'I prefer not to say',
             Birth_Country__c = 'Philippines (the)',
+            Citizenship_Status__c = 'International',
             Citizenship_Type__c = 'Permanent',
             Home_Language__c = 'Noot noot',
             Postal_Address_Line1__c = 'Postal',
@@ -432,6 +435,7 @@ private class ApplicationTriggerHelperTest {
             ATSI_Code__c,
             Birth_Country__c,
             BirthDate,
+            hed__Citizenship_Status__c,
             Citizenship_Type__c,
             Email,
             FirstName,
