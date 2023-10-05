@@ -131,7 +131,7 @@ export default class CasePotentialMatchesList extends LightningElement {
             name: obj.Name,
             email: obj.Email,
             mobile: obj.Mobile_No_Locale__c,
-            workeMail: obj.hed__WorkEmail__c,
+            workeMail: obj.Work_Email__c,
             qutStaffEmail: obj.QUT_Staff_Email__c,
             qutLearner: obj.QUT_Learner_Email__c,
             type: type
