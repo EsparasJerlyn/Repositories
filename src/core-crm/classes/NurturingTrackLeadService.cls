@@ -13,6 +13,7 @@
       | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace Term Intake Date to                      |
       |                                |                       |                        | Calculated Intake Date on application records                       |
       | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove method call to getCurrentIntakePeriod as it's no longer used |
+      | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added new entry criteria for Domestic Lead Admitted Application     |
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationList;
@@ -44,6 +45,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         leadToUpdate.putAll(getEntryDomesticStrongInterestPreApplication(domesticEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalStrongInterestPreApplication(internationalEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalDirectApplicants(internationalEntryLeadMap));
+        leadToUpdate.putAll(getEntryDomesticAcceptedAndAdmitted(domesticEntryLeadMap));
 
         //Lead exit criteria to //SAMPLE METHOD ONLY
         //leadToUpdate.putAll(.getExitDomesticStrongInterestPreApplication(domesticExitLeadMap));
@@ -198,6 +200,53 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>(leadToUpdateList);
 
+        return leadToUpdateMap;
+    }
+
+    /**
+     * @description Update lead with the “Domestic Accepted and Admitted” when the entry criteria is fulfilled.
+     * @param Map<Id, Leads> domesticEntryLeadMap a map of ids to entry domestic lead records
+     * @return Map<Id, Leads> map of id to updated lead records for batch processing
+     */
+    private static Map<Id, Lead> getEntryDomesticAcceptedAndAdmitted(
+        Map<Id, Lead> domesticEntryLeadMap
+    ) {
+        Map<Id, hed__Application__c> domesticAcceptedApplicants = new Map<Id, hed__Application__c>();
+        for (hed__Application__c app : applicationList) {
+            
+            Boolean isSAMSApplication = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
+            Boolean isProgramEnrollmentAdmitted = (app.Program_Enrollment__c != NULL && String.isNotBlank(app.Program_Enrollment__r.Enrollment_Status__c));
+            Boolean isSAMSLatestApplication = (app.Calculated_Intake_Date__c != NULL && app.Calculated_Intake_Date__c > Date.today());
+    
+            if (isSAMSApplication &&
+                domesticEntryLeadMap.containsKey(app.Lead__c) &&
+                isProgramEnrollmentAdmitted &&
+                isSAMSLatestApplication &&
+                app.Program_Enrollment__r.Enrollment_Status__c =='Admitted'
+            ) {
+                domesticAcceptedApplicants.put(app.Id, app);
+            }
+        }
+    
+        Map<Id, List<String>> leadsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            domesticEntryLeadMap.keySet(),
+            new Set<String>{ 'Domestic Accepted and Admitted' },
+            Lead.getSObjectType()
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Lead.getSObjectType(),
+            null,
+            'Domestic Accepted and Admitted'
+        );
+        
+        List<Lead> leadToUpdateList = (List<Lead>) NurturingTrackService.populateCalculatedCadenceSingle(
+            leadsWithCompletedCadence,
+            domesticAcceptedApplicants.values(),
+            cadenceWrapper
+        );
+        
+        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>(leadToUpdateList);
         return leadToUpdateMap;
     }
 

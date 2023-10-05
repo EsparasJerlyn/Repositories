@@ -5,13 +5,14 @@
  * @author Accenture
  *
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.majilum                   | September 4,2023      | DEPP-6138              | Created file                 |
-      | eccarius.munoz                 | September 4,2023      | DEPP-6138              | Added to trigger handler     |
-      | eccarius.munoz                 | September 28, 2023    | DEPP-6763              | Updated handling of event    |
-      |                                |                       |                        | listener to map all action   |
-      |                                |                       |                        | cadence step tracker to C.Q. | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
+      |--------------------------------|-----------------------|------------------------|-------------------------------|
+      | mark.majilum                   | September 4,2023      | DEPP-6138              | Created file                  |
+      | eccarius.munoz                 | September 4,2023      | DEPP-6138              | Added to trigger handler      |
+      | eccarius.munoz                 | September 28, 2023    | DEPP-6763              | Updated handling of event     |
+      |                                |                       |                        | listener to map all action    |
+      |                                |                       |                        | cadence step tracker to C.Q.  |
+      | mark.j.mahilum                 | Oct 05, 2023          | DEPP-6781              | Added field mapping to duedate|
  */
 public with sharing class ActionCadenceStepTrackerTriggerHelper {
     
@@ -62,7 +63,8 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
                     WhoId__c = ac.TargetId,
                     Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email',
                     Sender__c = orgWideEmailAddress?.Id,
-                    Template_Id__c = ac.ActionCadenceStep.TemplateId
+                    Template_Id__c = ac.ActionCadenceStep.TemplateId,
+                    Due_Date__c = Date.valueOf(ac.DueDateTime)
                 )
             );
         }

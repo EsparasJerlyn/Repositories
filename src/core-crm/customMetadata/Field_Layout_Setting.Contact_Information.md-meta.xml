@@ -8,7 +8,13 @@
     </values>
     <values>
         <field>Left_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;FirstName&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Email&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;MobilePhone&quot;,&quot;isPrePopulated&quot;:true,&quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Dietary_Requirement__c&quot;,&quot;isPrePopulated&quot;:true}]</value>
+        <value xsi:type="xsd:string">[
+            {&quot;field&quot;:&quot;FirstName&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;Email&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;Position__c&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;MobilePhone&quot;,&quot;isPrePopulated&quot;:true,&quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;Dietary_Requirement__c&quot;,&quot;isPrePopulated&quot;:true}
+        ]</value>
     </values>
     <values>
         <field>Left_Column__c</field>
@@ -28,7 +34,13 @@
     </values>
     <values>
         <field>Right_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;LastName&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;ContactMobile_Locale__c&quot;,&quot;isPrePopulated&quot;:true , &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Birthdate&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Accessibility_Requirement__c&quot;,&quot;isPrePopulated&quot;:true}]</value>
+        <value xsi:type="xsd:string">[
+            {&quot;field&quot;:&quot;LastName&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;ContactMobile_Locale__c&quot;,&quot;isPrePopulated&quot;:true , &quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;Company_Name__c&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;Birthdate&quot;,&quot;isPrePopulated&quot;:true, &quot;mandatory&quot;:true},
+            {&quot;field&quot;:&quot;Accessibility_Requirement__c&quot;,&quot;isPrePopulated&quot;:true}
+        ]</value>
     </values>
     <values>
         <field>Right_Column__c</field>

@@ -14,7 +14,8 @@
       | jessel.bajao              | September 29, 2022    | DEPP-4314                       | Changed code for browsers compatibility of Date of Birth  |
       | eugene.andrew.abuan   	  | October 03, 2022      | DEPP-4494                       | Added leading zeroes in convertDate function		    	|
       | eugene.andrew.abuan   	  | October 04, 2022      | DEPP-4503                       | Added validation for firstname and lastname               |
-      | julie.jane.alegre         | October 08, 2022      | DEPP-4551                       | Update pass parameter to the sessionStorage  |
+      | julie.jane.alegre         | October 08, 2022      | DEPP-4551                       | Update pass parameter to the sessionStorage               |
+      | julie.jane.alegre         | September 26, 2023    | DEPP-4762                       | Added Position & Company Name fields                      |
 
       */
 
@@ -47,27 +48,29 @@ const Corporate_Bundle = 'Corporate Bundle';
 const LANG = 'en_US';
 const actions = [
     { label: 'Delete', name: 'delete' },
-    { label: 'Edit', name: 'edit' },
+    { label: 'Edit', name: 'edit' }
 ];
 const COLUMNS = [
     { label: 'First Name', fieldName: 'FirstName', type: 'text' },
     { label: 'Last Name', fieldName: 'LastName', type: 'text' },
     { label: 'Email', fieldName: 'Email', type: 'email' },
-    { label: "Mobile Locale", fieldName: "MobileLocale", type: "text" },
-    { label: "Mobile", fieldName: "MobilePhone", type: "phone" },
+    { label: 'Mobile Locale', fieldName: 'MobileLocale', type: 'text' },
+    { label: 'Position', fieldName: 'Position', type: 'text' },
+    { label: 'Company Name', fieldName: 'CompanyName', type: 'text' },
+    { label: 'Mobile', fieldName: 'MobilePhone', type: 'phone' },
     { label:'Date of Birth', fieldName: 'Birthdate', type: 'date' },
     {
-        label: "Dietary Requirement",
-        fieldName: "DietaryRequirement",
-        type: "text"
+        label: 'Dietary Requirement',
+        fieldName: 'DietaryRequirement',
+        type: 'text'
     },
     {
-        label: "Accessibility Requirement",
-        fieldName: "AccessibilityRequirement",
-        type: "text"
+        label: 'Accessibility Requirement',
+        fieldName: 'AccessibilityRequirement',
+        type: 'text'
     },
     {
-        type: "action",
+        type: 'action',
         typeAttributes: { rowActions: actions }
     }
 ];
@@ -168,6 +171,8 @@ export default class ProductBulkRegistration extends NavigationMixin(
                 LastName: selectedContact.LastName,
                 Email: selectedContact.Email,
                 ContactMobile_Locale__c: selectedContact.MobileLocale,
+                Position__c: selectedContact.Position,
+                Company_Name__c: selectedContact.CompanyName,
                 MobilePhone: selectedContact.MobilePhone,
                 Birthdate:bdayFormat,
                 Accessibility_Requirement__c:
@@ -230,6 +235,8 @@ export default class ProductBulkRegistration extends NavigationMixin(
                 LastName: "",
                 Email: "",
                 MobileLocale: "",
+                Position: "",
+                CompanyName: "",
                 MobilePhone: "",
                 Birthdate: "",
                 DietaryRequirement: "",
@@ -252,6 +259,8 @@ export default class ProductBulkRegistration extends NavigationMixin(
                     LastName: details.LastName,
                     Email: details.Email,
                     MobileLocale: details.ContactMobile_Locale__c,
+                    Position: details.Position__c,
+                    CompanyName: details.Company_Name__c,
                     MobilePhone: details.MobilePhone,
                     Birthdate: details.Birthdate,
                     DietaryRequirement: details.Dietary_Requirement__c,
@@ -279,6 +288,8 @@ export default class ProductBulkRegistration extends NavigationMixin(
                 LastName: details.LastName,
                 Email: details.Email,
                 MobileLocale: details.ContactMobile_Locale__c,
+                Position: details.Position__c,
+                CompanyName: details.Company_Name__c,
                 MobilePhone: details.MobilePhone,
                 Birthdate: details.Birthdate,
                 AccessibilityRequirement: details.Accessibility_Requirement__c,
@@ -382,6 +393,14 @@ export default class ProductBulkRegistration extends NavigationMixin(
 
             if(!contact.LastName){
                 fieldNames.push("Last Name");
+            }
+            
+            if(!contact.Position){
+                fieldNames.push("Position");
+            }
+            if(!contact.CompanyName){
+                fieldNames.push("Company Name");
+
             }
          
             if(fieldNames.length>0){

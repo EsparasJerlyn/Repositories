@@ -11,6 +11,7 @@
       | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and                      |
       |                                |                       |                        | International Enrolment to Census                    |
       | mark.j.mahilum                 | Sept 07,2023          | DEPP-6479              | Updated test class to include Calculated Intake Date |
+      | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added test class coverage for getDomesticAccepted    | 
  */
 @isTest
 public with sharing class NurturingTrackContactServiceTest { //NOPMD
@@ -219,15 +220,9 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetNames(new Set<String>{'Test Account'});
-            hed__Term__c appliedIntakeTerm = new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            );
-            insert appliedIntakeTerm;
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional Offer');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Unconditional Offer');
             newApplications[0].RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
@@ -253,11 +248,6 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetNames(new Set<String>{'Test Account'});
-            hed__Term__c appliedIntakeTerm = new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            );
-            insert appliedIntakeTerm;
             
             // Create Nurture Track Configuration
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
@@ -275,9 +265,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             insert programList;
             
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional Offer');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Unconditional Offer');
             newApplications[0].RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
@@ -780,13 +769,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetNames(new Set<String>{'Test Account'});
-            hed__Term__c appliedIntakeTerm = new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            );
-            insert appliedIntakeTerm;
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional Offer');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Unconditional Offer');
             newApplications[0].Application_Status__c = 'Accepted';
             newApplications[0].RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
@@ -849,13 +833,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetNames(new Set<String>{'Test Account'});
-            hed__Term__c appliedIntakeTerm = new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            );
-            insert appliedIntakeTerm;
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Conditional Offer');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Unconditional Offer');
             newApplications[0].Application_Status__c = 'Accepted';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
@@ -1520,6 +1499,43 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         }
     }
 
+	@isTest
+    private static void getDomesticAcceptedAndAdmittedTest(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+           
+            List<Nurture_Track_Configuration__c> nurtureList = createCensusCadence('Domestic Accepted and Admitted', 'Entry', 14);
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Course_Enrollment__c> courseEnrollmentList = new List<hed__Course_Enrollment__c>();
+            courseEnrollmentList.add(new hed__Course_Enrollment__c(
+                hed__Contact__c = newContacts[0].Id, 
+                Enrollment_Status__c = 'Test',
+                hed__Program_Enrollment__c = programEnrollmentList[0].Id
+            )); 
+            CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
+            newApplications[0].Calculated_Intake_Date__c = System.today().addDays(5);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.startTest();
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            
+            System.assertEquals('Domestic Accepted and Admitted', processContacts[0].Calculated_Cadence__c, 'Calculated cadence is empty.');
+        }
+    }
 
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String recordType, String applicationStatus) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();

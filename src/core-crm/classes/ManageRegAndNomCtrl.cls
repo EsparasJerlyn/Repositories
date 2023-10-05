@@ -26,6 +26,9 @@
       |                           |                       |                      | offering's capacity and      |
       |                           |                       |                      | registration end date.       |
       |                           |                       |                      |                              |
+      | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Added Position & Company Name|
+      |                           |                       |                      | fields                       |
+      |                           |                       |                      |                              |
 */
 public without sharing class ManageRegAndNomCtrl {
     private static string studentRT = System.Label.RT_CourseConnection_Student;
@@ -150,7 +153,7 @@ public without sharing class ManageRegAndNomCtrl {
                 'hed__Course_Offering__c, Program_Offering__r.hed_Program_Plan__c, Program_Offering__c, ' +
                 'Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, hed__Course_Offering__r.Name, ' +
                 'hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, ' +
-                'hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, ' +
+                'hed__Course_Offering__r.hed__Start_Date__c, hed__Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName, hed__Contact__r.Position__c, hed__Contact__r.Company_Name__c, ' +
                 'hed__Contact__r.Registered_Email__c, hed__Contact__r.MobilePhone FROM hed__Course_Enrollment__c ' + 
                 'WHERE ((Cart_Item__c != null AND Cart_Item__r.Pricebook_Entry_ID__c IN: pricebookEntryIds) ' + 
                 'OR (hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.Opportunity_Name__r.AccountId =: accountSelected ' +
@@ -159,7 +162,7 @@ public without sharing class ManageRegAndNomCtrl {
                 'AND (hed__Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND hed__Course_Offering__c = null )) AND' + 
                 condition; 
             } else {
-                query = 'SELECT Id, CreatedDate, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, ' +
+                query = 'SELECT Id, CreatedDate, Name, hed__Contact__c, hed__Contact__r.Id, hed__Contact__r.Name, hed__Contact__r.Position__c, hed__Contact__r.Company_Name__c, ' +
                 'hed__Course_Offering__c, Program_Offering__r.hed_Program_Plan__c, Program_Offering__c, ' +
                 'Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, hed__Course_Offering__r.Name, ' +
                 'hed__Course_Offering__r.hed__Course__c, hed__Contact__r.Birthdate, hed__Course_Offering__r.hed__End_Date__c, ' +
@@ -184,6 +187,8 @@ public without sharing class ManageRegAndNomCtrl {
                 regDetails.contactFirstName = student.hed__Contact__r.FirstName;
                 regDetails.contactLastName = student.hed__Contact__r.LastName;
                 regDetails.contactEmail = student.hed__Contact__r.Registered_Email__c;
+                regDetails.contactPosition = student.hed__Contact__r.Position__c;
+                regDetails.contactCompanyName = student.hed__Contact__r.Company_Name__c;
                 regDetails.contactMobile = student.hed__Contact__r.MobilePhone;
                 regDetails.status = student.hed__Status__c;
                 Date offeringStartDate = student.hed__Course_Offering__r.hed__Start_Date__c != null ? student.hed__Course_Offering__r.hed__Start_Date__c : student.Program_Offering__r.Start_Date__c;
@@ -222,9 +227,9 @@ public without sharing class ManageRegAndNomCtrl {
                 ? (String.isNotBlank(condition) ? +' AND ' : '') + String.escapeSingleQuotes(' Account__c = :accountSelected') : '');
 
             if (String.isNotBlank(condition)) {
-                query = 'SELECT Id, CreatedDate, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))) AND' + condition; 
+                query = 'SELECT Id, CreatedDate, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Position__c, Company_Name__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))) AND' + condition; 
             } else { 
-                query = 'SELECT Id, CreatedDate, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds) OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))';
+                query = 'SELECT Id, CreatedDate, Name, Contact__c, Accessibility_Requirement__c, Dietary_Requirement__c, Contact__r.Id, Contact__r.Name, Course_Offering__c, Course_Offering__r.Name, Birthdate__c, Course_Offering__r.hed__End_Date__c, Course_Offering__r.hed__Course__c, Course_Offering__r.hed__Start_Date__c, Status__c, First_Name__c, Last_Name__c, Email__c, Position__c, Company_Name__c, Mobile__c, Mobile_Locale__c, Program_Offering__c, Program_Offering__r.Start_Date__c, Program_Offering__r.End_Date__c, Program_Offering__r.hed_Program_Plan__c, Pricebook_Entry_ID__c FROM Expression_of_Interest__c WHERE (Type__c = :nominationType) AND ((Course_Offering__r.hed__Course__c IN :courseOfferingIds) OR (Program_Offering__r.hed_Program_Plan__c IN :programOfferingIds AND Course_Offering__c = null ))';
             }
             List<Expression_of_Interest__c > eois = Database.query(query);
 
@@ -238,6 +243,8 @@ public without sharing class ManageRegAndNomCtrl {
                 regDetails.contactFirstName = student.First_Name__c;
                 regDetails.contactLastName = student.Last_Name__c;
                 regDetails.contactEmail = student.Email__c;
+                regDetails.contactPosition = student.Position__c;
+                regDetails.contactCompanyName = student.Company_Name__c;
                 regDetails.contactMobile = student.Mobile__c;
                 regDetails.contactMobileLocale = student.Mobile_Locale__c;
                 regDetails.status = student.Status__c;
@@ -352,6 +359,8 @@ public without sharing class ManageRegAndNomCtrl {
                 contact.FirstName = details.contactInfo.First_Name__c;
                 contact.LastName = details.contactInfo.Last_Name__c;
                 contact.Email = details.contactInfo.Email__c;
+                contact.Position__c = details.contactInfo.Position__c;
+                contact.Company_Name__c = details.contactInfo.Company_Name__c;
                 contact.Registered_Email__c = details.contactInfo.Email__c;
                 contact.Birthdate = details.contactInfo.Birthdate__c;
                 contact.Accessibility_Requirement__c = String.isNotBlank(details.contactInfo.Accessibility_Requirement__c) ? details.contactInfo.Accessibility_Requirement__c : '';
@@ -746,6 +755,10 @@ public without sharing class ManageRegAndNomCtrl {
         @AuraEnabled
         public String contactEmail;
         @AuraEnabled
+        public String contactPosition;
+        @AuraEnabled
+        public String contactCompanyName;
+        @AuraEnabled
         public String contactMobile;
         @AuraEnabled
         public String contactMobileLocale;
@@ -807,6 +820,10 @@ public without sharing class ManageRegAndNomCtrl {
         public String lastName{ get; set; }
         @AuraEnabled
         public String email{ get; set; }
+        @AuraEnabled
+        public String position{ get; set; }
+        @AuraEnabled
+        public String companyName{ get; set; }
         @AuraEnabled
         public String mobile{ get; set; }
         @AuraEnabled
