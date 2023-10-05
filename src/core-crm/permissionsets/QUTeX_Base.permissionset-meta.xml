@@ -1160,7 +1160,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Contact.QUT_Learner_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1170,7 +1170,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Contact.QUT_Staff_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
