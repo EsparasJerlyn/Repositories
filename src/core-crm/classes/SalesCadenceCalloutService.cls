@@ -15,6 +15,7 @@
  *    |                                |                       |                        | to succesful once the task is Contact Successful |
  *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes |
  *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation   |
+ *    | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6856              | Added checking for running user                  |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -29,8 +30,11 @@ public with sharing class SalesCadenceCalloutService {
      * @param Map<String,String> removeCadenceMap
      */
      public static void processSaleCadences(Map<String,String> assignCadenceMap,Map<String,String> removeCadenceMap) {
-         QueueableCall executeQueueable = new QueueableCall(assignCadenceMap,removeCadenceMap);
-         System.enqueueJob(executeQueueable);
+        Boolean isNotExecutedByAutomatedProcess = !UserInfo.getUserName().contains('autoproc');
+        if(!assignCadenceMap.isEmpty() || (!removeCadenceMap.isEmpty() && isNotExecutedByAutomatedProcess)){
+            QueueableCall executeQueueable = new QueueableCall(assignCadenceMap,removeCadenceMap);
+            System.enqueueJob(executeQueueable);
+        }
      }    
         
     /**
