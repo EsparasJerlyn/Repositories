@@ -157,7 +157,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
-            newApplications[0].Offer_Status__c = 'Deffered';
+            newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
@@ -206,7 +206,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
-            newApplications[0].Offer_Status__c = 'Deffered';
+            newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
@@ -248,7 +248,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
             newApplications[0].hed__Application_Date__c = System.Now();
-            newApplications[0].Offer_Status__c = 'Deffered';
+            newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
@@ -281,7 +281,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
             newApplications[0].hed__Application_Date__c = System.Now();
-            newApplications[0].Offer_Status__c = 'Deffered';
+            newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
