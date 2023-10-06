@@ -269,6 +269,8 @@
         <!--(Start) DEPP-6849 -->
         <members>hed__Course__c.Location_Details_is_required</members>
         <members>hed__Course__c.Location_is_required</members>
+        <members>hed__Program_Plan__c.Location_Details_Required</members>
+        <members>hed__Program_Plan__c.Location_Field_is_Required</members>
         <!-- (End) DEPP-6849 -->
         <name>ValidationRule</name>
     </types>
