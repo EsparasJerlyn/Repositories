@@ -329,8 +329,9 @@ public with sharing class NurturingTrackLeadServiceTest {
             CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> applList = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Accepted');
-            applList[0].hed__Application_Date__c = System.now().addYears(-2);
+            applList[0].hed__Initial_Creation_Date__c = System.today().addYears(-2);
             ApplicationsDAO.newInstance().insertRecords(applList, false, AccessLevel.SYSTEM_MODE);
+            leadList[0].Can_Nurture__c = true;
 
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
 
@@ -351,7 +352,8 @@ public with sharing class NurturingTrackLeadServiceTest {
                 Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
-            
+            leadList[0].Can_Nurture__c = true;
+
             processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
             
             Boolean isManualEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == 'International Strong Interest Pre-Application';

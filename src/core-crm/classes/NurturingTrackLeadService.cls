@@ -13,6 +13,7 @@
       | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace Term Intake Date to                      |
       |                                |                       |                        | Calculated Intake Date on application records                       |
       | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove method call to getCurrentIntakePeriod as it's no longer used |
+      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest        |
       | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added new entry criteria for Domestic Lead Admitted Application     |
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
@@ -452,7 +453,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             new Set<String>{'International Strong Interest Pre-Application', 'International Strong Interest Pre-Application (Automated)'},
             Lead.getSObjectType()
         ).keySet();
-        Map<Id, Case> leadIdToCaseMap = NurturingTrackService.getCasesWithinLastXMonths(internationalEntryLeadMap.keySet(), 3);
+        Map<Id, List<String>> leadIdToCaseCategoriesMap = NurturingTrackService.getApplicantIdToRelatedCaseCategoriesMap(internationalEntryLeadMap.keySet(), 3);
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
         for(Lead internationalEntryLead : internationalEntryLeadMap.values()) {
             try {
@@ -467,12 +468,14 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                     'International Strong Interest Pre-Application',
                     isManual
                 );
-                Case relatedCase = leadIdToCaseMap.get(internationalEntryLead.Id);
+                List<String> relatedCaseCategories = leadIdToCaseCategoriesMap.get(internationalEntryLead.Id);
                 if( // ... the lead...
-                    isLeadWithOnlyInactiveStudyLinkAppForXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
-                    internationalEntryLead.Lead_Score__c > threshold &&                       // ... has a lead score above threshold...
-                    l1Categories.contains(relatedCase.Category__c) &&                         // ... has a related case with a certain category...
-                    relatedCase != null                                                       // ... has a related case in the last 3 months...
+                    isLeadWithNoActiveStudyLinkAppforXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
+                    internationalEntryLead.Lead_Score__c > threshold &&  (                    // ... has a lead score above threshold...
+                    NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(        // ... has a related case with a certain category...
+                        l1Categories, 
+                        relatedCaseCategories
+                    ))
                 ) {
                     leadsToUpdate.put(
                         internationalEntryLead.Id, 
@@ -523,24 +526,26 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         return leadsToUpdate;
     }
 
-    private static Boolean isLeadWithOnlyInactiveStudyLinkAppForXYears(Lead internationalEntryLead, Integer years) {
-        Boolean isWithInactive = false;
-        Boolean isWithActive = false;
+    private static Boolean isLeadWithNoActiveStudyLinkAppforXYears(Lead internationalEntryLead, Integer years) {
+        Boolean hasActiveApplication = false;
         for(hed__Application__c application : applicationList) {
+            Boolean isLeadStudylinkApplication = 
+                application.Lead__c == internationalEntryLead.Id && 
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            Boolean isInitiallyCreatedWithinTimeRange = 
+                application.hed__Initial_Creation_Date__c <= System.today() &&
+                application.hed__Initial_Creation_Date__c >= System.today().addYears(-years);
+            Boolean isActiveApplication = !ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c);
             if(
-                application.Lead__c == internationalEntryLead.Id &&
-                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
-                (application.hed__Application_Date__c <= System.now() &&
-                application.hed__Application_Date__c >= System.now().addYears(-years))
+                isLeadStudylinkApplication &&
+                isInitiallyCreatedWithinTimeRange &&
+                isActiveApplication
             ) {
-                if(ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c)) {
-                    isWithInactive = true;
-                } else {
-                    isWithActive = true; break;
-                }
+                hasActiveApplication = true;
+                break;
             }
         }
-        return isWithActive ? false : isWithInactive;
+        return !hasActiveApplication;
     }
 
 }

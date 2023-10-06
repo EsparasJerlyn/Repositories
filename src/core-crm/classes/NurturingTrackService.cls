@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                        |
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriod and isDateWithinRange                         |
+      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                        |
  */
 public with sharing class NurturingTrackService {
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_FIELD_MAP = new Map<SObjectType, Map<String, String>>{
@@ -140,28 +141,55 @@ public with sharing class NurturingTrackService {
     }
 
     /**
-     * @description Get cases within the last specified months that are related to a set of contact or leads
-     *              While there's nothing stopping you from mixing both contact or lead ids in the parameter,
-     *              be reminded that this method does not sort or separate the contact and leads from the keyset.
-     * @param {Set<Id>} contactOrLeadsIds A set containing the ids of the contacts and leads you are looking for.
-     * @param {Integer} months The number of months to look back when checking for case records.
-     * @return {Map<Id, Case}
+     * @description Generate a map between applicant (contact or lead) id to a list of categories from all related cases.
+     * This specific method takes a parameter, months, where it checks if the related case records were created within
+     * the last three months.
+     * @param Set<Id> contactOrLeadIds - A set of contact or lead ids to look up cases for.
+     * @param Integer months - The amount of months to check if the cases are created from.
+     * @return Map<Id, List<String>>
      */
-    public static Map<Id, Case> getCasesWithinLastXMonths(Set<Id> contactOrLeadIds, Integer months) {
-        Date checkDate = System.today().addMonths(-months);
-        List<Case> relatedCases = CasesDAO.newInstance().getCasesByContactOrLeadIds(contactOrLeadIds, AccessLevel.SYSTEM_MODE);
-        Map<Id, Case> contactIdToCaseMap = new Map<Id, Case>();
+    public static Map<Id, List<String>> getApplicantIdToRelatedCaseCategoriesMap(Set<Id> contactOrLeadIds, Integer months) {
+    	Date checkDate = System.today().addMonths(-months);
+    	List<Case> relatedCases = CasesDAO.newInstance().getCasesByContactOrLeadIds(contactOrLeadIds, AccessLevel.SYSTEM_MODE);
+    	Map<Id, List<String>> applicantIdToCategories = new Map<Id, List<String>>();
         for(Case relatedCase : relatedCases) {
-            if(relatedCase.CreatedDate >= checkDate) {
-                contactIdToCaseMap.put(
-                    relatedCase.ContactId != null ? relatedCase.ContactId : relatedCase.Lead__c, 
-                    relatedCase
-                );
+            if(relatedCase.CreatedDate >= checkDate && relatedCase.Category__c != null) {
+                putToApplicantIdToCategoriesMap(applicantIdToCategories, relatedCase);
             }
         }
-        return contactIdToCaseMap;
+        return applicantIdToCategories;
     }
 
+    private static void putToApplicantIdToCategoriesMap(Map<Id, List<String>> applicantIdToCategories, Case relatedCase) {
+        if(relatedCase.ContactId != null) {
+            List<String> categoriesToAdd = applicantIdToCategories.get(relatedCase.ContactId) == null ?
+                new List<String>() : applicantIdToCategories.get(relatedCase.ContactId);
+            categoriesToAdd.add(relatedCase.Category__c);
+            applicantIdToCategories.put(relatedCase.ContactId, categoriesToAdd);
+        }
+        if(relatedCase.Lead__c != null) {
+            List<String> categoriesToAdd = applicantIdToCategories.get(relatedCase.Lead__c) == null ?
+                new List<String>() : applicantIdToCategories.get(relatedCase.Lead__c);
+            categoriesToAdd.add(relatedCase.Category__c);
+            applicantIdToCategories.put(relatedCase.Lead__c, categoriesToAdd);
+        }
+    }
+    
+    public static Boolean isRelatedCaseCategoriesContainsL1Categories(List<String> l1Categories, List<String> relatedCaseCategories) {
+        Boolean isContains = false;
+        if(l1Categories.isEmpty()) { 
+            isContains = true; // bypass. empty l1categories mean don't check
+        } else if(relatedCaseCategories != null) {
+            for(String l1Category : l1Categories) {
+                if(relatedCaseCategories.contains(l1Category)) {
+                    isContains = true;
+                    break;
+                }
+            }
+        }
+        return isContains;
+    }
+    
     private static Integer getLength(Map<Id, List<String>> completedCadenceByApplicantId, String applicantApiName,SObject application){
         Integer length = 0;
         if (completedCadenceByApplicantId.containsKey((Id) application.get(applicantApiName))) {
@@ -236,23 +264,19 @@ public with sharing class NurturingTrackService {
         String nurtureTrackName,
         Boolean isManual
     ) {
-        String manualCategs = configurationPair.containsKey(nurtureTrackName) &&
-            String.isNotBlank(
-                (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')
-            )
-            ? (String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')
-            : '';
-
-        String autoCategs = configurationPair.containsKey(nurtureTrackName + ' (Automated)') &&
-            String.isNotBlank(
-                (String) configurationPair.get(nurtureTrackName + ' (Automated)')
-                    .get('Enquiry_Category_L1__c')
-            )
-            ? (String) configurationPair.get(nurtureTrackName + ' (Automated)')
-                  .get('Enquiry_Category_L1__c')
-            : '';
-
-        return isManual ? manualCategs.split(';') : autoCategs.split(';');
+        if(isManual) {
+            return 
+                configurationPair.containsKey(nurtureTrackName) &&
+                String.isNotBlank((String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')) ? 
+                ((String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')).split(';') : 
+            	new List<String>();
+        } else {
+            return
+                configurationPair.containsKey(nurtureTrackName + ' (Automated)') &&
+                String.isNotBlank((String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c')) ? 
+                ((String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c')).split(';') : 
+            	new List<String>();
+        }
     }
     
     public class CadenceWrapper{

@@ -16,6 +16,7 @@
  *    |                                |                       |                        | to get active applicants                    |
  *    | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added fields in getApplicationsByLeadIds and|
  *    |                                |                       |                        | getApplicationsByContactIds                 |
+ *    | alexander.cadalin              | Oct 10, 2023          | DEPP-6814              | Added Initial Creation Date field to methods|
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -157,7 +158,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         return Database.query(
             'SELECT Id, hed__Applicant__c,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c, Lead__c,hed__Application_Date__c,Lead__r.Lead_Score__c, Application_Status__c,RecordTypeId, ' +
                 'Applied_Intake_Study_Period__c, Offer_Status__c, Calculated_Intake_Date__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
-                'Is_Agent_Assisted__c ' +
+                'Is_Agent_Assisted__c, hed__Initial_Creation_Date__c ' +
                 'FROM hed__Application__c ' +
                 'WHERE Lead__c IN :leadIds ' +
                 'WITH ' +
@@ -173,8 +174,9 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             'SELECT Id,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c, ' +
                 'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c, ' +
                 'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
-                'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, hed__Applicant__r.QUT_Applicant__c, ' +
-                'hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c ' +
+                'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, ' +
+                'hed__Applicant__r.QUT_Applicant__c, hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, ' +
+                'hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c, hed__Initial_Creation_Date__c ' +
                 'FROM hed__Application__c ' +
                 'WHERE hed__Applicant__c IN :contactIds '+
                 'WITH ' +
