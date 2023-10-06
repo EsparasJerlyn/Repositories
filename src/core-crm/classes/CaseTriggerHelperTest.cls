@@ -21,9 +21,9 @@ private class CaseTriggerHelperTest {
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()){
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'High', 'Tier 1',true);
-            insert tierList;
+            InternationalTiersDAO.newInstance().insertRecords(tierList,false,AccessLevel.USER_MODE);
             List<Case_Priority_Configuration__c> casePrioConfig = TestDataFactory.createCasePrioConfigRecords();
-            insert casePrioConfig;
+            CasePriorityConfigurationsDAO.newInstance().insertRecords(casePrioConfig,false,AccessLevel.USER_MODE);
         }
         Test.stopTest();
         
@@ -61,7 +61,7 @@ private class CaseTriggerHelperTest {
             
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(0,1);
             leadList[0].Email = '1testmail@mail.test';
-            LeadsDAO.newInstance().insertRecords(leadList, false, AccessLevel.USER_MODE);
+            LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.USER_MODE);
             Test.startTest();
             List<Case> cases = new List<Case>();
             cases.add(
@@ -73,7 +73,7 @@ private class CaseTriggerHelperTest {
                     Origin = 'Email'
                 )
             );
-            CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
+            CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             
             List<Case> caseRecordList = [SELECT Id, ContactId,Lead__c FROM Case WHERE SuppliedEmail= '1testmail@mail.test' WITH USER_MODE LIMIT 1];
