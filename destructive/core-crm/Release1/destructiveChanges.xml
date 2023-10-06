@@ -266,6 +266,10 @@
         <!--(Start) DEPP-5947 -->
         <members>Opportunity_Outcome__c.IPU_Opportunity_Outcome_Lock_Opportunity</members>
         <!-- (End) DEPP-5947 -->
+        <!--(Start) DEPP-6849 -->
+        <members>hed__Course__c.Location_Details_is_required</members>
+        <members>hed__Course__c.Location_is_required</members>
+        <!-- (End) DEPP-6849 -->
         <name>ValidationRule</name>
     </types>
     <types>
