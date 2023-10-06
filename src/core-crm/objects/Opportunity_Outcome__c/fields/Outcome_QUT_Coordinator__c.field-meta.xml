@@ -19,7 +19,7 @@
     <relationshipName>Opportunity_Outcomes</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

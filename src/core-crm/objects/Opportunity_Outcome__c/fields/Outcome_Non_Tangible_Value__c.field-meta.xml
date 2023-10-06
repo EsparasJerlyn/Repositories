@@ -7,7 +7,7 @@
     <label>Outcome Non-Tangible Value</label>
     <length>500</length>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

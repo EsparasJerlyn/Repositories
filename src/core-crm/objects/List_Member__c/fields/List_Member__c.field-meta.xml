@@ -10,6 +10,7 @@
     <relationshipLabel>List Members</relationshipLabel>
     <relationshipName>List_Members</relationshipName>
     <required>true</required>
+    <trackHistory>true</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

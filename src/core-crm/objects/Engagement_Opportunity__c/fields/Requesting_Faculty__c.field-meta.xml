@@ -29,6 +29,7 @@
     <relationshipName>Engagement_Opportunities</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

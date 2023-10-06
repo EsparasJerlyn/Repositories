@@ -7,7 +7,7 @@
     <inlineHelpText>Identifies if the outcome has been formally agreed to and written into the finalised contract.</inlineHelpText>
     <label>Outcome Is Active</label>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
