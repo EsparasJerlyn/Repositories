@@ -13,7 +13,9 @@
       | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace Term Intake Date to                      |
       |                                |                       |                        | Calculated Intake Date on application records                       |
       | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove method call to getCurrentIntakePeriod as it's no longer used |
+      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest        |
       | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added new entry criteria for Domestic Lead Admitted Application     |
+      | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application        | 
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationList;
@@ -161,44 +163,42 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static Map<Id, Lead> getEntryDomesticStrongInterestPreApplication(
         Map<Id, Lead> domesticEntryLeadMap
     ) {
-        Map<Id, hed__Application__c> domesticStrongInterestPreApplicationMap = new Map<Id, hed__Application__c>();
+        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         Set<Id> existingLeadIdOnApplication = getLeadOnApplicationForDomesticStrongInterestPreApplicationEntryFilter(applicationList,domesticEntryLeadMap.keySet());
+        Set<Id> existingCaseFromLead = getCaseRecordsFromLead(domesticEntryLeadMap.keySet());
+        Set<Id> leadIdsWithApplication = getLeadIdsWithApplication(applicationList);
+    
+        Map<Id, List<String>> leadsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            domesticEntryLeadMap.keySet(),
+            new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
+            Lead.getSObjectType()
+        );
 
         Map<Id, List<String>> leadsWithCompletedCadenceManual = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             domesticEntryLeadMap.keySet(),
             new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL },
             Lead.getSObjectType()
         );
-        Set<Id> existingCaseFromLead = getCaseRecordsFromLead(domesticEntryLeadMap.keySet());
-        for (hed__Application__c application : applicationList) {
-            Boolean hasExistingApplication = existingLeadIdOnApplication.contains(application.Lead__c);
-            Boolean hasExistingCaseFromLead = existingCaseFromLead.contains(application.Lead__c);
-            if (domesticEntryLeadMap.containsKey(application.Lead__c) && hasExistingApplication && hasExistingCaseFromLead && !leadsWithCompletedCadenceManual.containsKey(application.Lead__c))
+
+        for (Lead lead : domesticEntryLeadMap.values()){
+            Boolean leadHasExistingApplication = leadIdsWithApplication.contains(lead.Id);
+            Boolean hasInActiveApplication = existingLeadIdOnApplication.contains(lead.Id);
+            Boolean hasExistingCaseFromLead = existingCaseFromLead.contains(lead.Id);
+            Boolean hasExistingCompletedCadence = leadsWithCompletedCadence.containsKey(lead.Id);
+            Boolean hasExistingCompletedCadenceManual = leadsWithCompletedCadenceManual.containsKey(lead.Id);
+            if ((!leadHasExistingApplication || hasInActiveApplication) && hasExistingCaseFromLead && !hasExistingCompletedCadenceManual)
             {
-                domesticStrongInterestPreApplicationMap.put(application.Id, application);
+                leadToUpdateMap.put(
+                        lead.Id, 
+                        new Lead(
+                            Id = lead.Id,
+                            Calculated_Cadence__c = hasExistingCompletedCadence ?
+                                'Domestic Strong Interest Pre-Application' :
+                                'Domestic Strong Interest Pre-Application (Automated)'
+                        )
+                    );
             }
         }
-
-        Map<Id, List<String>> leadsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
-            domesticEntryLeadMap.keySet(),
-            new Set<String>{
-                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
-                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
-            },
-            Lead.getSObjectType()
-        );
-
-        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Lead.getSObjectType(), 
-        NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
-        NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL);
-                                                                            
-        List<Lead> leadToUpdateList = (List<Lead>) NurturingTrackService.populateCalculatedCadenceMultiple(
-            leadsWithCompletedCadence,
-            domesticStrongInterestPreApplicationMap.values(),
-            cadenceWrapper
-        );
-        
-        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>(leadToUpdateList);
 
         return leadToUpdateMap;
     }
@@ -319,7 +319,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
     private static boolean checkSamsDomesticStrongInterestPreApplicationAutomated(hed__Application__c app){
         Boolean isAppStatusValid = app.Application_Status__c == 'Admitted' || app.Application_Status__c == 'Unsuccessful' || app.Application_Status__c == 'Withdrawn';
-        if ((app.Offer_Status__c == 'Deffered' || isAppStatusValid) &&
+        if ((app.Offer_Status__c == 'Deferred' || isAppStatusValid) &&
             app.Lead__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
             app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
@@ -332,7 +332,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
     private static boolean checkSamsDomesticStrongInterestPreApplicationManual(hed__Application__c app){
         Boolean isAppStatusValid = app.Application_Status__c == 'Admitted' || app.Application_Status__c == 'Unsuccessful' || app.Application_Status__c == 'Withdrawn';
-        if ((app.Offer_Status__c == 'Deffered' || isAppStatusValid) &&
+        if ((app.Offer_Status__c == 'Deferred' || isAppStatusValid) &&
             app.Lead__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
             app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
@@ -360,7 +360,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             app.Lead__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
             app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
-            (app.hed__Application_Date__c <= System.today() && app.hed__Application_Date__c >= System.today().addYears(-3))
+            (app.CreatedDate <= System.Now() && app.CreatedDate >= System.Now().addYears(-3))
         ) {
             return true;
         }
@@ -372,7 +372,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             app.Lead__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
             app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
-            (app.hed__Application_Date__c <= System.today() && app.hed__Application_Date__c >= System.today().addYears(-3))
+            (app.CreatedDate <= System.Now() && app.CreatedDate >= System.Now().addYears(-3))
         ) {
             return true;
         }
@@ -430,6 +430,15 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         return (caseRec.CreatedDate <= System.Now() && caseRec.CreatedDate >= System.Now().addMonths(-3) && caseRec.Category__c != null);
     }
 
+    private static Set<Id> getLeadIdsWithApplication(List<hed__Application__c> applications){
+        Set<Id> applicationLeadIds = new Set<Id>();
+        for(hed__Application__c app : applications){
+            applicationLeadIds.add(app.Lead__c);
+        }
+
+        return applicationLeadIds;
+    }   
+
     
     /**
      * @description: Get the nurturing Track Records and set the key to Cadence Name
@@ -452,7 +461,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             new Set<String>{'International Strong Interest Pre-Application', 'International Strong Interest Pre-Application (Automated)'},
             Lead.getSObjectType()
         ).keySet();
-        Map<Id, Case> leadIdToCaseMap = NurturingTrackService.getCasesWithinLastXMonths(internationalEntryLeadMap.keySet(), 3);
+        Map<Id, List<String>> leadIdToCaseCategoriesMap = NurturingTrackService.getApplicantIdToRelatedCaseCategoriesMap(internationalEntryLeadMap.keySet(), 3);
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
         for(Lead internationalEntryLead : internationalEntryLeadMap.values()) {
             try {
@@ -467,12 +476,14 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                     'International Strong Interest Pre-Application',
                     isManual
                 );
-                Case relatedCase = leadIdToCaseMap.get(internationalEntryLead.Id);
+                List<String> relatedCaseCategories = leadIdToCaseCategoriesMap.get(internationalEntryLead.Id);
                 if( // ... the lead...
-                    isLeadWithOnlyInactiveStudyLinkAppForXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
-                    internationalEntryLead.Lead_Score__c > threshold &&                       // ... has a lead score above threshold...
-                    l1Categories.contains(relatedCase.Category__c) &&                         // ... has a related case with a certain category...
-                    relatedCase != null                                                       // ... has a related case in the last 3 months...
+                    isLeadWithNoActiveStudyLinkAppforXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
+                    internationalEntryLead.Lead_Score__c > threshold &&  (                    // ... has a lead score above threshold...
+                    NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(        // ... has a related case with a certain category...
+                        l1Categories, 
+                        relatedCaseCategories
+                    ))
                 ) {
                     leadsToUpdate.put(
                         internationalEntryLead.Id, 
@@ -523,24 +534,26 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         return leadsToUpdate;
     }
 
-    private static Boolean isLeadWithOnlyInactiveStudyLinkAppForXYears(Lead internationalEntryLead, Integer years) {
-        Boolean isWithInactive = false;
-        Boolean isWithActive = false;
+    private static Boolean isLeadWithNoActiveStudyLinkAppforXYears(Lead internationalEntryLead, Integer years) {
+        Boolean hasActiveApplication = false;
         for(hed__Application__c application : applicationList) {
+            Boolean isLeadStudylinkApplication = 
+                application.Lead__c == internationalEntryLead.Id && 
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            Boolean isInitiallyCreatedWithinTimeRange = 
+                application.hed__Initial_Creation_Date__c <= System.today() &&
+                application.hed__Initial_Creation_Date__c >= System.today().addYears(-years);
+            Boolean isActiveApplication = !ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c);
             if(
-                application.Lead__c == internationalEntryLead.Id &&
-                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
-                (application.hed__Application_Date__c <= System.now() &&
-                application.hed__Application_Date__c >= System.now().addYears(-years))
+                isLeadStudylinkApplication &&
+                isInitiallyCreatedWithinTimeRange &&
+                isActiveApplication
             ) {
-                if(ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c)) {
-                    isWithInactive = true;
-                } else {
-                    isWithActive = true; break;
-                }
+                hasActiveApplication = true;
+                break;
             }
         }
-        return isWithActive ? false : isWithInactive;
+        return !hasActiveApplication;
     }
 
 }
