@@ -3685,7 +3685,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>hed__Application__c.Application_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3705,7 +3705,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>hed__Application__c.Applied_Attendance__c</field>
         <readable>true</readable>
     </fieldPermissions>

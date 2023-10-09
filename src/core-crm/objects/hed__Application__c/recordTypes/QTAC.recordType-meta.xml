@@ -5,52 +5,6 @@
     <compactLayoutAssignment>QTAC_Application_Compact_layout</compactLayoutAssignment>
     <label>QTAC</label>
     <picklistValues>
-        <picklist>Application_Method__c</picklist>
-        <values>
-            <fullName>Direct</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Online Education Services Partner</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>QTAC</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Applied_Attendance__c</picklist>
-        <values>
-            <fullName>Block</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>External</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Internal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Multi Modal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Non-Supervised Candidature</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Not entered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Online</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Citizenship_Country__c</picklist>
         <values>
             <fullName>Afghanistan</fullName>

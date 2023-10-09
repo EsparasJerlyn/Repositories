@@ -2261,7 +2261,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>hed__Application__c.Application_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>

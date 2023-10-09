@@ -257,7 +257,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         if (toQuery != '') {
             contactList = Database.query(
-                'SELECT Id, Name, Email, Mobile_No_Locale__c, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE ' +
+                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE ' +
                 toQuery,
                 AccessLevel
             );
@@ -294,7 +294,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         if (mobile != null && mobile != '') {
             toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
-            toQuery = toQuery + '(Mobile_No_Locale__c =: mobile)';
+            toQuery = toQuery + '(MobilePhone =: mobile)';
         }
 
         return toQuery;
