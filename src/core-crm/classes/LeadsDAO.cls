@@ -140,7 +140,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
 
         if (toQuery != '') {
             leadList = Database.query(
-                'SELECT Id, Name, Email, Mobile_No_Locale__c, Work_Email__c FROM Lead WHERE ' +
+                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c FROM Lead WHERE ' +
                 toQuery,
                 AccessLevel
             );
@@ -178,7 +178,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
 
         if (mobile != null && mobile != '') {
             toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
-            toQuery = toQuery + '(Mobile_No_Locale__c =: mobile)';
+            toQuery = toQuery + '(MobilePhone =: mobile)';
         }
 
         return toQuery;
