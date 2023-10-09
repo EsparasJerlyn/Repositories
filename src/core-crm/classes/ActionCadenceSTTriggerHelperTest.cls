@@ -40,6 +40,7 @@ private class ActionCadenceSTTriggerHelperTest {
         createEvent.put('State', 'InProgress');
         createEvent.put('StepType', 'SendAnEmail');
         createEvent.put('StepTitle', 'Email');  
+        createEvent.put('DueDateTime', System.now());
         Test.startTest();      
         // Publish test event
         EventBus.publish(createEvent);      

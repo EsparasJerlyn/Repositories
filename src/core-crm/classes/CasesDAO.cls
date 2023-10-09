@@ -28,6 +28,21 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         .get('International_FS_Enquiry')
         .getRecordTypeId();
 
+    public static final Map<String, Id> CASE_RECTYPE_MAP = new Map<String, Id>{
+        'Domestic FS Enquiry' => DOMESTICFS_RECTYPE_ID,
+        'Incident' => INCIDENT_RECTYPE_ID,
+        'International Enquiry' => INTERNATIONAL_RECTYPE_ID,
+        'International FS Enquiry' => INTERNATIONALFS_RECTYPE_ID
+    };
+
+    public static final Map<String, Integer> PRIORITY_ORDER = new Map<String, Integer>{
+        'High' => 3,
+        'Medium' => 2,
+        'Low' => 1,
+        '' => 0,
+        null => 0
+    };
+
     public static ICasesDAO newInstance() {
         return (ICasesDAO) ImplementationSelector.DAO.newInstance(
             Case.SObjectType

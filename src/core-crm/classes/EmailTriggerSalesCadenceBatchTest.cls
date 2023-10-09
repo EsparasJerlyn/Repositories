@@ -57,7 +57,7 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
                 resultIds,                 
                 CommunicationQueuesDAO.STATUS_SCHEDULED,
                 emailTemplate.Id
-            );
+            ); 
             
             CommunicationQueuesDAO.newInstance().insertRecords(commsQueueList, false, AccessLevel.USER_MODE);
         }
