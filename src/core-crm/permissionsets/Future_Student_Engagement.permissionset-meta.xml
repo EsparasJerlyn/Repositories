@@ -6,7 +6,7 @@
     </applicationVisibilities>
     <applicationVisibilities>
         <application>International_Student_Recruitment</application>
-        <visible>true</visible>
+        <visible>false</visible>
     </applicationVisibilities>
     <applicationVisibilities>
         <application>Enquiry_Management</application>
