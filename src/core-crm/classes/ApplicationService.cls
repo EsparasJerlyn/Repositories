@@ -15,6 +15,7 @@
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added methods for contact field   |
  *    |                                |                       |                        | updates on match with application |
  *    | nicole.genon                   | Oct 4, 2023           | DEPP-6821              | Added mapping for QTAC matching   |
+ *    | alexander.cadalin              | Oct 9, 2023           | DEPP-6848              | Rework QTAC address mapping       |
  */
 public with sharing class ApplicationService { //NOPMD
 
@@ -482,15 +483,39 @@ public with sharing class ApplicationService { //NOPMD
         typeToFieldMap.put('Other', 'Residential');
         String field = typeToFieldMap.get(addressType);
         address.hed__Address_Type__c = addressType;
-        address.hed__MailingStreet__c = (String) application.get(field + '_Address_Line1__c');
-        address.hed__MailingStreet2__c = (String) application.get(field + '_Address_Line2__c') + 
-            ' ' + application.get(field + '_Address_Line3__c');
-        address.hed__MailingCity__c = (String) application.get(field + '_Town__c');
-        address.hed__MailingState__c = (String) application.get(field + '_State__c');
-        address.hed__MailingCountry__c = (String) application.get(field + '_Country__c');
-        address.hed__MailingPostalCode__c = (String) application.get(field + '_Postcode__c');
-        address.hed__Parent_Contact__c = (Id) application.hed__Applicant__c;
+        address.hed__MailingStreet__c = getAddressLineFromApplication(application, field + '_Address_Line1__c');
+        address.hed__MailingStreet2__c = getAddressLineFromApplication(application, field + '_Address_Line2__c');
+        if(String.isNotBlank(address.hed__MailingStreet2__c) && application.get(field + '_Address_Line3__c') != null) {
+            address.hed__MailingStreet2__c += ' ' + getAddressLineFromApplication(application, field + '_Address_Line3__c');
+        } else {
+        	address.hed__MailingStreet2__c += getAddressLineFromApplication(application, field + '_Address_Line3__c');    
+        }
+        address.hed__MailingCity__c = getAddressLineFromApplication(application, field + '_Town__c');
+        address.hed__MailingState__c = getAddressLineFromApplication(application, field + '_State__c');
+        address.hed__MailingCountry__c = getAddressLineFromApplication(application, field + '_Country__c');
+        address.hed__MailingPostalCode__c = getAddressLineFromApplication(application, field + '_Postcode__c');
+        address.hed__Parent_Contact__c = application.hed__Applicant__c;
         return address;
+    }
+    
+    /**
+     * @description Get the specified address line from the application. Returns a blank string if empty, returns a string if populated.
+     * @param hed__Application__c application - the application to get the data from.
+     * @param String addressLine - the api name of the address line field in the application. Must be a valid address line.
+     * @return String
+     */
+    private static String getAddressLineFromApplication(hed__Application__c application, String addressLine) {
+        List<String> validFields = new List<String>{
+            'Postal_Address_Line1__c', 'Postal_Address_Line2__c', 'Postal_Address_Line3__c',
+            'Postal_Country__c', 'Postal_Postcode__c', 'Postal_State__c', 'Postal_Town__c',
+            'Residential_Address_Line1__c', 'Residential_Address_Line2__c', 'Residential_Address_Line3__c',
+            'Residential_Country__c', 'Residential_Postcode__c', 'Residential_State__c', 'Residential_Town__c'
+        };
+        String value = '';
+        if(validFields.contains(addressLine)) {
+            value = application.get(addressLine) == null ? '' : (String) application.get(addressLine);
+        }
+        return value;
     }
     
     public static Boolean isContactMatchedQTACApplication(hed__Application__c application, Map<Id, SObject> oldItems) {

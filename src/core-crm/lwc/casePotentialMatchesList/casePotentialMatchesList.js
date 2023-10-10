@@ -116,6 +116,11 @@ export default class CasePotentialMatchesList extends LightningElement {
                         });
 
                         window.dispatchEvent(cEvent);
+
+                        if (this.isTriggerViewAll) {
+                            const closeTab = new CustomEvent('closetab');
+                            this.dispatchEvent(closeTab);
+                        }
                     })
                     .catch((error) => {
                         console.log(error);

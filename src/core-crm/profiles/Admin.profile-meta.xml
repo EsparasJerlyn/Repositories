@@ -18,7 +18,7 @@
     <applicationVisibilities>
         <application>International_Student_Recruitment</application>
         <default>false</default>
-        <visible>true</visible>
+        <visible>false</visible>
     </applicationVisibilities>
     <applicationVisibilities>
         <application>Prospect_Attraction</application>

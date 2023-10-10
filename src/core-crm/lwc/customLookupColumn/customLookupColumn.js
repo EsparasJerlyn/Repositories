@@ -11,6 +11,8 @@
 */
 import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import CUSTOM_DATA_TABLE from '@salesforce/resourceUrl/CustomDataTable';
+import { loadStyle } from 'lightning/platformResourceLoader';
 
 export default class CustomLookupColumn extends LightningElement {
     @api tableObjectType;
@@ -26,6 +28,13 @@ export default class CustomLookupColumn extends LightningElement {
 
     get lookupUrl(){
         return this.lookupValue ? '/' + this.lookupValue : '';
+    }
+
+    connectedCallback(){
+        Promise.all([
+            loadStyle(this, CUSTOM_DATA_TABLE)
+        ]).then(() => {
+        });
     }
 
     renderedCallback() {
