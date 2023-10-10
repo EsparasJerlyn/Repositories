@@ -1,6 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
-import { setTabIcon, setTabLabel } from 'lightning/platformWorkspaceApi';
+import { setTabIcon, setTabLabel, closeTab } from 'lightning/platformWorkspaceApi';
 
 export default class CasePotentialMatchesViewAll extends LightningElement {
     @track caseId;
@@ -27,5 +27,10 @@ export default class CasePotentialMatchesViewAll extends LightningElement {
                 this.caseId = c__caseId;
             }
        }
+    }
+
+    handleClosetab() {
+        const tabId = this._tabid;
+        closeTab(tabId);
     }
 }
