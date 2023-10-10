@@ -36,6 +36,6 @@
         <label>Unsuccessful - Details Not Valid</label>
     </customValue>
     <description>This picklist is used for the call result feature</description>
-    <masterLabel>CallDispositionPicklist_OrgCode</masterLabel>
+    <masterLabel>CallDispositionPicklist_{OrgID}</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
