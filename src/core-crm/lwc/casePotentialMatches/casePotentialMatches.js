@@ -5,20 +5,13 @@ export default class CasePotentialMatches extends NavigationMixin(LightningEleme
     @api recordId;
 
     async handleViewAll(methodName, methodArgs) {
-        const compDefinition = {
-            componentDef: "c:casePotentialMatchesViewAll",
-            attributes: {},
+        this[NavigationMixin.Navigate]({
+            type: 'standard__component',
+            attributes: {
+                componentName: "c__casePotentialMatchesRecord"
+            },
             state: {
                 c__caseId: this.recordId
-            }
-        }
-
-        const compBase64 = btoa(JSON.stringify(compDefinition));
-
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: '/one/one.app#' + compBase64
             }
         })
     }
