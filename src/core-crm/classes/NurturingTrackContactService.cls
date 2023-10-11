@@ -1108,6 +1108,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceManual = new Map<Id, hed__Application__c>();
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
+        
+        Map<Id, List<String>> existingContactOnCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{ 'Domestic First Offer to Acceptance (Automated)' },
+            Contact.getSObjectType()
+        );
 
         // To group Automated and Manual Application
         for (hed__Application__c application : applicationList) {
@@ -1122,10 +1128,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 application.Admission_Process__c != 'RTN_DEFER/RTN_QTAC' &&
                 application.hed__Application_Date__c != null
             ) {
+                Boolean hasAutomatedCompletedCadence = existingContactOnCompletedCadence.containsKey(application.hed__Applicant__c);
                 processCompletedDomesticFirstOffertoAcceptance(
                     application,
                     domesticFirstOffertoAcceptanceManual,
-                    domesticFirstOffertoAcceptanceAutomated
+                    domesticFirstOffertoAcceptanceAutomated,
+                    hasAutomatedCompletedCadence                    
                 );
             }
         }
@@ -1231,14 +1239,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static void processCompletedDomesticFirstOffertoAcceptance(
         hed__Application__c application,
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceManual,
-        Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated
+        Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated,
+        Boolean hasAutomatedCompletedCadence
     ) {
-        Date currentDate = System.TODAY();
 
-        if (
-            application.Offer_Status_Date__c != null &&
-            currentDate.daysBetween(application.Offer_Status_Date__c) > 2
-        ) {
+        if (hasAutomatedCompletedCadence){
             domesticFirstOffertoAcceptanceManual.put(application.Id, application); // Group Manual Application
         } else {
             domesticFirstOffertoAcceptanceAutomated.put(application.Id, application); // Group Automated Application
