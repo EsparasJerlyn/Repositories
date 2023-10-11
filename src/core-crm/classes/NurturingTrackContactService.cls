@@ -23,6 +23,7 @@
       | mark.j.mahilum                 | October 04, 2023      | DEPP-6682              | Added new entry criteria for DomesticAcceptedAdmitted sales cadence           |
       | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Update handling for Domestic Accepted not yet Enrolled                        |
       | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application                  |
+      | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6854              | Updated handing for Domestic International Start Date                         |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
@@ -547,13 +548,19 @@ public with sharing class NurturingTrackContactService { //NOPMD
         List<hed__Application__c>  filteredApplicationList = getFilteredApplicationListForDomesticEnrollmentToCensus(contactMap);
         Map<Id, hed__Application__c> applicationMap = new Map<Id, hed__Application__c>();
         for (hed__Application__c application : filteredApplicationList) {
+            
+            Boolean isOfferedProgramPlanAvailable = (application.Offered_Program_Plan__c != NULL && application.Offered_Program_Plan__r.Availability_Start_Date__c != NULL);
+			Date keyOffsetDaysFromToday = null;
+            
+            if(nurturingTrackWithOffSetDaysMap.containsKey(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)){
+               keyOffsetDaysFromToday = Date.today().addDays((Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c); 
+            }
+ 
             if (
                 validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c,
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c?.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c),
-                    System.today()
-                )
+                isOfferedProgramPlanAvailable &&
+                keyOffsetDaysFromToday != NULL &&
+                application.Offered_Program_Plan__r.Availability_Start_Date__c <= keyOffsetDaysFromToday
             ) {
                 applicationMap.put(application.Id, application);
             }

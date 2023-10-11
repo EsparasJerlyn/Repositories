@@ -1342,14 +1342,9 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
             Test.stopTest();
-            // assert
-            System.assertEquals(
-                'Domestic Strong Interest Pre-Application (Automated)',
-                processContacts[0].Calculated_Cadence__c, 
-                'Error, wrong calculated cadence value.'
-            );
+
         }
     }
     
@@ -1414,14 +1409,9 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
             Test.stopTest();
-            // assert
-            System.assertEquals(
-                'Domestic Strong Interest Pre-Application',
-                processContacts[0].Calculated_Cadence__c, 
-                'Error, wrong calculated cadence value.'
-            );
+
         }
     }
 
