@@ -23,6 +23,7 @@
       | mark.j.mahilum                 | October 04, 2023      | DEPP-6682              | Added new entry criteria for DomesticAcceptedAdmitted sales cadence           |
       | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Update handling for Domestic Accepted not yet Enrolled                        |
       | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application                  |
+      | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6854              | Updated handing for Domestic International Start Date                         |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
@@ -547,13 +548,19 @@ public with sharing class NurturingTrackContactService { //NOPMD
         List<hed__Application__c>  filteredApplicationList = getFilteredApplicationListForDomesticEnrollmentToCensus(contactMap);
         Map<Id, hed__Application__c> applicationMap = new Map<Id, hed__Application__c>();
         for (hed__Application__c application : filteredApplicationList) {
+            
+            Boolean isOfferedProgramPlanAvailable = (application.Offered_Program_Plan__c != NULL && application.Offered_Program_Plan__r.Availability_Start_Date__c != NULL);
+			Date keyOffsetDaysFromToday = null;
+            
+            if(nurturingTrackWithOffSetDaysMap.containsKey(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)){
+               keyOffsetDaysFromToday = Date.today().addDays((Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c); 
+            }
+ 
             if (
                 validateAppRecordTypeForEnrollmentToCensus(isDomestic, application) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c,
-                    application.Offered_Program_Plan__r.Availability_Start_Date__c?.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE)?.Key_Date_Offset_Days__c),
-                    System.today()
-                )
+                isOfferedProgramPlanAvailable &&
+                keyOffsetDaysFromToday != NULL &&
+                application.Offered_Program_Plan__r.Availability_Start_Date__c <= keyOffsetDaysFromToday
             ) {
                 applicationMap.put(application.Id, application);
             }
@@ -1101,6 +1108,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceManual = new Map<Id, hed__Application__c>();
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
+        
+        Map<Id, List<String>> existingContactOnCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            domesticEntryContactMap.keySet(),
+            new Set<String>{ 'Domestic First Offer to Acceptance (Automated)' },
+            Contact.getSObjectType()
+        );
 
         // To group Automated and Manual Application
         for (hed__Application__c application : applicationList) {
@@ -1115,10 +1128,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 application.Admission_Process__c != 'RTN_DEFER/RTN_QTAC' &&
                 application.hed__Application_Date__c != null
             ) {
+                Boolean hasAutomatedCompletedCadence = existingContactOnCompletedCadence.containsKey(application.hed__Applicant__c);
                 processCompletedDomesticFirstOffertoAcceptance(
                     application,
                     domesticFirstOffertoAcceptanceManual,
-                    domesticFirstOffertoAcceptanceAutomated
+                    domesticFirstOffertoAcceptanceAutomated,
+                    hasAutomatedCompletedCadence                    
                 );
             }
         }
@@ -1224,14 +1239,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static void processCompletedDomesticFirstOffertoAcceptance(
         hed__Application__c application,
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceManual,
-        Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated
+        Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated,
+        Boolean hasAutomatedCompletedCadence
     ) {
-        Date currentDate = System.TODAY();
 
-        if (
-            application.Offer_Status_Date__c != null &&
-            currentDate.daysBetween(application.Offer_Status_Date__c) > 2
-        ) {
+        if (hasAutomatedCompletedCadence){
             domesticFirstOffertoAcceptanceManual.put(application.Id, application); // Group Manual Application
         } else {
             domesticFirstOffertoAcceptanceAutomated.put(application.Id, application); // Group Automated Application
