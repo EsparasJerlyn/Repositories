@@ -16,6 +16,7 @@
       | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation                  |
       | julie.jane.alegre         | September 29, 2022    |  DEPP-4471           | Add validation for available seats    |
       | eugene.andrew.abuan       | January 24, 2023      | DEPP-5095            | Add registeredEmailHelpText           |
+      | julie.jane.alegre         | September 25, 2023    | DEPP-4762            | Added Position & Company Name fields  |
 
 */
 import { LightningElement, track, wire, api } from 'lwc';
@@ -106,6 +107,8 @@ export default class GroupBookingForm extends LightningElement {
     @track webStoreId;
     @track firstName;
     @track lastName;
+    @track position;
+    @track companyName;
     @track contactEmail;
     @track contactMobileLocale;
     @track amount;
@@ -294,7 +297,13 @@ export default class GroupBookingForm extends LightningElement {
     handleEmailChange(event){
         this.contactEmail = event.detail.value;
     }
+    handlePositionChange(event){
+        this.position = event.detail.value;
 
+    }
+    handleCompanyNameChange(event){
+        this.companyName = event.detail.value;
+    }
 
     /*
     * Sets the mobile via event
@@ -348,6 +357,8 @@ export default class GroupBookingForm extends LightningElement {
                 Mobile_No_Locale__c: '',
                 Dietary_Requirement__c: '',
                 Accessibility_Requirement__c: '',
+                Position__c:'',
+                Company_Name__c:'',
                 label: 'PARTICIPANT ' + this.currentIndex,
                 Questions: this.formatQuestions(this.questions2,this.items.length),
                 hasError: false,
@@ -685,6 +696,8 @@ setupContactDetailsData(){
             conData.MobilePhone = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).countryCode + blankRow[i].Mobile_No_Locale__c;
             conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;
             conData.Accessibility_Requirement__c = blankRow[i].Accessibility_Requirement__c;
+            conData.Position__c = blankRow[i].Position__c;
+            conData.Company_Name__c = blankRow[i].Company_Name__c;
             this.emailToParticipantMap[blankRow[i].Email] = blankRow[i].label;
             this.contactMap[blankRow[i].label] = conData;
             additionalContacts.push(conData);

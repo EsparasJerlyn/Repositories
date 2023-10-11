@@ -24,6 +24,9 @@
         <!--(Start) DEPP-6421 -->
         <members>CaseLeadMatchingTest</members>
         <!--(End) DEPP-6421 -->
+        <!--(Start) DEPP-6781 -->
+        <members>Update_Case_Priority_FlowTest</members>
+        <!--(End) DEPP-6781 -->
         <name>ApexClass</name>
     </types>
     <types>
@@ -202,6 +205,9 @@
         <!--(Start) DEPP-6421-->
         <members>Case_Lead_Matching</members>
         <!--(End) DEPP-6421-->
+        <!--(Start) DEPP-6426-->
+        <members>Update_Case_Priority_Flow</members>
+        <!--(End) DEPP-6426-->
         <name>Flow</name>
     </types>
     <types>
@@ -266,6 +272,12 @@
         <!--(Start) DEPP-5947 -->
         <members>Opportunity_Outcome__c.IPU_Opportunity_Outcome_Lock_Opportunity</members>
         <!-- (End) DEPP-5947 -->
+        <!--(Start) DEPP-6849 -->
+        <members>hed__Course__c.Location_Details_is_required</members>
+        <members>hed__Course__c.Location_is_required</members>
+        <members>hed__Program_Plan__c.Location_Details_Required</members>
+        <members>hed__Program_Plan__c.Location_Field_is_Required</members>
+        <!-- (End) DEPP-6849 -->
         <name>ValidationRule</name>
     </types>
     <types>

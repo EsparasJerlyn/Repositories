@@ -29,6 +29,7 @@
       |                           |                       |                      | creation of contact          |
       | john.m.tambasen           | August, 22 2022       | DEPP-3325            | Added discount functionality |
       | kathy.cornejo             | September 12, 2022    | DEPP-4273            | Fixed error message          |
+      | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Added Position & Company Name|
 */
 
 import { api, LightningElement, wire } from 'lwc';

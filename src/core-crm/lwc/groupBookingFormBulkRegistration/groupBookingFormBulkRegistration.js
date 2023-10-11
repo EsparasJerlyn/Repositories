@@ -15,6 +15,7 @@
       | dodge.j.palattao          | September 29, 2022    | DEPP-4466            | Fix for input participant in Firefox  |
       | julie.jane.alegre         | August    28, 2022    | DEPP-6515            | Add Country code to the required      |
       |                           |                       |                      | validation fields                     |
+      | julie.jane.alegre         | September 25, 2023    | DEPP-4762            | Added Position & Company Name fields  |
       
 
 */
@@ -361,6 +362,8 @@ export default class GroupBookingForm extends NavigationMixin(LightningElement) 
                 ContactMobile_Locale__c: '',
                 Mobile_No_Locale__c: '',
                 Dietary_Requirement__c: '',
+                Position__c:'',
+                Company_Name__c:'',
                 label: 'PARTICIPANT ' + this.currentIndex,
                 Questions: this.formatQuestions(this.questions2,this.items.length),
                 hasError: false,
@@ -757,6 +760,8 @@ paymentOptionButtons(){
                 conData.MobilePhone = this.localeOptions.find( opt => opt.label === blankRow[i].ContactMobile_Locale__c).countryCode + blankRow[i].Mobile_No_Locale__c;
                 conData.Dietary_Requirement__c = blankRow[i].Dietary_Requirement__c;
                 conData.Accessibility_Requirement__c = blankRow[i].Accessibility_Requirement__c;
+                conData.Position__c = blankRow[i].Position__c;
+                conData.Company_Name__c = blankRow[i].Company_Name__c;
                 this.emailToParticipantMap[blankRow[i].Email] = blankRow[i].label;
                 this.contactMap[blankRow[i].label] = conData;
                 additionalContacts.push(conData);
