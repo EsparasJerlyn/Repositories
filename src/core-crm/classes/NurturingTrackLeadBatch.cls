@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | July 23, 2023         | DEPP-6105              | Created file                 |
-      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added field in Lead Query    |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------|
+      | mark.j.mahilum                 | July 23, 2023         | DEPP-6105              | Created file                        |
+      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added field in Lead Query           |
+      | arsenio.jr.dayrit              | October 12, 2023      | DEPP-6901              | Added field in Lead Query filter    |
  */
 public class NurturingTrackLeadBatch implements Database.Batchable<sObject> {
 
@@ -23,7 +24,8 @@ public class NurturingTrackLeadBatch implements Database.Batchable<sObject> {
                               'FROM Lead ' + 
                               'WHERE (Can_Nurture__c = TRUE ' +
             				  'OR Calculated_Cadence__c !=NULL) ' +
-            				  'AND IsConverted = FALSE ';
+            				  'AND IsConverted = FALSE ' +
+                              'AND Marketing_Segmentation__r.My_Citizenship_Status__c !=NULL ';
         return Database.getQueryLocator(queryFilter);
     }
 

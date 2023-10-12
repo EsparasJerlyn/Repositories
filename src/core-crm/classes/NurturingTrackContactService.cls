@@ -24,6 +24,7 @@
       | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Update handling for Domestic Accepted not yet Enrolled                        |
       | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application                  |
       | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6854              | Updated handing for Domestic International Start Date                         |
+      | arsenio.jr.dayrit              | Oct. 12, 2023         | DEPP-6901              | Added international citizenship status handling                               |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
@@ -125,17 +126,18 @@ public with sharing class NurturingTrackContactService { //NOPMD
         for (Id key : mapOfContacts.KeySet()) {
             Contact con = mapOfContacts.get(key);
             Boolean isContactDomestic = (con.hed__Citizenship_Status__c == 'Domestic');
+            Boolean isContactInternational = (con.hed__Citizenship_Status__c == 'International');
 
             if (String.isEmpty(con.Calculated_Cadence__c)) {
                 if (isContactDomestic) {
                     domesticEntryContactMap.put(key, con);
-                } else {
+                } else if(isContactInternational){
                     internationalEntryContactMap.put(key, con);
                 }
             } else {
                 if (isContactDomestic) {
                     domesticExitContactMap.put(key, con);
-                } else {
+                } else if(isContactInternational){
                     internationalExitContactMap.put(key, con);
                 }
             }
