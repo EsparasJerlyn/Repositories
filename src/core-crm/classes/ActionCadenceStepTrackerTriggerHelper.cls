@@ -55,6 +55,8 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
         List<Communication_Queue__c> commsQueueToInsert = new List<Communication_Queue__c>();
         for(ActionCadenceStepTracker ac: stepTrackers){
+            
+            Date dueDate = ac.DueDateTime != NULL? Date.valueOf(ac.DueDateTime).addDays(-1):Date.today(); 
             commsQueueToInsert.add(
                 new Communication_Queue__c(
                     ActionCadenceStepTrackerId__c = ac.Id,
@@ -64,7 +66,7 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
                     Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email',
                     Sender__c = orgWideEmailAddress?.Id,
                     Template_Id__c = ac.ActionCadenceStep.TemplateId,
-                    Due_Date__c = Date.valueOf(ac.DueDateTime)
+                    Due_Date__c = dueDate
                 )
             );
         }
