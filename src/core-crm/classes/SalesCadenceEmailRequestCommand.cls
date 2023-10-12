@@ -11,7 +11,8 @@
       | eccarius.munoz                 | September 18, 2023    | sit dep fix            | added handling for new email |
       |                                |                       |                        | templates (int and dom)      |
       | eccarius.munoz                 | September 26, 2023    | DEPP-6741              | added handling for new emails|      
-      |                                |                       |                        |                              |
+      | ken.marvin.narido              | October 12, 2023      | DEPP-6885              | added handling for null      |
+      |                                |                       |                        | whoIds' firstName            |
  */
 public with sharing class SalesCadenceEmailRequestCommand implements IRequestCommand{
     
@@ -68,19 +69,25 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
 
         Map<String, String> emailMap = new Map<String, String>();
         for(Contact contact : getContactListByIdSet(whoIDset)){    
-            Boolean isContactForProcessing = contact.Can_Nurture__c && String.isNotBlank(contact.Calculated_Cadence__c);
+            Boolean isContactForProcessing = contact.Can_Nurture__c;
             if(!emailMap.containsKey(contact.Id) && isContactForProcessing && contact.Email != null){
-                emailMap.put(contact.Id, contact.FirstName);
+                String recipientName = String.isNotBlank(contact.FirstName)
+                                     ? contact.FirstName
+                                     : contact.Name;
+                emailMap.put(contact.Id, recipientName);
             }
         }
 
         for(Lead lead : getLeadListByIdSet(whoIDset)){
-            Boolean isLeadForProcessing = lead.Can_Nurture__c && String.isNotBlank(lead.Calculated_Cadence__c); 
+            Boolean isLeadForProcessing = lead.Can_Nurture__c;
             if(!emailMap.containsKey(lead.Id) && isLeadForProcessing){
-                emailMap.put(lead.Id, lead.FirstName);
+                String recipientName = String.isNotBlank(lead.FirstName)
+                                     ? lead.FirstName
+                                     : lead.Name;
+                emailMap.put(lead.Id, recipientName);
             }
         }
-        
+
         return emailMap;
     }
 
@@ -88,7 +95,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
      * retrieve contact list by who id set
      */
     private static List<Contact> getContactListByIdSet(Set<Id> whoIDset){
-        List<String> fields = new List<String>{'Email', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c'};
+        List<String> fields = new List<String>{'Email', 'Name', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c'};
         List<Contact> contactList =  
             (List<Contact>) DynamicQueryService.getRecordsWithFieldsByIdSet(
                 new DynamicQueryService.FilterWrapper(whoIDset, Contact.getSObjectType(), fields), 
@@ -101,7 +108,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
      * retrieve lead list by who id set
      */
     private static List<Lead> getLeadListByIdSet(Set<Id> whoIDset){
-        List<String> fields = new List<String>{'Email', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c'};
+        List<String> fields = new List<String>{'Email', 'Name', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c'};
         List<Lead> leadList =  
             (List<Lead>) DynamicQueryService.getRecordsWithFieldsByIdSet(
                 new DynamicQueryService.FilterWrapper(whoIDset, Lead.getSObjectType(), fields), 

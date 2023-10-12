@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | mark.j.mahilum                 | Sept 11,2023          | DEPP-6421              | Created file                                     |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for updating case using WhatsApp    |
+      | ken.marvin.narido              | Oct  12,2023          | DEPP-6871              | changed the reference for the auto prio metadata |
  */
 public with sharing class CaseTriggerHelper {
     //map of object type to the field api names of the fields to be matched
@@ -297,7 +298,7 @@ public with sharing class CaseTriggerHelper {
             userNameSet.add(autoPriorityConfig.Username__c);
         }
 
-        boolean isUserPriority = userNameSet.contains(UserInfo.getUserEmail());
+        boolean isUserPriority = userNameSet.contains(UserInfo.getUserName());
 
         if (isUserPriority) {
             for (Case item : newItems) {
