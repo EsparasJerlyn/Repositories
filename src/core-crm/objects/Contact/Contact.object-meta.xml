@@ -352,6 +352,14 @@
         <customTabListAdditionalFields>Preferred_Given_Name__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>CONTACT.PHONE1</customTabListAdditionalFields>
+        <excludedStandardButtons>PipelineInspection</excludedStandardButtons>
+        <excludedStandardButtons>Import</excludedStandardButtons>
+        <excludedStandardButtons>MassAddToCadence</excludedStandardButtons>
+        <excludedStandardButtons>MassChangeTargetAssignee</excludedStandardButtons>
+        <excludedStandardButtons>MassPauseCadenceByTargetId</excludedStandardButtons>
+        <excludedStandardButtons>MassRemoveFromCadence</excludedStandardButtons>
+        <excludedStandardButtons>SendListEmailAction</excludedStandardButtons>
+        <excludedStandardButtons>MassCreateMyList</excludedStandardButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Preferred_Full_Name__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Preferred_Given_Name__c</lookupDialogsAdditionalFields>
