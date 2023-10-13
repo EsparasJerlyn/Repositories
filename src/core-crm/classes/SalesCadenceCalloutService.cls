@@ -373,6 +373,34 @@ public with sharing class SalesCadenceCalloutService {
         
         return completedCadenceStatusMap;
     }
+    
+   /**
+    * @description: Get the application record associated with the targetIds
+    *
+    * @param Map<String,String> targetCadenceMap
+    * @return Map<String, String> applicationRecordMap
+    */
+    private static Map<String, hed__Application__c> getApplicationRecordsMap(Map<String,String> targetCadenceMap){
+        
+        Map<String, hed__Application__c> applicationRecordMap = new Map<String, hed__Application__c>();
+        
+        for (
+            hed__Application__c app : ApplicationsDAO.newInstance().getApplicationsByLeadOrContactIds(
+                targetCadenceMap.keySet(),
+                new Set<String>(targetCadenceMap.values()),
+                'SYSTEM_MODE'
+            )
+        ) {
+            applicationRecordMap.put(
+                app.hed__Applicant__c != null
+                ? app.hed__Applicant__c
+                : app.Lead__c,
+                app
+            );
+        }
+        
+        return applicationRecordMap;
+    }
 
    /**
     * @description: Get the Completed Cadence record associated with the targetIds
@@ -452,6 +480,7 @@ public with sharing class SalesCadenceCalloutService {
         Map<String, String> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);       
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
         
+        Map<String,hed__Application__c> appMap = getApplicationRecordsMap(targetCadenceMap);
         for(String recId: targetCadenceMap.keySet()){           
             
             if(completedCadenceStatusMap.containsKey(recId)){
@@ -465,14 +494,16 @@ public with sharing class SalesCadenceCalloutService {
                 completedCadenceList.add(
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
-                        Contact__c = recId
+                        Contact__c = recId,
+                        Application__c = appMap.containsKey(recId)? appMap.get(recId).Id: null 
                     )
                 );   
             }else{
                 completedCadenceList.add(
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
-                        Lead__c = recId
+                        Lead__c = recId,
+                        Application__c = appMap.containsKey(recId)? appMap.get(recId).Id: null
                     )
                 );
             }

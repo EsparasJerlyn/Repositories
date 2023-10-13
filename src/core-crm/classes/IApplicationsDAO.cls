@@ -32,4 +32,9 @@ public interface IApplicationsDAO extends DmlInterface{
         Set<Id> contactIds,
         String accessLevel
     );
+    List<hed__Application__c> getApplicationsByLeadOrContactIds(
+        Set<String> recordId,
+        Set<String> cadenceNames,
+        String accessLevel
+    );
 } 
