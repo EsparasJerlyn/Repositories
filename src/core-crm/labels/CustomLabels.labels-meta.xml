@@ -345,7 +345,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Loqate Mobile Validation Cron Expression</shortDescription>
-        <value>0 0 0 ? * MON-SUN</value>
+        <value>0 0 * * * ?</value>
     </labels>
     <labels>
         <fullName>QUTeX</fullName>

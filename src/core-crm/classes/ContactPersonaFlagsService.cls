@@ -79,7 +79,12 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
             if (!updateContactMap.containsKey(contactId)) {
                 updateContactMap.put(
                     contactId,
-                    new Contact(id = contactId, QUT_Applicant__c = false)
+                    new Contact(
+                        Id = contactId, 
+                        QUT_Applicant__c = false, 
+                        //set to blank - will be reevaluated for 'Explore' in contact trigger
+                        Future_Student_Journey_Status__c = ''
+                    )
                 );
             }
         }

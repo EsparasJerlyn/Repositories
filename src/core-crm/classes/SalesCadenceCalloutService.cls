@@ -143,6 +143,10 @@ public with sharing class SalesCadenceCalloutService {
             String cadenceName = targetCadenceMap.get(recId);
             String nurtureId =  nurtureMap.get(cadenceName);          
             String calculatedStatus = 'Successful';
+
+            if(!completedCadenceStatusMap.containsKey(recId)){
+                continue;
+            }
             
             if(mapTasks.containsKey(recId)){
                 
@@ -176,7 +180,7 @@ public with sharing class SalesCadenceCalloutService {
         }
         
         if(!completedCadenceList.isEmpty()){
-            CompletedCadencesDAO.newInstance().upsertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
+            CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }        
     }
     

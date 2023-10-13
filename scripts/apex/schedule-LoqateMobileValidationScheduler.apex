@@ -7,6 +7,7 @@ list<AsyncApexJob> aJob= [
     SELECT Id, Status, ApexClassID
     FROM AsyncApexJob
     WHERE ApexClass.Name = :ClassName
+    AND Status != 'Aborted'
 ];
  
 if(aJob.size()>0){
