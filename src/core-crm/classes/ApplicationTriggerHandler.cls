@@ -10,6 +10,7 @@
       | mark.j.mahilum            | June 19,2023          | DEPP-5846    | Created file                                                          |
       | mark.j.mahilum            | July 25, 2023         | DEPP-6106    | Added new method setCanNurtureOnContactOrLeadBasedOnApplicationStatus |
       | julie.jane.alegre         | September 19, 2023    | DEPP-6667    | Added new method updateContactWhenQTACAppIsInactive                   |
+      | eccarius.munoz            | October 05, 2023      | DEPP-5866    | Added method to reset lead score of linked contact/lead               |
 */
 public with sharing class ApplicationTriggerHandler implements Disableable, BeforeInsert,  AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
@@ -53,6 +54,7 @@ public with sharing class ApplicationTriggerHandler implements Disableable, Befo
             ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, oldItems);
             ApplicationTriggerHelper.updateRelatedRecords(newItems, oldItems);
             ApplicationTriggerHelper.updateContactWhenQTACAppIsInactive((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
+            ApplicationTriggerHelper.resetLeadScore((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         }
     }
 

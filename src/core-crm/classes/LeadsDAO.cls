@@ -19,6 +19,10 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
      * Lead Constants
      */
     public static final String CCE_CORPORATE_PARTNER = 'CCE Corporate Partner';
+    public static final String QUALIFIED_STATUS = 'Qualified';
+    public static final String NEW_STATUS = 'New';
+    public static final String ENGAGING_STATUS = 'Engaging';
+    public static final String NURTURING_STATUS = 'Nurturing';
     public static final String EXPLORE_JOURNEY_STATUS = 'Explore';
     public static final String APPLY_JOURNEY_STATUS = 'Apply';
     public static final String OFFER_JOURNEY_STATUS = 'Offer';
@@ -52,7 +56,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
 
     public static List<Lead> getLeadsWithLimit(Integer recordsCount) {
         return [//NOPMD
-            SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c
+            SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c, 
+            Lead_Score__c, Calculated_Cadence__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c
             FROM Lead
             WITH SYSTEM_MODE//Only used in test class to verify record insert/update
             LIMIT :recordsCount
@@ -120,6 +125,18 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             'WHERE MobilePhone != NULL ' +
             'AND MobilePhone IN: caseMobile ' +
             'AND IsConverted = FALSE ',
+            accessLevel
+        );
+    }
+
+    public List<Lead> getLeadsByIdSet(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status ' +
+            'FROM Lead ' +
+            'WHERE Id IN: recordIdSet ',
             accessLevel
         );
     }

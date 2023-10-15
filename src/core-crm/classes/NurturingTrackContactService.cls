@@ -1,5 +1,5 @@
 /**
- * @description helper class for NurturingTrackContactService
+ * @description helper class for NurturingTrackContactService 
  * @see NurturingTrackContactBatch
  *
  * @author Accenture-
@@ -397,8 +397,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
     }
 
     private static void processCompletedInternationalOffertoAcceptanceManual(hed__Application__c application, Map<Id,hed__Application__c> internationalOffertoAcceptanceManual, Boolean hasCompletedCadence){
-        
+
         if( hasCompletedCadence &&
+            application.Is_Agent_Assisted__c == false &&
             nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL) &&
             nurturingTrackWithOffSetDaysMap.get(NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL).Key_Date_Offset_Days__c != null &&
             application.Calculated_Intake_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL).Key_Date_Offset_Days__c) <= System.today()){

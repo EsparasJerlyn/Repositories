@@ -40,4 +40,8 @@ public interface ILeadsDAO extends DmlInterface {
         Set<String> caseMobile,
         AccessLevel accessLevel
     ); 
+    List<Lead> getLeadsByIdSet(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    );
 }

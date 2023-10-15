@@ -11,7 +11,7 @@
       | mark.j.mahilum                 | Sept 09, 2023         | DEPP-6421              | Created file                                     |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for before insert                   |
  */
-public with sharing class CaseTriggerHandler implements Disableable, BeforeInsert, AfterInsert {
+public with sharing class CaseTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert {
     
     public static Boolean isRunning = false;
 
@@ -21,6 +21,7 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
     */
     public void beforeInsert(List<SObject> newItems) { 
         CaseTriggerHelper.caseRecordByMobileMatching((List<Case>) newItems);
+        CaseLeadScoreHelper.processLeadScoreCalculation((List<Case>) newItems, null);
         CaseTriggerHelper.updateCaseAutoPriorityAssignment((List<Case>) newItems);
     }
 
@@ -37,6 +38,24 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
         }
     }
 
+    /**
+     * @description before update
+     * @param newItems - List of MarketingSegmentation.Trigger.new
+     * @param oldItems - List of MarketingSegmentation.Trigger.old
+     */
+    public void beforeUpdate(
+        Map<Id, SObject> newItems,
+        Map<Id, SObject> oldItems
+    ) {
+        if(!isRunning){
+            isRunning = true;
+            CaseLeadScoreHelper.processLeadScoreCalculation(
+                (List<Case>) newItems.values(), 
+                (Map<Id, Case>) oldItems
+            );
+        }
+    }
+       
    /**
     * @description indicates it the trigger is disabled
     * @return disabled bypass

@@ -14,36 +14,30 @@
 @isTest
 private class DateServiceTest {
     @isTest
-    private static void isDateWithinRangeTest() {
-        //NOPMD Test method is mocked user not needed
-
-        ImplementationSelector.DAO.setMock(new CasesDAOMock());
-
-        List<Case> cases = new List<Case>();
-        cases.add(
-            new Case(
-                Status = 'Created',
-                Auto_Priority_Assignment__c = true,
-                RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
-            )
-        );
-
-        CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.USER_MODE);
-        Case caseRecord = CasesDAO.newInstance()
-            .getCasesByIds(new Set<Id>{ cases[0].Id }, AccessLevel.USER_MODE)[0];
+    private static void isDateWithinRangeTest() {//NOPMD Test method is for service class and user is not needed
 
         System.assertEquals(
             true,
             DateService.isDateWithinRange(
                 System.today().addDays(-2),
                 System.today().addDays(2),
-                date.newinstance(
-                    caseRecord.CreatedDate.year(),
-                    caseRecord.CreatedDate.month(),
-                    caseRecord.CreatedDate.day()
-                )
+                System.today()
             ),
             'Date is not within range'
+        );
+    }
+
+    @isTest
+    private static void isDateWithinRangeDefaultFalseTest() {//NOPMD Test method is for service class and user is not needed
+
+        System.assertEquals(
+            false,
+            DateService.isDateWithinRange(
+                System.today(),
+                System.today().addDays(-2),
+                System.today().addDays(2)
+            ),
+            'Date is within range'
         );
     }
 }

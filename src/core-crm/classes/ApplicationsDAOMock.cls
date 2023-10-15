@@ -11,6 +11,7 @@
  *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds       |
  *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIds    |
  *    | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Added method getApplicationsActiveApplicants|
+ *    | mark.j.mahilum                 | Oct 11, 2023          | DEPP-6852              | Added method getApplicationsByLeadOrContaIds|
  */
 @isTest
 public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implements IApplicationsDAO {
@@ -94,6 +95,22 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
 
         for (hed__Application__c record : applicationMap.values()) {
             if (contactIds.contains(record.hed__Applicant__c)) {
+                applicationList.add(record);
+            }
+        }
+
+        return applicationList;
+    }
+
+    public List<hed__Application__c> getApplicationsByLeadOrContactIds(
+        Set<String> recordIds,
+        Set<String> cadenceNames,
+        String accessLevel
+    ) {
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+
+        for (hed__Application__c record : applicationMap.values()) {
+            if (recordIds.contains(record.hed__Applicant__c) || recordIds.contains(record.Lead__c)) {
                 applicationList.add(record);
             }
         }

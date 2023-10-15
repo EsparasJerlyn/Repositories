@@ -16,6 +16,7 @@
  *    | mark.j.mahilum                 | June 08,2023          | DEPP-5798              | added LeadService helper class|
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | added can nurture flag update | 
  *    | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added after insert            |
+ *    | eccarius.munoz                 | October 6, 2023       | DEPP-5866              | Added handling for lead score |
  */
 
 public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
@@ -26,8 +27,6 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
      */
     public void beforeInsert(List<SObject> newItems) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
-        LeadService.updateLeadStatus((List<Lead>) newItems, null);
-        LeadService.updateCanNurtureFlag((List<Lead>) newItems, null);
     }
 
     /**
@@ -41,8 +40,8 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
     ) {
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-        LeadService.updateLeadStatus((List<Lead>) newItems.values(), null);
-        LeadService.updateCanNurtureFlag((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+        LeadService.updateLeadStatus((List<Lead>) newItems.values());
+        LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadService.createLeadScoreDetail((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
     }
 
@@ -54,6 +53,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         if(!isRunning ){
             isRunning = true;
             LeadService.createMarketingSegmentationForLeads((Map<Id, Lead>) newItems);
+            LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), null);
         }
     }
 

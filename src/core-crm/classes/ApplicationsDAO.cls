@@ -134,6 +134,10 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'Under Assessment - Review'
     };
 
+    public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
+    public static final String STATUS_WITHDRAWN = 'Withdrawn';
+    public static final String STATUS_DECLINED = 'Declined';
+
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(
             hed__Application__c.SObjectType
@@ -221,6 +225,20 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             'AND Application_Status__c NOT IN: samsStatuses)) ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<hed__Application__c> getApplicationsByLeadOrContactIds(Set<String> recordIds,Set<String> cadencesName, String accessLevel) {
+        return Database.query(
+            'SELECT Id, hed__Applicant__c,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c, Lead__c,hed__Application_Date__c,Lead__r.Lead_Score__c, Application_Status__c,RecordTypeId, ' +
+            'Applied_Intake_Study_Period__c, Offer_Status__c, Calculated_Intake_Date__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
+            'Is_Agent_Assisted__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE (Lead__c IN :recordIds OR hed__Applicant__c IN :recordIds) ' +
+            'AND (Lead__r.Calculated_Cadence__c IN:cadencesName OR hed__Applicant__r.Calculated_Cadence__c IN:cadencesName) ' +            
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel) +
+            ' ORDER by CreatedDate DESC'
         );
     }
 }
