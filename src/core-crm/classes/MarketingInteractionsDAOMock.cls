@@ -33,4 +33,18 @@ public inherited sharing class MarketingInteractionsDAOMock extends DmlBaseMock 
         }
         return marketingInteractionList;
     }
+
+    public List<Marketing_Interaction__c> getMarketingInteractionsByContactOrLeadIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ) {
+        List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
+        for (Marketing_Interaction__c record : marketingInteractionMap.values()) {
+            if(recordIds.contains(record.Contact__c) || recordIds.contains(record.Lead__c)){
+                marketingInteractionList.add(record);
+            }
+        }
+        return marketingInteractionList;
+    }
+
 }

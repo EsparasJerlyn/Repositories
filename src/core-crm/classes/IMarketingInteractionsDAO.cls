@@ -13,4 +13,10 @@ public interface IMarketingInteractionsDAO extends DmlInterface{
         Set<Id> applicantIds,
         AccessLevel accessLevel
     );
+
+    List<Marketing_Interaction__c> getMarketingInteractionsByContactOrLeadIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
+    
 }

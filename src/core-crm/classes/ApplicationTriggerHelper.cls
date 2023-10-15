@@ -14,6 +14,7 @@
       | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Updated getContactOnApplication to get the old Contact Id      |
       | julie.jane.alegre              | September 19, 2023    | DEPP-6667              | Added new method updateContactWhenQTACAppIsInactive            |
       | alexander.cadalin              | Sep. 22, 2023         | DEPP-6652,6653,6654    | Added methods for contact field updates on match to application|
+      | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added method to reset lead score of linked contact/lead        |
  */
 public with sharing class ApplicationTriggerHelper {
     /**
@@ -89,7 +90,6 @@ public with sharing class ApplicationTriggerHelper {
     public static void updateRelatedRecords(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         // update/upsert maps/list
         Map<Id, Contact> contactMapToUpdate = new Map<Id, Contact>();
-        Map<Id, Lead> leadMapToUpdate = new Map<Id, Lead>();
         // related maps
         Map<Id, Contact> relatedContactMap = new Map<Id, Contact>(ApplicationService.getApplicantsFromApplications((List<hed__Application__c>) newItems.values()));
         // process
@@ -105,23 +105,83 @@ public with sharing class ApplicationTriggerHelper {
                 ApplicationService.mapFieldsToApplicant(applicant, recordsToReference.application);
                 ApplicationService.switchMapFieldsByRecordType(applicant, recordsToReference);
             }
-                
-            if(application.Lead__c != null) {
-                // initial steps...
-                Lead lead = ApplicationService.getLeadFromUpdateMap(leadMapToUpdate, application.Lead__c);
-                // field updates...
-                ApplicationService.mapFieldsToLead(lead, application);
-            }
         }
         // update
         if(!contactMapToUpdate.keySet().isEmpty()) {
             ContactsDAO.newInstance().updateRecords(contactMapToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
         }
-        if(!leadMapToUpdate.keySet().isEmpty()) {
-            LeadsDAO.newInstance().updateRecords(leadMapToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
+    }
+
+    /**
+     * @description reset the lead score of the linked contact/lead
+     * @param newItems  List of new hed__Application__c records
+     * @param oldItems  Map of old hed__Application__c records 
+     */
+    public static void resetLeadScore(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems){
+
+        Set<Id> contactLeadIdSet = new Set<Id>();
+        for(hed__Application__c app : newItems){
+            if(isStudyLinkForScoreReset(app) || isSAMSLegacyForScoreReset(app) || isSAMSCIAnywhereForScoreReset(app)){
+                if(app.hed__Applicant__c != null){
+                    contactLeadIdSet.add(app.hed__Applicant__c);
+                }else if(app.Lead__c != null){
+                    contactLeadIdSet.add(app.Lead__c);
+                }
+            }
+        }    
+
+        List<Lead_Score_Detail__c> leadScoreDetails = getLeadScoreDetailsToUpdate(contactLeadIdSet);
+        if(!leadScoreDetails.isEmpty()){
+            LeadScoreDetailsDAO.newInstance().updateRecords(leadScoreDetails, false, AccessLevel.SYSTEM_MODE);
         }
     }
-    
+
+    /**
+     * Retrieves the lead score details by contact/lead and sets all categories to 0
+     */
+    private static List<Lead_Score_Detail__c> getLeadScoreDetailsToUpdate(Set<Id> contactLeadIdSet){
+        List<Lead_Score_Detail__c> leadScoreDetailsToUpdate = new List<Lead_Score_Detail__c>();
+        if(!contactLeadIdSet.isEmpty()){
+            List<Lead_Score_Detail__c> leadScoreDetailsList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
+            for(Lead_Score_Detail__c detail: leadScoreDetailsList){            
+                leadScoreDetailsToUpdate.add(new Lead_Score_Detail__c(
+                    Id = detail.Id,
+                    Country_Tier__c = 0,
+                    Course_Level__c = 0,
+                    Download__c = 0,
+                    Email_Interaction__c = 0,
+                    Enquiries__c = 0,
+                    Event_Registration_Attendance__c = 0,
+                    Funding__c = 0,
+                    Interested_In_Double_Degrees__c = 0,
+                    Interested_In_English_Pathway_Programs__c = 0,
+                    Manual_Assessment__c = 0,
+                    Marketing_Consent__c = 0,
+                    Match_My_Skills__c = 0,
+                    Preferred_Intake__c = 0,
+                    Primary_NSA__c = 0,
+                    Primary_BSA__c = 0,
+                    Program_Engagement__c = 0,
+                    Residence__c = 0
+                ));
+            }
+        }
+        
+        return leadScoreDetailsToUpdate;
+    }
+
+    private static Boolean isStudyLinkForScoreReset(hed__Application__c app){
+        return app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID && (app.Application_Status__c == ApplicationsDAO.STATUS_DECLINED_BY_APP || app.Application_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
+    }
+
+    private static Boolean isSAMSLegacyForScoreReset(hed__Application__c app){
+        return app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID && (app.Offer_Status__c == ApplicationsDAO.STATUS_DECLINED|| app.Offer_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
+    }
+
+    private static Boolean isSAMSCIAnywhereForScoreReset(hed__Application__c app){
+        return app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID && (app.Offer_Status__c == ApplicationsDAO.STATUS_DECLINED || app.Offer_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
+    }
+
     /**
      * @description get the existing contact in the application record
      *

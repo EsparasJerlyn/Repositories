@@ -40,6 +40,52 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Term__c> newTerms = new List<hed__Term__c>();
             newTerms.addAll(createTestIntakePeriodRecords(newFacilities[0].Id, newAccounts[0].Id));
             TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+            leadScoreParentConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Total Max Score DUG',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                    Domestic_International__c = 'Domestic',
+                    Study_Level__c = 'Undetermined'
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Enquiries',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Domestic',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 200,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigList, true, AccessLevel.USER_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+            leadScoreConfigChildList.addAll(TestDataFactory.createDomestcAndUndeterminedSubCategory(
+                leadScoreConfigList[0].Id,
+                new List<String>{
+                    'Applying for a course'
+                },
+                new List<Integer>{ 200}
+            ));
+
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreConfigChildList, true, AccessLevel.SYSTEM_MODE);
+
+            // create contact
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(1,'Domestic');
+            ContactsDAO.newInstance().insertRecords(newContacts, true, AccessLevel.SYSTEM_MODE);
             
             List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
@@ -1308,45 +1354,42 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
 
-            // create Lead Score Detail
-            Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
-            lsd.Total_Lead_Score__c = 200;
-            insert lsd;
-
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
 
             Nurture_Track_Configuration__c ntc = new Nurture_Track_Configuration__c(
                         Cadence_Name__c = 'Domestic Strong Interest Pre-Application (Automated)',
-                        Lead_Score_Threshold__c = 180,
+                        Lead_Score_Threshold__c = 1,
                         Criteria_Type__c = 'Entry',
                         Enquiry_Category_L1__c = 'Applying for a course',
                         Status__c = 'Active'
                     );
             nurtureList.add(ntc);
-            insert nurtureList;
-
-            // create contact
-            List<Contact> newContacts = createTestContactRecords(0, 1);
-            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-            newContacts[0].Lead_Score_Detail__c = lsd.Id;
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
+            
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
 
             Case caseRec = new Case (
-                    ContactId = newContacts[0].Id,
+                    ContactId = contactList[0].Id,
                     Category__c = 'Applying for a course'
                 );
-            insert caseRec;
+            CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.USER_MODE);
+            Test.stopTest();
         
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(contactList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
-
+            
             // call method
-            NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
-            Test.stopTest();
-
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contactList));
+            // assert
+            System.assertEquals(
+                'Domestic Strong Interest Pre-Application (Automated)',
+                processContacts[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
         }
     }
     
@@ -1355,48 +1398,35 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
 
-            // create Lead Score Detail
-            Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
-            lsd.Total_Lead_Score__c = 200;
-            insert lsd;
-
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
 
-            Nurture_Track_Configuration__c ntc = new Nurture_Track_Configuration__c(
+            nurtureList.add(new Nurture_Track_Configuration__c(
                         Cadence_Name__c = 'Domestic Strong Interest Pre-Application',
                         Lead_Score_Threshold__c = 180,
                         Criteria_Type__c = 'Entry',
                         Enquiry_Category_L1__c = 'Applying for a course',
                         Status__c = 'Active'
-                    );
-            nurtureList.add(ntc);
-            insert nurtureList;
+                    ));
 
-            List<Nurture_Track_Configuration__c> nurtureList1 = new List<Nurture_Track_Configuration__c>();
-            Nurture_Track_Configuration__c ntc1 = new Nurture_Track_Configuration__c(
+            nurtureList.add(new Nurture_Track_Configuration__c(
                         Cadence_Name__c = 'Domestic Strong Interest Pre-Application (Automated)',
                         Lead_Score_Threshold__c = 180,
                         Criteria_Type__c = 'Entry',
                         Enquiry_Category_L1__c = 'Applying for a course',
                         Status__c = 'Active'
-                    );
-            nurtureList1.add(ntc1);
-            insert nurtureList1;
+                    ));
 
-            // create contact
-            List<Contact> newContacts = createTestContactRecords(0, 1);
-            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-            newContacts[0].Lead_Score_Detail__c = lsd.Id;
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList,false,AccessLevel.USER_MODE);
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
             Case caseRec = new Case (
-                    ContactId = newContacts[0].Id,
+                    ContactId = contactList[0].Id,
                     Category__c = 'Applying for a course'
                 );
-            insert caseRec;
-        
+            CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.USER_MODE);
+            Test.stopTest();
+            
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(contactList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
@@ -1404,16 +1434,21 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
-                Contact__c = newContacts[0].Id,
-                Nurture_Track_Configuration__c = nurtureList1[0].Id,
+                Contact__c = contactList[0].Id,
+                Nurture_Track_Configuration__c = nurtureList[1].Id,
                 Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
-            Test.stopTest();
-
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contactList));
+            
+            // assert
+            System.assertEquals(
+                'Domestic Strong Interest Pre-Application',
+                processContacts[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
         }
     }
 

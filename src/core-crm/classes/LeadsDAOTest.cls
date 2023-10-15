@@ -30,7 +30,7 @@ public with sharing class LeadsDAOTest {
                     new Set<Id>(),
                     'SYSTEM_MODE'
                 );
-            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest();
     }
@@ -40,7 +40,7 @@ public with sharing class LeadsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
-            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest();
     }
@@ -66,7 +66,7 @@ public with sharing class LeadsDAOTest {
                     new Set<String>(),
                     'SYSTEM_MODE'
                 );
-            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest();
     }
@@ -79,7 +79,7 @@ public with sharing class LeadsDAOTest {
                 .getLearnerLeadsByCalculatedCadences(
                     new Set<String>()
                 );
-            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest();
     }
@@ -93,7 +93,7 @@ public with sharing class LeadsDAOTest {
                     new Set<String>(),
                     'SYSTEM_MODE'
                 );
-            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest(); 
     }
@@ -107,7 +107,21 @@ public with sharing class LeadsDAOTest {
                     new Set<String>(),
                     AccessLevel.USER_MODE
                 );
-            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getLeadsByIdSetTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getLeadsByIdSet(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest();
     }
@@ -130,7 +144,7 @@ public with sharing class LeadsDAOTest {
                     leadQueryParam,
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(leadList.isEmpty(), 'leadList should not be empty');
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest();
     }

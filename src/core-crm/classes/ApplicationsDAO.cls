@@ -134,6 +134,10 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'Under Assessment - Review'
     };
 
+    public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
+    public static final String STATUS_WITHDRAWN = 'Withdrawn';
+    public static final String STATUS_DECLINED = 'Declined';
+
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(
             hed__Application__c.SObjectType

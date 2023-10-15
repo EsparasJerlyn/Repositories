@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | julie.jane.alegre              | Sept 07, 2023         | DEPP-5965              | Created file                                     |
+      | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added handling for calculating total lead score  |
  */
 public with sharing class LeadScoreDetailTriggerHelper {
     /**
@@ -16,25 +17,232 @@ public with sharing class LeadScoreDetailTriggerHelper {
      * @param newItems - List of Lead_Score_Detail__c new records
      * @param oldItems - Map<Id, Lead_Score_Detail__c> old records map
      */
-    public static void linkLeadScoreDetailToContact(Map<Id, Lead_Score_Detail__c> newItems){
-        Map<Id,Id> leadScoreDetailMap = new Map<Id,Id>();
-        List<Contact> contactToUpdate = new List<Contact>();
+    public static void linkLeadScoreDetailToContact(Map<Id, Lead_Score_Detail__c> newItems) {
+        Map<Id, Id> leadScoreDetailMap = new Map<Id, Id>();
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
+        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         //Get contact id link to the newly created lead score detail
-        for(Lead_Score_Detail__c leadScoreDetail:newItems.values()){
-            if( leadScoreDetail.Contact__c != null ){
-                leadScoreDetailMap.put(leadScoreDetail.Contact__c, leadScoreDetail.Id);
+        for (Lead_Score_Detail__c leadScoreDetail : newItems.values()) {
+            if (leadScoreDetail.Contact__c != null) {
+                contactToUpdateMap.put(
+                    leadScoreDetail.Contact__c,
+                    new Contact(
+                        Id = leadScoreDetail.Contact__c,
+                        Lead_Score_Detail__c = leadScoreDetail.Id
+                    )
+                );
+            }
+            if (leadScoreDetail.Lead__c != null) {
+                leadToUpdateMap.put(
+                    leadScoreDetail.Lead__c,
+                    new Lead(
+                        Id = leadScoreDetail.Lead__c,
+                        Lead_Score_Detail__c = leadScoreDetail.Id
+                    )
+                );
             }
         }
-        List<Contact> contactList = ContactsDAO.newInstance().getContactsFromConvertedLead(leadScoreDetailMap.keySet(), 'SYSTEM_MODE');
 
-        for(Contact contacts: contactList){
-            if(leadScoreDetailMap.containsKey(contacts.Id)){
-                contacts.Lead_Score_Detail__c = leadScoreDetailMap.get(contacts.Id);
-                contactToUpdate.add(contacts);
+        if (!contactToUpdateMap.keySet().isEmpty()) {
+            ContactsDAO.newInstance()
+                .updateRecords(contactToUpdateMap.values(), false, AccessLevel.SYSTEM_MODE);
+        }
+        if (!leadToUpdateMap.keySet().isEmpty()) {
+            LeadsDAO.newInstance()
+                .updateRecords(leadToUpdateMap.values(), false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    public static void calculateTotalLeadScore(
+        List<Lead_Score_Detail__c> newItems,
+        Map<Id, Lead_Score_Detail__c> oldItems
+    ) {
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
+        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
+        Map<String, Integer> configMap = mapLeadScoreConfigMax();
+        Map<Id, Decimal> contactToScoreMap = new Map<Id, Decimal>();
+        Map<Id, Decimal> leadToScoreMap = new Map<Id, Decimal>();
+        List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance()
+            .getNurtureTrackLeadScoreThreshold('SYSTEM_MODE');
+
+        for (Lead_Score_Detail__c leadScoreDetail : newItems) {
+            Integer countryTier = getScore(leadScoreDetail.Country_Tier__c);
+            Integer courseLevel = getScore(leadScoreDetail.Course_Level__c);
+            Integer download = getScore(leadScoreDetail.Download__c);
+            Integer emailInteraction = getScore(leadScoreDetail.Email_Interaction__c);
+            Integer enquiries = getScore(leadScoreDetail.Enquiries__c);
+            Integer eventReg = getScore(leadScoreDetail.Event_Registration_Attendance__c);
+            Integer funding = getScore(leadScoreDetail.Funding__c);
+            Integer intDoubleDeg = getScore(leadScoreDetail.Interested_In_Double_Degrees__c);
+            Integer intEngPath = getScore(
+                leadScoreDetail.Interested_In_English_Pathway_Programs__c
+            );
+            Integer manualAssess = getScore(leadScoreDetail.Manual_Assessment__c);
+            Integer mktgCons = getScore(leadScoreDetail.Marketing_Consent__c);
+            Integer matchMySkills = getScore(leadScoreDetail.Match_My_Skills__c);
+            Integer prefIntake = getScore(leadScoreDetail.Preferred_Intake__c);
+            Integer primaryNSA = getScore(leadScoreDetail.Primary_NSA__c);
+            Integer primaryBSA = getScore(leadScoreDetail.Primary_BSA__c);
+            Integer progEng = getScore(leadScoreDetail.Program_Engagement__c);
+            Integer residence = getScore(leadScoreDetail.Residence__c);
+
+            Integer score =
+                countryTier +
+                courseLevel +
+                download +
+                emailInteraction +
+                enquiries +
+                eventReg +
+                funding +
+                intDoubleDeg +
+                intEngPath +
+                manualAssess +
+                mktgCons +
+                matchMySkills +
+                prefIntake +
+                primaryNSA +
+                primaryBSA +
+                progEng +
+                residence;
+
+            Integer validatedScore = LeadScoreCalculatorService.validateScore(
+                score,
+                configMap.get(
+                    leadScoreDetail.Domestic_International__c + leadScoreDetail.Study_Level__c
+                )
+            );
+            leadScoreDetail.Total_Lead_Score__c = validatedScore;
+
+            //map contact to its total lead score
+            if (leadScoreDetail.Contact__c != null) {
+                contactToScoreMap.put(
+                    leadScoreDetail.Contact__c,
+                    leadScoreDetail.Total_Lead_Score__c
+                );
+            }
+
+            //map lead to its total lead score
+            if (leadScoreDetail.Lead__c != null) {
+                leadToScoreMap.put(leadScoreDetail.Lead__c, leadScoreDetail.Total_Lead_Score__c);
             }
         }
-        if(!contactToUpdate.isEmpty()){
-            ContactsDAO.newInstance().updateRecords(contactToUpdate, false, AccessLevel.SYSTEM_MODE);
+
+        Decimal minimumThreshold = nurtureList.isEmpty()?null:nurtureList[0].Lead_Score_Threshold__c;
+
+        //update Contact and Lead Flag fields when lead score is recalculated
+        setContactFlags(contactToScoreMap, minimumThreshold);
+        setLeadFlags(leadToScoreMap, minimumThreshold);
+    }
+
+    /**
+     * @description set the contact flags that depends on lead score
+     * @param  Map<Id, Decimal> contactToScoreMap - contact id to its total score map
+     * @param Decimal minimumThreshold - minimum threshold of nuturetrack
+     */
+    private static void setContactFlags(
+        Map<Id, Decimal> contactToScoreMap,
+        Decimal minimumThreshold
+    ) {
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
+        Contact contactRecord;
+        if (!contactToScoreMap.keySet().isEmpty()) {
+            for (
+                Contact con : ContactsDAO.newInstance()
+                    .getPersonContactsBySetIds(contactToScoreMap.keySet(), AccessLevel.SYSTEM_MODE)
+            ) {
+                Decimal totalLeadScore = contactToScoreMap.get(con.Id);
+                boolean newCanNuture = minimumThreshold != null && LeadScoreService.isLeadScoreInRange(
+                    totalLeadScore,
+                    minimumThreshold,
+                    null
+                );
+                boolean newQUTLead = totalLeadScore > 0;
+
+                //if any of the fields above are changed by recalculation
+                //then contact is for update
+                boolean isForUpdate =
+                    (!con.QUT_Applicant__c && con.Can_Nurture__c != newCanNuture) ||
+                    con.QUT_Lead__c != newQUTLead;
+
+                if (isForUpdate) {
+                    contactRecord = new Contact();
+                    contactRecord.Id = con.Id;
+                    contactRecord.Can_Nurture__c = newCanNuture;
+                    contactRecord.QUT_Lead__c = newQUTLead;
+                    contactToUpdateMap.put(con.Id, contactRecord);
+                }
+            }
         }
+
+        if (!contactToUpdateMap.keySet().isEmpty()) {
+            ContactsDAO.newInstance()
+                .updateRecords(contactToUpdateMap.values(), false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    /**
+     * @description set the lead flags that depends on lead score
+     * @param  Map<Id, Decimal> leadToScoreMap - lead id to its total score map
+     * @param Decimal minimumThreshold - minimum threshold of nuturetrack
+     */
+    private static void setLeadFlags(Map<Id, Decimal> leadToScoreMap, Decimal minimumThreshold) {
+        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
+        Lead leadRecord;
+
+        if (!leadToScoreMap.keySet().isEmpty()) {
+            for (
+                Lead lead : LeadsDAO.newInstance()
+                    .getLeadsByIdSet(leadToScoreMap.keySet(), AccessLevel.SYSTEM_MODE)
+            ) {
+                Decimal totalLeadScore = leadToScoreMap.get(lead.Id);
+                String newStatus = LeadScoreService.getLeadStatus(totalLeadScore);
+                boolean isAboveThreshold = minimumThreshold != null && LeadScoreService.isLeadScoreInRange(
+                    totalLeadScore,
+                    minimumThreshold,
+                    null
+                );
+                String newJourneyStatus = totalLeadScore > 0 ? LeadsDAO.EXPLORE_JOURNEY_STATUS : '';
+
+                //if any of the fields above is changed by recalculation, then lead is for update
+                boolean isForUdpate =
+                    lead.Can_Nurture__c != isAboveThreshold ||
+                    lead.Future_Student_Journey_Status__c != newJourneyStatus ||
+                    lead.Status != newStatus;
+
+                if (isForUdpate) {
+                    leadRecord = new Lead();
+                    leadRecord.Id = lead.Id;
+                    leadRecord.Can_Nurture__c = isAboveThreshold;
+                    leadRecord.Future_Student_Journey_Status__c = newJourneyStatus;
+                    leadRecord.Status = newStatus;
+                    leadToUpdateMap.put(lead.Id, leadRecord);
+                }
+            }
+        }
+
+        if (!leadToUpdateMap.keySet().isEmpty()) {
+            LeadsDAO.newInstance()
+                .updateRecords(leadToUpdateMap.values(), false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    private static Map<String, Integer> mapLeadScoreConfigMax() {
+        List<Lead_Score_Configuration__c> leadScoreConfigList = LeadScoreConfigurationDAO.newInstance()
+            .getLeadScoreConfigByRecordTypeIds(
+                AccessLevel.SYSTEM_MODE,
+                new Set<Id>{ LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG }
+            );
+        Map<String, Integer> configMap = new Map<String, Integer>();
+        for (Lead_Score_Configuration__c config : leadScoreConfigList) {
+            configMap.put(
+                config.Domestic_International__c + config.Study_Level__c,
+                Integer.valueOf(config.Max_Score__c)
+            );
+        }
+        return configMap;
+    }
+
+    private static Integer getScore(Decimal leadScore) {
+        return leadScore != null ? Integer.valueOf(leadScore) : 0;
     }
 }

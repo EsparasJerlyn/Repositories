@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | neil.s.h.lesidan               | August 30, 2023       | DEPP-5835              | created file                 |
+      | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added getLeadScoreConfig     |
  */
 @isTest
 public with sharing class LeadScoreConfigurationDAOTest {
@@ -28,7 +29,16 @@ public with sharing class LeadScoreConfigurationDAOTest {
                 '',
                 ''
             );
-        System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should not be empty.');
+        System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
         Test.stopTest();
     }
+
+    @isTest
+    static void getLeadScoreConfigTest() {
+        Test.startTest();
+        List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigByRecordTypeIds(AccessLevel.SYSTEM_MODE, LeadScoreConfigurationDAO.RECTYPE_IDS_CATEGORY_AND_SUB_CATEGORY);
+        System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
+        Test.stopTest();
+    }
+    
 }
