@@ -345,7 +345,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Loqate Mobile Validation Cron Expression</shortDescription>
-        <value>0 0 0 ? * MON-SUN</value>
+        <value>0 0 * * * ?</value>
     </labels>
     <labels>
         <fullName>QUTeX</fullName>
@@ -649,6 +649,14 @@
         <protected>false</protected>
         <shortDescription>RT_Account_Business_Org</shortDescription>
         <value>Business_Organization</value>
+    </labels>
+    <labels>
+        <fullName>RT_Academic_Program</fullName>
+        <categories>RecordType,Account</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Academic_Program</shortDescription>
+        <value>Academic_Program</value>
     </labels>
     <labels>
         <fullName>RT_Account_University_Department</fullName>

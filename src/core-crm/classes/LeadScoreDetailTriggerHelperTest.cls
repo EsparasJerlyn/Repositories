@@ -16,7 +16,61 @@ private class LeadScoreDetailTriggerHelperTest {
 
     @testSetup
     static void setupMethod(){  
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent' });
+        List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+        leadScoreParentConfigList.add(
+            new Lead_Score_Configuration__c(
+                Name = 'Total Max Score DUG',
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                Domestic_International__c = 'Undetermined',
+                Study_Level__c = 'Undetermined'
+            )
+        );
+
+        LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+        leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Marketing consent',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 200,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+        LeadScoreConfigurationDAO.newInstance()
+            .insertRecords(leadScoreConfigList, true, AccessLevel.USER_MODE);
+
+        List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+        
+        leadScoreConfigChildList.addAll(TestDataFactory.createUndAndUndeterminedSubCategory(
+            leadScoreConfigList[0].Id,
+            new List<String>{
+                'Yes',
+                'is blank'
+            },
+            new List<Integer>{ 200,200}
+        ));
+
+        LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreConfigChildList, true, AccessLevel.SYSTEM_MODE);
+
+        List<Nurture_Track_Configuration__c> configsList = new List<Nurture_Track_Configuration__c>();
+        // Alex-offshore: This was in the setup already... o- o?
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = 'TEST 1',
+            Lead_Score_Threshold__c = 3,
+            Status__c = 'Active'
+        ));
+
+        NurtureTrackConfigurationsDAO.newInstance().insertRecords(configsList, true, AccessLevel.SYSTEM_MODE);
+
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent', 'QUT_ESB'});
         System.runAs(TestDataFactory.getProgramAdminUser()){ 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
@@ -24,7 +78,8 @@ private class LeadScoreDetailTriggerHelperTest {
             for(Lead lead : leads){   
                 lead.Company_Category__c = 'Corporate';
                 lead.Description = 'Test Description';
-                lead.Lead_Type__c = 'CCE Corporate Partner';
+                lead.Lead_Type__c = 'Learner';
+                lead.Email_Opt_In_Datetime__c = System.Today();
             }   
             LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
         }    
@@ -53,5 +108,41 @@ private class LeadScoreDetailTriggerHelperTest {
         }
         Database.convertLead(leadstoConvert);  
     }    
+
+    @isTest
+    private static void setLeadFlagsTest(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){ 
+            Test.startTest();
+            // create lead
+            List<Lead> newLead = TestDataFactory.createTestLeadRecords(0,1);
+            newLead[0].Email_Opt_In_Datetime__c = System.Today();
+            LeadsDAO.newInstance().insertRecords(newLead, true, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            for(Lead lead: LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords)){
+                System.assertEquals('Explore', lead.Future_Student_Journey_Status__c, 'future student journey status should match');
+                System.assertEquals(true, lead.Can_Nurture__c, 'Can_Nurture__c should match');
+                System.assertEquals('Nurturing', lead.Status, 'Status should match');
+            }
+        }
+    }
+
+    @isTest
+    private static void setContactFlagsTest(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){ 
+            Test.startTest();
+            // create Contact
+            List<Contact> newContact = TestDataFactory.createTestContactRecords(0, 1);
+            ContactsDAO.newInstance().insertRecords(newContact, true, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            for(Contact con: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContact[0].Id}, AccessLevel.SYSTEM_MODE)){
+                System.assertEquals(true, con.QUT_Lead__c, 'QUT Lead should match');
+                System.assertEquals(true, con.Can_Nurture__c, 'Can_Nurture__c should match');
+            }
+        }
+    }
 
 }

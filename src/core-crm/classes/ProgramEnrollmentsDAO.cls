@@ -10,6 +10,8 @@
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 
+    public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
+
     public Schema.SObjectType getSObjectType(){
 		return hed__Program_Enrollment__c.SObjectType;
 	}
@@ -35,6 +37,16 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             'AND Enrollment_Status__c = \'Admitted\' ' +
             'AND hed__Contact__r.QUT_Student__c = FALSE ' +
             'WITH ' + String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<hed__Program_Enrollment__c> getProgramEnrollmentsByContactIdAndStatus(Set<Id> contactIds, String status, AccessLevel accessLevel){
+        return Database.query(
+            'SELECT Id, hed__Account__c, hed__Contact__c ' +
+              'FROM hed__Program_Enrollment__c ' +
+             'WHERE hed__Contact__c IN :contactIds ' + 
+               'AND Enrollment_Status__c =: status',
+            accessLevel
         );
     }
 }

@@ -72,7 +72,8 @@ font-size: 18px !important;
 
 @media only screen and (max-width: 768px){
 
-[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+[interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button,
+lightning-primitive-file-droppable-zone .slds-file-selector__button {
 
     width: 300px !important;
 
@@ -94,7 +95,8 @@ font-size: 18px !important;
 
 @media only screen and (max-width: 425px){
 
-    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button,
+    lightning-primitive-file-droppable-zone .slds-file-selector__button {
     
         width: 261px !important;
         margin-left: -2px !important;
@@ -186,7 +188,8 @@ font-size: 18px !important;
         color: var(--greys-color-bodytext);
     }
     
-    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button {
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button,
+    lightning-primitive-file-droppable-zone .slds-file-selector__button {
         background: #0066b9 !important;
         width: 261px;
         flex-flow: inherit;
@@ -201,17 +204,24 @@ font-size: 18px !important;
         margin-left: 5px;
     }
     
-    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover{
+    
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__button:hover,
+    lightning-primitive-file-droppable-zone .slds-file-selector__button:hover {
     background: #124C7B !important;
     color:#ffffff;
     }
     
-    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__text, [interop-primitivefiledroppablezone_primitivefiledroppablezone] .slds-file-selector__text 
+    
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host] .slds-file-selector__text, 
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone] .slds-file-selector__text,
+    lightning-primitive-file-droppable-zone .slds-file-selector__text
     {
     display: none !important;
     }
     
-    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host].slds-file-selector__dropzone{
+    
+    [interop-primitivefiledroppablezone_primitivefiledroppablezone-host].slds-file-selector__dropzone,
+    lightning-primitive-file-droppable-zone .slds-file-selector__dropzone {
     border: 0px solid #fff !important;
     }
 

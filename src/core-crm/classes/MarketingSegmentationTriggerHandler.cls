@@ -11,9 +11,9 @@
       | w.li                           | June 05, 2022         | DEPP-1058              | Created file                 |
       |                                |                       |                        |                              |
  */
-public without sharing class MarketingSegmentationTriggerHandler implements Disableable, AfterInsert, AfterUpdate {
-    public static Boolean isRunning = false;
-    
+public without sharing class MarketingSegmentationTriggerHandler implements Disableable, AfterInsert, AfterUpdate, BeforeUpdate {
+    public static Boolean isAfterRunning = false;
+    public static Boolean isBeforeRunning = false;
     /**
      * @description after insert
      * @param newItems - List of MarketingSegmentation.Trigger.new
@@ -31,9 +31,27 @@ public without sharing class MarketingSegmentationTriggerHandler implements Disa
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ) {
-        if(!isRunning){
-            isRunning = true;
+        if(!isAfterRunning){
+            isAfterRunning = true;
             MarketingSegmentationTriggerHelper.updateRelatedRecords(newItems, oldItems);
+        }
+    }
+
+    /**
+     * @description before update
+     * @param newItems - List of MarketingSegmentation.Trigger.new
+     * @param oldItems - List of MarketingSegmentation.Trigger.old
+     */
+    public void beforeUpdate(
+        Map<Id, SObject> newItems,
+        Map<Id, SObject> oldItems
+    ) {
+        if(!isBeforeRunning){
+            isBeforeRunning = true;
+            MarketingSegmentationLeadScoreHelper.processLeadScoreCalculation(
+                (List<Marketing_Segmentation__c>) newItems.values(), 
+                (Map<Id, Marketing_Segmentation__c>) oldItems
+            );
         }
     }
     

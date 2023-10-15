@@ -4,5 +4,5 @@
 
     <aura:attribute name="tabId" type="String" default="" />
 
-    <c:casePotentialMatchesViewAll tabid="{!v.tabId}"></c:casePotentialMatchesViewAll>
+    <c:casePotentialMatchesViewAll tabid="{!v.tabId}" onclosetab="{!c.handleClosetab}"></c:casePotentialMatchesViewAll>
 </aura:component>

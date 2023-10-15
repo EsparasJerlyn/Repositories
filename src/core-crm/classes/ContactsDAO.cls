@@ -28,6 +28,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
      * Contact Constants
      */
     public static final String PERSON_RECORDTYPE = System.Label.RT_Contact_Person;
+    public static final String ID_PREFIX = '003'; //Constant contact Id prefix see: https://help.salesforce.com/s/articleView?id=000385203&type=1
     public static final Id PERSON_RECORDTYPE_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get(PERSON_RECORDTYPE)
         .getRecordTypeId();
@@ -43,6 +44,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final Set<String> CONTACT_HAS_ACCEPTED_STATUSES = new Set<String>{
         'Accept-Admit','Study'
     };
+
+    public static final String CITIZENSHIP_STATUS_DOMESTIC = 'Domestic';
+    public static final String CITIZENSHIP_STATUS_INTERNATIONAL = 'International';
 
     public static final String EXPLORE_JOURNEY_STATUS = 'Explore';
     public static final String APPLY_JOURNEY_STATUS = 'Apply';
@@ -94,7 +98,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 hed__AlternateEmail__c,
                 Future_Student_Journey_Status__c,
                 Lead_Score__c,
-                Lead_Score_Detail__c
+                Lead_Score_Detail__c,
+                Calculated_Cadence__c,
+                hed__Citizenship_Status__c                
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -305,12 +311,12 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, ' +
-            'IsStaff_Active__c, Staff_Verified__c, ' +
+            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, ' +
+            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, ' +
             'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
-            'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, ' +
+            'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
             'FirstName, LastName, Birthdate ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +

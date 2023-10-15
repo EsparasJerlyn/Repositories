@@ -44,7 +44,8 @@ private class ActionCadenceSTTriggerHelperTest {
         Test.startTest();      
         // Publish test event
         EventBus.publish(createEvent);      
-        Test.stopTest();     
+        Test.stopTest();
+             
         // validate if communication queue is created 
         System.assert(!acTracker.isEmpty() , 'ActionCadenceTrackers record is empty');       
     } 

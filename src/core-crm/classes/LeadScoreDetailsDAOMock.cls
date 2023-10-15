@@ -7,6 +7,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
  *    | julie.jane.alegre              | August 31, 2023       |DEPP-5965               | Created File                        |
+ *    | eccarius.munoz                 | October 04, 2023      |DEPP-5866               | Added method to get by con/lead     |
  */
 @isTest
 public inherited sharing class LeadScoreDetailsDAOMock extends DmlBaseMock implements ILeadScoreDetailsDAO{
@@ -33,4 +34,27 @@ public inherited sharing class LeadScoreDetailsDAOMock extends DmlBaseMock imple
         }
         return leadScoreDetailList;
     }
+
+    public List<Lead_Score_Detail__c> getLeadScoreDetailsByContactOrLeadId(
+        Set<Id> contactLeadIdSet,
+        AccessLevel accessLevel
+    ) {
+        List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
+
+        for (Lead_Score_Detail__c record : leadScoreDetailsMap.values()) {
+            if (
+                contactLeadIdSet.contains(record.Lead__c) ||
+                contactLeadIdSet.contains(record.Contact__c)
+            ) {
+                leadScoreDetailList.add(record);
+            }
+        }
+
+        return leadScoreDetailList;
+    }
+
+    public Database.QueryLocator getLeadScoreDetailsWithContactOrLead() {
+        return null;
+    }
+    
 }

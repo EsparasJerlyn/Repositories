@@ -1,0 +1,150 @@
+/**
+  * @description helper class to compute Lead Score for Lead
+  * @see ..CaseTriggerHandler
+  *
+  * @author Accenture 
+  *
+  * @history
+  *
+  *    | Developer                      | Date                  | JIRA                   | Change Summary                                 |
+  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+  *    | eccarius.munoz                 | October 06, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
+  *    |                                |                       |                        | for Lead                                       |
+  */
+public with sharing class LeadLeadScoreHelper implements ILeadScoreCommand {
+    private static Map<Id,Lead> domesticUnderGradMap = new Map<Id,Lead>();
+    private static Map<Id,Lead> domesticPostGradMap = new Map<Id,Lead>();
+    private static Map<Id,Lead> domesticUndeterminedMap = new Map<Id,Lead>();
+    private static Map<Id,Lead> internationalUnderGradMap = new Map<Id,Lead>();
+    private static Map<Id,Lead> internationalPostGradMap = new Map<Id,Lead>();
+    private static Map<Id,Lead> internationalUndeterminedMap = new Map<Id,Lead>();
+    private static Map<Id,Lead> undeterminedUndeterminedMap = new Map<Id,Lead>();
+
+    /**
+     * Filter records to be processed
+     */
+    public static void processLeadScoreCalculation(List<Lead> newItems, Map<Id, Lead> oldItems){
+        Boolean isForInsert = oldItems == null;
+        Map<Id,Lead> leadMap = new Map<Id,Lead>();
+        for(Lead lead : newItems){
+            Boolean isValid = lead.Lead_Type__c == 'Learner' && !lead.IsConverted;
+            Boolean isForUpdate = !isForInsert && lead.Email_Opt_In_DateTime__c != oldItems.get(lead.Id).Email_Opt_In_DateTime__c;
+            if(isValid && (isForInsert || isForUpdate)){
+              leadMap.put(lead.Id, lead);
+            }
+        }
+        
+        Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(new Set<Id>(), leadMap.keySet());
+        for(Lead lead : leadMap.values()){
+            Boolean isForUpdate = oldItems != null && (
+                oldItems.get(lead.Id).Email_Opt_In_DateTime__c != lead.Email_Opt_In_DateTime__c ||
+                marketingSegMap.get(lead.Id).My_Citizenship_Status__c != marketingSegMap.get(oldItems.get(lead.Id).Id).My_Citizenship_Status__c
+            );
+            if(isForInsert || isForUpdate){
+              leadMap.put(lead.Id, lead);
+            }
+        }
+
+        //Sort records per study level and citizenship status
+        for(Lead lead : leadMap.values()){
+            mapUnderGradStudyLevel(lead, marketingSegMap);
+            mapPostGradStudyLevel(lead, marketingSegMap);
+            mapUndeterminedStudyLevel(lead, marketingSegMap);
+        }
+
+        callAsyncFunction(leadMap);
+    }
+
+    private static void callAsyncFunction(Map<Id,Lead> leadMap){
+        if(!leadMap.isEmpty()){
+            LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new LeadLeadScoreHelper(), setMarketingSegMap(), leadMap.keySet());
+            System.enqueueJob(executeQueueable);  
+        }
+    }
+
+    /**
+     * Async process that includes:
+     * 1. Retrieval of lead score config
+     * 2. Calculation of lead score per study level and citizenship status
+     * 3. inserting/updating of lead score detail
+     */
+    public static void executeCalculation(LeadScoreCalculatorService.ObjectMap objectMap, Set<Id> leadIds){
+        LeadScoreCalculatorService.calculateLeadScore(objectMap, leadIds, Lead.getSObjectType());
+    } 
+
+    /**
+     * Maps Undergrad studylevel records to domesticUnderGradMap and internationalUnderGradMap
+     */
+    private static void mapUnderGradStudyLevel(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
+        Boolean isUnderGrad = marketingSegMap.containsKey(lead.Id) && marketingSegMap.get(lead.Id).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
+        Boolean isDomesticLead = isUnderGrad && validateDomesticLead(lead, marketingSegMap);
+        Boolean isInternationalLead = isUnderGrad && validateInternationalLead(lead, marketingSegMap);
+        if(isDomesticLead){
+            domesticUnderGradMap.put(lead.Id, lead);
+        }
+        else if(isInternationalLead){
+            internationalUnderGradMap.put(lead.Id, lead);
+        }
+    }
+
+    private static Boolean validateDomesticLead(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap){
+        return 
+                marketingSegMap.get(lead.Id).My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU || 
+                marketingSegMap.get(lead.Id).My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_NZ;
+    }
+
+    private static Boolean validateInternationalLead(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap){
+        return 
+            marketingSegMap.get(lead.Id).My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+    }
+
+    /**
+     * Maps Postgrad studylevel records to domesticPostGradMap and internationalPostGradMap
+     */
+    private static void mapPostGradStudyLevel(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
+        Boolean isPostGrad = marketingSegMap.containsKey(lead.Id) && marketingSegMap.get(lead.Id).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
+        Boolean isDomesticLead = isPostGrad && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
+        Boolean isInternationalLead = isPostGrad && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+        if(isDomesticLead){
+            domesticPostGradMap.put(lead.Id, lead);
+        }
+        if(isInternationalLead){
+            internationalPostGradMap.put(lead.Id, lead);
+        }
+    }
+
+    /**
+     * Maps Undergrad studylevel records to domesticUndeterminedMap and internationalUndeterminedMap
+     */
+    private static void mapUndeterminedStudyLevel(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
+        Boolean isUndetermined = marketingSegMap.containsKey(lead.Id) && String.isBlank(marketingSegMap.get(lead.Id).My_Primary_Study_Level__c);
+        Boolean isDomesticLead = isUndetermined && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
+        Boolean isInternationalLead = isUndetermined && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+        Boolean hasNoCitizenship = isUndetermined && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == null;
+
+        if(isDomesticLead){
+            domesticUndeterminedMap.put(lead.Id, lead);
+        }
+        else if(isInternationalLead){
+            internationalUndeterminedMap.put(lead.Id, lead);
+        }
+        else if(hasNoCitizenship){
+            undeterminedUndeterminedMap.put(lead.Id, lead);
+        }
+    }   
+
+    /**
+     * Sets the object map to be used in queueable job
+     */
+    private static LeadScoreCalculatorService.ObjectMap setMarketingSegMap(){
+        LeadScoreCalculatorService.ObjectMap objectMap = new LeadScoreCalculatorService.ObjectMap();
+        objectMap.domesticUnderGradMap = domesticUnderGradMap;
+        objectMap.domesticPostGradMap = domesticPostGradMap;
+        objectMap.domesticUndeterminedMap = domesticUndeterminedMap;
+        objectMap.internationalUnderGradMap = internationalUnderGradMap;
+        objectMap.internationalPostGradMap = internationalPostGradMap;
+        objectMap.internationalUndeterminedMap = internationalUndeterminedMap;
+        objectMap.undeterminedUndeterminedMap = undeterminedUndeterminedMap;
+        return objectMap;
+    }
+}

@@ -23,14 +23,21 @@ private class LeadServiceTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB' });
+
+        List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+        Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
+        nurtureConfig.Lead_Score_Threshold__c = 1;
+        nurtureConfig.Status__c = 'Active';
+        nurtureList.add(nurtureConfig);
+        NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE); 
 
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             LeadsDAO.newInstance()
                 .insertRecords(
                     TestDataFactory.createTestLeadRecords(0, recordsCount),
-                    false,
+                    true,
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
@@ -39,59 +46,55 @@ private class LeadServiceTest {
 
     @isTest
     private static void testLeadBatchInsertLeadScoreBelowFifty() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
-            Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .insertRecords(
-                    TestDataFactory.createTestLeadRecords(recordsCount, recordsCount),
-                    false,
-                    AccessLevel.USER_MODE
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            setupLeadScoreConfig(10);
+
+            List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            List<Lead> leadsToUpdate = new List<Lead>();
+            for (Integer i = 0; i < recordsCount; i++) {
+                leadsToUpdate.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = 'new' + i + EMAIL,
+                        Work_Email__c = 'newwork' + i + EMAIL,
+                        Email_Opt_In_DateTime__c = Date.today()
+                    )
                 );
-            Test.stopTest();
-            
-			Set<Id> leadIds = new Set<Id>();             
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record was not saved.');      
-                if (sr.isSuccess()) { 
-                    leadIds.add(sr.getId());
-                }
             }
-            
-            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
-                System.assertEquals('New', lead.Status,'Lead Status did not match');
-                System.assert(String.isBlank(lead.Future_Student_Journey_Status__c),'Lead Future_Student_Journey_Status__c did not match');
+
+            Test.startTest();
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
+            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {
+                System.assertEquals('New', lead.Status, 'Lead Status did not match');
             }
         }
     }
     
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveFifty() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
-            lcd.Total_Lead_Score__c = 70;
-            insert lcd;
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            setupLeadScoreConfig(60);
 
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            List<Lead> leadsToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount; i++) {
-                ldList[i].Email = 'new' + i + EMAIL;
-                ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Lead_Score_Detail__c = lcd.Id;
-            }
-
-            Test.startTest();
-            Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.SYSTEM_MODE);
-            Test.stopTest();
-			
-            Set<Id> leadIds = new Set<Id>();  
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record was not saved.');
-                if (sr.isSuccess()) { 
-                    leadIds.add(sr.getId());
-                }
+                leadsToUpdate.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = 'new' + i + EMAIL,
+                        Work_Email__c = 'newwork' + i + EMAIL,
+                        Email_Opt_In_DateTime__c = Date.today()
+                    )
+                );
             }
             
-            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
+            Test.startTest();
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
                 System.assertEquals('Engaging', lead.Status,'Lead Status did not match');
                 System.assertEquals('Explore', lead.Future_Student_Journey_Status__c,'Lead Future_Student_Journey_Status__c did not match');
             }
@@ -100,30 +103,25 @@ private class LeadServiceTest {
     
     @isTest
     private static void testLeadBatchUpdateLeadScoreAboveOneHundred() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
-            lcd.Total_Lead_Score__c = 300;
-            insert lcd;
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            setupLeadScoreConfig(200);
 
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            List<Lead> leadsToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount; i++) {
-                ldList[i].Email = 'new' + i + EMAIL;
-                ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Lead_Score_Detail__c = lcd.Id;
+                leadsToUpdate.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = 'new' + i + EMAIL,
+                        Work_Email__c = 'newwork' + i + EMAIL,
+                        Email_Opt_In_DateTime__c = Date.today()
+                    )
+                );
             }
-
+            
             Test.startTest();
-            Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.SYSTEM_MODE);
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
-			
-            Set<Id> leadIds = new Set<Id>();  
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record was not saved.');
-                if (sr.isSuccess()) { 
-                    leadIds.add(sr.getId());
-                }
-            }
             
             for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
                 System.assertEquals('Nurturing', lead.Status,'Lead Status did not match');
@@ -134,38 +132,26 @@ private class LeadServiceTest {
 
     @isTest
     private static void testLeadBatchUpdateCanNurtureIsCheck() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
-            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
-            lcd.Total_Lead_Score__c = 300;
-            insert lcd;
-            
-            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
-            Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
-            nurtureConfig.Lead_Score_Threshold__c = 1;
-            nurtureConfig.Status__c = 'Active';
-            nurtureList.add(nurtureConfig);
-            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
+            setupLeadScoreConfig(2);
             
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            List<Lead> leadsToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount; i++) {
-                ldList[i].Email = 'new' + i + EMAIL;
-                ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Lead_Score_Detail__c = lcd.Id;
+                leadsToUpdate.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = 'new' + i + EMAIL,
+                        Work_Email__c = 'newwork' + i + EMAIL,
+                        Email_Opt_In_DateTime__c = Date.today()
+                    )
+                );
             }
             
             Test.startTest();
-            Database.SaveResult[] srList = LeadsDAO.newInstance()
-                .updateRecords(ldList, false, AccessLevel.SYSTEM_MODE);
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
-            
-            Set<Id> leadIds = new Set<Id>();  
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record was not saved.');
-                if (sr.isSuccess()) { 
-                    leadIds.add(sr.getId());
-                }
-            }
             
             for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
                 System.assert(lead.Can_Nurture__c,'Can Nurture is not ticked');
@@ -178,20 +164,26 @@ private class LeadServiceTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             
             List<Lead> ldList = LeadsDAO.newInstance().getLeadsWithLimit(recordsCount);
+            List<Lead> leadsToUpdate = new List<Lead>();
             for (Integer i = 0; i < recordsCount; i++) {
-                ldList[i].Email = 'new' + i + EMAIL;
-                ldList[i].Work_Email__c = 'newwork' + i + EMAIL;
-                ldList[i].Calculated_Cadence__c = 'Test Cadences automated';
+                leadsToUpdate.add(
+                    new Lead(
+                        Id = ldList[i].Id,
+                        Email = 'new' + i + EMAIL,
+                        Work_Email__c = 'newwork' + i + EMAIL,
+                        Calculated_Cadence__c = 'Test Cadences automated'
+                    )
+                );
             }
             Test.startTest();
-            LeadsDAO.newInstance().updateRecords(ldList, false, AccessLevel.SYSTEM_MODE);                
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);                
             Test.stopTest();
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'SalesCadenceCalloutService'].isEmpty() , 'SalesCadenceCalloutService Queueable Job was not executed');
         }
     }    
     @isTest
     private static void testCreateLeadScoreDetail() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(recordsCount);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     
             List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
@@ -206,7 +198,6 @@ private class LeadServiceTest {
             Test.stopTest();
             List<Lead_Score_Detail__c> lsdList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailWithLimit(recordsCount);
             System.assert(lsdList.size() > 0, 'No record created');
-
         }
     }
     private static void convertLead(List<Lead> leads){
@@ -245,5 +236,51 @@ private class LeadServiceTest {
                 System.assert(marketingSeg.Lead__c != null, 'No Marketing Segmentation record created for the lead');
             }
         }
+    }
+
+    private static void setupLeadScoreConfig(Decimal maxScore){
+        List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+        leadScoreParentConfigList.add(
+            new Lead_Score_Configuration__c(
+                Name = 'Total Max Score DUG',
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                Domestic_International__c = 'Undetermined',
+                Study_Level__c = 'Undetermined'
+            )
+        );
+
+        LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+        leadScoreConfigList.add(
+            new Lead_Score_Configuration__c(
+                Name = 'Marketing Consent',
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                Domestic_International__c = 'Undetermined',
+                Study_Level__c = 'Undetermined',
+                Description__c = '',
+                Score_Allocation__c = null,
+                Time_Limit_Months__c = null,
+                Max_Score__c = maxScore,
+                Parent_Category__c = leadScoreParentConfigList[0].Id
+            )
+        );
+
+        LeadScoreConfigurationDAO.newInstance()
+            .insertRecords(leadScoreConfigList, true, AccessLevel.SYSTEM_MODE);
+
+        List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+        leadScoreConfigChildList.addAll(TestDataFactory.createUndAndUndeterminedSubCategory(
+            leadScoreConfigList[0].Id,
+            new List<String>{
+                'Yes',
+                'Is blank'
+            },
+            new List<Integer>{(Integer)maxScore,(Integer)maxScore}
+        ));
+
+        LeadScoreConfigurationDAO.newInstance()
+            .insertRecords(leadScoreConfigChildList, true, AccessLevel.SYSTEM_MODE);
     }
 }

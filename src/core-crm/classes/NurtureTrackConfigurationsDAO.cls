@@ -41,7 +41,8 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
             'WHERE Status__c = \'Active\' '+
             'AND Lead_Score_Threshold__c != NULL ' +
             'WITH ' +
-            String.escapeSingleQuotes(accessLevel)
+            String.escapeSingleQuotes(accessLevel) +
+            ' ORDER BY Lead_Score_Threshold__c '
         );
     }
     
