@@ -100,5 +100,20 @@ public with sharing class ApplicationsDAOTest {
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
         }
         Test.stopTest();
-    } 
+    }
+
+    @isTest
+    static void getApplicationsByLeadOrContactIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
+                .getApplicationsByLeadOrContactIds(
+                    new Set<String>(),
+                    new Set<String>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
+        }
+        Test.stopTest();
+    }
 }
