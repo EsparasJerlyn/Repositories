@@ -87,7 +87,7 @@ public with sharing class CasePotentialMatchesListCtrl {
                 caseRecord.SuppliedPhone
             );
 
-            List<SObject> contactList =  ContactsDAO.newInstance().getContactByEmailOrName(contactQueryParam, AccessLevel.USER_MODE);
+            List<SObject> contactList =  ContactsDAO.newInstance().getPersonContactsByEmailOrName(contactQueryParam, AccessLevel.USER_MODE);
             potentialMatches.put('Contact', contactList);
         }
 

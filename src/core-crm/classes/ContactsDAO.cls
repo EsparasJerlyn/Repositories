@@ -15,7 +15,7 @@
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
       | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
       | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                |
-      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getContactByEmailOrName                             |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getPersonContactsByEmailOrName                             |
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName                        |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for getContactByCaseMobile                   |
       | julie.jane.alegre              | Sept 20, 2023         | DEPP-6667              | Added fields in method getPersonContactsBySetIds          |
@@ -248,7 +248,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         );
     }
 
-    public static List<Contact> getContactByEmailOrName(
+    public static List<Contact> getPersonContactsByEmailOrName(
         QueryParamWrapperEmailOrName queryParam,
         AccessLevel accessLevel
     ) {
@@ -261,10 +261,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         toQuery = removeEmptyParamsInQueryName(queryParam, toQuery);
         toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
 
-        if (toQuery != '') {
+        if (!String.isBlank(toQuery)) {
             contactList = Database.query(
-                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE ' +
-                toQuery,
+                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE RecordTypeId =: PERSON_RECORDTYPE_ID AND (' +
+                toQuery + ')',
                 AccessLevel
             );
         }

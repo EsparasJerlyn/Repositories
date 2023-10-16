@@ -155,7 +155,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
 
 
-        if (toQuery != '') {
+        if (!String.isBlank(toQuery)) {
             leadList = Database.query(
                 'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c FROM Lead WHERE ' +
                 toQuery,
