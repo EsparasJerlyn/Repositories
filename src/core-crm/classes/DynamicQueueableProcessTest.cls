@@ -1,5 +1,5 @@
 /**
- * @description DynamicQueueableProcess testclass
+ * @description DynamicQueueableProcess testclass.
  * @see ../class/DynamicQueueableProcess
  *
  * @author Accenture

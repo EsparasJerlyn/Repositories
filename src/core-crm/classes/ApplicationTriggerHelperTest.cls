@@ -1,6 +1,6 @@
 /**
- * @description Test Class for ApplicationTriggerHelper
- *
+ * @description Test Class for ApplicationTriggerHelper.
+ * 
  * @see ApplicationTriggerHelper
  *
  * @author Accenture
