@@ -4,13 +4,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                 |
-      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                                   |
-      | roy.nino.s.regala              | Auh 09, 2023          | DEPP-5677              | Added  criteria type field                                     |
-      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added fields in getNurtureTrackLeadScoreThreshold              |
-      | arsenio.jr.dayrit              | October 03, 2023      | DEPP-6816              | Added static variable for International Offer to Acceptance    |
-      | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Added static variable for Domestic Accepted not yet Enrolled   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                             |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                                               |
+      | roy.nino.s.regala              | Auh 09, 2023          | DEPP-5677              | Added  criteria type field                                                 |
+      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added fields in getNurtureTrackLeadScoreThreshold                          |
+      | arsenio.jr.dayrit              | October 03, 2023      | DEPP-6816              | Added static variable for International Offer to Acceptance                |
+      | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Added static variable for Domestic Accepted not yet Enrolled               |
+      | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Added static variable for Domestic and International Enrolment to Census   |
+      | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Domestic First Offer to Acceptance (Automated)                             |
  */
 public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase implements INurtureTrackConfigurationsDAO {
 
@@ -22,6 +24,8 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL = 'International Offer to Acceptance';
     public static final String DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED = 'Domestic Accepted not yet Enrolled (Automated)';
     public static final String DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL = 'Domestic Accepted not yet Enrolled';
+    public static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
+    public static final String DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED = 'Domestic First Offer to Acceptance (Automated)';
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 
     public static INurtureTrackConfigurationsDAO newInstance() {
