@@ -1,5 +1,5 @@
 /**
- * @description Test class for NurturingTrackLeadService
+ * @description Test class for NurturingTrackLeadService.
  * 
  * @author Accenture
  *
