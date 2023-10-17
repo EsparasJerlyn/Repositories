@@ -11,7 +11,7 @@
       | mark.j.mahilum		           | July 23, 2023     	   | DEPP-5799              | Created file                 |
  */
 
-public with sharing class ProgramEnrollmentTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
+public with sharing class ProgramEnrollmentTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
 
    /**
@@ -39,6 +39,25 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
             isRunning = true;
             getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
         }
+    }
+
+    /**
+     * @description beforeInsert trigger event
+     * @param newItems - List of hed__Program_Enrollment__c.Trigger.new
+     */
+    public void beforeInsert(List<SObject> newItems) { 
+        ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems, null);
+    }
+
+    /**
+     * @description beforeInsert trigger event
+     * @param newItems - List of hed__Program_Enrollment__c.Trigger.new
+     */
+    public void beforeUpdate(
+        Map<Id, SObject> newItems,
+        Map<Id, SObject> oldItems
+    ){
+        ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
     
    /**

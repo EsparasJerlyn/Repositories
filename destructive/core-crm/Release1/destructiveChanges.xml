@@ -18,8 +18,6 @@
         <members>IndividualEmailResultTriggerHandlerTest</members>
         <members>MarketingCourseApplicationTH</members>
         <members>MarketingCourseApplicationTHTest</members>
-        <members>MarketingInteractionTriggerHandler</members>
-        <members>MarketingInteractionTriggerHandlerTest</members>
         <!--(End) DEPP-5797 -->
         <!--(Start) DEPP-6421 -->
         <members>CaseLeadMatchingTest</members>
@@ -33,7 +31,6 @@
         <!--(Start) DEPP-5797 -->
         <members>IndividualEmailResultTrigger</members>
         <members>MarketingCourseApplicationTrigger</members>
-        <members>MarketingInteractionTrigger</members>
         <name>ApexTrigger</name>
         <!--(End) DEPP-5797 -->
     </types>
@@ -312,8 +309,6 @@
         <!--(Start) DEPP-5797 -->
         <members>TriggerHandler.et4ae5__IndividualEmailResult__c</members>
         <members>TriggerHandler.Marketing_Course_Application__c</members>
-        <members>TriggerHandler.Marketing_Interaction__c</members>
-        <members>TriggerHandler.Marketing_Segmentation__c</members>
         <!--(Start) DEPP-5797 -->
         <name>CustomMetadata</name>
     </types>

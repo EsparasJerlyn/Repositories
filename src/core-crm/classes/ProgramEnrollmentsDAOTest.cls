@@ -25,7 +25,7 @@ public with sharing class ProgramEnrollmentsDAOTest {
                     new Set<Id>(),
                     'SYSTEM_MODE'
                 );
-            System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment list should not be empty.');
+            System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment list should be empty.');
         }
         Test.stopTest();
     }
@@ -51,8 +51,24 @@ public with sharing class ProgramEnrollmentsDAOTest {
                     new Set<Id>(),
                     'SYSTEM_MODE'
                 );
-            System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment list should not be empty.');
+            System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment list should be empty.');
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getProgramEnrollmentsByContactIdAndStatusTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
+                .getProgramEnrollmentsByContactIdAndStatus(
+                    new Set<Id>(),
+                    '',
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment list should be empty.');
+        }
+        Test.stopTest();
+    }
+    
 }

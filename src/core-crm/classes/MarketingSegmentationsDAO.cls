@@ -10,6 +10,14 @@
  */
 public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO{
 
+    public static final String PRIMARY_STUDY_LEVEL_UNDERGRAD = 'Undergraduate';
+    public static final String PRIMARY_STUDY_LEVEL_POSTGRAD = 'Postgraduate';
+    public static final String PRIMARY_STUDY_LEVEL_UNDETERMINED = 'Undetermined';
+
+    public static final String CITIZENSHIP_STATUS_DOMESTIC_AU = 'Australian Citizen or Permanent Resident';   
+    public static final String CITIZENSHIP_STATUS_DOMESTIC_NZ = 'New Zealand Citizen';
+    public static final String CITIZENSHIP_STATUS_INTERNATIONAL = 'International Student';
+
     public Schema.SObjectType getSObjectType(){
         return Marketing_Segmentation__c.SObjectType;
 	  }
@@ -24,7 +32,7 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
     ) {
         String marketingSegmentationQuery = 
             'SELECT' +
-            ' Id, Contact__c' +
+            ' Id, Contact__c, My_Primary_Study_Level__c, My_Expected_Admission_Year__c, My_Citizenship_Status__c ' +
             ' FROM' + 
             ' Marketing_Segmentation__c' +
             ' WHERE' +
@@ -39,7 +47,7 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
     ) {
         String marketingSegmentationQuery = 
             'SELECT' +
-            ' Id, Lead__c' +
+            ' Id, Lead__c, My_Primary_Study_Level__c, My_Citizenship_Status__c ' +
             ' FROM' + 
             ' Marketing_Segmentation__c' +
             ' WHERE' +
@@ -48,4 +56,16 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         return Database.query(marketingSegmentationQuery, accessLevel);
     }
 
-} 
+    public static List<Marketing_Segmentation__c> getMarketingSegmentationByContactOrLead(
+        Set<Id> contactIdSet, 
+        Set<Id> leadIdSet,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Lead__c, Contact__c, My_Primary_Study_Level__c, My_Citizenship_Status__c, Contact__r.hed__Citizenship_Status__c ' +
+            'FROM Marketing_Segmentation__c ' +
+            'WHERE Contact__c IN : contactIdSet OR Lead__c IN : leadIdSet ',
+            accessLevel
+        );
+    }
+}

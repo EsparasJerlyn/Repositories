@@ -178,6 +178,26 @@ public class TestDataFactory {
         return cons;
     }
 
+     /**
+     * @description Method for creating test Contact records
+     * @param numContacts - number of Contacts to be created
+     * @param citizenship - citizenship of contact
+     * @return contactList - list of Contacts created
+     */
+    public static List<Contact> createTestContactRecords(Integer numContacts, String citizenship) {
+        List<Contact> contactList = new List<Contact>();
+
+        for (Integer i = 0; i < numContacts; i++) {
+            contactList.add(new Contact(
+                FirstName = 'Test' + i, 
+                LastName = 'Contact' + i,
+                hed__Citizenship_Status__c = citizenship,
+                RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID
+            ));
+        }
+
+        return contactList;
+    }
 
     /**
      * @description Method for creating test Contact records
@@ -3576,6 +3596,303 @@ public class TestDataFactory {
             ));
         }
         return marketingInteractionList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createCategoryLeadScoreConfigurations(){
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Undergraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 18,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Postgraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 18,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Postgraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undergraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Undetermined',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Postgraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undergraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Undetermined',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        return leadScoreConfigList;
+    }
+
+
+    public static List<Lead_Score_Configuration__c> createInlAndPostGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomstcAndPostGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomstcAndUnderGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Undergraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createIntlAndUnderGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Undergraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomestcAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Undetermined',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createIntlAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Undetermined',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createUndAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Undetermined',
+                Study_Level__c = 'Undetermined',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createIntlAndPostgradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomestcAndPostgradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
     }
 
     public static List<Case_Priority_Configuration__c> createCasePrioConfigRecords(){

@@ -41,8 +41,10 @@ public with sharing class ContactTriggerHandlerTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB','QUT_Sys_Admin'});
+
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+        
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
             contacts[0]
@@ -404,23 +406,61 @@ public with sharing class ContactTriggerHandlerTest {
   @IsTest
     private static void shouldSetStatustoExplore() {
    
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
-            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
-            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
-            lcd.Total_Lead_Score__c = 60;
-            insert lcd;
-            
-            for (Contact record : newContacts) {  
-                record.Lead_Score_Detail__c = lcd.Id;
-            }
+            Test.startTest();
+            List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+            leadScoreParentConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Total Max Score DUG',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined'
+                )
+            );
 
-            ContactsDAO.newInstance().updateRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
 
-            for (Contact record : ContactsDAO.newInstance().getPersonContactsWithLimit(10)) {  
-                System.assert(record.Future_Student_Journey_Status__c == 'Explore','Contact Future_Student_Journey_Status__c did not match');
+            List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Marketing Consent',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 20,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigList, true, AccessLevel.USER_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+            leadScoreConfigChildList.addAll(TestDataFactory.createUndAndUndeterminedSubCategory(
+                leadScoreConfigList[0].Id,
+                new List<String>{
+                    'Yes',
+                    'Is blank'
+                },
+                new List<Integer>{10,10}
+            ));
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigChildList, true, AccessLevel.USER_MODE);
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);  
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
+            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactList[0].Id},AccessLevel.SYSTEM_MODE)) {  
+                System.assertEquals(10,record.Lead_Score__c,'Contact Lead_Score__c did not match');
+                System.assertEquals('Explore',record.Future_Student_Journey_Status__c,'Contact Future_Student_Journey_Status__c did not match');
             }
         }
     }

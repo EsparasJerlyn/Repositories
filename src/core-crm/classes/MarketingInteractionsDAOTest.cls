@@ -36,8 +36,23 @@ public with sharing class MarketingInteractionsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(marketingInteractionList.isEmpty(), 'marketingInteractionList should not be empty');
+            System.assert(marketingInteractionList.isEmpty(), 'marketingInteractionList should be empty');
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getMarketingInteractionsByContactOrLeadIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Marketing_Interaction__c> marketingInteractionList = MarketingInteractionsDAO.newInstance()
+                .getMarketingInteractionsByContactOrLeadIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(marketingInteractionList.isEmpty(), 'marketingInteractionList should be empty');
+        }
+        Test.stopTest();
+    }
+    
 }

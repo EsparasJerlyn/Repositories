@@ -1,5 +1,5 @@
 /**
- * @description Test class for NurturingTrackLeadService
+ * @description Test class for NurturingTrackLeadService.
  * 
  * @author Accenture
  *
@@ -20,7 +20,8 @@ public with sharing class NurturingTrackLeadServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {            
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
@@ -34,7 +35,6 @@ public with sharing class NurturingTrackLeadServiceTest {
             List<hed__Term__c> newTerms = new List<hed__Term__c>();
             newTerms.addAll(createTestIntakePeriodRecords(newFacilities[0].Id, newAccounts[0].Id));
             insert newTerms;
-            
             List<Nurture_Track_Configuration__c> configsList = generateNurtureTrackConfigurations();
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(configsList, false, AccessLevel.SYSTEM_MODE);
             // Alex-offshore: Interesting behavior. Some criterias will always read configs even if there are no valid records for entry/exit
@@ -42,83 +42,112 @@ public with sharing class NurturingTrackLeadServiceTest {
             //                instead of creating them in your test method itself.
 
         }
-    }
 
-    @isTest
-    private static void testAutomaticInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
-            // create marketing segmentation
-            Marketing_Segmentation__c internationalMS = new Marketing_Segmentation__c(My_Citizenship_Status__c = 'International Student');
-            insert internationalMS;
+        List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+            leadScoreParentConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Total Max Score DUG',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined'
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Enquiries',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 200,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Marketing consent',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 200,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigList, true, AccessLevel.USER_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+            leadScoreConfigChildList.addAll(TestDataFactory.createUndAndUndeterminedSubCategory(
+                leadScoreConfigList[0].Id,
+                new List<String>{
+                    'Applying for a course'
+                    
+                },
+                new List<Integer>{ 200,200}
+            ));
+            leadScoreConfigChildList.addAll(TestDataFactory.createUndAndUndeterminedSubCategory(
+                leadScoreConfigList[1].Id,
+                new List<String>{
+                    'Yes',
+                    'is blank'
+                },
+                new List<Integer>{ 200,200}
+            ));
+
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreConfigChildList, true, AccessLevel.SYSTEM_MODE);
+
             // create lead
-            List<Lead> newLeads = createTestLeadRecords(0, 1);
-            newLeads[0].Marketing_Segmentation__c = internationalMS.Id;
-            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
-            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
-            newLeads[0] = [
-                SELECT Id, Marketing_Segmentation__r.My_Citizenship_Status__c, 
-                Can_Nurture__c, Calculated_Cadence__c 
-                FROM Lead LIMIT 1];
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance()
-                .getAccountsBySetNames(new Set<String>{'Test Account'});
-            hed__Term__c appliedIntakeTerm = new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            );
-            insert appliedIntakeTerm;
-            // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
-            newApplications[0].Is_Agent_Assisted__c = false;
-            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
-            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
-            // call method
-            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
+            List<Lead> newLead = TestDataFactory.createTestLeadRecords(0,1);
+            newLead[0].Email_Opt_In_Datetime__c = System.Today();
+            LeadsDAO.newInstance().insertRecords(newLead, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
-            // assert
-            System.assertEquals(
-                'International Application Submission - Direct Applicant (Automated)',
-                processLeads[0].Calculated_Cadence__c, 
-                'Error, wrong calculated cadence value.'
-            );
-        }
     }
     
     @isTest
     private static void testManualInternationalDirectApplicantEntry() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
-            // create marketing segmentation
-            Marketing_Segmentation__c internationalMS = new Marketing_Segmentation__c(My_Citizenship_Status__c = 'International Student');
-            insert internationalMS;
-            // create lead
-            List<Lead> newLeads = createTestLeadRecords(0, 1);
-            newLeads[0].Marketing_Segmentation__c = internationalMS.Id;
-            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
+
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
             // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
-            newLeads[0] = [
-                SELECT Id, Marketing_Segmentation__r.My_Citizenship_Status__c, 
-                Can_Nurture__c, Calculated_Cadence__c 
-                FROM Lead LIMIT 1];
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+
             // create applied intake term
             List<Account> accountList = AccountsDAO.newInstance()
                 .getAccountsBySetNames(new Set<String>{'Test Account'});
+
             hed__Term__c appliedIntakeTerm = new hed__Term__c(
                 hed__Start_Date__c = Date.today().addMonths(4),
                 hed__Account__c = accountList[0].Id
             );
-            insert appliedIntakeTerm;
+
+            TermsDAO.newInstance().insertRecords(new List<hed__Term__c>{appliedIntakeTerm},true, AccessLevel.SYSTEM_MODE);
+            
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
             newApplications[0].Is_Agent_Assisted__c = false;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
-            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
-            Test.stopTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
             // assert
             System.assertEquals(
                 'International Application Submission - Direct Applicant (Automated)',
@@ -130,39 +159,34 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForEntryAutomatedTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
 
-            // create Lead Score Detail
-            Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
-            lsd.Total_Lead_Score__c = 200;
-            insert lsd;
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
 
-            Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
-            marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
-            insert marketingSeg;
-
-            // create contact
-            List<Lead> newLeads = createTestLeadRecords(0, 1);
-            newLeads[0].Lead_Score_Detail__c = lsd.Id;
-            newLeads[0].Marketing_Segmentation__c = marketingSeg.Id;
-            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
+            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
 
             Case caseRec = new Case (
-                    Lead__c = newLeads[0].Id,
+                    Lead__c = leadList[0].Id,
                     Category__c = 'Applying for a course'
                 );
-            insert caseRec;
-        
+            CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
-            Test.stopTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
             // assert
             System.assertEquals(
                 'Domestic Strong Interest Pre-Application (Automated)',
@@ -174,37 +198,33 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForEntryManualTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
 
-            // create Lead Score Detail
-            Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
-            lsd.Total_Lead_Score__c = 200;
-            insert lsd;
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+
 
             List<Nurture_Track_Configuration__c> nurtureList1 = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
                 new Set<String>{'Domestic Strong Interest Pre-Application (Automated)'},
                 'SYSTEM_MODE'
             );
 
-            Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
-            marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
-            insert marketingSeg;
-
-            // create contact
-            List<Lead> newLeads = createTestLeadRecords(0, 1);
-            newLeads[0].Lead_Score_Detail__c = lsd.Id;
-            newLeads[0].Marketing_Segmentation__c = marketingSeg.Id;
-            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
-
             Case caseRec = new Case (
-                    Lead__c = newLeads[0].Id,
+                    Lead__c = leadList[0].Id,
                     Category__c = 'Applying for a course'
                 );
-            insert caseRec;
-        
+
+            CasesDAO.newInstance().insertRecords(new List<Case>{caseRec},true,AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
@@ -212,15 +232,15 @@ public with sharing class NurturingTrackLeadServiceTest {
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
             completedCadenceList.add(new Completed_Cadence__c(
                 Application__c = newApplications[0].Id,
-                Lead__c = newLeads[0].Id,
+                Lead__c = leadList[0].Id,
                 Nurture_Track_Configuration__c = nurtureList1[0].Id,
                 Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
-            Test.stopTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
             // assert
             System.assertEquals(
                 'Domestic Strong Interest Pre-Application',
@@ -232,28 +252,30 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticStrongInterestPreApplicationForExitAutomatedTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
 
-            Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
-            marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
-            insert marketingSeg;
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
 
-            // create contact
-            List<Lead> newLeads = createTestLeadRecords(0, 1);
-            newLeads[0].Marketing_Segmentation__c = marketingSeg.Id;
-            newLeads[0].Calculated_Cadence__c = 'Domestic Strong Interest Pre-Application (Automated)';
-            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
+        
+            leadList[0].Calculated_Cadence__c = 'Domestic Strong Interest Pre-Application (Automated)';
+            LeadsDAO.newInstance().updateRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
 
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
-            Test.stopTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
             // assert
             System.assertEquals(
                 '',
@@ -264,29 +286,75 @@ public with sharing class NurturingTrackLeadServiceTest {
     }
 
     @isTest
-    private static void getDomesticStrongInterestPreApplicationForExitManualTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+    private static void testAutomaticInternationalDirectApplicantEntry() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
+            // get lead
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
 
-            Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
-            marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
-            insert marketingSeg;
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetNames(new Set<String>{'Test Account'});
 
-            // create contact
-            List<Lead> newLeads = createTestLeadRecords(0, 1);
-            newLeads[0].Marketing_Segmentation__c = marketingSeg.Id;
-            newLeads[0].Calculated_Cadence__c = 'Domestic Strong Interest Pre-Application';
-            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
+            hed__Term__c appliedIntakeTerm = new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id
+            );
+            TermsDAO.newInstance().insertRecords(new List<hed__Term__c>{appliedIntakeTerm},true, AccessLevel.SYSTEM_MODE);
 
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
+            newApplications[0].Applied_Intake_Study_Period__c = appliedIntakeTerm.Id;
+            newApplications[0].Is_Agent_Assisted__c = false;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
+
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            // call method
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
+            // assert
+            System.assertEquals(
+                'International Application Submission - Direct Applicant (Automated)',
+                processLeads[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
+    private static void getDomesticStrongInterestPreApplicationForExitManualTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            leadList[0].Calculated_Cadence__c = 'Domestic Strong Interest Pre-Application';
+            LeadsDAO.newInstance().updateRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
-            Test.stopTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
             // assert
             System.assertEquals(
                 '',
@@ -298,28 +366,16 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest 
     private static void getEntryInternationalStrongInterestPreApplicationTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
-            Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c(
-                Total_Lead_Score__c = 200
-            );
-            insert leadScoreDetail;
-    
-            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(
-                My_Citizenship_Status__c = 'International Student'
-            );
-            insert marSeg;
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
             
-            List<Lead> leadList = createTestLeadRecords(0, 1);
-            leadList[0].Lead_Score_Detail__c = leadScoreDetail.Id;
-            leadList[0].Marketing_Segmentation__c = marSeg.Id;
-            LeadsDAO.newInstance().insertRecords(leadList, false, AccessLevel.SYSTEM_MODE);
-            // emulate batch job's queryFilter
-            leadList[0] = [
-                SELECT Id, Can_Nurture__c, Lead_Score__c, Calculated_Cadence__c, 
-                HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c 
-                FROM Lead LIMIT 1
-            ];
+            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             
             List<Case> caseList = new List<Case>();
             caseList.add(new Case(
@@ -327,11 +383,11 @@ public with sharing class NurturingTrackLeadServiceTest {
                 Lead__c = leadList[0].Id
             ));
             CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
 
             List<hed__Application__c> applList = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Accepted');
             applList[0].hed__Initial_Creation_Date__c = System.today().addYears(-2);
             ApplicationsDAO.newInstance().insertRecords(applList, false, AccessLevel.SYSTEM_MODE);
-            leadList[0].Can_Nurture__c = true;
 
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
 
@@ -351,13 +407,12 @@ public with sharing class NurturingTrackLeadServiceTest {
                 Nurture_Track_Configuration__c = configList[0].Id,
                 Completed_Cadence_Status__c ='Successful'
             ));
+
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
-            leadList[0].Can_Nurture__c = true;
 
             processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
             
             Boolean isManualEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == 'International Strong Interest Pre-Application';
-            Test.stopTest();
 
             System.assert(isAutoEntrySuccess, 'Automatic entry calculated cadence population failed.');
             System.assert(isManualEntrySuccess, 'Manual entry calculated cadence population failed.');
@@ -366,23 +421,21 @@ public with sharing class NurturingTrackLeadServiceTest {
     
     @isTest
     private static void getExitInternationalStrongInterestPreApplicationTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
-            Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(
-                My_Citizenship_Status__c = 'International Student'
-            );
-            insert marSeg;
-            
-            List<Lead> leadList = createTestLeadRecords(0, 1);
+
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
             leadList[0].Calculated_Cadence__c = 'International Strong Interest Pre-Application (Automated)';
-            leadList[0].Marketing_Segmentation__c = marSeg.Id;
-            LeadsDAO.newInstance().insertRecords(leadList, false, AccessLevel.SYSTEM_MODE);
-            // emulate batch job's queryFilter
-            leadList[0] = [
-                SELECT Id, Can_Nurture__c, Lead_Score__c, Calculated_Cadence__c, 
-                HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c 
-                FROM Lead LIMIT 1
-            ];
+            LeadsDAO.newInstance().updateRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             
             List<hed__Application__c> applList = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Active');
             applList[0].hed__Application_Date__c = System.now().addYears(-2);
@@ -410,7 +463,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
             
             Boolean isManualExitSuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == '';
-            Test.stopTest();
+
             
             System.assert(isAutoExitSuccess, 'Automatic exit calculated cadence clearing failed.');
             System.assert(isManualExitSuccess, 'Manual exit calculated cadence clearing failed.');
@@ -419,28 +472,22 @@ public with sharing class NurturingTrackLeadServiceTest {
 
     @isTest
     private static void getDomesticAcceptedAndAdmittedTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
 
-            // create Lead Score Detail
-            Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
-            lsd.Total_Lead_Score__c = 200;
-            insert lsd;
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
 
-            Marketing_Segmentation__c marketingSeg = new Marketing_Segmentation__c();
-            marketingSeg.My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident';
-            insert marketingSeg;
-
-            // create contact
-            List<Lead> newLeads = createTestLeadRecords(0, 1);
-            newLeads[0].Lead_Score_Detail__c = lsd.Id;
-            newLeads[0].Marketing_Segmentation__c = marketingSeg.Id;
-            LeadsDAO.newInstance().insertRecords(newLeads, false, AccessLevel.SYSTEM_MODE);
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
 
             List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
-            
+            Test.stopTest();
+
             List<hed__Course_Enrollment__c> courseEnrollmentList = new List<hed__Course_Enrollment__c>();
             courseEnrollmentList.add(new hed__Course_Enrollment__c(
                 Enrollment_Status__c = 'Test',
@@ -449,14 +496,14 @@ public with sharing class NurturingTrackLeadServiceTest {
             CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
         
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newLeads, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             newApplications[0].Calculated_Intake_Date__c = System.today().addDays(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // call method
-            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(newLeads));
-            Test.stopTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            
             // assert
             System.assertEquals('Domestic Accepted and Admitted', processLeads[0].Calculated_Cadence__c, 'Calculated cadence is empty.');
         }

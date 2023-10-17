@@ -19,5 +19,13 @@ public inherited sharing class DateService {
         }
         return trueSoFar;
     }
+
+    public static Boolean isDateWithinRangeDefaultFalse(Date dateToCheck, Date startDate, Date endDate) {
+        Boolean trueSoFar = false;
+        if (startDate != null && endDate != null) {
+            trueSoFar = dateToCheck >= startDate && dateToCheck <= endDate;
+        }
+        return trueSoFar;
+    }
     
 }

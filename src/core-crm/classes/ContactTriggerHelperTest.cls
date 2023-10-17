@@ -23,7 +23,7 @@ private class ContactTriggerHelperTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_ESB'});
         Test.stopTest();
 
         List<Account> accountList = new List<Account>();
@@ -95,40 +95,70 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void testContactCanNurtureFlag() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            
+
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+            List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+            leadScoreParentConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Total Max Score DUG',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined'
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Marketing Consent',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 20,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigList, true, AccessLevel.USER_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+            leadScoreConfigChildList.addAll(TestDataFactory.createUndAndUndeterminedSubCategory(
+                leadScoreConfigList[0].Id,
+                new List<String>{
+                    'Yes',
+                    'Is blank'
+                },
+                new List<Integer>{10,10}
+            ));
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigChildList, true, AccessLevel.USER_MODE);
+
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
             nurtureConfig.Lead_Score_Threshold__c = 1;
             nurtureConfig.Status__c = 'Active';
             nurtureList.add(nurtureConfig);
+
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
-            
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
-            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
-            Lead_Score_Detail__c lcd = new Lead_Score_Detail__c();
-            lcd.Total_Lead_Score__c = 70;
-            insert lcd;
-
-            Test.startTest();            
-            List<Contact> updateContactList = new List<Contact>();
-            for(Contact con: newContacts){
-                Contact conRec = new Contact();
-                conRec.Id = con.Id;
-                conRec.Lead_Score_Detail__c = lcd.Id;
-                updateContactList.add(conRec);
-            }            
-            Database.SaveResult[] srList = ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
-            
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);  
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record was not updated.');
+
+            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactList[0].Id},AccessLevel.SYSTEM_MODE)) {  
+                System.assertEquals(true,record.Can_Nurture__c,'Contact Can_Nurture__c did not match');
             }
-            List<Contact> con = [SELECT Id,Can_Nurture__c FROM Contact WHERE RecordTypeId =: ContactsDAO.PERSON_RECORDTYPE_ID];
-            System.assert(con[0].Can_Nurture__c,'Contacts can nurture flag not updated');
-            
         }
     } 
     
@@ -162,7 +192,7 @@ private class ContactTriggerHelperTest {
             Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
             insert marSeg;
             Contact con = new Contact(LastName = 'Test', Marketing_Segmentation__c = marSeg.Id);
-            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, true, AccessLevel.SYSTEM_MODE);
             Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
             Test.stopTest();
             System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');

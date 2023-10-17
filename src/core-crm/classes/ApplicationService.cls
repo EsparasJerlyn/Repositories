@@ -358,7 +358,6 @@ public with sharing class ApplicationService { //NOPMD
         applicant.Agency_Country__c = application.Agency_Country__c;
         applicant.Agency_Email__c = application.Agency_Email__c;
         applicant.Agency_Name__c = application.Agency_Name__c;
-        applicant.Can_Nurture__c = isActiveApplication(application);
         applicant.Education_Disruption_Applicant__c = application.Is_Education_Disruption_Applicant__c;
         applicant.Elite_Athlete_Applicant__c = application.Is_Elite_Athlete_Applicant__c;
         applicant.Financial_Hardship_Applicant__c = application.Is_Financial_Hardship_Applicant__c;
@@ -366,15 +365,6 @@ public with sharing class ApplicationService { //NOPMD
         applicant.Is_Agent_Assisted__c = application.Is_Agent_Assisted__c;
         applicant.Is_International_Applicant__c = application.Is_International_Applicant__c;
         applicant.Personal_Illness_Disability_Applicant__c = application.Is_Personal_Illness_Disability_Applicant__c;
-    }
-    
-    /**
-     * @description Set fields on a lead record. This method contains field settings that are not bound by complex conditions.
-     * If the field/s needs to follow certain rules, especially if it's complex, use a different method instead.
-     * @param Lead lead - The lead record to modify.
-     */
-    public static void mapFieldsToLead(Lead lead, hed__Application__c application) {
-        lead.Can_Nurture__c = isActiveApplication(application);
     }
     
     /**

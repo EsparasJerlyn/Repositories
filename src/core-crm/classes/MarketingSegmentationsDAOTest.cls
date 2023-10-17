@@ -45,7 +45,7 @@ public with sharing class MarketingSegmentationsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(marketingSegmentationList.isEmpty(), 'marketingSegmentationList should not be empty.');
+            System.assert(marketingSegmentationList.isEmpty(), 'marketingSegmentationList should be empty.');
         }
         Test.stopTest();
     }
@@ -59,9 +59,23 @@ public with sharing class MarketingSegmentationsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(marketingSegmentationList.isEmpty(), 'marketingSegmentationList should not be empty.');
+            System.assert(marketingSegmentationList.isEmpty(), 'marketingSegmentationList should be empty.');
         }
         Test.stopTest();
     }
 
-} 
+    @isTest
+    static void getMarketingSegmentationByContactOrLeadTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance()
+                .getMarketingSegmentationByContactOrLead(
+                    new Set<Id>(),
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(marketingSegmentationList.isEmpty(), 'marketingSegmentationList should be empty.');
+        }
+        Test.stopTest();
+    }
+}

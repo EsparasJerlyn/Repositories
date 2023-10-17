@@ -91,7 +91,7 @@ public with sharing class FutureStudentJourneyStatusHelper {
         return record.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
             record.QUT_Student__c == false &&
             record.QUT_Applicant__c == false &&
-            record.Lead_Score__c > 0 &&
+            record.QUT_Lead__c &&
             String.isBlank(record.Future_Student_Journey_Status__c);
     }
 
@@ -104,7 +104,7 @@ public with sharing class FutureStudentJourneyStatusHelper {
     private static boolean isSetJourneyStatusToBlank(Contact record) {
         //check if contact is candidate for blank
         return record.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
-            record.Lead_Score__c <= 0 &&
+            !record.QUT_Lead__c &&
             record.Future_Student_Journey_Status__c == ContactsDAO.EXPLORE_JOURNEY_STATUS;
     }
 

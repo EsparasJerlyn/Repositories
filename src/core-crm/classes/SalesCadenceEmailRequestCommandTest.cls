@@ -19,6 +19,79 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
         System.runAs(TestDataFactory.getSystemAdminUser()) { 
 
+            List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+            leadScoreParentConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Total Max Score DUG',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined'
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Marketing consent',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Domestic',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 20,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Marketing consent',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'International',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 20,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigList, true, AccessLevel.USER_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+            leadScoreConfigChildList.addAll(TestDataFactory.createDomestcAndUndeterminedSubCategory(
+                leadScoreConfigList[0].Id,
+                new List<String>{
+                    'Yes',
+                    'is blank'
+                },
+                new List<Integer>{200,200}
+            ));
+            leadScoreConfigChildList.addAll(TestDataFactory.createIntlAndUndeterminedSubCategory(
+                leadScoreConfigList[1].Id,
+                new List<String>{
+                    'Yes',
+                    'is blank'
+                },
+                new List<Integer>{200,200}
+            ));
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigChildList, true, AccessLevel.USER_MODE);
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,3);
+            contactList[0].Calculated_Cadence__c = 'International Application Submission - Direct Applicant (Automated)';
+            contactList[0].hed__Citizenship_Status__c = 'International';
+            contactList[1].Calculated_Cadence__c = 'Domestic Offer Lapsed (Automated)';
+            contactList[1].hed__Citizenship_Status__c = 'Domestic';
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
 
             List<Nurture_Track_Configuration__c> initialNurtureListInt = TestDataFactory.createNurtureTrackConfigRecords(1);
@@ -62,18 +135,8 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
     @isTest
     private static void sendEmailWithSentStatusTest() {
         System.runAs(TestDataFactory.getSystemAdminUser()) {
-            Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
-            lsd.Total_Lead_Score__c = 350;
-            insert lsd;
-
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,2);
-            for(Contact c :contactList ){
-                c.Calculated_Cadence__c = 'International Application Submission - Direct Applicant (Automated)';
-                c.hed__Citizenship_Status__c = 'International';
-                c.Lead_Score_Detail__c = lsd.Id;
-            }
-            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
-
+            
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
             List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, 'USER_MODE');
 
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
@@ -103,7 +166,7 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
         System.assert(!commsQueue.isEmpty(), 'List should not be empty.');
     }
 
-    @isTest
+    /* @isTest
     private static void sendEmailWithSentStatusTestDomestic() {
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             Lead_Score_Detail__c lsd = new Lead_Score_Detail__c();
@@ -148,6 +211,6 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
         );
 
         System.assert(!commsQueue.isEmpty(), 'List should not be empty.');
-    }
+    } */
  
 }
