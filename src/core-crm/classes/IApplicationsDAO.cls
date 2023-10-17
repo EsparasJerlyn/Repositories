@@ -36,5 +36,5 @@ public interface IApplicationsDAO extends DmlInterface{
         Set<String> recordId,
         Set<String> cadenceNames,
         String accessLevel
-    );
+    ); 
 } 
