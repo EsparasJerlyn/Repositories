@@ -1990,7 +1990,29 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 );
             }
         }
+
+        getContactHasOptedOutOfEmail(internationalExitContactMap, contactsToUpdate, cadenceNames);
+
         return contactsToUpdate;
+    }
+
+    private static void getContactHasOptedOutOfEmail(Map<Id, Contact> internationalExitContactMap, Map<Id, Contact> contactsToUpdate, List<String> cadenceNames) {
+        for(Id contactId : internationalExitContactMap.keySet()) {
+            Contact contactDetail = internationalExitContactMap.get(contactId);
+            if (
+                cadenceNames.contains(contactDetail.Calculated_Cadence__c) &&
+                contactDetail.HasOptedOutOfEmail == true &&
+                contactsToUpdate.get(contactDetail.Id) == null
+            ) {
+                contactsToUpdate.put(
+                    contactDetail.Id,
+                    new Contact(
+                        Id = contactDetail.Id,
+                        Calculated_Cadence__c = ''
+                    )
+                );
+            }
+        }
     }
 
     private static Boolean isContactWithNoActiveStudyLinkAppforXYears(Contact internationalEntryContact, Integer years) {

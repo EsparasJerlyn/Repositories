@@ -531,7 +531,29 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                 );
             }
         }
+
+        getLeadHasOptedOutOfEmail(internationalExitLeadMap, leadsToUpdate, cadenceNames);
+
         return leadsToUpdate;
+    }
+
+    private static void getLeadHasOptedOutOfEmail(Map<Id, Lead> internationalExitLeadMap, Map<Id, Lead> leadsToUpdate, List<String> cadenceNames) {
+        for(Id leadId : internationalExitLeadMap.keySet()) {
+            Lead leadDetail = internationalExitLeadMap.get(leadId);
+            if (
+                cadenceNames.contains(leadDetail.Calculated_Cadence__c) &&
+                leadDetail.HasOptedOutOfEmail == true &&
+                leadsToUpdate.get(leadDetail.Id) == null
+            ) {
+                leadsToUpdate.put(
+                    leadDetail.Id,
+                    new Lead(
+                        Id = leadDetail.Id,
+                        Calculated_Cadence__c = ''
+                    )
+                );
+            }
+        }
     }
 
     private static Boolean isLeadWithNoActiveStudyLinkAppforXYears(Lead internationalEntryLead, Integer years) {
