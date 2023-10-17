@@ -26,6 +26,8 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL = 'Domestic Accepted not yet Enrolled';
     public static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
     public static final String DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED = 'Domestic First Offer to Acceptance (Automated)';
+    public static final String INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL = 'International Strong Interest Pre-Application';
+    public static final String INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED = 'International Strong Interest Pre-Application (Automated)';
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 
     public static INurtureTrackConfigurationsDAO newInstance() {

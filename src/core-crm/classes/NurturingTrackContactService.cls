@@ -1916,51 +1916,58 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
     private static Map<Id, Contact> getEntryInternationalStrongInterestPreApplication(Map<Id, Contact> internationalEntryContactMap) {
         Map<String, Nurture_Track_Configuration__c> intlEntryStrongInterestPreAppConfigs = getIntlEntryStrongInterestPreAppConfigs();
-        Set<Id> contactIdsWithCmpltdCadenceSet = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+        Map<Id, List<String>> contactIdsWithCmpltdCadenceSet = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             internationalEntryContactMap.keySet(),
-            new Set<String>{'International Strong Interest Pre-Application', 'International Strong Interest Pre-Application (Automated)'},
+            new Set<String>{NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL,NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED},
+            Contact.getSObjectType()
+        );
+        
+        // Check Contact and Cadence Name if Manual is already Completed
+        Set<Id> completedManualCadenceByContactId = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new Set<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED },
             Contact.getSObjectType()
         ).keySet();
+        
         Map<Id, List<String>> contactIdToCaseCategoriesMap = NurturingTrackService.getApplicantIdToRelatedCaseCategoriesMap(internationalEntryContactMap.keySet(), 3);
         Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
         for(Contact internationalEntryContact : internationalEntryContactMap.values()) {
-            try {
-                Boolean isManual = contactIdsWithCmpltdCadenceSet.contains(internationalEntryContact.Id);
-                Decimal threshold = NurturingTrackService.selectThreshold(
-                    intlEntryStrongInterestPreAppConfigs, 
-                    'International Strong Interest Pre-Application',
-                    isManual
-                );
-                List<String> l1Categories = NurturingTrackService.selectL1Categories(
-                    intlEntryStrongInterestPreAppConfigs, 
-                    'International Strong Interest Pre-Application',
-                    isManual
-                );
-                List<String> relatedCaseCategories = contactIdToCaseCategoriesMap.get(internationalEntryContact.Id);
-                if( // ... the contact...
-                    isContactWithNoActiveStudyLinkAppforXYears(internationalEntryContact, 3) &&  // ... has no active studylink app...
-                    internationalEntryContact.Lead_Score__c > threshold &&                       // ... has a lead score above threshold...
-                    NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(           // ... has a related case with a certain category...
-                        l1Categories, 
-                        relatedCaseCategories
+            
+            boolean shouldContinueProcessing = contactIdsWithCmpltdCadenceSet.containsKey(internationalEntryContact.Id) && contactIdsWithCmpltdCadenceSet.get(internationalEntryContact.Id).size() >= 2;
+            
+            if (shouldContinueProcessing) {
+                continue;
+            }
+            
+            Boolean isManual = !completedManualCadenceByContactId.contains(internationalEntryContact.Id);
+            Decimal threshold = NurturingTrackService.selectThreshold(
+                intlEntryStrongInterestPreAppConfigs, 
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL,
+                isManual
+            );
+            List<String> l1Categories = NurturingTrackService.selectL1Categories(
+                intlEntryStrongInterestPreAppConfigs, 
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL,
+                isManual
+            );
+            List<String> relatedCaseCategories = contactIdToCaseCategoriesMap.get(internationalEntryContact.Id);
+            if( // ... the contact...
+                isContactWithNoActiveStudyLinkAppforXYears(internationalEntryContact, 3) &&  // ... has no active studylink app...
+                internationalEntryContact.Lead_Score__c > threshold &&                       // ... has a lead score above threshold...
+                NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(           // ... has a related case with a certain category...
+                    l1Categories, 
+                    relatedCaseCategories
+                )
+            ) {
+                contactsToUpdate.put(
+                    internationalEntryContact.Id, 
+                    new Contact(
+                        Id = internationalEntryContact.Id,
+                        Calculated_Cadence__c = !isManual ?
+                        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL:
+                        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED
                     )
-                ) {
-                    contactsToUpdate.put(
-                        internationalEntryContact.Id, 
-                        new Contact(
-                            Id = internationalEntryContact.Id,
-                            Calculated_Cadence__c = isManual ?
-                                'International Strong Interest Pre-Application' :
-                                'International Strong Interest Pre-Application (Automated)'
-                        )
-                    );
-                }
-            } catch(Exception e){
-                Logger.error('Exception caught in method execute in Apex Trigger NurturingTrackContactService.').setExceptionDetails(e);
-            } finally {
-                if(Logger.getBufferSize() > 0) {
-                    Logger.saveLog();
-                }
+                );
             }
         }
         return contactsToUpdate;
@@ -1968,8 +1975,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
     private static Map<Id, Contact> getExitInternationalStrongInterestPreApplication(Map<Id, Contact> internationalExitContactMap) {
         List<String> cadenceNames = new List<String>{
-            'International Strong Interest Pre-Application (Automated)', 
-            'International Strong Interest Pre-Application'
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED, 
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL
         };
         Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
         for(hed__Application__c application : applicationList) {
@@ -2041,8 +2048,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<String, Nurture_Track_Configuration__c> configsMap = new Map<String, Nurture_Track_Configuration__c>();
         for(Nurture_Track_Configuration__c config : NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
             new Set<String>{
-                'International Strong Interest Pre-Application (Automated)', 
-                'International Strong Interest Pre-Application'},
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED, 
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL},
             'SYSTEM_MODE'
         )) {
             if(config.Criteria_Type__c == 'Entry') {
@@ -2051,4 +2058,4 @@ public with sharing class NurturingTrackContactService { //NOPMD
         }
         return configsMap;
     }
-} 
+}

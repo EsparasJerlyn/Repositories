@@ -391,12 +391,12 @@ public with sharing class NurturingTrackLeadServiceTest {
 
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
 
-            Boolean isAutoEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == 'International Strong Interest Pre-Application (Automated)';
+            Boolean isAutoEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED;
             
             leadList[0].Calculated_Cadence__c = '';
             
 			List<Nurture_Track_Configuration__c> configList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
-                new Set<String> {'International Strong Interest Pre-Application'},
+                new Set<String> {NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED},
                 'SYSTEM_MODE'
             );
             
@@ -412,7 +412,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
             processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
             
-            Boolean isManualEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == 'International Strong Interest Pre-Application';
+            Boolean isManualEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL;
 
             System.assert(isAutoEntrySuccess, 'Automatic entry calculated cadence population failed.');
             System.assert(isManualEntrySuccess, 'Manual entry calculated cadence population failed.');
