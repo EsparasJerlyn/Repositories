@@ -17,7 +17,9 @@
 public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase implements INurtureTrackConfigurationsDAO {
 
     public static final String NURTURE_FIELDS = 'Id, Cadence_Name__c, Lead_Score_Threshold__c, Status__c,Key_Date_Offset_Days__c,Criteria_Type__c,Enquiry_Category_L1__c ';
+    
     public static final String INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'International Strong Interest Pre-Application';
+    public static final String INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED = 'International Strong Interest Pre-Application (Automated)';
     public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'Domestic Strong Interest Pre-Application';
     public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED = 'Domestic Strong Interest Pre-Application (Automated)';
     public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED = 'International Offer to Acceptance (Automated)';
@@ -25,7 +27,18 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED = 'Domestic Accepted not yet Enrolled (Automated)';
     public static final String DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL = 'Domestic Accepted not yet Enrolled';
     public static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
+    public static final String DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_MANUAL = 'Domestic First Offer to Acceptance';
     public static final String DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED = 'Domestic First Offer to Acceptance (Automated)';
+    public static final String INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL = 'International Application Submission - Direct Applicant';
+    public static final String INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED = 'International Application Submission - Direct Applicant (Automated)';
+    public static final String INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL = 'International Acceptance Deposit not Paid';
+    public static final String DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL = 'Domestic Deferred Offer to Acceptance';
+    public static final String INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL = 'International Application to Offer';
+    public static final String DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL = 'Domestic Accepted and Admitted';
+    public static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
+    public static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
+
+
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 
     public static INurtureTrackConfigurationsDAO newInstance() {

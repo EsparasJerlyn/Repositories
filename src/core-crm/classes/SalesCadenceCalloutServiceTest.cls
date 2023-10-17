@@ -6,9 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary                              |
-      |---------------------------|-----------------------|--------------|---------------------------------------------|
-      | mark.j.mahilum            | July 18,2023          | DEPP-5799    | Created file                                |
+ *    | Developer                 | Date                  | JIRA         | Change Summary                               |
+      |---------------------------|-----------------------|--------------|----------------------------------------------|
+      | mark.j.mahilum            | July 18,2023          | DEPP-5799    | Created file                                 |
+      | johanna.a.gibas           | Oct 16, 2023          | DEPP-6855    | Added Completed Cadence to increase coverage |
 */
 @isTest
 private class SalesCadenceCalloutServiceTest {
@@ -83,6 +84,7 @@ private class SalesCadenceCalloutServiceTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
             newContacts[0].Calculated_Cadence__c = 'Test Cadences automated';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -94,9 +96,11 @@ private class SalesCadenceCalloutServiceTest {
             ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
             Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
    
-            acTracker.add(new ActionCadenceTracker(TargetId = newContacts[0].Id, State = 'Complete'));
-            
+            acTracker.add(new ActionCadenceTracker(TargetId = newContacts[0].Id, State = 'Complete'));            
             ActionCadenceTrackersDAO.newInstance().insertRecords(acTracker,true,AccessLevel.SYSTEM_MODE);
+
+            completedCadenceList.add(new Completed_Cadence__c(Contact__c = newContacts[0].Id, Completed_Cadence_Status__c = CompletedCadencesDAO.CLOSED_FOLLOW_UP_STATUS));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.SYSTEM_MODE);
                         
             Map<String, String> targetCadenceMap = new Map<String, String>{ newContacts[0].Id => 'Test Cadences automated'};
                            
@@ -110,7 +114,9 @@ private class SalesCadenceCalloutServiceTest {
     @isTest
     private static void testLeadWithCalculatedCadencesRemoveValue() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();            
+            List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+
             Test.startTest();
             ImplementationSelector.DAO.setMock(new ContactsDAOMock());
             ImplementationSelector.DAO.setMock(new LeadsDAOMock());
@@ -124,8 +130,10 @@ private class SalesCadenceCalloutServiceTest {
             LeadsDAO.newInstance().insertRecords(leadList,true,AccessLevel.SYSTEM_MODE);
 
             acTracker.add(new ActionCadenceTracker(TargetId = leadList[0].Id, State = 'Complete'));
-     
             ActionCadenceTrackersDAO.newInstance().insertRecords(acTracker,true,AccessLevel.SYSTEM_MODE);
+
+            completedCadenceList.add(new Completed_Cadence__c(Lead__c = leadList[0].Id, Completed_Cadence_Status__c = CompletedCadencesDAO.CLOSED_FOLLOW_UP_STATUS));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.SYSTEM_MODE);
                         
             Map<String, String> targetCadenceMap = new Map<String, String>{ leadList[0].Id => 'Test Cadences automated'};
                            

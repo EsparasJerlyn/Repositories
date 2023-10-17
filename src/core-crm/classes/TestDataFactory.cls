@@ -62,6 +62,7 @@
  *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          | 
  *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
+ *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
  * 
  **/
 
@@ -1812,7 +1813,12 @@ public class TestDataFactory {
     public static List<Adhoc_Communication__c> createTestAdhocCommsRecords(Integer numAdhocComms) {
         List<Adhoc_Communication__c> adhocCommsList = new List<Adhoc_Communication__c>();
         for (Integer i = 0; i < numAdhocComms; i++) {
-            adhocCommsList.add(new Adhoc_Communication__c());
+            adhocCommsList.add(new Adhoc_Communication__c(
+                IsSent__c = false,
+                Send_Date__c = System.today(),
+                Subject__c = 'test subject' + i,
+                Email_Content__c = 'test email content'
+            ));
         }
         return adhocCommsList;
     }

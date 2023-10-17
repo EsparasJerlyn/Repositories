@@ -68,4 +68,18 @@ public with sharing class CommunicationQueuesDAOTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void getCommsQueueRecordsByStatusAndLastModifiedTodayTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+            List<Communication_Queue__c> commsQueueList = CommunicationQueuesDAO.newInstance()
+                .getCommsQueueRecordsByStatusAndLastModifiedToday(
+                    new Set<String>(),
+                    AccessLevel.USER_MODE
+                );
+            System.assert(commsQueueList.isEmpty(), 'commsQueueList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
 }

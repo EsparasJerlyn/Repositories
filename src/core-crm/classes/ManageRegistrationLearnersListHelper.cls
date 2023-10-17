@@ -8,6 +8,8 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | November 15, 2022     | DEPP-4721            | Created file                 |
+      | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612            | Changed QUT_Student_Id__c to |
+      |                           |                       |                      | QUT_Student_Username__c      |
 */
 
 public without sharing class ManageRegistrationLearnersListHelper{
@@ -53,7 +55,7 @@ public without sharing class ManageRegistrationLearnersListHelper{
                     hed__Contact__r.Dietary_Requirement__c, hed__Contact__r.Accessibility_Requirement__c, Pricing_Validation__c, hed__Course_Offering__c, Cart_ID__r.External_Id__c,
                     Cart_ID__r.TotalAmount, Paid_in_Full__c, hed__Status__c, LMS_Integration_Status__c, hed__Contact__r.FirstName, hed__Contact__r.LastName,
                     hed__Contact__r.Birthdate, Payment_Method__c, Cart_Item__r.Pricebook_Entry_ID__c, Is_Group_Registered__c, hed__Contact__r.Registered_Email__c,
-                    Cart_Item__r.Product2.Name, CreatedDate, Paid_Amount__c, hed__Contact__r.QUT_Student_Id__c
+                    Cart_Item__r.Product2.Name, CreatedDate, Paid_Amount__c, hed__Contact__r.QUT_Student_Username__c
                     FROM hed__Course_Enrollment__c
                     WHERE RecordTypeId IN (:studentRecTypeId, :studentProgramRecTypeId)
                     AND (hed__Course_Offering__c =: childRecordId OR (Program_Offering__c  =: childRecordId AND hed__Course_Offering__c = null ))

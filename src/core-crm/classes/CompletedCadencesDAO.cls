@@ -15,13 +15,19 @@
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6524              | Added logic to include follow-up call in Completed |
       |                                |                       |                        | Cadence statuses                                   |
       | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added addition fields for soql                     |
+      | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Used string literals for Statuses                  |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
+    public static final String NULL_STATUS = '';
+    public static final String SUCCESSFUL_STATUS = 'Successful';
+    public static final String CLOSED_FOLLOW_UP_STATUS = 'Closed - Follow Up';
+    public static final String UNSUCCESSFUL_STATUS = 'Unsuccessful';
+
     public static final Set<String> completedCadenceStatuses = new Set<String>{
-        'Unsuccessful',
-        'Closed - Follow Up',
-        ''
+        UNSUCCESSFUL_STATUS,
+        CLOSED_FOLLOW_UP_STATUS,
+        NULL_STATUS
     };   
 
     public static ICompletedCadencesDAO newInstance() {

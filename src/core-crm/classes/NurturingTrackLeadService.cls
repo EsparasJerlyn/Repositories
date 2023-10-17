@@ -22,6 +22,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static List<Case> caseList;
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = new Map<String, Nurture_Track_Configuration__c>();
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackWithThresholdForEntry = new Map<String, Nurture_Track_Configuration__c>();
+    private static Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>(); 
     private static Map<Id, Lead> domesticEntryLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> domesticExitLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalEntryLeadMap = new Map<Id, Lead>();
@@ -66,6 +67,20 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         applicationList = ApplicationsDAO.newInstance().getApplicationsByLeadIds(mapOfLeads.keySet(), 'SYSTEM_MODE');
         getLeadRecordCitizenship(mapOfLeads);
         getFilteredNurturingTrackRecords();
+
+        //get all related completed cadences related to the lead
+        applicantIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            mapOfLeads.keySet(),
+            new Set<String>{
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL,
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED,
+                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+                NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL,
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+            },
+            Lead.getSObjectType()
+        );
     }
 
     /**
@@ -131,18 +146,18 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             }
         }
 
-        Map<Id, List<String>> leadsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+        Map<Id, Set<String>> leadsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryLeadMap.keySet(),
-            new Set<String>{
-                'International Application Submission - Direct Applicant',
-                'International Application Submission - Direct Applicant (Automated)'
+            new List<String>{
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL,
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED
             },
-            Lead.getSObjectType()
+            applicantIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Lead.getSObjectType(), 
-                                                                            'International Application Submission - Direct Applicant (Automated)',
-                                                                            'International Application Submission - Direct Applicant');
+                                                                            NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED,
+                                                                            NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL);
                                                                             
         List<Lead> leadToUpdateList = (List<Lead>) NurturingTrackService.populateCalculatedCadenceMultiple(
             leadsWithCompletedCadence,
@@ -168,16 +183,16 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Set<Id> existingCaseFromLead = getCaseRecordsFromLead(domesticEntryLeadMap.keySet());
         Set<Id> leadIdsWithApplication = getLeadIdsWithApplication(applicationList);
     
-        Map<Id, List<String>> leadsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+        Map<Id, Set<String>> leadsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryLeadMap.keySet(),
-            new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
-            Lead.getSObjectType()
+            new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
+            applicantIdsWithCompletedCadence
         );
 
-        Map<Id, List<String>> leadsWithCompletedCadenceManual = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+        Map<Id, Set<String>> leadsWithCompletedCadenceManual = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryLeadMap.keySet(),
-            new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL },
-            Lead.getSObjectType()
+            new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL },
+            applicantIdsWithCompletedCadence
         );
 
         for (Lead lead : domesticEntryLeadMap.values()){
@@ -193,8 +208,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                         new Lead(
                             Id = lead.Id,
                             Calculated_Cadence__c = hasExistingCompletedCadence ?
-                                'Domestic Strong Interest Pre-Application' :
-                                'Domestic Strong Interest Pre-Application (Automated)'
+                            NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL :
+                            NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
                         )
                     );
             }
@@ -228,16 +243,16 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             }
         }
     
-        Map<Id, List<String>> leadsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+        Map<Id, Set<String>> leadsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryLeadMap.keySet(),
-            new Set<String>{ 'Domestic Accepted and Admitted' },
-            Lead.getSObjectType()
+            new List<String>{NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL},
+            applicantIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
             Lead.getSObjectType(),
             null,
-            'Domestic Accepted and Admitted'
+            NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL
         );
         
         List<Lead> leadToUpdateList = (List<Lead>) NurturingTrackService.populateCalculatedCadenceSingle(
@@ -284,10 +299,10 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Set<Id> leadIdSet
     ) {
         Set<Id> leadHasApplicationForEntry = new Set<Id>();
-        Map<Id, List<String>> existingLeadOnCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+        Map<Id, Set<String>> existingLeadOnCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryLeadMap.keySet(),
-            new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
-            Lead.getSObjectType()
+            new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
+            applicantIdsWithCompletedCadence
         );
         for (hed__Application__c app : applicationList) {
             boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
@@ -395,15 +410,15 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
     private static Set<Id> getCaseRecordsFromLead(Set<Id> leadIds){
         Set<Id> caseFromLeadIds = new Set<Id>();
-        Map<Id, List<String>> leadsWithCompletedCadenceManualMap = new  Map<Id, List<String>>();
+        Map<Id, Set<String>> leadsWithCompletedCadenceManualMap = new  Map<Id, Set<String>>();
         List<Case> caseList = new List<Case>();
 
         if(nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED)){
 
-            leadsWithCompletedCadenceManualMap = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+            leadsWithCompletedCadenceManualMap = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
                 domesticEntryLeadMap.keySet(),
-                new Set<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
-                Lead.getSObjectType()
+                new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
+                applicantIdsWithCompletedCadence
             );
             caseList = CasesDAO.newInstance().getCasesByLeadIds(leadIds, AccessLevel.SYSTEM_MODE);
         }
@@ -456,60 +471,66 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     }
 
     private static Map<Id, Lead> getEntryInternationalStrongInterestPreApplication(Map<Id, Lead> internationalEntryLeadMap) {
-        Set<Id> leadIdsWithCmpltdCadenceSet = NurturingTrackService.getApplicantIdsWithCompletedCadence(
+        Map<Id, Set<String>> leadIdsWithCmpltdCadenceSet = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryLeadMap.keySet(),
-            new Set<String>{'International Strong Interest Pre-Application', 'International Strong Interest Pre-Application (Automated)'},
-            Lead.getSObjectType()
+            new List<String>{NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED},
+            applicantIdsWithCompletedCadence
+        );
+        
+        Set<Id> completedManualCadenceByLeadId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryLeadMap.keySet(),
+            new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
+            applicantIdsWithCompletedCadence
         ).keySet();
+        
         Map<Id, List<String>> leadIdToCaseCategoriesMap = NurturingTrackService.getApplicantIdToRelatedCaseCategoriesMap(internationalEntryLeadMap.keySet(), 3);
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
         for(Lead internationalEntryLead : internationalEntryLeadMap.values()) {
-            try {
-                Boolean isManual = leadIdsWithCmpltdCadenceSet.contains(internationalEntryLead.Id);
-                Decimal threshold = NurturingTrackService.selectThreshold(
-                    nurturingTrackMap, 
-                    'International Strong Interest Pre-Application',
-                    isManual
-                );
-                List<String> l1Categories = NurturingTrackService.selectL1Categories(
-                    nurturingTrackMap, 
-                    'International Strong Interest Pre-Application',
-                    isManual
-                );
-                List<String> relatedCaseCategories = leadIdToCaseCategoriesMap.get(internationalEntryLead.Id);
-                if( // ... the lead...
-                    isLeadWithNoActiveStudyLinkAppforXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
-                    internationalEntryLead.Lead_Score__c > threshold &&  (                    // ... has a lead score above threshold...
+            
+            boolean shouldContinueProcessing = leadIdsWithCmpltdCadenceSet.containsKey(internationalEntryLead.Id) && leadIdsWithCmpltdCadenceSet.get(internationalEntryLead.Id).size() >= 2;           
+            if (shouldContinueProcessing) {
+                continue;
+            }
+            
+            Boolean isManual = !completedManualCadenceByLeadId.contains(internationalEntryLead.Id);
+            Decimal threshold = NurturingTrackService.selectThreshold(
+                nurturingTrackMap, 
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                isManual
+            );
+            List<String> l1Categories = NurturingTrackService.selectL1Categories(
+                nurturingTrackMap, 
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                isManual
+            );
+            List<String> relatedCaseCategories = leadIdToCaseCategoriesMap.get(internationalEntryLead.Id);
+            if( // ... the lead...
+                isLeadWithNoActiveStudyLinkAppforXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
+                internationalEntryLead.Lead_Score__c > threshold &&  (                    // ... has a lead score above threshold...
                     NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(        // ... has a related case with a certain category...
                         l1Categories, 
                         relatedCaseCategories
                     ))
-                ) {
-                    leadsToUpdate.put(
-                        internationalEntryLead.Id, 
-                        new Lead(
-                            Id = internationalEntryLead.Id,
-                            Calculated_Cadence__c = isManual ?
-                                'International Strong Interest Pre-Application' :
-                                'International Strong Interest Pre-Application (Automated)'
-                        )
-                    );
-                }
-            } catch(Exception e){
-                Logger.error('Exception caught in method execute in Apex Trigger NurturingTrackLeadService.').setExceptionDetails(e);
-            } finally {
-                if(Logger.getBufferSize() > 0) {
-                    Logger.saveLog();
-                }
+            ) {
+                leadsToUpdate.put(
+                    internationalEntryLead.Id, 
+                    new Lead(
+                        Id = internationalEntryLead.Id,
+                        Calculated_Cadence__c = !isManual ?
+                        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL :
+                        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+                    )
+                );
             }
+            
         }
         return leadsToUpdate;
     }
 
     private static Map<Id, Lead> getExitInternationalStrongInterestPreApplication(Map<Id, Lead> internationalExitLeadMap) {
         List<String> cadenceNames = new List<String>{
-            'International Strong Interest Pre-Application (Automated)', 
-            'International Strong Interest Pre-Application'
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED, 
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
         };
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
         for(hed__Application__c application : applicationList) {

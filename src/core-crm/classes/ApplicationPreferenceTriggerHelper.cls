@@ -177,7 +177,11 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
         List<hed__Application__c> qtacApplications = ApplicationsDAO.newInstance().getApplicationsBySetIds(qtacAppPrefSetIds, AccessLevel.USER_MODE);
         for(hed__Application__c app : qtacApplications){
             Date calculatedDate = null;
-            if(app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID && qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c != null){
+            if(
+                app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID && 
+                qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c != null &&
+                app.Intake_Year__c != null
+            ){
                 String intakeYear = app.Intake_Year__c;
                 Integer startingMonth = Integer.valueOf(qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c);
                 Integer lastDay = Date.daysInMonth(Integer.valueOf(intakeYear), startingMonth);

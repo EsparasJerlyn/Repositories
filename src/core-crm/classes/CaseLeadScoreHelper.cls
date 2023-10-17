@@ -10,6 +10,7 @@
   *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
   *    | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for case                                       |
+  *    | alexander.cadalin              | Oct 16, 2023          | DEPP-6919              | SOQL limit fix
   */
 public with sharing class CaseLeadScoreHelper implements ILeadScoreCommand{
 
@@ -31,20 +32,13 @@ public with sharing class CaseLeadScoreHelper implements ILeadScoreCommand{
 
         //check contact with multiple cases
         Map<Id,Case> caseMap = new Map<Id,Case>();
-        for(Case caseRec : newItems){
-            Boolean isForInsert = oldItems == null && caseRec.Category__c != null;
-            Boolean isForUpdate = oldItems != null && (
-                (caseRec.Lead__c!=null && oldItems.get(caseRec.Id).Lead__c != caseRec.Lead__c) || 
-                (caseRec.ContactId!=null && oldItems.get(caseRec.Id).ContactId != caseRec.ContactId) ||
-                (caseRec.Category__c!=null && oldItems.get(caseRec.Id).Category__c != caseRec.Category__c)
-            );
-
-            Boolean isForProcessing = isForInsert || isForUpdate;
-            if(isForProcessing){
+        for(Case caseRec : newItems){            
+            if(isForProcessing(caseRec, oldItems)){
                 caseMap.put(caseRec.Id, caseRec);
                 if(caseRec.ContactId != null){
                     contactIdSet.add(caseRec.ContactId);
-                }else{
+                }
+                if(caseRec.Lead__c != null){
                     leadIdSet.add(caseRec.Lead__c);
                 }
             }
@@ -68,7 +62,18 @@ public with sharing class CaseLeadScoreHelper implements ILeadScoreCommand{
             LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new CaseLeadScoreHelper(), setMarketingSegMap(), contactLeadIds);
             System.enqueueJob(executeQueueable);   
         }
-    }   
+    }
+
+    private static Boolean isForProcessing(Case caseRec, Map<Id, Case> oldItems) {
+        Boolean isForInsert = oldItems == null && caseRec.Category__c != null;
+        Boolean isForUpdate = oldItems != null && (
+            (caseRec.Lead__c!=null && oldItems.get(caseRec.Id).Lead__c != caseRec.Lead__c) || 
+            (caseRec.ContactId!=null && oldItems.get(caseRec.Id).ContactId != caseRec.ContactId) ||
+            (caseRec.Category__c!=null && oldItems.get(caseRec.Id).Category__c != caseRec.Category__c)
+        );
+
+        return isForInsert || isForUpdate;
+    }
 
     /**
      * Async process that includes:
