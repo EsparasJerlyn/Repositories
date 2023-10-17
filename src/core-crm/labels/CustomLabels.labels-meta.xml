@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Adhoc_Communication_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Adhoc Communication Cron Expression</shortDescription>
+        <value>0 0 7 ? * * *</value>
+    </labels>
+    <labels>
         <fullName>Build_Search_Index_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>

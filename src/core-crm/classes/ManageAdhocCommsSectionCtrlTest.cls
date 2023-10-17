@@ -6,37 +6,62 @@
  * @author Accenture
  *      
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary                  |
-      |---------------------------|-----------------------|----------------------|---------------------------------|
-      | angelika.j.s.galang       | April 6, 2022         | DEPP-2229            | Created file                    | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                               |
+      |---------------------------|-----------------------|----------------------|----------------------------------------------|
+      | angelika.j.s.galang       | April 6, 2022         | DEPP-2229            | Created file                                 | 
+      | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612            | updated sendEmailToRegisteredLearnersTest    |
 */
 @isTest
 private class ManageAdhocCommsSectionCtrlTest {
     
     private static final String PROGRAM_OFFERING = 'Program_Offering__c';
     private static final String STR_TEST = 'Test';
-    private static final String TEST_EMAIL = 'test@invalid.com.devgalaa1';
-    private static final String QUTEX = System.Label.QUTeX;
-    private static User currentUser = TestDataFactory.createUserRecords(1, QUTEX).iterator().next();
     private static final String ORG_ID = UserInfo.getOrganizationId();
 
-    @testSetup static void setupMethod() {
-        hed__Program_Plan__c programPlan = TestDataFactory.createTestProgramPlanRecords(1).iterator().next();
-        insert programPlan;
+    @testSetup
+    static void setupMethod(){
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'} );
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+            Test.startTest();
+            Account acc = TestDataFactory.createTestAccount(false);
+            acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
+            insert acc;
+            
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);
+            newContacts[0].AccountId = acc.Id;
+            newContacts[0].Registered_Email__c ='work0testmail@mail.test';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+    
+            List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
+            programList[0].Availability_Start_Date__c = System.today();
+            ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
+    
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+    
+            List<Program_Offering__c> programOffering = TestDataFactory.createTestProgramOfferingRecords(1,programList);
+            insert programOffering;
 
-        Program_Offering__c programOffering = TestDataFactory.createTestProgramOfferingRecords(
-            1,new List<hed__Program_Plan__c>{programPlan}
-        ).iterator().next();
-        insert programOffering;
-
-        Adhoc_Communication__c adhocCommunication = TestDataFactory.createTestAdhocCommsRecords(1).iterator().next();
-        adhocCommunication.Program_Offering__c = programOffering?.Id;
-        insert adhocCommunication;
+            List<hed__Course_Enrollment__c> courseEnrollmentList = new List<hed__Course_Enrollment__c>();
+            courseEnrollmentList.add(new hed__Course_Enrollment__c(
+                hed__Contact__c = newContacts[0].Id, 
+                Enrollment_Status__c = 'Test',
+                hed__Program_Enrollment__c = programEnrollmentList[0].Id,
+                Program_Offering__c = programOffering[0].Id
+            )); 
+            CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+    
+            List<Adhoc_Communication__c> adhocCommunicationList = TestDataFactory.createTestAdhocCommsRecords(1);
+            adhocCommunicationList[0].Program_Offering__c = programOffering[0].Id;
+            AdhocCommunicationsDAO.newInstance().insertRecords(adhocCommunicationList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+        }
     } 
 
     @isTest
     private static void getAdhocCommunicationsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
             Id programOfferingId = [Select Id From Program_Offering__c Limit 1]?.Id;
             List<Adhoc_Communication__c> adhocComms = ManageAdhocCommsSectionCtrl.getAdhocCommunications(programOfferingId,PROGRAM_OFFERING);
@@ -47,7 +72,7 @@ private class ManageAdhocCommsSectionCtrlTest {
 
     @isTest
     private static void getHeaderAndFooterImageUrlsTest(){
-        System.runAs(currentUser){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
             String imageInfos = JSON.serialize(
                 new List<Map<String,String>>{
                     new Map<String,String>{
@@ -63,13 +88,15 @@ private class ManageAdhocCommsSectionCtrlTest {
         }
     }
 
-    @isTest
-    private static void sendEmailToRegisteredLearnersTest(){
-        System.runAs(currentUser){
-            Test.startTest();
-            String emailResult = ManageAdhocCommsSectionCtrl.sendEmailToRegisteredLearners(STR_TEST,STR_TEST,new List<String>{TEST_EMAIL});
-            Test.stopTest();
-            System.assertEquals('success',emailResult, 'Email Result not as expected');
-        }
+   @isTest
+   private static void sendEmailToRegisteredLearnersTest(){
+        System.runAs(TestDataFactory.getProgramAdminUser()){
+           Test.startTest();
+          List<Adhoc_Communication__c> adhocCommunicationList = [SELECT Id, Name, IsSent__c, Send_Date__c, Subject__c, CreatedDate, Email_Content__c, Program_Offering__c, Course_Offering__c
+                                                                  FROM Adhoc_Communication__c];
+           Boolean emailResult = ManageAdhocCommsSectionCtrl.sendEmailToRegisteredLearners(adhocCommunicationList);
+           Test.stopTest();
+         System.assertEquals(true , emailResult, 'Email Result not as expected');
+      }
     }
 }
