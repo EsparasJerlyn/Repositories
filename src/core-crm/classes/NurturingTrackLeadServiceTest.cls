@@ -391,12 +391,12 @@ public with sharing class NurturingTrackLeadServiceTest {
 
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
 
-            Boolean isAutoEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED;
+            Boolean isAutoEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED;
             
             leadList[0].Calculated_Cadence__c = '';
             
 			List<Nurture_Track_Configuration__c> configList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
-                new Set<String> {NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_AUTOMATED},
+                new Set<String> {NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED},
                 'SYSTEM_MODE'
             );
             
@@ -412,7 +412,7 @@ public with sharing class NurturingTrackLeadServiceTest {
 
             processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
             
-            Boolean isManualEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PREAPPLICATION_MANUAL;
+            Boolean isManualEntrySuccess = !processLeads.isEmpty() && processLeads[0].Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
 
             System.assert(isAutoEntrySuccess, 'Automatic entry calculated cadence population failed.');
             System.assert(isManualEntrySuccess, 'Manual entry calculated cadence population failed.');

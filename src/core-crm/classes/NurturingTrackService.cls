@@ -13,6 +13,7 @@
       | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                        |
  */
 public with sharing class NurturingTrackService {
+
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_FIELD_MAP = new Map<SObjectType, Map<String, String>>{
         Contact.SObjectType => new Map<String, String>{
             'ApplicantId' => 'hed__Applicant__c',
@@ -43,16 +44,16 @@ public with sharing class NurturingTrackService {
      * @description Generate a map between applicant ids (either contact or lead) and a list of
      *              the cadence names of their completed cadences if they have.
      * @param {Set<Id>} applicantIdsSet A set of ids containing either contacts or leads to find completed cadences with
-     * @param {Set<String>} cadenceNamesSet A set of cadence names to filter through completed cadences
+     * @param {Set<String>} cadenceNamesSet A set of cadence names to filter through completed cadences via SOQL
      * @param {SObjectType} objectType Needed to identify whether this method is used for leads or contacts
-     * @return {Set<Id>} a set of application ids that has a related completed cadence record
+     * @return {Map<Id, Set<String>>} a set of application ids that has a related completed cadence record
      */
-    public static Map<Id, List<String>> getApplicantIdsWithCompletedCadence(
+    public static Map<Id, Set<String>> getApplicantIdsWithCompletedCadence(
         Set<Id> applicantIdsSet, // Ids contact/lead
         Set<String> candenceNamesSet,
         SObjectType objectType
     ) {
-        Map<Id, List<String>> completedCadencesByApplicantId = new Map<Id, List<String>>();
+        Map<Id, Set<String>> completedCadencesByApplicantId = new Map<Id, Set<String>>();
 
         List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(applicantIdsSet,candenceNamesSet,'SYSTEM_MODE');
         for (Completed_Cadence__c completedCadence : completedCadenceList) {
@@ -65,17 +66,56 @@ public with sharing class NurturingTrackService {
             ) {
                 completedCadencesByApplicantId.put(
                     (Id) completedCadence.get(completedCadenceApiName),
-                    new List<String>()
+                    new Set<String>()
                 );
             }
             completedCadencesByApplicantId.get((Id) completedCadence.get(completedCadenceApiName))
-                .add((String) completedCadence.get('Nurture_Track_Configuration__c'));
+                .add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
         }
         return completedCadencesByApplicantId;
     }
 
+    /**
+     * @description Generate a map between applicant ids (either contact or lead) and a list of
+     *              the cadence names of their completed cadences if they have.
+     * @param {Set<Id>} applicantIdsSet A set of ids containing either contacts or leads to find completed cadences with
+     * @param {List<String>} cadenceNamesSet A set of cadence names to filter through completed cadences(maximum of 2 names only)
+     * @param {Map<Id, Set<String>>} applicantIdsWithCompletedCadence all completed cadences related to the contact/lead 
+     * @return {Map<Id, Set<String>>} a map of application ids that has a related completed cadence record filtered by cadenceNamesSet
+     */
+    public static Map<Id, Set<String>> getFilteredApplicantWithCompletedCadence(
+        Set<Id> applicantIdsSet,
+        List<String> cadenceNamesSet,
+        Map<Id, Set<String>> applicantIdsWithCompletedCadence
+        
+    ){
+        Map<Id, Set<String>> completedCadencesByApplicantId = new Map<Id, Set<String>>();
+
+        for(Id applicantId: applicantIdsSet){
+            if(!applicantIdsWithCompletedCadence.containsKey(applicantId)){
+                continue;
+            }
+            //it is expected that there are only maximum of 2 cadence names in the set
+            //used cadenceNamesSet[0] and cadenceNamesSet[1] to avoid a for loop and reduce code complexity
+            if(applicantIdsWithCompletedCadence.get(applicantId).contains(cadenceNamesSet[0])){
+                if(!completedCadencesByApplicantId.containsKey(applicantId)){
+                    completedCadencesByApplicantId.put(applicantId,new Set<String>());
+                }
+                completedCadencesByApplicantId.get(applicantId).add(cadenceNamesSet[0]);
+            }
+            if(cadenceNamesSet.size() == 2 && applicantIdsWithCompletedCadence.get(applicantId).contains(cadenceNamesSet[1])){
+                if(!completedCadencesByApplicantId.containsKey(applicantId)){
+                    completedCadencesByApplicantId.put(applicantId,new Set<String>());
+                }
+                completedCadencesByApplicantId.get(applicantId).add(cadenceNamesSet[1]);
+            }
+        }
+
+        return completedCadencesByApplicantId;
+    }
+
     public static List<SObject> populateCalculatedCadenceMultiple(
-        Map<Id, List<String>> completedCadenceByApplicantId,
+        Map<Id, Set<String>> completedCadenceByApplicantId,
         List<hed__Application__c> internationalDirectApplicants,
         CadenceWrapper wrapper
     ) {
@@ -110,7 +150,7 @@ public with sharing class NurturingTrackService {
     }
 
     public static List<SObject> populateCalculatedCadenceSingle(
-        Map<Id, List<String>> completedCadenceByApplicantId,
+        Map<Id, Set<String>> completedCadenceByApplicantId,
         List<hed__Application__c> internationalDirectApplicants,
         CadenceWrapper wrapper
     ) {
@@ -190,7 +230,7 @@ public with sharing class NurturingTrackService {
         return isContains;
     }
     
-    private static Integer getLength(Map<Id, List<String>> completedCadenceByApplicantId, String applicantApiName,SObject application){
+    private static Integer getLength(Map<Id, Set<String>> completedCadenceByApplicantId, String applicantApiName,SObject application){
         Integer length = 0;
         if (completedCadenceByApplicantId.containsKey((Id) application.get(applicantApiName))) {
             length = completedCadenceByApplicantId.get((Id) application.get(applicantApiName)).size();
