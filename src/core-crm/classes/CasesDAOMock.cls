@@ -60,13 +60,26 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
         AccessLevel accessLevel
     ) {
         List<Case> caseList = new List<Case>();
-
+        String caseString = '';
         for (Case record : caseMap.values()) {
             if (
                 contactOrLeadIds.contains(record.Lead__c) ||
                 contactOrLeadIds.contains(record.ContactId)
             ) {
-                caseList.add(record);
+                Case tempCase = new Case();
+                
+                //deserialze json to add createddate
+                caseString = '{"attributes":{"type":"Case","url":"/services/data/v56.0/sobjects/Case/'+record.Id+'"},' +
+                '"Id":"'+record.Id+'","CreatedDate":"'+String.valueOf(System.today())+'"}';
+                tempCase = (Case)JSON.deserialize(caseString,Case.class);
+
+                tempCase.RecordTypeId = record.RecordTypeId;
+                tempCase.Auto_Priority_Assignment__c = record.Auto_Priority_Assignment__c;
+                tempCase.Priority = record.Priority;
+                tempCase.Category__c = record.Category__c;
+                tempCase.ContactId = record.ContactId;
+                tempCase.Lead__c = record.Lead__c;
+                caseList.add(tempCase);
             }
         }
 

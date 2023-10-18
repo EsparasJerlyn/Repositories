@@ -9,7 +9,9 @@
  *    | Developer                 | Date                  | JIRA         | Change Summary                                         |
       |---------------------------|-----------------------|--------------|--------------------------------------------------------|
       | angelika.j.s.galang       | April 6, 2022         | DEPP-2229    | Created file                                           | 
+      | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612    | Removed action send button and added Send Date         |
       |                           |                       |              |                                                        |
+
 */
 import { LightningElement, api, wire, track } from 'lwc';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
@@ -22,7 +24,6 @@ import ADHOC_COMMS from "@salesforce/schema/Adhoc_Communication__c";
 import AC_COURSE_OFFERING from '@salesforce/schema/Adhoc_Communication__c.Course_Offering__c';
 import AC_PROGRAM_OFFERING from '@salesforce/schema/Adhoc_Communication__c.Program_Offering__c';
 import getAdhocCommunications from '@salesforce/apex/ManageAdhocCommsSectionCtrl.getAdhocCommunications';
-import sendEmailToRegisteredLearners from '@salesforce/apex/ManageAdhocCommsSectionCtrl.sendEmailToRegisteredLearners';
 import getHeaderAndFooterImageUrls from '@salesforce/apex/ManageAdhocCommsSectionCtrl.getHeaderAndFooterImageUrls';
 
 const DATE_OPTIONS = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -40,6 +41,12 @@ const ADHOC_COLUMNS = [
         label: 'Subject'
     },
     {
+        fieldName: 'Send_Date__c',
+        label: 'Send Date',
+        type:'Date',
+        initialWidth: 200
+    },
+    {
         fieldName: 'IsSent__c',
         label: 'IsSent',
         type:'boolean',
@@ -49,20 +56,6 @@ const ADHOC_COLUMNS = [
         fieldName: 'CreatedDate',
         label: 'Created Date',
         initialWidth: 200
-    },
-    {
-        type: 'button',
-        typeAttributes: {
-            iconName: 'utility:send',
-            iconPosition: 'left',
-            label: 'Send Email',
-            name: 'send_email',
-            title: 'Send Email to Registered Learners',
-            disabled: false,
-            variant: 'brand',
-            class: {fieldName:'sendEmailButton'}
-        },
-        initialWidth: 150
     },
     {
         type: 'action',
@@ -87,18 +80,6 @@ export default class ManageAdhocCommsSection extends LightningElement {
     adhocIdToEdit;
     defaultEmailContent;
     
-    //getter and setter for registered learner emails from manage registration
-    @api
-    get registeredLearnerEmails() {
-        return this._registeredLearnerEmails;
-    }
-    set registeredLearnerEmails(value) {
-        this.setAttribute('registeredLearnerEmails', value);
-        this._registeredLearnerEmails = value;
-    }
-
-    @track _registeredLearnerEmails;
-
     //returns offering from field from adhoc depending on product request record type
     get adhocOfferingField(){
         return this.isProgram ? AC_PROGRAM_OFFERING.fieldApiName : AC_COURSE_OFFERING.fieldApiName;
@@ -126,8 +107,8 @@ export default class ManageAdhocCommsSection extends LightningElement {
             this.adhocData = this.adhocResult.data.map(adhoc => {
                 return {
                     ...adhoc,
-                    CreatedDate : new Date(adhoc.CreatedDate).toLocaleDateString('en-AU',DATE_OPTIONS),
-                    sendEmailButton : adhoc.IsSent__c ? 'slds-hide' : 'slds-show slds-text-align_center'
+                    Send_Date__c : new Date(adhoc.Send_Date__c).toLocaleDateString('en-AU',DATE_OPTIONS),
+                    CreatedDate : new Date(adhoc.CreatedDate).toLocaleDateString('en-AU',DATE_OPTIONS)
                 }
             });
         }else if(result.error){
@@ -191,37 +172,7 @@ export default class ManageAdhocCommsSection extends LightningElement {
         if(actionName == 'edit'){
             this.adhocIdToEdit = row.Id;
             this.showComms = true;
-        //sends email to registred learners via apex
-        }else if(actionName == 'send_email'){
-            if(this.registeredLearnerEmails.length === 0){
-                this.generateToast('Email not sent.', 'No registered learner found.', 'error');
-            }else{
-                this.isLoading = true;
-                sendEmailToRegisteredLearners({
-                    emailSubject : row.Subject__c,
-                    emailContent : row.Email_Content__c,
-                    learnerEmails : this.registeredLearnerEmails
-                })
-                .then(result => {
-                    if(result == 'success'){
-                        let fields = {
-                            Id : row.Id,
-                            IsSent__c : true
-                        };
-                        this.handleUpdateRecord(fields,'Email sent to registered learners.');
-                    }else{
-                        this.generateToast("Error.", LWC_Error_General, "error");
-                    }
-                })
-                .catch(error => {
-                    this.generateToast("Error.", LWC_Error_General, "error");
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
-            }
         }
-        
     }
 
     //handler for creating adhoc comms records

@@ -5,14 +5,16 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eccarius.munoz                 | August 29, 2023       | DEPP-6138              | Created file                 |
-      | eccarius.munoz                 | September 18, 2023    | sit dep fix            | added handling for new email |
-      |                                |                       |                        | templates (int and dom)      |
-      | eccarius.munoz                 | September 26, 2023    | DEPP-6741              | added handling for new emails|      
-      | ken.marvin.narido              | October 12, 2023      | DEPP-6885              | added handling for null      |
-      |                                |                       |                        | whoIds' firstName            |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                    |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
+      | eccarius.munoz                 | August 29, 2023       | DEPP-6138              | Created file                                      |
+      | eccarius.munoz                 | September 18, 2023    | sit dep fix            | added handling for new email                      |
+      |                                |                       |                        | templates (int and dom)                           |
+      | eccarius.munoz                 | September 26, 2023    | DEPP-6741              | added handling for new emails                     |      
+      | ken.marvin.narido              | October 12, 2023      | DEPP-6885              | added handling for null                           |
+      |                                |                       |                        | whoIds' firstName                                 |
+      | mark.j.mahilum                 | Oct 17, 2023          | DEPP-6926              | Added filter condition to stop email sending when |
+      |                                |                       |                        | the maximum daily email count is reached          |
  */
 public with sharing class SalesCadenceEmailRequestCommand implements IRequestCommand{
     
@@ -23,6 +25,14 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
     }      
 
     public void execute() {
+        
+        boolean shouldStopProcessing = getCommsQueueConfig().Maximum_Daily_Email_Count__c <= getComsQueueRecordCount();
+		
+        if(shouldStopProcessing){
+            Logger.info('Communication Queue Daily Maximum Email Count has been reached, the current number of  records process today = ' + getComsQueueRecordCount());
+            return;
+        }
+        
         Map<Id, Communication_Queue__c> commsQueueMap = new Map<Id, Communication_Queue__c>();
         Map<String, String> recipientMap = setEmailRecipientMap(communicationQueueList);
         Map<Id,EmailTemplate> emailTemplateMap = getEmailTemplateMap(communicationQueueList);
@@ -142,11 +152,8 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
      * Retrieves Max Retry from Communication Queue Config Metadata
      */
     private static Communication_Queue_Configuration__mdt getCommsQueueConfig(){
-        Communication_Queue_Configuration__mdt commQueueMetadata;
-        Map<String, Communication_Queue_Configuration__mdt> commsQueueMetadataMap = Communication_Queue_Configuration__mdt.getAll();
-        for(Communication_Queue_Configuration__mdt cqm : commsQueueMetadataMap.values()){
-            commQueueMetadata = cqm;
-        }
+        Communication_Queue_Configuration__mdt commQueueMetadata;        
+		commQueueMetadata = Communication_Queue_Configuration__mdt.getInstance('Sales_Cadence');
         return commQueueMetadata; 
     }
 
@@ -217,4 +224,13 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
         }
        return bodyParams;
     }
+    
+    /**
+     * retrieves number of communication queue records that is process today
+     */
+    private static Integer getComsQueueRecordCount(){
+        Set<String> processStatus = new Set<String>{CommunicationQueuesDAO.STATUS_SENT};
+        return CommunicationQueuesDAO.newInstance().getCommsQueueRecordsByStatusAndLastModifiedToday(processStatus,AccessLevel.SYSTEM_MODE).size();
+    }    
+    
 }

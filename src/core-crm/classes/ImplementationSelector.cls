@@ -32,6 +32,8 @@
  *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Adde mapping for cartdeliverygroup,webstore,webcart,cartitem, |
  *    |                                |                       |                        | pricebook and pricebookentry                                  |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added object mapping for Address                              |
+ *    | eugene.andrew.abuan            | October 10, 2023      | DEPP-6612              | Added object mapping for Adhoc Communication Object           |
+
  */
 public class ImplementationSelector { 
 
@@ -42,6 +44,7 @@ public class ImplementationSelector {
             Action__c.SObjectType => ActionsDAO.class,
             ActionCadenceTracker.SObjectType => ActionCadenceTrackersDAO.class,
             ActionCadenceStepTracker.SObjectType => ActionCadenceStepTrackersDAO.class,
+            Adhoc_Communication__c.SObjectType => AdhocCommunicationsDAO.class,
             AppDefinition.SObjectType => AppDefinitionsDAO.class,
             Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class, 
             Asset.SObjectType => AssetsDAO.class,

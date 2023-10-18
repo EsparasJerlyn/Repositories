@@ -72,5 +72,24 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
         return courseConnectionList;
     }
     
+    public List<hed__Course_Enrollment__c> getRegisteredLearnersEmailByCourseOffering(
+        Set<Id> courseOfferingIds,
+        Set<Id> programOfferingIds,
+        AccessLevel accessLevel
+    ) {
+        List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
+        courseOfferingIds = courseOfferingIds == null ? new Set<Id>() : courseOfferingIds;
+        programOfferingIds = programOfferingIds == null ? new Set<Id>() : programOfferingIds;
 
+        for (hed__Course_Enrollment__c record : courseConnectionMap.values()) {
+            if (
+                courseOfferingIds.contains(record.hed__Course_Offering__c) ||
+                programOfferingIds.contains(record.Program_Offering__c)
+            ) {
+                courseConnectionList.add(record);
+            }
+        }
+
+        return courseConnectionList;
+    }
 }

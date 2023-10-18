@@ -202,6 +202,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Adhoc_Communication__c.Send_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Adhoc_Communication__c.Subject__c</field>
         <readable>true</readable>
     </fieldPermissions>

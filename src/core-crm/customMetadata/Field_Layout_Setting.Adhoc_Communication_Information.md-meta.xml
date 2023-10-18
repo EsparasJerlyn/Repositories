@@ -3,11 +3,19 @@
     <label>Adhoc Communication Information</label>
     <protected>false</protected>
     <values>
+        <field>Field_Dependency__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Left_Column_Long__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
         <field>Left_Column__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Left_Right_Column_Long__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -27,8 +35,12 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Section_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Single_Column_Long__c</field>
-        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;IsSent__c&quot;},{&quot;field&quot;:&quot;Subject__c&quot;},{&quot;field&quot;:&quot;Email_Content__c&quot;,&quot;isPrePopulated&quot;:true}]</value>
+        <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Send_Date__c&quot;, &quot;mandatory&quot;:true},{&quot;field&quot;:&quot;Subject__c&quot;},{&quot;field&quot;:&quot;Email_Content__c&quot;,&quot;isPrePopulated&quot;:true}]</value>
     </values>
     <values>
         <field>Single_Column__c</field>

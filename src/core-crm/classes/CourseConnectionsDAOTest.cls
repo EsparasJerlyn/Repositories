@@ -75,4 +75,19 @@ public with sharing class CourseConnectionsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getRegisteredLearnersEmailByCourseOfferingTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
+                .getRegisteredLearnersEmailByCourseOffering(
+                    new Set<Id>(),
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should be empty.');
+        }
+        Test.stopTest();
+    }
 }
