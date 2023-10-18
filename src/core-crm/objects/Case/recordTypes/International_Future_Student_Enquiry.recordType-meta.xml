@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>International_FS_Enquiry</fullName>
+    <fullName>International_Future_Student_Enquiry</fullName>
     <active>true</active>
     <businessProcess>FS Enquiry</businessProcess>
     <compactLayoutAssignment>Case_Compact_Layout</compactLayoutAssignment>
-    <label>International FS Enquiry</label>
+    <label>International Future Student Enquiry</label>
     <picklistValues>
         <picklist>Awaiting_Response_From__c</picklist>
         <values>

@@ -302,8 +302,12 @@
     <types>
         <!--(Start) DEPP-6135 -->
         <members>hed__Application__c.SAMS</members>
+        <!--(End) DEPP-6135 -->
+        <!--(Start) DEPP-6900 -->
+       <!--  <members>Case.Domestic_FS_Enquiry</members>
+        <members>Case.International_FS_Enquiry</members> -->
+        <!--(End) DEPP-6900 -->
         <name>RecordType</name>
-        <!--(Start) DEPP-6135 -->
     </types>
     <types>
         <!--(Start) DEPP-5797 -->
@@ -319,6 +323,13 @@
         <members>Future_Student_Super_User</members>
         <name>UserRole</name>
         <!--(Start) DEPP-6570 -->
+    </types>
+    <types>
+        <!--(Start) DEPP-6900 -->
+        <members>Case_Domestic_Path</members>
+        <members>Case_International_Path</members>
+        <!--(End) DEPP-6900 -->
+        <name>PathAssistant</name>
     </types>
     <version>52.0</version> 
 </Package>

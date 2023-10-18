@@ -3,6 +3,6 @@
     <active>true</active>
     <entityName>Case</entityName>
     <fieldName>Status</fieldName>
-    <masterLabel>Case International Path</masterLabel>
-    <recordTypeName>International_FS_Enquiry</recordTypeName>
+    <masterLabel>Case International Future Student Path</masterLabel>
+    <recordTypeName>International_Future_Student_Enquiry</recordTypeName>
 </PathAssistant>
