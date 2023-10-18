@@ -12,7 +12,7 @@
     <filters>
         <field>CASES.RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Case.International_FS_Enquiry</value>
+        <value>Case.International_Future_Student_Enquiry</value>
     </filters>
     <filters>
         <field>CASES.ORIGIN</field>

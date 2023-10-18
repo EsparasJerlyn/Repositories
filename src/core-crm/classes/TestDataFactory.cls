@@ -3839,51 +3839,51 @@ public class TestDataFactory {
     public static List<Case_Priority_Configuration__c> createCasePrioConfigRecords(){
         List<Case_Priority_Configuration__c> casePrioConfigList = new List<Case_Priority_Configuration__c>();
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Future_Student_Stage__c = 'Apply', 
             Is_Active__c = true,
             Priority__c = 'High'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Enquiry_Category__c = 'My enrolment',
             Future_Student_Stage__c = 'Apply', 
             Is_Active__c = true,
             Priority__c = 'High'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Country_Tier__c = 'Tier 1',
             Is_Active__c = true,
             Lead_Score__c = 120,
             Priority__c = 'High'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Country_Tier__c = 'Tier 2',
             Is_Active__c = true,
             Priority__c = 'Medium'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Country_Tier__c = 'Tier 3',
             Is_Active__c = true,
             Priority__c = 'Medium'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Future_Student_Stage__c = 'Offer',
             Is_Active__c = true,
             Priority__c = 'High'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Enquiry_Sub_Category__c = 'Student support;Welcome and orientation events',
             Is_Active__c = true,
             Priority__c = 'Medium'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(//this test data is always within range
-            Case_Record_Type__c = 'International FS Enquiry',
+            Case_Record_Type__c = 'International Future Student Enquiry',
             Date_From__c =  Date.newInstance(2023, 01, 01),
             Date_To__c = System.today().addDays(1),
             Is_Active__c = true,

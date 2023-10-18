@@ -181,7 +181,7 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Case Layout</layout>
-        <recordType>Case.Domestic_FS_Enquiry</recordType>
+        <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Case Layout</layout>
@@ -189,7 +189,7 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Case Layout</layout>
-        <recordType>Case.International_FS_Enquiry</recordType>
+        <recordType>Case.International_Future_Student_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Application__c-QTAC Application Layout</layout>

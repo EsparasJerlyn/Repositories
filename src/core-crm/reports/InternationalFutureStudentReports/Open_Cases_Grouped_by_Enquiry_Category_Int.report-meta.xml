@@ -9,7 +9,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
-            <value>Case.International_FS_Enquiry</value>
+            <value>Case.International_Future_Student_Enquiry</value>
         </criteriaItems>
         <criteriaItems>
             <column>OPEN</column>
