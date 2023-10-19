@@ -36,8 +36,19 @@ private class ApplicationPreferenceTriggerHelperTest {
             ApplicationPreferencesDAO.newInstance().insertRecords(studyLinkappPrefList, false, AccessLevel.USER_MODE);
 
             List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(studyLinkappPrefList[0].Id, System.Today(), 1);
-            PackageComponentDAO.newInstance().insertRecords(packageComponentList, false, AccessLevel.USER_MODE);
 
+            /** Start: DEPP-6970 - Temporarily commenting this code as a workaround for UAT deploy error */
+            //PackageComponentDAO.newInstance().insertRecords(packageComponentList, false, AccessLevel.USER_MODE);
+            List<Database.SaveResult> saveResult = Database.insert(packageComponentList, false, AccessLevel.USER_MODE);
+            for (Database.SaveResult result : saveResult) {
+                if (!result.isSuccess()) {
+                    Logger.error('Error in inserting records').setDatabaseResult(result);
+                }
+            }
+            if (Logger.getBufferSize() > 0) {
+                Logger.saveLog();
+            }
+            /** End: DEPP-6970 */
         }
     }
 
