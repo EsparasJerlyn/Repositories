@@ -189,7 +189,7 @@ public with sharing class ApplicationTriggerHelper {
      * @param newItems  List of new hed__Application__c records
      * @param oldItems  Map of old hed__Application__c records (Id => hed__Application__c)
      */
-    public static void getContactOnApplication(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems, boolean isBulkAPI) {         
+    public static void getContactOnApplication(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {         
         Set<Id> contactIds = new Set<Id>();
         
         for (hed__Application__c app : newItems) {
@@ -211,10 +211,10 @@ public with sharing class ApplicationTriggerHelper {
         }
         
         if(!contactIds.isEmpty()){
-            if(!isBulkAPI){
-                ContactPersonaFlagsService.processContactIds(contactIds,'updateContactApplicantFlag'); 
+            if(System.isQueueable()){
+                ContactPersonaFlagsService.updateContactApplicantFlag(contactIds);               
             }else{                
-                ContactPersonaFlagsService.updateContactApplicantFlag(contactIds);
+                ContactPersonaFlagsService.processContactIds(contactIds,'updateContactApplicantFlag'); 
             }
         }      
     }

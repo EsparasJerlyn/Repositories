@@ -21,7 +21,6 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
     */
     public void beforeInsert(List<SObject> newItems) { 
         CaseTriggerHelper.caseRecordByMobileMatching((List<Case>) newItems);
-        CaseLeadScoreHelper.processLeadScoreCalculation((List<Case>) newItems, null);
         CaseTriggerHelper.updateCaseAutoPriorityAssignment((List<Case>) newItems);
     }
 
@@ -35,6 +34,7 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
             isRunning = true;
             CaseTriggerHelper.matchExistingContactOrLeadToCase((List<Case>) newItems.values());
             CaseTriggerHelper.handleAutoPriorityAssignedCase((List<Case>) newItems.values());
+            CaseLeadScoreHelper.processLeadScoreCalculation((List<Case>) newItems.values(), null);
         }
     }
 
