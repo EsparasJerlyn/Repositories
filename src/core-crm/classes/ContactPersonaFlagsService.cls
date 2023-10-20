@@ -18,7 +18,7 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
      *
      * @param Set<Id> contactIds to evaluate
      */
-    private static void updateContactApplicantFlag(Set<Id> contactIds) {
+    public static void updateContactApplicantFlag(Set<Id> contactIds) {
         Map<Id, Contact> updateContactMap = new Map<Id, Contact>();
         String newJourneyStatus = '';
 

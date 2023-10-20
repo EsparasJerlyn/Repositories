@@ -6,16 +6,18 @@
  * @author Accenture
  * 
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
- *    |--------------------------------|-----------------------|------------------------|-----------------------------------|
- *    | mark.j.mahilum                 | June 19,2023          | DEPP-5846	            | Created File                      |
- *    | jerlyn.esparas                 | July 06, 2023         | DEPP-5845              | Added method for QTAC application |
- *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added method for SAMS application |
- *    | mark.j.mahilum                 | August 01, 2023       | DEPP-6135              | Added new record type condition   |
- *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added methods for contact field   |
- *    |                                |                       |                        | updates on match with application |
- *    | nicole.genon                   | Oct 4, 2023           | DEPP-6821              | Added mapping for QTAC matching   |
- *    | alexander.cadalin              | Oct 9, 2023           | DEPP-6848              | Rework QTAC address mapping       |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                     |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------|
+ *    | mark.j.mahilum                 | June 19,2023          | DEPP-5846	            | Created File                       |
+ *    | jerlyn.esparas                 | July 06, 2023         | DEPP-5845              | Added method for QTAC application  |
+ *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added method for SAMS application  |
+ *    | mark.j.mahilum                 | August 01, 2023       | DEPP-6135              | Added new record type condition    |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added methods for contact field    |
+ *    |                                |                       |                        | updates on match with application  |
+ *    | nicole.genon                   | Oct 4, 2023           | DEPP-6821              | Added mapping for QTAC matching    |
+ *    | alexander.cadalin              | Oct 9, 2023           | DEPP-6848              | Rework QTAC address mapping        |
+ *    | mark.j.mahilum                 | Oct 19, 2023          | DEPP-6933              | Update executeMatchingRule to check|
+ *    |                                |                       |                        | if trigger is running via bulkAPI  |
  */
 public with sharing class ApplicationService { //NOPMD
 
@@ -25,7 +27,7 @@ public with sharing class ApplicationService { //NOPMD
      * @param newItems  List of new hed__Application__c records
      * @param oldItems  Map of old hed__Application__c records (Id => hed__Application__c)
      */
-     public static void executeMatchingRule(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {
+     public static void executeMatchingRule(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems, boolean isBulkAPI) {
          
          List<hed__Application__c> newApplicationList = new List<hed__Application__c>();
          
@@ -36,7 +38,11 @@ public with sharing class ApplicationService { //NOPMD
          }
          
          if(!newApplicationList.isEmpty()){
-            enqueueQueueableProcess(newApplicationList,'ApplicationService'); 
+            if(!isBulkAPI){
+                enqueueQueueableProcess(newApplicationList,'ApplicationService');     
+            }else{
+                enqueueApplicationToExecute(newApplicationList);
+            }            
          }         
      }
      

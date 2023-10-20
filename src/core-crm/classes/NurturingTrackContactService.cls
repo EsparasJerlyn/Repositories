@@ -28,7 +28,8 @@
       | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Updated handling for Domestic First Offer (Auto). Changed checking of field   | 
       |                                |                       |                        | Admission process. Should be either RTN_DEFER or RTN_QTAC.                    | 
       | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Transffered String literals (Domestic First Offer Auto && Census)             | 
-      |                                |                       |                        | to NurtureTrackConfigurationsDAO.                                             | 
+      |                                |                       |                        | to NurtureTrackConfigurationsDAO.                                             |
+      | arsenio.jr.dayrit              | Oct. 19, 2023         | DEPP-6958              | Added Domestic Deffered Offer to Acceptance exit handling                     |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList;
@@ -957,6 +958,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         String methodName,
         Set<Id> contactHasApplicationForExit
     ) {
+        Set<String> applicationOfferStatus = new Set<String>{'Accepted', 'Declined', 'Rescinded', 'Lapsed','Unoffered'};
         boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
         boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
         Boolean hasCalculatedCadence =
@@ -964,10 +966,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         if (methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE) {
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
-                (app.Offer_Status__c == 'Accepted' ||
-                app.Offer_Status__c == 'Declined' ||
-                app.Offer_Status__c == 'Rescinded' ||
-                app.Offer_Status__c == 'Unoffered') &&
+                applicationOfferStatus.contains(app.Offer_Status__c) &&
                 hasCalculatedCadence
             ) {
                 contactHasApplicationForExit.add(app.hed__Applicant__c);

@@ -11,8 +11,9 @@
       | mark.j.mahilum            | July 25, 2023         | DEPP-6106    | Added new method setCanNurtureOnContactOrLeadBasedOnApplicationStatus |
       | julie.jane.alegre         | September 19, 2023    | DEPP-6667    | Added new method updateContactWhenQTACAppIsInactive                   |
       | eccarius.munoz            | October 05, 2023      | DEPP-5866    | Added method to reset lead score of linked contact/lead               |
-      | alexander.cadalin         | Oct 13, 2023          | DEPP-6890    | Removed isRunning flag
-      | alexander.cadalin         | Oct 16, 2023          | DEPP-6890    | Added isRunning flag, checked isRunning for getContactOnApplication
+      | alexander.cadalin         | Oct 13, 2023          | DEPP-6890    | Removed isRunning flag                                                |
+      | alexander.cadalin         | Oct 16, 2023          | DEPP-6890    | Added isRunning flag, checked isRunning for getContactOnApplication   |
+      | mark.j.mahilum            | Oct 19, 2023          | DEPP-6933    | Added logic to handle bulk API trasaction on executeMatchingRule      |
 */
 public with sharing class ApplicationTriggerHandler implements Disableable, BeforeInsert,  AfterInsert, AfterUpdate {
     public static Boolean isRunning = false;
@@ -30,13 +31,13 @@ public with sharing class ApplicationTriggerHandler implements Disableable, Befo
      * @param newItems - List of hed__Application__c.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems) {
-        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null);
+        if(!isRunning) {
+            isRunning = true;    
+        }
+        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null,isRunning);
         ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, null);
         ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
-        if(!isRunning) {
-            isRunning = true;
-            ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null);
-        }
+        ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null,isRunning);        
     }
 
     /**
@@ -48,15 +49,15 @@ public with sharing class ApplicationTriggerHandler implements Disableable, Befo
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
+        if(!isRunning) {
+            isRunning = true;          
+        }
+        ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems,isRunning);
         ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, oldItems);
         ApplicationTriggerHelper.updateRelatedRecords(newItems, oldItems);
         ApplicationTriggerHelper.updateContactWhenQTACAppIsInactive((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         ApplicationTriggerHelper.resetLeadScore((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
-        if(!isRunning) {
-            isRunning = true;
-            ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems);
-        }
+        ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems,isRunning);        
     }
 
     /**

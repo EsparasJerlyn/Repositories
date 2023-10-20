@@ -11,6 +11,7 @@
  *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                 |
  *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Lookup Form Validation                       |
  *    | ryan.j.a.dela.cruz        | August 9, 2023        | DEPP-6082            | Code reorganized for readability             |
+ *    | carl.alvin.cabiles        | October 18, 2023      | DEPP-6909            | Add handleClick method and event listeners   |
  */
 import { LightningElement, api, track } from "lwc";
 import { loadStyle } from "lightning/platformResourceLoader";
@@ -182,6 +183,12 @@ export default class OptionSelector extends LightningElement {
     return this.selectedOptions.length ? this.selectedOptions[0] : null;
   }
 
+  handleClick(){
+    const activeElement = this.template.activeElement;
+    if(!activeElement){
+      this.closeList();
+    }
+  }
   /* LIFECYCLE HOOKS */
   connectedCallback() {
     // Retrieve the session value
@@ -224,7 +231,12 @@ export default class OptionSelector extends LightningElement {
     });
   }
 
+  disconnectedCallback(){
+    document.removeEventListener('click', this.handleClick.bind(this));
+  }
+
   renderedCallback() {
+    document.addEventListener('click',this.handleClick.bind(this))
     if (this.onRender.inputFocus) {
       this.onRender.inputFocus = false;
       this.inputElement?.focus();
@@ -580,7 +592,6 @@ export default class OptionSelector extends LightningElement {
         this.selectOption(matchingValue.index);
       }
     }
-    this.closeList();
     this.reportValidity();
   }
 

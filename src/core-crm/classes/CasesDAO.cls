@@ -16,7 +16,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
     public static final String ORIGIN_WHATSAPP = 'WhatsApp';
 
     public static final Id DOMESTICFS_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
-        .get('Domestic_FS_Enquiry')
+        .get('Domestic_Future_Student_Enquiry')
         .getRecordTypeId();
     public static final Id INCIDENT_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
         .get('Incident')
@@ -25,14 +25,14 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         .get('International_Enquiry')
         .getRecordTypeId();
     public static final Id INTERNATIONALFS_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
-        .get('International_FS_Enquiry')
+        .get('International_Future_Student_Enquiry')
         .getRecordTypeId();
 
     public static final Map<String, Id> CASE_RECTYPE_MAP = new Map<String, Id>{
-        'Domestic FS Enquiry' => DOMESTICFS_RECTYPE_ID,
+        'Domestic Future Student Enquiry' => DOMESTICFS_RECTYPE_ID,
         'Incident' => INCIDENT_RECTYPE_ID,
         'International Enquiry' => INTERNATIONAL_RECTYPE_ID,
-        'International FS Enquiry' => INTERNATIONALFS_RECTYPE_ID
+        'International Future Student Enquiry' => INTERNATIONALFS_RECTYPE_ID
     };
 
     public static final Map<String, Integer> PRIORITY_ORDER = new Map<String, Integer>{

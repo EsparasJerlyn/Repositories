@@ -15,6 +15,7 @@
       | julie.jane.alegre              | September 19, 2023    | DEPP-6667              | Added new method updateContactWhenQTACAppIsInactive            |
       | alexander.cadalin              | Sep. 22, 2023         | DEPP-6652,6653,6654    | Added methods for contact field updates on match to application|
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added method to reset lead score of linked contact/lead        |
+      | mark.j.mahilum                 | Oct 19, 2023          | DEPP-6933              | Added logic in handling bulkAPI data when running queable job  |
  */
 public with sharing class ApplicationTriggerHelper {
     /**
@@ -188,7 +189,7 @@ public with sharing class ApplicationTriggerHelper {
      * @param newItems  List of new hed__Application__c records
      * @param oldItems  Map of old hed__Application__c records (Id => hed__Application__c)
      */
-    public static void getContactOnApplication(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {         
+    public static void getContactOnApplication(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems, boolean isBulkAPI) {         
         Set<Id> contactIds = new Set<Id>();
         
         for (hed__Application__c app : newItems) {
@@ -197,24 +198,48 @@ public with sharing class ApplicationTriggerHelper {
             boolean isSAMSRecType = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
             boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
             boolean isValidRecType = isStudylinkRecType || isSAMSRecType || isQTACRecType;
+            boolean isCalculatedIntakeDateValid = app.Calculated_Intake_Date__c !=NULL && app.Calculated_Intake_Date__c >= Date.Today();
                          
-            if(String.isNotEmpty(app.hed__Applicant__c) && isValidRecType){
+            if(oldItems == null && String.isNotEmpty(app.hed__Applicant__c) && isValidRecType && isCalculatedIntakeDateValid){
                 contactIds.add(app.hed__Applicant__c);
             }
             
             if(oldItems != null) {              
-                hed__Application__c oldApp = oldItems.get(app.Id);              
-                Boolean isContactChanged = (app.hed__Applicant__c != oldApp.hed__Applicant__c);
-                
-                if(String.isNotEmpty(oldApp.hed__Applicant__c) && isContactChanged){
-                    contactIds.add(oldApp.hed__Applicant__c); 
-                }                 
+                hed__Application__c oldApp = oldItems.get(app.Id);
+                getContactOnApplicationValidation(app,oldApp,contactIds);               
             }         
         }
         
         if(!contactIds.isEmpty()){
-            ContactPersonaFlagsService.processContactIds(contactIds,'updateContactApplicantFlag');
+            if(!isBulkAPI){
+                ContactPersonaFlagsService.processContactIds(contactIds,'updateContactApplicantFlag'); 
+            }else{                
+                ContactPersonaFlagsService.updateContactApplicantFlag(contactIds);
+            }
         }      
+    }
+    
+    /**
+     * @description validate application data on trigger update
+     *
+     * @param app  new hed__Application__c record
+     * @param oldApp old hed__Application__c record
+     * @param contactIds set of contactIds for processing
+     */    
+    private static void getContactOnApplicationValidation(hed__Application__c app, hed__Application__c oldApp, Set<Id> contactIds){
+        Boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+        Boolean isContactChanged = (app.hed__Applicant__c != oldApp.hed__Applicant__c);
+        Boolean isStatusChanged = (app.Application_Status__c != oldApp.Application_Status__c);
+        Boolean isQTACActive = (app.Is_Active__c != oldApp.Is_Active__c && isQTACRecType);
+        Boolean isCalculatedIntakeDateChanged = (app.Calculated_Intake_Date__c != oldApp.Calculated_Intake_Date__c);
+        
+        if(String.isNotEmpty(oldApp.hed__Applicant__c) && isContactChanged){
+            contactIds.add(oldApp.hed__Applicant__c); 
+        }  
+        
+        if((isStatusChanged || isQTACActive || isCalculatedIntakeDateChanged) && String.isNotEmpty(app.hed__Applicant__c)){
+            contactIds.add(app.hed__Applicant__c);
+        }
     }
 
     /**
