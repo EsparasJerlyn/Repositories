@@ -31,13 +31,13 @@ public with sharing class ApplicationTriggerHandler implements Disableable, Befo
      * @param newItems - List of hed__Application__c.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems) {
-        if(!isRunning) {
-            isRunning = true;    
-        }
         ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), null,isRunning);
         ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, null);
         ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
-        ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null,isRunning);        
+        ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),null,isRunning);
+        if(!isRunning) {
+            isRunning = true;    
+        }      
     }
 
     /**
@@ -49,15 +49,15 @@ public with sharing class ApplicationTriggerHandler implements Disableable, Befo
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        if(!isRunning) {
-            isRunning = true;          
-        }
         ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems,isRunning);
         ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, oldItems);
         ApplicationTriggerHelper.updateRelatedRecords(newItems, oldItems);
         ApplicationTriggerHelper.updateContactWhenQTACAppIsInactive((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         ApplicationTriggerHelper.resetLeadScore((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
-        ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems,isRunning);        
+        ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems,isRunning);
+        if(!isRunning) {
+            isRunning = true;          
+        }     
     }
 
     /**

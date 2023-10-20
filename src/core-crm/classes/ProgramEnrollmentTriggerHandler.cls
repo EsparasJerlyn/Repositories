@@ -12,7 +12,6 @@
  */
 
 public with sharing class ProgramEnrollmentTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
-    public static Boolean isRunning = false;
 
    /**
     * @description afterInsert trigger event
@@ -20,10 +19,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
     */
     public void afterInsert(Map<Id, SObject> newItems) {
         
-        if(!isRunning ){
-            isRunning = true;
-            getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),null);
-        }
+        getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),null);
     }
 
    /**
@@ -35,10 +31,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        if(!isRunning ){
-            isRunning = true;
-            getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
-        }
+        getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
 
     /**
