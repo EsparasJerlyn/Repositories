@@ -27,7 +27,7 @@ public with sharing class ApplicationService { //NOPMD
      * @param newItems  List of new hed__Application__c records
      * @param oldItems  Map of old hed__Application__c records (Id => hed__Application__c)
      */
-     public static void executeMatchingRule(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems, boolean isBulkAPI) {
+     public static void executeMatchingRule(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {
          
          List<hed__Application__c> newApplicationList = new List<hed__Application__c>();
          
@@ -38,10 +38,10 @@ public with sharing class ApplicationService { //NOPMD
          }
          
          if(!newApplicationList.isEmpty()){
-            if(!isBulkAPI){
-                enqueueQueueableProcess(newApplicationList,'ApplicationService');     
+            if(System.isQueueable()){
+                enqueueApplicationToExecute(newApplicationList);                   
             }else{
-                enqueueApplicationToExecute(newApplicationList);
+                enqueueQueueableProcess(newApplicationList,'ApplicationService'); 
             }            
          }         
      }

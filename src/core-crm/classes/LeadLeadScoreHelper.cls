@@ -57,8 +57,12 @@ public with sharing class LeadLeadScoreHelper implements ILeadScoreCommand {
 
     private static void callAsyncFunction(Map<Id,Lead> leadMap){
         if(!leadMap.isEmpty()){
-            LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new LeadLeadScoreHelper(), setMarketingSegMap(), leadMap.keySet());
-            System.enqueueJob(executeQueueable);  
+            if(System.isQueueable()){
+                LeadScoreCalculatorService.calculateLeadScore(setMarketingSegMap(), leadMap.keySet(), Lead.getSObjectType());
+            }else{
+                LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new LeadLeadScoreHelper(), setMarketingSegMap(), leadMap.keySet());
+                System.enqueueJob(executeQueueable);  
+            }
         }
     }
 
