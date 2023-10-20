@@ -92,4 +92,5 @@ private class ApplicationTriggerHandlerTest {
         }
         return newApplications;
     }
+    
 }
