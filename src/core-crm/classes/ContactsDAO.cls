@@ -15,13 +15,14 @@
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
       | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
       | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                |
-      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getPersonContactsByEmailOrName                             |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getPersonContactsByEmailOrName                      |
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName                        |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for getContactByCaseMobile                   |
       | julie.jane.alegre              | Sept 20, 2023         | DEPP-6667              | Added fields in method getPersonContactsBySetIds          |
       | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added addition fields for soql                            |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
  *    |                                |                       | DEPP-6652,6653,6654    | added fields to getPersonContactsBySetIds                 |
+ *    |                                | Oct 19, 2023          | DEPP-6890              | null checker for queries checking for emails              |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -141,10 +142,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'AND Birthdate IN: applicationBirthdates) ' +
                 'OR (FirstName IN: applicationFirstNames ' +
                 'AND LastName IN: applicationLastNames ' +
-                'AND (Email IN: applicationEmailsToMatch ' +
-                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-                'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
+                'AND ((Email != NULL AND Email IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Learner_Email__c != NULL AND QUT_Learner_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Staff_Email__c !=NULL AND QUT_Staff_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)))) ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );
@@ -156,14 +157,14 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     ) {
         return Database.query(
             'SELECT  Id, Email, QUT_Learner_Email__c, QUT_Staff_Email__c, Work_Email__c ' +
-                'FROM Contact ' +
-                'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
-                'AND (Email IN: applicationEmailsToMatch ' +
-                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-                'OR Work_Email__c IN: applicationEmailsToMatch) ' +
-                'WITH ' +
-                String.escapeSingleQuotes(accessLevel)
+            'FROM Contact ' +
+            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+            'AND ((Email != NULL AND Email IN: applicationEmailsToMatch) ' +
+            'OR (QUT_Learner_Email__c != NULL AND QUT_Learner_Email__c IN: applicationEmailsToMatch) ' +
+            'OR (QUT_Staff_Email__c !=NULL AND QUT_Staff_Email__c IN: applicationEmailsToMatch) ' +
+            'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)) ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
         );
     }
 
@@ -187,10 +188,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'AND Birthdate IN: applicationBirthdates) ' +
                 'OR (FirstName IN: applicationFirstNames ' +
                 'AND LastName IN: applicationLastNames ' +
-                'AND (Email IN: applicationEmailsToMatch ' +
-                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-                'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
+                'AND ((Email != NULL AND Email IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Learner_Email__c != NULL AND QUT_Learner_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Staff_Email__c !=NULL AND QUT_Staff_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)))) ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );

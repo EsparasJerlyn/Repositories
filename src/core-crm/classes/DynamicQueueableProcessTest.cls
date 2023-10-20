@@ -84,7 +84,4 @@ private class DynamicQueueableProcessTest {
         }
         return newApplications;
     }
-
-    
-
 }

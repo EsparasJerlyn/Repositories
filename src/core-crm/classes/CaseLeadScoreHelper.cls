@@ -10,9 +10,12 @@
   *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
   *    | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for case                                       |
-  *    | alexander.cadalin              | Oct 16, 2023          | DEPP-6919              | SOQL limit fix
+  *    | alexander.cadalin              | Oct 16, 2023          | DEPP-6919              | SOQL limit fix                                 |
+  *    | eccarius.munoz                 | October 18, 2023      | DEPP-6919              | Updated filtering of case records and          | 
+  *    |                                |                       |                        | retrieval of related/sibling case records      |
+  *    | eccarius.munoz                 | October 18, 2023      | DEPP-6919              | Included all logic that includes soql in queue | 
   */
-public with sharing class CaseLeadScoreHelper implements ILeadScoreCommand{
+public with sharing class CaseLeadScoreHelper {
 
     private static Map<Id,Case> domesticUnderGradMap = new Map<Id,Case>();
     private static Map<Id,Case> domesticPostGradMap = new Map<Id,Case>();
@@ -20,75 +23,70 @@ public with sharing class CaseLeadScoreHelper implements ILeadScoreCommand{
     private static Map<Id,Case> internationalUnderGradMap = new Map<Id,Case>();
     private static Map<Id,Case> internationalPostGradMap = new Map<Id,Case>();
     private static Map<Id,Case> internationalUndeterminedMap = new Map<Id,Case>();
-    private static Map<Id,Case> undeterminedUndeterminedMap = new Map<Id,Case>();    
-    
+    private static Map<Id,Case> undeterminedUndeterminedMap = new Map<Id,Case>();        
+
     /**
-     * Filter records to be processed
+     * Filter records to be processed before calling the queue job
      */
     public static void processLeadScoreCalculation(List<Case> newItems, Map<Id, Case> oldItems){
 
         Set<Id> contactIdSet = new Set<Id>();
         Set<Id> leadIdSet = new Set<Id>();
-
-        //check contact with multiple cases
-        Map<Id,Case> caseMap = new Map<Id,Case>();
-        for(Case caseRec : newItems){            
-            if(isForProcessing(caseRec, oldItems)){
-                caseMap.put(caseRec.Id, caseRec);
-                if(caseRec.ContactId != null){
-                    contactIdSet.add(caseRec.ContactId);
-                }
-                if(caseRec.Lead__c != null){
-                    leadIdSet.add(caseRec.Lead__c);
-                }
+        
+        for(Case caseRec : newItems){   
+            if(isForProcessing(caseRec, oldItems)){    
+                setContactIds(caseRec, oldItems, contactIdSet);    
+                setLeadIds(caseRec, oldItems, leadIdSet);
             }
         }
 
-        Set<Id> contactLeadIds = new Set<Id>();
-        contactLeadIds.addAll(contactIdSet);
-        contactLeadIds.addAll(leadIdSet);
-
-        getCaseSiblingRecords(caseMap, contactLeadIds);
-        
-        //Sort record per citizenship status and study level
-        Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, leadIdSet);
-        for(Case caseRec : caseMap.values()){
-            mapUnderGradStudyLevel(caseRec, marketingSegMap);
-            mapPostGradStudyLevel(caseRec, marketingSegMap);
-            mapUndeterminedStudyLevel(caseRec, marketingSegMap);
-        }
-
-        if(!caseMap.isEmpty()){
-            LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new CaseLeadScoreHelper(), setMarketingSegMap(), contactLeadIds);
+        if(!contactIdSet.isEmpty() || !leadIdSet.isEmpty()){
+            QueueableCall executeQueueable = new QueueableCall(contactIdSet, leadIdSet);
             System.enqueueJob(executeQueueable);   
         }
+        
     }
 
+    /**
+     * Method used in filtering records to be processed
+     */
     private static Boolean isForProcessing(Case caseRec, Map<Id, Case> oldItems) {
-        Boolean isForInsert = oldItems == null && caseRec.Category__c != null;
+        Boolean isForInsert = oldItems == null && caseRec.Category__c != null && (caseRec.Lead__c != null || caseRec.ContactId != null);
         Boolean isForUpdate = oldItems != null && (
-            (caseRec.Lead__c!=null && oldItems.get(caseRec.Id).Lead__c != caseRec.Lead__c) || 
-            (caseRec.ContactId!=null && oldItems.get(caseRec.Id).ContactId != caseRec.ContactId) ||
-            (caseRec.Category__c!=null && oldItems.get(caseRec.Id).Category__c != caseRec.Category__c)
+            (oldItems.get(caseRec.Id).Lead__c != caseRec.Lead__c) || 
+            (oldItems.get(caseRec.Id).ContactId != caseRec.ContactId) ||
+            (oldItems.get(caseRec.Id).Category__c != caseRec.Category__c)
         );
 
         return isForInsert || isForUpdate;
     }
 
     /**
-     * Async process that includes:
-     * 1. Retrieval of lead score config
-     * 2. Calculation of lead score per study level and citizenship status
-     * 3. inserting/updating of lead score detail
+     * Sets contact id set
      */
-    public static void executeCalculation(LeadScoreCalculatorService.ObjectMap objectMap, Set<Id> contactLeadIds){  
-        LeadScoreCalculatorService.calculateLeadScore(objectMap, contactLeadIds, Case.getSObjectType());
-    } 
+    private static void setContactIds(Case caseRec, Map<Id, Case> oldItems, Set<Id> contactIdSet){
+        if(caseRec.ContactId != null){
+            contactIdSet.add(caseRec.ContactId);
+        }else if(caseRec.ContactId == null && oldItems != null && oldItems.get(caseRec.Id).ContactId != null){
+            contactIdSet.add(oldItems.get(caseRec.Id).ContactId);
+        }
+    }
+
+    /**
+     * Sets lead id set
+     */
+    private static void setLeadIds(Case caseRec, Map<Id, Case> oldItems, Set<Id> leadIdSet){
+        if(caseRec.Lead__c != null){
+            leadIdSet.add(caseRec.Lead__c);
+        }else if(caseRec.Lead__c == null && oldItems != null && oldItems.get(caseRec.Id).Lead__c != null){
+            leadIdSet.add(oldItems.get(caseRec.Id).Lead__c);
+        }
+    }
 
     /**
      * Sets the object map to be used in queueable job
      */
-    private static LeadScoreCalculatorService.ObjectMap setMarketingSegMap(){
+    private static LeadScoreCalculatorService.ObjectMap setObjectMap(){
         LeadScoreCalculatorService.ObjectMap objectMap = new LeadScoreCalculatorService.ObjectMap();
         objectMap.domesticUnderGradMap = domesticUnderGradMap;
         objectMap.domesticPostGradMap = domesticPostGradMap;
@@ -98,15 +96,6 @@ public with sharing class CaseLeadScoreHelper implements ILeadScoreCommand{
         objectMap.internationalUndeterminedMap = internationalUndeterminedMap;
         objectMap.undeterminedUndeterminedMap = undeterminedUndeterminedMap;
         return objectMap;
-    }
-
-     /**
-     * Retrieve case sibling records
-     */
-    private static void getCaseSiblingRecords(Map<Id,Case> caseMap, Set<Id> contactLeadIds){
-        if(!contactLeadIds.isEmpty()){
-            caseMap = new Map<Id,Case>(CasesDAO.newInstance().getCasesByContactOrLeadIds(contactLeadIds, AccessLevel.SYSTEM_MODE));
-        }
     }
 
     /**
@@ -220,6 +209,46 @@ public with sharing class CaseLeadScoreHelper implements ILeadScoreCommand{
 
     public static Boolean validateUndeterminedLead(Case caseRec, Map<Id,Marketing_Segmentation__c> marketingSegMap){
         return String.isBlank(marketingSegMap.get(caseRec.Lead__c).My_Citizenship_Status__c);
+    }
+
+    /**
+     * Async process that includes:
+     * 1. Retrieval of lead score config
+     * 2. Calculation of lead score per study level and citizenship status
+     * 3. inserting/updating of lead score detail
+     */
+    private class QueueableCall implements Queueable {
+        private Set<Id> contactIdSet;
+        private Set<Id> leadIdSet;
+        
+        public QueueableCall(Set<Id> contactIdSet, Set<Id> leadIdSet) {
+            this.contactIdSet = contactIdSet;
+            this.leadIdSet = leadIdSet;
+        }
+
+        public void execute(QueueableContext context) {
+
+            Map<Id,Case> caseMap = new Map<Id,Case>();
+            Set<Id> contactLeadIds = new Set<Id>();
+            contactLeadIds.addAll(contactIdSet);
+            contactLeadIds.addAll(leadIdSet);
+
+            if(!contactLeadIds.isEmpty()){              
+                caseMap.putAll(new Map<Id, Case>(CasesDAO.newInstance().getCasesByContactOrLeadIds(contactLeadIds, AccessLevel.SYSTEM_MODE)));  
+            }
+
+            //Sort record per citizenship status and study level
+            Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, leadIdSet);
+            for(Case caseRec : caseMap.values()){
+                mapUnderGradStudyLevel(caseRec, marketingSegMap);
+                mapPostGradStudyLevel(caseRec, marketingSegMap);
+                mapUndeterminedStudyLevel(caseRec, marketingSegMap);
+            }
+
+            if(!caseMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(setObjectMap(), contactLeadIds, Case.getSObjectType());
+            }
+        }
     }
 
 }
