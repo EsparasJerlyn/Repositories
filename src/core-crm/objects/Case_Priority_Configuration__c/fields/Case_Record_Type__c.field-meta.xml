@@ -14,14 +14,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Domestic FS Enquiry</fullName>
+                <fullName>Domestic Future Student Enquiry</fullName>
                 <default>false</default>
-                <label>Domestic FS Enquiry</label>
+                <label>Domestic Future Student Enquiry</label>
             </value>
             <value>
-                <fullName>International FS Enquiry</fullName>
+                <fullName>International Future Student Enquiry</fullName>
                 <default>false</default>
-                <label>International FS Enquiry</label>
+                <label>International Future Student Enquiry</label>
             </value>
         </valueSetDefinition>
     </valueSet>

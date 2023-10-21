@@ -30,6 +30,8 @@
       | john.m.tambasen           | August, 22 2022       | DEPP-3325            | Added discount functionality |
       | kathy.cornejo             | September 12, 2022    | DEPP-4273            | Fixed error message          |
       | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Added Position & Company Name|
+      | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612            | Changed QUT_Student_Id__c to |
+      |                           |                       |                      | QUT_Student_Username__c      |
 */
 
 import { api, LightningElement, wire } from 'lwc';
@@ -68,7 +70,7 @@ const ERROR_VARIANT = 'error';
 const NO_REC_FOUND = 'No record(s) found.';
 const MODAL_TITLE = 'Registration Details';
 const SECTION_HEADER = 'Manage Registrations Overview';
-const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status,Registration Date, Paid Amount, Student ID, Position, Organisation, Dietary Requirement, Accessibility Requirement';
+const COLUMN_HEADER = 'First Name,Last Name,Contact Email,Birthdate,Registration Status,LMS Integration Status,Registration Date, Paid Amount, Student Username, Position, Organisation, Dietary Requirement, Accessibility Requirement';
 const PROD_CATEG_TAILORED = 'Tailored Executive Program';
 const PROD_CATEG_SOA = 'QUTeX Learning Solutions';
 const DATE_OPTIONS = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -152,7 +154,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         { label: 'Full Name', fieldName: 'contactFullName', type: 'text', sortable: true },
         { label: "Registration Date",fieldName: "registrationDate",type: 'text'},    
         { label: 'Paid Amount', fieldName: 'paidAmount', type: 'currency', typeAttributes: {currencyCode:'AUD', step: '0.001'}},
-        { label: 'Student Id', fieldName: 'studentId', type: 'text', sortable: true },
+        { label: 'Student Username', fieldName: 'studentUserName', type: 'text', sortable: true },
         { label: 'Payment Method', fieldName: 'paymentMethod', type: 'text', sortable: true },
         { label: 'Paid in Full', fieldName: 'paidInFull', type: 'text', sortable: true },
         { label: 'Registration Status', fieldName: 'registrationStatus', type: 'text', sortable: true },
@@ -186,7 +188,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
                 record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate?this.formatDate(item.enrolmentDetails.hed__Contact__r.Birthdate):'';
                 record.contactEmail = item.enrolmentDetails.hed__Contact__r.Registered_Email__c;
                 
-                record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_ID__c;
+                record.studentUserName = item.enrolmentDetails.hed__Contact__r.QUT_Student_Username__c;
                 record.position = item.enrolmentDetails.hed__Contact__r.Position__c;
                 record.organisation = item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__c?item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__r.Name:'';
                 record.dietaryRequirement = item.enrolmentDetails.hed__Contact__r.Dietary_Requirement__c;
@@ -986,7 +988,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
             'lmsIntegrationStatus',
             'registrationDate',
             'paidAmount',
-            'studentId',
+            'studentUserName',
             'position',
             'organisation',
             'dietaryRequirement',

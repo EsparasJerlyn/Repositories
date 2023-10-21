@@ -28,7 +28,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
                 applicationIDSet.add(appPref.Application__c);
             }
         }
-        if(applicationIDSet.size() > 0 || applicationIDSet!=null){
+        if(!applicationIDSet.isEmpty()){
             Map<Id, List<Application_Preference__c>> appPrefMap = setApplicationPreferenceMap(applicationIDSet);
             List<Application_Preference__c> applicationPrefListToUpdate = new List<Application_Preference__c>();
             for(Id appId : appPrefMap.keySet()){
@@ -87,13 +87,13 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
         Map<Id, List<Application_Preference__c>> appPrefMap = new Map<Id, List<Application_Preference__c>>();
         List<Application_Preference__c> qtacPrefList = ApplicationPreferencesDAO.newInstance().getApplicationPreferenceByAppSetIdsQTAC(applicationIDSet, AccessLevel.USER_MODE);
         qtacApplicationPreferences = new List<Application_Preference__c>();
-        if(qtacPrefList != null && qtacPrefList.size() > 0){
+        if(!qtacPrefList.isEmpty()){
             appPrefMap.putAll(getMappedApplicationPreference(qtacPrefList));
             qtacApplicationPreferences = qtacPrefList;
         }
 
         List<Application_Preference__c> studyLinkPrefList = ApplicationPreferencesDAO.newInstance().getApplicationPreferenceByAppSetIdsStudyLink(applicationIDSet, AccessLevel.USER_MODE);
-        if(studyLinkPrefList != null && studyLinkPrefList.size() > 0){
+        if(!studyLinkPrefList.isEmpty()){
             appPrefMap.putAll(getMappedApplicationPreference(studyLinkPrefList));
         }
         return appPrefMap;
@@ -177,7 +177,11 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
         List<hed__Application__c> qtacApplications = ApplicationsDAO.newInstance().getApplicationsBySetIds(qtacAppPrefSetIds, AccessLevel.USER_MODE);
         for(hed__Application__c app : qtacApplications){
             Date calculatedDate = null;
-            if(app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID && qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c != null){
+            if(
+                app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID && 
+                qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c != null &&
+                app.Intake_Year__c != null
+            ){
                 String intakeYear = app.Intake_Year__c;
                 Integer startingMonth = Integer.valueOf(qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c);
                 Integer lastDay = Date.daysInMonth(Integer.valueOf(intakeYear), startingMonth);

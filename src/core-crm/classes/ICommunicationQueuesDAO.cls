@@ -20,5 +20,9 @@ public interface ICommunicationQueuesDAO extends DmlInterface{
         Set<String> status, 
         AccessLevel accessLevel
     );
+    List<Communication_Queue__c> getCommsQueueRecordsByStatusAndLastModifiedToday(
+        Set<String> status, 
+        AccessLevel accessLevel
+    );
         
 }

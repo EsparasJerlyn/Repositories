@@ -5,17 +5,19 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                     |
- *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking    |
- *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated createCompletedCaddence method           |
- *    |                                |                       |                        | added logic to get the unsuccessful task         |
- *    |                                |                       |                        | and update any existing completed cadence        |
- *    |                                |                       |                        | to succesful once the task is Contact Successful |
- *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes |
- *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation   |
- *    | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6856              | Added checking for running user                  |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                     |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------|
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                       |
+ *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking      |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated createCompletedCaddence method             |
+ *    |                                |                       |                        | added logic to get the unsuccessful task           |
+ *    |                                |                       |                        | and update any existing completed cadence          |
+ *    |                                |                       |                        | to succesful once the task is Contact Successful   |
+ *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes   |
+ *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation     |
+ *    | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6856              | Added checking for running user                    |
+ *    | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Added Closed - Contacted in createCompletedCadence |
+ *    |                                |                       |                        |     and created updateTasks                        |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -132,6 +134,8 @@ public with sharing class SalesCadenceCalloutService {
         
 		//get the task related to the actionCadence of the targetIds          
         Map<Id,Task> mapTasks = getRelatedTaskMap(targetCadenceMap.keySet(),actionCadenceIds);
+
+        List<Task> tasksToUpdateList = new List<Task>();
 		
         //get the unsuccessfull completed cadence of the targetIds and cadence name
         Map<String, String> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);
@@ -139,14 +143,14 @@ public with sharing class SalesCadenceCalloutService {
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
         
         for(String recId: targetCadenceMap.keySet()){
-            
-            String cadenceName = targetCadenceMap.get(recId);
-            String nurtureId =  nurtureMap.get(cadenceName);          
-            String calculatedStatus = 'Successful';
 
             if(!completedCadenceStatusMap.containsKey(recId)){
                 continue;
             }
+            
+            String cadenceName = targetCadenceMap.get(recId);
+            String nurtureId =  nurtureMap.get(cadenceName);          
+            String calculatedStatus = CompletedCadencesDAO.SUCCESSFUL_STATUS;
             
             if(mapTasks.containsKey(recId)){
                 
@@ -154,7 +158,8 @@ public with sharing class SalesCadenceCalloutService {
                 String taskStatus = mapTasks.get(recId).Status;
                 
                 if(taskCadenceName == cadenceName){
-                    calculatedStatus = (taskStatus =='Closed - Follow Up')?taskStatus:'Unsuccessful';
+                    calculatedStatus = (taskStatus == TasksDAO.CLOSED_FOLLOW_UP_STATUS) ? taskStatus : ((taskStatus == TasksDAO.CLOSED_CONTACTED_STATUS) ? CompletedCadencesDAO.SUCCESSFUL_STATUS : CompletedCadencesDAO.UNSUCCESSFUL_STATUS);
+                    tasksToUpdateList.add(mapTasks.get(recId));
                 }               
             }
             
@@ -181,7 +186,32 @@ public with sharing class SalesCadenceCalloutService {
         
         if(!completedCadenceList.isEmpty()){
             CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
-        }        
+        }
+        
+        if(!tasksToUpdateList.isEmpty()){
+            updateTasks(tasksToUpdateList);
+        }
+    }
+
+    /**
+     * @description: Update tasks fields for reports
+     *
+     * @param List<Task> tasksToUpdateList
+     */ 
+    private static void updateTasks(List<Task> tasksToUpdateList) {
+        for (Task task : tasksToUpdateList) {
+
+            Decimal completionDateInMs = task.ActionCadenceStepTracker.CompletionDate.getTime();
+            Decimal CreatedDateInMs = task.ActionCadenceStepTracker.CreatedDate.getTime();
+            Decimal diffInHours = (completionDateInMs - CreatedDateInMs)/3600000; //convert ms to h
+
+            task.Time_to_Complete__c = diffInHours.setScale(1, RoundingMode.HALF_UP);
+            task.Action_Cadence_Name__c = task.ActionCadenceStepTracker.ActionCadenceName;
+        }
+
+        if (!tasksToUpdateList.isEmpty()) {
+            TasksDAO.newInstance().updateRecords(tasksToUpdateList, false, AccessLevel.SYSTEM_MODE);
+        }
     }
     
     /**

@@ -27,4 +27,9 @@ public interface ICourseConnectionsDAO extends DmlInterface{
         AccessLevel accessLevel
     );
     
+    List<hed__Course_Enrollment__c> getRegisteredLearnersEmailByCourseOffering (
+        Set<Id> courseOfferingIds, 
+        Set<Id> programOfferingIds,
+        AccessLevel accessLevel
+    );
 }

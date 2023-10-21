@@ -13,7 +13,7 @@
  *    | roy.nino.s.regala              | Aug 09, 2023        | DEPP-5677              | Added test method for DEPP-5677           |
  *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
  *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
- *    | neil.s.h.lesidan               | Sep 20, 2023        | DEPP-6478              | Added getContactByEmailOrNameTest         |
+ *    | neil.s.h.lesidan               | Sep 20, 2023        | DEPP-6478              | Added getPersonContactsByEmailOrNameTest  |
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added getContactByCaseMobile              |
  */
 @isTest
@@ -157,7 +157,7 @@ private class ContactsDAOTest {
 
 
     @isTest
-    static void getContactByEmailOrNameTest() {
+    static void getPersonContactsByEmailOrNameTest() {
         Test.startTest();
         List<Contact> conList = TestDataFactory.createTestContactRecords(1);
         conList[0].FirstName = 'firstname';
@@ -172,7 +172,7 @@ private class ContactsDAOTest {
             );
 
             List<Contact> contactList = ContactsDAO.newInstance()
-                .getContactByEmailOrName(
+                .getPersonContactsByEmailOrName(
                     contactQueryParam,
                     AccessLevel.SYSTEM_MODE
                 );

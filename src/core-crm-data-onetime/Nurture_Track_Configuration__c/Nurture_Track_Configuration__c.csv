@@ -59,8 +59,7 @@ Domestic FS (contact) offer has lapsed.",Domestic First Offer to Acceptance,Exit
 NTC-0017,Domestic First Offer to Acceptance,Active,"Domestic FS (contact) has received an offer on any of their preferences AND
 Offer is not a previously deferred offer AND
 has not provide any sort of response to QUT AND
-Domestic First Offer to Acceptance (Automated) has been completed
-AND 2 days after offer received (config)",Domestic First Offer to Acceptance,Entry,,2,,Offer Start Date,after,2
+Domestic First Offer to Acceptance (Automated) has been completed",Domestic First Offer to Acceptance,Entry,,2,,,,
 NTC-0018,Domestic First Offer to Acceptance,Active,"Domestic FS (contact) has accepted the offer OR
 Domestic FS (contact) has declined the offer OR
 Domestic FS (contact) has deferred the offer OR

@@ -69,9 +69,9 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             cadence2.Completed_Cadence_Status__c ='Successful';
             insert cadence2;
-            Map<Id, List<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
             System.assertEquals(1,applicationWithCadenceMapContact.size(),'Cadence map should not be empty');
-            Map<Id, List<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
             System.assertEquals(1,applicationWithCadenceMapLead.size(),'Cadence map should not be empty');
             Test.stopTest();
         }
@@ -110,8 +110,8 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             cadence2.Completed_Cadence_Status__c ='Successful';
             insert cadence2;
-            Map<Id, List<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
-            Map<Id, List<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
 
             List<hed__Application__c> appListContact = new List<hed__Application__c>();
             hed__Application__c appContact = new hed__Application__c();
@@ -168,8 +168,8 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             cadence2.Completed_Cadence_Status__c ='Successful';
             insert cadence2;
-            Map<Id, List<String>> applicationWithCadenceMapContact = new Map<Id, List<String>>();
-            Map<Id, List<String>> applicationWithCadenceMapLead = new Map<Id, List<String>>();
+            Map<Id, Set<String>> applicationWithCadenceMapContact = new Map<Id, Set<String>>();
+            Map<Id, Set<String>> applicationWithCadenceMapLead = new Map<Id, Set<String>>();
 
             List<hed__Application__c> appListContact = new List<hed__Application__c>();
             hed__Application__c appContact = new hed__Application__c();
@@ -246,5 +246,84 @@ public with sharing class NurturingTrackServiceTest {
             System.assert(result, 'isDateWithinRange should return true');
             Test.stopTest();
         }
+    }
+
+    @isTest
+    private static void getFilteredApplicantWithCompletedCadenceTest() {//NOPMD Test class is mocked
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(0, 2);
+        ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
+
+        Set<Id> applicantIdSet = new Set<Id>{ contactList[0].Id, contactList[1].Id };
+
+        List<String> cadenceNameSet = new List<String>{
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
+        };
+
+        Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>{
+            contactList[0].Id => new Set<String>{
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
+            },
+            contactList[1].Id => new Set<String>{
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
+            }
+        };
+
+        System.assert(
+            NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+                    applicantIdSet,
+                    new List<String>{
+                        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+                    },
+                    applicantIdsWithCompletedCadence
+                )
+                .keySet()
+                .size() == 1,
+            'filtered applicant to completed cadence map size should be 1'
+        );
+        System.assert(
+            NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+                    applicantIdSet,
+                    new List<String>{
+                        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+                    },
+                    applicantIdsWithCompletedCadence
+                )
+                .keySet()
+                .size() == 2,
+            'filtered applicant to completed cadence map size should be 2'
+        );
+    }
+
+    @isTest
+    private static void getApplicantIdToRelatedCaseCategoriesMapTest() { //NOPMD Test class is mocked
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        ImplementationSelector.DAO.setMock(new LeadsDAOMock());
+        ImplementationSelector.DAO.setMock(new CasesDAOMock());
+
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(0, 1);
+        ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
+
+        List<Lead> leadList = TestDataFactory.createTestLeadRecords(1);
+        LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.USER_MODE);
+
+        List<Case> caseList = TestDataFactory.createTestCaseRecords(1, null, contactList);
+        caseList.addAll(TestDataFactory.createTestCaseRecords(1, leadList, null));
+        caseList[0].Category__c = 'Category 1';
+        caseList[1].Category__c = 'Category 2';
+        CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.USER_MODE);
+
+        System.assert(
+            !NurturingTrackService.getApplicantIdToRelatedCaseCategoriesMap(
+                    new Set<Id>{ contactList[0].Id, leadList[0].Id },
+                    1
+                )
+                .keySet()
+                .isEmpty(),
+            'applicantidtorelatedcasecategoriesmap should not be empty'
+        );
     }
 }

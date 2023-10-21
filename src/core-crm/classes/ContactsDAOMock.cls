@@ -14,7 +14,7 @@
  *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
  *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added method for getContactByCaseMobile   |
- *    | neil.s.h.lesidan               | Sept 20, 2023       | DEPP-6478              | Added getContactByEmailOrName             |
+ *    | neil.s.h.lesidan               | Sept 20, 2023       | DEPP-6478              | Added getPersonContactsByEmailOrName      |
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -208,7 +208,7 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         return contactList;
     }
 
-    public List<Contact> getContactByEmailOrName(
+    public List<Contact> getPersonContactsByEmailOrName(
         ContactsDAO.QueryParamWrapperEmailOrName queryParam,
         AccessLevel accessLevel
     ){

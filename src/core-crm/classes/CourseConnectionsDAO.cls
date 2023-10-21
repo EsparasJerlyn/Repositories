@@ -72,5 +72,19 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
             accessLevel
         );
     }
+
+    public List<hed__Course_Enrollment__c> getRegisteredLearnersEmailByCourseOffering (
+        Set<Id> courseOfferingIds, 
+        Set<Id> programOfferingIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, hed__Contact__r.Registered_Email__c, hed__Course_Offering__c, Program_Offering__c  ' +
+            'FROM hed__Course_Enrollment__c '+
+            'WHERE hed__Course_Offering__c IN :courseOfferingIds '+
+            'OR Program_Offering__c IN: programOfferingIds ',
+            accessLevel
+        );
+    }
     
 }
