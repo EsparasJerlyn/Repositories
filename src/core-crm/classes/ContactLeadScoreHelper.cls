@@ -46,8 +46,12 @@ public inherited sharing class ContactLeadScoreHelper implements ILeadScoreComma
         }
 
         if(!contactMap.isEmpty()){
-            LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new ContactLeadScoreHelper(), setMarketingSegMap(), contactMap.keySet());
-            System.enqueueJob(executeQueueable);  
+            if(System.isQueueable()){
+                LeadScoreCalculatorService.calculateLeadScore(setMarketingSegMap(), contactMap.keySet(), Contact.getSObjectType());
+            }else{
+                LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new ContactLeadScoreHelper(), setMarketingSegMap(), contactMap.keySet());
+                System.enqueueJob(executeQueueable);
+            }
         }
     }
 
