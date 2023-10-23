@@ -44,6 +44,7 @@
     <tabs>International_Tier__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>SMS_Template__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
@@ -54,6 +55,9 @@
         </mappings>
         <mappings>
             <tab>Nurture_Track_Configuration__c</tab>
+        </mappings>
+        <mappings>
+            <tab>SMS_Template__c</tab>
         </mappings>
         <mappings>
             <tab>standard-ActionCadence</tab>
