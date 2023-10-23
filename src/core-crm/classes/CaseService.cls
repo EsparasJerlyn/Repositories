@@ -145,7 +145,6 @@ public inherited sharing class CaseService {
 
                     if (isCaseForUpdate) {
                         item.Priority = config.Priority__c;
-                        item.Subject = config.Name;
                         prioritizedCases.put(item.Id, item);
                     }
                 }
