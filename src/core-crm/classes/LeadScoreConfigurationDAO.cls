@@ -37,6 +37,7 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
 
     //CATEGORY CONSTANTS START
     public static final String CONFIG_CATEGORY_COUNTRY_TIER = 'Country Tier';
+    public static final String CONFIG_CATEGORY_EVENT_REG_ATTD = 'Event Registration and Attendance';
     //CATEGORY CONSTANTS END
 
     //SUB CATEGORY CONSTANTS START
@@ -45,6 +46,10 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String CONFIG_SUB_CATEGORY_COUNTRY_TIER3 = 'Country Tier3';
     public static final String CONFIG_SUB_CATEGORY_UNRESTRICTED_COHORT = 'Untiered nationality - unrestricted cohort (ex. developed countries)';
     public static final String CONFIG_SUB_CATEGORY_RESTRICTED_COHORT = 'Untiered nationality - restricted cohort, Australian';
+
+    public static final String CONFIG_SUB_CATEGORY_OPEN_DAY_REG = 'Open Day Registration';
+    public static final String CONFIG_SUB_CATEGORY_OTHER_EVENT_REG = 'Other Event Registration';
+    public static final String CONFIG_SUB_CATEGORY_OTHER_EVENT_ATTD = 'Other Event Attendance';
     //SUB CATEGORY CONSTANTS END
 
     public Schema.SObjectType getSObjectType() {

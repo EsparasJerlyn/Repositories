@@ -30,6 +30,18 @@ export default class SalesCadenceListView extends LightningElement {
   @track sortDirection = "DESC";
   @track sortBy = '';
 
+  domesticOfferedProgramWithOwningFaculty = [
+    'Domestic First Offer to Acceptance',
+    'Domestic Deferred Offer to Acceptance',
+    'Domestic Accepted not yet Enrolled',
+    'Domestic Offer Lapsed'
+  ];
+
+  domesticOfferedPreferenceWithOwningFaculty = [
+    'Domestic Accepted and Admitted',
+    'Domestic and International Enrolment to Census'
+  ];
+
   //columns for domestic strong interest pre application cadence
   @track domesticPreApplicationColumns = [
     {
@@ -79,6 +91,76 @@ export default class SalesCadenceListView extends LightningElement {
     {
       label: "Offered Preference",
       fieldName: "offeredPreference",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  //columns for domestic with Offered Preference and Owning Faculty
+  @track domesticOfferedPrefrenceOwningFacultyColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Offered Preference",
+      fieldName: "offeredPreference",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Owning Faculty",
+      fieldName: "offeredPreferenceOwningFaculty",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  //columns for domestic with Offered Program and Owning Faculty
+  @track domesticOfferedProgramOwningFacultyColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Offered Program",
+      fieldName: "offeredProgram",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Owning Faculty",
+      fieldName: "offeredProgramOwningFaculty",
       type: "text",
       sortable: true
     },
@@ -235,7 +317,13 @@ export default class SalesCadenceListView extends LightningElement {
     if (this.calculatedCadence == "Domestic Strong Interest Pre-Application") {
       return this.domesticPreApplicationColumns;
     } else if (this.calculatedCadence.startsWith("Domestic")) {
-      return this.domesticColumns;
+        if (this.domesticOfferedProgramWithOwningFaculty.includes(this.calculatedCadence)) {
+          return this.domesticOfferedPrefrenceOwningFacultyColumns;
+        } else if (this.domesticOfferedPreferenceWithOwningFaculty.includes(this.calculatedCadence)) {
+          return this.domesticOfferedProgramOwningFacultyColumns;
+        } else {
+          return this.domesticColumns;
+        }
     } else if (this.calculatedCadence == "International Strong Interest Pre-Application") {
       return this.internationalPreApplicationColumns;
     } else if (this.calculatedCadence.startsWith("International")) {

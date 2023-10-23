@@ -9,6 +9,10 @@
  *    | julie.jane.alegre              | September 18, 2023    |DEPP-6667               | Created File                        |
  */
 public inherited sharing class MarketingInteractionsDAO extends DmlBase implements IMarketingInteractionsDAO {
+
+    public static final String LEAD_SOURCE_CATEGORY_EVENT = 'Event';
+    public static final String EVENT_TYPE_OPEN_DAY = 'Open day';
+
     public static IMarketingInteractionsDAO newInstance() {
         return (IMarketingInteractionsDAO) ImplementationSelector.DAO.newInstance(Marketing_Interaction__c.SObjectType);
     }

@@ -265,4 +265,7 @@
         <layout>Relationship_Manager__c-Relationship Manager - Contact Relationship Manager Page Layout</layout>
         <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>SMS_Template__c-SMS Template Layout</layout>
+    </layoutAssignments>
 </Profile>

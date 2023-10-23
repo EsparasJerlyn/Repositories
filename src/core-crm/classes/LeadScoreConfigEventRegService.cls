@@ -12,7 +12,7 @@
  */
 public with sharing class LeadScoreConfigEventRegService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigEventRegistration leadScoreConfigEventRegistration){
-        String category = 'Event Registration and Attendance';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_EVENT_REG_ATTD;
         Boolean isForEventReg = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;
         if(isForEventReg){ 
             leadScoreConfigEventRegistration.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -20,13 +20,13 @@ public with sharing class LeadScoreConfigEventRegService {
         }
 
         Boolean isSubCategory = leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY && leadScoreConfig.Parent_Category__r.Name == category;
-        if(isSubCategory && leadScoreConfig.Name == 'Open Day Registration'){
+        if(isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_OPEN_DAY_REG){
             leadScoreConfigEventRegistration.setEventRegOpenDayReg(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(isSubCategory && leadScoreConfig.Name == 'Other Event Registration'){
+        else if(isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_OTHER_EVENT_REG){
             leadScoreConfigEventRegistration.setEventRegOtherEventReg(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(isSubCategory && leadScoreConfig.Name == 'Other Event Attendance'){
+        else if(isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_OTHER_EVENT_ATTD){
             leadScoreConfigEventRegistration.setEventRegOtherEventAttendance(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
     } 
@@ -42,10 +42,10 @@ public with sharing class LeadScoreConfigEventRegService {
                 Integer openDayScore = leadScoreConfigEventRegistration.getEventRegOpenDayReg() != null ? Integer.valueOf(leadScoreConfigEventRegistration.getEventRegOpenDayReg()) : 0;
                 eventRegistrationCategoryScore = eventRegistrationCategoryScore + openDayScore;
             }
-            else if(validateOtherEvent(marketingInteraction, today, leadScoreConfigEventRegistration.getTimeLimit())){
+            if(validateOtherEvent(marketingInteraction, today, leadScoreConfigEventRegistration.getTimeLimit())){
                 eventRegistrationCategoryScore = eventRegistrationCategoryScore + leadScoreConfigEventRegistration.getEventRegOtherEventReg();
             }
-            else if(validateHasOtherEventAttendance(marketingInteraction, today, leadScoreConfigEventRegistration.getTimeLimit())){
+            if(validateHasOtherEventAttendance(marketingInteraction, today, leadScoreConfigEventRegistration.getTimeLimit())){
                 eventRegistrationCategoryScore = eventRegistrationCategoryScore + leadScoreConfigEventRegistration.getEventRegOtherEventAttendance();
             }
             
@@ -80,7 +80,8 @@ public with sharing class LeadScoreConfigEventRegService {
     private static Boolean validateOtherEvent(Marketing_Interaction__c marketingInteraction, Date today, Integer timeLimit){
         if(
             String.isNotBlank(marketingInteraction.Lead_Source_Category__c) && 
-            marketingInteraction.Lead_Source_Category__c == 'Event' &&
+            marketingInteraction.Lead_Source_Category__c == MarketingInteractionsDAO.LEAD_SOURCE_CATEGORY_EVENT &&
+            marketingInteraction.Event_Type__c != MarketingInteractionsDAO.EVENT_TYPE_OPEN_DAY &&
             marketingInteraction.Interaction_DateTime__c != null &&
             DateService.isDateWithinRangeDefaultFalse(
                 today, 
