@@ -142,12 +142,16 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
             }
         }
 
+        hed__Application__c tempApp;
         List<hed__Application__c> applications = ApplicationsDAO.newInstance().getApplicationsBySetIds(applicationPreferenceMap.keySet(), AccessLevel.USER_MODE);
         for(hed__Application__c app : applications){
             Date calculatedDate = getCalculatedDateForStudyLink(app, applicationPreferenceMap, packageCompMap);
-            app.Calculated_Intake_Date__c = calculatedDate;
-            app.Current_Preference__c = applicationPreferenceMap.get(app.Id).Id;
-            appMapToUpdate.put(app.Id, app);
+            tempApp = new hed__Application__c(
+                Id = app.Id,
+                Calculated_Intake_Date__c = calculatedDate,
+                Current_Preference__c = applicationPreferenceMap.get(app.Id).Id
+            );
+            appMapToUpdate.put(tempApp.Id, tempApp);
         }
 
         Map<Id, hed__Application__c> qtacAppMap = setQtacApplicationMap(applicationPreferenceMap);
@@ -175,6 +179,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
             }
         }
         List<hed__Application__c> qtacApplications = ApplicationsDAO.newInstance().getApplicationsBySetIds(qtacAppPrefSetIds, AccessLevel.USER_MODE);
+        hed__Application__c tempApp;
         for(hed__Application__c app : qtacApplications){
             Date calculatedDate = null;
             if(
@@ -188,9 +193,12 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
                 String calculatedDateStr = lastDay + '/' + startingMonth + '/' + intakeYear;
                 calculatedDate = Date.parse(calculatedDateStr);          
             }
-            app.Calculated_Intake_Date__c = calculatedDate;
-            app.Current_Preference__c = applicationPreferenceMap.get(app.Id).Id;
-            response.put(app.Id, app);
+            tempApp = new hed__Application__c(
+                Id = app.Id,
+                Calculated_Intake_Date__c = calculatedDate,
+                Current_Preference__c = applicationPreferenceMap.get(app.Id).Id
+            );
+            response.put(tempApp.Id, tempApp);
         }
         
         return response;

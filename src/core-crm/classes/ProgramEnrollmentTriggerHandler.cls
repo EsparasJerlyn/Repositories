@@ -11,15 +11,15 @@
       | mark.j.mahilum		           | July 23, 2023     	   | DEPP-5799              | Created file                 |
  */
 
-public with sharing class ProgramEnrollmentTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
+public with sharing class ProgramEnrollmentTriggerHandler implements Disableable, BeforeUpdate, AfterInsert, AfterUpdate {
 
    /**
     * @description afterInsert trigger event
     * @param newItems - List of hed__Program_Enrollment__c.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-        
         getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),null);
+        ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), null);
     }
 
    /**
@@ -35,16 +35,9 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
     }
 
     /**
-     * @description beforeInsert trigger event
+     * @description beforeUpdate trigger event
      * @param newItems - List of hed__Program_Enrollment__c.Trigger.new
-     */
-    public void beforeInsert(List<SObject> newItems) { 
-        ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems, null);
-    }
-
-    /**
-     * @description beforeInsert trigger event
-     * @param newItems - List of hed__Program_Enrollment__c.Trigger.new
+     * @param oldItems - List of hed__Program_Enrollment__c.Trigger.old
      */
     public void beforeUpdate(
         Map<Id, SObject> newItems,

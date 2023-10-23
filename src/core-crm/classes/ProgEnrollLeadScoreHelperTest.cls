@@ -71,7 +71,7 @@ public with sharing class ProgEnrollLeadScoreHelperTest {
             List<hed__Program_Enrollment__c> programEnList = [SELECT Id, Enrollment_Status__c, hed__Account__c FROM hed__Program_Enrollment__c WHERE hed__Contact__c =: contactList[0].Id LIMIT 1];
             for(hed__Program_Enrollment__c prog: programEnList){ 
                 if(prog.hed__Account__c!=null){
-                    prog.Enrollment_Status__c = 'test';
+                    prog.Enrollment_Status__c = 'Enrolled';
                     programEnListToUpdate.add(prog);
                 }                          
             }
