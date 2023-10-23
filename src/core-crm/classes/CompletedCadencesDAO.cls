@@ -16,6 +16,7 @@
       |                                |                       |                        | Cadence statuses                                   |
       | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added addition fields for soql                     |
       | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Used string literals for Statuses                  |
+      | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Add additional return fields in SOQL               |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
@@ -75,7 +76,10 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     ) {
         return Database.query(
             'SELECT  Id, Contact__c, Lead__c, Completed_Cadence_Status__c, CreatedDate, ' +
-            'Application__r.Offered_Preference__r.Name ' +
+            'Application__r.Offered_Preference__r.Name, ' +
+            'Application__r.Offered_Preference__r.Faculty__c, ' +
+            'Application__r.Offered_Program_Plan__r.Name, ' +
+            'Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Nurture_Track_Configuration__r.Cadence_Name__c IN :cadenceNames ' +
             'AND Completed_Cadence_Status__c IN: completedCadenceStatuses ' +
