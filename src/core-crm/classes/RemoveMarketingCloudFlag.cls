@@ -56,5 +56,6 @@ public with sharing class RemoveMarketingCloudFlag implements Database.Batchable
     class InvalidateMCException extends Exception {
 
     }
+    
 
 }
