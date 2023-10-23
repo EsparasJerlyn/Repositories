@@ -65,12 +65,12 @@ public with sharing class LeadScoreConfigCountryTierService {
                 else if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.TIER_CATEGORY_3){ 
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getCountryTier3();                
                 }
+                else if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.DEVELOPED_NATIONS){ 
+                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredUnrestricted();                
+                }
             }else if(isValid){
                 if(marketingSeg.My_Country_Of_Citizenship__c == 'Australia'){
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredRestricted();
-                }
-                else if(!countrTierRefMap.containsKey(marketingSeg.My_Country_Of_Citizenship__c)){
-                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredUnrestricted();
                 }
             }
 
