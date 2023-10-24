@@ -10,7 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                   |
  */
-public without sharing class FlowLookupController {
+public inherited sharing class FlowLookupController {
     /**
      * Searches for records based on the specified parameters.
      *
@@ -189,11 +189,29 @@ public without sharing class FlowLookupController {
      * Retrieves the icon URL for the specified object.
      *
      * @param objectName   The API name of the object.
-     * @return - The URL of the object's icon.
+     * @return The URL of the object's icon.
      */
     @AuraEnabled(cacheable=true)
     public static String getObjectIcon(String objectName) {
-        String u;
+        String iconUrl = '';
+        boolean isStandardObject = Schema.getGlobalDescribe().containsKey(objectName);
+
+        if (isStandardObject) {
+            iconUrl = 'standard:' + objectName.toLowerCase();
+        } else {
+            iconUrl = getCustomObjectIconFromTab(objectName);
+        }
+
+        return iconUrl;
+    }
+
+    /**
+     * Retrieves the icon URL for a custom object.
+     *
+     * @param objectName The API name of the object.
+     * @return The URL of the object's icon.
+     */
+    private static String getCustomObjectIconFromTab(String objectName) {
         List<Schema.DescribeTabSetResult> tabSetDesc = Schema.describeTabs();
         List<Schema.DescribeTabResult> tabDesc = new List<Schema.DescribeTabResult>();
         List<Schema.DescribeIconResult> iconDesc = new List<Schema.DescribeIconResult>();
@@ -204,22 +222,21 @@ public without sharing class FlowLookupController {
 
         for (Schema.DescribeTabResult tr : tabDesc) {
             if (objectName == tr.getSobjectName()) {
-                if (tr.isCustom() == true) {
+                if (tr.isCustom()) {
                     iconDesc.addAll(tr.getIcons());
-                } else {
-                    u = 'standard:' + objectName.toLowerCase();
                 }
             }
         }
+
         for (Schema.DescribeIconResult ir : iconDesc) {
             if (ir.getContentType() == 'image/svg+xml') {
-                u =
-                    'custom:' +
+                return 'custom:' +
                     ir.getUrl().substringBetween('custom/', '.svg').substringBefore('_');
-                break;
             }
         }
-        return u;
+
+        // If no icon is found, return a specific custom icon, e.g., 'custom:custom18'
+        return 'custom:custom18'; // This looks like a document with pencil icon
     }
 
     /**

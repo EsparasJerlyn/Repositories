@@ -16,7 +16,11 @@ public class FlowLookupControllerTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager', 'QUT_Sys_Admin' }
+            new List<String>{
+                'QUT_IE_Partnership_Manager',
+                'QUT_Operations_Manager',
+                'QUT_Sys_Admin'
+            }
         );
     }
 
@@ -246,9 +250,14 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getStandardObjectIconForOperationsManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            String objectIcon = FlowLookupController.getObjectIcon('Account');
-            System.assertNotEquals(null, objectIcon, 'Object icon should not be null');
+        System.runAs(TestDataFactory.getOperationsManager()) {
+            // Test for a standard object (Account)
+            String accountIcon = FlowLookupController.getObjectIcon('Account');
+            System.assertNotEquals(null, accountIcon, 'Account icon should not be null');
+
+            // Test for another standard object (Contact)
+            String contactIcon = FlowLookupController.getObjectIcon('Contact');
+            System.assertNotEquals(null, contactIcon, 'Contact icon should not be null');
         }
         Test.stopTest();
     }
@@ -256,9 +265,14 @@ public class FlowLookupControllerTest {
     @isTest
     private static void getStandardObjectIconForPartnershipManagerTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            String objectIcon = FlowLookupController.getObjectIcon('Account');
-            System.assertNotEquals(null, objectIcon, 'Object icon should not be null');
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            // Test for a standard object (Account)
+            String accountIcon = FlowLookupController.getObjectIcon('Account');
+            System.assertNotEquals(null, accountIcon, 'Account icon should not be null');
+
+            // Test for another standard object (Contact)
+            String contactIcon = FlowLookupController.getObjectIcon('Contact');
+            System.assertNotEquals(null, contactIcon, 'Contact icon should not be null');
         }
         Test.stopTest();
     }
@@ -276,7 +290,8 @@ public class FlowLookupControllerTest {
                 false,
                 AccessLevel.USER_MODE
             );
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
+            // Test for a custom object (Engagement__c)
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
                 'RCE',
@@ -303,7 +318,8 @@ public class FlowLookupControllerTest {
                 false,
                 AccessLevel.USER_MODE
             );
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            // Test for a custom object (Engagement__c)
             List<Engagement__c> engagementList = TestDataFactory.createTestEngagementRecords(
                 1,
                 'RCE',
@@ -313,6 +329,36 @@ public class FlowLookupControllerTest {
                 .insertRecords(engagementList, false, AccessLevel.USER_MODE);
             String objectIcon = FlowLookupController.getObjectIcon('Engagement__c');
             System.assertNotEquals(null, objectIcon, 'Object icon should not be null');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    private static void getNonExistentObjectIconForOperationsManagerTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getOperationsManager()) {
+            // Test for a nonexistent object
+            String nonExistentIcon = FlowLookupController.getObjectIcon('NonExistentObject__c');
+            System.assertEquals(
+                'custom:custom18',
+                nonExistentIcon,
+                'Nonexistent object should return the default custom icon'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    private static void getNonExistentObjectIconForPartnershipManagerTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            // Test for a nonexistent object
+            String nonExistentIcon = FlowLookupController.getObjectIcon('NonExistentObject__c');
+            System.assertEquals(
+                'custom:custom18',
+                nonExistentIcon,
+                'Nonexistent object should return the default custom icon'
+            );
         }
         Test.stopTest();
     }
