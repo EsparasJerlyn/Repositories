@@ -1160,7 +1160,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
                 domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
-                application.Offer_Status__c == 'Offer' &&
+                application.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
                 (
                     application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER && 
                     application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC
@@ -1172,7 +1172,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                     application,
                     domesticFirstOffertoAcceptanceManual,
                     domesticFirstOffertoAcceptanceAutomated,
-                    hasAutomatedCompletedCadence                    
+                    hasAutomatedCompletedCadence
                 );
             }
         }
