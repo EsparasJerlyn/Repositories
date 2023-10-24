@@ -239,7 +239,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
-            newApplications[0].Offer_Status__c = 'Offer';
+            newApplications[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplications[0].hed__Application_Date__c = Date.today().addMonths(4);
             newApplications[0].Offer_Status_Date__c = Date.today().addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
@@ -360,13 +360,13 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplications[0].Offer_Status__c = 'Offer';
+            newApplications[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplications[0].hed__Application_Date__c = Date.today().addMonths(4);
             newApplications[0].Offer_Status_Date__c = Date.today().addDays(2);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplicationsSecond = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplicationsSecond[0].Offer_Status__c = 'Offer';
+            newApplicationsSecond[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplicationsSecond[0].hed__Application_Date__c = Date.today().addMonths(3);
             newApplicationsSecond[0].Offer_Status_Date__c = Date.today().addDays(3);
             ApplicationsDAO.newInstance().insertRecords(newApplicationsSecond, false, AccessLevel.SYSTEM_MODE);
@@ -428,25 +428,25 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             // create application
             List<hed__Application__c> newApplicationsOne = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplicationsOne[0].Offer_Status__c = 'Offer';
+            newApplicationsOne[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplicationsOne[0].hed__Application_Date__c = Date.today().addMonths(1);
             newApplicationsOne[0].Offer_Status_Date__c = Date.today().addDays(-1);
             applicationsToInsert.addAll(newApplicationsOne);
 
             List<hed__Application__c> newApplicationsTwo = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplicationsTwo[0].Offer_Status__c = 'Offer';
+            newApplicationsTwo[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplicationsTwo[0].hed__Application_Date__c = Date.today().addMonths(2);
             newApplicationsTwo[0].Offer_Status_Date__c = Date.today().addDays(3);
             applicationsToInsert.addAll(newApplicationsTwo);
             
             List<hed__Application__c> newApplicationsThree = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplicationsThree[0].Offer_Status__c = 'Offer';
+            newApplicationsThree[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplicationsThree[0].hed__Application_Date__c = Date.today().addMonths(3);
             newApplicationsThree[0].Offer_Status_Date__c = Date.today().addDays(1);
             applicationsToInsert.addAll(newApplicationsThree);
 
             List<hed__Application__c> newApplicationsFour = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
-            newApplicationsFour[0].Offer_Status__c = 'Offer';
+            newApplicationsFour[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplicationsFour[0].hed__Application_Date__c = Date.today().addMonths(4);
             newApplicationsFour[0].Offer_Start_Date__c = Date.today().addDays(2);
             applicationsToInsert.addAll(newApplicationsFour);

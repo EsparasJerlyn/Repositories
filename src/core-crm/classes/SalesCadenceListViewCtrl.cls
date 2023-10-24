@@ -11,6 +11,7 @@
  *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                          |
  *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence |
  *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings              |
+ *    | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Added new field mappings              |
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
@@ -108,6 +109,15 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.offeredPreference = completedCadenceMap.containsKey(record.Id)
                 ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name
                 : '';
+            tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c
+                : '';
+            tempWrapper.offeredProgram = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name
+                : '';
+            tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name
+                : '';
             tempWrapper.agentAssisted = record.Is_Agent_Assisted__c;
             recordDetailsWrapper.add(tempWrapper);
         }
@@ -130,6 +140,15 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
                 : null;
             tempWrapper.offeredPreference = completedCadenceMap.containsKey(record.Id)
                 ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name
+                : '';
+            tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c
+                : '';
+            tempWrapper.offeredProgram = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name
+                : '';
+            tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.containsKey(record.Id)
+                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name
                 : '';
             recordDetailsWrapper.add(tempWrapper);
         }
@@ -247,6 +266,12 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         public Datetime entryDate { get; set; }
         @AuraEnabled
         public String offeredPreference { get; set; }
+        @AuraEnabled
+        public String offeredPreferenceOwningFaculty { get; set; }
+        @AuraEnabled
+        public String offeredProgram { get; set; }
+        @AuraEnabled
+        public String offeredProgramOwningFaculty { get; set; }
         @AuraEnabled
         public boolean agentAssisted { get; set; }
     }

@@ -248,4 +248,7 @@
     <layoutAssignments>
         <layout>Risk__c-Risk Page Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>SMS_Template__c-SMS Template Layout</layout>
+    </layoutAssignments>
 </Profile>
