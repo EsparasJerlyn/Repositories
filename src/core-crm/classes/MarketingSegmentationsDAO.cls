@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------|
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Created file                                |
+      | arsenio.jr.dayrit              | October 23, 2023      | DEPP-6929              | Added constant for Lead Score Calculation   |
  */
 public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO{
 
@@ -17,6 +18,14 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
     public static final String CITIZENSHIP_STATUS_DOMESTIC_AU = 'Australian Citizen or Permanent Resident';   
     public static final String CITIZENSHIP_STATUS_DOMESTIC_NZ = 'New Zealand Citizen';
     public static final String CITIZENSHIP_STATUS_INTERNATIONAL = 'International Student';
+
+    //SUB CATEGORY CONSTANTS START
+    public static final String CONFIG_SUB_CATEGORY_I_FUND_MY_STUDIES_MYSELF = 'I will fund my studies myself';
+    public static final String CONFIG_SUB_CATEGORY_MY_FAMILY_WILL_FUND_MY_STUDIES = 'My family will fund my studies';
+    public static final String CONFIG_SUB_CATEGORY_I_ALREADY_HAVE_A_SCHOLARSHIP_LOAN_OR_SPONSORSHIP = 'I already have a scholarship, loan or sponsorship';
+    public static final String CONFIG_SUB_CATEGORY_I_AM_NOT_SURE = 'I am not sure';
+    public static final String CONFIG_SUB_CATEGORY_I_NEED_A_FULL_SCHOLARSHIP = 'I need a full scholarship';
+
 
     public Schema.SObjectType getSObjectType(){
         return Marketing_Segmentation__c.SObjectType;

@@ -137,6 +137,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
     public static final String STATUS_WITHDRAWN = 'Withdrawn';
     public static final String STATUS_DECLINED = 'Declined';
+    public static final String STATUS_OFFERED = 'Offered';
     public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
     public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';
 

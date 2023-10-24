@@ -12,11 +12,11 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Cadence_Step_Name__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Message_Content__c</field>
             </layoutItems>
         </layoutColumns>
@@ -28,6 +28,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>IsActive__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Business_Process__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

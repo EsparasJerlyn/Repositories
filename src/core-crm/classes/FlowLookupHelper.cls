@@ -6,11 +6,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------|
- *    | ryan.j.a.dela.cruz             | June 7, 2023          | DEPP-5385              | Created file                   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------|
+ *    | ryan.j.a.dela.cruz             | June 7, 2023          | DEPP-5385              | Created file                      |
+ *    | ryan.j.a.dela.cruz             | October 19, 2023      | DEPP-6928/DEPP-6973    | Added fullName and email search   |
  */
-public without sharing class FlowLookupHelper {
+public inherited sharing class FlowLookupHelper {
     /**
      * Retrieves the API name of the name field for the specified object.
      *
@@ -129,12 +130,10 @@ public without sharing class FlowLookupHelper {
 
         // Check if the search term is blank
         if (!String.isBlank(searchTerm)) {
-            // Get the name field of the object
-            String objectNameField = getNameField(objectName);
-
             // If no specific fields to search are provided, use the object name field
             if (String.isBlank(fieldsToSearch)) {
-                fieldsToSearch = objectNameField;
+                // Get the name field of the object
+                fieldsToSearch = getNameField(objectName);
             }
 
             List<String> searchFieldList = processFieldsToSearch(
@@ -365,7 +364,9 @@ public without sharing class FlowLookupHelper {
     ) {
         if (
             fieldMap.get(searchField) != null &&
-            fieldMap.get(searchField).getDescribe().getType().name() == 'String'
+            (fieldMap.get(searchField).getDescribe().getType().name() == 'String' ||
+            fieldMap.get(searchField).getDescribe().getType().name() == 'Email' ||
+            fieldMap.get(searchField).getDescribe().getType().name() == 'Picklist')
         ) {
             searchFieldList.add(searchField + ' LIKE \'%' + searchTerm + '%\'');
         }

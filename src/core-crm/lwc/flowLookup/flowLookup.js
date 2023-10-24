@@ -11,6 +11,7 @@
  *    | ryan.j.a.dela.cruz        | June 5, 2023          | DEPP-5385            | Created file                                         |
  *    | ryan.j.a.dela.cruz        | August 9, 2023        | DEPP-6082            | Added unique session storage for lookup fields       |
  *    | ryan.j.a.dela.cruz        | August 17, 2023       | DEPP-6165            | Dynamically Display Option Sublabel as applicable    |
+ *    | ryan.j.a.dela.cruz        | October 19, 2023      | DEPP-6928/DEPP-6973  | Fix empty fieldsToSearch                             |
  */
 import { LightningElement, api, track } from "lwc";
 import { FlowAttributeChangeEvent } from "lightning/flowSupport";
@@ -53,9 +54,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   }
   set fieldsToSearch(value) {
     this._fieldsToSearch = value;
-    this.visibleFields_ToSearchNames = JSON.parse(value)
-      .map((field) => field.name)
-      .join();
+    this.visibleFields_ToSearchNames = value;
     this.fieldCollection_toSearch = JSON.parse(value).map(
       (field) => field.name
     );

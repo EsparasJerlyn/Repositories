@@ -121,14 +121,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Flow Lookup Fields To Display For Contact Object</shortDescription>
-        <value>Name,Email,QUT_Staff_Email__c,Position__c</value>
+        <value>Name,Email,hed__WorkEmail__c,QUT_Staff_Email__c,Position__c</value>
     </labels>
     <labels>
         <fullName>LWC_FlowLookupFieldsToSearchForContactObject</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Flow Lookup Fields To Search For Contact Object</shortDescription>
-        <value>Name</value>
+        <value>Name,Salutation,FirstName,MiddleName,LastName,Suffix,Email,hed__WorkEmail__c,QUT_Staff_Email__c</value>
     </labels>
     <labels>
         <fullName>LWC_HelpText_FlexibleProgram</fullName>
