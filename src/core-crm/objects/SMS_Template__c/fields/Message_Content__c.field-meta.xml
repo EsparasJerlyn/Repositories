@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Message Content</label>
     <length>160</length>
-    <required>false</required>
+    <required>true</required>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

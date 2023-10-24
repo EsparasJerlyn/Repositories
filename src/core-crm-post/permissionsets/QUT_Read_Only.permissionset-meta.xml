@@ -7108,11 +7108,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>SMS_Template__c.Cadence_Step_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>SMS_Template__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7124,11 +7119,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>SMS_Template__c.IsActive__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>SMS_Template__c.Message_Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

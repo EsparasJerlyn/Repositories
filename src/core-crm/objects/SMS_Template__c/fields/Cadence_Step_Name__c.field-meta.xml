@@ -6,7 +6,7 @@
     <externalId>false</externalId>
     <label>Cadence Step Name</label>
     <length>80</length>
-    <required>false</required>
+    <required>true</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
