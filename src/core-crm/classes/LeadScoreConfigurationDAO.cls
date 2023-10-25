@@ -40,24 +40,75 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String CONFIG_CATEGORY_COUNTRY_TIER = 'Country Tier';
     public static final String CONFIG_CATEGORY_FUNDING = 'Funding';
     public static final String CONFIG_CATEGORY_EVENT_REG_ATTD = 'Event Registration and Attendance';
-    //CATEGORY CONSTANTS END
+    public static final String CONFIG_CATEGORY_PROGRAM_ENGAGEMENT = 'Program Engagement';
+    public static final String CONFIG_CATEGORY_ENQUIRIES = 'Enquiries';
+    public static final String CONFIG_CATEGORY_DOWNLOADED_PDF = 'Downloaded PDF';
+    public static final String CONFIG_CATEGORY_MATCH_MY_SKILLS = 'Match My Skills';
+    public static final String CONFIG_CATEGORY_MKT_CONSENT = 'Marketing consent';
+    public static final String CONFIG_CATEGORY_RESIDENCE = 'Residence';
+    public static final String CONFIG_CATEGORY_PRIMARY_BSA = 'Primary BSA';
+    public static final String CONFIG_CATEGORY_PRIMARY_NSA = 'Primary NSA';
+    public static final String CONFIG_CATEGORY_PREF_INTAKE = 'Preferred Intake';
+    public static final String CONFIG_CATEGORY_COURSE_LEVEL = 'Course Level';
+    public static final String CONFIG_CATEGORY_INT_DOUBLE_DEG = 'Interested in Double Degrees';
+    public static final String CONFIG_CATEGORY_INT_ENG_PATH = 'Interested in English Pathway Programs';
+    //CATEGORY CONSTANTS END    
 
-    //SUB CATEGORY CONSTANTS START
+    /***SUB CATEGORY CONSTANTS START**/
+    //CONFIG_CATEGORY_COUNTRY_TIER
     public static final String CONFIG_SUB_CATEGORY_COUNTRY_TIER1 = 'Country Tier1';
     public static final String CONFIG_SUB_CATEGORY_COUNTRY_TIER2 = 'Country Tier2';
     public static final String CONFIG_SUB_CATEGORY_COUNTRY_TIER3 = 'Country Tier3';
     public static final String CONFIG_SUB_CATEGORY_UNRESTRICTED_COHORT = 'Untiered nationality - unrestricted cohort (ex. developed countries)';
     public static final String CONFIG_SUB_CATEGORY_RESTRICTED_COHORT = 'Untiered nationality - restricted cohort, Australian';
+    //CONFIG_CATEGORY_FUNDING
     public static final String CONFIG_SUB_CATEGORY_COMPANY_FUNDED = 'Company Funded';
     public static final String CONFIG_SUB_CATEGORY_I_FUND_MY_STUDIES_MYSELF = 'I will fund my studies myself';
     public static final String CONFIG_SUB_CATEGORY_MY_FAMILY_WILL_FUND_MY_STUDIES = 'My family will fund my studies';
     public static final String CONFIG_SUB_CATEGORY_I_ALREADY_HAVE_A_SCHOLARSHIP_LOAN_OR_SPONSORSHIP = 'I already have a scholarship, loan or sponsorship';
     public static final String CONFIG_SUB_CATEGORY_I_AM_NOT_SURE = 'I am not sure';
     public static final String CONFIG_SUB_CATEGORY_I_NEED_A_FULL_SCHOLARSHIP = 'I need a full scholarship';
+    //CONFIG_CATEGORY_EVENT_REG_ATTD
     public static final String CONFIG_SUB_CATEGORY_OPEN_DAY_REG = 'Open Day Registration';
     public static final String CONFIG_SUB_CATEGORY_OTHER_EVENT_REG = 'Other Event Registration';
     public static final String CONFIG_SUB_CATEGORY_OTHER_EVENT_ATTD = 'Other Event Attendance';
-    //SUB CATEGORY CONSTANTS END
+    //CONFIG_CATEGORY_PROGRAM_ENGAGEMENT
+    public static final String CONFIG_SUB_CATEGORY_PROG_ENG_ATTD = 'Program Engagement attendance';
+    //CONFIG_CATEGORY_ENQUIRIES
+    public static final String CONFIG_SUB_CATEGORY_APPLYING_FOR_COURSE = 'Applying for a course';
+    public static final String CONFIG_SUB_CATEGORY_ENTRY_REQ_STUDY_PATH = 'Entry requirements & study pathways';
+    public static final String CONFIG_SUB_CATEGORY_FEES_COST_SCHOLARSHIP = 'Fees, costs and scholarships';
+    public static final String CONFIG_SUB_CATEGORY_COURSE_INFO = 'Course information';
+    public static final String CONFIG_SUB_CATEGORY_MY_APP_AND_OFFER = 'My application and offer';
+    public static final String CONFIG_SUB_CATEGORY_MY_ENROLLMENT = 'My enrolment';
+    public static final String CONFIG_SUB_CATEGORY_STUDY_LIFE = 'Student life';
+    //CONFIG_CATEGORY_DOWNLOADED_PDF
+    public static final String CONFIG_SUB_CATEGORY_COURSE_PAGE_PDF = 'Course Page PDF';
+    public static final String CONFIG_SUB_CATEGORY_WELCOME_GUIDE = 'Welcome Guide';
+    public static final String CONFIG_SUB_CATEGORY_COURSE_GUIDE = 'Course Guides';
+    //CONFIG_CATEGORY_MATCH_MY_SKILLSF
+    public static final String CONFIG_SUB_CATEGORY_MATCH_MY_SKILLS_COMP = 'Match My Skills completed';
+    //CONFIG_CATEGORY_MKT_CONSENT
+    public static final String CONFIG_SUB_CATEGORY_IS_BLANK = 'is blank';
+    public static final String CONFIG_SUB_CATEGORY_YES = 'Yes';
+    public static final String CONFIG_SUB_CATEGORY_NO = 'No';
+    //CONFIG_CATEGORY_RESIDENCE
+    public static final String CONFIG_SUB_CATEGORY_AU_ONSHORE = 'Australia (Onshore)';
+    public static final String CONFIG_SUB_CATEGORY_NON_AU_OFFSHORE = 'Non-Australia (offshore)';
+    //CONFIG_CATEGORY_PRIMARY_BSA / CONFIG_CATEGORY_PRIMARY_NSA
+    public static final String CONFIG_SUB_CATEGORY_IS_UNSURE = 'Is unsure';
+    public static final String CONFIG_SUB_CATEGORY_IS_NOT_BLANK = 'Is not blank';
+    public static final String CONFIG_SUB_CATEGORY_IS_BLANK_UPPER = 'Is blank';
+    //CONFIG_CATEGORY_PREF_INTAKE
+    public static final String CONFIG_SUB_CATEGORY_ROLLING_EACH_YR = 'Is this year (rolling each year)';
+    public static final String CONFIG_SUB_CATEGORY_NEXT_YEAR = 'Next year';
+    //CONFIG_CATEGORY_COURSE_LEVEL
+    public static final String CONFIG_SUB_CATEGORY_POSTGRAD = 'Postgraduate';
+    public static final String CONFIG_SUB_CATEGORY_HIGHER_DEGREE = 'Higher Degree Research';
+    public static final String CONFIG_SUB_CATEGORY_SHORT_COURSES = 'Short courses and Professional Development';
+    public static final String CONFIG_SUB_CATEGORY_EXCHANGE_AND_STUDY = 'Exchange and Study Abroad (1 or 2 Semesters Only)';
+    public static final String CONFIG_SUB_CATEGORY_UNDERGRAD = 'Undergraduate';
+    /***SUB CATEGORY CONSTANTS END**/
 
     public Schema.SObjectType getSObjectType() {
         return Lead_Score_Configuration__c.SObjectType;
@@ -100,5 +151,22 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
             'WHERE RecordTypeId IN : recordTypes ',
             accessLevel
         );
+    }
+
+    public List<Lead_Score_Configuration__c> getLeadScoreConfigsById(Set<Id> leadScoreConfigIds, List<String> fields, AccessLevel accessLevel) {
+
+        List<Lead_Score_Configuration__c> configList = new List<Lead_Score_Configuration__c>();
+
+        if(!leadScoreConfigIds.isEmpty()){
+            String fieldsToQuery = fields.size() > 0 ? 'Id, ' + String.join(fields, ',') : 'Id';
+            configList = Database.query(
+                'SELECT ' + String.escapeSingleQuotes(fieldsToQuery) + ' ' +
+                  'FROM Lead_Score_Configuration__c ' +
+                 'WHERE Id IN: leadScoreConfigIds', accessLevel
+            );
+        }
+
+        return configList;
+
     }
 }

@@ -94,7 +94,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         AccessLevel accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Category__c, CreatedDate, Lead__c, ContactId, Subject ' +
+            'SELECT Id, Category__c, CreatedDate, Lead__c, ContactId, Subject, Lead_Score_Reset__c ' +
             'FROM Case ' +
             'WHERE Lead__c IN :contactOrLeadIds ' +
             'OR ContactId IN :contactOrLeadIds ',

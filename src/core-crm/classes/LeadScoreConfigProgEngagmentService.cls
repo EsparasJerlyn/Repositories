@@ -12,7 +12,7 @@
  */
 public with sharing class LeadScoreConfigProgEngagmentService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigProgEngagment leadScoreConfigProgEngagment){
-        String category = 'Program Engagement';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_PROGRAM_ENGAGEMENT;
         Boolean isForProgEng = validateCategory(leadScoreConfig, category);
         if(isForProgEng){ 
             leadScoreConfigProgEngagment.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -20,10 +20,15 @@ public with sharing class LeadScoreConfigProgEngagmentService {
         }
 
         Boolean isSubCategory = validateSubCategory(leadScoreConfig, category);
-        if(isSubCategory && leadScoreConfig.Name == 'Program Engagement attendance'){
+        if(isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_PROG_ENG_ATTD){
             leadScoreConfigProgEngagment.setProgramEngAttendance(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
     } 
+
+    private static Map<Id, Account> getAccountMap(Set<Id> accountIds){
+        List<String> fields = new List<String>{'Name', 'RecordTypeId', 'Program_Code__c'};
+        return new Map<Id, Account>(AccountsDAO.newInstance().getAccountsBySetIds(accountIds, fields, AccessLevel.SYSTEM_MODE));
+    }
 
     public static Map<Id, Integer> calculateLeadScore(Map<Id,hed__Program_Enrollment__c> programEnrollmentMap, LeadScoreConfigProgEngagment leadScoreConfigProgEngagment){
         
@@ -34,30 +39,35 @@ public with sharing class LeadScoreConfigProgEngagmentService {
         for(hed__Program_Enrollment__c progEng : programEnrollmentMap.values()){
             accountProgramMap.put(progEng.hed__Account__c, progEng);
         }
-
-        Map<Id, Account> accountMap = new Map<Id, Account>();
-        List<String> fields = new List<String>{'Name', 'RecordTypeId', 'Program_Code__c'};
-        List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetIds(accountProgramMap.keySet(), fields, AccessLevel.SYSTEM_MODE);
-        for(Account account : accountList){
-            accountMap.put(accountProgramMap.get(account.Id).Id, account);
-        }
-
+        
+        Map<Id, Account> accountMap = getAccountMap(accountProgramMap.keySet());
         for(hed__Program_Enrollment__c progEng : programEnrollmentMap.values()){
+            if(progEngMap.containsKey(progEng.hed__Contact__c)){
+                progEngScore = progEngMap.get(progEng.hed__Contact__c);
+            }else{
+                progEngScore = 0;
+            }
+
             if(
-                accountMap.containsKey(progEng.Id) && 
-                accountMap.get(progEng.Id).RecordTypeId == AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID &&
-                ((accountMap.get(progEng.Id).Name.contains('Start QUT')) ||
-                (accountMap.get(progEng.Id).Program_Code__c == 'QC19'))
+                progEng.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ENROLLED && 
+                accountMap.containsKey(progEng.hed__Account__c) && 
+                accountMap.get(progEng.hed__Account__c).RecordTypeId == AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID &&
+                (
+                    accountMap.get(progEng.hed__Account__c).Name.contains(AccountsDAO.ACCOUNT_NAME_START_QUT) ||
+                    accountMap.get(progEng.hed__Account__c).Program_Code__c == AccountsDAO.PROGRAM_CODE_QC19
+                )
             ){
                 progEngScore = progEngScore + leadScoreConfigProgEngagment.getProgramEngAttendance();
             }
+
             Integer score = LeadScoreCalculatorService.validateScore(progEngScore, leadScoreConfigProgEngagment.getMaxScore());
 
             if(progEng.hed__Contact__c != null){
                 progEngMap.put(progEng.hed__Contact__c, score);
             }
-        }
 
+        }
+        
         return progEngMap;
     }
 

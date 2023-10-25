@@ -8,12 +8,13 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file                 |
+      | eccarius.munoz                 | October 22, 2023      | DEPP-5866 update       | Used constants               |
       |                                |                       |                        |                              |
  */
 public with sharing class LeadScoreConfigEnquiriesService {
     
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigEnquiries leadScoreConfigEnquiries){
-        String category = 'Enquiries';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_ENQUIRIES;
         Boolean isForEnquiries = validateCategory(leadScoreConfig, category);
         if(isForEnquiries){ 
             leadScoreConfigEnquiries.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -25,34 +26,29 @@ public with sharing class LeadScoreConfigEnquiriesService {
             setLeadScore(leadScoreConfig, leadScoreConfigEnquiries);
         }
         
-    } 
+    }   
 
     public static Map<Id, Integer> calculateLeadScore(Map<Id,Case> caseMap, LeadScoreConfigEnquiries leadScoreConfigEnquiries){
         Map<Id, Integer> enquiryMap = new Map<Id, Integer>();
         Integer enquiryScore = 0;
+        Date today = Date.today();
         for(Case caseRec : caseMap.values()){
-            if(String.isNotBlank(caseRec.Category__c)){
-                if(caseRec.Category__c == 'Applying for a course'){ 
-                    enquiryScore = enquiryScore + leadScoreConfigEnquiries.getApplyingForCourse();
-                }
-                else if(caseRec.Category__c == 'Entry requirements & study pathways'){ 
-                    enquiryScore = enquiryScore + leadScoreConfigEnquiries.getEntryReqAndUnivStudy();
-                }
-                else if(caseRec.Category__c == 'Fees, costs and scholarships'){ 
-                    enquiryScore = enquiryScore + leadScoreConfigEnquiries.getFeesCostScholarship();
-                }
-                else if(caseRec.Category__c == 'Course information'){ 
-                    enquiryScore = enquiryScore + leadScoreConfigEnquiries.getCourseInformation();
-                }
-                else if(caseRec.Category__c == 'My application and offer'){ 
-                    enquiryScore = enquiryScore + leadScoreConfigEnquiries.getMyApplicationAndOffer();
-                }
-                else if(caseRec.Category__c == 'My enrolment'){ 
-                    enquiryScore = enquiryScore + leadScoreConfigEnquiries.getMyEnrollment();
-                }
-                else if(caseRec.Category__c == 'Student life'){ 
-                    enquiryScore = enquiryScore + leadScoreConfigEnquiries.getStudentLife();
-                }
+
+            if(enquiryMap.containsKey(caseRec.ContactId)){
+                enquiryScore = enquiryMap.get(caseRec.ContactId);
+            }else if(enquiryMap.containsKey(caseRec.Lead__c)){
+                enquiryScore = enquiryMap.get(caseRec.Lead__c);
+            }else{
+                enquiryScore = 0;
+            }
+
+            Boolean isDateValid = DateService.isDateWithinRangeDefaultFalse(
+                today, 
+                caseRec.CreatedDate.date(), 
+                caseRec.CreatedDate.date().addMonths(leadScoreConfigEnquiries.getTimeLimit())
+            );
+            if(String.isNotBlank(caseRec.Category__c) && isDateValid && !caseRec.Lead_Score_Reset__c){
+                enquiryScore = enquiryScore + getEnquiryScore(caseRec.Category__c, leadScoreConfigEnquiries);
             }            
             
             Integer score = LeadScoreCalculatorService.validateScore(enquiryScore, leadScoreConfigEnquiries.getMaxScore());
@@ -66,6 +62,34 @@ public with sharing class LeadScoreConfigEnquiriesService {
         return enquiryMap;
     }
 
+    private static Integer getEnquiryScore(String caseCategory, LeadScoreConfigEnquiries leadScoreConfigEnquiries){
+        Integer enquiryScore = 0;
+
+        if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_APPLYING_FOR_COURSE){ 
+            enquiryScore = enquiryScore + leadScoreConfigEnquiries.getApplyingForCourse();
+        }
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_ENTRY_REQ_STUDY_PATH){ 
+            enquiryScore = enquiryScore + leadScoreConfigEnquiries.getEntryReqAndUnivStudy();
+        }
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_FEES_COST_SCHOLARSHIP){ 
+            enquiryScore = enquiryScore + leadScoreConfigEnquiries.getFeesCostScholarship();
+        }
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_INFO){ 
+            enquiryScore = enquiryScore + leadScoreConfigEnquiries.getCourseInformation();
+        }
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_APP_AND_OFFER){ 
+            enquiryScore = enquiryScore + leadScoreConfigEnquiries.getMyApplicationAndOffer();
+        }
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_ENROLLMENT){ 
+            enquiryScore = enquiryScore + leadScoreConfigEnquiries.getMyEnrollment();
+        }
+        else if(caseCategory == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_STUDY_LIFE){ 
+            enquiryScore = enquiryScore + leadScoreConfigEnquiries.getStudentLife();
+        }
+
+        return enquiryScore;
+    }
+
     private static Boolean validateCategory(Lead_Score_Configuration__c leadScoreConfig, String category){
         return leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;
     }
@@ -75,25 +99,25 @@ public with sharing class LeadScoreConfigEnquiriesService {
     }
 
     private static void setLeadScore(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigEnquiries leadScoreConfigEnquiries){
-        if(leadScoreConfig.Name == 'Applying for a course'){
+        if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_APPLYING_FOR_COURSE){
             leadScoreConfigEnquiries.setApplyingForCourse(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == 'Entry requirements & study pathways'){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_ENTRY_REQ_STUDY_PATH){
             leadScoreConfigEnquiries.setEntryReqAndUnivStudy(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == 'Fees, costs and scholarships'){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_FEES_COST_SCHOLARSHIP){
             leadScoreConfigEnquiries.setFeesCostScholarship(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == 'Course information'){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_INFO){
             leadScoreConfigEnquiries.setCourseInformation(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == 'My application and offer'){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_APP_AND_OFFER){
             leadScoreConfigEnquiries.setMyApplicationAndOffer(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == 'My enrolment'){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_MY_ENROLLMENT){
             leadScoreConfigEnquiries.setMyEnrollment(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(leadScoreConfig.Name == 'Student Life'){
+        else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_STUDY_LIFE){
             leadScoreConfigEnquiries.setStudentLife(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
     }

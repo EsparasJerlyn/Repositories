@@ -50,9 +50,17 @@ public with sharing class LeadScoreConfigCountryTierService {
         
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
 
+            if(countryTierMap.containsKey(marketingSeg.Contact__c)){
+                countryTierScore = countryTierMap.get(marketingSeg.Contact__c);
+            }else if(countryTierMap.containsKey(marketingSeg.Lead__c)){
+                countryTierScore = countryTierMap.get(marketingSeg.Lead__c);
+            }else{
+                countryTierScore = 0;
+            }
+
             Boolean isValid = String.isNotBlank(marketingSeg.My_Country_Of_Citizenship__c);
             Boolean isNotAustralia = isValid && 
-                marketingSeg.My_Country_Of_Citizenship__c != 'Australia' && 
+                marketingSeg.My_Country_Of_Citizenship__c != MarketingSegmentationsDAO.COUNTRY_AU && 
                 countrTierRefMap.containsKey(marketingSeg.My_Country_Of_Citizenship__c);
 
             if(isNotAustralia){
@@ -69,7 +77,7 @@ public with sharing class LeadScoreConfigCountryTierService {
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredUnrestricted();                
                 }
             }else if(isValid){
-                if(marketingSeg.My_Country_Of_Citizenship__c == 'Australia'){
+                if(marketingSeg.My_Country_Of_Citizenship__c == MarketingSegmentationsDAO.COUNTRY_AU){
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredRestricted();
                 }
             }

@@ -29,7 +29,7 @@ private class LeadScoreCalculatorServiceTest {
                 Name = 'Enquiries',
                 RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
                 Domestic_International__c = 'Domestic',
-                Study_Level__c = 'Undergraduate',
+                Study_Level__c = 'Undetermined',
                 Description__c = '',
                 Score_Allocation__c = null,
                 Time_Limit_Months__c = 36,
@@ -42,7 +42,7 @@ private class LeadScoreCalculatorServiceTest {
 
         List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
         leadScoreConfigChildList.addAll(
-            TestDataFactory.createDomstcAndUnderGradSubCategory(
+            TestDataFactory.createDomestcAndUndeterminedSubCategory(
                 leadScoreConfigList[0].Id,
                 new List<String>{
                     'Applying for a course',
@@ -60,7 +60,7 @@ private class LeadScoreCalculatorServiceTest {
         LeadScoreConfigurationDAO.newInstance()
             .insertRecords(leadScoreConfigChildList, true, AccessLevel.USER_MODE);
 
-        List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
         ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
 
         List<Lead> leadList = TestDataFactory.createTestLeadRecords(1);
@@ -74,16 +74,16 @@ private class LeadScoreCalculatorServiceTest {
 
         CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.USER_MODE);
 
-        Set<Id> contactAndLeadIds = new Set<Id>{ contactList[0].Id, leadList[0].Id };
+        Set<Id> contactAndLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(new Set<Id>{contactList[0].Id}, new Set<Id>{leadList[0].Id});
 
         LeadScoreCalculatorService.ObjectMap objectMap = new LeadScoreCalculatorService.ObjectMap();
-        objectMap.domesticPostGradMap = new Map<Id, Case>(caseList);
-        objectMap.domesticUnderGradMap = new Map<Id, Case>(caseList);
-        objectMap.domesticUndeterminedMap = new Map<Id, Case>(caseList);
-        objectMap.internationalPostGradMap = new Map<Id, Case>(caseList);
-        objectMap.internationalUnderGradMap = new Map<Id, Case>(caseList);
-        objectMap.internationalUndeterminedMap = new Map<Id, Case>(caseList);
-        objectMap.undeterminedUndeterminedMap = new Map<Id, Case>(caseList);
+        objectMap.domesticUndeterminedMap = new Map<Id, Case>(CasesDAO.newInstance().getCasesByContactOrLeadIds(contactAndLeadIds, AccessLevel.SYSTEM_MODE));
+        objectMap.domesticPostGradMap = new Map<Id, Case>(new List<Case>());
+        objectMap.domesticUnderGradMap = new Map<Id, Case>(new List<Case>());        
+        objectMap.internationalPostGradMap = new Map<Id, Case>(new List<Case>());
+        objectMap.internationalUnderGradMap = new Map<Id, Case>(new List<Case>());
+        objectMap.internationalUndeterminedMap = new Map<Id, Case>(new List<Case>());
+        objectMap.undeterminedUndeterminedMap = new Map<Id, Case>(new List<Case>());
 
         LeadScoreCalculatorService.calculateLeadScore(objectMap, contactAndLeadIds, Case.sObjectType);
 

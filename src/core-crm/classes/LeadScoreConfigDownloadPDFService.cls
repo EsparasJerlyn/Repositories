@@ -13,7 +13,7 @@
 public with sharing class LeadScoreConfigDownloadPDFService {
     
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigDownloadPDF leadScoreConfigDownloadPDF, Boolean isDomestic){
-        String category = 'Downloaded PDF';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_DOWNLOADED_PDF;
         Boolean isForDownloadPDF = validateIfForDownloadPDFCategory(category, leadScoreConfig);
         if(isForDownloadPDF){ 
             leadScoreConfigDownloadPDF.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -22,13 +22,13 @@ public with sharing class LeadScoreConfigDownloadPDFService {
 
         Boolean isSubCategory = validateSubCategory(category, leadScoreConfig);
         if(isSubCategory){
-            if(leadScoreConfig.Name == 'Course Page PDF'){
+            if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_PAGE_PDF){
                 leadScoreConfigDownloadPDF.setCoursePagePDF(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(isDomestic && leadScoreConfig.Name == 'Welcome Guide'){
+            else if(isDomestic && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_WELCOME_GUIDE){
                 leadScoreConfigDownloadPDF.setWelcomeGuide(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(!isDomestic && leadScoreConfig.Name == 'Course Guides'){
+            else if(!isDomestic && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COURSE_GUIDE){
                 leadScoreConfigDownloadPDF.setCourseGuide(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }     
         }
@@ -40,6 +40,14 @@ public with sharing class LeadScoreConfigDownloadPDFService {
         
         for(Marketing_Interaction__c marketingInteraction : marketingInteractionMap.values()){
             Boolean isValid = validateLeadSource(marketingInteraction);
+            if(downloadPDFMap.containsKey(marketingInteraction.Contact__c)){
+                downloadPDFScore = downloadPDFMap.get(marketingInteraction.Contact__c);
+            }else if(downloadPDFMap.containsKey(marketingInteraction.Lead__c)){
+                downloadPDFScore = downloadPDFMap.get(marketingInteraction.Lead__c);
+            }else{
+                downloadPDFScore = 0;
+            }
+
             if(validateCoursePagePDF(isValid, marketingInteraction)){ 
                 downloadPDFScore = downloadPDFScore + leadScoreConfigDownloadPDF.getCoursePagePDF();
             }
@@ -49,7 +57,7 @@ public with sharing class LeadScoreConfigDownloadPDFService {
             else if(validateCourseGuide(isValid, marketingInteraction, isDomestic)){                
                 downloadPDFScore = downloadPDFScore + leadScoreConfigDownloadPDF.getCourseGuide();
             }
-            
+
             Integer score = LeadScoreCalculatorService.validateScore(downloadPDFScore, leadScoreConfigDownloadPDF.getMaxScore());
             
             if(marketingInteraction.Contact__c != null){
@@ -64,15 +72,15 @@ public with sharing class LeadScoreConfigDownloadPDFService {
     }
 
     private static Boolean validateCoursePagePDF(Boolean isValid, Marketing_Interaction__c marketingInteraction){
-        return isValid && marketingInteraction.Lead_Source__c == 'Course Page PDF Download';
+        return isValid && marketingInteraction.Lead_Source__c == MarketingInteractionsDAO.LEAD_SOURCE_COURSE_PAGE_PDF;
     }
 
     private static Boolean validateWelcomeGuide(Boolean isValid, Marketing_Interaction__c marketingInteraction, Boolean isDomestic){
-        return isValid && isDomestic && marketingInteraction.Lead_Source__c == 'Welcome Guide Download';
+        return isValid && isDomestic && marketingInteraction.Lead_Source__c == MarketingInteractionsDAO.LEAD_SOURCE_WELCOME_GUIDE;
     }
 
     private static Boolean validateCourseGuide(Boolean isValid, Marketing_Interaction__c marketingInteraction, Boolean isDomestic){
-        return isValid && !isDomestic && marketingInteraction.Lead_Source__c == 'Course Guide Download';
+        return isValid && !isDomestic && marketingInteraction.Lead_Source__c == MarketingInteractionsDAO.LEAD_SOURCE_COURSE_GUIDE;
     }
 
     private static Boolean validateLeadSource(Marketing_Interaction__c marketingInteraction){

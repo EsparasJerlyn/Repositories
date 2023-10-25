@@ -12,7 +12,7 @@
  */
 public with sharing class LeadScoreConfigIntEngPathwayService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigIntEngPathway leadScoreConfigIntEngPathway, Boolean isDomestic){
-        String category = 'Interested in English Pathway Programs';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_ENG_PATH;
         Boolean isForEngPath = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;
         if(isForEngPath){ 
             leadScoreConfigIntEngPathway.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -20,10 +20,10 @@ public with sharing class LeadScoreConfigIntEngPathwayService {
         }
 
         Boolean isSubCategory = leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY && leadScoreConfig.Parent_Category__r.Name == category;
-        if(!isDomestic && isSubCategory && leadScoreConfig.Name == 'Yes'){
+        if(!isDomestic && isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_YES){
             leadScoreConfigIntEngPathway.setYes(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(!isDomestic && isSubCategory && leadScoreConfig.Name == 'No'){
+        else if(!isDomestic && isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_NO){
             leadScoreConfigIntEngPathway.setNo(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }        
     } 
@@ -34,6 +34,15 @@ public with sharing class LeadScoreConfigIntEngPathwayService {
 
         Integer engPathScore = 0;
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
+
+            if(engPathMap.containsKey(marketingSeg.Contact__c)){
+                engPathScore = engPathMap.get(marketingSeg.Contact__c);
+            }else if(engPathMap.containsKey(marketingSeg.Lead__c)){
+                engPathScore = engPathMap.get(marketingSeg.Lead__c);
+            }else{
+                engPathScore = 0;
+            }
+
             if(!isDomestic && marketingSeg.My_Interested_English_Pathways__c){ 
                 engPathScore = engPathScore + leadScoreConfigIntEngPathway.getYes();
             }

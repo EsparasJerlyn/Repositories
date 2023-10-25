@@ -1,6 +1,6 @@
 /**
   * @description helper class to compute Lead Score for Lead
-  * @see ..CaseTriggerHandler
+  * @see ..LeadTriggerHandler
   *
   * @author Accenture 
   *
@@ -11,7 +11,7 @@
   *    | eccarius.munoz                 | October 06, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for Lead                                       |
   */
-public with sharing class LeadLeadScoreHelper implements ILeadScoreCommand {
+public with sharing class LeadLeadScoreHelper {
     private static Map<Id,Lead> domesticUnderGradMap = new Map<Id,Lead>();
     private static Map<Id,Lead> domesticPostGradMap = new Map<Id,Lead>();
     private static Map<Id,Lead> domesticUndeterminedMap = new Map<Id,Lead>();
@@ -27,54 +27,22 @@ public with sharing class LeadLeadScoreHelper implements ILeadScoreCommand {
         Boolean isForInsert = oldItems == null;
         Map<Id,Lead> leadMap = new Map<Id,Lead>();
         for(Lead lead : newItems){
-            Boolean isValid = lead.Lead_Type__c == 'Learner' && !lead.IsConverted;
+            Boolean isValid = lead.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE && !lead.IsConverted;
             Boolean isForUpdate = !isForInsert && lead.Email_Opt_In_DateTime__c != oldItems.get(lead.Id).Email_Opt_In_DateTime__c;
             if(isValid && (isForInsert || isForUpdate)){
               leadMap.put(lead.Id, lead);
             }
         }
         
-        Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(new Set<Id>(), leadMap.keySet());
-        for(Lead lead : leadMap.values()){
-            Boolean isForUpdate = oldItems != null && (
-                oldItems.get(lead.Id).Email_Opt_In_DateTime__c != lead.Email_Opt_In_DateTime__c ||
-                marketingSegMap.get(lead.Id).My_Citizenship_Status__c != marketingSegMap.get(oldItems.get(lead.Id).Id).My_Citizenship_Status__c
-            );
-            if(isForInsert || isForUpdate){
-              leadMap.put(lead.Id, lead);
-            }
-        }
-
-        //Sort records per study level and citizenship status
-        for(Lead lead : leadMap.values()){
-            mapUnderGradStudyLevel(lead, marketingSegMap);
-            mapPostGradStudyLevel(lead, marketingSegMap);
-            mapUndeterminedStudyLevel(lead, marketingSegMap);
-        }
-
-        callAsyncFunction(leadMap);
-    }
-
-    private static void callAsyncFunction(Map<Id,Lead> leadMap){
         if(!leadMap.isEmpty()){
             if(System.isQueueable()){
-                LeadScoreCalculatorService.calculateLeadScore(setMarketingSegMap(), leadMap.keySet(), Lead.getSObjectType());
+                executeCalculation(leadMap);
             }else{
-                LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new LeadLeadScoreHelper(), setMarketingSegMap(), leadMap.keySet());
-                System.enqueueJob(executeQueueable);  
+                QueueableCall executeQueueable = new QueueableCall(leadMap);
+                System.enqueueJob(executeQueueable);   
             }
         }
-    }
-
-    /**
-     * Async process that includes:
-     * 1. Retrieval of lead score config
-     * 2. Calculation of lead score per study level and citizenship status
-     * 3. inserting/updating of lead score detail
-     */
-    public static void executeCalculation(LeadScoreCalculatorService.ObjectMap objectMap, Set<Id> leadIds){
-        LeadScoreCalculatorService.calculateLeadScore(objectMap, leadIds, Lead.getSObjectType());
-    } 
+    }      
 
     /**
      * Maps Undergrad studylevel records to domesticUnderGradMap and internationalUnderGradMap
@@ -137,10 +105,47 @@ public with sharing class LeadLeadScoreHelper implements ILeadScoreCommand {
         }
     }   
 
+     /**
+     * Queueable class to execute calculation of lead score for lead.
+     */
+    private class QueueableCall implements Queueable {
+        private Map<Id,Lead> leadMap;
+        
+        public QueueableCall(Map<Id,Lead> leadMap) {
+            this.leadMap = leadMap;
+        }
+
+        public void execute(QueueableContext context) {
+            executeCalculation(leadMap);
+        }
+    }
+
+    /**
+     * Process that includes:
+     * 1. Retrieval of lead score config
+     * 2. Calculation of lead score per study level and citizenship status
+     * 3. inserting/updating of lead score detail
+     */
+    public static void executeCalculation(Map<Id,Lead> leadMap){
+        LeadScoreCalculatorService.ObjectMap objMap = setObjectMap(leadMap);
+        if(!leadMap.isEmpty()){
+            LeadScoreCalculatorService.calculateLeadScore(objMap, leadMap.keySet(), Lead.getSObjectType());
+        }
+    }
+
     /**
      * Sets the object map to be used in queueable job
      */
-    private static LeadScoreCalculatorService.ObjectMap setMarketingSegMap(){
+    public static LeadScoreCalculatorService.ObjectMap setObjectMap(Map<Id,Lead> leadMap){
+
+        //Sort records per study level and citizenship status
+        Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(new Set<Id>(), leadMap.keySet());
+        for(Lead lead : leadMap.values()){
+            mapUnderGradStudyLevel(lead, marketingSegMap);
+            mapPostGradStudyLevel(lead, marketingSegMap);
+            mapUndeterminedStudyLevel(lead, marketingSegMap);
+        }
+
         LeadScoreCalculatorService.ObjectMap objectMap = new LeadScoreCalculatorService.ObjectMap();
         objectMap.domesticUnderGradMap = domesticUnderGradMap;
         objectMap.domesticPostGradMap = domesticPostGradMap;
@@ -151,4 +156,5 @@ public with sharing class LeadLeadScoreHelper implements ILeadScoreCommand {
         objectMap.undeterminedUndeterminedMap = undeterminedUndeterminedMap;
         return objectMap;
     }
+    
 }

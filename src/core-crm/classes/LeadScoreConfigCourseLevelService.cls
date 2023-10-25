@@ -21,22 +21,22 @@ public with sharing class LeadScoreConfigCourseLevelService {
 
         Boolean isSubCategory = validateSubCategory(leadScoreConfig, category);
         if(isSubCategory){
-            if(leadScoreConfig.Name == 'Postgraduate'){
+            if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_POSTGRAD){
                 leadScoreConfigCourseLevel.setStudyLevelPostGrad(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Higher Degree Research'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_HIGHER_DEGREE){
                 leadScoreConfigCourseLevel.setStudyLevelHigherDeg(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Short courses and Professional Development'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_SHORT_COURSES){
                 leadScoreConfigCourseLevel.setStudyLevelShortCoursePD(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Exchange and Study Abroad (1 or 2 Semesters Only)'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_EXCHANGE_AND_STUDY){
                 leadScoreConfigCourseLevel.setStudyLevelExchange(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Is blank'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_IS_BLANK_UPPER){
                 leadScoreConfigCourseLevel.setStudyLevelIsBlank(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Undergraduate'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_UNDERGRAD){
                 leadScoreConfigCourseLevel.setStudyLevelUnderGrad(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
         }
@@ -48,6 +48,15 @@ public with sharing class LeadScoreConfigCourseLevelService {
 
         Integer courseLevelScore = 0;
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
+
+            if(courseLevelMap.containsKey(marketingSeg.Contact__c)){
+                courseLevelScore = courseLevelMap.get(marketingSeg.Contact__c);
+            }else if(courseLevelMap.containsKey(marketingSeg.Lead__c)){
+                courseLevelScore = courseLevelMap.get(marketingSeg.Lead__c);
+            }else{
+                courseLevelScore = 0;
+            }
+
             if(String.isNotBlank(marketingSeg.My_Primary_Study_Level__c)){
                 getLeadScore(marketingSeg, courseLevelScore, leadScoreConfigCourseLevel);
             }else{
@@ -67,19 +76,19 @@ public with sharing class LeadScoreConfigCourseLevelService {
     }
 
     private static void getLeadScore(Marketing_Segmentation__c marketingSeg, Integer courseLevelScore, LeadScoreConfigCourseLevel leadScoreConfigCourseLevel){
-        if(marketingSeg.My_Primary_Study_Level__c == 'Undergraduate'){ 
+        if(marketingSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.STUDY_LEVEL_UNDERGRAD){ 
             courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelUnderGrad();
         }
-        else if(marketingSeg.My_Primary_Study_Level__c == 'Postgraduate'){ 
+        else if(marketingSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.STUDY_LEVEL_POSTGRAD){ 
             courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelPostGrad();
         }
-        else if(marketingSeg.My_Primary_Study_Level__c == 'Higher Degree Research'){ 
+        else if(marketingSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.STUDY_LEVEL_HIGHER_DEGREE){ 
             courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelHigherDeg();
         }
-        else if(marketingSeg.My_Primary_Study_Level__c == 'Short Courses and Professional Development'){ 
+        else if(marketingSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.STUDY_LEVEL_SHORT_COURSES){ 
             courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelShortCoursePD();
         }
-        else if(marketingSeg.My_Primary_Study_Level__c == 'Exchange and Study Abroad (1 or 2 Semesters Only)'){ 
+        else if(marketingSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.STUDY_LEVEL_EXCHANGE_AND_STUDY){ 
             courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelExchange();
         }
     }

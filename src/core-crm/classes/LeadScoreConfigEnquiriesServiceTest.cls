@@ -24,7 +24,7 @@ private class LeadScoreConfigEnquiriesServiceTest {
                 Name = 'Enquiries',
                 RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
                 Domestic_International__c = 'International',
-                Study_Level__c = 'Postgraduate',
+                Study_Level__c = 'Undetermined',
                 Description__c = '',
                 Score_Allocation__c = null,
                 Time_Limit_Months__c = 36,
@@ -63,7 +63,6 @@ private class LeadScoreConfigEnquiriesServiceTest {
                     LeadScoreConfigurationDAO.RECTYPE_IDS_CATEGORY_AND_SUB_CATEGORY
                 )
         ) {
-            boolean isDomestic = leadScoreConfig.Domestic_International__c == 'Domestic';
             leadScoreConfigData = new LeadScoreConfigEnquiries();
             LeadScoreConfigEnquiriesService.getLeadScoreConfig(
                 leadScoreConfig,
@@ -82,7 +81,7 @@ private class LeadScoreConfigEnquiriesServiceTest {
         ImplementationSelector.DAO.setMock(new ContactsDAOMock());
         ImplementationSelector.DAO.setMock(new LeadsDAOMock());
 
-        List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL);
         ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
 
         List<Lead> leadList = TestDataFactory.createTestLeadRecords(1);
@@ -142,9 +141,9 @@ private class LeadScoreConfigEnquiriesServiceTest {
 
         CasesDAO.newInstance()
         .insertRecords(caseList, true, AccessLevel.USER_MODE);
-
+        
         Map<Id, Case> caseMap = new Map<Id, Case>(
-            caseList
+            CasesDAO.newInstance().getCasesByContactOrLeadIds(new Set<Id>{leadList[0].Id, contactList[0].Id}, AccessLevel.SYSTEM_MODE)
         );
         
         LeadScoreConfigEnquiries leadScoreConfig = new LeadScoreConfigEnquiries();
@@ -155,6 +154,7 @@ private class LeadScoreConfigEnquiriesServiceTest {
         leadScoreConfig.setMyApplicationAndOffer(10);
         leadScoreConfig.setMyEnrollment(10);
         leadScoreConfig.setStudentLife(10);
+        leadScoreConfig.setTimeLimit(36);
 
         System.assert(
             !LeadScoreConfigEnquiriesService.calculateLeadScore(
