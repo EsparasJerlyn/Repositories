@@ -6,9 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary                        |
-      |---------------------------|-----------------------|----------------------|---------------------------------------|
-      | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Added Position & Company Name fields  |
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                              |
+      |---------------------------|-----------------------|----------------------|---------------------------------------------|
+      | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Added Position & Company Name fields        |
+      | kenneth.f.alsay           | October 25, 2023      | DEPP-4762            | Aligned Columns with Bulk Registration CSV  |
 */
 import { LightningElement, wire, api} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -62,9 +63,9 @@ const COLUMNS = [
     { label: 'Last Name', fieldName: 'LastName', type: 'text' },
     { label: 'Email', fieldName: 'Email', type: 'email' },
     { label: "Mobile Locale", fieldName: "MobileLocale", type: "text" },
+    { label: "Mobile", fieldName: "MobilePhone", type: "phone" },
     { label: 'Position', fieldName: 'Position', type: 'text' },
     { label: 'Company Name', fieldName: 'CompanyName', type: 'text' },
-    { label: "Mobile", fieldName: "MobilePhone", type: "phone" },
     { label: 'Date of Birth', fieldName: 'Birthdate', type: 'date' },
     { label: "Dietary Requirement", fieldName: "DietaryRequirement", type: "text" },
     { label: "Accessibility Requirement", fieldName: "AccessibilityRequirement", type: "text" },

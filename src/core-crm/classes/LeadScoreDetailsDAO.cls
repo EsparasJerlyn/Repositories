@@ -52,5 +52,19 @@ public inherited sharing class LeadScoreDetailsDAO extends DmlBase implements IL
              'WHERE Contact__c != null OR Lead__c != null ';
         return Database.getQueryLocator(query);
     }
+
+    public static List<Lead_Score_Detail__c> getLeadScoreDetailsByCitizenshipAndStudyLevel(
+        Set<String> citizenshipStatusSet,
+        Set<String> primaryStudyLevelSet,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Contact__c, Lead__c, Domestic_International__c, Study_Level__c ' +
+              'FROM Lead_Score_Detail__c ' +
+             'WHERE Domestic_International__c IN :citizenshipStatusSet ' + 
+               'AND Study_Level__c IN : primaryStudyLevelSet ',
+            accessLevel
+        );
+    }
     
 }

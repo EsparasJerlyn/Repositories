@@ -127,6 +127,21 @@ public with sharing class LeadsDAOTest {
     }
 
     @isTest
+    static void getLeadsByIdSetAndTypeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getLeadsByIdSetAndType(
+                    new Set<Id>(),
+                    '',
+                    AccessLevel.USER_MODE
+                );
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getLeadByEmailOrNameTest() {
         Test.startTest();
         List<Lead> objList = TestDataFactory.createTestLeadRecords(1);

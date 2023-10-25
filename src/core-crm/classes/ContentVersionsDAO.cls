@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
       | carl.alvin.cabiles             | June 28, 2023         | DEPP-5388              | added getContentVersionByTitle
+      | kenneth.f.alsay                | October 25, 2023      | DEPP-6981              | Added VersionData to getContentVersionBySetContentDocumentIds
  */
 public inherited sharing class ContentVersionsDAO extends DmlBase implements IContentVersionsDAO {
     public static IContentVersionsDAO newInstance() {
@@ -24,7 +25,7 @@ public inherited sharing class ContentVersionsDAO extends DmlBase implements ICo
         Set<Id> contentDocumentIds
     ) {
         return [
-            SELECT ContentDocumentId, FileExtension, Title
+            SELECT ContentDocumentId, FileExtension, Title, VersionData
             FROM ContentVersion
             WHERE ContentDocumentId IN :contentDocumentIds
             WITH USER_MODE
@@ -48,4 +49,5 @@ public inherited sharing class ContentVersionsDAO extends DmlBase implements ICo
             WITH USER_MODE
         ];
     }
+
 }

@@ -153,4 +153,22 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
 
         return leadList;
     }
+
+    public List<Lead> getLeadsByIdSetAndType(
+        Set<Id> recordIdSet,
+        String leadType,
+        AccessLevel accessLevel
+    ){
+
+        List<Lead> leadList = new List<Lead>();
+
+        for (Lead record : leadsMap.values()) {
+            if (recordIdSet.contains(record.Id) && record.Lead_Type__c == leadType) {
+                leadList.add(record);
+            }
+        }
+
+        return leadList;
+    }
+    
 }

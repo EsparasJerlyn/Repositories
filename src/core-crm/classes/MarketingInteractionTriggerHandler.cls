@@ -11,16 +11,16 @@
       | eccaius.munoz                  | October 03, 2023      | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public with sharing class MarketingInteractionTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate{
+public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, BeforeUpdate{
 
     public static Boolean isRunning = false;
 
     /**
-     * @description before insert
-     * @param newItems - List of MarketingInteraction.Trigger.new
-     */
-    public void beforeInsert(List<SObject> newItems) {
-        MarketingInteractionLeadScoreHelper.processLeadScoreCalculation((List<Marketing_Interaction__c>) newItems, null);
+    * @description after insert
+    * @param newItems - Map<Id, SObject> of MarketingInteraction.Trigger.new
+    */
+    public void afterInsert(Map<Id, SObject> newItems) {
+        MarketingInteractionLeadScoreHelper.processLeadScoreCalculation((List<Marketing_Interaction__c>) newItems.values(), null);
     }
 
     /**

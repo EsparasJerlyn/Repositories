@@ -15,6 +15,7 @@
       |                                |                       |                        | whoIds' firstName                                 |
       | mark.j.mahilum                 | Oct 17, 2023          | DEPP-6926              | Added filter condition to stop email sending when |
       |                                |                       |                        | the maximum daily email count is reached          |
+      |marygrace.li                    | Oct 24, 2023          | DEPP-7006              | set flag to false to turn-off header/footer banner|
  */
 public with sharing class SalesCadenceEmailRequestCommand implements IRequestCommand{
     
@@ -48,7 +49,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
                             EmailHelper.setBodyValues(
                                 emailTemplateMap.get(commsQueue.Template_Id__c).HtmlValue, 
                                 setupHTMLBodyParams(commsQueue, recipientMap), 
-                                true 
+                                false 
                             )
                         );
                 }

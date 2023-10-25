@@ -59,13 +59,13 @@ public with sharing class LeadScorePostgradDomCmd implements ILeadScoreStudyLeve
         LeadScoreConfigService.LeadScoreConfigReference leadScoreConfig = new LeadScoreConfigService.LeadScoreConfigReference();
         for(Lead_Score_Configuration__c config : leadScoreConfigList){
             LeadScoreConfigEventRegService.getLeadScoreConfig(config, leadScoreConfig.leadScoreEventRegistration);
-            LeadScoreConfigFundingService.getLeadScoreConfig(config, leadScoreConfig.leadScoreFunding, false);
+            LeadScoreConfigFundingService.getLeadScoreConfig(config, leadScoreConfig.leadScoreFunding, true);
             LeadScoreConfigPrimaryBSAService.getLeadScoreConfig(config, leadScoreConfig.leadScorePrimaryBSA);
             LeadScoreConfigPrimaryNSAService.getLeadScoreConfig(config, leadScoreConfig.leadScorePrimaryNSA);
             LeadScoreConfigPrefIntakeService.getLeadScoreConfig(config, leadScoreConfig.leadScorePrefIntake);
             LeadScoreConfigCourseLevelService.getLeadScoreConfig(config, leadScoreConfig.leadScoreCourseLevel);
             LeadScoreConfigEnquiriesService.getLeadScoreConfig(config, leadScoreConfig.leadScoreEnquiries);
-            LeadScoreConfigDownloadPDFService.getLeadScoreConfig(config, leadScoreConfig.leadScoreDownloadPDF, false);
+            LeadScoreConfigDownloadPDFService.getLeadScoreConfig(config, leadScoreConfig.leadScoreDownloadPDF, true);
             LeadScoreConfigMatchMySkillsService.getLeadScoreConfig(config, leadScoreConfig.leadScoreMatchMySkills);
             LeadScoreConfigMktgConsentService.getLeadScoreConfig(config, leadScoreConfig.leadScoreMktConsent);
             LeadScoreConfigProgEngagmentService.getLeadScoreConfig(config, leadScoreConfig.leadScoreProgEng);

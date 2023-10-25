@@ -70,5 +70,19 @@ public with sharing class ProgramEnrollmentsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getAllProgramEnrollmentsByContactIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Program_Enrollment__c> programEnrollmentList = ProgramEnrollmentsDAO.newInstance()
+                .getAllProgramEnrollmentsByContactId(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(programEnrollmentList.isEmpty(), 'Program Enrollment list should be empty.');
+        }
+        Test.stopTest();
+    }
     
 }

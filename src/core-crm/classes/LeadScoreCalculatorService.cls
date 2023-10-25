@@ -240,6 +240,16 @@ public inherited sharing class LeadScoreCalculatorService {
         }
         return score;
     }
+
+    /**
+     * Sets the contact and lead Ids
+     */
+    public static Set<Id> mergeContactAndLeadIdsIntoOneSet(Set<Id> contactIdSet, Set<Id> leadIdSet){
+        Set<Id> contactLeadIds = new Set<Id>();
+        contactLeadIds.addAll(contactIdSet);
+        contactLeadIds.addAll(leadIdSet);
+        return contactLeadIds;
+    }
     
     public class LeadScoreCalculatorParams{
         public SObjectType sObjectType;

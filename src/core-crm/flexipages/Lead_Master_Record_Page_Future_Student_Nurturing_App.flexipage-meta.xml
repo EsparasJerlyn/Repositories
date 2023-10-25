@@ -9,22 +9,6 @@
                         <valueListItems>
                             <value>Edit</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Convert</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Can_Be_Converted__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Lead_Type__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Learner</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

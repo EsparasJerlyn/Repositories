@@ -60,6 +60,20 @@ public with sharing class LeadScoreDetailsDAOTest{
     }
 
     @isTest
+    static void getLeadScoreDetailsByCitizenshipAndStudyLevelTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Lead_Score_Detail__c> leadScoreDetailList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByCitizenshipAndStudyLevel(
+                new Set<String>(),
+                new Set<String>(),
+                AccessLevel.SYSTEM_MODE
+            );
+            System.assert(leadScoreDetailList.isEmpty(), 'leadScoreDetailList should be empty.');
+        }
+        Test.stopTest();
+    }
+    
+    @isTest
     static void getLeadScoreDetailsWithContactOrLeadTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();

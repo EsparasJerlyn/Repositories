@@ -155,9 +155,10 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>SMS Template</label>
     <nameField>
+        <displayFormat>ST-{0000}</displayFormat>
         <label>SMS Template Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>SMS Templates</pluralLabel>
     <searchLayouts></searchLayouts>
