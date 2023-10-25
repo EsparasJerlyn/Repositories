@@ -16,6 +16,7 @@
       | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added new method to create Marketing Segmentation|
       | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Updated getContactCalculatedCadence to includes  |
       |                                |                       |                        | the automated cadences in the processSaleCadences|
+      | julie.jane.alegre              | Oct 25, 2023          | DEPP-6955              | Added new method updateRegisteredEmail           |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -431,6 +432,31 @@ public without sharing class ContactTriggerHelper {
                         null
                     );
                 }
+            }
+        }
+    }
+/***
+     * @description update Registered email when match to Primary Email or Work Email 
+     * @param newItems - trigger.new contacts
+     * @param oldItems - trigger.old contacts
+     */
+    public static void updateRegisteredEmail(List<Contact> newItems, Map<Id, Contact> oldItems){
+        Boolean isUpdate = oldItems != null;
+        List<Contact> contactsToUpdate = new List<Contact>();
+
+        for (Contact con : newItems) {
+            Boolean isPrimaryEmailChange = con.Email != oldItems.get(con.Id).Email;
+            Boolean isWorkEmailChange = con.Work_Email__c != oldItems.get(con.Id).Work_Email__c;
+            Boolean isRegisteredEmailMatchPrimaryEmail = oldItems.get(con.Id).Email == oldItems.get(con.Id).Registered_Email__c;
+            Boolean isRegisteredEmailMatchWorkEmail = oldItems.get(con.Id).Work_Email__c == oldItems.get(con.Id).Registered_Email__c;
+            Boolean updateRegisteredEmailFromPrimary = con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail; 
+            Boolean updateRegisteredEmailFromWork = con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isWorkEmailChange && isRegisteredEmailMatchWorkEmail; 
+
+            if(isUpdate && updateRegisteredEmailFromPrimary){
+                con.Registered_Email__c = con.Email;
+            }
+            else if(isUpdate && updateRegisteredEmailFromWork){
+                con.Registered_Email__c = con.Work_Email__c;    
             }
         }
     }

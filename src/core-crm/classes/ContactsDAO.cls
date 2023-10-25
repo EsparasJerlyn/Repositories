@@ -23,6 +23,7 @@
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
  *    |                                |                       | DEPP-6652,6653,6654    | added fields to getPersonContactsBySetIds                 |
  *    |                                | Oct 19, 2023          | DEPP-6890              | null checker for queries checking for emails              |
+ *    | julie.jane.alegre              | Oct 25, 2023          | DEPP-6955              | Added fields in method getPersonContactsBySetIds          |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -318,7 +319,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
-            'FirstName, LastName, Birthdate ' +
+            'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c,  Email, Work_Email__c, Registered_Email__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
