@@ -67,4 +67,4 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
         );
     }
 
-}
+}   

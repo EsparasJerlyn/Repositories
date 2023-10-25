@@ -51,11 +51,11 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
     private static List<Communication_Queue__c> createCommunicationQueueRecords(List<ActionCadenceStepTracker> stepTrackers){
 
-        OrgWideEmailAddress orgWideEmailAddress = getOrgWideEmailAddress();
-
+        Map<String, OrgWideEmailAddress>  orgWideEmailAddress = queryOrgWideEmailAddress();
         List<Communication_Queue__c> commsQueueToInsert = new List<Communication_Queue__c>();
+        
         for(ActionCadenceStepTracker ac: stepTrackers){
-            
+            Id emailAddressId = resolveOrgWideEmailAddress(ac, orgWideEmailAddress);
             Date dueDate = ac.DueDateTime != NULL? Date.valueOf(ac.DueDateTime).addDays(-1):Date.today(); 
             commsQueueToInsert.add(
                 new Communication_Queue__c(
@@ -63,20 +63,51 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
                     Status__c = 'Scheduled',
                     Type__c = 'Email',
                     WhoId__c = ac.TargetId,
-                    Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email',
-                    Sender__c = orgWideEmailAddress?.Id,
                     Template_Id__c = ac.ActionCadenceStep.TemplateId,
-                    Due_Date__c = dueDate
+                    Due_Date__c = dueDate,
+                    Sender__c = emailAddressId,
+                    Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email'
                 )
             );
         }
         return commsQueueToInsert;
     }
 
+    private static Id resolveOrgWideEmailAddress(ActionCadenceStepTracker actionCadenceStepTracker, Map<String, OrgWideEmailAddress> orgWideEmailAddressMap){
+        Id orgWideEmailId;
+        String displayName = '';
+
+        if(actionCadenceStepTracker.ActionCadenceName.containsIgnoreCase('Domestic')){
+            displayName = OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES;
+        }
+        else if(actionCadenceStepTracker.ActionCadenceName.containsIgnoreCase('International')){
+            displayName = OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES;
+        }
+
+        if(orgWideEmailAddressMap.containsKey(displayName)){
+            orgWideEmailId = orgWideEmailAddressMap.get(displayName).Id;
+        }
+        else{
+            orgWideEmailId = orgWideEmailAddressMap.get(OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_NO_REPLY).Id;
+        }
+        
+        return orgWideEmailId;
+    }
+
     /**
      * retrieves org wide email address to be used in email sending
      */
-    private static OrgWideEmailAddress getOrgWideEmailAddress(){
-        return OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_ADD_QUTEX, 'USER_MODE');
+    private static Map<String, OrgWideEmailAddress> queryOrgWideEmailAddress(){
+        Map<String, OrgWideEmailAddress> orgWideEmailMap = new Map<String, OrgWideEmailAddress>();
+        Set<String> orgWideDisplayName = new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES,
+                                                            OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES,
+                                                            OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_NO_REPLY};
+
+        for(OrgWideEmailAddress orgWideEmailAddress : OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(orgWideDisplayName, AccessLevel.USER_MODE)){
+            orgWideEmailMap.put(orgWideEmailAddress.DisplayName, orgWideEmailAddress);
+        }
+
+        return orgWideEmailMap;
     }
+
 }
