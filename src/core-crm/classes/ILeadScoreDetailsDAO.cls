@@ -21,5 +21,11 @@ public interface ILeadScoreDetailsDAO extends DmlInterface{
     ;
 
     Database.QueryLocator getLeadScoreDetailsWithContactOrLead();
+
+    List<Lead_Score_Detail__c> getLeadScoreDetailsByCitizenshipAndStudyLevel(
+        Set<String> citizenshipStatusSet,
+        Set<String> primaryStudyLevelSet,
+        AccessLevel accessLevel
+    );
     
 }

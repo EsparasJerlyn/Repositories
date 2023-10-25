@@ -20,7 +20,3 @@ Default_Navigation.navigationMenu-meta.xml
 Default_Navigation1.navigationMenu-meta.xml
 **/installedPackages/**
 **/customindex/**
-
-# Winter '24 Release
-AuthorizationFormText-Authorization Form Text Layout.layout-meta.xml
-**/experiences/**

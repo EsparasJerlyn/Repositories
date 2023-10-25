@@ -11,6 +11,14 @@
 public inherited sharing class MarketingInteractionsDAO extends DmlBase implements IMarketingInteractionsDAO {
 
     public static final String LEAD_SOURCE_CATEGORY_EVENT = 'Event';
+
+    public static final String LEAD_SOURCE_COURSE_PAGE_PDF = 'Course Page PDF Download';
+    public static final String LEAD_SOURCE_WELCOME_GUIDE = 'Welcome Guide Download';
+    public static final String LEAD_SOURCE_COURSE_GUIDE = 'Course Guide Download';
+    public static final String LEAD_SOURCE_MMS = 'MMS';
+
+    public static final String MATCH_MY_SKILL_COMPLETION_UPPER = 'TRUE';
+
     public static final String EVENT_TYPE_OPEN_DAY = 'Open day';
 
     public static IMarketingInteractionsDAO newInstance() {

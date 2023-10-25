@@ -11,7 +11,7 @@
   *    | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for contact                                    |
   */
-public inherited sharing class ContactLeadScoreHelper implements ILeadScoreCommand{
+public inherited sharing class ContactLeadScoreHelper{
 
     private static Map<Id,Contact> domesticUnderGradMap = new Map<Id,Contact>();
     private static Map<Id,Contact> domesticPostGradMap = new Map<Id,Contact>();
@@ -37,33 +37,16 @@ public inherited sharing class ContactLeadScoreHelper implements ILeadScoreComma
                 contactMap.put(con.Id, con);
             }
         }
-        //Sort records per study level and citizenship status
-        Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(contactMap.keySet(), new Set<Id>());
-        for(Contact con : contactMap.values()){
-            mapUnderGradStudyLevel(con, marketingSegMap);
-            mapPostGradStudyLevel(con, marketingSegMap);
-            mapUndeterminedStudyLevel(con, marketingSegMap);
-        }
 
         if(!contactMap.isEmpty()){
             if(System.isQueueable()){
-                LeadScoreCalculatorService.calculateLeadScore(setMarketingSegMap(), contactMap.keySet(), Contact.getSObjectType());
-            }else{
-                LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new ContactLeadScoreHelper(), setMarketingSegMap(), contactMap.keySet());
-                System.enqueueJob(executeQueueable);
+                executeCalculation(contactMap);
+            }else{      
+                QueueableCall executeQueueable = new QueueableCall(contactMap);
+                System.enqueueJob(executeQueueable);   
             }
         }
     }
-
-    /**
-     * Async process that includes:
-     * 1. Retrieval of lead score config
-     * 2. Calculation of lead score per study level and citizenship status
-     * 3. inserting/updating of lead score detail
-     */
-    public static void executeCalculation(LeadScoreCalculatorService.ObjectMap objectMap, Set<Id> contactIds){
-        LeadScoreCalculatorService.calculateLeadScore(objectMap, contactIds, Contact.getSObjectType());
-    } 
 
     /**
      * Maps Undergrad studylevel records to domesticUnderGradMap and internationalUnderGradMap
@@ -118,9 +101,47 @@ public inherited sharing class ContactLeadScoreHelper implements ILeadScoreComma
     }   
 
     /**
+     * Queueable class to execute calculation of lead score for case. This classw ill be removed
+     * once all lead score helpers are updated and are using LeadScoreQueueableCall.
+     */
+    private class QueueableCall implements Queueable {
+        private Map<Id,Contact> contactMap;
+        
+        public QueueableCall(Map<Id,Contact> contactMap) {
+            this.contactMap = contactMap;
+        }
+
+        public void execute(QueueableContext context) {
+            executeCalculation(contactMap);
+        }
+    }
+
+    /**
+     * Process that includes:
+     * 1. Retrieval of lead score config
+     * 2. Calculation of lead score per study level and citizenship status
+     * 3. inserting/updating of lead score detail
+     */
+    public static void executeCalculation(Map<Id,Contact> contactMap){
+        LeadScoreCalculatorService.ObjectMap objMap = setObjectMap(contactMap);
+        if(!contactMap.isEmpty()){
+            LeadScoreCalculatorService.calculateLeadScore(objMap, contactMap.keySet(), Contact.getSObjectType());
+        }
+    }
+
+    /**
      * Sets the object map to be used in queueable job
      */
-    private static LeadScoreCalculatorService.ObjectMap setMarketingSegMap(){
+    public static LeadScoreCalculatorService.ObjectMap setObjectMap(Map<Id,Contact> contactMap){
+
+        //Sort records per study level and citizenship status
+        Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(contactMap.keySet(), new Set<Id>());
+        for(Contact con : contactMap.values()){
+            mapUnderGradStudyLevel(con, marketingSegMap);
+            mapPostGradStudyLevel(con, marketingSegMap);
+            mapUndeterminedStudyLevel(con, marketingSegMap);
+        }
+
         LeadScoreCalculatorService.ObjectMap objectMap = new LeadScoreCalculatorService.ObjectMap();
         objectMap.domesticUnderGradMap = domesticUnderGradMap;
         objectMap.domesticPostGradMap = domesticPostGradMap;

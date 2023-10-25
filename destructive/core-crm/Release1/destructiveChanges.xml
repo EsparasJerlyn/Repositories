@@ -25,6 +25,9 @@
         <!--(Start) DEPP-6781 -->
         <members>Update_Case_Priority_FlowTest</members>
         <!--(End) DEPP-6781 -->
+        <!--(Start) DEPP-5866 -->
+        <members>LeadScoreQueueableCall</members>
+        <!--(End) DEPP-5866 -->
         <name>ApexClass</name>
     </types>
     <types>

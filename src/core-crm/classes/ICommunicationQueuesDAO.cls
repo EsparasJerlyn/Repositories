@@ -24,5 +24,5 @@ public interface ICommunicationQueuesDAO extends DmlInterface{
         Set<String> status, 
         AccessLevel accessLevel
     );
-        
+         
 }

@@ -17,7 +17,6 @@ public with sharing class InternationalTiersDAO extends DmlBase implements IInte
     public static String TIER_CATEGORY_3 = 'Tier 3';
     public static String DEVELOPED_NATIONS = 'Developed Nations';
 
-
     public Schema.SObjectType getSObjectType() {
         return International_Tier__c.SObjectType;
     }

@@ -11,7 +11,7 @@
   *    | eccarius.munoz                 | September 25, 2023    | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for marketing segmentation                     |
   */
-  public with sharing class MarketingSegmentationLeadScoreHelper implements ILeadScoreCommand{    
+  public with sharing class MarketingSegmentationLeadScoreHelper{    
 
     private static Map<Id,Marketing_Segmentation__c> domesticUnderGradMap = new Map<Id,Marketing_Segmentation__c>();
     private static Map<Id,Marketing_Segmentation__c> domesticPostGradMap = new Map<Id,Marketing_Segmentation__c>();
@@ -37,41 +37,28 @@
                 if(mktgSeg.Contact__c != null){
                     contactIdSet.add(mktgSeg.Contact__c);
                     marketingSegmentationMap.put(mktgSeg.Contact__c, mktgSeg);
-                }else{
+                }else if(mktgSeg.Lead__c != null){
                     marketingSegmentationMap.put(mktgSeg.Lead__c, mktgSeg);
                 }
             }
         }
 
-        //Sort records per study level and citizenship status
-        Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
-        for(Marketing_Segmentation__c mktgSeg : marketingSegmentationMap.values()){
-            mapUnderGradStudyLevel(mktgSeg, contactMap);
-            mapPostGradStudyLevel(mktgSeg, contactMap);
-            mapUndeterminedStudyLevel(mktgSeg, contactMap);
-        }
-
-        callAsyncFunction(marketingSegmentationMap);
-        
+        callSyncOrAsyncCalculation(contactIdSet, marketingSegmentationMap);
     }    
-
-    //calls async function
-    private static void callAsyncFunction(Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
-        if(!marketingSegmentationMap.isEmpty()){
-            LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new MarketingSegmentationLeadScoreHelper(), setMarketingSegMap(), marketingSegmentationMap.keySet());
-            System.enqueueJob(executeQueueable); 
-        }
-    }
 
     /**
-     * Async process that includes:
-     * 1. Retrieval of lead score config
-     * 2. Calculation of lead score per study level and citizenship status
-     * 3. inserting/updating of lead score detail
+     * Determines wether to run async or sync
      */
-    public static void executeCalculation(LeadScoreCalculatorService.ObjectMap objectMap, Set<Id> contactLeadIds){
-        LeadScoreCalculatorService.calculateLeadScore(objectMap, contactLeadIds, Marketing_Segmentation__c.getSObjectType());
-    }    
+    private static void callSyncOrAsyncCalculation(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
+        if(!contactIdSet.isEmpty() && !marketingSegmentationMap.isEmpty()){
+            if(System.isQueueable()){
+                executeCalculation(contactIdSet, marketingSegmentationMap);
+            }else{
+                QueueableCall executeQueueable = new QueueableCall(contactIdSet, marketingSegmentationMap);
+                System.enqueueJob(executeQueueable);   
+            }
+        }
+    }
 
     /**
      * Maps Undergrad studylevel records to domesticUnderGradMap and internationalUnderGradMap
@@ -154,9 +141,47 @@
     }   
 
     /**
+     * Queueable class to execute calculation of lead score for marketing segmentation records.
+     */
+    private class QueueableCall implements Queueable {
+        private Set<Id> contactIdSet;
+        private Map<Id,Marketing_Segmentation__c> marketingSegmentationMap;
+        
+        public QueueableCall(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap) {
+            this.contactIdSet = contactIdSet;
+            this.marketingSegmentationMap = marketingSegmentationMap;
+        }
+
+        public void execute(QueueableContext context) {
+            executeCalculation(contactIdSet, marketingSegmentationMap);
+        }
+    }
+
+    /**
+     * Process that includes:
+     * 1. Retrieval of lead score config
+     * 2. Calculation of lead score per study level and citizenship status
+     * 3. inserting/updating of lead score detail
+     */
+    public static void executeCalculation(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
+        LeadScoreCalculatorService.ObjectMap objMap = setObjectMap(contactIdSet, marketingSegmentationMap);
+        if(!marketingSegmentationMap.isEmpty()){
+            LeadScoreCalculatorService.calculateLeadScore(objMap, marketingSegmentationMap.keySet(), Marketing_Segmentation__c.getSObjectType());
+        }
+    }
+
+    /**
      * Sets the object map to be used in queueable job
      */
-    private static LeadScoreCalculatorService.ObjectMap setMarketingSegMap(){
+    public static LeadScoreCalculatorService.ObjectMap setObjectMap(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
+         //Sort records per study level and citizenship status
+         Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
+         for(Marketing_Segmentation__c mktgSeg : marketingSegmentationMap.values()){
+             mapUnderGradStudyLevel(mktgSeg, contactMap);
+             mapPostGradStudyLevel(mktgSeg, contactMap);
+             mapUndeterminedStudyLevel(mktgSeg, contactMap);
+         }
+
         LeadScoreCalculatorService.ObjectMap objectMap = new LeadScoreCalculatorService.ObjectMap();
         objectMap.domesticUnderGradMap = domesticUnderGradMap;
         objectMap.domesticPostGradMap = domesticPostGradMap;
@@ -167,8 +192,6 @@
         objectMap.undeterminedUndeterminedMap = undeterminedUndeterminedMap;
         return objectMap;
     }
-
-    /*** Methods for checking if for lead score calculation : Start ***/
 
     /*** Methods for checking if for lead score calculation : Start ***/
     private static Boolean checkIfForUpdate(Map<Id,Marketing_Segmentation__c> oldMarkSegMap, Marketing_Segmentation__c markSeg){

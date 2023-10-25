@@ -50,6 +50,15 @@ public with sharing class LeadScoreConfigFundingService {
         
         Integer fundingCategoryScore = 0;
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
+
+            if(fundingMap.containsKey(marketingSeg.Contact__c)){
+                fundingCategoryScore = fundingMap.get(marketingSeg.Contact__c);
+            }else if(fundingMap.containsKey(marketingSeg.Lead__c)){
+                fundingCategoryScore = fundingMap.get(marketingSeg.Lead__c);
+            }else{
+                fundingCategoryScore = 0;
+            }
+
             if(!isDomestic && String.isNotBlank(marketingSeg.My_Funding_Source__c)){
                 if(marketingSeg.My_Funding_Source__c == MarketingSegmentationsDAO.CONFIG_SUB_CATEGORY_I_FUND_MY_STUDIES_MYSELF){ 
                     fundingCategoryScore = fundingCategoryScore + leadScoreConfigFunding.getIWillFundMyself();
