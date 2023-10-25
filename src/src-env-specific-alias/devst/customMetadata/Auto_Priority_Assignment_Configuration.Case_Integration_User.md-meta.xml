@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Username__c</field>
-        <value xsi:type="xsd:string">case.integration@qut.edu.au.dep</value>
+        <value xsi:type="xsd:string">case.integration@qut.edu.au.dep.devst</value>
     </values>
 </CustomMetadata>
