@@ -79,4 +79,5 @@ public with sharing class EmailTriggerSalesCadenceBatchTest {
         );
     }
 
+    
 }

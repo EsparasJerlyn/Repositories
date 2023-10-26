@@ -25,14 +25,14 @@ public with sharing class OrgWideEmailAddressesDAO extends DmlBase implements IO
 		return (IOrgWideEmailAddressesDAO) ImplementationSelector.DAO.newInstance(OrgWideEmailAddress.SObjectType);
 	}
 
-    public static List<OrgWideEmailAddress> getOrgWideEmailAddressByDisplayName(
+    public List<OrgWideEmailAddress> getOrgWideEmailAddressByDisplayName(
         Set<String> displayNames,
 		AccessLevel accessLevel   
     ) {
         return Database.query(
             'SELECT Id, Address, DisplayName ' +
               'FROM OrgWideEmailAddress ' +
-             'WHERE DisplayName IN: displayNames ',accessLevel
+             'WHERE DisplayName IN: displayNames',accessLevel
         );
     }
 

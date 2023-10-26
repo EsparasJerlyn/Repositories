@@ -49,4 +49,8 @@ public interface ILeadsDAO extends DmlInterface {
         String leadType,
         AccessLevel accessLevel
     );
+    List<Lead> getLeadMobilePhoneByRecordIds(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    ); 
 }
