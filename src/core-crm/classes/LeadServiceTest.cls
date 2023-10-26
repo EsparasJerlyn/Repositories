@@ -283,4 +283,4 @@ private class LeadServiceTest {
         LeadScoreConfigurationDAO.newInstance()
             .insertRecords(leadScoreConfigChildList, true, AccessLevel.SYSTEM_MODE);
     }
-}
+} 

@@ -80,4 +80,4 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
         }
         return completedCadenceList;
     }
-}
+} 

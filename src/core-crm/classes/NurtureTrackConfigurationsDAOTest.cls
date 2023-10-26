@@ -63,4 +63,4 @@ public with sharing class NurtureTrackConfigurationsDAOTest {
         }
         Test.stopTest();
     }
-}
+} 
