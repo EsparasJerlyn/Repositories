@@ -15,6 +15,7 @@
       |                                |                       |                        | whoIds' firstName                                 |
       | mark.j.mahilum                 | Oct 17, 2023          | DEPP-6926              | Added filter condition to stop email sending when |
       |                                |                       |                        | the maximum daily email count is reached          |
+      |marygrace.li                    | Oct 24, 2023          | DEPP-7006              | set flag to false to turn-off header/footer banner|
  */
 public with sharing class SalesCadenceEmailRequestCommand implements IRequestCommand{
     
@@ -25,11 +26,9 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
     }      
 
     public void execute() {
-        
-        boolean shouldStopProcessing = getCommsQueueConfig().Maximum_Daily_Email_Count__c <= getComsQueueRecordCount();
-		
-        if(shouldStopProcessing){
-            Logger.info('Communication Queue Daily Maximum Email Count has been reached, the current number of  records process today = ' + getComsQueueRecordCount());
+        		
+        if(stopSendingEmails()){
+            Logger.info('Communication Queue Daily Maximum Email Count has been reached.');
             return;
         }
         
@@ -48,7 +47,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
                             EmailHelper.setBodyValues(
                                 emailTemplateMap.get(commsQueue.Template_Id__c).HtmlValue, 
                                 setupHTMLBodyParams(commsQueue, recipientMap), 
-                                true 
+                                false 
                             )
                         );
                 }
@@ -226,11 +225,16 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
     }
     
     /**
-     * retrieves number of communication queue records that is process today
+     * check limit for email sending
      */
-    private static Integer getComsQueueRecordCount(){
+    private static Boolean stopSendingEmails(){        
+        Map<String,System.OrgLimit> limitsMap = OrgLimits.getMap();
+        System.OrgLimit sendEmailLimit = limitsMap.get('SingleEmail');
+       
         Set<String> processStatus = new Set<String>{CommunicationQueuesDAO.STATUS_SENT};
-        return CommunicationQueuesDAO.newInstance().getCommsQueueRecordsByStatusAndLastModifiedToday(processStatus,AccessLevel.SYSTEM_MODE).size();
+       	Integer recordCount = CommunicationQueuesDAO.newInstance().getCommsQueueRecordsByStatusAndLastModifiedToday(processStatus,AccessLevel.SYSTEM_MODE).size();
+       
+        return (getCommsQueueConfig().Maximum_Daily_Email_Count__c <= recordCount || sendEmailLimit.getValue() >= sendEmailLimit.getLimit());
     }    
     
 }

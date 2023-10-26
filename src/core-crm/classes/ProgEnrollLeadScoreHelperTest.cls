@@ -173,4 +173,5 @@ public with sharing class ProgEnrollLeadScoreHelperTest {
     private static List<Integer> getScoreAllocList(){
         return new List<Integer>{ 30 };
     }
+    
 }

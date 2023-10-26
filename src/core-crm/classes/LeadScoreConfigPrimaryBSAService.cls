@@ -12,7 +12,7 @@
  */
 public with sharing class LeadScoreConfigPrimaryBSAService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigPrimaryBSA leadScoreConfigPrimaryBSA){
-        String category = 'Primary BSA';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_BSA;
         Boolean isForPrimaryBSA = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;
         if(isForPrimaryBSA){ 
             leadScoreConfigPrimaryBSA.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -20,13 +20,13 @@ public with sharing class LeadScoreConfigPrimaryBSAService {
         }
 
         Boolean isSubCategory = leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY && leadScoreConfig.Parent_Category__r.Name == category;
-        if(isSubCategory && leadScoreConfig.Name == 'Is unsure'){
+        if(isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_IS_UNSURE){
             leadScoreConfigPrimaryBSA.setIsUnsure(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(isSubCategory && leadScoreConfig.Name == 'Is not blank'){
+        else if(isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_IS_NOT_BLANK){
             leadScoreConfigPrimaryBSA.setIsNotBlank(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(isSubCategory && leadScoreConfig.Name == 'Is blank'){
+        else if(isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_IS_BLANK_UPPER){
             leadScoreConfigPrimaryBSA.setIsBlank(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
     } 
@@ -37,10 +37,19 @@ public with sharing class LeadScoreConfigPrimaryBSAService {
 
         Integer primaryBSACategoryScore = 0;
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
-            if(String.isNotBlank(marketingSeg.My_Primary_BSA__c) && marketingSeg.My_Primary_BSA__c != 'I am not sure'){ 
+
+            if(primaryBSAMap.containsKey(marketingSeg.Contact__c)){
+                primaryBSACategoryScore = primaryBSAMap.get(marketingSeg.Contact__c);
+            }else if(primaryBSAMap.containsKey(marketingSeg.Lead__c)){
+                primaryBSACategoryScore = primaryBSAMap.get(marketingSeg.Lead__c);
+            }else{
+                primaryBSACategoryScore = 0;
+            }
+
+            if(String.isNotBlank(marketingSeg.My_Primary_BSA__c) && marketingSeg.My_Primary_BSA__c != MarketingSegmentationsDAO.PRIMARY_NSA_BSA_IM_NOT_SURE){ 
                 primaryBSACategoryScore = primaryBSACategoryScore + leadScoreConfigPrimaryBSA.getIsNotBlank();
             }
-            else if(String.isNotBlank(marketingSeg.My_Primary_BSA__c) && marketingSeg.My_Primary_BSA__c == 'I am not sure'){ 
+            else if(String.isNotBlank(marketingSeg.My_Primary_BSA__c) && marketingSeg.My_Primary_BSA__c == MarketingSegmentationsDAO.PRIMARY_NSA_BSA_IM_NOT_SURE){ 
                 primaryBSACategoryScore = primaryBSACategoryScore + leadScoreConfigPrimaryBSA.getIsUnsure();
             }
             else if(String.isBlank(marketingSeg.My_Primary_BSA__c)){ 

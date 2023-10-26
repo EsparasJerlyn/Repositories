@@ -28,6 +28,11 @@
                 <default>false</default>
                 <label>International Automated Cadence SMS</label>
             </value>
+            <value>
+                <fullName>Domestic Automated Cadence SMS</fullName>
+                <default>false</default>
+                <label>Domestic Automated Cadence SMS</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

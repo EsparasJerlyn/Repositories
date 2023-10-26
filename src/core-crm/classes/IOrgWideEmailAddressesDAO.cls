@@ -12,9 +12,8 @@
  */
 public interface IOrgWideEmailAddressesDAO extends DmlInterface{
 
-    OrgWideEmailAddress getOrgWideEmailAddressByDisplayName(
-        String displayName, 
-        String accessLevel
-    );
-    
+    List<OrgWideEmailAddress> getOrgWideEmailAddressByDisplayName(
+        Set<String> displayName, 
+        AccessLevel accessLevel
+    );   
 }

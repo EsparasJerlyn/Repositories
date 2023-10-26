@@ -14,4 +14,24 @@
         <field>Maximum_Daily_Email_Count__c</field>
         <value xsi:type="xsd:double">1000.0</value>
     </values>
+    <values>
+        <field>SMS_Messaging_Channel__c</field>
+        <value xsi:type="xsd:string"></value>
+    </values>
+    <values>
+        <field>Supress_SMS__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>SMS_Retry_Count__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>SMS_Send_Hours_Start__c</field>
+        <value xsi:type="xsd:double">7.0</value>
+    </values>
+    <values>
+        <field>SMS_Send_Hours_End__c</field>
+        <value xsi:type="xsd:double">18.0</value>
+    </values>     
 </CustomMetadata>

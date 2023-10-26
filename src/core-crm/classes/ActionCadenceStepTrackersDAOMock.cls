@@ -14,7 +14,7 @@
 public inherited sharing class ActionCadenceStepTrackersDAOMock extends DmlBaseMock implements IActionCadenceStepTrackersDAO {
     public Map<Id, ActionCadenceStepTracker> actionCadenceStepMap;
     public static final String ACST_MOCK_RECORD = '[{"attributes":{"type":"ActionCadenceStepTracker","url":"/services/data/v58.0/sobjects/ActionCadenceStepTracker/8HF9n00000007XlGAI"},' +
-    '"Id":"8HF9n00000007XlGAI","ActionCadenceStepId":"8C89n0000000AozCAE","State":"InProgress","StepType":"SendAnEmail"}]';
+    '"Id":"8HF9n00000007XlGAI","ActionCadenceStepId":"8C89n0000000AozCAE","State":"InProgress","StepType":"SendAnEmail","ActionCadenceName":"Domestic","StepTitle":"SendSMS"}]';
 
     public ActionCadenceStepTrackersDAOMock() {
         super(new Map<Id, ActionCadenceStepTracker>(), Schema.ActionCadenceStepTracker.SObjectType);

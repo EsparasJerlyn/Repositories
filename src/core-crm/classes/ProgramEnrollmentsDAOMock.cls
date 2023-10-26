@@ -56,5 +56,18 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
 
         return programEnrollmentList;
     }
+
+    public List<hed__Program_Enrollment__c> getAllProgramEnrollmentsByContactId(Set<Id> contactIds, AccessLevel accessLevel) {
+        List<hed__Program_Enrollment__c> programEnrollmentList = new List<hed__Program_Enrollment__c>();
+
+        for (hed__Program_Enrollment__c record : programEnrollmentMap.values()) {
+            if (contactIds.contains(record.hed__Contact__c)) {
+                programEnrollmentList.add(record);
+            }
+        }
+
+        return programEnrollmentList;
+    }
+    
     
 }

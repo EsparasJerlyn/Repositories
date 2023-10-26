@@ -146,7 +146,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             hed__Application__c.SObjectType
         );
     }
-
+ 
     public Schema.SObjectType getSObjectType() {
         return hed__Application__c.SObjectType;
     }

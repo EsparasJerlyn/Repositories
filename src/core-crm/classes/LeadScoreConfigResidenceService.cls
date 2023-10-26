@@ -13,7 +13,7 @@
 public with sharing class LeadScoreConfigResidenceService {
     
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigResidence leadScoreConfigResidence, Boolean isDomestic){
-        String category = 'Residence';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_RESIDENCE;
         Boolean isForResidency = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;
         if(isForResidency){ 
             leadScoreConfigResidence.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -21,10 +21,10 @@ public with sharing class LeadScoreConfigResidenceService {
         }
 
         Boolean isSubCategory = leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY && leadScoreConfig.Parent_Category__r.Name == category;
-        if(!isDomestic && isSubCategory && leadScoreConfig.Name == 'Australia (Onshore)'){
+        if(!isDomestic && isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_AU_ONSHORE){
             leadScoreConfigResidence.setAustraliaOnshore(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(!isDomestic && isSubCategory && leadScoreConfig.Name == 'Non-Australia (offshore)'){
+        else if(!isDomestic && isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_NON_AU_OFFSHORE){
             leadScoreConfigResidence.setNonAustraliaOffShore(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }        
     } 
@@ -35,9 +35,18 @@ public with sharing class LeadScoreConfigResidenceService {
 
         Integer residenceCategoryScore = 0;
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
+
+            if(residenceMap.containsKey(marketingSeg.Contact__c)){
+                residenceCategoryScore = residenceMap.get(marketingSeg.Contact__c);
+            }else if(residenceMap.containsKey(marketingSeg.Lead__c)){
+                residenceCategoryScore = residenceMap.get(marketingSeg.Lead__c);
+            }else{
+                residenceCategoryScore = 0;
+            }
+
             if(!isDomestic && String.isNotBlank(marketingSeg.My_Country_Of_Residency__c)){
                 residenceCategoryScore = residenceCategoryScore + leadScoreConfigResidence.getNonAustraliaOffShore();
-                if(marketingSeg.My_Country_Of_Residency__c == 'Australia'){ 
+                if(marketingSeg.My_Country_Of_Residency__c == MarketingSegmentationsDAO.COUNTRY_AU){ 
                     residenceCategoryScore = residenceCategoryScore + leadScoreConfigResidence.getAustraliaOnshore();
                 }
             }

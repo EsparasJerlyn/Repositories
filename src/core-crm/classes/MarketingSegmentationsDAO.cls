@@ -26,6 +26,15 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
     public static final String CONFIG_SUB_CATEGORY_I_AM_NOT_SURE = 'I am not sure';
     public static final String CONFIG_SUB_CATEGORY_I_NEED_A_FULL_SCHOLARSHIP = 'I need a full scholarship';
 
+    public static final String COUNTRY_AU = 'Australia';
+
+    public static final String PRIMARY_NSA_BSA_IM_NOT_SURE = 'I am not sure';
+
+    public static final String STUDY_LEVEL_POSTGRAD = 'Postgraduate';
+    public static final String STUDY_LEVEL_HIGHER_DEGREE = 'Higher Degree Research';
+    public static final String STUDY_LEVEL_SHORT_COURSES = 'Short courses and Professional Development';
+    public static final String STUDY_LEVEL_EXCHANGE_AND_STUDY = 'Exchange and Study Abroad (1 or 2 Semesters Only)';
+    public static final String STUDY_LEVEL_UNDERGRAD = 'Undergraduate';
 
     public Schema.SObjectType getSObjectType(){
         return Marketing_Segmentation__c.SObjectType;
@@ -71,7 +80,9 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Lead__c, Contact__c, My_Primary_Study_Level__c, My_Citizenship_Status__c, Contact__r.hed__Citizenship_Status__c ' +
+            'SELECT Lead__c, Contact__c, My_Primary_Study_Level__c, My_Citizenship_Status__c, Contact__r.hed__Citizenship_Status__c, ' +
+            'My_Funding_Source__c, My_Primary_BSA__c, My_Primary_NSA__c, My_Expected_Admission_Year__c, My_Country_Of_Citizenship__c, ' +
+            'My_Country_Of_Residency__c, My_Double_Degree__c, My_Interested_English_Pathways__c ' +
             'FROM Marketing_Segmentation__c ' +
             'WHERE Contact__c IN : contactIdSet OR Lead__c IN : leadIdSet ',
             accessLevel

@@ -25,6 +25,9 @@
         <!--(Start) DEPP-6781 -->
         <members>Update_Case_Priority_FlowTest</members>
         <!--(End) DEPP-6781 -->
+        <!--(Start) DEPP-5866 -->
+        <members>LeadScoreQueueableCall</members>
+        <!--(End) DEPP-5866 -->
         <name>ApexClass</name>
     </types>
     <types>
@@ -300,6 +303,25 @@
         <members>Case.International_FS_Enquiry</members> -->
         <!--(End) DEPP-6900 -->
         <name>RecordType</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6889 -->
+        <members>ContactsLeads_by_Days_Waiting_Dom</members>
+        <members>ContactsLeads_by_Days_Waiting_Int</members>
+        <members>ContactsLeads_Requiring_Followup_Dom</members>
+        <members>ContactsLeads_Requiring_Followup_Int</members>
+        <members>ContactsLeads_Unsuccessfully_Called_Dom</members>
+        <members>ContactsLeads_Unsuccessfully_Called_Int</members>
+        <members>NewContacts_Leads_Per_Nurture_Track_Dom</members>
+        <members>NewContacts_Leads_Per_Nurture_Track_Int</members>
+        <!--(End) DEPP-6889 -->
+        <name>Report</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6889 -->
+        <members>Nurture_Track_Configuration_with_Completed_Cadence</members>
+        <!--(End) DEPP-6889 -->
+        <name>ReportType</name>
     </types>
     <types>
         <!--(Start) DEPP-5797 -->

@@ -16,7 +16,7 @@
       | eugene.andrew.abuan   	  | October 04, 2022      | DEPP-4503                       | Added validation for firstname and lastname               |
       | julie.jane.alegre         | October 08, 2022      | DEPP-4551                       | Update pass parameter to the sessionStorage               |
       | julie.jane.alegre         | September 26, 2023    | DEPP-4762                       | Added Position & Company Name fields                      |
-
+      | kenneth.f.alsay           | October 24, 2023      | DEPP-6981                       | Aligned Columns with BulkRegistrationCSVTemplate.csv      |
       */
 
 
@@ -55,9 +55,9 @@ const COLUMNS = [
     { label: 'Last Name', fieldName: 'LastName', type: 'text' },
     { label: 'Email', fieldName: 'Email', type: 'email' },
     { label: 'Mobile Locale', fieldName: 'MobileLocale', type: 'text' },
+    { label: 'Mobile', fieldName: 'MobilePhone', type: 'phone' },
     { label: 'Position', fieldName: 'Position', type: 'text' },
     { label: 'Company Name', fieldName: 'CompanyName', type: 'text' },
-    { label: 'Mobile', fieldName: 'MobilePhone', type: 'phone' },
     { label:'Date of Birth', fieldName: 'Birthdate', type: 'date' },
     {
         label: 'Dietary Requirement',
@@ -171,9 +171,9 @@ export default class ProductBulkRegistration extends NavigationMixin(
                 LastName: selectedContact.LastName,
                 Email: selectedContact.Email,
                 ContactMobile_Locale__c: selectedContact.MobileLocale,
+                MobilePhone: selectedContact.MobilePhone,
                 Position__c: selectedContact.Position,
                 Company_Name__c: selectedContact.CompanyName,
-                MobilePhone: selectedContact.MobilePhone,
                 Birthdate:bdayFormat,
                 Accessibility_Requirement__c:
                     selectedContact.AccessibilityRequirement,
@@ -235,9 +235,9 @@ export default class ProductBulkRegistration extends NavigationMixin(
                 LastName: "",
                 Email: "",
                 MobileLocale: "",
+                MobilePhone: "",
                 Position: "",
                 CompanyName: "",
-                MobilePhone: "",
                 Birthdate: "",
                 DietaryRequirement: "",
                 AccessibilityRequirement: ""
@@ -259,9 +259,9 @@ export default class ProductBulkRegistration extends NavigationMixin(
                     LastName: details.LastName,
                     Email: details.Email,
                     MobileLocale: details.ContactMobile_Locale__c,
+                    MobilePhone: details.MobilePhone,
                     Position: details.Position__c,
                     CompanyName: details.Company_Name__c,
-                    MobilePhone: details.MobilePhone,
                     Birthdate: details.Birthdate,
                     DietaryRequirement: details.Dietary_Requirement__c,
                     AccessibilityRequirement: details.Accessibility_Requirement__c,
@@ -288,9 +288,9 @@ export default class ProductBulkRegistration extends NavigationMixin(
                 LastName: details.LastName,
                 Email: details.Email,
                 MobileLocale: details.ContactMobile_Locale__c,
+                MobilePhone: details.MobilePhone,
                 Position: details.Position__c,
                 CompanyName: details.Company_Name__c,
-                MobilePhone: details.MobilePhone,
                 Birthdate: details.Birthdate,
                 AccessibilityRequirement: details.Accessibility_Requirement__c,
                 DietaryRequirement: details.Dietary_Requirement__c,

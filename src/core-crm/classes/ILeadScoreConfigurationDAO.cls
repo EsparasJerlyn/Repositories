@@ -17,4 +17,6 @@ public interface ILeadScoreConfigurationDAO extends DmlInterface {
 
     List<Lead_Score_Configuration__c> getLeadScoreConfigByRecordTypeIds(AccessLevel accessLevel, Set<Id> recordTypes);
     
-}
+    List<Lead_Score_Configuration__c> getLeadScoreConfigsById(Set<Id> leadScoreConfigIds, List<String> fields, AccessLevel accessLevel);
+
+} 

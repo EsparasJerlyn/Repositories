@@ -64,4 +64,4 @@ public inherited sharing class NurtureTrackConfigurationsDAOMock extends DmlBase
         }       
         return nurtureList;
     }
-}
+} 

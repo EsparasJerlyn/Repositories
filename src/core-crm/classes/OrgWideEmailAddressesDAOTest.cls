@@ -43,14 +43,16 @@ public with sharing class OrgWideEmailAddressesDAOTest {
     static void getOrgWideEmailAddressByDisplayNameTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            OrgWideEmailAddress orgwideEmailAdd = new OrgWideEmailAddress();
+            List<OrgWideEmailAddress> orgwideEmailAdd = new List<OrgWideEmailAddress>();
             orgwideEmailAdd = OrgWideEmailAddressesDAO.newInstance()
                 .getOrgWideEmailAddressByDisplayName(
-                    OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_ADD_QUTEX,
-                    'USER_MODE'
+                    new Set<String>(),
+                    AccessLevel.USER_MODE
                 );
             System.assert(orgwideEmailAdd != null, 'Org Wide Email Add should not be null.');
         }
         Test.stopTest();
     }
+
+    
 }

@@ -23,6 +23,7 @@
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
  *    |                                |                       | DEPP-6652,6653,6654    | added fields to getPersonContactsBySetIds                 |
  *    |                                | Oct 19, 2023          | DEPP-6890              | null checker for queries checking for emails              |
+ *    | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added query for getContactMobilePhoneByRecordIds          |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -318,7 +319,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
-            'FirstName, LastName, Birthdate ' +
+            'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
@@ -354,6 +355,19 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         );
     }
 
+    public List<Contact> getContactMobilePhoneByRecordIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone ' +
+            'FROM Contact ' +
+            'WHERE MobilePhone != NULL ' +
+            'AND Id IN: recordIds ',
+            accessLevel
+        );
+    }
+
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */
@@ -386,4 +400,5 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             mobile = strMobile;
         }
     }
+    
 }

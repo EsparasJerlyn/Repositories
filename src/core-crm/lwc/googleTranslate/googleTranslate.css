@@ -1,13 +1,14 @@
-.customIcon{
-    width: 26px;
-    height: 30px;
-    margin: 10px;
+.customIcon {
+  width: auto;
+  height: 30px;
+  margin: 10px;
 }
 
-.title-text{
-    color:#003b6f;    
+.title-text {
+  color: #003b6f;
 }
 
-.butttonLabel{
-    font-size: x-small;
+.sourceTextArea,
+.targetTextArea {
+  --sds-c-textarea-sizing-min-height: 150px;
 }

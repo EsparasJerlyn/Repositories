@@ -40,5 +40,18 @@ public with sharing class LeadScoreConfigurationDAOTest {
         System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
         Test.stopTest();
     }
-    
+
+    @isTest
+    static void getLeadScoreConfigsByIdTest() {
+        Test.startTest();
+        List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance()
+            .getLeadScoreConfigsById(
+                new Set<Id>(), 
+                new List<String>(), 
+                AccessLevel.SYSTEM_MODE
+            );
+        System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
+        Test.stopTest();
+    }
+       
 }

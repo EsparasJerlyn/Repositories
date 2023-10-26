@@ -20,4 +20,4 @@ public interface INurtureTrackConfigurationsDAO extends DmlInterface {
         String fieldsToQuery,
         String accessLevel
     );
-}
+} 

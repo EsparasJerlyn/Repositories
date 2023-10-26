@@ -12,7 +12,7 @@
  */
 public with sharing class LeadScoreConfigIntDoubleDegService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigIntDoubleDeg leadScoreConfigIntDoubleDeg, Boolean isDomestic){
-        String category = 'Interested in Double Degrees';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_DOUBLE_DEG;
         Boolean isForDoubleDeg = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;
         if(isForDoubleDeg){ 
             leadScoreConfigIntDoubleDeg.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -20,10 +20,10 @@ public with sharing class LeadScoreConfigIntDoubleDegService {
         }
 
         Boolean isSubCategory = leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY && leadScoreConfig.Parent_Category__r.Name == category;
-        if(!isDomestic && isSubCategory && leadScoreConfig.Name == 'Yes'){
+        if(!isDomestic && isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_YES){
             leadScoreConfigIntDoubleDeg.setYes(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }
-        else if(!isDomestic && isSubCategory && leadScoreConfig.Name == 'No'){
+        else if(!isDomestic && isSubCategory && leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_NO){
             leadScoreConfigIntDoubleDeg.setNo(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
         }        
     } 
@@ -34,6 +34,15 @@ public with sharing class LeadScoreConfigIntDoubleDegService {
 
         Integer doubleDegScore = 0;
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
+
+            if(doubleDegMap.containsKey(marketingSeg.Contact__c)){
+                doubleDegScore = doubleDegMap.get(marketingSeg.Contact__c);
+            }else if(doubleDegMap.containsKey(marketingSeg.Lead__c)){
+                doubleDegScore = doubleDegMap.get(marketingSeg.Lead__c);
+            }else{
+                doubleDegScore = 0;
+            }
+
             if(!isDomestic && marketingSeg.My_Double_Degree__c){ 
                 doubleDegScore = doubleDegScore + leadScoreConfigIntDoubleDeg.getYes();
             }

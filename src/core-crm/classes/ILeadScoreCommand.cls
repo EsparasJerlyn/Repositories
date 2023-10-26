@@ -13,4 +13,5 @@
 
 public interface ILeadScoreCommand {
     void executeCalculation(LeadScoreCalculatorService.ObjectMap objectMap, Set<Id> contactLeadIds);
+    //void executeCalculation(Set<Id> contactIdSet, Set<Id> leadIdSet);
 }

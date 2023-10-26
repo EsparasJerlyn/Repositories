@@ -38,6 +38,15 @@ public with sharing class LeadScoreConfigEventRegService {
         
         Integer eventRegistrationCategoryScore = 0;
         for(Marketing_Interaction__c marketingInteraction : marketingInteractionMap.values()){
+
+            if(eventRegMap.containsKey(marketingInteraction.Contact__c)){
+                eventRegistrationCategoryScore = eventRegMap.get(marketingInteraction.Contact__c);
+            }else if(eventRegMap.containsKey(marketingInteraction.Lead__c)){
+                eventRegistrationCategoryScore = eventRegMap.get(marketingInteraction.Lead__c);
+            }else{
+                eventRegistrationCategoryScore = 0;
+            }
+
             if(validateOpenDay(marketingInteraction, today, leadScoreConfigEventRegistration.getTimeLimit())){
                 Integer openDayScore = leadScoreConfigEventRegistration.getEventRegOpenDayReg() != null ? Integer.valueOf(leadScoreConfigEventRegistration.getEventRegOpenDayReg()) : 0;
                 eventRegistrationCategoryScore = eventRegistrationCategoryScore + openDayScore;
@@ -64,7 +73,7 @@ public with sharing class LeadScoreConfigEventRegService {
 
         if( 
             String.isNotBlank(marketingInteraction.Event_Type__c) && 
-            marketingInteraction.Event_Type__c == 'Open day' &&
+            marketingInteraction.Event_Type__c == MarketingInteractionsDAO.EVENT_TYPE_OPEN_DAY &&
             marketingInteraction.Event_Date__c != null &&
             DateService.isDateWithinRangeDefaultFalse(
                 today, 

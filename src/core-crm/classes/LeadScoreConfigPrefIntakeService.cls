@@ -12,7 +12,7 @@
  */
 public with sharing class LeadScoreConfigPrefIntakeService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigPreferredIntake leadScoreConfigPreferredIntake){
-        String category = 'Preferred Intake';
+        String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_PREF_INTAKE;
         Boolean isFOrPreferredIntake = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;
         if(isFOrPreferredIntake){ 
             leadScoreConfigPreferredIntake.setTimeLimit(Integer.valueOf(leadScoreConfig.Time_Limit_Months__c));
@@ -21,16 +21,16 @@ public with sharing class LeadScoreConfigPrefIntakeService {
 
         Boolean isSubCategory = leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY && leadScoreConfig.Parent_Category__r.Name == category;
         if(isSubCategory){
-            if(leadScoreConfig.Name == 'Is this year (rolling each year)'){
+            if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_ROLLING_EACH_YR){
                 leadScoreConfigPreferredIntake.setIsThisYear(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Next year'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_NEXT_YEAR){
                 leadScoreConfigPreferredIntake.setIsNextYear(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Is not blank'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_IS_NOT_BLANK){
                 leadScoreConfigPreferredIntake.setIsNotBlank(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
-            else if(leadScoreConfig.Name == 'Is blank'){
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_IS_BLANK_UPPER){
                 leadScoreConfigPreferredIntake.setIsBlank(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
         }
@@ -45,6 +45,15 @@ public with sharing class LeadScoreConfigPrefIntakeService {
 
         Integer preferredIntakeCategoryScore = 0;
         for(Marketing_Segmentation__c marketingSeg : marketingSegmentationMap.values()){
+
+            if(preferredIntakeMap.containsKey(marketingSeg.Contact__c)){
+                preferredIntakeCategoryScore = preferredIntakeMap.get(marketingSeg.Contact__c);
+            }else if(preferredIntakeMap.containsKey(marketingSeg.Lead__c)){
+                preferredIntakeCategoryScore = preferredIntakeMap.get(marketingSeg.Lead__c);
+            }else{
+                preferredIntakeCategoryScore = 0;
+            }
+
             if(marketingSeg.My_Expected_Admission_Year__c != null){
                 if(marketingSeg.My_Expected_Admission_Year__c == thisYear){ 
                     preferredIntakeCategoryScore = preferredIntakeCategoryScore + leadScoreConfigPreferredIntake.getIsThisYear();

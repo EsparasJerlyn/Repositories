@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                    |
-      |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
-      | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                      |
-      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new query methods getCompletedACTrackerById |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                 |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------|
+      | roy.nino.s.regala              | Aug 08, 2023          | DEPP-5677              | Created file                                                   |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new query methods getCompletedACTrackerById              |
+      | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Added new field in getRunningACTrackerByTargetIdAndCadenceName |
  */
 public inherited sharing class ActionCadenceTrackersDAO extends DmlBase implements IActionCadenceTrackersDAO {
     public static IActionCadenceTrackersDAO newInstance() {
@@ -26,7 +27,7 @@ public inherited sharing class ActionCadenceTrackersDAO extends DmlBase implemen
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, TargetId ' +
+            'SELECT  Id, TargetId, ActionCadence.Name ' +
                 'FROM ActionCadenceTracker ' +
                 'WHERE TargetId IN:targetIds ' +
                 'AND ActionCadence.Name IN :cadenceName ' +

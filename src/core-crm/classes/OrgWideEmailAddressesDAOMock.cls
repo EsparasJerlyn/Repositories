@@ -23,15 +23,15 @@ public inherited sharing class OrgWideEmailAddressesDAOMock extends DmlBaseMock 
         return OrgWideEmailAddress.SObjectType;
     }
 
-    public OrgWideEmailAddress getOrgWideEmailAddressByDisplayName(
-        String displayName,
-		String accessLevel 
+    public List<OrgWideEmailAddress> getOrgWideEmailAddressByDisplayName(
+        Set<String> displayName,
+		AccessLevel accessLevel 
     ) {
-        OrgWideEmailAddress orgWideEmailAddress = new OrgWideEmailAddress();
+        List<OrgWideEmailAddress> orgWideEmailAddress = new List<OrgWideEmailAddress>();
 
         for (OrgWideEmailAddress record : orgwideEmailAddMap.values()) {
-            if(record.DisplayName == displayName){
-                orgWideEmailAddress = record;
+            if(displayName.contains(record.DisplayName)){
+                orgWideEmailAddress.add(record);
             }
         }
 

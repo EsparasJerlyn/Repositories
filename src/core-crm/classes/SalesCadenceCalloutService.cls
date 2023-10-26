@@ -5,19 +5,22 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                     |
- *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------|
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                       |
- *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking      |
- *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated createCompletedCaddence method             |
- *    |                                |                       |                        | added logic to get the unsuccessful task           |
- *    |                                |                       |                        | and update any existing completed cadence          |
- *    |                                |                       |                        | to succesful once the task is Contact Successful   |
- *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes   |
- *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation     |
- *    | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6856              | Added checking for running user                    |
- *    | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Added Closed - Contacted in createCompletedCadence |
- *    |                                |                       |                        |     and created updateTasks                        |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
+ *    |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                                |
+ *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking               |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated createCompletedCaddence method                      |
+ *    |                                |                       |                        | added logic to get the unsuccessful task                    |
+ *    |                                |                       |                        | and update any existing completed cadence                   |
+ *    |                                |                       |                        | to succesful once the task is Contact Successful            |
+ *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes            |
+ *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation              |
+ *    | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6856              | Added checking for running user                             |
+ *    | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Added Closed - Contacted in createCompletedCadence and      |
+ *    |                                |                       |                        |     created updateTasks                                     |
+ *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated createInitialCompletedCadences with                 |
+ *    |                                |                       |                        |     Displayed in List View, and created                     |
+ *    |                                |                       |                        |     updateCompletedCadences and getRunningCallACTrackersMap |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -525,7 +528,8 @@ public with sharing class SalesCadenceCalloutService {
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
                         Contact__c = recId,
-                        Application__c = appMap.containsKey(recId)? appMap.get(recId).Id: null 
+                        Application__c = appMap.containsKey(recId)? appMap.get(recId).Id: null,
+                        Displayed_in_List_View__c = cadenceName.contains('(Automated)') ? false : true 
                     )
                 );   
             }else{
@@ -533,7 +537,8 @@ public with sharing class SalesCadenceCalloutService {
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
                         Lead__c = recId,
-                        Application__c = appMap.containsKey(recId)? appMap.get(recId).Id: null
+                        Application__c = appMap.containsKey(recId)? appMap.get(recId).Id: null,
+                        Displayed_in_List_View__c = cadenceName.contains('(Automated)') ? false : true
                     )
                 );
             }
@@ -571,5 +576,58 @@ public with sharing class SalesCadenceCalloutService {
             this.recordId = recordId;
             this.eventType = eventType;
         }
+    }
+
+    public static void updateCompletedCadences(Map<String, String> targetIdCadenceMap) {
+        List<Completed_Cadence__c> ccList = new List<Completed_Cadence__c>(CompletedCadencesDAO.newInstance()
+        .getCompletedCadenceByTargetIdsAndCadenceName(
+            targetIdCadenceMap.keySet(),
+            new Set<String>(targetIdCadenceMap.values()),
+            'SYSTEM_MODE'
+        ));
+
+        Map<String, String> actMap = getRunningCallACTrackersMap(targetIdCadenceMap);
+
+        for (Completed_Cadence__c cc : ccList) {
+
+            // check if the Completed Cadence is the current cadence the contact/lead is in
+            Boolean isSameCalculatedCadence =
+                cc.Calculated_Cadence__c == cc.Cadence_Name__c;
+            // check if contact/lead has a Running Call ActionCadenceTracker
+            Boolean isSameTarget = actMap.containsKey(
+                cc.Contact__c != null ? cc.Contact__c : cc.Lead__c
+            );
+            // check if the Running Call ActionCadenceTracker is for the respective Completed Cadence
+            Boolean isSameCadence =
+                actMap.get(cc.Contact__c != null ? cc.Contact__c : cc.Lead__c) ==
+                cc.Cadence_Name__c;
+
+            // remove the Completed Cadence in the report if there is a Running Call ActionCadenceTracker for that cadence
+            // add the Completed Cadnece in the report if the contact/lead was assigned to the cadence
+            if (isSameCalculatedCadence) {
+                if (isSameTarget && isSameCadence) {
+                    cc.Displayed_in_List_View__c = false;
+                } else {
+                    cc.Displayed_in_List_View__c = true;
+                }
+            }
+        }
+
+        if (!ccList.isEmpty()) {
+            CompletedCadencesDAO.newInstance()
+                .updateRecords(ccList, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    // get Running Call ActionCadenceTrackers then map TargetId and Action Cadence Name
+    private static Map<String, String> getRunningCallACTrackersMap(Map<String, String> targetIdCadenceMap) {
+        Map<String, String> actMap = new Map<String, String>();
+        for (
+            ActionCadenceTracker act : ActionCadenceTrackersDAO.newInstance()
+                .getRunningACTrackerByTargetIdAndCadenceName(new Set<Id>((List<Id>) new List<String>(targetIdCadenceMap.keySet())), new Set<String>(targetIdCadenceMap.values()), 'SYSTEM_MODE')
+        ) {
+            actMap.put(act.TargetId, act.ActionCadence.Name);
+        }
+        return actMap;
     }
 }

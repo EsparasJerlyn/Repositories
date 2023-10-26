@@ -54,4 +54,4 @@ public inherited sharing class ActionCadenceTrackersDAOMock extends DmlBaseMock 
         }
         return actionCadenceList;
     }
-}
+} 

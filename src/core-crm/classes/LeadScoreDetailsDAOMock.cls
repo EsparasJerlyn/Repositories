@@ -35,6 +35,25 @@ public inherited sharing class LeadScoreDetailsDAOMock extends DmlBaseMock imple
         return leadScoreDetailList;
     }
 
+    public List<Lead_Score_Detail__c> getLeadScoreDetailsByCitizenshipAndStudyLevel(
+        Set<String> citizenshipStatusSet,
+        Set<String> primaryStudyLevelSet,
+        AccessLevel accessLevel
+    ) {
+        List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
+
+        for (Lead_Score_Detail__c record : leadScoreDetailsMap.values()) {
+            if (
+                citizenshipStatusSet.contains(record.Domestic_International__c) ||
+                primaryStudyLevelSet.contains(record.Study_Level__c)
+            ) {
+                leadScoreDetailList.add(record);
+            }
+        }
+
+        return leadScoreDetailList;
+    }
+
     public List<Lead_Score_Detail__c> getLeadScoreDetailsByContactOrLeadId(
         Set<Id> contactLeadIdSet,
         AccessLevel accessLevel

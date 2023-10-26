@@ -24,25 +24,30 @@ public with sharing class ProgEnrollLeadScoreHelper {
     public static void processLeadScoreCalculation(List<hed__Program_Enrollment__c> newItems, Map<Id, hed__Program_Enrollment__c> oldItems){
 
         Set<Id> contactIdSet = new Set<Id>();
-        Map<Id, hed__Program_Enrollment__c> accountProgramMap = new Map<Id, hed__Program_Enrollment__c>();
 
         /**
          * Filter records to be processed
          */
         for(hed__Program_Enrollment__c programEnrollment : newItems){
-            if(programEnrollment.hed__Contact__c != null && programEnrollment.hed__Account__c != null){
+            Boolean isForInsert = oldItems == null && programEnrollment.hed__Contact__c != null;
+            Boolean isForUpdate = oldItems != null && programEnrollment.hed__Contact__c != null && (
+                oldItems.get(programEnrollment.Id).hed__Contact__c != programEnrollment.hed__Contact__c ||
+                oldItems.get(programEnrollment.Id).hed__Account__c != programEnrollment.hed__Account__c ||
+                oldItems.get(programEnrollment.Id).Enrollment_Status__c != programEnrollment.Enrollment_Status__c
+            );
+            if(isForInsert || isForUpdate){
                 contactIdSet.add(programEnrollment.hed__Contact__c);
-                accountProgramMap.put(programEnrollment.hed__Account__c, programEnrollment);
             }
         }
+        
         /**
          * Determines wether to run async or sync
          */
         if(!contactIdSet.isEmpty()){           
             if(System.isQueueable()){
-                executeCalculation(contactIdSet, accountProgramMap);
+                executeCalculation(contactIdSet);
             }else{      
-                QueueableCall executeQueueable = new QueueableCall(contactIdSet, accountProgramMap);
+                QueueableCall executeQueueable = new QueueableCall(contactIdSet);
                 System.enqueueJob(executeQueueable);   
             }
         }
@@ -109,15 +114,13 @@ public with sharing class ProgEnrollLeadScoreHelper {
      */
     private class QueueableCall implements Queueable {
         private Set<Id> contactIdSet;
-        private Map<Id, hed__Program_Enrollment__c> accountProgramMap;
         
-        public QueueableCall(Set<Id> contactIdSet, Map<Id, hed__Program_Enrollment__c> accountProgramMap) {
+        public QueueableCall(Set<Id> contactIdSet) {
             this.contactIdSet = contactIdSet;
-            this.accountProgramMap = accountProgramMap;
         }
 
         public void execute(QueueableContext context) {
-            executeCalculation(contactIdSet, accountProgramMap);
+            executeCalculation(contactIdSet);
         }
     }
 
@@ -127,16 +130,8 @@ public with sharing class ProgEnrollLeadScoreHelper {
      * 2. Calculation of lead score per study level and citizenship status
      * 3. inserting/updating of lead score detail
      */
-    public static void executeCalculation(Set<Id> contactIdSet, Map<Id, hed__Program_Enrollment__c> accountProgramMap){
-        Map<Id, Account> accountMap = new Map<Id, Account>();
-        List<String> fields = new List<String>{'Name', 'RecordTypeId', 'Program_Code__c'};
-        List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetIds(accountProgramMap.keySet(), fields, AccessLevel.SYSTEM_MODE);
-        for(Account account : accountList){
-            //sets the program enrollment and the linked account
-            accountMap.put(accountProgramMap.get(account.Id).Id, account);
-        }
-
-        Map<Id,hed__Program_Enrollment__c> programEnrollmentMap = setProgramEnrollmentMap(contactIdSet, accountMap);        
+    public static void executeCalculation(Set<Id> contactIdSet){
+        Map<Id,hed__Program_Enrollment__c> programEnrollmentMap = setProgramEnrollmentMap(contactIdSet);   
         LeadScoreCalculatorService.ObjectMap objMap = setObjectMap(contactIdSet, programEnrollmentMap);
         if(!programEnrollmentMap.isEmpty()){
             LeadScoreCalculatorService.calculateLeadScore(objMap, contactIdSet, hed__Program_Enrollment__c.getSObjectType());
@@ -144,42 +139,26 @@ public with sharing class ProgEnrollLeadScoreHelper {
     } 
 
     /**
-     * Retrieve sibling records
+     * Retrieves all related records
      */
-    private static Map<Id,hed__Program_Enrollment__c> setProgramEnrollmentMap(
-        Set<Id> contactIdSet, 
-        Map<Id, Account> accountMap
-    ){
-
+    public static Map<Id,hed__Program_Enrollment__c> setProgramEnrollmentMap(Set<Id> contactIdSet){
         Map<Id,hed__Program_Enrollment__c> programEnrollmentMap = new Map<Id,hed__Program_Enrollment__c>();
-        List<hed__Program_Enrollment__c> progEnrollmentList = new List<hed__Program_Enrollment__c>();
-        if(!contactIdSet.isEmpty()){
-            progEnrollmentList = ProgramEnrollmentsDAO.newInstance().getProgramEnrollmentsByContactIdAndStatus(
-                contactIdSet,
-                ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ENROLLED,
-                AccessLevel.SYSTEM_MODE
-            );
+        if(!contactIdSet.isEmpty()){              
+            programEnrollmentMap.putAll(new Map<Id, hed__Program_Enrollment__c>(
+                ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(
+                    contactIdSet,
+                    AccessLevel.SYSTEM_MODE
+                ))
+            );  
         }
-        for(hed__Program_Enrollment__c progEng : progEnrollmentList){
-            if(
-                accountMap.containsKey(progEng.Id) && 
-                (
-                    (accountMap.get(progEng.Id).Name != null) ||
-                    (accountMap.get(progEng.Id).Program_Code__c != null)
-                ) &&
-                (accountMap.get(progEng.Id).RecordTypeId == AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID) 
-            ){
-                programEnrollmentMap.put(progEng.Id, progEng);
-            }
-        }
-
+        
         return programEnrollmentMap;
     }
 
     /**
      * Sets the object map to be used in queueable job
      */
-    private static LeadScoreCalculatorService.ObjectMap setObjectMap(Set<Id> contactIdSet, Map<Id,hed__Program_Enrollment__c> programEnrollmentMap){
+    public static LeadScoreCalculatorService.ObjectMap setObjectMap(Set<Id> contactIdSet, Map<Id,hed__Program_Enrollment__c> programEnrollmentMap){
 
         //Sort records per study level and citizenship status
         Map<Id,Marketing_Segmentation__c> marketingSegMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, new Set<Id>());
