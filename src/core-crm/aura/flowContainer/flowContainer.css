@@ -1,3 +1,15 @@
 .THIS .modal-content {
   overflow: initial;
 }
+
+.THIS .modal-container {
+  max-width: unset;
+  padding: unset;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .THIS .modal-container {
+    padding: 0.75rem;
+  }
+}

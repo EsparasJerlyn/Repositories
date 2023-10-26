@@ -11,6 +11,7 @@
  *    | eugene.andrew.abuan       | June 08, 2023         | DEPP-5414            | Created file                                 |
  *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Added Work Email Field Form Validation       |
  *    | ryan.j.a.dela.cruz        | August 3, 2023        | DEPP-6093            | Added Retention Of Email Field Value         |
+ *    | ryan.j.a.dela.cruz        | October 12, 2023      | DEPP-6642            | Added Mobile Support for Value Retention     |
  */
 
 import { LightningElement, api, track } from "lwc";
@@ -32,27 +33,46 @@ export default class FlowWorkEmailField extends LightningElement {
   timer;
 
   connectedCallback() {
-    // Get the "uid" parameter from the URL
-    const uid = this.getUrlParameter("uid");
-
-    if (uid) {
-      const sessionKey = `EMAIL-${uid}`;
-
-      // Check if the value already exists in session storage
-      const existingValue = sessionStorage.getItem(sessionKey);
-
-      if (existingValue !== null) {
-        // A value already exists, set it to the workEmail property
-        this.workEmail = existingValue;
-        this.checkWorkEmail(existingValue); // Initial check if value exists
-      }
-    }
+    this.retrieveEmailFromSession();
 
     window.addEventListener(
       "beforeunload",
       this.beforeUnloadHandler.bind(this)
     );
 
+    this.loadCustomCSS();
+  }
+
+  beforeUnloadHandler(event) {
+    const uid = this.getUrlParameter("uid");
+    if (uid) {
+      const sessionKey = `EMAIL-${uid}`;
+      sessionStorage.removeItem(sessionKey);
+    }
+    sessionStorage.removeItem("customCSSLoaded");
+    sessionStorage.removeItem("EMAIL-MOBILE");
+  }
+
+  retrieveEmailFromSession() {
+    const uid = this.getUrlParameter("uid");
+    let sessionKey;
+
+    if (uid) {
+      sessionKey = `EMAIL-${uid}`;
+    } else {
+      sessionKey = "EMAIL-MOBILE";
+    }
+
+    const existingValue = sessionStorage.getItem(sessionKey);
+
+    if (existingValue !== null) {
+      // A value already exists, set it to the workEmail property
+      this.workEmail = existingValue;
+      this.checkWorkEmail(existingValue); // Initial check if value exists
+    }
+  }
+
+  loadCustomCSS() {
     // Retrieve the session value
     const sessionValue = window.sessionStorage.getItem("customCSSLoaded");
     const logger = this.template.querySelector("c-logger");
@@ -75,22 +95,13 @@ export default class FlowWorkEmailField extends LightningElement {
         .catch((error) => {
           if (logger) {
             logger.error(
-              "Exception caught in method connectedCallback in LWC flowWorkEmailField: ",
+              "Exception caught in method loadCustomCSS in LWC flowWorkEmailField: ",
               JSON.stringify(error)
             );
             logger.saveLog();
           }
         });
     }
-  }
-
-  beforeUnloadHandler(event) {
-    const uid = this.getUrlParameter("uid");
-    if (uid) {
-      const sessionKey = `EMAIL-${uid}`;
-      sessionStorage.removeItem(sessionKey);
-    }
-    sessionStorage.removeItem("customCSSLoaded");
   }
 
   // Helper method to get URL parameters
@@ -141,7 +152,7 @@ export default class FlowWorkEmailField extends LightningElement {
       const sessionKey = `EMAIL-${uid}`;
       sessionStorage.setItem(sessionKey, workEmailValue);
     }
-
+    sessionStorage.setItem("EMAIL-MOBILE", workEmailValue);
     this.workEmail = workEmailValue; // Update Email value
   }
 

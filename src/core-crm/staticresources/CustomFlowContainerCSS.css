@@ -1,0 +1,5 @@
+@media (max-width: 767px) {
+    .flow-button__FINISH {
+        display: none;
+    }
+}
