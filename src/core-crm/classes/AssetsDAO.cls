@@ -14,7 +14,7 @@ public inherited sharing class AssetsDAO extends DmlBase implements IAssetsDAO {
         String query =
             'SELECT Id, Product_Request__c ' +
             'FROM Asset ' +
-            'WHERE (End_Date__c <= TODAY  OR Publishing_End_Date__c <= TODAY)' +
+            'WHERE (End_Date__c <= TODAY)' +
             'AND Product_Request__r.Product_Request_Status__c != \' ' +
             ProductRequestsDAO.PR_COMPLETED +
             '\' ' +
