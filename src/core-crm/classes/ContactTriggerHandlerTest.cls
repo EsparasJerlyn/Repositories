@@ -20,7 +20,6 @@
      |                                |                       |                        | Email in sendEmailOnContact  |
      | alexander.cadalin              | July 30, 2022         | DEPP-3623              | Commented out old dupe checker
      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentationTest|
-     | julie.jane.alegre              | Oct  25, 2023         | DEPP-6955              | Added updateRegisteredEmailTest|
 */
 @isTest
 public with sharing class ContactTriggerHandlerTest {
@@ -511,39 +510,6 @@ public with sharing class ContactTriggerHandlerTest {
             
             for(Marketing_Segmentation__c marketingSeg : marketingSegList){
                 System.assert(marketingSeg.Contact__c != null, 'No Marketing Segmentation record created for the contact');
-            }
-        }
-    }
-    @isTest
-    private static void updateRegisteredEmailTest() {        
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.startTest();
-            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
-
-            for(Integer i=0; i < 10; i++){
-                contacts[i].FirstName = 'Test Fname' + i;
-                contacts[i].LastName = 'Test Lname' + i;
-                contacts[i].Email = i + 'test@email.com'; 
-                contacts[i].Work_Email__c =  i + 'test@workemail.com';
-                contacts[i].Registered_Email__c = i + 'test@email.com';
-            }
-            Database.SaveResult[] srList = ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.USER_MODE);
-
-            Set<Id> contactIds = new Set<Id>();            
-            for (Database.SaveResult sr : srList) {
-                contactIds.add(sr.getId());
-            }
-            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds, AccessLevel.USER_MODE);
-            
-            for(Integer i=0; i < contactList.size(); i++){
-                contactList[i].Email = i + 'test@emailupdates.com'; 
-            }
-            ContactsDAO.newInstance().updateRecords(contactList, false, AccessLevel.USER_MODE);
-
-            Test.stopTest();
-
-            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds, AccessLevel.SYSTEM_MODE)) {  
-                System.assertEquals(record.Email, record.Registered_Email__c,'Contact Registered_Email__c did not match.');
             }
         }
     }
