@@ -207,6 +207,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "hed__Facility__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Cadence_Step_Name__c, IsActive__c, Message_Content__c, Business_Process__c FROM SMS_Template__c",
+            "operation": "Insert",
+            "externalId": "Cadence_Step_Name__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "SMS_Template__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }

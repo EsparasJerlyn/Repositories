@@ -1,5 +1,5 @@
 <aura:component
-  implements="flexipage:availableForAllPageTypes,lightning:actionOverride,force:lightningQuickAction,force:hasRecordId,lightning:isUrlAddressable"
+  implements="flexipage:availableForAllPageTypes,lightning:actionOverride,force:lightningQuickAction,force:appHostable,force:hasRecordId,lightning:isUrlAddressable"
   access="global">
   <!-- Declare the attribute to hold the flowApiName -->
   <aura:attribute name="flowApiName" type="String" default="New_Engagement" />

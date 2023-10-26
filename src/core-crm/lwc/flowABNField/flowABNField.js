@@ -12,6 +12,7 @@
  *    | ryan.j.a.dela.cruz        | June 26, 2023         | DEPP-5942            | Added ABN Field Form Validation                   |
  *    | ryan.j.a.dela.cruz        | August 3, 2023        | DEPP-6093            | Added Retention Of ABN Field Value                |
  *    | ryan.j.a.dela.cruz        | August 8, 2023        | DEPP-6521            | Added Spinner for Users Who Click Next Too Fast   |
+ *    | ryan.j.a.dela.cruz        | October 12, 2023      | DEPP-6642            | Added Mobile Support for Value Retention          |
  */
 import { LightningElement, api, track } from "lwc";
 import checkABNExists from "@salesforce/apex/AccountCtrl.checkABNExists";
@@ -28,28 +29,45 @@ export default class ABNCheckComponent extends LightningElement {
   timer;
 
   connectedCallback() {
-    // Get the "uid" parameter from the URL
-    const uid = this.getUrlParameter("uid");
-
-    if (uid) {
-      const sessionKey = `ABN-${uid}`;
-
-      // Check if the value already exists in session storage
-      const existingValue = sessionStorage.getItem(sessionKey);
-
-      if (existingValue) {
-        // A value already exists, set it to the ABN property
-        this.ABN = existingValue;
-        this.checkABN(existingValue, true); // Initial check if value exists
-      }
-    }
+    this.retrieveABNFromSession();
 
     window.addEventListener(
       "beforeunload",
       this.beforeUnloadHandler.bind(this)
     );
 
-    // Retrieve the session value
+    this.loadCustomCSS();
+  }
+
+  beforeUnloadHandler(event) {
+    const uid = this.getUrlParameter("uid");
+    if (uid) {
+      const sessionKey = `ABN-${uid}`;
+      sessionStorage.removeItem(sessionKey);
+    }
+    sessionStorage.removeItem("customCSSLoaded");
+    sessionStorage.removeItem("ABN-MOBILE");
+  }
+
+  retrieveABNFromSession() {
+    const uid = this.getUrlParameter("uid");
+    let sessionKey;
+
+    if (uid) {
+      sessionKey = `ABN-${uid}`;
+    } else {
+      sessionKey = "ABN-MOBILE";
+    }
+
+    const existingValue = sessionStorage.getItem(sessionKey);
+
+    if (existingValue !== null) {
+      this.ABN = existingValue;
+      this.checkABN(existingValue, true);
+    }
+  }
+
+  loadCustomCSS() {
     const sessionValue = sessionStorage.getItem("customCSSLoaded");
     const logger = this.template.querySelector("c-logger");
 
@@ -70,22 +88,13 @@ export default class ABNCheckComponent extends LightningElement {
         .catch((error) => {
           if (logger) {
             logger.error(
-              "Exception caught in method connectedCallback in LWC flowABNField: ",
+              "Exception caught in method loadCustomCSS in LWC flowABNField: ",
               JSON.stringify(error)
             );
             logger.saveLog();
           }
         });
     }
-  }
-
-  beforeUnloadHandler(event) {
-    const uid = this.getUrlParameter("uid");
-    if (uid) {
-      const sessionKey = `ABN-${uid}`;
-      sessionStorage.removeItem(sessionKey);
-    }
-    sessionStorage.removeItem("customCSSLoaded");
   }
 
   // Helper method to get URL parameters
@@ -120,7 +129,7 @@ export default class ABNCheckComponent extends LightningElement {
       const sessionKey = `ABN-${uid}`;
       sessionStorage.setItem(sessionKey, abnValue);
     }
-
+    sessionStorage.setItem("ABN-MOBILE", abnValue);
     this.ABN = abnValue; // Update ABN value
   }
 
