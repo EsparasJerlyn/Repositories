@@ -178,27 +178,27 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
         if(result.data){
             this.records = result.data.map(item => {
                 let record = {};
-                record.contactFullName = item.enrolmentDetails.hed__Contact__r.Name;
-                record.contactId = item.enrolmentDetails.hed__Contact__c;
-                record.contactLastName = item.enrolmentDetails.hed__Contact__r.LastName;
-                record.contactFirstName = item.enrolmentDetails.hed__Contact__r.FirstName;
-                record.contactBirthdate = item.enrolmentDetails.hed__Contact__r.Birthdate?this.formatDate(item.enrolmentDetails.hed__Contact__r.Birthdate):'';
-                record.contactEmail = item.enrolmentDetails.hed__Contact__r.Registered_Email__c;
+                record.contactFullName = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.Name : '';
+                record.contactId = item.enrolmentDetails.hed__Contact__c ? item.enrolmentDetails.hed__Contact__c : '';
+                record.contactLastName = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.LastName : '';
+                record.contactFirstName = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.FirstName : '';
+                record.contactBirthdate = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.Birthdate?this.formatDate(item.enrolmentDetails.hed__Contact__r.Birthdate):'' : '';
+                record.contactEmail = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.Registered_Email__c : '';
                 
-                record.studentId = item.enrolmentDetails.hed__Contact__r.QUT_Student_ID__c;
-                record.position = item.enrolmentDetails.hed__Contact__r.Position__c;
-                record.organisation = item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__c?item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__r.Name:'';
-                record.dietaryRequirement = item.enrolmentDetails.hed__Contact__r.Dietary_Requirement__c;
-                record.accessibilityRequirement = item.enrolmentDetails.hed__Contact__r.Accessibility_Requirement__c;
+                record.studentId = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.QUT_Student_ID__c : '';
+                record.position = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.Position__c : '';
+                record.organisation = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__c?item.enrolmentDetails.hed__Contact__r.hed__Primary_Organization__r.Name:'' : '';
+                record.dietaryRequirement = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.Dietary_Requirement__c : '';
+                record.accessibilityRequirement = item.enrolmentDetails.hed__Contact__r ? item.enrolmentDetails.hed__Contact__r.Accessibility_Requirement__c : '';
 
-                record.paidInFull = item.enrolmentDetails.Paid_in_Full__c;
-                record.registrationStatus = item.enrolmentDetails.hed__Status__c;
-                record.lmsIntegrationStatus = item.enrolmentDetails.LMS_Integration_Status__c;
-                record.paymentMethod = item.enrolmentDetails.Payment_Method__c;
-                record.paidAmount = item.enrolmentDetails.Paid_Amount__c;
+                record.paidInFull = item.enrolmentDetails.Paid_in_Full__c ? item.enrolmentDetails.Paid_in_Full__c : '';
+                record.registrationStatus = item.enrolmentDetails.hed__Status__c ? item.enrolmentDetails.hed__Status__c : '';
+                record.lmsIntegrationStatus = item.enrolmentDetails.LMS_Integration_Status__c ? item.enrolmentDetails.LMS_Integration_Status__c : '';
+                record.paymentMethod = item.enrolmentDetails.Payment_Method__c ? item.enrolmentDetails.Payment_Method__c : '';
+                record.paidAmount = item.enrolmentDetails.Paid_Amount__c ? item.enrolmentDetails.Paid_Amount__c : '';
                 record.registrationDate = item.enrolmentDetails.CreatedDate?this.formatDate(item.enrolmentDetails.CreatedDate):'';
-                record.pricingValidation = item.enrolmentDetails.Pricing_Validation__c;
-                record.id = item.enrolmentDetails.Id;
+                record.pricingValidation = item.enrolmentDetails.Pricing_Validation__c ? item.enrolmentDetails.Pricing_Validation__c : '';
+                record.id = item.enrolmentDetails.Id ? item.enrolmentDetails.Id : '';
 
                 if(item.applicationDetails){
                     record.questionId = item.applicationDetails.Id;
