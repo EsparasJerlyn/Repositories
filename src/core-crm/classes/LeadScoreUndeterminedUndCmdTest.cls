@@ -87,7 +87,7 @@ private class LeadScoreUndeterminedUndCmdTest {
 
         LeadScoreCalculatorService.LeadScoreCalculatorParams leadScoreCalcParams = new LeadScoreCalculatorService.LeadScoreCalculatorParams(
             Case.sObjectType,
-            new Map<Id, Case>(caseList),
+            new Map<Id, Case>(CasesDAO.newInstance().getCasesByContactOrLeadIds(contactAndLeadIds, AccessLevel.SYSTEM_MODE)),
             LeadScoreConfigurationDAO.newInstance()
                 .getLeadScoreConfigByRecordTypeIds(
                     AccessLevel.USER_MODE,

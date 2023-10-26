@@ -1676,6 +1676,16 @@
                         </criteria>
                     </visibilityRule>
                 </valueListItems>
+                <valueListItems>
+                    <value>ChangeOwnerOne</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
             </valueList>
         </properties>
         <properties>
