@@ -50,6 +50,8 @@ public without sharing class ContactTriggerHelper {
 
             setCanNurtureFlag(con, contactsToRecalculate, oldItems); //sets can nurture flag
             setQUTPersonaFlag(con); //sets QUT_Staff__c(Persona Flags) of Contact
+            updateRegisteredEmail(con, oldItems); // updates Registered email when match with Primary Email or Work Email
+
         }
 
         //processes with soql and dml start
@@ -440,24 +442,20 @@ public without sharing class ContactTriggerHelper {
      * @param newItems - trigger.new contacts
      * @param oldItems - trigger.old contacts
      */
-    public static void updateRegisteredEmail(List<Contact> newItems, Map<Id, Contact> oldItems){
+    private static void updateRegisteredEmail(Contact newItems, Map<Id, Contact> oldItems){
         Boolean isUpdate = oldItems != null;
-        List<Contact> contactsToUpdate = new List<Contact>();
+        Boolean isPrimaryEmailChange = newItems.Email != oldItems.get(newItems.Id).Email;
+        Boolean isWorkEmailChange = newItems.Work_Email__c != oldItems.get(newItems.Id).Work_Email__c;
+        Boolean isRegisteredEmailMatchPrimaryEmail = oldItems.get(newItems.Id).Email == oldItems.get(newItems.Id).Registered_Email__c;
+        Boolean isRegisteredEmailMatchWorkEmail = oldItems.get(newItems.Id).Work_Email__c == oldItems.get(newItems.Id).Registered_Email__c;
+        Boolean updateRegisteredEmailFromPrimary = newItems.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail; 
+        Boolean updateRegisteredEmailFromWork = newItems.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isWorkEmailChange && isRegisteredEmailMatchWorkEmail; 
 
-        for (Contact con : newItems) {
-            Boolean isPrimaryEmailChange = con.Email != oldItems.get(con.Id).Email;
-            Boolean isWorkEmailChange = con.Work_Email__c != oldItems.get(con.Id).Work_Email__c;
-            Boolean isRegisteredEmailMatchPrimaryEmail = oldItems.get(con.Id).Email == oldItems.get(con.Id).Registered_Email__c;
-            Boolean isRegisteredEmailMatchWorkEmail = oldItems.get(con.Id).Work_Email__c == oldItems.get(con.Id).Registered_Email__c;
-            Boolean updateRegisteredEmailFromPrimary = con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail; 
-            Boolean updateRegisteredEmailFromWork = con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isWorkEmailChange && isRegisteredEmailMatchWorkEmail; 
-
-            if(isUpdate && updateRegisteredEmailFromPrimary){
-                con.Registered_Email__c = con.Email;
-            }
-            else if(isUpdate && updateRegisteredEmailFromWork){
-                con.Registered_Email__c = con.Work_Email__c;    
-            }
+        if(isUpdate && updateRegisteredEmailFromPrimary){
+            newItems.Registered_Email__c = newItems.Email;
+        }
+        else if(isUpdate && updateRegisteredEmailFromWork){
+            newItems.Registered_Email__c = newItems.Work_Email__c;    
         }
     }
 }

@@ -32,7 +32,6 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag      |
       | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentation|
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added lead score calculation    |
-      | julie.jane.alegre              | October 25, 2023      | DEPP-6955              | Added updateRegisteredEmail     |
       |                                |                       |                        |                                 |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
@@ -85,7 +84,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
-    ContactTriggerHelper.updateRegisteredEmail((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
   }
 
   /**
