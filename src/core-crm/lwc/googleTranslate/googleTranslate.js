@@ -32,9 +32,9 @@ const WARNING_VARIANT = "warning";
 const WARNING_MSG_SAME_LANG =
   "Source and target languages should be different.";
 const HEADER_TITLE = "TRANSLATE";
-const COPY_SUBJ_DESC_BTN_LABEL = "Copy Subject and Description";
+const COPY_SUBJ_DESC_BTN_LABEL = "Copy Subject & Description";
 const COPY_TRANS_BTN_LABEL = "Copy Translation";
-const TRANS_BTN_LABEL = "Translate";
+const TRANS_BTN_LABEL = "Translate Text";
 const ADD_TO_COMMENT_BTN_LABEL = "Add Translation to Comment";
 
 export default class GoogleTranslate extends LightningElement {
