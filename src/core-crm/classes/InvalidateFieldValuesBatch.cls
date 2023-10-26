@@ -73,7 +73,17 @@ public with sharing class InvalidateFieldValuesBatch implements Database.Batchab
                 }
             }
         }
-        update objList;
+
+        List<Database.SaveResult> updateResults = Database.update(objList,false);
+        for (Database.SaveResult result : updateResults){
+            //If failure.
+            if (!result.isSuccess()){
+                Logger.error('Error in Invalidate Field Batch').setDatabaseResult(result);
+            }
+        }
+        if(Logger.getBufferSize() > 0){
+            Logger.saveLog();
+        }
     }
 
     public void finish(Database.BatchableContext context){
