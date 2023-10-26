@@ -12,6 +12,8 @@
  *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence |
  *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings              |
  *    | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Added new field mappings              |
+ *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated updateCalculatedCadence to    |
+ *    |                                |                       |                        |     include updateCompletedCadences   |
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
@@ -206,7 +208,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         Map<String, Object> data = new Map<String, Object>();
         String recordId = '';
         String calculatedCadence = '';
-
+        Map<String, String> targetIdCadenceMap = new Map<String, String>();
         Set<String> targetIds = new Set<String>();
 
         for (Object objData : (List<Object>) JSON.deserializeUntyped(targetToUpdate)) {
@@ -214,6 +216,10 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             data = (Map<String, Object>) objData;
             recordId = (String) data.get('targetId');
             calculatedCadence = (String) data.get('salesCadenceNameOrId');
+
+            if(!calculatedCadence.endsWith('Edit')) {
+                targetIdCadenceMap.put(recordId, calculatedCadence);
+            }
 
             if (String.isEmpty(calculatedCadence)) {
                 targetIds.add(recordId);
@@ -242,6 +248,10 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
 
         if (!leadsToUpdate.isEmpty()) {
             LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.USER_MODE);
+        }
+
+        if (!targetIdCadenceMap.isEmpty()) {
+            SalesCadenceCalloutService.updateCompletedCadences(targetIdCadenceMap);
         }
     }
 

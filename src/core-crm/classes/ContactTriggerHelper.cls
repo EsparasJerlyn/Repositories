@@ -16,6 +16,8 @@
       | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added new method to create Marketing Segmentation|
       | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Updated getContactCalculatedCadence to includes  |
       |                                |                       |                        | the automated cadences in the processSaleCadences|
+      | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated getContactCalculatedCadence to include   |
+      |                                |                       |                        |     updateCompletedCadences                      |
       | julie.jane.alegre              | Oct 25, 2023          | DEPP-6955              | Added new method updateRegisteredEmail           |
  */
 public without sharing class ContactTriggerHelper {
@@ -338,6 +340,7 @@ public without sharing class ContactTriggerHelper {
                 assignContactToCadenceMap,
                 removeContactToCadenceMap
             );
+            SalesCadenceCalloutService.updateCompletedCadences(assignContactToCadenceMap);
         }
     }
     /**

@@ -169,4 +169,4 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
         return configList;
 
     }
-}
+} 

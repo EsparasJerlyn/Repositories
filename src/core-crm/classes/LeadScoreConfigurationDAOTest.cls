@@ -53,6 +53,5 @@ public with sharing class LeadScoreConfigurationDAOTest {
         System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
         Test.stopTest();
     }
-    
-    
+       
 }

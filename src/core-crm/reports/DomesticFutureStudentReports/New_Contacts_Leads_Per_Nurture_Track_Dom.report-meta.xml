@@ -1,66 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Nurture_Track_Configuration__c.Completed_Cadences__r$Name</field>
+        <field>Completed_Cadence__c$Name</field>
     </columns>
     <columns>
-        <field>Nurture_Track_Configuration__c.Completed_Cadences__r$Contact__c</field>
+        <field>Completed_Cadence__c$Contact__c</field>
     </columns>
     <columns>
-        <field>Nurture_Track_Configuration__c.Completed_Cadences__r$Lead__c</field>
+        <field>Completed_Cadence__c$Lead__c</field>
     </columns>
     <columns>
-        <field>Nurture_Track_Configuration__c.Completed_Cadences__r$Completed_Cadence_Status__c</field>
+        <field>Completed_Cadence__c$Completed_Cadence_Status__c</field>
     </columns>
     <columns>
-        <field>Nurture_Track_Configuration__c.Completed_Cadences__r$CreatedDate</field>
+        <field>Completed_Cadence__c$CreatedDate</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Average</aggregateTypes>
+        <field>Completed_Cadence__c$Days_Waiting__c</field>
     </columns>
     <filter>
         <criteriaItems>
-            <column>Nurture_Track_Configuration__c.Completed_Cadences__r$Completed_Cadence_Status__c</column>
+            <column>Completed_Cadence__c$Completed_Cadence_Status__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>,Closed - Follow Up,Unsuccessful</value>
+            <value></value>
         </criteriaItems>
         <criteriaItems>
-            <column>Nurture_Track_Configuration__c$Cadence_Name__c</column>
+            <column>Completed_Cadence__c$Cadence_Name__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>startsWith</operator>
             <value>Domestic</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Nurture_Track_Configuration__c$Cadence_Name__c</column>
+            <column>Completed_Cadence__c$Cadence_Name__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notContain</operator>
             <value>(Automated)</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Completed_Cadence__c$Displayed_in_List_View__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Nurture_Track_Configuration__c.Completed_Cadences__r$Days_Waiting__c</field>
+        <field>Completed_Cadence__c$Cadence_Name__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>Nurture_Track_Configuration__c$Cadence_Name__c</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>Contacts/Leads by Days Waiting</name>
+    <name>New Contacts/Leads Per Nurture Track</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>Nurture_Track_Configuration_with_Completed_Cadence__c</reportType>
+    <reportType>Completed_Cadences__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>true</showSubTotals>
+    <showSubTotals>false</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Nurture_Track_Configuration__c$CreatedDate</dateColumn>
+        <dateColumn>Completed_Cadence__c$CreatedDate</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>
