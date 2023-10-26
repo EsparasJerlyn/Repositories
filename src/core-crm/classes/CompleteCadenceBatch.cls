@@ -63,7 +63,7 @@ public with sharing class CompleteCadenceBatch implements Database.Batchable<sOb
 
     /**
     * @description chain current batch job to Calculated Cadence batch job
-    * @param bc - BatchableContext
+    * @param bc - BatchableContext 
     */
     public void finish(Database.BatchableContext bc) {
         NurturingTrackLeadBatch nurturetrackLeadBatch = new NurturingTrackLeadBatch();

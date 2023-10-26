@@ -86,4 +86,5 @@ public with sharing class CompletedCadencesDAOTest {
         }
         Test.stopTest();
     }
+       
 }

@@ -163,4 +163,19 @@ public with sharing class LeadsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getLeadMobilePhoneByRecordIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getLeadMobilePhoneByRecordIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
+        }
+        Test.stopTest();
+    }
+    
 }

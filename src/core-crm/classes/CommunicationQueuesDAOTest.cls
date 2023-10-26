@@ -81,5 +81,4 @@ public with sharing class CommunicationQueuesDAOTest {
         }
         Test.stopTest();
     }
-
 }
