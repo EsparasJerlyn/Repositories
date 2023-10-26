@@ -19075,6 +19075,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Message_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Receiver__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Sender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Time_to_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -29199,6 +29214,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.SMS</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
