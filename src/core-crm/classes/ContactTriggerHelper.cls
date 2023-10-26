@@ -448,8 +448,8 @@ public without sharing class ContactTriggerHelper {
         Boolean isWorkEmailChange = newItems.Work_Email__c != oldItems.get(newItems.Id).Work_Email__c;
         Boolean isRegisteredEmailMatchPrimaryEmail = oldItems.get(newItems.Id).Email == oldItems.get(newItems.Id).Registered_Email__c;
         Boolean isRegisteredEmailMatchWorkEmail = oldItems.get(newItems.Id).Work_Email__c == oldItems.get(newItems.Id).Registered_Email__c;
-        Boolean updateRegisteredEmailFromPrimary = newItems.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail; 
-        Boolean updateRegisteredEmailFromWork = newItems.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && isWorkEmailChange && isRegisteredEmailMatchWorkEmail; 
+        Boolean updateRegisteredEmailFromPrimary = isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail; 
+        Boolean updateRegisteredEmailFromWork =  isWorkEmailChange && isRegisteredEmailMatchWorkEmail; 
 
         if(isUpdate && updateRegisteredEmailFromPrimary){
             newItems.Registered_Email__c = newItems.Email;
