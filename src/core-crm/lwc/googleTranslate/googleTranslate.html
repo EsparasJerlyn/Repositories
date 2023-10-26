@@ -1,80 +1,100 @@
 <template>
+  <c-logger></c-logger>
+  <div class="slds-is-relative">
+    <template if:true={isLoading}>
+      <lightning-spinner
+        alternative-text="Loading records..."
+        size="medium"></lightning-spinner>
+    </template>
     <div class="slds-theme_default">
-        <div class="slds-theme_shade title-text slds-text-title_bold">
-            <img src={googleLogo} alt="Google Translate" class="customIcon">{headerTitle}
-            <lightning-button-icon 
-                variant="bare" 
-                hidden={isShowButtonHidden} 
-                onclick={handleShowButton} 
-                class="slds-float_right slds-p-top_small slds-p-right_medium" 
-                icon-name="utility:down" 
-                alternative-text="Hide" 
-                title="Hide">
-            </lightning-button-icon>            
-            <lightning-button-icon 
-                variant="bare" 
-                hidden={isHideButtonHidden} 
-                onclick={handleHideButton} 
-                class="slds-float_right slds-p-top_small slds-p-right_medium" 
-                icon-name="utility:up" 
-                alternative-text="Show" 
-                title="Show">
-            </lightning-button-icon>
+      <div class="slds-theme_shade title-text slds-text-title_bold">
+        <img
+          src={googleLogo}
+          alt="Google Translate"
+          class="customIcon" />{headerTitle}
+        <lightning-button-icon
+          variant="bare"
+          hidden={isShowButtonHidden}
+          onclick={handleShowButton}
+          class="slds-float_right slds-p-top_small slds-p-right_medium"
+          icon-name="utility:down"
+          alternative-text="Hide"
+          title="Hide">
+        </lightning-button-icon>
+        <lightning-button-icon
+          variant="bare"
+          hidden={isHideButtonHidden}
+          onclick={handleHideButton}
+          class="slds-float_right slds-p-top_small slds-p-right_medium"
+          icon-name="utility:up"
+          alternative-text="Show"
+          title="Show">
+        </lightning-button-icon>
+      </div>
+      <div if:true={displayTranslation} class="slds-p-vertical_medium">
+        <lightning-button
+          class="slds-p-horizontal_medium butttonLabel"
+          variant="brand"
+          label={copySubjectAndDescriptionButtonLabel}
+          onclick={handleCopySubjectAndDescription}></lightning-button>
+
+        <div class="slds-m-around_small slds-box slds-box_small">
+          <lightning-combobox
+            name="sourceValue"
+            value={sourceValue}
+            options={options}
+            onchange={handleSourceValueChange}>
+          </lightning-combobox>
+          <lightning-textarea
+            name="sourceText"
+            class="sourceTextArea"
+            value={sourceTextValue}
+            onchange={handleSourceTextValueChange}
+            placeholder="Enter text">
+          </lightning-textarea>
         </div>
 
-        <div if:true={displayTranslation} class="slds-p-vertical_medium">
-            <lightning-button
-                class="slds-p-horizontal_medium butttonLabel"
-                variant="brand"
-                label={transSubjAndDescBtnLbl}
-                onclick={handleTranslateSubjAndDesc}
-            ></lightning-button>
-            <div class="slds-p-horizontal_medium slds-p-vertical_small">
-                <div class="slds-box slds-box_small">
-                    <lightning-combobox
-                        name="sourceValue"
-                        value={sourceValue}
-                        options={options}>
-                    </lightning-combobox>
-                    <lightning-textarea 
-                        class="sourceTextArea"
-                        name="sourceText" 
-                        value={sourTextValue} 
-                        placeholder="Enter text">
-                    </lightning-textarea>
-                </div>
-            </div>
-
-            <div class="slds-p-horizontal_medium slds-p-vertical_small">
-                <div class="slds-box slds-box_small">
-                    <lightning-combobox
-                        name="sourceValue"
-                        value={sourceValue}
-                        options={options} >
-                    </lightning-combobox>
-                    <lightning-textarea       
-                        class="translatedTextArea"                  
-                        name="translatedText" 
-                        value={translation}
-                        placeholder="Translation">
-                    </lightning-textarea>
-                </div>
-            </div>
-
-            <div class="slds-clearfix">
-                <lightning-button 
-                    class="slds-p-left_medium slds-p-vertical_x-small slds-float_left butttonLabel"
-                    label={copyTransBtnLbl}
-                    onclick={handleTranslate}
-                    variant="brand"
-                ></lightning-button>
-                <lightning-button
-                    class="slds-p-right_medium slds-p-vertical_x-small slds-float_right butttonLabel"
-                    label={addToCommBtnLbl}
-                    variant="brand"
-                    onclick={handleCopyToCaseComment}
-                ></lightning-button>
-            </div>
+        <div class="slds-clearfix">
+          <lightning-button
+            class="slds-p-horizontal_medium butttonLabel"
+            disabled={translateDisabled}
+            variant="brand"
+            label={translateButtonLabel}
+            onclick={handleTranslate}></lightning-button>
         </div>
+
+        <div class="slds-m-around_small slds-box slds-box_small">
+          <lightning-combobox
+            name="targetValue"
+            value={targetValue}
+            options={options}
+            onchange={handleTargetValueChange}>
+          </lightning-combobox>
+          <lightning-textarea
+            name="targetText"
+            class="targetTextArea"
+            value={targetTextValue}
+            onchange={handleTargetTextValueChange}
+            placeholder="Translation">
+          </lightning-textarea>
+        </div>
+
+        <div class="slds-clearfix">
+          <lightning-button
+            class="slds-p-left_medium slds-p-vertical_x-small slds-float_left butttonLabel"
+            label={copyTranslationButtonLabel}
+            disabled={copyTranslationDisabled}
+            onclick={handleCopyTranslation}
+            variant="brand"></lightning-button>
+
+          <lightning-button
+            class="slds-p-right_medium slds-p-vertical_x-small slds-float_right butttonLabel"
+            label={addTranslationToCommentButtonLabel}
+            disabled={addTranslationToCommentDisabled}
+            variant="brand"
+            onclick={handleTranslationToComment}></lightning-button>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
