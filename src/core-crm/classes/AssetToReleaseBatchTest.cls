@@ -1,5 +1,5 @@
 /**
- * @description Batch class to publish Corporate Bundle product requests
+ * @description Batch class publish to release Corporate Bundle product requests
  * 
  * @author Accenture
  *
@@ -7,10 +7,12 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | Aug. 11, 2022         | DEPP-3481              | Created file                 | 
+      | sebastianne.k.trias            | August 11, 2023       | DEPP-6240              | Created file                 |
  */
 @isTest
-public with sharing class AssetToPublishBatchTest {
+public with sharing class AssetToReleaseBatchTest {
+    private static final String PR_RELEASE = System.Label.PL_ProductRequest_Release;
+    private static final String PR_PUBLISHED = System.Label.PL_ProductRequest_Published;
     private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
     private static final Id CORPORATEBUNDLE_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Corporate_Bundle').getRecordTypeId();
     private static final Id ACTIVITY_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName().get('Activity').getRecordTypeId();
@@ -22,38 +24,24 @@ public with sharing class AssetToPublishBatchTest {
       .get(ACCT_UNIV_DEP)
       .getRecordTypeId();
 
-    @testSetup 
+    @testSetup
     static void setupMethod() {
         Test.startTest();
         TestDataFactory.generateTestUsers();
         Test.stopTest();
-
-        ProductCatalog prodCatalog = new ProductCatalog(Name = 'Study Catalog');
-        insert prodCatalog;
-
-        ProductCategory prodCateg = new ProductCategory(
-            Name = 'Products',
-            CatalogId = prodCatalog.Id
-        );
-        insert prodCateg;
-
-        CommerceEntitlementPolicy commentPolicy = new CommerceEntitlementPolicy(
-            Name = 'OPE Entitlement'
-        );
-        insert commentPolicy;
-
     }
-        
-    @isTest
-    private static void runToPublishTest() {
-        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
 
+    @isTest
+    private static void runPublishToReleaseTest() {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            // create business account
             List<Account> accountList = TestDataFactory.createTestAccountRecords(2);
             for(Account acc: accountList){
                 acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
             }
             insert accountList;
-    
+
+            // create account for that business account
             List<Account> accounts;
             accounts = TestDataFactory.createTestAccountRecords(1);
             for(Account acc : accounts){
@@ -61,28 +49,33 @@ public with sharing class AssetToPublishBatchTest {
                 acc.Organization_Unit_Level__c = '2';
             }
             insert accounts;
+
             List<Contact> conList;
             conList = TestDataFactory.createTestContactRecords(1);
             insert conList;
-    
+
+            // create product request
             List<Opportunity> oppList = TestDataFactory.createClosedWonOpportunities(1,accounts[0].Id,conList.iterator().next()?.Id);
             insert oppList;
-    
+
             List<Product_Specification__c> prodSpecList = TestDataFactory.retrieveCCEProductSpecifications();
-    
+
             List<Product_Request__c> cbRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c pr : cbRequest){
-                pr.RecordTypeId = CORPORATEBUNDLE_ID;        
+                pr.RecordTypeId = CORPORATEBUNDLE_ID; 
+                pr.Product_Request_Status__c = PR_PUBLISHED;
             }
             insert cbRequest;
 
+            // since product request is created, create a asset
             Asset aInsert = new Asset();
             aInsert.Name = accountList[0].Name + ' ' + String.valueofGmt(System.now());
             aInsert.AccountId = accountList[0].Id;
             aInsert.Product_Request__c = cbRequest[0].Id;
             aInsert.Ready_for_publishing__c = 'Yes';
-            aInsert.Publishing_Start_Date__c = Date.Today();
-            aInsert.Publishing_End_Date__c = Date.Today().addYears(1);
+            aInsert.Publishing_Start_Date__c = Date.Today().addDays(-1);
+            aInsert.Publishing_End_Date__c = Date.Today();
+            aInsert.End_Date__c = Date.Today().addDays(1);
             insert aInsert;
 
             BuyerGroup bgInsert = new BuyerGroup();
@@ -90,6 +83,7 @@ public with sharing class AssetToPublishBatchTest {
             bgInsert.Product_Request__c = cbRequest[0].Id;
             insert bgInsert;
             
+            // create a child product request for corporate bundle
             List<Product_Request__c> courseRequest = TestDataFactory.createTestProductRequestRecords(1,prodSpecList[0].Id);
             for(Product_Request__c pr : courseRequest){
                 pr.RecordTypeId = ACTIVITY_ID;        
@@ -102,27 +96,26 @@ public with sharing class AssetToPublishBatchTest {
                 c.RecordTypeId = ACTIVITY_COURSE_ID;
             }
             insert courses;
-            
+
+            // update product list to published
             List<Product2> productsList = new List<Product2>([SELECT Id FROM Product2 WHERE Course__c IN: courses]);
             for(Product2 prod: productsList){
                 prod.QA_Comments__c = 'test comment';
                 prod.QA_Review_Completed__c = 'Yes';
                 prod.Ready_for_publishing__c = 'Yes';
-                prod.Publishing_Start_Date__c = Date.Today();
-                prod.Publishing_End_Date__c = Date.Today().addYears(1);
+                prod.Publishing_Start_Date__c = Date.Today().addDays(-1);
+                prod.Publishing_End_Date__c = Date.Today();
+                prod.End_Date__c = Date.Today().addDays(1);
             }
 
             update productsList;
 
             Test.startTest();
-
-            AssetToPublishBatch batch = new AssetToPublishBatch();
-            Database.executeBatch(batch);
-
+                AssetToReleaseBatch batch = new AssetToReleaseBatch();
+                Id batchId = Database.executeBatch(batch);
             Test.stopTest();
-
-            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'AssetToPublishBatch'].isEmpty() , 'AssetToPublishBatch Job was not executed');
-
+            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'AssetToReleaseBatch'].isEmpty() , 'AssetToReleaseBatch Job was not executed');
         }
     }
+
 }
