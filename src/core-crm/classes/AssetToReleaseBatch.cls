@@ -1,5 +1,5 @@
 /**
- * @description Batch class to publish related product requests of assets
+ * @description Batch class to return to release related product requests of assets
  * 
  * @author Accenture
  *
@@ -7,15 +7,17 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin   	       | Aug 11, 2022          | DEPP-3481              | Created file                 | 
+      | sebastianne.k.trias            | August 11, 2023       | DEPP-6240              | Created file                 |
  */
-public class AssetToPublishBatch implements Database.Batchable<sObject> {
+public class AssetToReleaseBatch implements Database.Batchable<sObject> {
+    private static final String PR_RELEASE = System.Label.PL_ProductRequest_Release;
     private static final String PR_PUBLISHED = System.Label.PL_ProductRequest_Published;
     private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
     private static final String PR_NOT_PROCEEDING = System.Label.PL_ProductRequest_Not_Proceeding;
+   
 
     /**
-    * @description to publish Corporate Bundle product requests
+    * @description return to release if published Corporate Bundle product requests Publishing End Date has ended and End Date has not yet ended
     * @param bc - BatchableContext
     * @return query - filtered query of asset records
     */
@@ -23,12 +25,9 @@ public class AssetToPublishBatch implements Database.Batchable<sObject> {
         String queryFilter = 
             'SELECT Id, Product_Request__c ' + 
             'FROM Asset ' + 
-            'WHERE Publishing_Start_Date__c <= TODAY ' + 
-            'And Publishing_End_Date__c > Today '+
-            'AND Ready_for_publishing__c = \'Yes\' ' +
-            'AND Product_Request__r.Product_Request_Status__c != \''+PR_COMPLETED+'\' ' +
-            'AND Product_Request__r.Product_Request_Status__c != \''+PR_PUBLISHED+'\' ' + 
-            'AND Product_Request__r.Product_Request_Status__c != \''+PR_NOT_PROCEEDING+'\' ';
+            'WHERE Publishing_End_Date__c <= TODAY ' +
+            'AND End_Date__c >= TODAY ' +
+            'AND Product_Request__r.Product_Request_Status__c = \''+PR_PUBLISHED+'\' ';
         
         return Database.getQueryLocator(queryFilter);
     }
@@ -40,31 +39,27 @@ public class AssetToPublishBatch implements Database.Batchable<sObject> {
     */
     public void execute(Database.BatchableContext bc, List<Asset> assetList){
         try{ 
-            Map<Id, Product_Request__c> productRequestToPublish = new Map<Id, Product_Request__c>();
+            Map<Id, Product_Request__c> productRequestToRelease = new Map<Id, Product_Request__c>();
 
             for(Asset a : assetList){
-                productRequestToPublish.put(    
+                productRequestToRelease.put(    
                     a.Product_Request__c, 
                     new Product_Request__c( 
                         Id = a.Product_Request__c, 
-                        Product_Request_Status__c = PR_PUBLISHED
+                        Product_Request_Status__c = PR_RELEASE
                     )
                 );
             }
 
-            if(!productRequestToPublish.keySet().isEmpty()){
-                update productRequestToPublish.values();
+            if(!productRequestToRelease.keySet().isEmpty()){
+                update productRequestToRelease.values();
             }
 
         }catch(Exception e){
-           Logger.error('Exception caught in method execute in Apex class AssetToPublishBatch.').setExceptionDetails(e);
-        } finally {
-            if(Logger.getBufferSize() > 0) {
-                Logger.saveLog();
-            }
+           System.debug(LoggingLevel.WARN, 'AssetToReleaseBatch Error: ' + e.getMessage());//NOPMD
         }
        
-    } 
+    }
 
     public void finish(Database.BatchableContext bc) {}//NOPMD
 }
