@@ -121,6 +121,14 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Source__c</fields>
+        <fields>Application_Type__c</fields>
+        <fields>Provisional_Application_Number__c</fields>
+        <fields>International_Application_Number__c</fields>
+        <fields>National_Application_Number__c</fields>
+        <fields>Application_Expiry_Date__c</fields>
+        <fields>Submission_Date__c</fields>
+        <fields>Status__c</fields>
         <relatedList>IP_Management_Application__c.IP_Management_Code__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -129,7 +137,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBm000002hHeX</masterLabel>
+        <masterLabel>00h9p000000pHVd</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

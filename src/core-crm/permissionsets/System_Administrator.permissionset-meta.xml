@@ -29260,6 +29260,14 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>New_Engagement</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>New_Opportunity</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Nurture_Track_Configuration__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
