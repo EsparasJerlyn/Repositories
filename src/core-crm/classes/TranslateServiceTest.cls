@@ -177,7 +177,7 @@ public class TranslateServiceTest {
         System.assertEquals('jv', mappedJavanese, 'Javanese should be mapped to "jv"');
 
         // Test a language code with no mapping
-        String unmappedCode = TranslateService.mapLanguageCode('xx'); // Replace 'xx' with an unmapped code
+        String unmappedCode = TranslateService.mapLanguageCode('xx');
         System.assertEquals('xx', unmappedCode, 'Unmapped code should remain unchanged');
     }
 
