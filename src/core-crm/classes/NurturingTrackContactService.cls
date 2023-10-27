@@ -700,10 +700,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> domesticExitContactMap
     ) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
-        Set<Id> existingContactIdOnApplicationToExit = getDomesticDeferredOfferToAcceptanceExitFilter(
-            applicationList,
-            'DomesticDeferredOfferToAcceptance'
-        );
+        Set<Id> existingContactIdOnApplicationToExit = new Set<Id>();
+        
+        if(!applicationList.isEmpty()){
+            existingContactIdOnApplicationToExit.addAll(getDomesticDeferredOfferToAcceptanceExitFilter(
+                applicationList,
+                'DomesticDeferredOfferToAcceptance'
+            ));
+        }
+
         for (Id contactId : domesticExitContactMap.keySet()) {
             Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(
                 contactId
@@ -1596,9 +1601,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> domesticExitContactMap
     ) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
-        Set<Id> existingContactIdOnApplicationToExit = getContactOnApplicationForDomesticStrongInterestPreApplicationExitFilter(
-            applicationList
-        );
+        Set<Id> existingContactIdOnApplicationToExit = new Set<Id>();
+        
+        if(!applicationList.isEmpty()){
+            existingContactIdOnApplicationToExit.addAll(getContactOnApplicationForDomesticStrongInterestPreApplicationExitFilter(
+                applicationList
+            ));
+        }
         for (Id contactId : domesticExitContactMap.keySet()) {
             Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(
                 contactId
