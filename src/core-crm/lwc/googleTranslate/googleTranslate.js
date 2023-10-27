@@ -182,8 +182,14 @@ export default class GoogleTranslate extends LightningElement {
           }))
         ];
 
-        // Filter out the 'zh' option and retain the 'zh-CN' option
-        this.options = this.options.filter((option) => option.value !== "zh");
+        // Filter out the 'zh' (Chinese), 'iw' (Hebrew), 'fil' (Filipino), and 'jw' (Javanese) options
+        this.options = this.options.filter(
+          (option) =>
+            option.value !== "zh" && // Simplified Chinese
+            option.value !== "iw" && // Hebrew
+            option.value !== "fil" && // Filipino (Tagalog)
+            option.value !== "jw" // Javanese
+        );
 
         // Sort the options alphabetically based on the label property
         this.options.sort((a, b) => a.label.localeCompare(b.label));

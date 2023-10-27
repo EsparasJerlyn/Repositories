@@ -227,7 +227,9 @@ public with sharing class TranslateService {
 
             String[] detections = new List<String>{};
             for (Detection[] detectionsList : model.data.detections) {
-                detections.add(detectionsList.get(0).language);
+                String detectedLanguage = detectionsList.get(0).language;
+                String mappedLanguage = mapLanguageCode(detectedLanguage);
+                detections.add(mappedLanguage);
             }
 
             return detections; // TODO: Take into account the confidence?
@@ -254,6 +256,31 @@ public with sharing class TranslateService {
     public static String detectLanguage(String query) {
         String[] detections = detectLanguages(new List<String>{ query });
         return detections != null && !detections.isEmpty() ? detections[0] : null;
+    }
+
+    /**
+     * Map language codes to ensure consistency.
+     *
+     * @param languageCode The language code to map.
+     * @return The mapped language code.
+     */
+    public static String mapLanguageCode(String languageCode) {
+        // Implement your mapping logic here.
+        if (languageCode.equals('iw')) {
+            // Map "iw" (Hebrew) to "he" (Hebrew)
+            return 'he';
+        } else if (languageCode.equals('zh')) {
+            // Map "zh" (Chinese Simplified) to "zh-CN" (Chinese Simplified Mainland China)
+            return 'zh-CN';
+        } else if (languageCode.equals('fil')) {
+            // Map "fil" (Filipino) to "tl" (Tagalog)
+            return 'tl';
+        } else if (languageCode.equals('jw')) {
+            // Map "jw" (Javanese) to 'jv' (Javanese)
+            return 'jv';
+        } else {
+            return languageCode; // Default to the input code if no mapping is found.
+        }
     }
 
     /** CALLOUT HELPER METHOD **/
