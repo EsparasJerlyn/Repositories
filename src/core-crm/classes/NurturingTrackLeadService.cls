@@ -503,7 +503,9 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                 NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
                 isManual
             );
-            List<String> relatedCaseCategories = leadIdToCaseCategoriesMap.get(internationalEntryLead.Id);
+            //pass an empty list if not found in map
+            List<String> relatedCaseCategories = leadIdToCaseCategoriesMap.containsKey(internationalEntryLead.Id)?leadIdToCaseCategoriesMap.get(internationalEntryLead.Id): new List<String>();
+
             if( // ... the lead...
                 isLeadWithNoActiveStudyLinkAppforXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
                 internationalEntryLead.Lead_Score__c > threshold &&  (                    // ... has a lead score above threshold...
