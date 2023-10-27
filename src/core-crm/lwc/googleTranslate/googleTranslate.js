@@ -182,6 +182,9 @@ export default class GoogleTranslate extends LightningElement {
           }))
         ];
 
+        // Filter out the 'zh' option and retain the 'zh-CN' option
+        this.options = this.options.filter((option) => option.value !== "zh");
+
         // Sort the options alphabetically based on the label property
         this.options.sort((a, b) => a.label.localeCompare(b.label));
 

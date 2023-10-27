@@ -17,4 +17,8 @@
         <layout>Session__c-Specialised Layout</layout>
         <recordType>Session__c.Specialised_Session</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-SMS Layout</layout>
+        <recordType>Task.SMS</recordType>
+    </layoutAssignments>
 </Profile>

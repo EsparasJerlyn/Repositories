@@ -54,9 +54,9 @@ public with sharing class LeadScoreCalculationBatch implements Database.Batchabl
             processCase(contactIdSet, leadIdSet);
             
            /**
-            * Email Interaction
+            * Recalculate for Email Interaction
             */
-            //processEmailInteractions(contactLeadIds);
+            processEmailInteractions(contactIdSet, leadIdSet);
 
         }catch(Exception e){
             Logger.error('Exception caught in method execute in Apex class LeadScoreCalculationBatch.').setExceptionDetails(e);
@@ -82,6 +82,15 @@ public with sharing class LeadScoreCalculationBatch implements Database.Batchabl
         LeadScoreCalculatorService.ObjectMap objMap = MarketingInteractionLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, mktIntMap);
         if(!mktIntMap.isEmpty()){
             LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Marketing_Interaction__c.getSObjectType());
+        }
+    }
+
+    private static void processEmailInteractions(Set<Id> contactIdSet, Set<Id> leadIdSet){        
+        Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
+        Map<Id,et4ae5__IndividualEmailResult__c> indivEmailMap = IndividualEmailLeadScoreHelper.getIndividualEmailResultRecords(contactLeadIds);
+        LeadScoreCalculatorService.ObjectMap objMap = IndividualEmailLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, indivEmailMap);
+        if(!indivEmailMap.isEmpty()){
+            LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, et4ae5__IndividualEmailResult__c.getSObjectType());
         }
     }
 
