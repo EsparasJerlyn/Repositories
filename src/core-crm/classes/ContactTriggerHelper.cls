@@ -18,7 +18,7 @@
       |                                |                       |                        | the automated cadences in the processSaleCadences|
       | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated getContactCalculatedCadence to include   |
       |                                |                       |                        |     updateCompletedCadences                      |
-      | julie.jane.alegre              | Oct 25, 2023          | DEPP-6955              | Added new method updateRegisteredEmail           |
+      | julie.jane.alegre              | Oct 27, 2023          | DEPP-6955              | Added new method updateRegisteredEmail           |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -53,7 +53,6 @@ public without sharing class ContactTriggerHelper {
             setCanNurtureFlag(con, contactsToRecalculate, oldItems); //sets can nurture flag
             setQUTPersonaFlag(con); //sets QUT_Staff__c(Persona Flags) of Contact
             updateRegisteredEmail(con, oldItems); // updates Registered email when match with Primary Email or Work Email
-
         }
 
         //processes with soql and dml start
@@ -440,24 +439,24 @@ public without sharing class ContactTriggerHelper {
             }
         }
     }
-/***
+
+    /***
      * @description update Registered email when match to Primary Email or Work Email 
      * @param newItems - trigger.new contacts
      * @param oldItems - trigger.old contacts
      */
     private static void updateRegisteredEmail(Contact newItems, Map<Id, Contact> oldItems){
         Boolean isUpdate = oldItems != null;
-        Boolean isPrimaryEmailChange = newItems.Email != oldItems.get(newItems.Id).Email;
-        Boolean isWorkEmailChange = newItems.Work_Email__c != oldItems.get(newItems.Id).Work_Email__c;
-        Boolean isRegisteredEmailMatchPrimaryEmail = oldItems.get(newItems.Id).Email == oldItems.get(newItems.Id).Registered_Email__c;
-        Boolean isRegisteredEmailMatchWorkEmail = oldItems.get(newItems.Id).Work_Email__c == oldItems.get(newItems.Id).Registered_Email__c;
+        Boolean isPrimaryEmailChange = isUpdate && newItems.Email != oldItems.get(newItems.Id).Email;
+        Boolean isWorkEmailChange = isUpdate && newItems.Work_Email__c != oldItems.get(newItems.Id).Work_Email__c;
+        Boolean isRegisteredEmailMatchPrimaryEmail = isUpdate && (oldItems.get(newItems.Id).Email == oldItems.get(newItems.Id).Registered_Email__c);
+        Boolean isRegisteredEmailMatchWorkEmail = isUpdate && (oldItems.get(newItems.Id).Work_Email__c == oldItems.get(newItems.Id).Registered_Email__c);
         Boolean updateRegisteredEmailFromPrimary = isPrimaryEmailChange && isRegisteredEmailMatchPrimaryEmail; 
         Boolean updateRegisteredEmailFromWork =  isWorkEmailChange && isRegisteredEmailMatchWorkEmail; 
-
-        if(isUpdate && updateRegisteredEmailFromPrimary){
+        if(updateRegisteredEmailFromPrimary){
             newItems.Registered_Email__c = newItems.Email;
         }
-        else if(isUpdate && updateRegisteredEmailFromWork){
+        else if(updateRegisteredEmailFromWork){
             newItems.Registered_Email__c = newItems.Work_Email__c;    
         }
     }
