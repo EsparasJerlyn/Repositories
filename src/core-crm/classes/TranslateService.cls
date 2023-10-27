@@ -265,7 +265,6 @@ public with sharing class TranslateService {
      * @return The mapped language code.
      */
     public static String mapLanguageCode(String languageCode) {
-        // Implement your mapping logic here.
         if (languageCode.equals('iw')) {
             // Map "iw" (Hebrew) to "he" (Hebrew)
             return 'he';
@@ -273,7 +272,7 @@ public with sharing class TranslateService {
             // Map "zh" (Chinese Simplified) to "zh-CN" (Chinese Simplified Mainland China)
             return 'zh-CN';
         } else if (languageCode.equals('fil')) {
-            // Map "fil" (Filipino) to "tl" (Tagalog)
+            // Map "fil" (Filipino) to "tl" (Filipino Tagalog)
             return 'tl';
         } else if (languageCode.equals('jw')) {
             // Map "jw" (Javanese) to 'jv' (Javanese)
