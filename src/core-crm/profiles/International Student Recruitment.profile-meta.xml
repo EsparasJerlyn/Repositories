@@ -34,4 +34,8 @@
     <layoutAssignments>
         <layout>hed__Application__c-hed__EDA Application Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-SMS Layout</layout>
+        <recordType>Task.SMS</recordType>
+    </layoutAssignments>
 </Profile>
