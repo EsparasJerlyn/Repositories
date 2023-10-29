@@ -126,7 +126,8 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
                 new Task(
                     Subject = SMS_SUBJECT,
                     OwnerId = userId,
-                    Status = commsQueue.Status__c,
+                    SMS_Outcome__c = commsQueue.Status__c,
+                    Status = 'Completed',
                     WhoId = commsQueue.WhoId__c,
                     RecordTypeId = TasksDAO.SMS_RECTYPE_ID,
                     Message_Content__c =  commsQueue.Message__c,
