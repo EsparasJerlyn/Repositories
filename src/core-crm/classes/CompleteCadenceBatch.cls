@@ -36,7 +36,10 @@ public with sharing class CompleteCadenceBatch implements Database.Batchable<sOb
             List<ActionCadenceStepTracker> actionStepTrackerList = ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(actionCadenceStepIds, AccessLevel.SYSTEM_MODE);
             Set<Id> completedCadenceIds = new Set<Id>();
             for(ActionCadenceStepTracker ac : actionStepTrackerList){
-                completedCadenceIds.add(ac.Id);
+                Boolean isValidUser = ac.ActionCadenceTracker.OwnerId == UserInfo.getUserId();
+                if(isValidUser){
+                    completedCadenceIds.add(ac.Id); 
+                }
             }
             
             Set<Id> targets = new Set<Id>();
