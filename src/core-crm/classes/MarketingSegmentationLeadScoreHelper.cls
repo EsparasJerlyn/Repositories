@@ -38,6 +38,7 @@
                     contactIdSet.add(mktgSeg.Contact__c);
                     marketingSegmentationMap.put(mktgSeg.Contact__c, mktgSeg);
                 }else if(mktgSeg.Lead__c != null){
+                    contactIdSet.add(mktgSeg.Lead__c);
                     marketingSegmentationMap.put(mktgSeg.Lead__c, mktgSeg);
                 }
             }
