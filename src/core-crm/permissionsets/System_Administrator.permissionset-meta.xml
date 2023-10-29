@@ -29356,6 +29356,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>SMS_Template__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Study_Area_Plan__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -29522,7 +29526,7 @@
     <tabSettings>
         <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
-    </tabSettings>
+    </tabSettings>    
     <tabSettings>
         <tab>standard-Account</tab>
         <visibility>Visible</visibility>

@@ -40,11 +40,11 @@
     <tabs>Nurture_Track_Configuration__c</tabs>
     <tabs>standard-ActionCadence</tabs>
     <tabs>standard-EmailTemplate</tabs>
+    <tabs>SMS_Template__c</tabs>
     <tabs>standard-CallTemplate</tabs>
     <tabs>International_Tier__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
-    <tabs>SMS_Template__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>

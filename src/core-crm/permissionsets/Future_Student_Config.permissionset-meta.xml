@@ -310,7 +310,7 @@
     <tabSettings>
         <tab>Case_Priority_Configuration__c</tab>
         <visibility>Visible</visibility>
-    </tabSettings>
+    </tabSettings>    
     <tabSettings>
         <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
@@ -329,6 +329,6 @@
     </tabSettings>
     <tabSettings>
         <tab>SMS_Template__c</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>
