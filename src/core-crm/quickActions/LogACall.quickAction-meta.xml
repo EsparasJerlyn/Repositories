@@ -34,5 +34,6 @@
     </quickActionLayout>
     <standardLabel>LogACall</standardLabel>
     <targetObject>Task</targetObject>
+    <targetRecordType>Task.Standard</targetRecordType>
     <type>LogACall</type>
 </QuickAction>
