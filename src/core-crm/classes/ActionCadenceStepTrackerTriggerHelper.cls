@@ -160,13 +160,11 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
         
         for(Id targetId: targetIds){
             if(contactMap.containsKey(targetId)){
-                String mobileCode = extractCountryCode(contactMap.get(targetId).ContactMobile_Locale__c);
-                String mobilePhoneNumber = mobileCode + String.valueOf(contactMap.get(targetId).MobilePhone);               
+                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);               
                 targetMobilePhones.put(targetId,mobilePhoneNumber);
             }
             if(leadMap.containsKey(targetId)){
-                String mobileCode = extractCountryCode(leadMap.get(targetId).LeadMobile_Locale__c);
-                String mobilePhoneNumber = mobileCode + String.valueOf(contactMap.get(targetId).MobilePhone);
+                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);
                 targetMobilePhones.put(targetId,mobilePhoneNumber);
             }
         }
@@ -233,23 +231,5 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
             WhoId = ac.TargetId,
             Description = NO_MOBILEPHONE_MSG
         );       
-    }
-
-    /**
-     * get Mobile locale number
-     */     
-    private static String extractCountryCode(String input) {
-        String countryCode = null;
-        
-        if (input != null) {
-            Pattern pattern = Pattern.compile('\\(([^)]+)\\)');
-            Matcher matcher = pattern.matcher(input);
-            
-            if (matcher.find()) {
-                countryCode = matcher.group(1);
-            }
-        }
-        
-        return countryCode;
     }
 }
