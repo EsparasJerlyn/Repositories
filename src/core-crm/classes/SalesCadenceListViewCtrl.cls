@@ -8,12 +8,14 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
  *    |--------------------------------|-----------------------|------------------------|---------------------------------------|
- *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                          |
- *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence |
- *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings              |
- *    | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Added new field mappings              |
- *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated updateCalculatedCadence to    |
- *    |                                |                       |                        |     include updateCompletedCadences   |
+ *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                                              |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence                     |
+ *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings                                  |
+ *    | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Added new field mappings                                  |
+ *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated updateCalculatedCadence to                        |
+ *    |                                |                       |                        |     include updateCompletedCadences                       |
+ *    | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | fixed pmd issue                                           |
+ *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
@@ -160,7 +162,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c;
             tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
             tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name;
-            
+
             recordDetailsWrapper.add(tempWrapper);
         }
     }

@@ -9,6 +9,7 @@
  *    |---------------------------|-----------------------|----------------------|-----------------------------------------------------------------------------|
  *    | roy.nino.s.regala         | July 14, 2023         | DEPP-5677            | Created file                                                                |
  *    | roy.nino.s.regala         | Sep 22, 2023          | DEPP-6365            | Added new field mapping and column logic                                    |
+ *    | roy.nino.s.regala         | Oct 30, 2023          | DEPP-7024            | Added new field mapping and column logic                                    |
  */
 import { LightningElement, api, track} from "lwc";
 import getTableDataWrapper from "@salesforce/apex/SalesCadenceListViewCtrl.getTableDataWrapper";
