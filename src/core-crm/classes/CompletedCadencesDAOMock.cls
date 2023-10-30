@@ -65,4 +65,19 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
         }
         return completedCadenceList;
     }
-}
+
+    public List<Completed_Cadence__c> getCompletedCadenceByTargetIds(
+        Set<Id> targetIds,
+        Set<String> cadenceNames,
+        String accessLevel
+    ) {
+        List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+
+        for (Completed_Cadence__c record : completedCadencesMap.values()) {
+            if (targetIds.contains(record.Lead__c) || targetIds.contains(record.Contact__c)) {
+                completedCadenceList.add(record);
+            }
+        }
+        return completedCadenceList;
+    }
+} 

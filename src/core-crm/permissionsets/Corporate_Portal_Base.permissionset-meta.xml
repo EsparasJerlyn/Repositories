@@ -286,7 +286,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Contact.QUT_Staff_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -387,6 +387,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Expression_of_Interest__c.Company_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Expression_of_Interest__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -423,6 +428,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Expression_of_Interest__c.Mobile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Expression_of_Interest__c.Position__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

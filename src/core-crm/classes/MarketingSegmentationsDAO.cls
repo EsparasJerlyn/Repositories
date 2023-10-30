@@ -1,0 +1,92 @@
+/**
+ * @description Interface for Marketing Segmentation DAO
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------|
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Created file                                |
+      | arsenio.jr.dayrit              | October 23, 2023      | DEPP-6929              | Added constant for Lead Score Calculation   |
+ */
+public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO{
+
+    public static final String PRIMARY_STUDY_LEVEL_UNDERGRAD = 'Undergraduate';
+    public static final String PRIMARY_STUDY_LEVEL_POSTGRAD = 'Postgraduate';
+    public static final String PRIMARY_STUDY_LEVEL_UNDETERMINED = 'Undetermined';
+
+    public static final String CITIZENSHIP_STATUS_DOMESTIC_AU = 'Australian Citizen or Permanent Resident';   
+    public static final String CITIZENSHIP_STATUS_DOMESTIC_NZ = 'New Zealand Citizen';
+    public static final String CITIZENSHIP_STATUS_INTERNATIONAL = 'International Student';
+
+    //SUB CATEGORY CONSTANTS START
+    public static final String CONFIG_SUB_CATEGORY_I_FUND_MY_STUDIES_MYSELF = 'I will fund my studies myself';
+    public static final String CONFIG_SUB_CATEGORY_MY_FAMILY_WILL_FUND_MY_STUDIES = 'My family will fund my studies';
+    public static final String CONFIG_SUB_CATEGORY_I_ALREADY_HAVE_A_SCHOLARSHIP_LOAN_OR_SPONSORSHIP = 'I already have a scholarship, loan or sponsorship';
+    public static final String CONFIG_SUB_CATEGORY_I_AM_NOT_SURE = 'I am not sure';
+    public static final String CONFIG_SUB_CATEGORY_I_NEED_A_FULL_SCHOLARSHIP = 'I need a full scholarship';
+
+    public static final String COUNTRY_AU = 'Australia';
+
+    public static final String PRIMARY_NSA_BSA_IM_NOT_SURE = 'I am not sure';
+
+    public static final String STUDY_LEVEL_POSTGRAD = 'Postgraduate';
+    public static final String STUDY_LEVEL_HIGHER_DEGREE = 'Higher Degree Research';
+    public static final String STUDY_LEVEL_SHORT_COURSES = 'Short courses and Professional Development';
+    public static final String STUDY_LEVEL_EXCHANGE_AND_STUDY = 'Exchange and Study Abroad (1 or 2 Semesters Only)';
+    public static final String STUDY_LEVEL_UNDERGRAD = 'Undergraduate';
+
+    public Schema.SObjectType getSObjectType(){
+        return Marketing_Segmentation__c.SObjectType;
+	  }
+
+    public static IMarketingSegmentationsDAO newInstance(){
+		    return (IMarketingSegmentationsDAO) ImplementationSelector.DAO.newInstance(Marketing_Segmentation__c.SObjectType);
+	  }
+
+    public List<Marketing_Segmentation__c> getMarketingSegmentationByContactIds(
+        Set<Id> contactIds,
+        AccessLevel accessLevel
+    ) {
+        String marketingSegmentationQuery = 
+            'SELECT' +
+            ' Id, Contact__c, My_Primary_Study_Level__c, My_Expected_Admission_Year__c, My_Citizenship_Status__c ' +
+            ' FROM' + 
+            ' Marketing_Segmentation__c' +
+            ' WHERE' +
+            ' Contact__c IN:contactIds';
+        
+        return Database.query(marketingSegmentationQuery, accessLevel);
+    }
+
+    public List<Marketing_Segmentation__c> getMarketingSegmentationByLeadIds(
+      Set<Id> leadIds,
+      AccessLevel accessLevel
+    ) {
+        String marketingSegmentationQuery = 
+            'SELECT' +
+            ' Id, Lead__c, My_Primary_Study_Level__c, My_Citizenship_Status__c ' +
+            ' FROM' + 
+            ' Marketing_Segmentation__c' +
+            ' WHERE' +
+            ' Lead__c IN:leadIds';
+    
+        return Database.query(marketingSegmentationQuery, accessLevel);
+    }
+
+    public static List<Marketing_Segmentation__c> getMarketingSegmentationByContactOrLead(
+        Set<Id> contactIdSet, 
+        Set<Id> leadIdSet,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Lead__c, Contact__c, My_Primary_Study_Level__c, My_Citizenship_Status__c, Contact__r.hed__Citizenship_Status__c, ' +
+            'My_Funding_Source__c, My_Primary_BSA__c, My_Primary_NSA__c, My_Expected_Admission_Year__c, My_Country_Of_Citizenship__c, ' +
+            'My_Country_Of_Residency__c, My_Double_Degree__c, My_Interested_English_Pathways__c ' +
+            'FROM Marketing_Segmentation__c ' +
+            'WHERE Contact__c IN : contactIdSet OR Lead__c IN : leadIdSet ',
+            accessLevel
+        );
+    }
+
+}

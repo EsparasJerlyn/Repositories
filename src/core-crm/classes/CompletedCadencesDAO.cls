@@ -4,14 +4,34 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                     |
-      | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query                                  |
-      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added query filter condition and updated method  |
-      |                                |                       |                        | getCompletedCadenceByTargetIdsAndCadenceName     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                   |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Created file                                                     |
+      | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query                                                  |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added query filter condition and updated method                  |
+      |                                |                       |                        | getCompletedCadenceByTargetIdsAndCadenceName                     |
+      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added fields in getCompletedCadenceByLeadIds                     |
+      | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added method for getCompletedCadenceByTargetIds                  |
+      | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6524              | Added logic to include follow-up call in Completed               |
+      |                                |                       |                        | Cadence statuses                                                 |
+      | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added addition fields for soql                                   |
+      | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Used string literals for Statuses                                |
+      | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Add additional return fields in SOQL                             |
+      | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
+
+    public static final String NULL_STATUS = '';
+    public static final String SUCCESSFUL_STATUS = 'Successful';
+    public static final String CLOSED_FOLLOW_UP_STATUS = 'Closed - Follow Up';
+    public static final String UNSUCCESSFUL_STATUS = 'Unsuccessful';
+
+    public static final Set<String> completedCadenceStatuses = new Set<String>{
+        UNSUCCESSFUL_STATUS,
+        CLOSED_FOLLOW_UP_STATUS,
+        NULL_STATUS
+    };   
+
     public static ICompletedCadencesDAO newInstance() {
         return (ICompletedCadencesDAO) ImplementationSelector.DAO.newInstance(
             Completed_Cadence__c.SObjectType
@@ -30,7 +50,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             'SELECT  Id, Application__c, Contact__c, Lead__c, Nurture_Track_Configuration__c, Nurture_Track_Configuration__r.Cadence_Name__c ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Contact__c IN:contactIds '+
-            'AND Completed_Cadence_Status__c != \'Unsuccessful\' ' +
+            'AND Completed_Cadence_Status__c NOT IN: completedCadenceStatuses ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
         );
@@ -41,10 +61,10 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Application__c, Contact__c, Lead__c, Nurture_Track_Configuration__c ' +
+            'SELECT  Id, Application__c, Contact__c, Lead__c, Nurture_Track_Configuration__c, Nurture_Track_Configuration__r.Cadence_Name__c ' +
                 'FROM Completed_Cadence__c ' +
                 'WHERE Lead__c IN:leadIds ' +
-                'AND Completed_Cadence_Status__c != \'Unsuccessful\' ' +
+                'AND Completed_Cadence_Status__c NOT IN: completedCadenceStatuses ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );
@@ -56,10 +76,31 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Contact__c, Lead__c, Completed_Cadence_Status__c ' +
+            'SELECT  Id, Contact__c, Lead__c, Completed_Cadence_Status__c, CreatedDate, ' +
+            'Application__r.Offered_Preference__r.Name, ' +
+            'Application__r.Offered_Preference__r.Faculty__c, ' +
+            'Application__r.Offered_Program_Plan__r.Name, ' +
+            'Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name, ' +
+            'Cadence_Name__c, Calculated_Cadence__c ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Nurture_Track_Configuration__r.Cadence_Name__c IN :cadenceNames ' +
-            'AND Completed_Cadence_Status__c = \'Unsuccessful\' ' +
+            'AND Completed_Cadence_Status__c IN: completedCadenceStatuses ' +
+            'AND (Contact__c IN :targetIds OR Lead__c IN :targetIds) ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<Completed_Cadence__c> getCompletedCadenceByTargetIds(
+        Set<Id> targetIds,
+        Set<String> cadenceNames,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Contact__c,Lead__c,Nurture_Track_Configuration__c,Nurture_Track_Configuration__r.Cadence_Name__c ' +
+            'FROM Completed_Cadence__c ' +
+            'WHERE Nurture_Track_Configuration__r.Cadence_Name__c IN :cadenceNames ' +
+            'AND Completed_Cadence_Status__c NOT IN: completedCadenceStatuses ' +
             'AND (Contact__c IN :targetIds OR Lead__c IN :targetIds) ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)

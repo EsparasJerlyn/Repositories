@@ -17,7 +17,7 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>MobilePhone</field>
-                <uiBehavior>Readonly</uiBehavior>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
@@ -38,6 +38,11 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>Phone</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Lead_Score__c</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>

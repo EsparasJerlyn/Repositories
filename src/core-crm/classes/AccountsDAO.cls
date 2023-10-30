@@ -13,6 +13,14 @@
  *    | ryan.j.a.dela.cruz             | August 8, 2023        | DEPP-6521              | Updated getAccountIdByABN method, added space and length check   |
  */
 public inherited sharing class AccountsDAO extends DmlBase implements IAccountsDAO {
+
+    public static final String ACCOUNT_NAME_START_QUT = 'Start QUT';
+    public static final String PROGRAM_CODE_QC19 = 'QC19';
+
+    public static final String ACCT_ACADEMIC_PROGRAM = System.label.RT_Academic_Program;
+    public static final Id ACCT_ACADEMIC_PROGRAM_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+        .get(ACCT_ACADEMIC_PROGRAM)
+        .getRecordTypeId();
     public static final String ACCT_BUSINESS_ORG = System.label.RT_Account_Business_Org;
     public static final Id ACCT_BUSINESS_ORG_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
         .get(ACCT_BUSINESS_ORG)
@@ -37,6 +45,18 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
             WHERE Id IN :accountIds
             WITH USER_MODE
         ];
+    }
+
+    public List<Account> getAccountsBySetIds(Set<Id> accountIds, List<String> fields, AccessLevel accessLevel) {
+
+        String fieldsToQuery = fields.size() > 0 ? 'Id, ' + String.join(fields, ',') : 'Id';
+
+        return Database.query(
+            'SELECT ' + String.escapeSingleQuotes(fieldsToQuery) + ' ' +
+              'FROM Account ' +
+             'WHERE Id IN: accountIds', accessLevel
+        );
+
     }
 
     public List<Account> getAccountsBySetNames(Set<String> accountNames) {

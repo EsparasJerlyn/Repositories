@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>HandlerClass__c</field>
-        <value xsi:type="xsd:string">IndividualEmailResultTriggerHandler</value>
+        <value xsi:type="xsd:string">IndividualEmailTriggerHandler</value>
     </values>
     <values>
         <field>HandlerDescription__c</field>

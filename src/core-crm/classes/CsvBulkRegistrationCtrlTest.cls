@@ -9,6 +9,7 @@
       |---------------------------|-----------------------|----------|---------------------------------|
       | aljohn.p.motas            | December 27, 2021     | DEPP-214 | Created file                    | 
       | roy.nino.s.regala         | Janruary 14, 2022     | DEPP-214 | to SeaAllData=false             |
+      | julie.jane.alegre         | September 05, 2023    | DEPP-4762| Update   test data              |
 */
 
 @isTest
@@ -68,9 +69,9 @@ public class CsvBulkRegistrationCtrlTest {
         }
     }
     
-    public static String str = 'First Name,Last Name,Email,Mobile Locale,Mobile Phone,Birthdate,Dietary Requirement,Accessibility Requirement \n' +
-    'Aljohn,Motas,aljohn.motas@gmail.com,Philippines (the) (63),9350592976,2021 10 10,eqeqeq,qweqeq \n' +
-    'Aljohn,Motas,dasdsada@gmail.com,Philippines (the) (63),9350592976,2021 10 10,adadadada,zczxcadad'; 
+    public static String str = 'First Name,Last Name,Email,Position,Company Name,Mobile Locale,Mobile Phone,Birthdate,Dietary Requirement,Accessibility Requirement \n' +
+    'Aljohn,Motas,aljohn.motas@gmail.com,Position,Company Name,Philippines (the) (63),9350592976,2021 10 10,eqeqeq,qweqeq \n' +
+    'Aljohn,Motas,dasdsada@gmail.com,Position,Company Name,Philippines (the) (63),9350592976,2021 10 10,adadadada,zczxcadad'; 
     
     @isTest
     static void testreadCSVFileSucces(){

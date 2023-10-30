@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Category__c</fullName>
-    <description>The type of Case being tracked.</description>
+    <description>Category classifies case / enquiry based type and nature of the enquiry</description>
     <externalId>false</externalId>
     <label>Category</label>
     <required>false</required>
@@ -11,39 +11,13 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <controllingField>Student_LifeCycle_Status__c</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Acceptance process</fullName>
+                <fullName>Entry requirements &amp; study pathways</fullName>
                 <default>false</default>
-                <label>Acceptance process</label>
-            </value>
-            <value>
-                <fullName>Agent matters</fullName>
-                <default>false</default>
-                <label>Agent matters</label>
-            </value>
-            <value>
-                <fullName>Application process</fullName>
-                <default>false</default>
-                <label>Application process</label>
-            </value>
-            <value>
-                <fullName>Application status</fullName>
-                <default>false</default>
-                <label>Application status</label>
-            </value>
-            <value>
-                <fullName>Change application</fullName>
-                <default>false</default>
-                <label>Change application</label>
-            </value>
-            <value>
-                <fullName>Compliance documentation</fullName>
-                <default>false</default>
-                <label>Compliance documentation</label>
+                <label>Entry requirements &amp; study pathways</label>
             </value>
             <value>
                 <fullName>Course information</fullName>
@@ -51,148 +25,30 @@
                 <label>Course information</label>
             </value>
             <value>
-                <fullName>Enrolment</fullName>
+                <fullName>Applying for a course</fullName>
                 <default>false</default>
-                <label>Enrolment</label>
+                <label>Applying for a course</label>
             </value>
             <value>
-                <fullName>Events</fullName>
+                <fullName>My application and offer</fullName>
                 <default>false</default>
-                <label>Events</label>
+                <label>My application and offer</label>
             </value>
             <value>
-                <fullName>Orientation and onboarding</fullName>
+                <fullName>My enrolment</fullName>
                 <default>false</default>
-                <label>Orientation and onboarding</label>
+                <label>My enrolment</label>
             </value>
             <value>
-                <fullName>Other</fullName>
+                <fullName>Fees, costs and scholarships</fullName>
                 <default>false</default>
-                <label>Other</label>
-            </value>
-            <value>
-                <fullName>Progression</fullName>
-                <default>false</default>
-                <label>Progression</label>
-            </value>
-            <value>
-                <fullName>Scholarships</fullName>
-                <default>false</default>
-                <label>Scholarships</label>
+                <label>Fees, costs and scholarships</label>
             </value>
             <value>
                 <fullName>Student life</fullName>
                 <default>false</default>
                 <label>Student life</label>
             </value>
-            <value>
-                <fullName>Technical issues</fullName>
-                <default>false</default>
-                <label>Technical issues</label>
-            </value>
-            <value>
-                <fullName>Why QUT</fullName>
-                <default>false</default>
-                <label>Why QUT</label>
-            </value>
-            <value>
-                <fullName>School Code of Conduct</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>School Code of Conduct</label>
-            </value>
-            <value>
-                <fullName>School Violation</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>School Violation</label>
-            </value>
-            <value>
-                <fullName>State Offense</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>State Offense</label>
-            </value>
         </valueSetDefinition>
-        <valueSettings>
-            <controllingFieldValue>Prospect</controllingFieldValue>
-            <valueName>Application process</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Prospect</controllingFieldValue>
-            <valueName>Course information</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Prospect</controllingFieldValue>
-            <valueName>Events</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Prospect</controllingFieldValue>
-            <controllingFieldValue>Applicant</controllingFieldValue>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <controllingFieldValue>Acceptance</controllingFieldValue>
-            <controllingFieldValue>Current Student</controllingFieldValue>
-            <valueName>Other</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Prospect</controllingFieldValue>
-            <valueName>Scholarships</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Prospect</controllingFieldValue>
-            <controllingFieldValue>Applicant</controllingFieldValue>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <controllingFieldValue>Acceptance</controllingFieldValue>
-            <controllingFieldValue>Current Student</controllingFieldValue>
-            <valueName>Student life</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Prospect</controllingFieldValue>
-            <valueName>Why QUT</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Applicant</controllingFieldValue>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <controllingFieldValue>Acceptance</controllingFieldValue>
-            <valueName>Agent matters</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Applicant</controllingFieldValue>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <valueName>Application status</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Applicant</controllingFieldValue>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <controllingFieldValue>Acceptance</controllingFieldValue>
-            <valueName>Change application</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Applicant</controllingFieldValue>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <controllingFieldValue>Acceptance</controllingFieldValue>
-            <valueName>Technical issues</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <valueName>Acceptance process</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <valueName>Compliance documentation</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Offered</controllingFieldValue>
-            <controllingFieldValue>Current Student</controllingFieldValue>
-            <valueName>Progression</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Acceptance</controllingFieldValue>
-            <valueName>Enrolment</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Acceptance</controllingFieldValue>
-            <valueName>Orientation and onboarding</valueName>
-        </valueSettings>
     </valueSet>
 </CustomField>

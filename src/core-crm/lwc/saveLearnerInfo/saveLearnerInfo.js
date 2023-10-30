@@ -14,6 +14,7 @@
       | john.m.tambasen						| September 12, 2022    | DEPP-3743            | validate duplicate contacts		    			  	|
       | john.m.tambasen           | September 23, 2022    | DEPP-4367            | birthdate validation                         |
       | julie.jane.alegre         | October 08, 2022      | DEPP-4551            | Update pass parameter to the sessionStorage  |
+      | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Added Position & Company Name fields         |
       
  */
 import { LightningElement, api } from "lwc";
@@ -64,7 +65,9 @@ export default class SaveLearnerInfo extends NavigationMixin(LightningElement) {
         MobilePhone: item.MobilePhone,
         Birthdate: item.Birthdate,
         Dietary_Requirement__c: item.DietaryRequirement,
-        Accessibility_Requirement__c: item.AccessibilityRequirement
+        Accessibility_Requirement__c: item.AccessibilityRequirement,
+        Position__c: item.Position,
+        Company_Name__c: item.CompanyName
       };
   });
 

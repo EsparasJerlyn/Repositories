@@ -31,4 +31,8 @@
         <endAddress>13.111.66.255</endAddress>
         <startAddress>13.111.66.0</startAddress>
     </loginIpRanges>
+    <layoutAssignments>
+        <layout>Task-SMS Layout</layout>
+        <recordType>Task.SMS</recordType>
+    </layoutAssignments>
 </Profile>

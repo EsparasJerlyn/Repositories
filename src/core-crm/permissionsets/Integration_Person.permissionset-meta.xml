@@ -264,6 +264,36 @@
         <editable>true</editable>
         <field>Action__c.Migration_Id__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Adhoc_Communication__c.Course_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Adhoc_Communication__c.Email_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Adhoc_Communication__c.IsSent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Adhoc_Communication__c.Program_Offering__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Adhoc_Communication__c.Subject__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Adhoc_Communication__c.Send_Date__c</field>
+        <readable>true</readable>
     </fieldPermissions>	
     <fieldPermissions>
         <editable>true</editable>
@@ -305,6 +335,11 @@
         <field>Application_Preference__c.Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Application_Preference__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions> 
     <fieldPermissions>
         <editable>true</editable>
         <field>Application_Preference__c.Is_Current_Preference__c</field>
@@ -597,6 +632,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Auto_Priority_Assignment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Awaiting_Response_From__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -697,6 +737,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Sub_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Sub_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -779,7 +824,12 @@
         <editable>true</editable>
         <field>Case.External_Key__c</field>
         <readable>true</readable>
-    </fieldPermissions>	
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Marketing_Opt_In__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Migration_Key__c</field>
@@ -789,10 +839,115 @@
         <editable>true</editable>
         <field>Case.Migration_Id__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Citizenship_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Country_of_Citizenship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Country_of_Residency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Education_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Primary_Study_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Case_Record_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Country_Tier__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Date_from__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Date_to__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Enquiry_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Enquiry_Sub_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Future_Student_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Lead_Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Migration_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Priority__c</field>
+        <readable>true</readable>
     </fieldPermissions>	
     <fieldPermissions>
         <editable>true</editable>
         <field>Completed_Cadence__c.Application__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Completed_Cadence__c.Cadence_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Completed_Cadence__c.Calculated_Cadence__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -803,6 +958,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Completed_Cadence__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Completed_Cadence__c.Days_Waiting__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Completed_Cadence__c.Displayed_in_List_View__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -857,6 +1022,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Communication_Queue__c.Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Communication_Queue__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -898,6 +1068,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Communication_Queue__c.WhoId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Queue__c.Due_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Queue__c.Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1287,11 +1467,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.IER_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.IsStaff_Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1357,22 +1532,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Marketing_Course_Application_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Marketing_Interaction_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Marketing_Mobile_Locale__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Marketing_Segmentation_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1603,11 +1763,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.SMS_Opt_Out_DateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2907,11 +3062,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.IER_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Industry</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3002,22 +3152,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Marketing_Course_Application_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Marketing_Interaction_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Marketing_Mobile_Locale__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Marketing_Segmentation_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3118,11 +3253,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.SMS_Opt_Out_DateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3847,11 +3977,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Marketing_Course_Application__c.Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Marketing_Course_Application__c.Student_Study_Package_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4038,11 +4163,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Interaction__c.SPAD__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Marketing_Interaction__c.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4553,11 +4673,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Segmentation__c.SE_Year_12_Expected_Completion_Year__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Marketing_Segmentation__c.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7727,6 +7842,31 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>SMS_Template__c.External_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SMS_Template__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SMS_Template__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SMS_Template__c.Migration_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SMS_Template__c.Migration_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Area__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7842,6 +7982,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Action_Cadence_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.Cadence_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7861,6 +8011,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Message_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.SMS_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task.Mobile__c</field>
         <readable>true</readable>
@@ -7868,6 +8028,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Receiver__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Sender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Time_to_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10846,6 +11021,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Adhoc_Communication__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Answer__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -10910,6 +11094,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Case</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Case_Priority_Configuration__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11019,6 +11212,15 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>Document__c</object>
         <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>et4ae5__IndividualEmailResult__c</object>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -11587,6 +11789,15 @@
         <object>Risk__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>SMS_Template__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Account.Academic_Program</recordType>
         <visible>true</visible>
@@ -11621,6 +11832,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Application_Preference__c.StudyLink</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.International_Future_Student_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -11713,6 +11932,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Lead_Score_Configuration__c.Category</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Lead_Score_Configuration__c.Configuration</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -11931,8 +12154,20 @@
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.SMS</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>Application_Preference__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>et4ae5__IndividualEmailResult__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -12030,6 +12265,10 @@
     <tabSettings>
         <tab>standard-Task</tab>
         <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>SMS_Template__c</tab>
+        <visibility>Available</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Study_Area__c</tab>

@@ -18,9 +18,10 @@
 | rhea.b.torres                  | August 9, 2022        | DEPP-3723              | Added logic to send Welcome Email for learners with QUT Student Username      |
 | rhea.b.torres                  | August 18, 2022       | DEPP-2002              | Added logic for creating Session records for Diagnostic Tool                  |
 | rhea.b.torres                  | November 25, 2022     | DEPP-4628              | Welcome Email implementation                                                  |
+| roy.nino.s.regala              | Sep 20, 2023          | DEPP-6417              | Added before update method, processEnrolmentPricingValidation                |
 
 */
-public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, AfterInsert, AfterUpdate, AfterDelete {
+public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate, AfterDelete {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
     .get('Student')
     .getRecordTypeId();
@@ -35,6 +36,22 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
    */
   public void beforeInsert(List<SObject> newItems) {
     SetExternalIdHelper.updateExternalId(newItems);
+    CourseConPricingValidationHelper.processEnrolmentPricingValidation(newItems, null);
+  }
+
+  /**
+   * @description update for Course Connections
+   * @param newItems - List of hed__Course_Enrollment__c.Trigger.new
+   * @param oldItems - Map of hed__Course_Enrollment__c.Trigger.old
+   */
+  public void beforeUpdate(
+    Map<Id, SObject> newItems,
+    Map<Id, SObject> oldItems
+  ) {
+    CourseConPricingValidationHelper.processEnrolmentPricingValidation(
+      (List<hed__Course_Enrollment__c>) newItems.values(),
+      (Map<Id,hed__Course_Enrollment__c>) oldItems
+    );
   }
 
   /**

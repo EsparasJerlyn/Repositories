@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Communication Automation</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>ActionCadenceStepTracker</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>ActionCadenceTracker</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Task.SMS</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <tabSettings>
+        <tab>standard-Task</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

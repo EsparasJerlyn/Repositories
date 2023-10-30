@@ -11,7 +11,31 @@
         <members>OfferingStartDateBatch</members>
         <members>OfferingStartDateBatchTest</members>
         <!--(End) DEPP-4909 -->
+        <!--(Start) DEPP-5797 -->
+        <members>LeadScoringManager</members>
+        <members>LeadScoringManagerTest</members>
+        <members>IndividualEmailResultTriggerHandler</members>
+        <members>IndividualEmailResultTriggerHandlerTest</members>
+        <members>MarketingCourseApplicationTH</members>
+        <members>MarketingCourseApplicationTHTest</members>
+        <!--(End) DEPP-5797 -->
+        <!--(Start) DEPP-6421 -->
+        <members>CaseLeadMatchingTest</members>
+        <!--(End) DEPP-6421 -->
+        <!--(Start) DEPP-6781 -->
+        <members>Update_Case_Priority_FlowTest</members>
+        <!--(End) DEPP-6781 -->
+        <!--(Start) DEPP-5866 -->
+        <members>LeadScoreQueueableCall</members>
+        <!--(End) DEPP-5866 -->
         <name>ApexClass</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-5797 -->
+        <members>IndividualEmailResultTrigger</members>
+        <members>MarketingCourseApplicationTrigger</members>
+        <name>ApexTrigger</name>
+        <!--(End) DEPP-5797 -->
     </types>
     <types>
         <!--(Start) DEPP-6047 -->
@@ -29,7 +53,7 @@
     </types>
     <types>
     <!--DEPP-5673 Satrt-->
-        <members>Future_Student_Engagement.app-meta.xml</members>
+        <members>Future_Student_Engagement</members>
     <!-- DEPP-5673 End-->
         <name>application</name>
     </types>
@@ -73,6 +97,22 @@
         <members>IP_Management_Relationship___c.Owner__c</members>
         <members>IP_Management_Relationship___c.Created_Date__c</members>
         <!-- End DEPP-5937 -->
+        <!-- Start DEPP-5797 -->
+        <members>Lead.IER_Score__c</members>
+        <members>Lead.Marketing_Course_Application_Score__c</members>
+        <members>Lead.Marketing_Interaction_Score__c</members>
+        <members>Lead.Marketing_Segmentation_Score__c</members>
+        <members>Lead.Score__c</members>
+        <members>Contact.IER_Score__c</members>
+        <members>Contact.Marketing_Course_Application_Score__c</members>
+        <members>Contact.Marketing_Interaction_Score__c</members>
+        <members>Contact.Marketing_Segmentation_Score__c</members>
+        <members>Contact.Score__c</members>
+        <members>et4ae5__IndividualEmailResult__c.Score__c</members>
+        <members>Marketing_Course_Application__c.Score__c</members>
+        <members>Marketing_Interaction__c.Score__c</members>
+        <members>Marketing_Segmentation__c.Score__c</members>
+        <!-- End DEPP-5797 -->
         <!-- Start DEPP-6130 -->
         <members>hed__Application__c.Applied_Major__c</members>
         <members>hed__Application__c.App_Condition_Verification_Status__c</members>
@@ -130,30 +170,44 @@
     </types>
     <types>
         <!--DEPP-5055-->
-        <members>Opportunity_Record_Page.flexipage-meta.xml</members>
+        <members>Opportunity_Record_Page</members>
         <!--DEPP-5055 end-->
         <!--DEPP-5433-->
         <members>Opportunity_Outcome_Research_Partnership_Record_Page</members>
         <!--DEPP-5433 end-->
         <!--Start DEPP-5837-->
-        <members>Project_Milestone_Record_Page.flexipage-meta.xml</members>
+        <members>Project_Milestone_Record_Page</members>
         <!--End DEPP-5837-->
         <!--Start DEPP-6136-->
-        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
-        <members>Application_Record_Page.flexipage.xml</members>
+        <members>QTAC_Preference_Record_Page</members>
+        <members>Application_Record_Page</members>
         <!--End DEPP-6136-->
         <!--Start DEPP-6248 / DEPP-6201-->
-        <members>Application_SAMS_Record_Page.flexipage-meta.xml</members>
+        <members>Application_SAMS_Record_Page</members>
         <!--End DEPP-6248 / DEPP-6201-->
+        <!--Start DEPP-6659-->
+        <members>Applicatioon_SAMS_CIAnywhere_Record_Page.flexipage-meta.xml</members>
+        <members>Applicatioon_SAMS_Legacy_Record_Page.flexipage-meta.xml</members>
+        <!--End DEPP-6659-->
         <name>FlexiPage</name>
     </types>
     <types>
-        <!--Start DEPP-5392-->
-        <members>New_Document_Standard_Record_Type_Custom.xml</members>
-        <!--End DEPP-5392-->
-        <!--Start DEPP-5995-->
-        <members>Update_Opportunity_Outcome_to_New.flow-meta.xml</members>
-        <!--End DEPP-5995-->
+        <members>New_Document_Standard_Record_Type_Custom</members>
+        <members>Update_Opportunity_Outcome_to_New</members>
+        <!--(Start) DEPP-6585-->
+        <members>Contact_Lead_Scoring</members>
+        <members>Individual_Email_Result_Lead_Scoring</members>
+        <members>Lead_Lead_Scoring</members>
+        <members>Marketing_Course_Application_Lead_Scoring</members>
+        <members>Marketing_Interaction_Lead_Scoring</members>
+        <members>Marketing_Segmentation_Lead_Scoring</members>
+        <!--(End) DEPP-6585-->
+        <!--(Start) DEPP-6421-->
+        <members>Case_Lead_Matching</members>
+        <!--(End) DEPP-6421-->
+        <!--(Start) DEPP-6426-->
+        <members>Update_Case_Priority_Flow</members>
+        <!--(End) DEPP-6426-->
         <name>Flow</name>
     </types>
     <types>
@@ -161,17 +215,17 @@
         <members>Case-International Enquiry Layout</members>
         <!--DEPP-4625/ DEPP-4223 end-->
         <!--DEPP-5055-->
-        <members>Opportunity-Opportunity Details.layout-meta.xml</members>
-        <members>Opportunity-Opportunity Layout.layout-meta.xml</members>
+        <members>Opportunity-Opportunity Details</members>
+        <members>Opportunity-Opportunity Layout</members>
         <!--DEPP-5055 end-->
         <!--Start DEPP-6136-->
-        <members>QTAC_Preference__c-QTAC Preference Layout.layout-meta.xml</members>
+        <members>QTAC_Preference__c-QTAC Preference Layout</members>
         <!--End DEPP-6136-->
         <!--Start DEPP-6306-->
-        <members>Task-Nurture.layout-meta.xml</members>
+        <members>Task-Nurture</members>
         <!--End DEPP-6306-->
         <!--Start DEPP-6248 / DEPP-6201-->
-        <members>hed__Application__c-SAMS Application Layout.layout-meta.xml</members>
+        <members>hed__Application__c-SAMS Application Layout</members>
         <!--End DEPP-6248 / DEPP-6201-->
         <name>Layout</name>
     </types>
@@ -183,7 +237,7 @@
     </types>
     <types>
         <!--Start DEPP-3616-->
-        <members>QTAC_Preference__c.tab-meta</members>
+        <members>QTAC_Preference__c</members>
         <!--End DEPP-2616-->
         <name>CustomTab</name>
     </types>
@@ -201,6 +255,7 @@
         <name>QuickAction</name>
     </types>
     <types>
+        <members>ActionCadence.Home_Page_Cadence_List</members>
         <members>Opportunity.ClosingNextMonth</members>
         <members>Opportunity.ClosingThisMonth</members>
         <members>Opportunity.My_Closed_Opportunities</members>
@@ -217,6 +272,12 @@
         <!--(Start) DEPP-5947 -->
         <members>Opportunity_Outcome__c.IPU_Opportunity_Outcome_Lock_Opportunity</members>
         <!-- (End) DEPP-5947 -->
+        <!--(Start) DEPP-6849 -->
+        <members>hed__Course__c.Location_Details_is_required</members>
+        <members>hed__Course__c.Location_is_required</members>
+        <members>hed__Program_Plan__c.Location_Details_Required</members>
+        <members>hed__Program_Plan__c.Location_Field_is_Required</members>
+        <!-- (End) DEPP-6849 -->
         <name>ValidationRule</name>
     </types>
     <types>
@@ -236,8 +297,53 @@
     <types>
         <!--(Start) DEPP-6135 -->
         <members>hed__Application__c.SAMS</members>
+        <!--(End) DEPP-6135 -->
+        <!--(Start) DEPP-6900 -->
+       <!--  <members>Case.Domestic_FS_Enquiry</members>
+        <members>Case.International_FS_Enquiry</members> -->
+        <!--(End) DEPP-6900 -->
         <name>RecordType</name>
-        <!--(Start) DEPP-6135 -->
     </types>
-    <version>52.0</version>
+    <types>
+        <!--(Start) DEPP-6889 -->
+        <members>ContactsLeads_by_Days_Waiting_Dom</members>
+        <members>ContactsLeads_by_Days_Waiting_Int</members>
+        <members>ContactsLeads_Requiring_Followup_Dom</members>
+        <members>ContactsLeads_Requiring_Followup_Int</members>
+        <members>ContactsLeads_Unsuccessfully_Called_Dom</members>
+        <members>ContactsLeads_Unsuccessfully_Called_Int</members>
+        <members>NewContacts_Leads_Per_Nurture_Track_Dom</members>
+        <members>NewContacts_Leads_Per_Nurture_Track_Int</members>
+        <!--(End) DEPP-6889 -->
+        <name>Report</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6889 -->
+        <members>Nurture_Track_Configuration_with_Completed_Cadence</members>
+        <!--(End) DEPP-6889 -->
+        <name>ReportType</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-5797 -->
+        <members>TriggerHandler.et4ae5__IndividualEmailResult__c</members>
+        <members>TriggerHandler.Marketing_Course_Application__c</members>
+        <!--(Start) DEPP-5797 -->
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-6570 -->
+        <members>Future_Student_Agent</members>
+        <members>Future_Student_Team_Leader</members>
+        <members>Future_Student_Super_User</members>
+        <name>UserRole</name>
+        <!--(Start) DEPP-6570 -->
+    </types>
+    <types>
+        <!--(Start) DEPP-6900 -->
+        <members>Case_Domestic_Path</members>
+        <members>Case_International_Path</members>
+        <!--(End) DEPP-6900 -->
+        <name>PathAssistant</name>
+    </types>
+    <version>52.0</version> 
 </Package>

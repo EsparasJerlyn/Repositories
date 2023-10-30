@@ -1,0 +1,38 @@
+/**
+ * @description DAO class for Internation Tier
+ * 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | roy.nino.s.regala              | Octover 5, 2023       | DEPP-6426              | Created file                 |
+      |                                |                       |                        |                              |
+ */
+public with sharing class InternationalTiersDAO extends DmlBase implements IInternationalTiersDAO {
+
+    public static String TIER_CATEGORY_1 = 'Tier 1';
+    public static String TIER_CATEGORY_2 = 'Tier 2';
+    public static String TIER_CATEGORY_3 = 'Tier 3';
+    public static String DEVELOPED_NATIONS = 'Developed Nations';
+
+    public Schema.SObjectType getSObjectType() {
+        return International_Tier__c.SObjectType;
+    }
+
+    public static IInternationalTiersDAO newInstance() {
+        return (IInternationalTiersDAO) ImplementationSelector.DAO.newInstance(
+            International_Tier__c.SObjectType
+        );
+    }
+
+    public List<International_Tier__c> getActiveInternationalTiers(AccessLevel accessLevel) {
+        return Database.query(
+            'SELECT Country_Name__c, Tier_Category__c ' +
+                'FROM International_Tier__c ' +
+                'WHERE IsActive__c = TRUE ',
+            accessLevel
+        );
+    }
+}

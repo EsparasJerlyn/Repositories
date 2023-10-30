@@ -4,13 +4,16 @@
     <active>true</active>
     <description>When the Status of the case is &quot;Pending Closure&quot; or &quot;Closed&quot;, the Closure Code is required.</description>
     <errorConditionFormula>AND (
- RecordType.DeveloperName = &apos;International_Enquiry&apos;,
- OR(
-  ISPICKVAL( Status , &apos;Pending Closure&apos;),
-  ISPICKVAL( Status , &apos;Closed&apos;)
- ),
- ISBLANK( TEXT( Closure_Code__c ) )
+    OR(
+        ISPICKVAL( Status , &apos;Pending Closure&apos;),
+        ISPICKVAL( Status , &apos;Closed&apos;)
+    ),
+    OR(
+        ISBLANK(TEXT(Closure_Code__c)),
+        LEN(Closure_Details__c) = 0
+    ),
+    TEXT(Closure_Code__c)!= &apos;Invalid Enquiry&apos;
 )</errorConditionFormula>
     <errorDisplayField>Closure_Code__c</errorDisplayField>
-    <errorMessage>Closure Code is required when Status is &quot;Pending Closure&quot; or &quot;Closed&quot;.</errorMessage>
+    <errorMessage>Closure Code and Closure Details are required when Status is &quot;Pending Closure&quot; or &quot;Closed&quot;.</errorMessage>
 </ValidationRule>

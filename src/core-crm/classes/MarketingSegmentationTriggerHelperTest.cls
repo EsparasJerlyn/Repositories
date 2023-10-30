@@ -13,7 +13,7 @@
  */
 
 @isTest
-public without sharing class MarketingSegmentationTriggerHelperTest{
+public without sharing class MarketingSegmentationTriggerHelperTest {
     @testSetup
     static void setupMethod() {
         Test.startTest();
@@ -25,17 +25,6 @@ public without sharing class MarketingSegmentationTriggerHelperTest{
             List<Lead> leadList =  TestDataFactory.createTestLeadRecords(50);
             insert contactList;
             insert leadList;
-    
-            List<Marketing_Segmentation__c> marketingSegmenationList =  new List<Marketing_Segmentation__c>();
-            for(Contact contactRecord: contactList){
-                marketingSegmenationList.add(new Marketing_Segmentation__c(Contact__c = contactRecord.Id));
-            }
-    
-            for(Lead leadRecord: leadList){
-                marketingSegmenationList.add(new Marketing_Segmentation__c(Lead__c = leadRecord.Id));
-            }
-    
-            insert marketingSegmenationList;
         }
      	
         System.assert(![SELECT Id FROM Lead WHERE Marketing_Segmentation__c != null].isEmpty(), 'Marketing Segmentation field on lead is not updated.');
@@ -49,6 +38,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest{
                 SELECT Id, Lead__c 
                 FROM Marketing_Segmentation__c
                 WHERE Lead__c = null
+                LIMIT 50
             ];
 
             List<Lead> leadList = new List<Lead>([
@@ -56,7 +46,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest{
                 FROM Lead
                 LIMIT 50
             ]);
-
+            
             for(Integer i = 0; i < marSegmentationWithoutLead.size(); i++){
                 marSegmentationWithoutLead[i].Lead__c = leadList[i].Id;
             }
@@ -75,6 +65,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest{
                 SELECT Id, Contact__C 
                 FROM Marketing_Segmentation__c
                 WHERE Contact__c = null
+                LIMIT 50
             ];
     
             List<Contact> contactList = new List<Contact>([

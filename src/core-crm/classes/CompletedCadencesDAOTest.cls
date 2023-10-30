@@ -71,4 +71,20 @@ public with sharing class CompletedCadencesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getCompletedCadenceByTargetIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
+                .getCompletedCadenceByTargetIds(
+                    new Set<Id>(),
+                    new Set<String>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(completedCadenceList.isEmpty(), 'completedCadenceList should not be empty.');
+        }
+        Test.stopTest();
+    }
+       
 }

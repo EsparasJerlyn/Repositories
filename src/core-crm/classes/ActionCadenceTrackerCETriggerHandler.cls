@@ -43,7 +43,7 @@ public with sharing class ActionCadenceTrackerCETriggerHandler implements Disabl
         try{
             for(ActionCadenceTrackerChangeEvent event : newItems) {
                 EventBus.ChangeEventHeader header = event.ChangeEventHeader;                
-                recordIds = header.getRecordIds();        
+                recordIds.addAll(header.getRecordIds());         
                 if(recordIds.size() == 0) {
                     continue;
                 }       

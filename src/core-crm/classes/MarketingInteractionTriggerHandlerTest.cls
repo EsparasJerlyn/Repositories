@@ -1,47 +1,64 @@
 /**
- * @description Test Class for Lead Scoring
- * @see ..
+ * @description Test Class for MarketingInteractionTriggerHandler
+ * @see MarketingInteractionTriggerHandler
  *
  * @author Accenture
  *
  * @history
  *
  *    | Developer                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------|------------------------------|
-      | w.li                     | June 15, 2022         | DEPP-1058              | Created file                 |
-      | alexander.cadalin        | February 20, 2023     | PMD                    | ApexUnitTestClassShouldHaveAsserts
+      |--------------------------|-----------------------|------------------------|------------------------------|
+      | eccarius.munoz           | October 09, 2023      | DEPP-5866              | Created file                 |
  */
-
 @isTest
-public without sharing class MarketingInteractionTriggerHandlerTest {
-    @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
-    }
+public with sharing class MarketingInteractionTriggerHandlerTest {
 
+    @TestSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
+        Test.startTest();
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+
+            List<Contact> contactList =TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);       
+        
+        }
+        Test.stopTest();
+    }
+    
     @isTest
     public static void testInsertMarketingInteraction() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
-            Marketing_Interaction__c marketingInteraction = new Marketing_Interaction__c();
-            Database.SaveResult saveResult = Database.insert(marketingInteraction);
+
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
+            List<Marketing_Interaction__c> marketingIntList = TestDataFactory.createMarketingInteractionRecords(contactList[0].Id, 1, '');
+            MarketingInteractionsDAO.newInstance().insertRecords(marketingIntList, true, AccessLevel.SYSTEM_MODE);
+
             Test.stopTest();
-            System.assert(saveResult.isSuccess(), 'The record was not successfully inserted.');
+            System.assert(marketingIntList[0].Id != null, 'The record was not successfully inserted.');
         }
     }
 
     @isTest
     public static void testUpdateMarketingInteraction() {
-        System.runAs(TestDataFactory.getMarketingCloudUser()) {
-            Marketing_Interaction__c marketingInteraction = new Marketing_Interaction__c();
-            insert marketingInteraction;
-
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
-            List<Marketing_Interaction__c> marketingInteractionToBeUpdated = [SELECT Id FROM Marketing_Interaction__c LIMIT 1];
-            Database.SaveResult[] saveResultList = Database.update(marketingInteractionToBeUpdated);
-            Test.stopTest();
-            for(Database.SaveResult saveResult : saveResultList) {
-                System.assert(saveResult.isSuccess(), 'A record was not successfully updated.');
+
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
+            List<Marketing_Interaction__c> marketingIntList = TestDataFactory.createMarketingInteractionRecords(contactList[0].Id, 1, '');
+            MarketingInteractionsDAO.newInstance().insertRecords(marketingIntList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Marketing_Interaction__c> newMktInteractionList = MarketingInteractionsDAO.newInstance().getMarketingInteractionsByContactOrLeadIds(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
+            List<Marketing_Interaction__c> mktgListToUpdate = new List<Marketing_Interaction__c>();
+            for(Marketing_Interaction__c mktgInt : newMktInteractionList){
+                mktgInt.Lead_Source_Category__c = 'Event';
+                mktgListToUpdate.add(mktgInt);
             }
+            MarketingInteractionsDAO.newInstance().updateRecords(mktgListToUpdate, true, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+            System.assert(mktgListToUpdate[0].Lead_Source_Category__c == 'Event', 'The record was not successfully updated.');
         }
     }
 }

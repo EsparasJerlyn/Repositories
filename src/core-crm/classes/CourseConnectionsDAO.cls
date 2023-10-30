@@ -10,7 +10,10 @@
  *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | created file                               |
  *    | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                         |
  *    |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
+ *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                         |
+ *    |                                |                       |                        | getActiveCourseConnectionsBySetContactIds  |
  */
+
 public inherited sharing class CourseConnectionsDAO extends DmlBase implements ICourseConnectionsDAO {
     
     public static final Set<String> enrollmentStatus = new Set<String>{
@@ -54,6 +57,33 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
             'WHERE hed__Program_Enrollment__c IN :programEnrollmentIds ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<hed__Course_Enrollment__c> getActiveCourseConnectionsBySetContactIds(
+        Set<String> contactIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Pricing_Validation__c,hed__Contact__c ' +
+            'FROM hed__Course_Enrollment__c ' +
+            'WHERE hed__Contact__c IN :contactIds ' + 
+            'AND hed__Status__c = \'Active\' ',
+            accessLevel
+        );
+    }
+
+    public List<hed__Course_Enrollment__c> getRegisteredLearnersEmailByCourseOffering (
+        Set<Id> courseOfferingIds, 
+        Set<Id> programOfferingIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, hed__Contact__r.Registered_Email__c, hed__Course_Offering__c, Program_Offering__c  ' +
+            'FROM hed__Course_Enrollment__c '+
+            'WHERE hed__Course_Offering__c IN :courseOfferingIds '+
+            'OR Program_Offering__c IN: programOfferingIds ',
+            accessLevel
         );
     }
     

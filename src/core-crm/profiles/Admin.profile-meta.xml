@@ -13,7 +13,7 @@
     <applicationVisibilities>
         <application>International_Student_Recruitment</application>
         <default>false</default>
-        <visible>true</visible>
+        <visible>false</visible>
     </applicationVisibilities>
     <applicationVisibilities>
         <application>Prospect_Attraction</application>
@@ -6156,6 +6156,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Solution-Solution Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-SMS Layout</layout>
+        <recordType>Task.SMS</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ThreatDetectionFeedback-Threat Detection Feedback Layout</layout>

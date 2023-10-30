@@ -5,11 +5,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
-      | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                               |
-      | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds      |
-      | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIdTest|
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
+ *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
+ *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                                     |
+ *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds            |
+ *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIdTest      |
+ *    | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Added method getApplicationsActiveApplicantsTest |
  */
 @isTest
 public with sharing class ApplicationsDAOTest {
@@ -26,7 +27,7 @@ public with sharing class ApplicationsDAOTest {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsBySetIds(
                     new Set<Id>(),
-                    'SYSTEM_MODE'
+                    AccessLevel.USER_MODE
                 );
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
         }
@@ -80,6 +81,35 @@ public with sharing class ApplicationsDAOTest {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getQtacApplicationsWithQtacApplicantId(
                     new List<String>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getApplicationsActiveApplicantsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
+                .getApplicationsActiveApplicants(
+                    new Set<Id>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getApplicationsByLeadOrContactIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
+                .getApplicationsByLeadOrContactIds(
+                    new Set<String>(),
+                    new Set<String>(),
                     'SYSTEM_MODE'
                 );
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');

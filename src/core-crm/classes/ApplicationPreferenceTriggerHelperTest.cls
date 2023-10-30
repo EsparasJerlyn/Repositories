@@ -16,10 +16,10 @@ private class ApplicationPreferenceTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+			Test.startTest();
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,2);
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
 
             Integer numOfPrefRec = 2;
@@ -37,13 +37,13 @@ private class ApplicationPreferenceTriggerHelperTest {
 
             List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(studyLinkappPrefList[0].Id, System.Today(), 1);
             PackageComponentDAO.newInstance().insertRecords(packageComponentList, false, AccessLevel.USER_MODE);
-
+			Test.stopTest();
         }
     }
 
     @isTest
     private static void setCurrentPreferenceQTACInsertTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
             List<hed__Application__c> applicationList = [SELECT Id, RecordTypeId FROM hed__Application__c WHERE RecordTypeId =: ApplicationsDAO.QTAC_RECTYPE_ID WITH USER_MODE LIMIT 1];
             Test.startTest();
             List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, 1);
@@ -61,7 +61,7 @@ private class ApplicationPreferenceTriggerHelperTest {
 
     @isTest
     private static void setCurrentPreferenceQTACUpdateTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
             List<Application_Preference__c> appPrefListToUpdate = new List<Application_Preference__c>();
             List<Application_Preference__c> appPrefList = [SELECT Id, Preference_Number__c, Program_Name__c, Is_Current_Preference__c FROM Application_Preference__c WHERE Program_Name__c = 'App Pref 1' WITH USER_MODE LIMIT 1];    
@@ -79,7 +79,7 @@ private class ApplicationPreferenceTriggerHelperTest {
 
     @isTest
     private static void setCurrentPreferenceStudyLinkInsertTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
             List<hed__Application__c> applicationList = [SELECT Id, RecordTypeId FROM hed__Application__c WHERE RecordTypeId =: ApplicationsDAO.STUDYLINK_RECTYPE_ID WITH USER_MODE LIMIT 1];
             Test.startTest();
             List<Application_Preference__c> studyLinkAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, 1);
@@ -96,7 +96,7 @@ private class ApplicationPreferenceTriggerHelperTest {
 
     @isTest
     private static void setCurrentPreferenceStudyLinkUpdateTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
             List<Application_Preference__c> appPrefListToUpdate = new List<Application_Preference__c>();
             List<Application_Preference__c> appPrefList = [SELECT Id, Preference_Number__c, Program_Name__c, Is_Current_Preference__c FROM Application_Preference__c WHERE Program_Name__c = 'App Pref 1' WITH USER_MODE LIMIT 1];    

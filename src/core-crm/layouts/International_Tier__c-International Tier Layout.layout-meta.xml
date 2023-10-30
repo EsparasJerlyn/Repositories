@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <excludeButtons>ChangeOwnerOne</excludeButtons>
+    <excludeButtons>ChangeRecordType</excludeButtons>
+    <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>Delete</excludeButtons>
+    <excludeButtons>Edit</excludeButtons>
+    <excludeButtons>PrintableView</excludeButtons>
+    <excludeButtons>RecordShareHierarchy</excludeButtons>
+    <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -74,7 +82,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8s000000kItB</masterLabel>
+        <masterLabel>00h8q000000N0sn</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

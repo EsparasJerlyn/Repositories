@@ -12,6 +12,8 @@
       | roy.nino.s.regala         | January  18,2022      | DEPP-1178    | Updated for logic when primary bussiness org is populated | 
       |                           |                       |              |                                                           |
       | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Added test class coverage for can nurture logic           |
+      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class createMarketingSegmentationTest          |
+      | julie.jane.alegre         | Oct 27, 2023          | DEPP-6955    | Added new method updateRegisteredEmailTest                |
 */
 @isTest
 private class ContactTriggerHelperTest {
@@ -22,7 +24,7 @@ private class ContactTriggerHelperTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_ESB'});
         Test.stopTest();
 
         List<Account> accountList = new List<Account>();
@@ -72,7 +74,7 @@ private class ContactTriggerHelperTest {
                 }else if(acc.RecordTypeId == ADMINISTRATIVE){
                     adminAccount = acc.Id;
                 }
-            }            
+            }   
             
             List<Contact> conList = TestDataFactory.createTestContactRecords(100);
             for(Integer i = 0;i<conList.size(); i++){
@@ -94,36 +96,70 @@ private class ContactTriggerHelperTest {
 
     @isTest
     private static void testContactCanNurtureFlag() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            
+
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+            List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+            leadScoreParentConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Total Max Score DUG',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined'
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Marketing Consent',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'Undetermined',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = null,
+                    Max_Score__c = 20,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigList, true, AccessLevel.USER_MODE);
+
+            List<Lead_Score_Configuration__c> leadScoreConfigChildList = new List<Lead_Score_Configuration__c>();
+            leadScoreConfigChildList.addAll(TestDataFactory.createUndAndUndeterminedSubCategory(
+                leadScoreConfigList[0].Id,
+                new List<String>{
+                    'Yes',
+                    'Is blank'
+                },
+                new List<Integer>{10,10}
+            ));
+
+            LeadScoreConfigurationDAO.newInstance()
+                .insertRecords(leadScoreConfigChildList, true, AccessLevel.USER_MODE);
+
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
             nurtureConfig.Lead_Score_Threshold__c = 1;
             nurtureConfig.Status__c = 'Active';
             nurtureList.add(nurtureConfig);
+
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
-            
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
-            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
-            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            
-            Test.startTest();            
-            List<Contact> updateContactList = new List<Contact>();
-            for(Contact con: newContacts){
-                Contact conRec = new Contact();
-                conRec.Id = con.Id;
-                conRec.Score__c = 3;
-                updateContactList.add(conRec);
-            }            
-            Database.SaveResult[] srList = ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
-            
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);  
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
-            for (Database.SaveResult sr : srList) {
-                System.assert(sr.isSuccess(), 'A record was not updated.');
+
+            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactList[0].Id},AccessLevel.SYSTEM_MODE)) {  
+                System.assertEquals(true,record.Can_Nurture__c,'Contact Can_Nurture__c did not match');
             }
-            List<Contact> con = [SELECT Id,Can_Nurture__c FROM Contact WHERE RecordTypeId =: ContactsDAO.PERSON_RECORDTYPE_ID];
-            System.assert(con[0].Can_Nurture__c,'Contacts can nurture flag not updated');
-            
         }
     } 
     
@@ -157,7 +193,7 @@ private class ContactTriggerHelperTest {
             Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(My_Moving_To_Brisbane__c = true);
             insert marSeg;
             Contact con = new Contact(LastName = 'Test', Marketing_Segmentation__c = marSeg.Id);
-            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, false, AccessLevel.SYSTEM_MODE);
+            ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, true, AccessLevel.SYSTEM_MODE);
             Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
             Test.stopTest();
             System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
@@ -177,6 +213,66 @@ private class ContactTriggerHelperTest {
             Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
             Test.stopTest();
             System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
+        }
+    }
+
+    @isTest
+    private static void createMarketingSegmentationTest() {        
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].email = i + 'test@email.com'; 
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+            }
+            Database.SaveResult[] srList = ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+            Set<Id> contactIds = new Set<Id>();            
+            for (Database.SaveResult sr : srList) {
+                contactIds.add(sr.getId());
+            }
+            List<Marketing_Segmentation__c> marketingSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(contactIds, AccessLevel.USER_MODE);
+            
+            for(Marketing_Segmentation__c marketingSeg : marketingSegList){
+                System.assert(marketingSeg.Contact__c != null, 'No Marketing Segmentation record created for the contact');
+            }
+        }
+    }
+
+    @isTest
+    private static void updateRegisteredEmailTest() {        
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].Email = i + 'test@email.com'; 
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+                contacts[i].Registered_Email__c = i + 'test@email.com';
+            }
+            Database.SaveResult[] srList = ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.USER_MODE);
+
+            Set<Id> contactIds = new Set<Id>();            
+            for (Database.SaveResult sr : srList) {
+                contactIds.add(sr.getId());
+            }
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds, AccessLevel.USER_MODE);
+            
+            for(Integer i=0; i < contactList.size(); i++){
+                contactList[i].Email = i + 'test@emailupdates123.com'; 
+            }
+            ContactsDAO.newInstance().updateRecords(contactList, false, AccessLevel.USER_MODE);
+
+            Test.stopTest();
+
+            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds, AccessLevel.SYSTEM_MODE)) {  
+                System.assertEquals(record.Email, record.Registered_Email__c,'Contact Registered_Email__c did not match.');
+            }
         }
     }
 }

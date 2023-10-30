@@ -9,6 +9,7 @@
       | eccaiurs.munoz            | Sept. 05, 2022        | DEPP-3747            | Added validation on approval of nomination.  |
       | julie.jane.alegre         | Sept. 15, 2022        | DEPP-4311            | Added download button for Manage Registration|
       | marygrace.li              | Sept. 26, 2022        | DEPP-4422            | Modified catch, removed spinner height       |
+      | julie.jane.alegre         | October 05, 2023      | DEPP-4762            | Add Position and Company Name fields         |
       |                           |                       |                      |                                              |
  */
 import { LightningElement, track, wire } from 'lwc';
@@ -95,9 +96,30 @@ export default class ManageRegistrationAndNomination extends LightningElement {
     get isLoading() {
         return this._isLoading;
     }
-
-    columns = [
+    registrationColumns = [
+        { 
+            label: 'Created Date', 
+            fieldName: 'createdDate', 
+            type: 'date', 
+            sortable: true, 
+            typeAttributes: {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            }
+        },
         { label: 'Course Name', fieldName: 'courseName', type: 'text', sortable: true, wrapText: true},
+        { 
+            label: 'Offering Start Date', 
+            fieldName: 'offeringStartDate',             
+            type: 'date',
+            sortable: true, 
+            typeAttributes: {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric'
+            }
+        },
         { label: 'First Name', fieldName: 'contactFirstName', type: 'text', sortable: true },
         { label: 'Last Name', fieldName: 'contactLastName', type: 'text', sortable: true },
         { label: 'Email', fieldName: 'contactEmail', type: 'text', sortable: true },
@@ -113,33 +135,14 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             }
         },
         { label: 'Mobile', fieldName: 'contactMobile', type: 'text', sortable: true },
-        { 
-            label: 'Offering End Date', 
-            fieldName: 'offeringEndDate', 
-            type: 'date', 
-            sortable: true,
-            typeAttributes: {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric'
-            }
-        },
-        { 
-            label: 'Offering Start Date', 
-            fieldName: 'offeringStartDate',             
-            type: 'date',
-            sortable: true, 
-            typeAttributes: {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric'
-            }
-        },
-        { label: 'Status', fieldName: 'status', type: 'text',  sortable: true },
+        { label: 'Status', fieldName: 'status', type: 'text',  sortable: true }
+    ]
+    nominationColumns = [
+        ...this.registrationColumns,
         {
             type: 'action',
             typeAttributes: { rowActions: [{label: 'Edit Status', name: 'editStatus'}] },
-        },
+        }
     ];
 
     handleRowAction(event) {
@@ -209,7 +212,8 @@ export default class ManageRegistrationAndNomination extends LightningElement {
             Mobile__c : this.selectedStudent.contactMobile,
             Mobile_Locale__c: this.selectedStudent.contactMobileLocale? this.selectedStudent.contactMobileLocale : '',
             Birthdate__c: this.selectedStudent.contactBirthdate,
-            //Birthdate__c: this.selectedStudent.contactBirthdate ? this.formatDate( this.parseDate(this.selectedStudent.contactBirthdate) ) : '' ,
+            Position__c: this.selectedStudent.contactPosition,
+            Company_Name__c: this.selectedStudent.contactCompanyName,
             Accessibility_Requirement__c: this.selectedStudent.contactAccessibilityReq,
             Dietary_Requirement__c: this.selectedStudent.contactDietaryReq,
             Course_Offering__c : this.selectedStudent.courseOfferingId,

@@ -202,6 +202,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Adhoc_Communication__c.Send_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Adhoc_Communication__c.Subject__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -245,6 +250,11 @@
         <field>Application_Preference__c.Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application_Preference__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions> 
     <fieldPermissions>
         <editable>false</editable>
         <field>Application_Preference__c.Is_Current_Preference__c</field>

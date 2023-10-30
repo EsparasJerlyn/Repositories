@@ -10,6 +10,7 @@
       | roy.nino.s.regala              | June 14, 2023         | DEPP-5391              | Created                                             | 
       | roy.nino.s.regala              | June 24, 2023         | DEPP-5411              | Added Query service for record query with filter    | 
       | roy.nino.s.regala              | Aug 26, 2023          | DEPP-6348              | Added access level paramater                        | 
+      | eccarius.munoz                 | September 2, 2023     | DEPP-6138              | added method getRecordsWithFieldsByIdSet            |
  */
 
 public inherited sharing class DynamicQueryService {
@@ -112,4 +113,35 @@ public inherited sharing class DynamicQueryService {
             parametersMap.get('relatedListFilters');
         return Database.countQuery(relatedRecordsCountStringQuery,accessLevel); //NOPMD
     }
+
+    /**
+     * Get filtered records by fields
+     * 
+     */
+    public static List<SObject> getRecordsWithFieldsByIdSet(
+        FilterWrapper filterWrapper,
+        AccessLevel accessLevel
+    ){
+        String fieldsToQuery = filterWrapper.fields.size() > 0 ? 'Id, ' + String.join(filterWrapper.fields, ',') : 'Id';
+        String sObjectName = filterWrapper.sObjectType.getDescribe(SObjectDescribeOptions.DEFAULT).getName();
+        Set<Id> recordIds = filterWrapper.recordIds;    //NOPMD this is used in the query below
+        return Database.query(
+            'SELECT ' + String.escapeSingleQuotes(fieldsToQuery) + ' ' +
+              'FROM ' + String.escapeSingleQuotes(sObjectName) + ' ' +
+             'WHERE Id IN: recordIds', accessLevel
+        );
+    }
+
+    public class FilterWrapper{
+        public Set<Id> recordIds;
+        public SObjectType sObjectType;
+        public List<String> fields;
+
+        public FilterWrapper(Set<Id> recordIds, SObjectType sObjectType, List<String> fields){
+            this.recordIds = recordIds;
+            this.sObjectType = sObjectType;
+            this.fields = fields;
+        }
+    }
+
 }

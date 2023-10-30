@@ -64,10 +64,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Location__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Unit_Type__c</field>
             </layoutItems>
             <layoutItems>

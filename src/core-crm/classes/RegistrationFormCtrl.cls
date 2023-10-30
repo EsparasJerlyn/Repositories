@@ -22,6 +22,7 @@
       | marygrace.li              | September 24, 2022    | DEPP-4411            | Updated isEmailExist method       |
       | arsenio.jr.dayrit         | December 16, 2022     | DEPP-4907            | Update UpdateContact method       |
       | eugene.andrew.abuan       | February 22, 2023     | DEPP-5232            | Updates in isEmailExist method    |
+      | julie.jane.alegre         | September 22, 2023    | DEPP-4762            | Add Position & Company Name fields|
 
  */
 public without sharing class RegistrationFormCtrl {
@@ -115,7 +116,9 @@ public without sharing class RegistrationFormCtrl {
             HasOptedOutOfEmail,
             Email_Opt_In_DateTime__c,
             Consent_Source__c,
-            Consent_Source_Category__c
+            Consent_Source_Category__c,
+            Position__c,
+            Company_Name__c
           FROM Contact
           WHERE
             RecordTypeId = :RT_CONTACT_PERSON_ID
@@ -145,6 +148,8 @@ public without sharing class RegistrationFormCtrl {
         }
         existingContact.Dietary_Requirement__c = parsedRegistrationData.contactRecord.Dietary_Requirement__c;
         existingContact.Accessibility_Requirement__c = parsedRegistrationData.contactRecord.Dietary_Requirement__c;
+        existingContact.Position__c = parsedRegistrationData.contactRecord.Position__c;
+        existingContact.Company_Name__c = parsedRegistrationData.contactRecord.Company_Name__c;
 
         Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
 
@@ -290,6 +295,8 @@ public without sharing class RegistrationFormCtrl {
    * @param firstName - First Name of the User
    * @param lastName - Last Name of the User
    * @param email - Email of the User
+   * @param position - Position of the User
+   * @param companyName - Company Name of the User
    * @param mobile - Mobile of the User
    * @param date - date of the Birthdate of the User
    * @param month - month of the Birthdate of the User
@@ -360,6 +367,8 @@ public without sharing class RegistrationFormCtrl {
         existingContact.Birthdate = parsedRegistrationData.contactRecord.Birthdate;
         existingContact.Dietary_Requirement__c = parsedRegistrationData.contactRecord.Dietary_Requirement__c;
         existingContact.Accessibility_Requirement__c = parsedRegistrationData.contactRecord.Accessibility_Requirement__c;
+        existingContact.Position__c = parsedRegistrationData.contactRecord.Position__c;
+        existingContact.Company_Name__c = parsedRegistrationData.contactRecord.Company_Name__c;
         update existingContact;
 
         //Create user if none associated yet
@@ -480,6 +489,8 @@ public without sharing class RegistrationFormCtrl {
    * @param firstName - First Name of the User
    * @param lastName - Last Name of the User
    * @param email - Email of the User
+   * @param position - Position of the User
+   * @param companyName - Company Name of the User
    * @param birthdate - date of the Birthdate of the User
    * @param dietraryReq - Dietary Requirement of the User
    * @param accountId - account of the User
@@ -496,6 +507,8 @@ public without sharing class RegistrationFormCtrl {
     c.FirstName = registrationData.contactRecord.FirstName;
     c.lastName = registrationData.contactRecord.LastName;
     c.Email = registrationData.contactRecord.Registered_Email__c;
+    c.Position__c = registrationData.contactRecord.Position__c;
+    c.Company_Name__c = registrationData.contactRecord.Company_Name__c;
     c.Registered_Email__c = registrationData.contactRecord.Registered_Email__c;
     c.Mobile_No_Locale__c = registrationData.contactRecord.Mobile_No_Locale__c;
     c.ContactMobile_Locale__c = registrationData.contactRecord.ContactMobile_Locale__c;
@@ -525,6 +538,8 @@ public without sharing class RegistrationFormCtrl {
    * @param firstName - First Name of the User
    * @param lastName - Last Name of the User
    * @param email - Email of the User
+   * @param position - Position of the User
+   * @param companyName - Company Name of the User
    * @param mobile - Mobile of the User
    * @param birthdate - date of the Birthdate of the User
    * @param contactId - Contact related to the User

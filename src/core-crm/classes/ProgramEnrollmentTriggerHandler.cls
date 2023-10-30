@@ -11,19 +11,15 @@
       | mark.j.mahilum		           | July 23, 2023     	   | DEPP-5799              | Created file                 |
  */
 
-public with sharing class ProgramEnrollmentTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
-    public static Boolean isRunning = false;
+public with sharing class ProgramEnrollmentTriggerHandler implements Disableable, BeforeUpdate, AfterInsert, AfterUpdate {
 
    /**
     * @description afterInsert trigger event
     * @param newItems - List of hed__Program_Enrollment__c.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-        
-        if(!isRunning ){
-            isRunning = true;
-            getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),null);
-        }
+        getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),null);
+        ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), null);
     }
 
    /**
@@ -35,10 +31,19 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        if(!isRunning ){
-            isRunning = true;
-            getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
-        }
+        getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
+    }
+
+    /**
+     * @description beforeUpdate trigger event
+     * @param newItems - List of hed__Program_Enrollment__c.Trigger.new
+     * @param oldItems - List of hed__Program_Enrollment__c.Trigger.old
+     */
+    public void beforeUpdate(
+        Map<Id, SObject> newItems,
+        Map<Id, SObject> oldItems
+    ){
+        ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
     
    /**
@@ -76,7 +81,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
             }
         
         if(!contactIds.isEmpty()){
-            ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnProgramEnrollment');
+            ContactPersonaFlagsService.processContactIds(contactIds,'updateContactOnStudentFlag');
         }      
     }
 }

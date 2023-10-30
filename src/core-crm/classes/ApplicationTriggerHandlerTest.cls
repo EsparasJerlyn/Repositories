@@ -1,6 +1,6 @@
 /**
- * @description Test Class for ApplicationTriggerHandler 
- *
+ * @description Test Class for ApplicationTriggerHandler.
+ * 
  * @see ApplicationTriggerHandler
  *
  * @author Accenture
@@ -92,4 +92,5 @@ private class ApplicationTriggerHandlerTest {
         }
         return newApplications;
     }
+    
 }

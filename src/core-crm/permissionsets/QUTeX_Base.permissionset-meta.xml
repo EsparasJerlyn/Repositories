@@ -270,6 +270,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application_Preference__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions> 
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application_Preference__c.Is_Current_Preference__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -466,6 +471,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Auto_Priority_Assignment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Awaiting_Response_From__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -531,6 +541,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Marketing_Opt_In__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Citizenship_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Country_of_Citizenship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Country_of_Residency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Education_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Primary_Study_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Origin</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -577,6 +617,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Student_LifeCycle_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Sub_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -891,11 +936,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.IER_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.IsStaff_Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -956,22 +996,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Marketing_Course_Application_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Marketing_Interaction_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Marketing_Mobile_Locale__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Marketing_Segmentation_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1135,7 +1160,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Contact.QUT_Learner_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1145,7 +1170,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Contact.QUT_Staff_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1197,11 +1222,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.SMS_Opt_Out_DateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1671,11 +1691,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.IER_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Industry</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1761,22 +1776,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Marketing_Course_Application_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Marketing_Interaction_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Marketing_Mobile_Locale__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Marketing_Segmentation_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1872,11 +1872,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.SMS_Opt_Out_DateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2197,11 +2192,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Marketing_Interaction__c.SPAD__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Marketing_Interaction__c.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2702,11 +2692,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Segmentation__c.SE_Year_12_Expected_Completion_Year__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Marketing_Segmentation__c.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3385,17 +3370,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Application_Preference__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.CRICOS_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3405,82 +3390,82 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Intake_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Is_Pathway_Primary_Program__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Location__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Major__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Migration_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Migration_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Package_Component_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Program_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Program_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Program_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Program_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Study_Mode__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Package_Component__c.Study_Period_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3695,7 +3680,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>hed__Application__c.Application_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3715,7 +3700,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>hed__Application__c.Applied_Attendance__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5891,6 +5876,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Expression_of_Interest__c.Company_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Expression_of_Interest__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5927,6 +5917,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Expression_of_Interest__c.Mobile_Locale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Expression_of_Interest__c.Position__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6233,6 +6228,15 @@
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>et4ae5__IndividualEmailResult__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
@@ -6323,11 +6327,11 @@
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
+        <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Package_Component__c</object>
-        <viewAllRecords>true</viewAllRecords>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -6825,6 +6829,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>et4ae5__IndividualEmailResult__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Facilitator_Bio__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -6928,6 +6936,10 @@
         <tab>Marketing_Segmentation__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Package_Component__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>    
     <tabSettings>
         <tab>standard-Account</tab>
         <visibility>Visible</visibility>

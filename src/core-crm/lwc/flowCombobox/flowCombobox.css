@@ -11,3 +11,6 @@
 .THIS.customIcon div {
   padding-top: 0px !important;
 }
+.slds-dropdown_fluid{
+margin-top: 0px !important;
+}

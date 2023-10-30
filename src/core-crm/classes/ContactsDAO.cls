@@ -13,12 +13,25 @@
       | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added new method getContactsWithMatchingSamsApplications  |
 *     | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added method for DEPP-5677                                |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method for DEPP-6215                                |
+      | julie.jane.alegre              | Sept 05, 2023         | DEPP-5965              | Added new method getContactsFromConvertedLead             |
+      | roy.nino.s.regala              | Sept 20, 2023         | DEPP-6714              | Added new method getPersonContactsBySetIds                |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getPersonContactsByEmailOrName                      |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName                        |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for getContactByCaseMobile                   |
+      | julie.jane.alegre              | Sept 20, 2023         | DEPP-6667              | Added fields in method getPersonContactsBySetIds          |
+      | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added addition fields for soql                            |
+ *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate                    |
+ *    |                                |                       | DEPP-6652,6653,6654    | added fields to getPersonContactsBySetIds                 |
+ *    |                                | Oct 19, 2023          | DEPP-6890              | null checker for queries checking for emails              |
+ *    | julie.jane.alegre              | Oct 25, 2023          | DEPP-6955              | Added fields in method getPersonContactsBySetIds          |
+ *    | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added query for getContactMobilePhoneByRecordIds          |
  */
-public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO {
+public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
      * Contact Constants
      */
     public static final String PERSON_RECORDTYPE = System.Label.RT_Contact_Person;
+    public static final String ID_PREFIX = '003'; //Constant contact Id prefix see: https://help.salesforce.com/s/articleView?id=000385203&type=1
     public static final Id PERSON_RECORDTYPE_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get(PERSON_RECORDTYPE)
         .getRecordTypeId();
@@ -30,10 +43,13 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final Set<String> CONTACT_HAS_OFFERED_STATUSES = new Set<String>{
         'Offer','Accept-Admit','Study'
     };
-
+ 
     public static final Set<String> CONTACT_HAS_ACCEPTED_STATUSES = new Set<String>{
         'Accept-Admit','Study'
     };
+
+    public static final String CITIZENSHIP_STATUS_DOMESTIC = 'Domestic';
+    public static final String CITIZENSHIP_STATUS_INTERNATIONAL = 'International';
 
     public static final String EXPLORE_JOURNEY_STATUS = 'Explore';
     public static final String APPLY_JOURNEY_STATUS = 'Apply';
@@ -72,7 +88,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return [//NOPMD
             SELECT
                 Id,
+                FirstName,
                 LastName,
+                Birthdate,
                 Email,
                 QUT_Learner_Email__c,
                 QUT_Staff_Email__c,
@@ -82,7 +100,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 hed__Preferred_Email__c,
                 hed__AlternateEmail__c,
                 Future_Student_Journey_Status__c,
-                Lead_Score__c
+                Lead_Score__c,
+                Lead_Score_Detail__c,
+                Calculated_Cadence__c,
+                hed__Citizenship_Status__c                
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -123,10 +144,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'AND Birthdate IN: applicationBirthdates) ' +
                 'OR (FirstName IN: applicationFirstNames ' +
                 'AND LastName IN: applicationLastNames ' +
-                'AND (Email IN: applicationEmailsToMatch ' +
-                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-                'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
+                'AND ((Email != NULL AND Email IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Learner_Email__c != NULL AND QUT_Learner_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Staff_Email__c !=NULL AND QUT_Staff_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)))) ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );
@@ -138,14 +159,14 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     ) {
         return Database.query(
             'SELECT  Id, Email, QUT_Learner_Email__c, QUT_Staff_Email__c, Work_Email__c ' +
-                'FROM Contact ' +
-                'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
-                'AND (Email IN: applicationEmailsToMatch ' +
-                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-                'OR Work_Email__c IN: applicationEmailsToMatch) ' +
-                'WITH ' +
-                String.escapeSingleQuotes(accessLevel)
+            'FROM Contact ' +
+            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+            'AND ((Email != NULL AND Email IN: applicationEmailsToMatch) ' +
+            'OR (QUT_Learner_Email__c != NULL AND QUT_Learner_Email__c IN: applicationEmailsToMatch) ' +
+            'OR (QUT_Staff_Email__c !=NULL AND QUT_Staff_Email__c IN: applicationEmailsToMatch) ' +
+            'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)) ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
         );
     }
 
@@ -169,10 +190,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'AND Birthdate IN: applicationBirthdates) ' +
                 'OR (FirstName IN: applicationFirstNames ' +
                 'AND LastName IN: applicationLastNames ' +
-                'AND (Email IN: applicationEmailsToMatch ' +
-                'OR QUT_Learner_Email__c IN: applicationEmailsToMatch ' +
-                'OR QUT_Staff_Email__c IN: applicationEmailsToMatch ' +
-                'OR Work_Email__c IN: applicationEmailsToMatch))) ' +
+                'AND ((Email != NULL AND Email IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Learner_Email__c != NULL AND QUT_Learner_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (QUT_Staff_Email__c !=NULL AND QUT_Staff_Email__c IN: applicationEmailsToMatch) ' +
+                'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)))) ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );
@@ -189,7 +210,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Email,
                 Citizenship_Country__c,
                 Lead_Score__c,
-                Marketing_Segmentation__r.My_Country_Of_Residency__c
+                Is_Agent_Assisted__c,
+                Marketing_Segmentation__r.My_Country_Of_Residency__c,
+                Marketing_Segmentation__r.My_Primary_BSA__c
             FROM Contact
             WHERE
                 RecordTypeId = :PERSON_RECORDTYPE_ID
@@ -214,6 +237,139 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         );
     }
 
+    public static List<Contact> getContactsFromConvertedLead(
+        Set<Id> recordIds,
+        String accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id, Lead_Score_Detail__c ' +
+                'FROM Contact ' +
+                'WHERE Id IN: recordIds ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+                'WITH ' +
+                String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public static List<Contact> getPersonContactsByEmailOrName(
+        QueryParamWrapperEmailOrName queryParam,
+        AccessLevel accessLevel
+    ) {
+        List<Contact> contactList = new List<Contact>();
+        String email = queryParam.email; //NOPMD
+        String firstName = queryParam.firstName; //NOPMD
+        String lastName = queryParam.lastName; //NOPMD
+        String mobile = queryParam.mobile; //NOPMD
+        String toQuery = removeEmptyParamsInQueryEmail(queryParam);
+        toQuery = removeEmptyParamsInQueryName(queryParam, toQuery);
+        toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
+
+        if (!String.isBlank(toQuery)) {
+            contactList = Database.query(
+                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE RecordTypeId =: PERSON_RECORDTYPE_ID AND (' +
+                toQuery + ')',
+                AccessLevel
+            );
+        }
+
+        return contactList;
+    }
+
+    private static String removeEmptyParamsInQueryEmail(QueryParamWrapperEmailOrName queryParam) {
+        String email = queryParam.email;
+        String toQuery = '';
+
+        if (email != null && email != '') {
+            toQuery = toQuery + '(Email =: email OR hed__WorkEmail__c =: email OR QUT_Learner_Email__c =: email OR QUT_Staff_Email__c =: email)';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryName(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String firstName = queryParam.firstName;
+        String lastName = queryParam.lastName;
+
+        if (firstName != null && firstName != '' && lastName != null  && lastName != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(FirstName =: firstName AND LastName =: lastName )';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryMobile(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String mobile = queryParam.mobile;
+
+        if (mobile != null && mobile != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(MobilePhone =: mobile)';
+        }
+
+        return toQuery;
+    }
+
+    public List<Contact> getPersonContactsBySetIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, ' +
+            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, ' +
+            'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
+            'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
+            'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
+            'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
+            'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c ' +
+                'FROM Contact ' +
+                'WHERE Id IN: recordIds ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
+                accessLevel
+        );
+    }
+    
+    public static List<Contact> getContactsForQTACAddressUpdate(
+        Set<Id> qtacApplicantIdSet,
+        AccessLevel accessLevel
+    ) {
+        return Database.query( 'SELECT Id, (' +
+            'SELECT hed__Address_Type__c, hed__MailingStreet__c, hed__MailingStreet2__c, ' +
+            'hed__MailingCity__c, hed__MailingState__c, hed__MailingCountry__c, ' +
+            'hed__MailingPostalCode__c, hed__Parent_Contact__c ' +
+            'FROM hed__Addresses__r' +
+            ') FROM Contact WHERE Id IN :qtacApplicantIdSet',
+            accessLevel
+        );
+    }
+
+    public List<Contact> getContactByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone ' +
+                'FROM Contact ' +
+                'WHERE MobilePhone != NULL ' +
+                'AND MobilePhone IN: caseMobile ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
+                accessLevel
+        );
+    }
+
+    public List<Contact> getContactMobilePhoneByRecordIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone,ContactMobile_Locale__c ' +
+            'FROM Contact ' +
+            'WHERE MobilePhone != NULL ' +
+            'AND ContactMobile_Locale__c !=NULL ' +
+            'AND Id IN: recordIds ',
+            accessLevel
+        );
+    }
+
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */
@@ -232,4 +388,19 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             nominatedStudentId = new Set<String>();
         }
     }
+
+    public class QueryParamWrapperEmailOrName{
+        public String email;
+        public String firstName;
+        public String lastName;
+        public String mobile;
+
+        public QueryParamWrapperEmailOrName(String strEmail, String strFirstName, String strLastName, String strMobile) { //NOPMD
+            email = strEmail;
+            firstName = strFirstName;
+            lastName = strLastName;
+            mobile = strMobile;
+        }
+    }
+    
 }

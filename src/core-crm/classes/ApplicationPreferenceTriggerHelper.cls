@@ -28,7 +28,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
                 applicationIDSet.add(appPref.Application__c);
             }
         }
-        if(applicationIDSet.size() > 0 || applicationIDSet!=null){
+        if(!applicationIDSet.isEmpty()){
             Map<Id, List<Application_Preference__c>> appPrefMap = setApplicationPreferenceMap(applicationIDSet);
             List<Application_Preference__c> applicationPrefListToUpdate = new List<Application_Preference__c>();
             for(Id appId : appPrefMap.keySet()){
@@ -56,7 +56,8 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
             (isForQTAC && (isForInsert || (isForUpdate && 
                 (
                     oldItems.get(appPref.Id).Starting_Month__c != appPref.Starting_Month__c ||
-                    oldItems.get(appPref.Id).Preference_Number__c != appPref.Preference_Number__c
+                    oldItems.get(appPref.Id).Preference_Number__c != appPref.Preference_Number__c ||
+                    oldItems.get(appPref.Id).Application__c != appPref.Application__c
                 ))
             ))
         )){
@@ -84,15 +85,15 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
      */
     private static Map<Id, List<Application_Preference__c>> setApplicationPreferenceMap(Set<Id> applicationIDSet){
         Map<Id, List<Application_Preference__c>> appPrefMap = new Map<Id, List<Application_Preference__c>>();
-        List<Application_Preference__c> qtacPrefList = ApplicationPreferencesDAO.newInstance().getApplicationPreferenceByAppSetIdsQTAC(applicationIDSet, 'USER_MODE');
+        List<Application_Preference__c> qtacPrefList = ApplicationPreferencesDAO.newInstance().getApplicationPreferenceByAppSetIdsQTAC(applicationIDSet, AccessLevel.USER_MODE);
         qtacApplicationPreferences = new List<Application_Preference__c>();
-        if(qtacPrefList != null && qtacPrefList.size() > 0){
+        if(!qtacPrefList.isEmpty()){
             appPrefMap.putAll(getMappedApplicationPreference(qtacPrefList));
             qtacApplicationPreferences = qtacPrefList;
         }
 
-        List<Application_Preference__c> studyLinkPrefList = ApplicationPreferencesDAO.newInstance().getApplicationPreferenceByAppSetIdsStudyLink(applicationIDSet, 'USER_MODE');
-        if(studyLinkPrefList != null && studyLinkPrefList.size() > 0){
+        List<Application_Preference__c> studyLinkPrefList = ApplicationPreferencesDAO.newInstance().getApplicationPreferenceByAppSetIdsStudyLink(applicationIDSet, AccessLevel.USER_MODE);
+        if(!studyLinkPrefList.isEmpty()){
             appPrefMap.putAll(getMappedApplicationPreference(studyLinkPrefList));
         }
         return appPrefMap;
@@ -133,7 +134,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
             }
         }
 
-        List<Package_Component__c> packageComponentList = PackageComponentDAO.newInstance().getPackageComponentsByAppPrefIdSet(appPrefSetIds, 'USER_MODE');
+        List<Package_Component__c> packageComponentList = PackageComponentDAO.newInstance().getPackageComponentsByAppPrefIdSet(appPrefSetIds, AccessLevel.USER_MODE);
         Map<Id, Package_Component__c> packageCompMap = new Map<Id, Package_Component__c>();
         for(Package_Component__c packageComp : packageComponentList){
             if(packageComp.Application_Preference__c != null && packageComp.Package_Component_No__c == 1){
@@ -141,14 +142,19 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
             }
         }
 
-        List<hed__Application__c> applications = ApplicationsDAO.newInstance().getApplicationsBySetIds(applicationPreferenceMap.keySet(), 'USER_MODE');
+        hed__Application__c tempApp;
+        List<hed__Application__c> applications = ApplicationsDAO.newInstance().getApplicationsBySetIds(applicationPreferenceMap.keySet(), AccessLevel.USER_MODE);
         for(hed__Application__c app : applications){
             Date calculatedDate = getCalculatedDateForStudyLink(app, applicationPreferenceMap, packageCompMap);
-            app.Calculated_Intake_Date__c = calculatedDate;
-            appMapToUpdate.put(app.Id, app);
+            tempApp = new hed__Application__c(
+                Id = app.Id,
+                Calculated_Intake_Date__c = calculatedDate,
+                Current_Preference__c = applicationPreferenceMap.get(app.Id).Id
+            );
+            appMapToUpdate.put(tempApp.Id, tempApp);
         }
 
-        Map<Id, hed__Application__c> qtacAppMap = setQtacApplicationMap();
+        Map<Id, hed__Application__c> qtacAppMap = setQtacApplicationMap(applicationPreferenceMap);
         appMapToUpdate.putAll(qtacAppMap);
 
         ApplicationsDAO.newInstance().updateRecords(appMapToUpdate.values(), false, AccessLevel.USER_MODE);
@@ -158,7 +164,7 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
      * @description sets the map to be used in updating list of qtac application records
      * @return Map<Id, hed__Application__c> response - map that contains list of qtac apps to update
      */
-    private static Map<Id, hed__Application__c> setQtacApplicationMap(){
+    private static Map<Id, hed__Application__c> setQtacApplicationMap(Map<Id, Application_Preference__c> applicationPreferenceMap){
         Map<Id, hed__Application__c> response = new Map<Id, hed__Application__c>();
         Map<Id, Application_Preference__c> qtacApplicationPreferenceMap = new Map<Id, Application_Preference__c>();
         Set<Id> qtacAppPrefSetIds = new Set<Id>();
@@ -172,18 +178,27 @@ public with sharing class ApplicationPreferenceTriggerHelper { //NOPMD
                 qtacAppPrefSetIds.add(appPref.Application__c);
             }
         }
-        List<hed__Application__c> qtacApplications = ApplicationsDAO.newInstance().getApplicationsBySetIds(qtacAppPrefSetIds, 'USER_MODE');
+        List<hed__Application__c> qtacApplications = ApplicationsDAO.newInstance().getApplicationsBySetIds(qtacAppPrefSetIds, AccessLevel.USER_MODE);
+        hed__Application__c tempApp;
         for(hed__Application__c app : qtacApplications){
             Date calculatedDate = null;
-            if(app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID && qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c != null){
+            if(
+                app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID && 
+                qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c != null &&
+                app.Intake_Year__c != null
+            ){
                 String intakeYear = app.Intake_Year__c;
                 Integer startingMonth = Integer.valueOf(qtacApplicationPreferenceMap.get(app.Id).Starting_Month__c);
                 Integer lastDay = Date.daysInMonth(Integer.valueOf(intakeYear), startingMonth);
                 String calculatedDateStr = lastDay + '/' + startingMonth + '/' + intakeYear;
                 calculatedDate = Date.parse(calculatedDateStr);          
             }
-            app.Calculated_Intake_Date__c = calculatedDate;
-            response.put(app.Id, app);
+            tempApp = new hed__Application__c(
+                Id = app.Id,
+                Calculated_Intake_Date__c = calculatedDate,
+                Current_Preference__c = applicationPreferenceMap.get(app.Id).Id
+            );
+            response.put(tempApp.Id, tempApp);
         }
         
         return response;

@@ -1,6 +1,6 @@
 /**
- * @description TriggerHandler Class for MarketingInteractionTrigger
- * @see ..MarketingInteractionTriggerHandler
+ * @description TriggerHandler Class for Marketing_Interaction__c
+ * @see MarketingInteractionTrigger
  *
  * @author Accenture
  *
@@ -8,38 +8,45 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | w.li                           | June 05, 2022         | DEPP-1058              | Created file                 |
+      | eccaius.munoz                  | October 03, 2023      | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public without sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, AfterUpdate {
+public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, BeforeUpdate{
+
+    public static Boolean isRunning = false;
 
     /**
-     * @description after insert
-     * @param newItems - List of Marketing Interaction.Trigger.new
-     */
+    * @description after insert
+    * @param newItems - Map<Id, SObject> of MarketingInteraction.Trigger.new
+    */
     public void afterInsert(Map<Id, SObject> newItems) {
-        LeadScoringManager.rollupScore(newItems, null);
+        MarketingInteractionLeadScoreHelper.processLeadScoreCalculation((List<Marketing_Interaction__c>) newItems.values(), null);
     }
 
-    
     /**
-     * @description after update
-     * @param newItems - List of Marketing Interaction.Trigger.new
-     * @param oldItems - List of Marketing Interaction.Trigger.old
-    */
-    public void afterUpdate(
+     * @description before update
+     * @param newItems - List of MarketingInteraction.Trigger.new
+     * @param oldItems - List of MarketingInteraction.Trigger.old
+     */
+    public void beforeUpdate(
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ) {
-        LeadScoringManager.rollupScore(newItems, oldItems);
+        if(!isRunning){
+            isRunning = true;
+            MarketingInteractionLeadScoreHelper.processLeadScoreCalculation(
+                (List<Marketing_Interaction__c>) newItems.values(), 
+                (Map<Id, Marketing_Interaction__c>) oldItems
+            );
+        }
     }
-  
+
     /**
      * @description indicates it the trigger is disabled
      * @return disabled bypass
      */
     public Boolean isDisabled() {
-      final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
-      return bypass.isDisabled();
+        final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
+        return bypass.isDisabled();
     }
-  }
+}

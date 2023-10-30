@@ -72,10 +72,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Location__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Collaboration_with_External_Organisation__c</field>
             </layoutItems>
             <layoutItems>
@@ -84,10 +80,6 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Location_Details__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>External_Organisation__c</field>
@@ -145,23 +137,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Previously_Developed_Content__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <style>OneColumn</style>
-    </layoutSections>
-    <layoutSections>
-        <customLabel>true</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
-        <label>Support</label>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Delivery_Support_v2__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Delivery_Comments__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
@@ -228,7 +203,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hAD0000001yE7</masterLabel>
+        <masterLabel>00h8q000000Mx4R</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

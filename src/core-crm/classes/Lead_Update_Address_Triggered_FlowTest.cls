@@ -10,16 +10,23 @@
       |---------------------------|-----------------------|-----------|---------------------------------|
       | adrian.c.habasa           | November 02, 2021     | DEPP-741  | Created file                    | 
       | roy.nino.s.regala         | December 10, 2021     | DEPP=1340 | Bug fix                         |
+      | eccarius.munoz            | October 10, 2023      | DEPP-5866 | Added testsetup                 |
 */
 @isTest
 public with sharing class Lead_Update_Address_Triggered_FlowTest {
     private static User  currentUser = TestDataFactory.createUserRecords(1,'QUTeX').iterator().next();
     private static final String LEAD_TYPE = 'Lead';
     private static final String BILLING_TYPE = 'Billing';
+
+    @TestSetup
+    static void makeData(){
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
+    }
+
     @isTest
     static void upsertLeadAddressTest()
         {
-        System.runAs(currentUser)
+        System.runAs(TestDataFactory.getProgramAdminUser())
             {
                 List<Account> accs = new List<Account>();
                 List<lead> tLeads = new List<lead>();
@@ -27,8 +34,8 @@ public with sharing class Lead_Update_Address_Triggered_FlowTest {
                 List<hed__Address__c> hedAddresses = new List<hed__Address__c>();
 
                 accs = TestDataFactory.createTestAccountRecords(1);
-                tLeads= TestDataFactory.createTestLeadRecords(100);
-                leads= TestDataFactory.createTestLeadRecords(100);
+                tLeads= TestDataFactory.createTestLeadRecords(50);
+                leads= TestDataFactory.createTestLeadRecords(50);
                 
                 insert(accs);
 				hedAddresses.addAll(TestDataFactory.createTestHedAddressRecords(1,BILLING_TYPE,accs[0].Id,'hed__Parent_Account__c'));

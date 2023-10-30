@@ -37,6 +37,7 @@
 			| keno.domienri.dico		| October 12, 2022  	| DEPP-4283            | added condition for Prescribed Program child |
 			| mary.grace.li             | November 22, 2022     | DEPP-4693            | Modified for Selected account logic          |
 			| eugene.andrew.abuan       | February 14, 2023     | DEPP-5180            | Added method for TEECEE Checking             |
+			| julie.jane.alegre         | September 28, 2023    | DEPP-4762            | Added Position & Company Name fields         |   
 
 */
 public without sharing class ProductDetailsCtrl {
@@ -1318,6 +1319,8 @@ public without sharing class ProductDetailsCtrl {
 					Id, 
 					Contact__r.Name, 
 					Contact__r.Email, 
+					Contact__r.Position__c,
+					Contact__r.Company_Name__c,
 					Contact__r.ContactMobile_Locale__c,
 					Contact__r.MobilePhone, 
 					Contact__r.Birthdate, 

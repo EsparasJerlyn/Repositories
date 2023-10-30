@@ -9,6 +9,7 @@
       |---------------------------|-----------------------|---------------------|--------------------------------------------------------|
       | angelika.j.s.galang       | February 3, 2022      | DEPP-1257           | Created file                                           |
       | roy.nino.s.regala         | June 6 2022           | DEPP-3092           |  Updated default account, and logic                    |
+      | kenneth.f.alsay           | September 27, 2023    | DEPP-6611           | Removed default and mandatory for QUT GSB              |
 */
 import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
@@ -287,26 +288,17 @@ export default class FinancialSplit extends LightningElement {
         this.financialSplitData = [
             ...this.financialSplitData,
             this.newRowData(
-                this.financialSplitData.length == 0 ?
-                this.qutexId : undefined
+                undefined
             )
         ];    
     }
 
     //returns new row data
     newRowData(schoolId){
-        if(schoolId){
-            let copyDraftValues = JSON.parse(JSON.stringify(this.draftValues));
-            let updateItem = {};
-            updateItem.id = 'row-' + this.financialSplitData.length;
-            updateItem.Account_GL_Code__c = '';
-            updateItem.Percentage_split__c = '';
-            this.draftValues = [...copyDraftValues,updateItem];
-        }
         return {
             rowId: 'row-' + this.financialSplitData.length,
             Participating_School_Name__c: schoolId,
-            schoolName: schoolId ? QUTeX : undefined,
+            schoolName: undefined,
             Account_Name__c: undefined,
             Account_Code__c: undefined,
             Account_GL_Code__c: undefined,
@@ -461,38 +453,6 @@ export default class FinancialSplit extends LightningElement {
                 fieldNames.push('Participating_School_Name__c');
                 messages.push('Participating School Name is required');
                 this.addErrorOutline(record.rowId);
-            }else{
-                //qutex validation
-                if(!this.financialSplitData.find(row => row.schoolName === QUTeX)){
-                    fieldNames.push('Participating_School_Name__c');
-                    messages.push(QUTeX + ' is required to be the first entry');
-                    this.addErrorOutline(record.rowId);
-                }
-                if(isQutex){
-                    //check if there is an existing QUT GSB and user creates new
-                    //check if user edit existing QUT GSB and user creates new
-                    if( this.financialSplitData && 
-                        this.financialSplitData.filter(row => row.schoolName === QUTeX) && 
-                        this.financialSplitData.filter(row => row.schoolName === QUTeX).length > 1) { 
-                        fieldNames.push('Participating_School_Name__c');
-                        messages.push(QUTeX + ' has already been added');
-                        this.addErrorOutline(record.rowId);
-                    }else{
-                        if(!record.Account_GL_Code__c){
-                            fieldNames.push('Account_GL_Code__c');
-                            messages.push('Account GL Code is required for ' + QUTeX);
-                        }
-                        if(record.Account_Code__c){
-                            fieldNames.push('Account_Code__c');
-                            messages.push('Please remove the Account Code for ' + QUTeX);
-                        }
-                    }
-                }else{
-                    if(record.Percentage_split__c && parseInt(record.Percentage_split__c) == 0){
-                        fieldNames.push('Percentage_split__c');
-                        messages.push('Percentage Split must not be zero');
-                    }
-                }
             }
             //percentage split validation
             if(!record.Percentage_split__c){

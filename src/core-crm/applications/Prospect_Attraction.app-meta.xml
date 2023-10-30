@@ -18,24 +18,6 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Prospect Attraction</label>
     <navType>Console</navType>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Contact_Record_Page_OIE</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Person</recordType>
-        <type>Flexipage</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Contact_Record_Page_OIE</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Person</recordType>
-        <type>Flexipage</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Account</tabs>

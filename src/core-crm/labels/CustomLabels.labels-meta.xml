@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Adhoc_Communication_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Adhoc Communication Cron Expression</shortDescription>
+        <value>0 0 7 ? * * *</value>
+    </labels>
+    <labels>
         <fullName>Build_Search_Index_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -39,6 +46,14 @@
         <value>QUTeX_Email_Footer</value>
     </labels>
     <labels>
+        <fullName>Domestic_Nurture_Track_List</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Domestic Nurture Track List</shortDescription>
+        <value>Domestic Strong Interest Pre-Application,Domestic First Offer to Acceptance,Domestic Deferred Offer to Acceptance,Domestic Accepted not yet Enrolled,Domestic Accepted and Admitted,Domestic and International Enrolment to Census,Domestic Offer Lapsed
+        </value>
+    </labels>
+    <labels>
         <fullName>ESBEndpointCreateContract</fullName>
         <categories>Endpoint</categories>
         <language>en_US</language>
@@ -53,6 +68,37 @@
         <protected>false</protected>
         <shortDescription>ESBEndpointMDMStudent</shortDescription>
         <value>/domain/dep/v1/processContact</value>
+    </labels>
+    <labels>
+        <fullName>GoogleDetectionEndpoint</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GoogleDetectionEndpoint</shortDescription>
+        <value>/language/translate/v2/detect</value>
+    </labels>
+    <labels>
+        <fullName>GoogleSupportedLanguagesEndpoint</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GoogleSupportedLanguagesEndpoint</shortDescription>
+        <value>/language/translate/v2/languages</value>
+    </labels>
+    <labels>
+        <fullName>GoogleTranslationEndpoint</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GoogleTranslationEndpoint</shortDescription>
+        <value>/language/translate/v2</value>
+    </labels>
+    <labels>
+        <fullName>International_Nurture_Track_List</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>International Nurture Track List</shortDescription>
+        <value>International Strong Interest Pre-Application,International Application Submission - Direct Applicant,International Application to Offer,International Offer to Acceptance,International Acceptance Deposit not Paid</value>
     </labels>
     <labels>
         <fullName>LWC_Error_General</fullName>
@@ -330,7 +376,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Loqate Mobile Validation Cron Expression</shortDescription>
-        <value>0 0 0 ? * MON-SUN</value>
+        <value>0 0 * * * ?</value>
     </labels>
     <labels>
         <fullName>QUTeX</fullName>
@@ -636,6 +682,14 @@
         <value>Business_Organization</value>
     </labels>
     <labels>
+        <fullName>RT_Academic_Program</fullName>
+        <categories>RecordType,Account</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RT_Academic_Program</shortDescription>
+        <value>Academic_Program</value>
+    </labels>
+    <labels>
         <fullName>RT_Account_University_Department</fullName>
         <categories>RecordType,Account</categories>
         <language>en_US</language>
@@ -767,7 +821,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SalesCadenceAssignTargetEndpoint</shortDescription>
-        <value>/services/data/v45.0/actions/standard/assignTargetToSalesCadence</value>
+        <value>/services/data/v56.0/actions/standard/assignTargetToSalesCadence</value>
     </labels>
     <labels>
         <fullName>SalesCadenceRemoveTargetEndpoint</fullName>
@@ -775,6 +829,60 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SalesCadenceRemoveTargetEndpoint</shortDescription>
-        <value>/services/data/v45.0/actions/standard/removeTargetFromSalesCadence</value>
+        <value>/services/data/v56.0/actions/standard/removeTargetFromSalesCadence</value>
+    </labels>
+    <labels>
+        <fullName>SalesCadenceUpdateTargetEndpoint</fullName>
+        <categories>Complete Cadence Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SalesCadenceUpdateTargetEndpoint</shortDescription>
+        <value>/services/data/v56.0/actions/standard/sendSalesCadenceEvent</value>
+    </labels>
+    <labels>
+        <fullName>Email_Trigger_Cadence_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Trigger_Cadence_Cron_Expression</shortDescription>
+        <value>0 0 10 * * ?</value>
+    </labels>
+    <labels>
+        <fullName>PL_CommsQueue_Scheduled</fullName>
+        <categories>Picklist,CommunicationQueue</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_CommsQueue_Scheduled</shortDescription>
+        <value>Scheduled</value>
+    </labels>
+    <labels>
+        <fullName>PL_CommsQueue_Sent</fullName>
+        <categories>Picklist,CommunicationQueue</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_CommsQueue_Sent</shortDescription>
+        <value>Sent</value>
+    </labels>
+    <labels>
+        <fullName>PL_CommsQueue_Failed</fullName>
+        <categories>Picklist,CommunicationQueue</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_CommsQueue_Failed</shortDescription>
+        <value>Failed</value>
+    </labels>
+    <labels>
+        <fullName>PL_CommsQueue_Retry</fullName>
+        <categories>Picklist,CommunicationQueue</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL_CommsQueue_Retry</shortDescription>
+        <value>Retry Scheduled</value>
+    </labels>
+    <labels>
+        <fullName>Recalculate_Lead_Score_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Recalculate Lead Score Cron Expression</shortDescription>
+        <value>0 0 0 ? * MON-SUN</value>
     </labels>
 </CustomLabels>

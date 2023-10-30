@@ -2,7 +2,7 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
         <application>International_Student_Recruitment</application>
-        <visible>true</visible>
+        <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
         <apexClass>AddressInformationValidationCtrl</apexClass>
@@ -505,6 +505,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Marketing_Opt_In__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Citizenship_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Country_of_Citizenship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Country_of_Residency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Education_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.My_Primary_Study_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Origin</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -551,6 +581,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Student_LifeCycle_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Sub_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -815,11 +850,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.IER_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.IsStaff_Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -875,22 +905,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Marketing_Course_Application_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Marketing_Interaction_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Marketing_Mobile_Locale__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Marketing_Segmentation_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1024,12 +1039,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Contact.QUT_Learner_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Contact.QUT_Staff_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1071,11 +1086,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.SMS_Opt_Out_DateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1620,11 +1630,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.IER_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Industry</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1705,27 +1710,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Marketing_Course_Application_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Marketing_Interaction_Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Marketing_Mobile_Locale__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Marketing_Segmentation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Marketing_Segmentation_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1811,11 +1801,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.SMS_Opt_Out_DateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2535,11 +2520,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Marketing_Course_Application__c.Score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Marketing_Course_Application__c.Student_Study_Package_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2716,11 +2696,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Marketing_Interaction__c.SPAD__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Marketing_Interaction__c.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3221,11 +3196,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Marketing_Segmentation__c.SE_Year_12_Expected_Completion_Year__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Marketing_Segmentation__c.Score__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

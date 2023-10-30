@@ -30,6 +30,9 @@
       | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
       | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  |
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag      |
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentation|
+      | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added lead score calculation    |
+      |                                |                       |                        |                                 |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -54,11 +57,9 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     // Call method to detect if emails used in contacts creation is already being used
     // anywhere on the organization.
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems, null);
-    ContactTriggerHelper.birthdateValidation((List<Contact>) newItems);
     setContactOwner((List<Contact>)newItems);
-    ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems);
+    ContactTriggerHelper.fastFieldUpdateAndValidation((List<Contact>) newItems, null);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems, null);
-    ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems,null);
     ContactTriggerHelper.updateMovingToBrisbane(newItems);
   }
 
@@ -79,10 +80,9 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
-    ContactTriggerHelper.birthdateValidation((List<Contact>) newItems.values());
-    ContactTriggerHelper.setQUTPersonaFlag((List<Contact>) newItems.values());
+    ContactTriggerHelper.fastFieldUpdateAndValidation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
-    ContactTriggerHelper.updateCanNurtureFlag((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
+    ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
   }
 
@@ -95,9 +95,11 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
     processLeadOnInsert(newMap);
     createChildMCPersona(newMap.values());
+    ContactTriggerHelper.createMarketingSegmentation(newMap);
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());
+    ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), null);
   }
 
   /**
@@ -340,5 +342,4 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         Logger.saveLog();                
       }
   }
-
 }

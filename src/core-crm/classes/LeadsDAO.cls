@@ -9,13 +9,21 @@
       | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                    |
       | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads    |
       | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                |
-      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds | 
- */
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                      |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName              |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           |
+      | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added new method getLeadMobilePhoneByRecordIds  |
+ */ 
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
      * Lead Constants
      */
     public static final String CCE_CORPORATE_PARTNER = 'CCE Corporate Partner';
+    public static final String QUALIFIED_STATUS = 'Qualified';
+    public static final String NEW_STATUS = 'New';
+    public static final String ENGAGING_STATUS = 'Engaging';
+    public static final String NURTURING_STATUS = 'Nurturing';
     public static final String EXPLORE_JOURNEY_STATUS = 'Explore';
     public static final String APPLY_JOURNEY_STATUS = 'Apply';
     public static final String OFFER_JOURNEY_STATUS = 'Offer';
@@ -49,7 +57,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
 
     public static List<Lead> getLeadsWithLimit(Integer recordsCount) {
         return [//NOPMD
-            SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c
+            SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c, 
+            Lead_Score__c, Calculated_Cadence__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c
             FROM Lead
             WITH SYSTEM_MODE//Only used in test class to verify record insert/update
             LIMIT :recordsCount
@@ -80,7 +89,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
                 Email,
                 Lead_Score__c,
                 Marketing_Segmentation__r.My_Country_Of_Residency__c,
-                Marketing_Segmentation__r.My_Country_Of_Citizenship__c
+                Marketing_Segmentation__r.My_Country_Of_Citizenship__c,
+                Marketing_Segmentation__r.My_Primary_BSA__c
             FROM Lead
             WHERE
                 Lead_Type__c = 'Learner'
@@ -90,7 +100,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             WITH USER_MODE
         ];
     }
-    
+
     public List<Lead> getLeadsCalculatedCadenceByIds(
         Set<String> recordIds,
         String accessLevel
@@ -103,6 +113,133 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             'AND Calculated_Cadence__c != NULL ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<Lead> getLeadsByCaseMobile(
+        Set<String> caseMobile,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone ' +
+            'FROM Lead ' +
+            'WHERE MobilePhone != NULL ' +
+            'AND MobilePhone IN: caseMobile ' +
+            'AND IsConverted = FALSE ',
+            accessLevel
+        );
+    }
+
+    public List<Lead> getLeadsByIdSet(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status ' +
+            'FROM Lead ' +
+            'WHERE Id IN: recordIdSet ',
+            accessLevel
+        );
+    }
+
+    public List<Lead> getLeadsByIdSetAndType(
+        Set<Id> recordIdSet,
+        String leadType,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status, Email_Opt_In_DateTime__c ' +
+              'FROM Lead ' +
+             'WHERE Id IN: recordIdSet AND Lead_Type__c =: leadType',
+            accessLevel
+        );
+    }
+
+    public static List<Lead> getLeadByEmailOrName(
+        QueryParamWrapperEmailOrName queryParam,
+        AccessLevel accessLevel
+    ) {
+        List<Lead> leadList = new List<Lead>();
+        String email = queryParam.email; //NOPMD
+        String firstName = queryParam.firstName; //NOPMD
+        String lastName = queryParam.lastName; //NOPMD
+        String mobile = queryParam.mobile; //NOPMD
+        String toQuery = removeEmptyParamsInQueryEmail(queryParam);
+        toQuery = removeEmptyParamsInQueryName(queryParam, toQuery);
+        toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
+
+
+        if (!String.isBlank(toQuery)) {
+            leadList = Database.query(
+                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c FROM Lead WHERE ' +
+                toQuery,
+                AccessLevel
+            );
+        }
+
+        return leadList;
+
+    }
+
+    private static String removeEmptyParamsInQueryEmail(QueryParamWrapperEmailOrName queryParam) {
+        String email = queryParam.email;
+        String toQuery = '';
+
+        if (email != null && email != '') {
+            toQuery = toQuery + '(Email =: email OR Work_Email__c =: email)';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryName(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String firstName = queryParam.firstName;
+        String lastName = queryParam.lastName;
+
+        if (firstName != null && firstName != '' && lastName != null  && lastName != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(FirstName =: firstName AND LastName =: lastName )';
+        }
+
+        return toQuery;
+    }
+
+    private static String removeEmptyParamsInQueryMobile(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+        String mobile = queryParam.mobile;
+
+        if (mobile != null && mobile != '') {
+            toQuery = toQuery != '' ? toQuery + ' OR ' : toQuery;
+            toQuery = toQuery + '(MobilePhone =: mobile)';
+        }
+
+        return toQuery;
+    }
+
+    public class QueryParamWrapperEmailOrName{
+        public String email;
+        public String firstName;
+        public String lastName;
+        public String mobile;
+
+        public QueryParamWrapperEmailOrName(String strEmail, String strFirstName, String strLastName, String strMobile) { //NOPMD
+            email = strEmail;
+            firstName = strFirstName;
+            lastName = strLastName;
+            mobile = strMobile;
+        }
+    }
+
+    public List<Lead> getLeadMobilePhoneByRecordIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone,LeadMobile_Locale__c ' +
+            'FROM Lead ' +
+            'WHERE MobilePhone != NULL ' +
+            'AND LeadMobile_Locale__c != NULL ' +
+            'AND Id IN: recordIds ',
+            accessLevel
         );
     }
 }

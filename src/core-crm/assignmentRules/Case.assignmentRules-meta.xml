@@ -8,5 +8,15 @@
             <assignedToType>Queue</assignedToType>
             <formula>RecordType.DeveloperName  = &apos;International_Enquiry&apos;</formula>
         </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Future_Student_International_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>RecordType.DeveloperName  = &apos;International_Future_Student_Enquiry&apos;</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Future_Student_Domestic_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>RecordType.DeveloperName  = &apos;Domestic_Future_Student_Enquiry&apos;</formula>
+        </ruleEntry>
     </assignmentRule>
 </AssignmentRules>

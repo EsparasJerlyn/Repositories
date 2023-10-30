@@ -8,7 +8,7 @@
     <lookupFilter>
         <active>true</active>
         <filterItems>
-            <field>$Source.RecordTypeId</field>
+            <field>hed__Application__c.RecordTypeId</field>
             <operation>equals</operation>
             <value>QTAC</value>
         </filterItems>

@@ -60,6 +60,11 @@ th.slds-has-focus, td.slds-has-focus{
     
 }
 
+.slds-popover__body {
+    padding: 0;
+    width: auto;
+}
+
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;

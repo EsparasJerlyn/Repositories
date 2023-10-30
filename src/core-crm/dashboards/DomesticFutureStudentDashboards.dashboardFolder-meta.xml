@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DashboardFolder xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>Future_Student_Agent_Domestic</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>Future_Student_Concierge_Domestic</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>Future_Student_Team_Leader_Domestic</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>Future_Student_Super_User_Domestic</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>System_Administrator</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <name>Domestic Future Student Dashboards</name>
+</DashboardFolder>

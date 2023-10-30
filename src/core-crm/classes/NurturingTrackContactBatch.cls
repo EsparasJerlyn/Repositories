@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | July 23, 2023         | DEPP-6105              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                        |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
+      | mark.j.mahilum                 | July 23, 2023         | DEPP-6105              | Created file                                          |
+      | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added field in Contact Query                          |
  */
 public class NurturingTrackContactBatch implements Database.Batchable<sObject> {
 
@@ -17,7 +18,7 @@ public class NurturingTrackContactBatch implements Database.Batchable<sObject> {
      * @return query - filtered query records
      */
      public Database.QueryLocator start(Database.BatchableContext bc){
-         String queryFilter =  'SELECT Id, Can_Nurture__c,Lead_Score__c, Calculated_Cadence__c, hed__Citizenship_Status__c ' + 
+         String queryFilter =  'SELECT Id, Can_Nurture__c,Lead_Score__c, Calculated_Cadence__c, hed__Citizenship_Status__c, HasOptedOutOfEmail ' + 
                                'FROM Contact ' + 
                                'WHERE Can_Nurture__c = TRUE ' +
                                'OR Calculated_Cadence__c !=NULL ';

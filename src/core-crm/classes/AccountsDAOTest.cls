@@ -30,6 +30,17 @@ public with sharing class AccountsDAOTest {
     }
 
     @isTest
+    static void getAccountsByFieldsSetIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Account> accountList = AccountsDAO.newInstance()
+                .getAccountsBySetIds(new Set<Id>(), new List<String>(), AccessLevel.SYSTEM_MODE);
+            System.assert(accountList.isEmpty(), 'accountList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getAccountsBySetNamesTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {

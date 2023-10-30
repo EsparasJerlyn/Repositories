@@ -46,11 +46,11 @@ public with sharing class PackageComponentDAOTest {
             List<Package_Component__c> packageComponentList = PackageComponentDAO.newInstance()
                 .getPackageComponentsByAppPrefIdSet(
                     new Set<Id>(),
-                    'SYSTEM_MODE'
+                    AccessLevel.USER_MODE
                 );
             System.assert(packageComponentList.isEmpty(), 'Package component list should not be empty.');
         }
         Test.stopTest();
     }
 
-}
+} 

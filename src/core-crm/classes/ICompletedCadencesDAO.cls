@@ -24,4 +24,9 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         Set<String> cadenceNames,
         String accessLevel
     );
-}
+    List<Completed_Cadence__c> getCompletedCadenceByTargetIds(
+        Set<Id> targetIds,
+        Set<String> cadenceNames,
+        String accessLevel
+    );
+} 

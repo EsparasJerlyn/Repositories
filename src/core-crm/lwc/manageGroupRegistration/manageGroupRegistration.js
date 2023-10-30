@@ -1,3 +1,16 @@
+/**
+ * @description A LWC component for manage registration
+ *
+ * @see ../classes/GroupRegistrationCtrl.cls
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                              |
+      |---------------------------|-----------------------|----------------------|---------------------------------------------|
+      | julie.jane.alegre         | September 26, 2023    | DEPP-4762            | Added Position & Company Name fields        |
+      | kenneth.f.alsay           | October 25, 2023      | DEPP-4762            | Aligned Columns with Bulk Registration CSV  |
+*/
 import { LightningElement, wire, api} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
@@ -23,7 +36,7 @@ const PROD_CATEG_SOA = 'QUTeX Learning Solutions';
 const HEADER_TITLE = 'Bulk Registration';
 const DESCRIPTION = 'To register multiple employees into this course, ' + 'download csv template, fully complete and upload the below file.';
 const NOTE_LABEL = 'Please note: ';
-const NOTE_LABEL_VALUE = 'Firstname, Lastname, Birthdate, and Email are mandatory for registration.';
+const NOTE_LABEL_VALUE = 'Firstname, Lastname, Birthdate, Email, Mobile Phone, Position and Company Name are mandatory for registration.';
 const TOTAL_NUM_PLACES_LABEL = 'Total number of places: ';
 const BUTTON_DOWNLOAD_LABEL = 'Download CSV Template';
 const BUTTON_CANCEL_LBL = 'Cancel';
@@ -51,6 +64,8 @@ const COLUMNS = [
     { label: 'Email', fieldName: 'Email', type: 'email' },
     { label: "Mobile Locale", fieldName: "MobileLocale", type: "text" },
     { label: "Mobile", fieldName: "MobilePhone", type: "phone" },
+    { label: 'Position', fieldName: 'Position', type: 'text' },
+    { label: 'Company Name', fieldName: 'CompanyName', type: 'text' },
     { label: 'Date of Birth', fieldName: 'Birthdate', type: 'date' },
     { label: "Dietary Requirement", fieldName: "DietaryRequirement", type: "text" },
     { label: "Accessibility Requirement", fieldName: "AccessibilityRequirement", type: "text" },
@@ -139,7 +154,9 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                 ContactMobile_Locale__c : element.MobileLocale,
                 Mobile_No_Locale__c : element.MobilePhone,
                 Accessibility_Requirement__c : element.AccessibilityRequirement,                
-                Dietary_Requirement__c : element.DietaryRequirement
+                Dietary_Requirement__c : element.DietaryRequirement,
+                Position__c : element.Position,
+                Company_Name__c : element.CompanyName
             });
             
             //Check email if duplicate input
@@ -340,6 +357,14 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
             if(!contact.LastName){
                 fieldNames.push("Last Name");
             }
+            //Check Position
+            if(!contact.Position){
+                fieldNames.push("Position");
+            }
+            //Check Company Name
+            if(!contact.CompanyName){
+                fieldNames.push("Company Name");
+            }
             if(fieldNames.length>0){
                 rowsValidation[contact.id] = {
                     title: 'We found an error/s.',
@@ -371,6 +396,8 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                 LastName: selectedContact.LastName,
                 Email: selectedContact.Email,
                 ContactMobile_Locale__c: selectedContact.MobileLocale,
+                Position__c: selectedContact.Position,
+                Company_Name__c: selectedContact.CompanyName,
                 MobilePhone: selectedContact.MobilePhone,
                 Birthdate: selectedContact.Birthdate,
                 Accessibility_Requirement__c:selectedContact.AccessibilityRequirement,
@@ -404,6 +431,8 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                     LastName: details.LastName,
                     Email: details.Email,
                     MobileLocale: details.ContactMobile_Locale__c,
+                    Position: details.Position__c,
+                    CompanyName: details.Company_Name__c,
                     MobilePhone: details.MobilePhone,
                     Birthdate: details.Birthdate,
                     DietaryRequirement: details.Dietary_Requirement__c,
@@ -431,6 +460,8 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                 LastName: "",
                 Email: "",
                 MobileLocale: "",
+                Position: "",
+                CompanyName: "",
                 MobilePhone: "",
                 Birthdate: "",
                 DietaryRequirement: "",
@@ -452,6 +483,8 @@ export default class GroupRegistration extends NavigationMixin (LightningElement
                 LastName: details.LastName,
                 Email: details.Email,
                 MobileLocale: details.ContactMobile_Locale__c,
+                Position: details.Position__c,
+                CompanyName: details.Company_Name__c,
                 MobilePhone: details.MobilePhone,
                 Birthdate: details.Birthdate,
                 AccessibilityRequirement: details.Accessibility_Requirement__c,

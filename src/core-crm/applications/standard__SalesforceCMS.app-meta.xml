@@ -10,15 +10,6 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Salesforce CMS</label>
     <navType>Console</navType>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Contact_Record_Page_OIE</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Contact</pageOrSobjectType>
-        <recordType>Contact.Person</recordType>
-        <type>Flexipage</type>
-        <profile>Industry Engagement</profile>
-    </profileActionOverrides>
     <tabs>standard-CmsAuthorHome</tabs>
     <tabs>standard-CmsChannel</tabs>
     <tabs>standard-CmsWorkspaces</tabs>

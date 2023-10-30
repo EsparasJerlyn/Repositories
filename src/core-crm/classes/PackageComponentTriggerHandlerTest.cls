@@ -25,12 +25,12 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
     @isTest
     private static void getAllApplicationPreferenceIdInPackageComponentBeforeInsert(){
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.startTest();
+            
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = '';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-
+			Test.startTest();
             List<hed__Application__c> newStudyLinkApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             ApplicationsDAO.newInstance().insertRecords(newStudyLinkApplications, false, AccessLevel.SYSTEM_MODE);
             
@@ -59,12 +59,12 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
     @isTest
     private static void getAllApplicationPreferenceIdInPackageComponentBeforeUpdate(){
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.startTest();
+            
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = '';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-
+			Test.startTest();
             List<hed__Application__c> newStudyLinkApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             ApplicationsDAO.newInstance().insertRecords(newStudyLinkApplications, false, AccessLevel.SYSTEM_MODE);
             
@@ -87,6 +87,7 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
             for(Package_Component__c packageComToUpdate : packageComList){
                 packageComToUpdate.Start_Date__c = System.today().addDays(1);
             }
+            
             PackageComponentDAO.newInstance().updateRecords(packageComList, false, AccessLevel.SYSTEM_MODE);
         }
             Test.stopTest();
@@ -124,7 +125,6 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
                     LastName = i + LASTNAME,
                     BirthDate = Date.valueOf(BIRTHDAY),
                     Email = i + EMAIL,
-                    IER_Score__c = 350, //Updates Lead Score to above the threshold so Can Nurture becomes true, and contact will be processed in the batch,
                     QUT_Learner_Email__c = 'learner' + i + EMAIL,
                     QUT_Staff_Email__c = 'staff' + i + EMAIL,
                     Work_Email__c = 'work' + i + EMAIL,

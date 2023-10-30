@@ -9,22 +9,6 @@
                         <valueListItems>
                             <value>Edit</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Convert</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Can_Be_Converted__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Lead_Type__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Learner</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -67,6 +51,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>leadScoreSection</componentName>
+                <identifier>c_leadScoreSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>lookupFieldName</name>
                     <value>Lead.Marketing_Segmentation__c</value>
@@ -97,6 +87,10 @@
                 <identifier>RecordNameField</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-93dc51a1-d573-407b-97cc-02c180b05cbb</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -115,20 +109,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Title</fieldItem>
                 <identifier>RecordTitleField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-93dc51a1-d573-407b-97cc-02c180b05cbb</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.OwnerId</fieldItem>
-                <identifier>RecordOwnerIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -644,6 +624,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection4</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -662,6 +648,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection5</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -686,6 +678,70 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Lead.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>et4ae5__IndividualEmailResults__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>et4ae5__FromAddress__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__SubjectLine__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__Tracking_As_Of__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__Opened__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__DateOpened__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Digital Marketing</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList5</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

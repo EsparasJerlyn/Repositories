@@ -44,18 +44,24 @@
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                        |     
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |     
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
  *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
  *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                        |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                     |
  *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
  *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
  *    |                           |                       |                     | createPackageComponentRecords                                           |
  *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
  *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
+ *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
+ *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
+ *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
+ *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
+ *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
+ * 
  **/
 
 @isTest
@@ -171,6 +177,26 @@ public class TestDataFactory {
         return cons;
     }
 
+     /**
+     * @description Method for creating test Contact records
+     * @param numContacts - number of Contacts to be created
+     * @param citizenship - citizenship of contact
+     * @return contactList - list of Contacts created
+     */
+    public static List<Contact> createTestContactRecords(Integer numContacts, String citizenship) {
+        List<Contact> contactList = new List<Contact>();
+
+        for (Integer i = 0; i < numContacts; i++) {
+            contactList.add(new Contact(
+                FirstName = 'Test' + i, 
+                LastName = 'Contact' + i,
+                hed__Citizenship_Status__c = citizenship,
+                RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID
+            ));
+        }
+
+        return contactList;
+    }
 
     /**
      * @description Method for creating test Contact records
@@ -1785,7 +1811,12 @@ public class TestDataFactory {
     public static List<Adhoc_Communication__c> createTestAdhocCommsRecords(Integer numAdhocComms) {
         List<Adhoc_Communication__c> adhocCommsList = new List<Adhoc_Communication__c>();
         for (Integer i = 0; i < numAdhocComms; i++) {
-            adhocCommsList.add(new Adhoc_Communication__c());
+            adhocCommsList.add(new Adhoc_Communication__c(
+                IsSent__c = false,
+                Send_Date__c = System.today(),
+                Subject__c = 'test subject' + i,
+                Email_Content__c = 'test email content'
+            ));
         }
         return adhocCommsList;
     }
@@ -1932,6 +1963,24 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating WebCart
+     * @param accountId - portal account id
+     * @param ownerId - owner id
+     * @param webstoreId - webstore id
+     * @return WebCart - to be created WebCart
+     */
+    public static WebCart createWebCart(Id accountId, Id ownerId, Id webstoreId) {
+        return new WebCart(
+            Name = 'Cart',
+            AccountId = accountId,
+            Status = 'Active',
+            Status__c = 'Active',
+            WebStoreId = webstoreId,
+            OwnerId = ownerId
+        );
+    }
+
+    /**
      * @description Method for creating WebStoreCatalog
      * @return records - list of International_Tier__c records
      */
@@ -1971,6 +2020,27 @@ public class TestDataFactory {
         }
 
         return caseList;
+    }
+
+    /**
+     * @description Method for creating Communication_Queue__c object
+     * @param Set<Id> recordIds - Contact/Lead record Ids to be set as Who Id
+     * @param String status 
+     * @return records - list of Communication_Queue__c records
+     */
+    public static List<Communication_Queue__c> createCommunicationQueuePerContactOrLead(Set<Id> recordIds, String status, Id emailTemplateId){
+        List<Communication_Queue__c> communicationQueueList = new List<Communication_Queue__c> ();
+        for(Id recordId : recordIds){
+            communicationQueueList.add(
+                new Communication_Queue__c(
+                    WhoId__c = recordId,
+                    Status__c = status,
+                    Template_Id__c = emailTemplateId,
+                    Due_Date__c = System.today()
+                )
+            );
+        }
+        return communicationQueueList;
     }
 
     public static List<EmailMessage> queryEmailMessageRecords() {
@@ -2064,7 +2134,7 @@ public class TestDataFactory {
      */
     public static User getCorporatePartnerUser() {
         User coporateUser = [
-            SELECT Id
+            SELECT Id, AccountId, ContactId
             FROM User
             WHERE Username LIKE 'QUT_Corporate_Partner_User%'
             LIMIT 1
@@ -2205,6 +2275,20 @@ public class TestDataFactory {
             LIMIT 1
         ];
         return pm;
+    }
+    /**
+     * @description Method for getting System Administrator
+     * @param void
+     * @return sysAdmin - QUTeX System Admin User
+     */
+    public static User getSystemAdminUser() {
+        User sysAdmin = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_System_Administrator%'
+            LIMIT 1
+        ];
+        return sysAdmin;
     }
 
     class TestUserGenerator {
@@ -2445,7 +2529,7 @@ public class TestDataFactory {
 
         private void getPortalSysAdminUser() {
             portalSysAdmin = [
-                SELECT Id
+                SELECT Id, UserRoleId
                 FROM User
                 WHERE
                     IsActive = TRUE
@@ -2455,15 +2539,19 @@ public class TestDataFactory {
                     OR Profile.Name = 'System Administrator')
                 LIMIT 1
             ];
-            //add UserRole
-            portalSysAdmin.UserRoleId = [
-                SELECT Id
-                FROM UserRole
-                WHERE Name = 'System Administrator'
-                LIMIT 1
-            ]
-            ?.Id;
-            update portalSysAdmin;
+
+            if(String.isBlank(portalSysAdmin.UserRoleId)){
+                //add UserRole
+                portalSysAdmin.UserRoleId = [
+                    SELECT Id
+                    FROM UserRole
+                    WHERE Name = 'System Administrator'
+                    LIMIT 1
+                ]
+                ?.Id;
+                update portalSysAdmin;
+            }
+            
         }
     }
 
@@ -2573,7 +2661,7 @@ public class TestDataFactory {
                 userName = 'QUT_System_Administrator';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User';
+                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2857,7 +2945,7 @@ public class TestDataFactory {
             } else if (name == 'QUT_Domestic_Future_Student_Agent') {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
-                roleName = 'Future Student Agent';
+                roleName = 'Future Student Agent - Domestic';
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
@@ -3381,6 +3469,7 @@ public class TestDataFactory {
             applicationList.add(new hed__Application__c(
                 hed__Applicant__c = contactId,
                 RecordTypeId = recordTypeId,
+                Is_Active__c = true,
                 Intake_Year__c = String.valueOf(System.Today().year())
             ));
         }
@@ -3419,4 +3508,389 @@ public class TestDataFactory {
         }
         return packageComponentList;
     }
+    /**
+     * @description Method for creating test Lead Score Configuration records
+     * @return List<Lead_Score_Configuration__c> leadScoreConfigurationList - List of Lead Score Configuration Records
+     */
+    public static List<Lead_Score_Configuration__c> createLeadScoreConfigurationRecords(Id parentCategoryId, Id recordTypeId, Integer numberOfRecordsToCreate) {
+        List<Lead_Score_Configuration__c> leadScoreConfigurationList = new List<Lead_Score_Configuration__c>();
+        for (Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            leadScoreConfigurationList.add(new Lead_Score_Configuration__c(
+                Name = 'Test LSC ' + (i + 1),
+                Parent_Category__c  = parentCategoryId,
+                RecordTypeId = recordTypeId,
+                Max_Score__c = i + 1
+            ));
+        }
+        return leadScoreConfigurationList;
+    }
+    /**
+     * @description Method for creating test Marketing Interaction records
+     * @return List<Marketing_Interaction__c> leadScoreConfigurationList - List of Lead Score Configuration Records
+     */
+    public static List<Marketing_Interaction__c> createMarketingInteractionRecords(Id contactId, Integer numberOfRecordsToCreate, String leadSource) {
+        List<Marketing_Interaction__c> marketingInteractionList = new List<Marketing_Interaction__c>();
+        for(Integer i= 0; i < numberOfRecordsToCreate; i++) {
+            marketingInteractionList.add(new Marketing_Interaction__c(
+                Contact__c = contactId, 
+                Lead_Source__c = leadSource
+            ));
+        }
+        return marketingInteractionList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createCategoryLeadScoreConfigurations(){
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Undergraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 18,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Postgraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 18,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Postgraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undergraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Undetermined',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Event Registration and Attendance',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 36,
+            Max_Score__c = 30
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Postgraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undergraduate',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Undetermined',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        leadScoreConfigList.add(new Lead_Score_Configuration__c(
+            Name = 'Residence',
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'International',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = null,
+            Max_Score__c = 10
+        ));
+        return leadScoreConfigList;
+    }
+
+
+    public static List<Lead_Score_Configuration__c> createInlAndPostGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomstcAndPostGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomstcAndUnderGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Undergraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createIntlAndUnderGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Undergraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomestcAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Undetermined',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createIntlAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Undetermined',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createUndAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Undetermined',
+                Study_Level__c = 'Undetermined',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createIntlAndPostgradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'International',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Lead_Score_Configuration__c> createDomestcAndPostgradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
+
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        
+        for(Integer i = 0;i<categoryNamesList.size();i++){
+            leadScoreConfigList.add(new Lead_Score_Configuration__c(
+                Name = categoryNamesList[i],
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+                Domestic_International__c = 'Domestic',
+                Study_Level__c = 'Postgraduate',
+                Score_Allocation__c = scoreAllocationsList[i],
+                Time_Limit_Months__c = null,
+                Max_Score__c = null,
+                Parent_Category__c = parentCategory
+            ));
+        }
+
+        return leadScoreConfigList;
+    }
+
+    public static List<Case_Priority_Configuration__c> createCasePrioConfigRecords(){
+        List<Case_Priority_Configuration__c> casePrioConfigList = new List<Case_Priority_Configuration__c>();
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Future_Student_Stage__c = 'Apply', 
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Enquiry_Category__c = 'My enrolment',
+            Future_Student_Stage__c = 'Apply', 
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Country_Tier__c = 'Tier 1',
+            Is_Active__c = true,
+            Lead_Score__c = 120,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Country_Tier__c = 'Tier 2',
+            Is_Active__c = true,
+            Priority__c = 'Medium'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Country_Tier__c = 'Tier 3',
+            Is_Active__c = true,
+            Priority__c = 'Medium'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Future_Student_Stage__c = 'Offer',
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Enquiry_Sub_Category__c = 'Student support;Welcome and orientation events',
+            Is_Active__c = true,
+            Priority__c = 'Medium'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(//this test data is always within range
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Date_From__c =  Date.newInstance(2023, 01, 01),
+            Date_To__c = System.today().addDays(1),
+            Is_Active__c = true,
+            Priority__c = 'High'
+        ));
+
+        return casePrioConfigList;
+    } 
+    
 }

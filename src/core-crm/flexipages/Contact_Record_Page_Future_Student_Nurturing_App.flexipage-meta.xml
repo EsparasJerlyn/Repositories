@@ -12,10 +12,16 @@
                         <valueListItems>
                             <value>Contact.Enable_Portal_Access</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Is_CCE_Enabled__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>QUTeX</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -275,6 +281,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>leadScoreSection</componentName>
+                <identifier>c_leadScoreSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-26d20886-80bb-46a7-8c18-baf15f1e07fa</value>
@@ -289,6 +301,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection6</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>leftsidebar</name>
@@ -625,6 +643,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection5</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>detailTabContent</name>
@@ -655,6 +679,16 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LinkedIn_Profile_URL__c</fieldItem>
+                <identifier>RecordLinkedIn_Profile_URL_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -1164,6 +1198,9 @@
                         <valueListItems>
                             <value>RECORDTYPE|EQUALS|[&quot;StudyLink&quot;]</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Current_Preference__c|NOT_EQUAL|</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1234,6 +1271,12 @@
                     <valueList>
                         <valueListItems>
                             <value>RECORDTYPE|EQUALS|[&quot;QTAC&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Current_Preference__c|NOT_EQUAL|</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Is_Active__c|EQUALS|true</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1803,6 +1846,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection9</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1821,6 +1870,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1855,6 +1910,70 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Contact.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>et4ae5__IndividualEmailResults__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>et4ae5__FromAddress__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__SubjectLine__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__Tracking_As_Of__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__Opened__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>et4ae5__DateOpened__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Digital Marketing</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

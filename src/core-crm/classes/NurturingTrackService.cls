@@ -1,4 +1,19 @@
+/**
+ * @description helper class for NurturingTrackContactService 
+ * @see NurturingTrackContactBatch
+ *
+ * @author Accenture-
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                      |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                        |
+      | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriod and isDateWithinRange                         |
+      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                        |
+ */
 public with sharing class NurturingTrackService {
+
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_FIELD_MAP = new Map<SObjectType, Map<String, String>>{
         Contact.SObjectType => new Map<String, String>{
             'ApplicantId' => 'hed__Applicant__c',
@@ -26,27 +41,22 @@ public with sharing class NurturingTrackService {
     }
 
     /**
-     * @description From a set of applications, return a set of application ids that has a related completed
-     * cadence record
-     * @param Set<Id> applicantIdsSet
-     * @return Set<Id> a set of application ids that has a related completed cadence record
+     * @description Generate a map between applicant ids (either contact or lead) and a list of
+     *              the cadence names of their completed cadences if they have.
+     * @param {Set<Id>} applicantIdsSet A set of ids containing either contacts or leads to find completed cadences with
+     * @param {Set<String>} cadenceNamesSet A set of cadence names to filter through completed cadences via SOQL
+     * @param {SObjectType} objectType Needed to identify whether this method is used for leads or contacts
+     * @return {Map<Id, Set<String>>} a set of application ids that has a related completed cadence record
      */
-    public static Map<Id, List<String>> getApplicationIdsWithCompletedCadence(
+    public static Map<Id, Set<String>> getApplicantIdsWithCompletedCadence(
         Set<Id> applicantIdsSet, // Ids contact/lead
         Set<String> candenceNamesSet,
         SObjectType objectType
     ) {
-        Map<Id, List<String>> completedCadencesByApplicantId = new Map<Id, List<String>>();
-        for (Completed_Cadence__c completedCadence : [
-                                                        SELECT Id, Contact__c,Lead__c,Nurture_Track_Configuration__c
-                                                        FROM Completed_Cadence__c
-                                                        WHERE
-                                                            (Contact__c IN :applicantIdsSet
-                                                            OR Lead__c IN :applicantIdsSet)
-                                                            AND Nurture_Track_Configuration__r.Cadence_Name__c IN :candenceNamesSet
-                                                            AND Completed_Cadence_Status__c !='Unsuccessful'
-                                                        WITH SYSTEM_MODE
-        ]) {
+        Map<Id, Set<String>> completedCadencesByApplicantId = new Map<Id, Set<String>>();
+
+        List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(applicantIdsSet,candenceNamesSet,'SYSTEM_MODE');
+        for (Completed_Cadence__c completedCadence : completedCadenceList) {
             String completedCadenceApiName = (String) OBJECT_TO_FIELD_MAP.get(objectType)
                 .get('CompletedCadence');
             if (
@@ -56,17 +66,56 @@ public with sharing class NurturingTrackService {
             ) {
                 completedCadencesByApplicantId.put(
                     (Id) completedCadence.get(completedCadenceApiName),
-                    new List<String>()
+                    new Set<String>()
                 );
             }
             completedCadencesByApplicantId.get((Id) completedCadence.get(completedCadenceApiName))
-                .add((String) completedCadence.get('Nurture_Track_Configuration__c'));
+                .add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
         }
         return completedCadencesByApplicantId;
     }
 
+    /**
+     * @description Generate a map between applicant ids (either contact or lead) and a list of
+     *              the cadence names of their completed cadences if they have.
+     * @param {Set<Id>} applicantIdsSet A set of ids containing either contacts or leads to find completed cadences with
+     * @param {List<String>} cadenceNamesSet A set of cadence names to filter through completed cadences(maximum of 2 names only)
+     * @param {Map<Id, Set<String>>} applicantIdsWithCompletedCadence all completed cadences related to the contact/lead 
+     * @return {Map<Id, Set<String>>} a map of application ids that has a related completed cadence record filtered by cadenceNamesSet
+     */
+    public static Map<Id, Set<String>> getFilteredApplicantWithCompletedCadence(
+        Set<Id> applicantIdsSet,
+        List<String> cadenceNamesSet,
+        Map<Id, Set<String>> applicantIdsWithCompletedCadence
+        
+    ){
+        Map<Id, Set<String>> completedCadencesByApplicantId = new Map<Id, Set<String>>();
+
+        for(Id applicantId: applicantIdsSet){
+            if(!applicantIdsWithCompletedCadence.containsKey(applicantId)){
+                continue;
+            }
+            //it is expected that there are only maximum of 2 cadence names in the set
+            //used cadenceNamesSet[0] and cadenceNamesSet[1] to avoid a for loop and reduce code complexity
+            if(applicantIdsWithCompletedCadence.get(applicantId).contains(cadenceNamesSet[0])){
+                if(!completedCadencesByApplicantId.containsKey(applicantId)){
+                    completedCadencesByApplicantId.put(applicantId,new Set<String>());
+                }
+                completedCadencesByApplicantId.get(applicantId).add(cadenceNamesSet[0]);
+            }
+            if(cadenceNamesSet.size() == 2 && applicantIdsWithCompletedCadence.get(applicantId).contains(cadenceNamesSet[1])){
+                if(!completedCadencesByApplicantId.containsKey(applicantId)){
+                    completedCadencesByApplicantId.put(applicantId,new Set<String>());
+                }
+                completedCadencesByApplicantId.get(applicantId).add(cadenceNamesSet[1]);
+            }
+        }
+
+        return completedCadencesByApplicantId;
+    }
+
     public static List<SObject> populateCalculatedCadenceMultiple(
-        Map<Id, List<String>> completedCadenceByApplicantId,
+        Map<Id, Set<String>> completedCadenceByApplicantId,
         List<hed__Application__c> internationalDirectApplicants,
         CadenceWrapper wrapper
     ) {
@@ -101,7 +150,7 @@ public with sharing class NurturingTrackService {
     }
 
     public static List<SObject> populateCalculatedCadenceSingle(
-        Map<Id, List<String>> completedCadenceByApplicantId,
+        Map<Id, Set<String>> completedCadenceByApplicantId,
         List<hed__Application__c> internationalDirectApplicants,
         CadenceWrapper wrapper
     ) {
@@ -131,7 +180,57 @@ public with sharing class NurturingTrackService {
         return objectForUpdatingMap.values();
     }
 
-    private static Integer getLength(Map<Id, List<String>> completedCadenceByApplicantId, String applicantApiName,SObject application){
+    /**
+     * @description Generate a map between applicant (contact or lead) id to a list of categories from all related cases.
+     * This specific method takes a parameter, months, where it checks if the related case records were created within
+     * the last three months.
+     * @param Set<Id> contactOrLeadIds - A set of contact or lead ids to look up cases for.
+     * @param Integer months - The amount of months to check if the cases are created from.
+     * @return Map<Id, List<String>>
+     */
+    public static Map<Id, List<String>> getApplicantIdToRelatedCaseCategoriesMap(Set<Id> contactOrLeadIds, Integer months) {
+    	Date checkDate = System.today().addMonths(-months);
+    	List<Case> relatedCases = CasesDAO.newInstance().getCasesByContactOrLeadIds(contactOrLeadIds, AccessLevel.SYSTEM_MODE);
+    	Map<Id, List<String>> applicantIdToCategories = new Map<Id, List<String>>();
+        for(Case relatedCase : relatedCases) {
+            if(relatedCase.CreatedDate >= checkDate && relatedCase.Category__c != null) {
+                putToApplicantIdToCategoriesMap(applicantIdToCategories, relatedCase);
+            }
+        }
+        return applicantIdToCategories;
+    }
+
+    private static void putToApplicantIdToCategoriesMap(Map<Id, List<String>> applicantIdToCategories, Case relatedCase) {
+        if(relatedCase.ContactId != null) {
+            List<String> categoriesToAdd = applicantIdToCategories.get(relatedCase.ContactId) == null ?
+                new List<String>() : applicantIdToCategories.get(relatedCase.ContactId);
+            categoriesToAdd.add(relatedCase.Category__c);
+            applicantIdToCategories.put(relatedCase.ContactId, categoriesToAdd);
+        }
+        if(relatedCase.Lead__c != null) {
+            List<String> categoriesToAdd = applicantIdToCategories.get(relatedCase.Lead__c) == null ?
+                new List<String>() : applicantIdToCategories.get(relatedCase.Lead__c);
+            categoriesToAdd.add(relatedCase.Category__c);
+            applicantIdToCategories.put(relatedCase.Lead__c, categoriesToAdd);
+        }
+    }
+    
+    public static Boolean isRelatedCaseCategoriesContainsL1Categories(List<String> l1Categories, List<String> relatedCaseCategories) {
+        Boolean isContains = false;
+        if(l1Categories.isEmpty()) { 
+            isContains = true; // bypass. empty l1categories mean don't check
+        } else if(relatedCaseCategories != null) {
+            for(String l1Category : l1Categories) {
+                if(relatedCaseCategories.contains(l1Category)) {
+                    isContains = true;
+                    break;
+                }
+            }
+        }
+        return isContains;
+    }
+    
+    private static Integer getLength(Map<Id, Set<String>> completedCadenceByApplicantId, String applicantApiName,SObject application){
         Integer length = 0;
         if (completedCadenceByApplicantId.containsKey((Id) application.get(applicantApiName))) {
             length = completedCadenceByApplicantId.get((Id) application.get(applicantApiName)).size();
@@ -148,7 +247,6 @@ public with sharing class NurturingTrackService {
             'START_DATE' => null,
             'END_DATE' => null
         };
-
         for (hed__Term__c term : [
             SELECT Id, hed__Start_Date__c, hed__End_Date__c
             FROM hed__Term__c
@@ -163,10 +261,8 @@ public with sharing class NurturingTrackService {
             universityTermMap.put('START_DATE', term.hed__Start_Date__c);
             universityTermMap.put('END_DATE', term.hed__End_Date__c);
         }
-
         return universityTermMap;
     }
-
     /**
      * @description Check if a date is within the range of two dates
      * @param Date dateToCheck
@@ -176,7 +272,6 @@ public with sharing class NurturingTrackService {
      */
     public static Boolean isDateWithinRange(Date dateToCheck, Date lowerDate, Date upperDate) {
         // just in case, to prevent unnecessary behavior, swap if lowerDate is later than upperDate
-
         Boolean isNotNull = false; // Boolean variable to track if both lowerDate and upperDate are not null
         if (lowerDate != null && upperDate != null) {
             isNotNull = true;
@@ -186,10 +281,44 @@ public with sharing class NurturingTrackService {
             lowerDate = upperDate;
             upperDate = tempDate;
         }
-
         return isNotNull ? dateToCheck >= lowerDate && dateToCheck <= upperDate : false;
     }
 
+    public static Decimal selectThreshold(
+        Map<String, Nurture_Track_Configuration__c> configurationPair,
+        String nurtureTrackName,
+        Boolean isManual
+    ) {
+        if (!configurationPair.containsKey(nurtureTrackName)) {
+            return 0;
+        }
+
+        return isManual
+            ? (Decimal) configurationPair.get(nurtureTrackName).get('Lead_Score_Threshold__c')
+            : (Decimal) configurationPair.get(nurtureTrackName + ' (Automated)')
+                  .get('Lead_Score_Threshold__c');
+    }
+
+    public static List<String> selectL1Categories(
+        Map<String, Nurture_Track_Configuration__c> configurationPair,
+        String nurtureTrackName,
+        Boolean isManual
+    ) {
+        if(isManual) {
+            return 
+                configurationPair.containsKey(nurtureTrackName) &&
+                String.isNotBlank((String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')) ? 
+                ((String) configurationPair.get(nurtureTrackName).get('Enquiry_Category_L1__c')).split(';') : 
+            	new List<String>();
+        } else {
+            return
+                configurationPair.containsKey(nurtureTrackName + ' (Automated)') &&
+                String.isNotBlank((String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c')) ? 
+                ((String) configurationPair.get(nurtureTrackName + ' (Automated)').get('Enquiry_Category_L1__c')).split(';') : 
+            	new List<String>();
+        }
+    }
+    
     public class CadenceWrapper{
         SObjectType objectType;
         String cadenceNameManual;
@@ -201,4 +330,4 @@ public with sharing class NurturingTrackService {
             cadenceNameAutomated = automatedCadence;
         }
     }
-}
+} 

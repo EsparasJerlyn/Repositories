@@ -8,19 +8,18 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary                                                              |
  *    |---------------------------|-----------------------|----------------------|-----------------------------------------------------------------------------|
  *    | roy.nino.s.regala         | July 14, 2023         | DEPP-5677            | Created file                                                                |
+ *    | roy.nino.s.regala         | Sep 22, 2023          | DEPP-6365            | Added new field mapping and column logic                                    |
  */
-import { LightningElement, api, track, wire } from "lwc";
+import { LightningElement, api, track} from "lwc";
 import getTableDataWrapper from "@salesforce/apex/SalesCadenceListViewCtrl.getTableDataWrapper";
-import removeTargetFromListView from "@salesforce/apex/SalesCadenceListViewCtrl.updateCalculatedCadence";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import Id from "@salesforce/user/Id";
 import assignToMe from "@salesforce/apex/SalesCadenceListViewCtrl.assignToMe";
-import createCompletedTask from "@salesforce/apex/SalesCadenceListViewCtrl.createCompletedTask";
 
 const ERROR_TOAST_VARIANT = "error";
 const ERROR_TOAST_TITLE = "Error";
-export default class DynamicDataTable extends LightningElement {
+export default class SalesCadenceListView extends LightningElement {
   /* TARGET CONFIG START */
   @api calculatedCadence;
   /* TARGET CONFIG END */
@@ -28,26 +27,26 @@ export default class DynamicDataTable extends LightningElement {
   /* DATATABLE VARIABLES START */
   @track finalDataList = [];
   @track dataList = [];
-  @track sortBy = "leadScore";
   @track sortDirection = "DESC";
-  @track finalColumns = [
+  @track sortBy = '';
+
+  domesticOfferedProgramWithOwningFaculty = [
+    'Domestic First Offer to Acceptance',
+    'Domestic Deferred Offer to Acceptance',
+    'Domestic Accepted not yet Enrolled',
+    'Domestic Offer Lapsed'
+  ];
+
+  domesticOfferedPreferenceWithOwningFaculty = [
+    'Domestic Accepted and Admitted',
+    'Domestic and International Enrolment to Census'
+  ];
+
+  //columns for domestic strong interest pre application cadence
+  @track domesticPreApplicationColumns = [
     {
       label: "Name",
       fieldName: "name",
-      type: "text",
-      sortable: true
-    },
-    { label: "Gender", fieldName: "gender", type: "text", sortable: true },
-    { label: "Email", fieldName: "email", type: "email", sortable: true },
-    {
-      label: "Country of Citizenship",
-      fieldName: "countryOfCitizenship",
-      type: "text",
-      sortable: true
-    },
-    {
-      label: "Country of Residency",
-      fieldName: "countryOfResidency",
       type: "text",
       sortable: true
     },
@@ -61,10 +60,213 @@ export default class DynamicDataTable extends LightningElement {
       }
     },
     {
-      label: "Completed Cadence Status",
+      label: "Primary Study Interest",
+      fieldName: "primaryStudyInterest",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Status",
       fieldName: "completedCadenceStatus",
       type: "text",
       sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  //columns of all domestic cadences expect domestic strong interest pre application
+  @track domesticColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Offered Preference",
+      fieldName: "offeredPreference",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  //columns for domestic with Offered Preference and Owning Faculty
+  @track domesticOfferedPrefrenceOwningFacultyColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Offered Preference",
+      fieldName: "offeredPreference",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Owning Faculty",
+      fieldName: "offeredPreferenceOwningFaculty",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  //columns for domestic with Offered Program and Owning Faculty
+  @track domesticOfferedProgramOwningFacultyColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Offered Program",
+      fieldName: "offeredProgram",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Owning Faculty",
+      fieldName: "offeredProgramOwningFaculty",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  //columns for international strong interest pre application
+  @track internationalPreApplicationColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Lead Score",
+      fieldName: "leadScore",
+      type: "number",
+      sortable: true,
+      cellAttributes: {
+        alignment: "left"
+      }
+    },
+    {
+      label: "Citizenship Country",
+      fieldName: "citizenshipCountry",
+      type: "text",
+      sortable: true,
+      cellAttributes: {
+        alignment: "left"
+      }
+    },
+    {
+      label: "Agent Assisted",
+      fieldName: "agentAssisted",
+      type: "boolean",
+      sortable: true
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  //columns of all international cadences expect international strong interest pre application
+  @track internationalColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Offered Preference",
+      fieldName: "offeredPreference",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Citizenship Country",
+      fieldName: "citizenshipCountry",
+      type: "text",
+      sortable: true,
+      cellAttributes: {
+        alignment: "left"
+      }
+    },
+    {
+      label: "Agent Assisted",
+      fieldName: "agentAssisted",
+      type: "boolean",
+      sortable: true
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
     }
   ];
 
@@ -111,6 +313,35 @@ export default class DynamicDataTable extends LightningElement {
     return this.finalDataList.length > 0 ? true : false;
   }
 
+  get finalColumns() {
+    if (this.calculatedCadence == "Domestic Strong Interest Pre-Application") {
+      return this.domesticPreApplicationColumns;
+    } else if (this.calculatedCadence.startsWith("Domestic")) {
+        if (this.domesticOfferedProgramWithOwningFaculty.includes(this.calculatedCadence)) {
+          return this.domesticOfferedPrefrenceOwningFacultyColumns;
+        } else if (this.domesticOfferedPreferenceWithOwningFaculty.includes(this.calculatedCadence)) {
+          return this.domesticOfferedProgramOwningFacultyColumns;
+        } else {
+          return this.domesticColumns;
+        }
+    } else if (this.calculatedCadence == "International Strong Interest Pre-Application") {
+      return this.internationalPreApplicationColumns;
+    } else if (this.calculatedCadence.startsWith("International")) {
+      return this.internationalColumns;
+    }
+    return this.internationalColumns;
+  }
+
+  get initialSortBy() {
+    if (
+      this.calculatedCadence == "Domestic Strong Interest Pre-Application" ||
+      this.calculatedCadence == "International Strong Interest Pre-Application"
+    ) {
+      return "leadScore";
+    }
+    return "entryDate";
+  }
+
   /* GETTERS END */
 
   /*SERVER CALLS START */
@@ -126,7 +357,9 @@ export default class DynamicDataTable extends LightningElement {
       .then((result) => {
         this.dataList = result;
         this.recordCount = this.dataList.length;
-        if (this.dataList.length > 0 && this.sortBy && this.sortDirection) {
+        this.sortBy = this.initialSortBy;
+        this.sortDirection = 'DESC';
+        if (this.dataList.length > 0) {
           this.sortData(this.sortBy, this.sortDirection);
         } else {
           let splicedData = [...this.dataList].splice(0, this.rowLimit);
@@ -196,9 +429,9 @@ export default class DynamicDataTable extends LightningElement {
       x = keyValue(x) ? keyValue(x) : ""; // handling null values
       y = keyValue(y) ? keyValue(y) : "";
       // sorting values based on direction
-      if (x == "") {
+      if (x === "") {
         return 1;
-      } else if (y == "") {
+      } else if (y === "") {
         return -1;
       } else {
         return isReverse * ((x > y) - (y > x));
@@ -253,36 +486,6 @@ export default class DynamicDataTable extends LightningElement {
       });
   }
 
-  handleRemoveTargetFromListView() {
-    const logger = this.template.querySelector("c-logger");
-    this.dataTableIsLoading = true;
-    return removeTargetFromListView({
-      targetToUpdate: JSON.stringify(this.setTargetObject(null))
-    })
-      .then(() => {
-        return createCompletedTask({ taskRecords: this.setTaskObjects() });
-      })
-      .catch((error) => {
-        this.generateToast(
-          ERROR_TOAST_TITLE,
-          LWC_Error_General,
-          ERROR_TOAST_VARIANT
-        );
-        if (logger) {
-          logger
-            .error(
-              "Exception caught in method handleRemoveTargetFromListView in LWC salesCadenceListView: "
-            )
-            .setError(error);
-          logger.saveLog();
-        }
-      })
-      .finally(() => {
-        this.handleRefreshData();
-        this.dataTableIsLoading = false;
-      });
-  }
-
   /* ACTION HANDLERS END */
 
   /* HELPER METHOD START */
@@ -297,21 +500,6 @@ export default class DynamicDataTable extends LightningElement {
       return target;
     });
     return targets;
-  }
-
-  setTaskObjects() {
-    let tasks = [];
-    tasks = [...this.selectedRowsData].map((key) => {
-      let task = {};
-      task.Subject = "Removed from Cadence";
-      task.OwnerId = this.userId;
-      task.Status = "Completed";
-      task.Priority = "Normal";
-      task.WhoId = key.id;
-      task.Description = this.calculatedCadence;
-      return task;
-    });
-    return tasks;
   }
 
   /**

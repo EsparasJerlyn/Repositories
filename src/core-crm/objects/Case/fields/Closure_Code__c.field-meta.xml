@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Redirected</label>
             </value>
+            <value>
+                <fullName>Invalid Enquiry</fullName>
+                <default>false</default>
+                <label>Invalid Enquiry</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Closed</controllingFieldValue>
@@ -45,6 +50,11 @@
             <controllingFieldValue>Closed</controllingFieldValue>
             <controllingFieldValue>Pending Closure</controllingFieldValue>
             <valueName>Redirected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Invalid Enquiry</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

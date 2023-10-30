@@ -4,13 +4,17 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                        |
- *    | eugene.andrew.abuan            | June 08, 2023         | DEPP-5414              | Added checkWorkEmailFlowInputExist  |
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-5846              | Added test method for DEPP-5846     |
- *    | arsenio.jr.dayrit              | July 06, 2023         | DEPP-5847              | Added test method for DEPP-5847     |
- *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added test method for DEPP-5677     |
+ *    | Developer Email                | Date                | JIRA                   | Change Summary                            |
+ *    |--------------------------------|---------------------|------------------------|-------------------------------------------|
+ *    | roy.nino.s.regala              | April 25, 2023      | DEPP-5567              | Created file                              |
+ *    | eugene.andrew.abuan            | June 08, 2023       | DEPP-5414              | Added checkWorkEmailFlowInputExist        |
+ *    | mark.j.mahilum                 | June 26, 2023       | DEPP-5846              | Added test method for DEPP-5846           |
+ *    | arsenio.jr.dayrit              | July 06, 2023       | DEPP-5847              | Added test method for DEPP-5847           |
+ *    | roy.nino.s.regala              | Aug 09, 2023        | DEPP-5677              | Added test method for DEPP-5677           |
+ *    | roy.nino.s.regala              | Sept 20, 2023       | DEPP-6714              | method getPersonContactsBySetIds          |
+ *    | alexander.cadalin              | Sep 22, 2023        | DEPP-6652              | method getContactsForQTACAddressUpdate    |
+ *    | neil.s.h.lesidan               | Sep 20, 2023        | DEPP-6478              | Added getPersonContactsByEmailOrNameTest  |
+ *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added getContactByCaseMobile              |
  */
 @isTest
 private class ContactsDAOTest {
@@ -137,4 +141,97 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
+    @isTest
+    static void getContactsFromConvertedLeadTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsFromConvertedLead(
+                    new Set<Id>(),
+                    'USER_MODE'
+                );
+            System.assert(contactList.isEmpty(), 'contactList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+
+    @isTest
+    static void getPersonContactsByEmailOrNameTest() {
+        Test.startTest();
+        List<Contact> conList = TestDataFactory.createTestContactRecords(1);
+        conList[0].FirstName = 'firstname';
+        conList[0].LastName = 'lastname';
+        conList[0].Email = 'firstlast@mail.test';
+        conList[0].MobilePhone = '1234567';
+        ContactsDAO.newInstance().insertRecords(conList, false, AccessLevel.SYSTEM_MODE);
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            ContactsDAO.QueryParamWrapperEmailOrName contactQueryParam = new ContactsDAO.QueryParamWrapperEmailOrName(
+                conList[0].Email, conList[0].FirstName, conList[0].LastName , conList[0].MobilePhone
+            );
+
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getPersonContactsByEmailOrName(
+                    contactQueryParam,
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contact should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPersonContactsBySetIdsTest() { 
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getPersonContactsBySetIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactByCaseMobileTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactByCaseMobile(
+                    new Set<String>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    static void getContactsForQTACAddressUpdate() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance().
+                getContactsForQTACAddressUpdate(new Set<Id>(), AccessLevel.SYSTEM_MODE);
+            System.assert(contactList.isEmpty(), 'contactList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactMobilePhoneByRecordIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactMobilePhoneByRecordIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
+    }
+  
+    
 }
