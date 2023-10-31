@@ -21,6 +21,14 @@ public with sharing class TranslateService {
     private static final String TRANSLATION_ENDPOINT = System.Label.GoogleTranslationEndpoint;
     private static final String SUPPORTED_LANGUAGES_ENDPOINT = System.Label.GoogleSupportedLanguagesEndpoint;
 
+    /** Map to store language code mappings **/
+    private static final Map<String, String> LANGUAGE_CODE_MAPPING = new Map<String, String>{
+        'iw' => 'he',       // Map "iw" (Hebrew) to "he" (Hebrew)
+        'zh' => 'zh-CN',    // Map "zh" (Chinese Simplified) to "zh-CN" (Chinese Simplified Mainland China)
+        'fil' => 'tl',      // Map "fil" (Filipino) to "tl" (Filipino Tagalog)
+        'jw' => 'jv'        // Map "jw" (Javanese) to 'jv' (Javanese)
+    };
+
     /** GETTERS **/
     /**
      * Get the translation endpoint.
@@ -265,20 +273,13 @@ public with sharing class TranslateService {
      * @return The mapped language code.
      */
     public static String mapLanguageCode(String languageCode) {
-        if (languageCode.equals('iw')) {
-            // Map "iw" (Hebrew) to "he" (Hebrew)
-            return 'he';
-        } else if (languageCode.equals('zh')) {
-            // Map "zh" (Chinese Simplified) to "zh-CN" (Chinese Simplified Mainland China)
-            return 'zh-CN';
-        } else if (languageCode.equals('fil')) {
-            // Map "fil" (Filipino) to "tl" (Filipino Tagalog)
-            return 'tl';
-        } else if (languageCode.equals('jw')) {
-            // Map "jw" (Javanese) to 'jv' (Javanese)
-            return 'jv';
+        // Check if the language code is in the map
+        if (LANGUAGE_CODE_MAPPING.containsKey(languageCode)) {
+            // If found in the map, return the mapped value
+            return LANGUAGE_CODE_MAPPING.get(languageCode);
         } else {
-            return languageCode; // Default to the input code if no mapping is found.
+            // If not found, return the input language code
+            return languageCode;
         }
     }
 
