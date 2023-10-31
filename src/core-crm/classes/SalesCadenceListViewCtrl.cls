@@ -8,12 +8,14 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
  *    |--------------------------------|-----------------------|------------------------|---------------------------------------|
- *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                          |
- *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence |
- *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings              |
- *    | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Added new field mappings              |
- *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated updateCalculatedCadence to    |
- *    |                                |                       |                        |     include updateCompletedCadences   |
+ *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                                              |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence                     |
+ *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings                                  |
+ *    | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Added new field mappings                                  |
+ *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated updateCalculatedCadence to                        |
+ *    |                                |                       |                        |     include updateCompletedCadences                       |
+ *    | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | fixed pmd issue                                           |
+ *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
@@ -90,8 +92,19 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         Map<String, Completed_Cadence__c> completedCadenceMap
     ) {
         List<DataTableWrapper> recordDetailsWrapper = new List<DataTableWrapper>();
-        DataTableWrapper tempWrapper;
 
+        buildContactColumns(contactMap,completedCadenceMap,recordDetailsWrapper);
+        buildLeadColumns(leadMap, completedCadenceMap,recordDetailsWrapper);
+
+        return recordDetailsWrapper;
+    }
+
+    private static void buildContactColumns(
+        Map<Id, Contact> contactMap,
+        Map<String, Completed_Cadence__c> completedCadenceMap,
+        List<DataTableWrapper> recordDetailsWrapper){
+
+        DataTableWrapper tempWrapper;
         //setup contact records as rows
         for (Contact record : contactMap.values()) {
             tempWrapper = new DataTableWrapper();
@@ -102,28 +115,31 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.citizenshipCountry = record.Citizenship_Country__c;
             tempWrapper.primaryStudyInterest = record.Marketing_Segmentation__r.My_Primary_BSA__c;
             tempWrapper.leadScore = record.Lead_Score__c;
-            tempWrapper.completedCadenceStatus = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Completed_Cadence_Status__c
-                : '';
-            tempWrapper.entryDate = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).CreatedDate
-                : null;
-            tempWrapper.offeredPreference = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name
-                : '';
-            tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c
-                : '';
-            tempWrapper.offeredProgram = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name
-                : '';
-            tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name
-                : '';
             tempWrapper.agentAssisted = record.Is_Agent_Assisted__c;
+
+            if(!completedCadenceMap.containsKey(record.Id)){
+                recordDetailsWrapper.add(tempWrapper);
+                continue;
+            }
+
+            tempWrapper.completedCadenceStatus = completedCadenceMap.get(record.Id).Completed_Cadence_Status__c;
+            tempWrapper.entryDate = completedCadenceMap.get(record.Id).CreatedDate;
+            tempWrapper.offeredPreference = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name;
+            tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c;
+            tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
+            tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name;
+            tempWrapper.qtacOfferRound = completedCadenceMap.get(record.Id).Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c;
+
             recordDetailsWrapper.add(tempWrapper);
         }
+    }
 
+    private static void buildLeadColumns(
+        Map<Id, Lead> leadMap,
+        Map<String, Completed_Cadence__c> completedCadenceMap,
+        List<DataTableWrapper> recordDetailsWrapper){
+            
+        DataTableWrapper tempWrapper;
         //setup lead records as rows
         for (Lead record : leadMap.values()) {
             tempWrapper = new DataTableWrapper();
@@ -134,28 +150,21 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.citizenshipCountry = record.Marketing_Segmentation__r.My_Country_Of_Citizenship__c;
             tempWrapper.primaryStudyInterest = record.Marketing_Segmentation__r.My_Primary_BSA__c;
             tempWrapper.leadScore = record.Lead_Score__c;
-            tempWrapper.completedCadenceStatus = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Completed_Cadence_Status__c
-                : '';
-            tempWrapper.entryDate = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).CreatedDate
-                : null;
-            tempWrapper.offeredPreference = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name
-                : '';
-            tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c
-                : '';
-            tempWrapper.offeredProgram = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name
-                : '';
-            tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.containsKey(record.Id)
-                ? completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name
-                : '';
+
+            if(!completedCadenceMap.containsKey(record.Id)){
+                recordDetailsWrapper.add(tempWrapper);
+                continue;
+            }
+
+            tempWrapper.completedCadenceStatus = completedCadenceMap.get(record.Id).Completed_Cadence_Status__c;
+            tempWrapper.entryDate = completedCadenceMap.get(record.Id).CreatedDate;
+            tempWrapper.offeredPreference = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name;
+            tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c;
+            tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
+            tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name;
+
             recordDetailsWrapper.add(tempWrapper);
         }
-
-        return recordDetailsWrapper;
     }
 
     /**
@@ -284,5 +293,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         public String offeredProgramOwningFaculty { get; set; }
         @AuraEnabled
         public boolean agentAssisted { get; set; }
+        @AuraEnabled
+        public Decimal qtacOfferRound { get; set; } 
     }
 }
