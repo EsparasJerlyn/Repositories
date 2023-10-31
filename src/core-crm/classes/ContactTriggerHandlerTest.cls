@@ -513,4 +513,4 @@ public with sharing class ContactTriggerHandlerTest {
             }
         }
     }
-}
+} 

@@ -68,7 +68,10 @@
     }
   },
   sessionCleanup: function (component, event, helper) {
-    helper.removeSessionStorageItems(["ABN-", "EMAIL-", "LOOKUP-"], ["customCSSLoaded"]);
+    helper.removeSessionStorageItems(
+      ["ABN-", "EMAIL-", "LOOKUP-"],
+      ["customCSSLoaded"]
+    );
   },
   closeTab: function (component, event, helper) {
     // close workspace tab when close button is clicked

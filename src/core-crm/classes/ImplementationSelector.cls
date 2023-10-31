@@ -33,6 +33,7 @@
  *    |                                |                       |                        | pricebook and pricebookentry                                  |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added object mapping for Address                              |
  *    | eugene.andrew.abuan            | October 10, 2023      | DEPP-6612              | Added object mapping for Adhoc Communication Object           |
+ *    | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Added object mapping for SMS Template Object                  |
 
  */
 public class ImplementationSelector { 
@@ -65,6 +66,7 @@ public class ImplementationSelector {
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,
             hed__Address__c.SObjectType => AddressesDAO.class,
@@ -100,6 +102,7 @@ public class ImplementationSelector {
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
+            SMS_Template__c.SObjectType => SMSTemplatesDAO.class,
             Task.SObjectType => TasksDAO.class,
             User.SObjectType => UsersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
@@ -163,7 +166,7 @@ public class ImplementationSelector {
     }
 
     /**
-     * Exception representing a developer coding error, not intended for end user eyes
+     * Exception representing a developer coding error, not intended for end user eyes 
      **/
     public class DeveloperException extends Exception {
     }

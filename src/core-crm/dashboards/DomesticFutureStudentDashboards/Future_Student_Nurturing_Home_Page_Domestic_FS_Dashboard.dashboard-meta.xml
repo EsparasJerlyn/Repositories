@@ -25,7 +25,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>Nurture_Track_Configuration__c$Cadence_Name__c</groupingColumn>
+                <groupingColumn>Completed_Cadence__c$Cadence_Name__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -34,8 +34,8 @@
                 </groupingSortProperties>
                 <header>New Contacts/Leads Per Nurture Track</header>
                 <legendPosition>Right</legendPosition>
-                <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentReports/New_ContactsLeads_Per_Nurture_Track_Dom</report>
+                <maxValuesDisplayed>10</maxValuesDisplayed>
+                <report>DomesticFutureStudentReports/New_Contacts_Leads_Per_Nurture_Track_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -62,7 +62,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>Nurture_Track_Configuration__c$Cadence_Name__c</groupingColumn>
+                <groupingColumn>Completed_Cadence__c$Cadence_Name__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -71,8 +71,8 @@
                 </groupingSortProperties>
                 <header>Contacts/Leads Requiring Follow-up</header>
                 <legendPosition>Right</legendPosition>
-                <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentReports/ContactsLeads_Requiring_Followup_Dom</report>
+                <maxValuesDisplayed>10</maxValuesDisplayed>
+                <report>DomesticFutureStudentReports/Contacts_Leads_Requiring_Followup_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -99,7 +99,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>Nurture_Track_Configuration__c$Cadence_Name__c</groupingColumn>
+                <groupingColumn>Completed_Cadence__c$Cadence_Name__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -108,8 +108,8 @@
                 </groupingSortProperties>
                 <header>Contacts/Leads Unsuccessfully Called</header>
                 <legendPosition>Right</legendPosition>
-                <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentReports/ContactsLeads_Unsuccessfully_Called_Dom</report>
+                <maxValuesDisplayed>10</maxValuesDisplayed>
+                <report>DomesticFutureStudentReports/Contacts_Leads_Unsuccessfully_Called_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -136,7 +136,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>Nurture_Track_Configuration__c.Completed_Cadences__r$Days_Waiting__c</groupingColumn>
+                <groupingColumn>Completed_Cadence__c$Days_Waiting__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -145,8 +145,8 @@
                 </groupingSortProperties>
                 <header>Contacts/Leads by Days Waiting</header>
                 <legendPosition>Right</legendPosition>
-                <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentReports/ContactsLeads_by_Days_Waiting_Dom</report>
+                <maxValuesDisplayed>10</maxValuesDisplayed>
+                <report>DomesticFutureStudentReports/Contacts_Leads_by_Days_Waiting_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>

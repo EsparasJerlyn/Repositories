@@ -101,6 +101,7 @@ public with sharing class LeadScoreConfigService {
         public LeadScoreConfigIntEngPathway leadScoreIntEngPath = new LeadScoreConfigIntEngPathway();
         public LeadScoreConfigMktgConsent leadScoreMktConsent = new LeadScoreConfigMktgConsent();
         public LeadScoreConfigProgEngagment leadScoreProgEng = new LeadScoreConfigProgEngagment();
+        public LeadScoreConfigEmailInteract leadScoreEmailInteraction = new LeadScoreConfigEmailInteract();
     }
     
 }

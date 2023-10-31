@@ -712,6 +712,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Lead_Score_Reset__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Primary_Contact_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -941,6 +946,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Completed_Cadence__c.Cadence_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Completed_Cadence__c.Calculated_Cadence__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Completed_Cadence__c.Completed_Cadence_Status__c</field>
         <readable>true</readable>
@@ -953,6 +968,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Completed_Cadence__c.Days_Waiting__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Completed_Cadence__c.Displayed_in_List_View__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1058,6 +1078,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Communication_Queue__c.Due_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Queue__c.Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4088,6 +4113,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Marketing_Interaction__c.Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Interaction__c.Lead_Score_Reset__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7991,6 +8021,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Message_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.SMS_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task.Mobile__c</field>
         <readable>true</readable>
@@ -7998,6 +8038,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Receiver__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Sender__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8168,6 +8218,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>WebCart.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>et4ae5__IndividualEmailResult__c.Lead_Score_Reset__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10262,6 +10317,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Program_Enrollment__c.Lead_Score_Reset__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Program_Enrollment__c.hed__Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -12112,6 +12172,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.SMS</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>

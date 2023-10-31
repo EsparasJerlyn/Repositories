@@ -218,4 +218,20 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getContactMobilePhoneByRecordIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactMobilePhoneByRecordIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
+    }
+  
+    
 }

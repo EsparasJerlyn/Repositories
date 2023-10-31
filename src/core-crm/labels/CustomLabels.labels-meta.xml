@@ -70,6 +70,30 @@
         <value>/domain/dep/v1/processContact</value>
     </labels>
     <labels>
+        <fullName>GoogleDetectionEndpoint</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GoogleDetectionEndpoint</shortDescription>
+        <value>/language/translate/v2/detect</value>
+    </labels>
+    <labels>
+        <fullName>GoogleSupportedLanguagesEndpoint</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GoogleSupportedLanguagesEndpoint</shortDescription>
+        <value>/language/translate/v2/languages</value>
+    </labels>
+    <labels>
+        <fullName>GoogleTranslationEndpoint</fullName>
+        <categories>Endpoint</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GoogleTranslationEndpoint</shortDescription>
+        <value>/language/translate/v2</value>
+    </labels>
+    <labels>
         <fullName>International_Nurture_Track_List</fullName>
         <language>en_US</language>
         <protected>false</protected>

@@ -54,8 +54,6 @@
             if(System.isQueueable()){
                 executeCalculation(contactIdSet, leadIdSet);
             }else{      
-                //Will update to use LeadScoreQueueableCall after updating all the Lead Score helper classes.          
-                //LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new CaseLeadScoreHelper(), contactIdSet, leadIdSet);
                 QueueableCall executeQueueable = new QueueableCall(contactIdSet, leadIdSet);
                 System.enqueueJob(executeQueueable);   
             }
@@ -77,7 +75,7 @@
             (oldItems.get(caseRec.Id).Category__c != caseRec.Category__c)
         );
 
-        return isForInsert || isForUpdate;
+        return !caseRec.Lead_Score_Reset__c && (isForInsert || isForUpdate);
     }
 
     /**
@@ -222,8 +220,7 @@
     }
 
     /**
-     * Queueable class to execute calculation of lead score for case. This classw ill be removed
-     * once all lead score helpers are updated and are using LeadScoreQueueableCall.
+     * Queueable class to execute calculation of lead score for case. 
      */
     private class QueueableCall implements Queueable {
         private Set<Id> contactIdSet;

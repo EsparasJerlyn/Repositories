@@ -15,6 +15,8 @@
  *    | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added new method createMarketingSegmentation|
  *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Updated getLeadCalculatedCadence to include |
  *    |                                |                       |                        | automated cadence in the processSaleCadences|
+ *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated getLeadCalculatedCadence to include |
+ *    |                                |                       |                        |     updateCompletedCadences                 |
  */
 @SuppressWarnings('PMD')
 public with sharing class LeadService {
@@ -66,6 +68,7 @@ public with sharing class LeadService {
                 assignLeadToCadenceMap,
                 removeLeadToCadenceMap
             );
+            SalesCadenceCalloutService.updateCompletedCadences(assignLeadToCadenceMap);
         }
     }
     /**

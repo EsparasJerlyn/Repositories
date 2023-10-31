@@ -26,11 +26,9 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
     }      
 
     public void execute() {
-        
-        boolean shouldStopProcessing = getCommsQueueConfig().Maximum_Daily_Email_Count__c <= getComsQueueRecordCount();
-		
-        if(shouldStopProcessing){
-            Logger.info('Communication Queue Daily Maximum Email Count has been reached, the current number of  records process today = ' + getComsQueueRecordCount());
+        		
+        if(stopSendingEmails()){
+            Logger.info('Communication Queue Daily Maximum Email Count has been reached.');
             return;
         }
         
@@ -227,11 +225,16 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
     }
     
     /**
-     * retrieves number of communication queue records that is process today
+     * check limit for email sending
      */
-    private static Integer getComsQueueRecordCount(){
+    private static Boolean stopSendingEmails(){        
+        Map<String,System.OrgLimit> limitsMap = OrgLimits.getMap();
+        System.OrgLimit sendEmailLimit = limitsMap.get('SingleEmail');
+       
         Set<String> processStatus = new Set<String>{CommunicationQueuesDAO.STATUS_SENT};
-        return CommunicationQueuesDAO.newInstance().getCommsQueueRecordsByStatusAndLastModifiedToday(processStatus,AccessLevel.SYSTEM_MODE).size();
+       	Integer recordCount = CommunicationQueuesDAO.newInstance().getCommsQueueRecordsByStatusAndLastModifiedToday(processStatus,AccessLevel.SYSTEM_MODE).size();
+       
+        return (getCommsQueueConfig().Maximum_Daily_Email_Count__c <= recordCount || sendEmailLimit.getValue() >= sendEmailLimit.getLimit());
     }    
     
 }

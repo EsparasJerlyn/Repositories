@@ -2252,6 +2252,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Marketing_Interaction__c.Lead_Score_Reset__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Marketing_Interaction__c.Lead__c</field>
         <readable>true</readable>
@@ -3752,6 +3757,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>et4ae5__IndividualEmailResult__c.Lead_Score_Reset__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>et4ae5__IndividualEmailResult__c.et4ae5__DateOpened__c</field>
         <readable>true</readable>
@@ -4967,6 +4977,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Program_Enrollment__c.Lead_Score_Reset__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>hed__Program_Enrollment__c.Migration_ID__c</field>
         <readable>true</readable>
@@ -5647,6 +5662,14 @@
     </tabSettings>
     <tabSettings>
         <tab>Marketing_Segmentation__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>New_Engagement</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>New_Opportunity</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

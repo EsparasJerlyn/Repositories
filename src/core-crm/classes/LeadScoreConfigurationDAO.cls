@@ -52,6 +52,7 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String CONFIG_CATEGORY_COURSE_LEVEL = 'Course Level';
     public static final String CONFIG_CATEGORY_INT_DOUBLE_DEG = 'Interested in Double Degrees';
     public static final String CONFIG_CATEGORY_INT_ENG_PATH = 'Interested in English Pathway Programs';
+    public static final String CONFIG_CATEGORY_EMAIL_INTERACTION = 'Email Interaction';
     //CATEGORY CONSTANTS END    
 
     /***SUB CATEGORY CONSTANTS START**/
@@ -108,6 +109,8 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String CONFIG_SUB_CATEGORY_SHORT_COURSES = 'Short courses and Professional Development';
     public static final String CONFIG_SUB_CATEGORY_EXCHANGE_AND_STUDY = 'Exchange and Study Abroad (1 or 2 Semesters Only)';
     public static final String CONFIG_SUB_CATEGORY_UNDERGRAD = 'Undergraduate';
+    //CONFIG_CATEGORY_EMAIL_INTERACTION
+    public static final String CONFIG_SUB_CATEGORY_HAS_CLICKED_EMAIL = 'Has Clicked Email';
     /***SUB CATEGORY CONSTANTS END**/
 
     public Schema.SObjectType getSObjectType() {
@@ -169,4 +172,4 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
         return configList;
 
     }
-}
+} 

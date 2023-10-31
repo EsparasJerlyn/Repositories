@@ -32,7 +32,7 @@
       | arsenio.jr.dayrit              | Oct. 19, 2023         | DEPP-6958              | Added Domestic Deffered Offer to Acceptance exit handling                     |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
-    private static List<hed__Application__c> applicationList;
+    private static List<hed__Application__c> applicationList = new List<hed__Application__c>();
     private static Map<Id,hed__Application__c>  samsAppWithQtac = new Map<Id,hed__Application__c>();
     private static Map<String,String> appToQtacMap = new Map<String,String>();
     private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackWithOffSetDaysMap = new Map<String,Nurture_Track_Configuration__c>();
@@ -116,8 +116,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
      * @param Map<Id,Contact> mapOfContacts record to query
      */
     private static void getAllRelatedRecords(Map<Id, Contact> mapOfContacts) {
-        applicationList = ApplicationsDAO.newInstance()
-            .getApplicationsByContactIds(mapOfContacts.keySet(), 'USER_MODE');
+        applicationList.addAll(ApplicationsDAO.newInstance()
+            .getApplicationsByContactIds(mapOfContacts.keySet(), 'SYSTEM_MODE'));
         getContactRecordCitizenship(mapOfContacts);
         getFilteredNurturingTrackRecords();
 
@@ -343,11 +343,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
         Map<Id, hed__Application__c> domesticDeferredOfferToAcceptanceManual = new Map<Id, hed__Application__c>();
-        Set<Id> existingContactIdOnApplication = getContactOnApplicationForDomesticDeferredOfferToAcceptanceEntryFilter(
-            applicationList,
-            'DomesticDeferredOfferToAcceptance'
-        );
-
+        Set<Id> existingContactIdOnApplication = new Set<Id>();
+        if(!applicationList.isEmpty()){
+            existingContactIdOnApplication.addAll(getContactOnApplicationForDomesticDeferredOfferToAcceptanceEntryFilter(
+                applicationList,
+                'DomesticDeferredOfferToAcceptance'
+            ));
+        }
+    
         for (hed__Application__c application : applicationList) {
             Boolean hasExistingApplication = existingContactIdOnApplication.contains(
                 application.hed__Applicant__c
@@ -664,10 +667,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> domesticExitContactMap
     ) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
-        Set<Id> existingContactIdOnApplicationToExit = getDomesticAcceptanceToEnrollmentExitFilter(
-            applicationList,
-            'DomesticAcceptanceToEnrollment'
-        );
+        Set<Id> existingContactIdOnApplicationToExit = new Set<Id>();
+
+        if(!applicationList.isEmpty()){
+            existingContactIdOnApplicationToExit.addAll(getDomesticAcceptanceToEnrollmentExitFilter(
+                applicationList,
+                'DomesticAcceptanceToEnrollment'
+            ));
+        }
+
         for (Id contactId : domesticExitContactMap.keySet()) {
             Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(
                 contactId
@@ -692,10 +700,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> domesticExitContactMap
     ) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
-        Set<Id> existingContactIdOnApplicationToExit = getDomesticDeferredOfferToAcceptanceExitFilter(
-            applicationList,
-            'DomesticDeferredOfferToAcceptance'
-        );
+        Set<Id> existingContactIdOnApplicationToExit = new Set<Id>();
+        
+        if(!applicationList.isEmpty()){
+            existingContactIdOnApplicationToExit.addAll(getDomesticDeferredOfferToAcceptanceExitFilter(
+                applicationList,
+                'DomesticDeferredOfferToAcceptance'
+            ));
+        }
+
         for (Id contactId : domesticExitContactMap.keySet()) {
             Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(
                 contactId
@@ -921,6 +934,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 (app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
                 app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC) &&
                 app.Offer_Status__c == 'Offered' &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
                 app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-21) <=
                 System.today() &&
                 app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
@@ -1122,15 +1136,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
             filteredProgramEnrollmentIds.add(programEnrollment.Id);
         }
         
-        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+        List<hed__Application__c> filteredApplicationList = new List<hed__Application__c>();
         List<hed__Course_Enrollment__c> courseEnrollmentList = CourseConnectionsDAO.newInstance().getCourseConnectionByProgramEnrollmentIds(filteredProgramEnrollmentIds, 'USER_MODE');
         for(hed__Course_Enrollment__c courseEnrollment : courseEnrollmentList){
             if(contactFromAppWithProgramEnrollmentMap.containsKey(courseEnrollment.hed__Contact__c) && courseEnrollment.Enrollment_Status__c != 'Enrolled'){
-                applicationList.add(contactFromAppWithProgramEnrollmentMap.get(courseEnrollment.hed__Contact__c));
+                filteredApplicationList.add(contactFromAppWithProgramEnrollmentMap.get(courseEnrollment.hed__Contact__c));
             }
         }
 
-        return applicationList;
+        return filteredApplicationList;
     }
 
     /**
@@ -1587,9 +1601,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> domesticExitContactMap
     ) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
-        Set<Id> existingContactIdOnApplicationToExit = getContactOnApplicationForDomesticStrongInterestPreApplicationExitFilter(
-            applicationList
-        );
+        Set<Id> existingContactIdOnApplicationToExit = new Set<Id>();
+        
+        if(!applicationList.isEmpty()){
+            existingContactIdOnApplicationToExit.addAll(getContactOnApplicationForDomesticStrongInterestPreApplicationExitFilter(
+                applicationList
+            ));
+        }
         for (Id contactId : domesticExitContactMap.keySet()) {
             Boolean hasExistingApplicationToExit = existingContactIdOnApplicationToExit.contains(
                 contactId

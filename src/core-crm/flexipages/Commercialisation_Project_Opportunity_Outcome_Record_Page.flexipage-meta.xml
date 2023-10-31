@@ -2048,6 +2048,16 @@
             <name>actionNames</name>
             <valueList>
                 <valueListItems>
+                    <value>Edit</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
                     <value>Global.LogACall</value>
                     <visibilityRule>
                         <criteria>
@@ -2069,6 +2079,16 @@
                 </valueListItems>
                 <valueListItems>
                     <value>Global.NewEvent</value>
+                    <visibilityRule>
+                        <criteria>
+                            <leftValue>{!$Client.formFactor}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Small</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
+                    <value>ChangeOwnerOne</value>
                     <visibilityRule>
                         <criteria>
                             <leftValue>{!$Client.formFactor}</leftValue>

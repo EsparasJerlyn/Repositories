@@ -35,7 +35,7 @@ public with sharing class ProgEnrollLeadScoreHelper {
                 oldItems.get(programEnrollment.Id).hed__Account__c != programEnrollment.hed__Account__c ||
                 oldItems.get(programEnrollment.Id).Enrollment_Status__c != programEnrollment.Enrollment_Status__c
             );
-            if(isForInsert || isForUpdate){
+            if(!programEnrollment.Lead_Score_Reset__c && (isForInsert || isForUpdate)){
                 contactIdSet.add(programEnrollment.hed__Contact__c);
             }
         }

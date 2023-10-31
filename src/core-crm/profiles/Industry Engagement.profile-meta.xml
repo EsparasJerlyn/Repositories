@@ -174,4 +174,16 @@
     <layoutAssignments>
         <layout>Risk__c-Risk Page Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-SMS Layout</layout>
+        <recordType>Task.SMS</recordType>
+    </layoutAssignments>
+    <tabVisibilities>
+        <tab>New_Engagement</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>New_Opportunity</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
 </Profile>

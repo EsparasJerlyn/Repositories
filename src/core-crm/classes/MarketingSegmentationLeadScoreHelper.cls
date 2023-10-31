@@ -50,7 +50,7 @@
      * Determines wether to run async or sync
      */
     private static void callSyncOrAsyncCalculation(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
-        if(!contactIdSet.isEmpty() && !marketingSegmentationMap.isEmpty()){
+        if(!marketingSegmentationMap.isEmpty()){
             if(System.isQueueable()){
                 executeCalculation(contactIdSet, marketingSegmentationMap);
             }else{
