@@ -76,77 +76,15 @@ public with sharing class LeadScoreConfigTriggerHelper {
                 config.Name == 'Course Level';
             Boolean isForContactAndLead = config.Name == 'Marketing consent';
             Boolean isForProgEnrollment = config.Name == 'Program Engagement';
+            Boolean isForIndivEmailEmail = config.Name == 'Email Interaction';
             
-            processMarketingInterActions(contactIdSet, leadIdSet, isForMktgInteraction);
-            processMarketingSegmentation(contactIdSet, isForMktgSegmentation);
-            processContact(contactIdSet, isForContactAndLead);
-            processLead(leadIdSet, isForContactAndLead);
-            processCase(contactIdSet, leadIdSet, isForCase);
-            processProgramEngagement(contactIdSet, isForProgEnrollment);
-
-        }
-    }
-
-    public static void processMarketingSegmentation(Set<Id> contactIdSet, Boolean isForMktgSegmentation){
-        if(isForMktgSegmentation){
-            Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, new Set<Id>());
-            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, marketingSegmentationMap);
-            if(!marketingSegmentationMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, marketingSegmentationMap.keySet(), Marketing_Segmentation__c.getSObjectType());
-            }
-        }
-        
-    }
-
-    private static void processContact(Set<Id> contactIdSet, Boolean isForContactAndLead){
-        if(isForContactAndLead){
-            Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
-            LeadScoreCalculatorService.ObjectMap objMap = ContactLeadScoreHelper.setObjectMap(contactMap);
-            if(!contactMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, contactMap.keySet(), Contact.getSObjectType());
-            }   
-        }
-    }
-
-    private static void processLead(Set<Id> leadIdSet, Boolean isForContactAndLead){
-        if(isForContactAndLead){
-            Map<Id,Lead> leadMap = new Map<Id,Lead>(LeadsDAO.newInstance().getLeadsByIdSetAndType(leadIdSet, LeadsDAO.LEARNER_LEAD_TYPE, AccessLevel.SYSTEM_MODE));
-            LeadScoreCalculatorService.ObjectMap objMap = LeadLeadScoreHelper.setObjectMap(leadMap);
-            if(!leadMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, leadMap.keySet(), Lead.getSObjectType());
-            }    
-        }
-    }
-
-    private static void processProgramEngagement(Set<Id> contactIdSet, Boolean isForProgEnrollment){    
-        if(isForProgEnrollment){
-            Map<Id,hed__Program_Enrollment__c> progEngMap = ProgEnrollLeadScoreHelper.setProgramEnrollmentMap(contactIdSet);
-            LeadScoreCalculatorService.ObjectMap objMap = ProgEnrollLeadScoreHelper.setObjectMap(contactIdSet, progEngMap);
-            if(!progEngMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, contactIdSet, hed__Program_Enrollment__c.getSObjectType());
-            } 
-        }
-    }
-
-    private static void processCase(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForCase){    
-        if(isForCase){
-            Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
-            Map<Id,Case> caseMap = CaseLeadScoreHelper.setCaseMap(contactLeadIds);
-            LeadScoreCalculatorService.ObjectMap objMap = CaseLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, caseMap);
-            if(!caseMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Case.getSObjectType());
-            }
-        }
-    }
-
-    private static void processMarketingInterActions(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForMktgInteraction){ 
-        if(isForMktgInteraction){
-            Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
-            Map<Id,Marketing_Interaction__c> mktIntMap = MarketingInteractionLeadScoreHelper.setMarketingInteractionMap(contactLeadIds);
-            LeadScoreCalculatorService.ObjectMap objMap = MarketingInteractionLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, mktIntMap);
-            if(!mktIntMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Marketing_Interaction__c.getSObjectType());
-            }   
+            LeadScoreCalculatorService.processMarketingInterActions(contactIdSet, leadIdSet, isForMktgInteraction);
+            LeadScoreCalculatorService.processMarketingSegmentation(contactIdSet, isForMktgSegmentation);
+            LeadScoreCalculatorService.processContact(contactIdSet, isForContactAndLead);
+            LeadScoreCalculatorService.processLead(leadIdSet, isForContactAndLead);
+            LeadScoreCalculatorService.processCase(contactIdSet, leadIdSet, isForCase);
+            LeadScoreCalculatorService.processProgramEngagement(contactIdSet, isForProgEnrollment);
+            LeadScoreCalculatorService.processIndivEmailResults(contactIdSet, leadIdSet, isForIndivEmailEmail);
         }
     }
 

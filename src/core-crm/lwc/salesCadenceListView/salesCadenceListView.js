@@ -9,6 +9,7 @@
  *    |---------------------------|-----------------------|----------------------|-----------------------------------------------------------------------------|
  *    | roy.nino.s.regala         | July 14, 2023         | DEPP-5677            | Created file                                                                |
  *    | roy.nino.s.regala         | Sep 22, 2023          | DEPP-6365            | Added new field mapping and column logic                                    |
+ *    | roy.nino.s.regala         | Oct 30, 2023          | DEPP-7024            | Added new field mapping and column logic                                    |
  */
 import { LightningElement, api, track} from "lwc";
 import getTableDataWrapper from "@salesforce/apex/SalesCadenceListViewCtrl.getTableDataWrapper";
@@ -30,16 +31,16 @@ export default class SalesCadenceListView extends LightningElement {
   @track sortDirection = "DESC";
   @track sortBy = '';
 
-  domesticOfferedProgramWithOwningFaculty = [
+  domesticPreAndPostOffer = [
     'Domestic First Offer to Acceptance',
     'Domestic Deferred Offer to Acceptance',
     'Domestic Accepted not yet Enrolled',
+    'Domestic and International Enrolment to Census',
     'Domestic Offer Lapsed'
   ];
 
-  domesticOfferedPreferenceWithOwningFaculty = [
+  domesticAcceptedAdmitted = [
     'Domestic Accepted and Admitted',
-    'Domestic and International Enrolment to Census'
   ];
 
   //columns for domestic strong interest pre application cadence
@@ -110,7 +111,7 @@ export default class SalesCadenceListView extends LightningElement {
   ];
 
   //columns for domestic with Offered Preference and Owning Faculty
-  @track domesticOfferedPrefrenceOwningFacultyColumns = [
+  @track domesticPreAndPostOfferColumns = [
     {
       label: "Name",
       fieldName: "name",
@@ -118,14 +119,14 @@ export default class SalesCadenceListView extends LightningElement {
       sortable: true
     },
     {
-      label: "Offered Preference",
-      fieldName: "offeredPreference",
+      label: "Offered Program",
+      fieldName: "offeredProgram",
       type: "text",
       sortable: true
     },
     {
       label: "Owning Faculty",
-      fieldName: "offeredPreferenceOwningFaculty",
+      fieldName: "offeredProgramOwningFaculty",
       type: "text",
       sortable: true
     },
@@ -145,7 +146,7 @@ export default class SalesCadenceListView extends LightningElement {
   ];
 
   //columns for domestic with Offered Program and Owning Faculty
-  @track domesticOfferedProgramOwningFacultyColumns = [
+  @track domesticAcceptedAdmittedColumns = [
     {
       label: "Name",
       fieldName: "name",
@@ -162,6 +163,12 @@ export default class SalesCadenceListView extends LightningElement {
       label: "Owning Faculty",
       fieldName: "offeredProgramOwningFaculty",
       type: "text",
+      sortable: true
+    },
+    {
+      label: "QTAC Offer Round",
+      fieldName: "qtacOfferRound",
+      type: "number",
       sortable: true
     },
     {
@@ -317,10 +324,10 @@ export default class SalesCadenceListView extends LightningElement {
     if (this.calculatedCadence == "Domestic Strong Interest Pre-Application") {
       return this.domesticPreApplicationColumns;
     } else if (this.calculatedCadence.startsWith("Domestic")) {
-        if (this.domesticOfferedProgramWithOwningFaculty.includes(this.calculatedCadence)) {
-          return this.domesticOfferedPrefrenceOwningFacultyColumns;
-        } else if (this.domesticOfferedPreferenceWithOwningFaculty.includes(this.calculatedCadence)) {
-          return this.domesticOfferedProgramOwningFacultyColumns;
+        if (this.domesticAcceptedAdmitted.includes(this.calculatedCadence)) {
+          return this.domesticAcceptedAdmittedColumns;
+        } else if (this.domesticPreAndPostOffer.includes(this.calculatedCadence)) {
+          return this.domesticPreAndPostOfferColumns;
         } else {
           return this.domesticColumns;
         }

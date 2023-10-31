@@ -75,7 +75,7 @@
             (oldItems.get(caseRec.Id).Category__c != caseRec.Category__c)
         );
 
-        return isForInsert || isForUpdate;
+        return !caseRec.Lead_Score_Reset__c && (isForInsert || isForUpdate);
     }
 
     /**

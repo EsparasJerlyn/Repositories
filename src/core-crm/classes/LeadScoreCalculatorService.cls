@@ -250,6 +250,100 @@ public inherited sharing class LeadScoreCalculatorService {
         contactLeadIds.addAll(leadIdSet);
         return contactLeadIds;
     }
+
+    /**
+     * Process recalculation for Marketing Segmentation
+     */
+    public static void processMarketingSegmentation(Set<Id> contactIdSet, Boolean isForMktgSegmentation){
+        if(isForMktgSegmentation){
+            Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, new Set<Id>());
+            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, marketingSegmentationMap);
+            if(!marketingSegmentationMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, marketingSegmentationMap.keySet(), Marketing_Segmentation__c.getSObjectType());
+            }
+        }
+    }
+
+    /**
+     * Process recalculation for Contact
+     */
+    public static void processContact(Set<Id> contactIdSet, Boolean isForContactAndLead){
+        if(isForContactAndLead){
+            Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
+            LeadScoreCalculatorService.ObjectMap objMap = ContactLeadScoreHelper.setObjectMap(contactMap);
+            if(!contactMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, contactMap.keySet(), Contact.getSObjectType());
+            }   
+        }
+    }
+
+    /**
+     * Process recalculation for Lead
+     */
+    public static void processLead(Set<Id> leadIdSet, Boolean isForContactAndLead){
+        if(isForContactAndLead){
+            Map<Id,Lead> leadMap = new Map<Id,Lead>(LeadsDAO.newInstance().getLeadsByIdSetAndType(leadIdSet, LeadsDAO.LEARNER_LEAD_TYPE, AccessLevel.SYSTEM_MODE));
+            LeadScoreCalculatorService.ObjectMap objMap = LeadLeadScoreHelper.setObjectMap(leadMap);
+            if(!leadMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, leadMap.keySet(), Lead.getSObjectType());
+            }    
+        }
+    }
+
+    /**
+     * Process recalculation for Program Enrollment
+     */
+    public static void processProgramEngagement(Set<Id> contactIdSet, Boolean isForProgEnrollment){    
+        if(isForProgEnrollment){
+            Map<Id,hed__Program_Enrollment__c> progEngMap = ProgEnrollLeadScoreHelper.setProgramEnrollmentMap(contactIdSet);
+            LeadScoreCalculatorService.ObjectMap objMap = ProgEnrollLeadScoreHelper.setObjectMap(contactIdSet, progEngMap);
+            if(!progEngMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, contactIdSet, hed__Program_Enrollment__c.getSObjectType());
+            } 
+        }
+    }
+
+    /**
+     * Process recalculation for Case
+     */
+    public static void processCase(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForCase){    
+        if(isForCase){
+            Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
+            Map<Id,Case> caseMap = CaseLeadScoreHelper.setCaseMap(contactLeadIds);
+            LeadScoreCalculatorService.ObjectMap objMap = CaseLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, caseMap);
+            if(!caseMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Case.getSObjectType());
+            }
+        }
+    }
+
+    /**
+     * Process recalculation for Marketing Interaction
+     */
+    public static void processMarketingInterActions(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForMktgInteraction){ 
+        if(isForMktgInteraction){
+            Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
+            Map<Id,Marketing_Interaction__c> mktIntMap = MarketingInteractionLeadScoreHelper.setMarketingInteractionMap(contactLeadIds);
+            LeadScoreCalculatorService.ObjectMap objMap = MarketingInteractionLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, mktIntMap);
+            if(!mktIntMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Marketing_Interaction__c.getSObjectType());
+            }   
+        }
+    }
+
+    /**
+     * Process recalculation for Individual Email Result
+     */
+    public static void processIndivEmailResults(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForIndivEmailEmail){ 
+        if(isForIndivEmailEmail){
+            Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
+            Map<Id,et4ae5__IndividualEmailResult__c> indivEmailMap = IndividualEmailLeadScoreHelper.getIndividualEmailResultRecords(contactLeadIds);
+            LeadScoreCalculatorService.ObjectMap objMap = IndividualEmailLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, indivEmailMap);
+            if(!indivEmailMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, et4ae5__IndividualEmailResult__c.getSObjectType());
+            }   
+        }
+    }
     
     public class LeadScoreCalculatorParams{
         public SObjectType sObjectType;

@@ -44,9 +44,7 @@ public with sharing class LeadScoreConfigEmailInteractService {
             }
 
             if(
-                validateDateEmailDateOpened(indvEmail, today, leadScoreConfigEmailInteract.getTimeLimit()) && 
-                indvEmail.et4ae5__Opened__c && 
-                indvEmail.et4ae5__Clicked__c
+                validateIndivEmailRecord(indvEmail, today, leadScoreConfigEmailInteract.getTimeLimit())                 
             ){
                 indivEmailScore = indivEmailScore + leadScoreConfigEmailInteract.getHasClickedEmail();
             }
@@ -65,15 +63,16 @@ public with sharing class LeadScoreConfigEmailInteractService {
         return emailMap;
     }
 
-    private static Boolean validateDateEmailDateOpened(et4ae5__IndividualEmailResult__c indvEmail, Date today, Integer timeLimit){
-        Boolean isDateValid = false;
-        if(indvEmail.et4ae5__DateOpened__c != null){
-            isDateValid = DateService.isDateWithinRangeDefaultFalse(
+    private static Boolean validateIndivEmailRecord(et4ae5__IndividualEmailResult__c indvEmail, Date today, Integer timeLimit){
+        return 
+            indvEmail.et4ae5__DateOpened__c != null &&
+            indvEmail.et4ae5__Opened__c && 
+            indvEmail.et4ae5__Clicked__c &&
+            !indvEmail.Lead_Score_Reset__c &&
+            DateService.isDateWithinRangeDefaultFalse(
                 today, 
                 indvEmail.et4ae5__DateOpened__c.date(), 
                 indvEmail.et4ae5__DateOpened__c.date().addMonths(timeLimit)
             );
-        }
-        return isDateValid;
     }
 }
