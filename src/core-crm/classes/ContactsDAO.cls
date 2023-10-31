@@ -361,10 +361,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Id,MobilePhone,ContactMobile_Locale__c ' +
+            'SELECT Id,MobilePhone ' +
             'FROM Contact ' +
             'WHERE MobilePhone != NULL ' +
-            'AND ContactMobile_Locale__c !=NULL ' +
             'AND Id IN: recordIds ',
             accessLevel
         );
