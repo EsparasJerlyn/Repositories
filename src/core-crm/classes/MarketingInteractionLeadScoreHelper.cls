@@ -34,7 +34,11 @@ public with sharing class MarketingInteractionLeadScoreHelper{
         Set<Id> leadIdSet = new Set<Id>();
 
         for(Marketing_Interaction__c mktgInteraction : newItems){
-            if(checkIfForInsert(mktgInteraction, oldItems) || checkIfForUpdate(mktgInteraction, oldItems)){
+            if(
+                !mktgInteraction.Lead_Score_Reset__c && 
+                (checkIfForInsert(mktgInteraction, oldItems) || 
+                checkIfForUpdate(mktgInteraction, oldItems))
+            ){
                 setContactIds(mktgInteraction, oldItems, contactIdSet);    
                 setLeadIds(mktgInteraction, oldItems, leadIdSet);
             }

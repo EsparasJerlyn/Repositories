@@ -48,15 +48,7 @@ public with sharing class LeadScoreConfigProgEngagmentService {
                 progEngScore = 0;
             }
 
-            if(
-                progEng.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ENROLLED && 
-                accountMap.containsKey(progEng.hed__Account__c) && 
-                accountMap.get(progEng.hed__Account__c).RecordTypeId == AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID &&
-                (
-                    accountMap.get(progEng.hed__Account__c).Name.contains(AccountsDAO.ACCOUNT_NAME_START_QUT) ||
-                    accountMap.get(progEng.hed__Account__c).Program_Code__c == AccountsDAO.PROGRAM_CODE_QC19
-                )
-            ){
+            if(validateProgEngRecord(progEng, accountMap)){
                 progEngScore = progEngScore + leadScoreConfigProgEngagment.getProgramEngAttendance();
             }
 
@@ -69,6 +61,18 @@ public with sharing class LeadScoreConfigProgEngagmentService {
         }
         
         return progEngMap;
+    }
+
+    private static Boolean validateProgEngRecord(hed__Program_Enrollment__c progEng, Map<Id, Account> accountMap){
+        return 
+            !progEng.Lead_Score_Reset__c &&
+            progEng.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ENROLLED && 
+            accountMap.containsKey(progEng.hed__Account__c) && 
+            accountMap.get(progEng.hed__Account__c).RecordTypeId == AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID &&
+            (
+                accountMap.get(progEng.hed__Account__c).Name.contains(AccountsDAO.ACCOUNT_NAME_START_QUT) ||
+                accountMap.get(progEng.hed__Account__c).Program_Code__c == AccountsDAO.PROGRAM_CODE_QC19
+            );
     }
 
     private static Boolean validateCategory(Lead_Score_Configuration__c leadScoreConfig, String category){

@@ -39,11 +39,7 @@ public with sharing class LeadScoreConfigMatchMySkillsService {
                 matchMySkillScore = 0;
             }
 
-            if(
-                marketingInteraction.Lead_Source__c == MarketingInteractionsDAO.LEAD_SOURCE_MMS &&
-                String.isNotBlank(marketingInteraction.Match_My_Skill_Completion__c) && 
-                marketingInteraction.Match_My_Skill_Completion__c.toUppercase() == MarketingInteractionsDAO.MATCH_MY_SKILL_COMPLETION_UPPER
-            ){ 
+            if(validateRecord(marketingInteraction)){ 
                 matchMySkillScore = matchMySkillScore + leadScoreConfigMatchMySkills.getCompleted();
             }
             
@@ -57,5 +53,13 @@ public with sharing class LeadScoreConfigMatchMySkillsService {
         }
 
         return matchMySkillsMap;
+    }
+
+    private static Boolean validateRecord(Marketing_Interaction__c marketingInteraction){
+        return 
+            !marketingInteraction.Lead_Score_Reset__c &&
+            marketingInteraction.Lead_Source__c == MarketingInteractionsDAO.LEAD_SOURCE_MMS &&
+            String.isNotBlank(marketingInteraction.Match_My_Skill_Completion__c) && 
+            marketingInteraction.Match_My_Skill_Completion__c.toUppercase() == MarketingInteractionsDAO.MATCH_MY_SKILL_COMPLETION_UPPER;
     }
 }
