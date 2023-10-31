@@ -234,10 +234,9 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Id,MobilePhone,LeadMobile_Locale__c ' +
+            'SELECT Id,MobilePhone ' +
             'FROM Lead ' +
             'WHERE MobilePhone != NULL ' +
-            'AND LeadMobile_Locale__c != NULL ' +
             'AND Id IN: recordIds ',
             accessLevel
         );
