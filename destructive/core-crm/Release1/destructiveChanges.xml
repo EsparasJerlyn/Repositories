@@ -263,6 +263,10 @@
         <members>Opportunity.NewThisWeek</members>
         <members>Opportunity.Won</members>
         <members>Opportunity.Default_Opportunity_Pipeline</members>
+        <!--(Start) DEPP-7098 -->
+        <members>Case.Domestic_Online_Enquires</members>
+        <members>CaseInternational_Online_Enquires</members>
+        <!-- (End) DEPP-7098 -->
         <name>ListView</name>
     </types>
     <types>
