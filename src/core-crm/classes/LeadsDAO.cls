@@ -13,6 +13,7 @@
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                      |
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName              |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           |
+      | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added new method getLeadMobilePhoneByRecordIds  |
  */ 
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -147,7 +148,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status ' +
+            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status, Email_Opt_In_DateTime__c ' +
               'FROM Lead ' +
              'WHERE Id IN: recordIdSet AND Lead_Type__c =: leadType',
             accessLevel
@@ -226,5 +227,18 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             lastName = strLastName;
             mobile = strMobile;
         }
+    }
+
+    public List<Lead> getLeadMobilePhoneByRecordIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id,MobilePhone ' +
+            'FROM Lead ' +
+            'WHERE MobilePhone != NULL ' +
+            'AND Id IN: recordIds ',
+            accessLevel
+        );
     }
 }

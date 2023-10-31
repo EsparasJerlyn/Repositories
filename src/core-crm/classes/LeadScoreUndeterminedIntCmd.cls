@@ -47,6 +47,10 @@ public with sharing class LeadScoreUndeterminedIntCmd implements ILeadScoreStudy
         else if(sObjectType == hed__Program_Enrollment__c.getSObjectType()){
             leadScoreDetailList.addAll(processProgramEnrollment((Map<Id,hed__Program_Enrollment__c>) sObjectMap, existingLeadScoreDetailMap, leadScoreConfigReference));
         }
+
+        else if(sObjectType == et4ae5__IndividualEmailResult__c.getSObjectType()){
+            leadScoreDetailList.addAll(processIndividualEmail((Map<Id,et4ae5__IndividualEmailResult__c>) sObjectMap, existingLeadScoreDetailMap, leadScoreConfigReference));
+        }
         
         return leadScoreDetailList;
     }
@@ -72,6 +76,7 @@ public with sharing class LeadScoreUndeterminedIntCmd implements ILeadScoreStudy
             LeadScoreConfigMatchMySkillsService.getLeadScoreConfig(config, leadScoreConfig.leadScoreMatchMySkills);
             LeadScoreConfigMktgConsentService.getLeadScoreConfig(config, leadScoreConfig.leadScoreMktConsent);
             LeadScoreConfigProgEngagmentService.getLeadScoreConfig(config, leadScoreConfig.leadScoreProgEng);
+            LeadScoreConfigEmailInteractService.getLeadScoreConfig(config, leadScoreConfig.leadScoreEmailInteraction);
         }
         return leadScoreConfig;
     }
@@ -287,6 +292,40 @@ public with sharing class LeadScoreUndeterminedIntCmd implements ILeadScoreStudy
 
             if(existingLeadScoreDetailMap.containsKey(contactId)){
                 leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactId).Id;
+            }
+            leadScoreDetailList.add(leadScoreDetail);
+        }
+        return leadScoreDetailList;
+    }
+
+    /**
+     * Process lead score calculation for Individual Email Records Records
+     * @param Map<Id,et4ae5__IndividualEmailResult__c> indivEmailMap - Map of Triggering object
+     * @param Map<Id, Lead_Score_Detail__c> existingLeadScoreDetailMap - Map of existing Lead Score Details to be updated
+     * @param LeadScoreConfigService.LeadScoreConfigReference leadScoreConfigReference  - Lead Score Configs
+     * @return List<Lead_Score_Detail__c> - Lead Score Detail to be updated from the triggering object
+     */
+    private static List<Lead_Score_Detail__c> processIndividualEmail(
+        Map<Id,et4ae5__IndividualEmailResult__c> indivEmailMap, 
+        Map<Id, Lead_Score_Detail__c> existingLeadScoreDetailMap, 
+        LeadScoreConfigService.LeadScoreConfigReference leadScoreConfigReference
+    ){
+        List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
+        
+        Map<Id, Integer> emailInteractionMap = LeadScoreConfigEmailInteractService.calculateLeadScore(indivEmailMap, leadScoreConfigReference.leadScoreEmailInteraction);
+        for(Id contactLeadId : emailInteractionMap.keySet()){   
+            Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
+            leadScoreDetail.Email_Interaction__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactLeadId, emailInteractionMap);
+            if(ContactService.isContact(contactLeadId)){   
+                leadScoreDetail.Contact__c = contactLeadId;
+            }else{
+                leadScoreDetail.Lead__c = contactLeadId;
+            }
+            leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDETERMINED;
+            leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.INTERNATIONAL;   
+
+            if(existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
             }
             leadScoreDetailList.add(leadScoreDetail);
         }

@@ -9837,6 +9837,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Completed_Cadence__c.Cadence_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Completed_Cadence__c.Calculated_Cadence__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Completed_Cadence__c.Completed_Cadence_Status__c</field>
         <readable>true</readable>
@@ -9849,6 +9859,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Completed_Cadence__c.Days_Waiting__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Completed_Cadence__c.Displayed_in_List_View__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9989,6 +10004,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Communication_Queue__c.Due_Date__c</field> 
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Communication_Queue__c.Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -19474,6 +19494,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.IsVisibleInSelfService</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Message_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.SMS_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Receiver__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Sender__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -29653,6 +29693,14 @@
         <recordType>hed__Program_Plan__c.QUT_Program</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.SMS</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>Application_Preference__c</tab>
         <visibility>Visible</visibility>
@@ -29734,6 +29782,14 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>New_Engagement</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>New_Opportunity</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Nurture_Track_Configuration__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -29771,6 +29827,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Session__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>SMS_Template__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
@@ -29940,7 +30000,7 @@
     <tabSettings>
         <tab>International_Tier__c</tab>
         <visibility>Visible</visibility>
-    </tabSettings>
+    </tabSettings>    
     <tabSettings>
         <tab>standard-Account</tab>
         <visibility>Visible</visibility>

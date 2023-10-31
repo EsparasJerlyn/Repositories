@@ -42,8 +42,9 @@ public without sharing class RegistrationMatchingHelper {
             birthDateSet.add(con.Birthdate);
             lastNameSet.add(con.LastName);
             firstNameSet.add(con.FirstName);
-            criteriaMapWBirthDate.put(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName, con);
-            criteriaMap.put(con.LastName + con.FirstName, con);
+            String firstNameToLowerCase = con.FirstName != null ? con.FirstName.toLowerCase() : '';
+            criteriaMapWBirthDate.put(JSON.serialize(con.Birthdate) + con.LastName.toLowerCase() + firstNameToLowerCase, con);
+            criteriaMap.put(con.LastName.toLowerCase() + firstNameToLowerCase, con);
             contactMap.put(con.Registered_Email__c.toLowerCase(),con);
         }
 
@@ -72,6 +73,7 @@ public without sharing class RegistrationMatchingHelper {
         ]);
 
         for(Contact con: matchingContacts){
+            String firstNameToLowerCase = con.FirstName != null ? con.FirstName.toLowerCase() : '';
             //email match will always replace the values on the map using the email inputed by the user as key
             if(contactMap.containsKey(con.Email)){
                 responseMap.put(con.Email,contactDetailsMatching(contactMap.get(con.Email),con));
@@ -84,15 +86,15 @@ public without sharing class RegistrationMatchingHelper {
                 //email mismatch and DOB,FirstName and LastName Match
                 //only add firstdate,lastname, DOB matching result if current email is not on the response map
             }else if(   con.Birthdate != null && 
-                        criteriaMapWBirthDate.containsKey(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName) && 
-                        !responseMap.containsKey(criteriaMapWBirthDate.get(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName).Registered_Email__c)){   
+                        criteriaMapWBirthDate.containsKey(JSON.serialize(con.Birthdate) + con.LastName.toLowerCase() + firstNameToLowerCase) && 
+                        !responseMap.containsKey(criteriaMapWBirthDate.get(JSON.serialize(con.Birthdate) + con.LastName.toLowerCase() + firstNameToLowerCase).Registered_Email__c)){   
                         //if DOB,FirstName and lastname matches
-                        response = createResponseForEmailMismatch(con,criteriaMapWBirthDate.get(JSON.serialize(con.Birthdate) + con.LastName + con.FirstName).Registered_Email__c);
+                        response = createResponseForEmailMismatch(con,criteriaMapWBirthDate.get(JSON.serialize(con.Birthdate) + con.LastName.toLowerCase() + firstNameToLowerCase).Registered_Email__c);
                         responseMap.put(response.email,response);
-            }else if(   criteriaMap.containsKey(con.LastName + con.FirstName) && 
-                        !responseMap.containsKey(criteriaMap.get(con.LastName + con.FirstName).Registered_Email__c)){
+            }else if(   criteriaMap.containsKey(con.LastName.toLowerCase() + firstNameToLowerCase) && 
+                        !responseMap.containsKey(criteriaMap.get(con.LastName.toLowerCase() + firstNameToLowerCase).Registered_Email__c)){
                         //if FirstName and lastname matches
-                        response = createResponseForEmailMismatch(con,criteriaMap.get(con.LastName + con.FirstName).Registered_Email__c);
+                        response = createResponseForEmailMismatch(con,criteriaMap.get(con.LastName.toLowerCase() + firstNameToLowerCase).Registered_Email__c);
                         responseMap.put(response.email,response); 
             }
         }

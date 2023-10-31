@@ -13,8 +13,15 @@
       |                                |                       |                        | listener to map all action    |
       |                                |                       |                        | cadence step tracker to C.Q.  |
       | mark.j.mahilum                 | Oct 05, 2023          | DEPP-6781              | Added field mapping to duedate|
+      | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added SMS logic               |
  */
 public with sharing class ActionCadenceStepTrackerTriggerHelper {
+
+    private static final String DOMESTIC_AUTOMATED_CADENCE = 'Domestic Automated Cadence ';
+    private static final String INTERNATIONAL_AUTOMATED_CADENCE = 'International Automated Cadence ';
+    private static final String SMS_TYPE = 'SMS';
+    private static final String EMAIL_TYPE = 'Email';
+    private static final String NO_MOBILEPHONE_MSG = 'Contact or Lead does not have a valid mobile number';
     
     public static void insertCommunicationQueue(List<ActionCadenceStepTrackerChangeEvent> newItems){
         
@@ -53,23 +60,45 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
         Map<String, OrgWideEmailAddress>  orgWideEmailAddress = queryOrgWideEmailAddress();
         List<Communication_Queue__c> commsQueueToInsert = new List<Communication_Queue__c>();
+
+        //SMS variables
+        Map<String,SMS_Template__c> smsTemplateMap = getSMSTemplateMap();
+        List<ActionCadenceStepTracker> smsActionCadenceStepTrackerList = new List<ActionCadenceStepTracker>();
+        Set<Id> smsTargetIds = new Set<Id>();
         
         for(ActionCadenceStepTracker ac: stepTrackers){
-            Id emailAddressId = resolveOrgWideEmailAddress(ac, orgWideEmailAddress);
-            Date dueDate = ac.DueDateTime != NULL? Date.valueOf(ac.DueDateTime).addDays(-1):Date.today(); 
-            commsQueueToInsert.add(
-                new Communication_Queue__c(
-                    ActionCadenceStepTrackerId__c = ac.Id,
-                    Status__c = 'Scheduled',
-                    Type__c = 'Email',
-                    WhoId__c = ac.TargetId,
-                    Template_Id__c = ac.ActionCadenceStep.TemplateId,
-                    Due_Date__c = dueDate,
-                    Sender__c = emailAddressId,
-                    Business_Process__c = (ac.ActionCadenceName.containsIgnoreCase('Domestic'))?'Domestic Automated Cadence Email':'International Automated Cadence Email'
-                )
-            );
+
+            if(smsTemplateMap.containsKey(ac.StepTitle)){
+                smsActionCadenceStepTrackerList.add(ac);
+                smsTargetIds.add(ac.TargetId);
+                continue;
+            }
+
+            if(ac.StepType =='SendAnEmail'){
+                Id emailAddressId = resolveOrgWideEmailAddress(ac, orgWideEmailAddress);
+                Date dueDate = ac.DueDateTime != NULL? Date.valueOf(ac.DueDateTime).addDays(-1):Date.today(); 
+                commsQueueToInsert.add(
+                    new Communication_Queue__c(
+                        ActionCadenceStepTrackerId__c = ac.Id,
+                        Status__c = 'Scheduled',
+                        Type__c = 'Email',
+                        WhoId__c = ac.TargetId,
+                        Template_Id__c = ac.ActionCadenceStep.TemplateId,
+                        Due_Date__c = dueDate,
+                        Sender__c = emailAddressId,
+                        Business_Process__c = ((ac.ActionCadenceName.containsIgnoreCase('Domestic'))? DOMESTIC_AUTOMATED_CADENCE : INTERNATIONAL_AUTOMATED_CADENCE) + EMAIL_TYPE
+                    )
+                );
+            }
         }
+
+        //Add all SMS communicationQueue records
+        if(!smsActionCadenceStepTrackerList.isEmpty()){
+            commsQueueToInsert.addAll(
+                createSMSCommunicationQueueRecords(smsActionCadenceStepTrackerList,smsTargetIds,smsTemplateMap)
+            );            
+        }
+
         return commsQueueToInsert;
     }
 
@@ -110,4 +139,97 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
         return orgWideEmailMap;
     }
 
+    /**
+     * retrieves active SMS Templates
+     */
+    private static Map<String,SMS_Template__c> getSMSTemplateMap(){
+        Map<String,SMS_Template__c> smsTemplateMap = new Map<String,SMS_Template__c>();
+        for(SMS_Template__c sms: SMSTemplatesDAO.newInstance().getActiveSMSTemplates(AccessLevel.SYSTEM_MODE)){
+            smsTemplateMap.put(sms.Cadence_Step_Name__c,sms);
+        }
+        return smsTemplateMap;
+    }
+
+    /**
+     * retrieves Mobile phones from contact or leads
+     */
+    private static Map<Id,String> getTargetMobilePhones(Set<Id> targetIds){
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(ContactsDAO.newInstance().getContactMobilePhoneByRecordIds(targetIds,AccessLevel.SYSTEM_MODE));
+        Map<Id, Lead> leadMap = new Map<Id, Lead>(LeadsDAO.newInstance().getLeadMobilePhoneByRecordIds(targetIds,AccessLevel.SYSTEM_MODE));        
+        Map<Id,String> targetMobilePhones = new Map<Id,String>();
+        
+        for(Id targetId: targetIds){
+            if(contactMap.containsKey(targetId)){
+                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);               
+                targetMobilePhones.put(targetId,mobilePhoneNumber);
+            }
+            if(leadMap.containsKey(targetId)){
+                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);
+                targetMobilePhones.put(targetId,mobilePhoneNumber);
+            }
+        }
+        return targetMobilePhones;
+    }
+
+    /**
+     * create SMS Communication Queue
+     */
+    private static List<Communication_Queue__c> createSMSCommunicationQueueRecords(List<ActionCadenceStepTracker> stepTrackers, Set<Id> smsTargetIds,Map<String,SMS_Template__c> smsTemplateMap){
+        
+        List<Communication_Queue__c> smsComsQueueList = new List<Communication_Queue__c>();
+        Map<Id,String> targetMobilePhoneMap = getTargetMobilePhones(smsTargetIds);
+        List<Task> createNoMobilePhoneTasks = new List<Task>();
+        
+        for(ActionCadenceStepTracker ac: stepTrackers){
+            if(targetMobilePhoneMap.containsKey(ac.TargetId)){
+                Communication_Queue__c comsQueue = createCommunicationQueueSMS(ac);
+                comsQueue.Mobile__c = targetMobilePhoneMap.get(ac.TargetId);
+                comsQueue.Message__c = smsTemplateMap.get(ac.StepTitle).Message_Content__c;
+                comsQueue.Status__c = 'Scheduled';
+                smsComsQueueList.add(comsQueue); 
+            }else{
+                createNoMobilePhoneTasks.add(createTaskRecords(ac));
+                Communication_Queue__c comsQueue = createCommunicationQueueSMS(ac);
+                comsQueue.Status__c = 'Failed';
+                smsComsQueueList.add(comsQueue); 
+            }            
+        }
+        
+        createCompletedTask(createNoMobilePhoneTasks);        
+        
+        return smsComsQueueList;
+    }
+
+    /**
+     * Insert Tasks for no mobile targetIds
+     */
+    private static void createCompletedTask(List<Task> taskRecords) {
+        if(!taskRecords.isEmpty()){
+            TasksDAO.newInstance().insertRecords(taskRecords,false,AccessLevel.SYSTEM_MODE);  
+        }   
+    }
+
+    /**
+     * create createCommunicationQueueSMS record mapping
+     */
+    private static Communication_Queue__c createCommunicationQueueSMS(ActionCadenceStepTracker ac){
+        return new Communication_Queue__c(
+            ActionCadenceStepTrackerId__c = ac.Id,            
+            Type__c = SMS_TYPE,
+            WhoId__c = ac.TargetId,
+            Business_Process__c = ((ac.ActionCadenceName.containsIgnoreCase('Domestic'))? DOMESTIC_AUTOMATED_CADENCE : INTERNATIONAL_AUTOMATED_CADENCE) + SMS_TYPE
+        );       
+    }
+    /**
+     * create Tasks for no mobile targetIds
+     */    
+    private static Task createTaskRecords(ActionCadenceStepTracker ac) {       
+        return new Task(
+            Subject = NO_MOBILEPHONE_MSG,
+            OwnerId = ac.ActionCadenceTracker.OwnerId,
+            Status = 'Completed',
+            WhoId = ac.TargetId,
+            Description = NO_MOBILEPHONE_MSG
+        );       
+    }
 }

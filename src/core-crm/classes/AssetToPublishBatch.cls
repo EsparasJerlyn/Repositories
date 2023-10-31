@@ -24,6 +24,7 @@ public class AssetToPublishBatch implements Database.Batchable<sObject> {
             'SELECT Id, Product_Request__c ' + 
             'FROM Asset ' + 
             'WHERE Publishing_Start_Date__c <= TODAY ' + 
+            'And Publishing_End_Date__c > Today '+
             'AND Ready_for_publishing__c = \'Yes\' ' +
             'AND Product_Request__r.Product_Request_Status__c != \''+PR_COMPLETED+'\' ' +
             'AND Product_Request__r.Product_Request_Status__c != \''+PR_PUBLISHED+'\' ' + 

@@ -13,8 +13,8 @@
  */
 public with sharing class ActionCadenceStepTrackersDAO extends DmlBase implements IActionCadenceStepTrackersDAO {
     
-  public static final String STATE_ACTIVE = 'Active';
-  public static final String STEP_TYPE_SEND_EMAIL = 'SendAnEmail';
+  private static final String STATE_ACTIVE = 'Active';
+  private static final Set<String> STEP_TYPE = new Set<String>{'SendAnEmail','CreateTask'};
 
   public Schema.SObjectType getSObjectType(){
     return ActionCadenceStepTracker.SObjectType;
@@ -25,13 +25,12 @@ public with sharing class ActionCadenceStepTrackersDAO extends DmlBase implement
 	}
 
   public List<ActionCadenceStepTracker> getActionCadenceStepTrackerForEmail(List<String> recordIds, AccessLevel accessLevel) {
-      return Database.query(
-          'SELECT Id, ActionCadenceStepId, ActionCadenceName, TargetId, StepType, StepTitle, ActionCadenceStep.TemplateId, DueDateTime ' + 
-            'FROM ActionCadenceStepTracker ' + 
-            'WHERE Id IN: recordIds ' + 
-              'AND State =: STATE_ACTIVE ' + 
-              'AND StepType =: STEP_TYPE_SEND_EMAIL', accessLevel
-      );
-  }
-    
+    return Database.query(
+        'SELECT Id, ActionCadenceStepId, ActionCadenceName, TargetId, StepType, StepTitle, ActionCadenceStep.TemplateId, DueDateTime, ActionCadenceTracker.OwnerId ' + 
+        'FROM ActionCadenceStepTracker ' + 
+        'WHERE Id IN: recordIds ' + 
+        'AND State =: STATE_ACTIVE ' + 
+        'AND StepType IN: STEP_TYPE', accessLevel
+    );
+  }  
 }

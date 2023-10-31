@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Supress_SMS__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When the field is set to truth, the processing of the queue records for SMS should NOT HAPPEN. In that case, the batch job should ignore the execution of all the SMS sending.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Supress SMS</label>
+    <securityClassification>Official</securityClassification>
+    <type>Checkbox</type>
+</CustomField>

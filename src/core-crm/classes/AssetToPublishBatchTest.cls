@@ -7,7 +7,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin   	       | Aug. 11, 2022         | DEPP-3481              | Created file                 | 
+      | alexander.cadalin              | Aug. 11, 2022         | DEPP-3481              | Created file                 | 
  */
 @isTest
 public with sharing class AssetToPublishBatchTest {
@@ -82,6 +82,7 @@ public with sharing class AssetToPublishBatchTest {
             aInsert.Product_Request__c = cbRequest[0].Id;
             aInsert.Ready_for_publishing__c = 'Yes';
             aInsert.Publishing_Start_Date__c = Date.Today();
+            aInsert.Publishing_End_Date__c = Date.Today().addYears(1);
             insert aInsert;
 
             BuyerGroup bgInsert = new BuyerGroup();
@@ -108,6 +109,7 @@ public with sharing class AssetToPublishBatchTest {
                 prod.QA_Review_Completed__c = 'Yes';
                 prod.Ready_for_publishing__c = 'Yes';
                 prod.Publishing_Start_Date__c = Date.Today();
+                prod.Publishing_End_Date__c = Date.Today().addYears(1);
             }
 
             update productsList;

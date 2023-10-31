@@ -87,4 +87,4 @@ public inherited sharing class LeadScoreConfigurationDAOMock extends DmlBaseMock
 
         return leadScoreConfigList;
     }
-}
+} 

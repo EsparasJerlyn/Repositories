@@ -31,9 +31,27 @@ public with sharing class EmailTriggerSalesCadenceBatch implements Database.Batc
     */
     public void execute(Database.BatchableContext bc, List<Communication_Queue__c> communicationQueueList){
         try{ 
+            List<Communication_Queue__c> emailComsQueueList = new List<Communication_Queue__c>();
+            List<Communication_Queue__c> smsComsQueueList = new List<Communication_Queue__c>();
+
+            for(Communication_Queue__c rec: communicationQueueList){
+                if(rec.Type__c =='Email' && rec.Due_Date__c <= System.today()){
+                    emailComsQueueList.add(rec);
+                }else{
+                    smsComsQueueList.add(rec);
+                }               
+            }
+            
             RequestCommand cmd = new RequestCommand();
-            cmd.setCommand(new SalesCadenceEmailRequestCommand(communicationQueueList));
-            cmd.executeCommand();
+            if(!emailComsQueueList.isEmpty()){
+                cmd.setCommand(new SalesCadenceEmailRequestCommand(emailComsQueueList));
+                cmd.executeCommand();
+            }
+            if(!smsComsQueueList.isEmpty()){
+                cmd.setCommand(new SalesCadenceSMSRequestCommand(smsComsQueueList));
+                cmd.executeCommand();
+            }
+            
         }catch(Exception e){
             Logger.error('Exception caught in method execute in Apex class EmailTriggerSalesCadenceBatch.').setExceptionDetails(e);
         } finally {

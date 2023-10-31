@@ -29,4 +29,4 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         Set<String> cadenceNames,
         String accessLevel
     );
-}
+} 

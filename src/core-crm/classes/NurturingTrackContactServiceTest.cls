@@ -63,7 +63,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                     Study_Level__c = 'Undetermined',
                     Description__c = '',
                     Score_Allocation__c = null,
-                    Time_Limit_Months__c = null,
+                    Time_Limit_Months__c = 10,
                     Max_Score__c = 200,
                     Parent_Category__c = leadScoreParentConfigList[0].Id
                 )
