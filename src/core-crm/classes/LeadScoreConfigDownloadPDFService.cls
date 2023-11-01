@@ -39,7 +39,9 @@ public with sharing class LeadScoreConfigDownloadPDFService {
         Integer downloadPDFScore = 0;
         
         for(Marketing_Interaction__c marketingInteraction : marketingInteractionMap.values()){
-            Boolean isValid = validateLeadSource(marketingInteraction);
+
+            Boolean isValid = validateRecord(marketingInteraction, leadScoreConfigDownloadPDF.getTimeLimit());
+
             if(downloadPDFMap.containsKey(marketingInteraction.Contact__c)){
                 downloadPDFScore = downloadPDFMap.get(marketingInteraction.Contact__c);
             }else if(downloadPDFMap.containsKey(marketingInteraction.Lead__c)){
@@ -83,8 +85,16 @@ public with sharing class LeadScoreConfigDownloadPDFService {
         return isValid && !isDomestic && marketingInteraction.Lead_Source__c == MarketingInteractionsDAO.LEAD_SOURCE_COURSE_GUIDE;
     }
 
-    private static Boolean validateLeadSource(Marketing_Interaction__c marketingInteraction){
-        return String.isNotBlank(marketingInteraction.Lead_Source__c);
+    private static Boolean validateRecord(Marketing_Interaction__c marketingInteraction, Integer timeLimit){
+        return 
+            String.isNotBlank(marketingInteraction.Lead_Source__c) && 
+            !marketingInteraction.Lead_Score_Reset__c &&
+            marketingInteraction.Interaction_DateTime__c != null &&
+            DateService.isDateWithinRangeDefaultFalse(
+                Date.today(), 
+                marketingInteraction.Interaction_DateTime__c.date(), 
+                marketingInteraction.Interaction_DateTime__c.date().addMonths(timeLimit)
+            );
     }
 
     private static Boolean validateIfForDownloadPDFCategory(String category, Lead_Score_Configuration__c leadScoreConfig){

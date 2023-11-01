@@ -70,8 +70,8 @@ public with sharing class LeadScoreConfigEventRegService {
     }
 
     private static Boolean validateOpenDay(Marketing_Interaction__c marketingInteraction, Date today, Integer timeLimit){
-
-        if( 
+        return 
+            !marketingInteraction.Lead_Score_Reset__c &&
             String.isNotBlank(marketingInteraction.Event_Type__c) && 
             marketingInteraction.Event_Type__c == MarketingInteractionsDAO.EVENT_TYPE_OPEN_DAY &&
             marketingInteraction.Event_Date__c != null &&
@@ -79,15 +79,12 @@ public with sharing class LeadScoreConfigEventRegService {
                 today, 
                 marketingInteraction.Event_Date__c, 
                 marketingInteraction.Event_Date__c.addMonths(timeLimit)
-            )
-        ){
-            return true;
-        }
-        return false;
+            );
     }
 
     private static Boolean validateOtherEvent(Marketing_Interaction__c marketingInteraction, Date today, Integer timeLimit){
-        if(
+        return 
+            !marketingInteraction.Lead_Score_Reset__c &&
             String.isNotBlank(marketingInteraction.Lead_Source_Category__c) && 
             marketingInteraction.Lead_Source_Category__c == MarketingInteractionsDAO.LEAD_SOURCE_CATEGORY_EVENT &&
             marketingInteraction.Event_Type__c != MarketingInteractionsDAO.EVENT_TYPE_OPEN_DAY &&
@@ -96,25 +93,18 @@ public with sharing class LeadScoreConfigEventRegService {
                 today, 
                 marketingInteraction.Interaction_DateTime__c.date(), 
                 marketingInteraction.Interaction_DateTime__c.date().addMonths(timeLimit)
-            )
-        ){
-            return true;
-        }
-        return false;
+            );
     }
 
     private static Boolean validateHasOtherEventAttendance(Marketing_Interaction__c marketingInteraction, Date today, Integer timeLimit){
-        if(
+        return 
+            !marketingInteraction.Lead_Score_Reset__c &&
             marketingInteraction.Has_Attended__c && 
             marketingInteraction.Event_Date__c != null &&
             DateService.isDateWithinRangeDefaultFalse(
                 today, 
                 marketingInteraction.Event_Date__c, 
                 marketingInteraction.Event_Date__c.addMonths(timeLimit)
-            )
-        ){ 
-            return true;
-        }
-        return false;
+            );
     }
 }

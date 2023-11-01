@@ -10,5 +10,6 @@
     <permissionSets>Manage_International_Tiers</permissionSets>
     <permissionSets>Manage_Reports_and_Dashboards</permissionSets>
     <permissionSets>force__HighVelocitySalesCadenceCreatorIncluded</permissionSets>
+    <permissionSets>spr_sf__Sprinklr_User</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

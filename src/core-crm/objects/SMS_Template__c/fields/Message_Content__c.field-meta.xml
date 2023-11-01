@@ -6,6 +6,7 @@
     <label>Message Content</label>
     <length>160</length>
     <required>true</required>
+    <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

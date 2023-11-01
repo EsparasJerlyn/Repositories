@@ -46,17 +46,17 @@ public with sharing class LeadScoreCalculationBatch implements Database.Batchabl
             /**
              * Recalculate for Event Registration and Attendance and Downloaded PDF Categories
              */
-            processMarketingInterActions(contactIdSet, leadIdSet);
+            LeadScoreCalculatorService.processMarketingInterActions(contactIdSet, leadIdSet, true);
 
             /**
              * Recalculate for Enquiries Category
              */
-            processCase(contactIdSet, leadIdSet);
+            LeadScoreCalculatorService.processCase(contactIdSet, leadIdSet, true);
             
            /**
             * Recalculate for Email Interaction
             */
-            processEmailInteractions(contactIdSet, leadIdSet);
+            LeadScoreCalculatorService.processIndivEmailResults(contactIdSet, leadIdSet, true);
 
         }catch(Exception e){
             Logger.error('Exception caught in method execute in Apex class LeadScoreCalculationBatch.').setExceptionDetails(e);
@@ -66,33 +66,6 @@ public with sharing class LeadScoreCalculationBatch implements Database.Batchabl
             }
         }
     } 
-
-    private static void processCase(Set<Id> contactIdSet, Set<Id> leadIdSet){    
-        Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
-        Map<Id,Case> caseMap = CaseLeadScoreHelper.setCaseMap(contactLeadIds);
-        LeadScoreCalculatorService.ObjectMap objMap = CaseLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, caseMap);
-        if(!caseMap.isEmpty()){
-            LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Case.getSObjectType());
-        }
-    }
-
-    private static void processMarketingInterActions(Set<Id> contactIdSet, Set<Id> leadIdSet){        
-        Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
-        Map<Id,Marketing_Interaction__c> mktIntMap = MarketingInteractionLeadScoreHelper.setMarketingInteractionMap(contactLeadIds);
-        LeadScoreCalculatorService.ObjectMap objMap = MarketingInteractionLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, mktIntMap);
-        if(!mktIntMap.isEmpty()){
-            LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Marketing_Interaction__c.getSObjectType());
-        }
-    }
-
-    private static void processEmailInteractions(Set<Id> contactIdSet, Set<Id> leadIdSet){        
-        Set<Id> contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
-        Map<Id,et4ae5__IndividualEmailResult__c> indivEmailMap = IndividualEmailLeadScoreHelper.getIndividualEmailResultRecords(contactLeadIds);
-        LeadScoreCalculatorService.ObjectMap objMap = IndividualEmailLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, indivEmailMap);
-        if(!indivEmailMap.isEmpty()){
-            LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, et4ae5__IndividualEmailResult__c.getSObjectType());
-        }
-    }
 
     public void finish(Database.BatchableContext bc) {} //NOPMD
 }

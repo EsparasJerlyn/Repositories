@@ -21,6 +21,14 @@ public with sharing class TranslateService {
     private static final String TRANSLATION_ENDPOINT = System.Label.GoogleTranslationEndpoint;
     private static final String SUPPORTED_LANGUAGES_ENDPOINT = System.Label.GoogleSupportedLanguagesEndpoint;
 
+    /** Map to store language code mappings **/
+    private static final Map<String, String> LANGUAGE_CODE_MAPPING = new Map<String, String>{
+        'iw' => 'he',       // Map "iw" (Hebrew) to "he" (Hebrew)
+        'zh' => 'zh-CN',    // Map "zh" (Chinese Simplified) to "zh-CN" (Chinese Simplified Mainland China)
+        'fil' => 'tl',      // Map "fil" (Filipino) to "tl" (Filipino Tagalog)
+        'jw' => 'jv'        // Map "jw" (Javanese) to 'jv' (Javanese)
+    };
+
     /** GETTERS **/
     /**
      * Get the translation endpoint.
@@ -227,7 +235,9 @@ public with sharing class TranslateService {
 
             String[] detections = new List<String>{};
             for (Detection[] detectionsList : model.data.detections) {
-                detections.add(detectionsList.get(0).language);
+                String detectedLanguage = detectionsList.get(0).language;
+                String mappedLanguage = mapLanguageCode(detectedLanguage);
+                detections.add(mappedLanguage);
             }
 
             return detections; // TODO: Take into account the confidence?
@@ -254,6 +264,23 @@ public with sharing class TranslateService {
     public static String detectLanguage(String query) {
         String[] detections = detectLanguages(new List<String>{ query });
         return detections != null && !detections.isEmpty() ? detections[0] : null;
+    }
+
+    /**
+     * Map language codes to ensure consistency.
+     *
+     * @param languageCode The language code to map.
+     * @return The mapped language code.
+     */
+    public static String mapLanguageCode(String languageCode) {
+        // Check if the language code is in the map
+        if (LANGUAGE_CODE_MAPPING.containsKey(languageCode)) {
+            // If found in the map, return the mapped value
+            return LANGUAGE_CODE_MAPPING.get(languageCode);
+        } else {
+            // If not found, return the input language code
+            return languageCode;
+        }
     }
 
     /** CALLOUT HELPER METHOD **/

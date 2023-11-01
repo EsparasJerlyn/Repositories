@@ -27,7 +27,11 @@ public with sharing class IndividualEmailLeadScoreHelper {
         Set<Id> leadIdSet = new Set<Id>();
 
         for(et4ae5__IndividualEmailResult__c indivEmail : newItems){            
-            if(validateIfForInsert(indivEmail, oldItems) || validateIfForUpdate(indivEmail, oldItems)){
+            if(
+                !indivEmail.Lead_Score_Reset__c && 
+                (validateIfForInsert(indivEmail, oldItems) || 
+                validateIfForUpdate(indivEmail, oldItems))
+            ){
                 if(indivEmail.et4ae5__Contact__c != null){
                     contactIdSet.add(indivEmail.et4ae5__Contact__c);
                 }

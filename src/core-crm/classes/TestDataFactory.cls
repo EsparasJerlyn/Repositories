@@ -59,6 +59,7 @@
  *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
  *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
+ *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
  * 
@@ -3892,5 +3893,21 @@ public class TestDataFactory {
 
         return casePrioConfigList;
     } 
-    
+
+    /**
+     * @description Method for creating test Sprinklr case records. (Basically case records with Sprinklr case numbers.)
+     * @param Id contactId - Contact id to associate the cases to.
+     * @param Integer count - The amount of case records to create.
+     * @return List<Case>
+     */
+    public static List<Case> createTestSprinklrCaseRecords(Integer count, Id contactId) {
+        List<Case> sprinklrCases = new List<Case>();
+        for(Integer i = 0; i < count; i++) {
+            sprinklrCases.add(new Case(
+                ContactId = contactId,
+                spr_sf__Sprinklr_Case_Number__c = i
+            ));
+        }
+        return sprinklrCases;
+    }
 }

@@ -27,7 +27,7 @@ public inherited sharing class IndividualEmailResultsDAO extends DmlBase impleme
         AccessLevel accessLevel
     ) {
         return Database.query(
-            'SELECT Id, et4ae5__Contact__c, et4ae5__Lead__c, et4ae5__Opened__c, et4ae5__Clicked__c, et4ae5__DateOpened__c ' +
+            'SELECT Id, et4ae5__Contact__c, et4ae5__Lead__c, et4ae5__Opened__c, et4ae5__Clicked__c, et4ae5__DateOpened__c, Lead_Score_Reset__c ' +
               'FROM et4ae5__IndividualEmailResult__c ' +
              'WHERE et4ae5__Contact__c IN :contactLeadIds OR et4ae5__Lead__c IN :contactLeadIds',
             accessLevel

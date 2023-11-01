@@ -48,5 +48,6 @@
     </quickActionLayout>
     <standardLabel>New</standardLabel>
     <targetObject>Task</targetObject>
+    <targetRecordType>Task.Standard</targetRecordType>
     <type>Create</type>
 </QuickAction>

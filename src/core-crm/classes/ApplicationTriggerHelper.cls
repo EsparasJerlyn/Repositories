@@ -131,9 +131,73 @@ public with sharing class ApplicationTriggerHelper {
             }
         }    
 
+        if(!contactLeadIdSet.isEmpty()){
+            Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
+            if(isAsyncProcess){
+                updateLeadScoreRelatedRecords(contactLeadIdSet);    
+            }else{      
+                QueueableCall executeQueueable = new QueueableCall(contactLeadIdSet);
+                System.enqueueJob(executeQueueable);   
+            }            
+        }   
+    }
+
+    private static void updateLeadScoreRelatedRecords(Set<Id> contactLeadIdSet){
         List<Lead_Score_Detail__c> leadScoreDetails = getLeadScoreDetailsToUpdate(contactLeadIdSet);
         if(!leadScoreDetails.isEmpty()){
             LeadScoreDetailsDAO.newInstance().updateRecords(leadScoreDetails, false, AccessLevel.SYSTEM_MODE);
+            updateLeadScoreResetForMktgInt(contactLeadIdSet);
+            updateLeadScoreResetForIndivEmail(contactLeadIdSet);
+            updateLeadScoreResetForCase(contactLeadIdSet);
+            updateLeadScoreResetForProgEng(contactLeadIdSet);
+        }
+    }
+
+    private static void updateLeadScoreResetForMktgInt(Set<Id> contactLeadIdSet){
+        if(!contactLeadIdSet.isEmpty()){
+            List<Marketing_Interaction__c> mktIntListToUpdate = new List<Marketing_Interaction__c>();
+            List<Marketing_Interaction__c> mktInList = MarketingInteractionsDAO.newInstance().getMarketingInteractionsByContactOrLeadIds(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
+            for(Marketing_Interaction__c mktInt : mktInList){
+                mktInt.Lead_Score_Reset__c = true;
+                mktIntListToUpdate.add(mktInt);
+            }
+            MarketingInteractionsDAO.newInstance().updateRecords(mktIntListToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    private static void updateLeadScoreResetForIndivEmail(Set<Id> contactLeadIdSet){
+        if(!contactLeadIdSet.isEmpty()){
+            List<et4ae5__IndividualEmailResult__c> indivEmailListToUpdate = new List<et4ae5__IndividualEmailResult__c>();
+            List<et4ae5__IndividualEmailResult__c> indivEmailList = IndividualEmailResultsDAO.newInstance().getIndivEmailResultsByContactOrLeadIds(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
+            for(et4ae5__IndividualEmailResult__c indivEmail : indivEmailList){
+                indivEmail.Lead_Score_Reset__c = true;
+                indivEmailListToUpdate.add(indivEmail);
+            }
+            IndividualEmailResultsDAO.newInstance().updateRecords(indivEmailListToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    private static void updateLeadScoreResetForCase(Set<Id> contactLeadIdSet){
+        if(!contactLeadIdSet.isEmpty()){
+            List<Case> caseListToUpdate = new List<Case>();
+            List<Case> caseList = CasesDAO.newInstance().getCasesByContactOrLeadIds(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
+            for(Case caseRec : caseList){
+                caseRec.Lead_Score_Reset__c = true;
+                caseListToUpdate.add(caseRec);
+            }
+            CasesDAO.newInstance().updateRecords(caseListToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    private static void updateLeadScoreResetForProgEng(Set<Id> contactLeadIdSet){
+        if(!contactLeadIdSet.isEmpty()){
+            List<hed__Program_Enrollment__c> progEngListToUpdate = new List<hed__Program_Enrollment__c>();
+            List<hed__Program_Enrollment__c> progEngList = ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
+            for(hed__Program_Enrollment__c progEng : progEngList){
+                progEng.Lead_Score_Reset__c = true;
+                progEngListToUpdate.add(progEng);
+            }
+            ProgramEnrollmentsDAO.newInstance().updateRecords(progEngListToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
     }
 
@@ -282,6 +346,17 @@ public with sharing class ApplicationTriggerHelper {
         List<Contact> contactsToUpdate = ApplicationService.mapContactToUpdate(applicantIds);
         if(!contactsToUpdate.isEmpty()){
             ContactsDAO.newInstance().updateRecords(contactsToUpdate, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+    
+    private class QueueableCall implements Queueable {
+        private Set<Id> contactLeadIdSet;
+
+        public QueueableCall(Set<Id> contactLeadIdSet) {
+            this.contactLeadIdSet = contactLeadIdSet;
+        }
+        public void execute(QueueableContext context) {
+            updateLeadScoreRelatedRecords(contactLeadIdSet);
         }
     }
 }
