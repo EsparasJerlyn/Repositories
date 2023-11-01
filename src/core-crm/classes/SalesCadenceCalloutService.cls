@@ -21,6 +21,7 @@
  *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated createInitialCompletedCadences with                 |
  *    |                                |                       |                        |     Displayed in List View, and created                     |
  *    |                                |                       |                        |     updateCompletedCadences and getRunningCallACTrackersMap |
+ *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7064              | updated logic to get the latest application                 |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -407,7 +408,7 @@ public with sharing class SalesCadenceCalloutService {
         return completedCadenceStatusMap;
     }
     
-   /**
+      /**
     * @description: Get the application record associated with the targetIds
     *
     * @param Map<String,String> targetCadenceMap
@@ -424,12 +425,16 @@ public with sharing class SalesCadenceCalloutService {
                 'SYSTEM_MODE'
             )
         ) {
-            applicationRecordMap.put(
-                app.hed__Applicant__c != null
-                ? app.hed__Applicant__c
-                : app.Lead__c,
-                app
-            );
+            //store contact or lead id
+            String parentId = app.hed__Applicant__c != null?app.hed__Applicant__c:app.Lead__c; 
+            
+            //get the first application related to the lead or contact
+            if(!applicationRecordMap.containsKey(parentId)){
+                applicationRecordMap.put(
+                    parentId,
+                    app
+                );
+            }
         }
         
         return applicationRecordMap;
