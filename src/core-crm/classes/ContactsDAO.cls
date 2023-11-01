@@ -25,6 +25,7 @@
  *    |                                | Oct 19, 2023          | DEPP-6890              | null checker for queries checking for emails              |
  *    | julie.jane.alegre              | Oct 25, 2023          | DEPP-6955              | Added fields in method getPersonContactsBySetIds          |
  *    | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added query for getContactMobilePhoneByRecordIds          |
+ *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added query for getPersonContactsWithLimit                |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -103,7 +104,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Lead_Score__c,
                 Lead_Score_Detail__c,
                 Calculated_Cadence__c,
-                hed__Citizenship_Status__c                
+                hed__Citizenship_Status__c,
+                HasOptedOutOfEmail,
+                Email_Opt_In_DateTime__c               
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
