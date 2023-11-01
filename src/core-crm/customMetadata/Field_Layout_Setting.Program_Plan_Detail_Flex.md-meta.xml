@@ -17,9 +17,9 @@
     <values>
         <field>Left_Right_Column_Long__c</field>
         <value xsi:type="xsd:string">[{&quot;field&quot;:&quot;Program_Type__c&quot;},
-{&quot;field&quot;:&quot;Volume_of_Learning_Hours__c&quot;},
-{&quot;field&quot;:&quot;Certificate_Type__c&quot;},
-]</value>
+        {&quot;field&quot;:&quot;Volume_of_Learning_Hours__c&quot;},
+        {&quot;field&quot;:&quot;Certificate_Type__c&quot;}
+        ]</value>
     </values>
     <values>
         <field>Order__c</field>
