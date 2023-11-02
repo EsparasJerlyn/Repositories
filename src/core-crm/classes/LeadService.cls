@@ -105,6 +105,7 @@ public with sharing class LeadService {
      *
      * @param Set<Id> leadIds
      */
+    @future
     public static void createMarketingSegmentationForLeads(Set<Id> leadIds) {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
 
