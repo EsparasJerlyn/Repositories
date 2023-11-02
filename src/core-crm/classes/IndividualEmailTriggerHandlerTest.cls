@@ -17,9 +17,9 @@ public with sharing class IndividualEmailTriggerHandlerTest {
   @TestSetup
   static void makeData(){
       TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
-      Test.startTest();
+      
       System.runAs(TestDataFactory.getESBIntegrationUser()){
-
+            Test.startTest();
           setupLeadScoreConfig();
 
           List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
@@ -27,7 +27,8 @@ public with sharing class IndividualEmailTriggerHandlerTest {
 
           List<Lead> leadList = TestDataFactory.createTestLeadRecords(1,2);
           LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.SYSTEM_MODE);    
-
+          Test.stopTest();
+          
           List<Marketing_Segmentation__c> mktgSegToUpdate = new List<Marketing_Segmentation__c>();
           List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(
               new Set<Id>{contactList[0].Id, contactList[1].Id}, 
@@ -46,7 +47,7 @@ public with sharing class IndividualEmailTriggerHandlerTest {
           MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegToUpdate, true, AccessLevel.SYSTEM_MODE);
 
       }
-      Test.stopTest();
+      
   }
 
   @isTest

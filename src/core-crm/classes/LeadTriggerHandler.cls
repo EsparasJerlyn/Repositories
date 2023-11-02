@@ -17,6 +17,8 @@
  *    | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | added can nurture flag update | 
  *    | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added after insert            |
  *    | eccarius.munoz                 | October 6, 2023       | DEPP-5866              | Added handling for lead score |
+ *    | roy.nino.s.regala              | November 1, 2023      | DEPP-7105              | Updated creation of marketing |
+ *    | roy.nino.s.regala              | November 1, 2023      | DEPP-7105              | segmentation to future        |
  */
 
 public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
@@ -52,7 +54,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
     public void afterInsert(Map<Id, SObject> newItems) {
         if(!isRunning ){
             isRunning = true;
-            LeadService.createMarketingSegmentationForLeads((Map<Id, Lead>) newItems);
+            LeadService.createMarketingSegmentationForLeads(newItems.keySet());
             LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), null);
         }
     }
