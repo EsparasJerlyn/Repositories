@@ -19,18 +19,23 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
 
     @testSetup
     static void testSetup() {
+        Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
+        Test.stopTest();
+
     }
 
     @isTest
     private static void updateStudyLinkApplicationCalculatedDateOnPackageComponentTest(){
+        
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            Test.startTest();
+
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = '';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
+            Test.startTest();
             List<hed__Application__c> newStudyLinkApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             ApplicationsDAO.newInstance().insertRecords(newStudyLinkApplications, false, AccessLevel.SYSTEM_MODE);
             
@@ -49,9 +54,9 @@ public with sharing class PackageComponentTriggerHelperTest { //NOPMD
             packageCom.Start_Date__c = System.today();
             packageComList.add(packageCom);
             PackageComponentDAO.newInstance().insertRecords(packageComList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
 
         }
-            Test.stopTest();
             List<hed__Application__c> updatedApplication = [SELECT Id, Calculated_Intake_Date__c FROM hed__Application__c];
             System.assertEquals(System.today(), updatedApplication[0].Calculated_Intake_Date__c, 'Calculated Intake date should be populated');
     }
