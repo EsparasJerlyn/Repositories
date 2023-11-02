@@ -10,21 +10,38 @@
 |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
 | roy.nino.s.regala              | Feb 06, 2023          | DEPP-4866              | Created File                                                                  |
 | roy.nino.s.regala              | Feb 20, 2023          | DEPP-5221              | added opt out and in dates                                                    |
+| roy.nino.s.regala              | Oct 31, 2023          | DEPP-7060              | made sure to email opt in date to now only if it is not directly updated      |
+|								 |                       |                        | this happens on lead convert or case creation                                 |																	
 
 */
 public without sharing class MarketingConsentHelper {
 
-	public static void setOptOutAndInDates(List<Contact> newItems, Map<Id,Contact> oldMap){
-		for(Contact con: newItems){
-			//add email opt out date when opt in -> opt out
-			if(oldMap != null && con.HasOptedOutOfEmail != oldMap.get(con.Id).HasOptedOutOfEmail && con.HasOptedOutOfEmail == true){
-				con.Email_Opt_Out_DateTime__c = System.now();
-			//add email opt in date when opt in or opt out -> opt in
-			}else if(con.HasOptedOutOfEmail == false && (oldMap == null || con.HasOptedOutOfEmail != oldMap.get(con.Id).HasOptedOutOfEmail)){
-				con.Email_Opt_In_DateTime__c = System.now();
-			}
-		}
-	}
+	public static void setOptOutAndInDates(List<Contact> newItems, Map<Id, Contact> oldMap) {
+        Boolean isInsert = oldMap == null;
+
+        for (Contact con : newItems) {
+            Boolean hasOptedOutOfEmailUpdated =
+                !isInsert && con.HasOptedOutOfEmail != oldMap.get(con.Id).HasOptedOutOfEmail;
+            Boolean isNewOptInDateNotNull =
+                con.Email_Opt_In_DateTime__c != null &&
+                (isInsert ||
+                con.Email_Opt_In_DateTime__c != oldMap.get(con.Id).Email_Opt_In_DateTime__c);
+
+            //add email opt out date when opt in -> opt out
+            if (hasOptedOutOfEmailUpdated && con.HasOptedOutOfEmail == true) {
+                con.Email_Opt_Out_DateTime__c = System.now();
+                //set Email opt in date time to today
+                //when Email_Opt_In_DateTime__c is not newly populated on insert or not update with a new value
+                //when HasOptedOutOfEmail is newly set to false or updated to false
+            } else if (
+                !isNewOptInDateNotNull &&
+                con.HasOptedOutOfEmail == false &&
+                (isInsert || hasOptedOutOfEmailUpdated)
+            ) {
+                con.Email_Opt_In_DateTime__c = System.now();
+            }
+        }
+    }
 	
 
 	public static void processMarketingConsent(List<Contact> newItems, Map<Id,Contact> oldMap){

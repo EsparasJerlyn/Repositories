@@ -32,7 +32,8 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag      |
       | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentation|
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added lead score calculation    |
-      |                                |                       |                        |                                 |
+      | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | updated creation of marketing   |
+      | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | segmentation to future          |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -95,7 +96,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
     processLeadOnInsert(newMap);
     createChildMCPersona(newMap.values());
-    ContactTriggerHelper.createMarketingSegmentation(newMap);
+    ContactTriggerHelper.createMarketingSegmentation(newMap.keySet());
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());

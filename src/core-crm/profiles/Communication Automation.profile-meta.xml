@@ -274,7 +274,7 @@
     </layoutAssignments>
     <recordTypeVisibilities>
         <default>true</default>
-        <recordType>Task.Standard</recordType>
+        <recordType>Task.SMS</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
 </Profile>

@@ -36,6 +36,7 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
             CaseTriggerHelper.handleAutoPriorityAssignedCase((List<Case>) newItems.values());
             CaseLeadScoreHelper.processLeadScoreCalculation((List<Case>) newItems.values(), null);
         }
+        CaseMarketingHelper.mapMarketingFieldsFromCase((List<Case>) newItems.values(),null);
     }
 
     /**
@@ -54,6 +55,7 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
                 (Map<Id, Case>) oldItems
             );
         }
+        CaseMarketingHelper.mapMarketingFieldsFromCase((List<Case>) newItems.values(),(Map<Id, Case>) oldItems);
     }
        
    /**

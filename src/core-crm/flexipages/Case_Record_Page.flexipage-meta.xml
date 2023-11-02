@@ -316,6 +316,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>spr_sf:caseDetail</componentName>
+                <identifier>spr_sf_caseDetail</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-23a65eac-e674-4364-b12b-4bca5bfc8825</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>force:detailPanel</componentName>
                 <identifier>force_detailPanel</identifier>
             </componentInstance>
@@ -464,6 +474,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-23a65eac-e674-4364-b12b-4bca5bfc8825</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Social Conversation</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

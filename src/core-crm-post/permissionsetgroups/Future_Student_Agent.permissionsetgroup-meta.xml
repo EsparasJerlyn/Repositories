@@ -7,5 +7,6 @@
     <permissionSets>Google_Integration_User</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
+    <permissionSets>spr_sf__Sprinklr_User</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
