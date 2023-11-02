@@ -25,6 +25,7 @@
  *    |                                | Oct 19, 2023          | DEPP-6890              | null checker for queries checking for emails              |
  *    | julie.jane.alegre              | Oct 25, 2023          | DEPP-6955              | Added fields in method getPersonContactsBySetIds          |
  *    | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added query for getContactMobilePhoneByRecordIds          |
+ *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7015              | Added query for getPersonContactsBySetIds                 |
  *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added query for getPersonContactsWithLimit                |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
@@ -106,7 +107,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Calculated_Cadence__c,
                 hed__Citizenship_Status__c,
                 HasOptedOutOfEmail,
-                Email_Opt_In_DateTime__c               
+                Email_Opt_In_DateTime__c
             FROM Contact
             WHERE RecordTypeId = :PERSON_RECORDTYPE_ID
             WITH SYSTEM_MODE // only used in test class, can be used to verify record updates
@@ -323,7 +324,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
-            'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c ' +
+            'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c, ' +
+            'Marketing_Segmentation__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',

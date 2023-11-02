@@ -15,9 +15,9 @@ public with sharing class ProgEnrollLeadScoreHelperTest {
     @TestSetup
     static void makeData(){
         TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
-        Test.startTest();
+        
         System.runAs(TestDataFactory.getESBIntegrationUser()){
-
+            Test.startTest();
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
@@ -26,14 +26,6 @@ public with sharing class ProgEnrollLeadScoreHelperTest {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
             contactList[0].QUT_Student__c = false;
             ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);    
-            
-            List<Marketing_Segmentation__c> marketingSegmentationConList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
-            List<Marketing_Segmentation__c> mktgSegConToUpdate = new List<Marketing_Segmentation__c>();
-            for(Marketing_Segmentation__c mktgSeg : marketingSegmentationConList){
-                mktgSeg.My_Primary_Study_Level__c = 'Undergraduate';
-                mktgSegConToUpdate.add(mktgSeg);
-            }
-            MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegConToUpdate, true, AccessLevel.SYSTEM_MODE);
 
             List<Account> accountList = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID);
             accountList[0].Name = 'Start QUT';
@@ -54,9 +46,17 @@ public with sharing class ProgEnrollLeadScoreHelperTest {
             }
             programEnListToInsert.addAll(programEnList);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnListToInsert, true, AccessLevel.SYSTEM_MODE);
-
+            Test.stopTest();
+            
+            List<Marketing_Segmentation__c> marketingSegmentationConList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> mktgSegConToUpdate = new List<Marketing_Segmentation__c>();
+            for(Marketing_Segmentation__c mktgSeg : marketingSegmentationConList){
+                mktgSeg.My_Primary_Study_Level__c = 'Undergraduate';
+                mktgSegConToUpdate.add(mktgSeg);
+            }
+            MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegConToUpdate, true, AccessLevel.SYSTEM_MODE);
         }
-        Test.stopTest();
+        
     }
 
     @isTest
