@@ -345,5 +345,14 @@
         <!--(End) DEPP-6900 -->
         <name>PathAssistant</name>
     </types>
+
+    <types>
+        <!--(Start) DEPP-7067-->
+        <members>Future_Student_Advisor_Enquiries</members>
+        <members>International_Chat_Enquiries</members>
+        <members>International_Enquiries</members>
+        <!--(End) DEPP-7067-->
+        <name>Queue</name>
+    </types>
     <version>52.0</version> 
 </Package>
