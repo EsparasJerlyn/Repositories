@@ -1115,7 +1115,7 @@ public class TestDataFactory {
             String completedCadenceJSON = '{"CreatedDate":"2023-11-23T20:34:56.000z"}';
             Completed_Cadence__c c = (Completed_Cadence__c) JSON.deserialize(completedCadenceJSON, Completed_Cadence__c.class );
             c.Completed_Cadence_Status__c = status;
-            if (targetIdString.startsWith(ContactsDao.ID_PREFIX)) {
+            if (ContactService.isContact(targetIdString)) {
                 c.Contact__c = targetId;
             } else {
                 c.Lead__c = targetId;
