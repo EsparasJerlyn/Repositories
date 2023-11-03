@@ -4,7 +4,7 @@
         <name>Add_Error_Log</name>
         <label>Add Error Log</label>
         <locationX>974</locationX>
-        <locationY>1190</locationY>
+        <locationY>1298</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,7 +43,7 @@
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>974</locationX>
-        <locationY>1298</locationY>
+        <locationY>1406</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -57,7 +57,7 @@
         <name>Validate_Mobile_of_Lead</name>
         <label>Validate Mobile of Lead</label>
         <locationX>446</locationX>
-        <locationY>974</locationY>
+        <locationY>1082</locationY>
         <actionName>MobileLoqateValidationService</actionName>
         <actionType>apex</actionType>
         <faultConnector>
@@ -114,7 +114,7 @@
         <name>Set_Locale_to_AU</name>
         <label>Set Locale to AU</label>
         <locationX>50</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>LocaleVar</assignToReference>
             <operator>Assign</operator>
@@ -144,7 +144,7 @@
         <name>Set_Locale_to_NZ</name>
         <label>Set Locale to NZ</label>
         <locationX>314</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>LocaleVar</assignToReference>
             <operator>Assign</operator>
@@ -174,7 +174,7 @@
         <name>Check_if_mobile_locale_or_mobile_no_locale_is_blank</name>
         <label>Check if mobile locale or mobile no locale is blank</label>
         <locationX>314</locationX>
-        <locationY>866</locationY>
+        <locationY>974</locationY>
         <defaultConnector>
             <targetReference>Validate_Mobile_of_Lead</targetReference>
         </defaultConnector>
@@ -210,7 +210,7 @@
         <name>Check_Mobile_Locale</name>
         <label>Check Mobile Locale</label>
         <locationX>314</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Update_Case</targetReference>
         </defaultConnector>
@@ -250,7 +250,7 @@
         <name>ErrorMessageChecker</name>
         <label>ErrorMessageChecker</label>
         <locationX>842</locationX>
-        <locationY>1082</locationY>
+        <locationY>1190</locationY>
         <defaultConnector>
             <targetReference>Add_Error_Log</targetReference>
         </defaultConnector>
@@ -329,7 +329,7 @@
         <locationY>350</locationY>
         <assignRecordIdToReference>LeadId</assignRecordIdToReference>
         <connector>
-            <targetReference>Check_Mobile_Locale</targetReference>
+            <targetReference>Create_Marketing_Segmentation</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -379,6 +379,23 @@
         </inputAssignments>
         <object>Lead</object>
     </recordCreates>
+    <recordCreates>
+        <name>Create_Marketing_Segmentation</name>
+        <label>Create Marketing Segmentation</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <connector>
+            <targetReference>Check_Mobile_Locale</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Lead__c</field>
+            <value>
+                <elementReference>LeadId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Marketing_Segmentation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <recordLookups>
         <name>Get_Case_Record</name>
         <label>Get Case Record</label>
@@ -404,7 +421,7 @@
         <name>Roll_back_Lead_Records</name>
         <label>Roll back Lead Records</label>
         <locationX>974</locationX>
-        <locationY>1406</locationY>
+        <locationY>1514</locationY>
         <connector>
             <targetReference>General_Error</targetReference>
         </connector>
@@ -413,7 +430,7 @@
         <name>Update_Case</name>
         <label>Update Case</label>
         <locationX>314</locationX>
-        <locationY>758</locationY>
+        <locationY>866</locationY>
         <connector>
             <targetReference>Check_if_mobile_locale_or_mobile_no_locale_is_blank</targetReference>
         </connector>
@@ -572,7 +589,7 @@
         <name>Display_message</name>
         <label>Display_message</label>
         <locationX>710</locationX>
-        <locationY>1190</locationY>
+        <locationY>1298</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -589,7 +606,7 @@
         <name>General_Error</name>
         <label>General Error</label>
         <locationX>974</locationX>
-        <locationY>1514</locationY>
+        <locationY>1622</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
