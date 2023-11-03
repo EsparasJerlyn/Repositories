@@ -66,7 +66,7 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
             Test.startTest();
 
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
-            
+
             List<hed__Program_Enrollment__c> programEnList = ProgramEnrollmentsDAO.newInstance()
             .getAllProgramEnrollmentsByContactId(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
             for(hed__Program_Enrollment__c prog: programEnList){ 
