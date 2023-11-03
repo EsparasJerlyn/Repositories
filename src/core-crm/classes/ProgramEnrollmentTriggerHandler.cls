@@ -14,7 +14,6 @@
 
 public with sharing class ProgramEnrollmentTriggerHandler implements Disableable, BeforeUpdate, AfterInsert, AfterUpdate {
 
-    private static boolean isRunning = false;
 
    /**
     * @description afterInsert trigger event
@@ -34,11 +33,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        if(!isRunning){
-            isRunning = true;
-            getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
-            ProgramEnrollmentTriggerHelper.resetLeadScore((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
-        }
+        getContactFromProgramEnrollment((List<hed__Program_Enrollment__c>) newItems.values(),(Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
 
     /**
@@ -50,6 +45,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ){
+        ProgramEnrollmentTriggerHelper.resetLeadScore((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
         ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
     
