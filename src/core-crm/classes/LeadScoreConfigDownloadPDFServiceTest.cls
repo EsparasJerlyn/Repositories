@@ -109,37 +109,43 @@ private class LeadScoreConfigDownloadPDFServiceTest {
         marInteractionList.add(
             new Marketing_Interaction__c(
                 Contact__c = contactList[0].Id,
-                Lead_Source__c = 'Course Page PDF Download'
+                Lead_Source__c = 'Course Page PDF Download',
+                Interaction_DateTime__c = System.Today()
             )
         );
         marInteractionList.add(
             new Marketing_Interaction__c(
                 Contact__c = contactList[0].Id,
-                Lead_Source__c = 'Welcome Guide Download'
+                Lead_Source__c = 'Welcome Guide Download',
+                Interaction_DateTime__c = System.Today()
             )
         );
         marInteractionList.add(
             new Marketing_Interaction__c(
                 Contact__c = contactList[0].Id,
-                Lead_Source__c = 'Course Guide Download'
+                Lead_Source__c = 'Course Guide Download',
+                Interaction_DateTime__c = System.Today()
             )
         );
         marInteractionList.add(
             new Marketing_Interaction__c(
                 Lead__c = leadList[0].Id,
-                Lead_Source__c = 'Course Page PDF Download'
+                Lead_Source__c = 'Course Page PDF Download',
+                Interaction_DateTime__c = System.Today()
             )
         );
         marInteractionList.add(
             new Marketing_Interaction__c(
                 Lead__c = leadList[0].Id,
-                Lead_Source__c = 'Welcome Guide Download'
+                Lead_Source__c = 'Welcome Guide Download',
+                Interaction_DateTime__c = System.Today()
             )
         );
         marInteractionList.add(
             new Marketing_Interaction__c(
                 Lead__c = leadList[0].Id,
-                Lead_Source__c = 'Course Page PDF Download'
+                Lead_Source__c = 'Course Page PDF Download',
+                Interaction_DateTime__c = System.Today()
             )
         );
 
@@ -154,6 +160,7 @@ private class LeadScoreConfigDownloadPDFServiceTest {
         leadScoreConfig.setCourseGuide(10);
         leadScoreConfig.setCoursePagePDF(10);
         leadScoreConfig.setWelcomeGuide(10);
+        leadScoreConfig.setTimeLimit(3);
 
         System.assert(
             !LeadScoreConfigDownloadPDFService.calculateLeadScore(

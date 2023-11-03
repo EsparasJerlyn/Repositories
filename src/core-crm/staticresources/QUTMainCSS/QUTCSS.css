@@ -1312,14 +1312,16 @@ ul.layout-grid li{
     color: var(--greys-color-bodytext);
 }
 
-div[lightning-basecombobox_basecombobox] .slds-combobox__input:disabled {
+div[lightning-basecombobox_basecombobox] .slds-combobox__input:disabled,
+lightning-base-combobox .slds-combobox__input:disabled {
   background: #F3F3F3;
 }
 /*Multiselect and combobox*/
 div[lightning-basecombobox_basecombobox] .slds-combobox__input,
 div[c-customcomboboxmulti_customcomboboxmulti] .slds-picklist input[readonly],
 div[c-customcombobox_customcombobox] .slds-combobox input[readonly],
-div[c-customaccountcombobox_customaccountcombobox] .slds-combobox input[readonly]
+div[c-customaccountcombobox_customaccountcombobox] .slds-combobox input[readonly],
+lightning-base-combobox .slds-combobox__input
 	{
 		border-color: var(--main-color-blue500);
 		background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));

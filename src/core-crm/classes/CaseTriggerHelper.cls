@@ -11,6 +11,7 @@
       | mark.j.mahilum                 | Sept 11,2023          | DEPP-6421              | Created file                                     |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for updating case using WhatsApp    |
       | ken.marvin.narido              | Oct  12,2023          | DEPP-6871              | changed the reference for the auto prio metadata |
+      | mark.j.mahilum                 | Oct 30,2023           | DEPP-7051              | Updated case priority for whatsapp case origin   |
  */
 public with sharing class CaseTriggerHelper {
     //map of object type to the field api names of the fields to be matched
@@ -248,6 +249,8 @@ public with sharing class CaseTriggerHelper {
             if (isCaseWithSuppliedPhone) {
                 caseWithSuppliedPhoneMap.put(caseRec.SuppliedPhone, caseRec);
             }
+
+            caseRec.Priority = (isCaseOriginWhatsApp && isSuppliedPhoneEmpty)? 'Low': caseRec.Priority;
         }
 
         processAndUpdateCaseRecordsForMobileMatch(caseWithSuppliedPhoneMap);

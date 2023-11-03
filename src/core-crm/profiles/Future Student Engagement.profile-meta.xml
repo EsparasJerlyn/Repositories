@@ -272,4 +272,9 @@
         <layout>Task-SMS Layout</layout>
         <recordType>Task.SMS</recordType>
     </layoutAssignments>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Task.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
 </Profile>

@@ -14,7 +14,9 @@
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName              |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           |
       | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added new method getLeadMobilePhoneByRecordIds  |
- */ 
+      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | Updated fields on soql for getLeadsByIdSet      |
+      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added new method getLeadsWithLimit and  getLeadsByIdSet   |
+ */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
      * Lead Constants
@@ -58,7 +60,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     public static List<Lead> getLeadsWithLimit(Integer recordsCount) {
         return [//NOPMD
             SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c, 
-            Lead_Score__c, Calculated_Cadence__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c
+            Lead_Score__c, Calculated_Cadence__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c, MobilePhone, IsConverted,
+            Email_Opt_In_DateTime__c
             FROM Lead
             WITH SYSTEM_MODE//Only used in test class to verify record insert/update
             LIMIT :recordsCount
@@ -135,8 +138,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status ' +
-            'FROM Lead ' +
+            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status, Email, Email_Opt_In_DateTime__c, HasOptedOutOfEmail, ' +
+            'Marketing_Segmentation__c FROM Lead ' +
             'WHERE Id IN: recordIdSet ',
             accessLevel
         );

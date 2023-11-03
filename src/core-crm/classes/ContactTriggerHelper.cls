@@ -19,6 +19,7 @@
       | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated getContactCalculatedCadence to include   |
       |                                |                       |                        |     updateCompletedCadences                      |
       | julie.jane.alegre              | Oct 27, 2023          | DEPP-6955              | Added new method updateRegisteredEmail           |
+      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | updated createMarketingSegmentation to future    |    
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -345,16 +346,14 @@ public without sharing class ContactTriggerHelper {
     /**
      * @description create a Marketing Segmentation on the newly created contact
      *
-     * @param Map<Id, Contact> newItems
+     * @param Set<Id> contactIds
      */
-    public static void createMarketingSegmentation(Map<Id, Contact> newItems) {
+    @future
+    public static void createMarketingSegmentation(Set<Id> contactIds) {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
 
-        for (Contact contacts : newItems.values()) {
-            if (
-                contacts.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
-                contacts.Marketing_Segmentation__c == null
-            ) {
+        for (Contact contacts : ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds,AccessLevel.SYSTEM_MODE)) {
+            if (contacts.Marketing_Segmentation__c == null) {
                 marketingSegToInsert.add(new Marketing_Segmentation__c(Contact__c = contacts.Id));
             }
         }

@@ -158,6 +158,29 @@ public class TranslateServiceTest {
         System.assertNotEquals(null, supportedLanguages, 'Supported languages should not be null.');
     }
 
+    @isTest
+    static void testMapLanguageCode() {
+        // Test mapping for 'iw' (Hebrew)
+        String mappedHebrew = TranslateService.mapLanguageCode('iw');
+        System.assertEquals('he', mappedHebrew, 'Hebrew should be mapped to "he"');
+
+        // Test mapping for 'zh' (Chinese Simplified)
+        String mappedChinese = TranslateService.mapLanguageCode('zh');
+        System.assertEquals('zh-CN', mappedChinese, 'Chinese should be mapped to "zh-CN"');
+
+        // Test mapping for 'fil' (Filipino)
+        String mappedFilipino = TranslateService.mapLanguageCode('fil');
+        System.assertEquals('tl', mappedFilipino, 'Filipino should be mapped to "tl"');
+
+        // Test mapping for 'jw' (Javanese)
+        String mappedJavanese = TranslateService.mapLanguageCode('jw');
+        System.assertEquals('jv', mappedJavanese, 'Javanese should be mapped to "jv"');
+
+        // Test a language code with no mapping
+        String unmappedCode = TranslateService.mapLanguageCode('xx');
+        System.assertEquals('xx', unmappedCode, 'Unmapped code should remain unchanged');
+    }
+
     public class GoogleTranslationMock implements HttpCalloutMock {
         private Boolean isSingleTranslation;
 
