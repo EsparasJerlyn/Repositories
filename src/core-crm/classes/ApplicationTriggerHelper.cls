@@ -135,23 +135,12 @@ public with sharing class ApplicationTriggerHelper {
         if(!contactLeadIdSet.isEmpty()){
             Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
             if(isAsyncProcess){
-                updateLeadScoreRelatedRecords(contactLeadIdSet);    
+                LeadScoreService.updateLeadScoreRelatedRecords(contactLeadIdSet);    
             }else{      
                 QueueableCall executeQueueable = new QueueableCall(contactLeadIdSet);
                 System.enqueueJob(executeQueueable);   
             }            
         }   
-    }
-
-    private static void updateLeadScoreRelatedRecords(Set<Id> contactLeadIdSet){
-        List<Lead_Score_Detail__c> leadScoreDetails = LeadScoreResetService.getLeadScoreDetailsToUpdate(contactLeadIdSet);
-        if(!leadScoreDetails.isEmpty()){
-            LeadScoreDetailsDAO.newInstance().updateRecords(leadScoreDetails, false, AccessLevel.SYSTEM_MODE);
-            LeadScoreResetService.updateLeadScoreResetForMktgInt(contactLeadIdSet);
-            LeadScoreResetService.updateLeadScoreResetForIndivEmail(contactLeadIdSet);
-            LeadScoreResetService.updateLeadScoreResetForCase(contactLeadIdSet);
-            LeadScoreResetService.updateLeadScoreResetForProgEng(contactLeadIdSet);
-        }
     }
 
     private static Boolean isStudyLinkForScoreReset(
@@ -302,7 +291,7 @@ public with sharing class ApplicationTriggerHelper {
             this.contactLeadIdSet = contactLeadIdSet;
         }
         public void execute(QueueableContext context) {
-            updateLeadScoreRelatedRecords(contactLeadIdSet);
+            LeadScoreService.updateLeadScoreRelatedRecords(contactLeadIdSet);
         }
     }
 }

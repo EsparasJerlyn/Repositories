@@ -31,10 +31,8 @@ public with sharing class ProgramEnrollmentTriggerHelper {
 
             //if a program enrolment with a contact has its status updated to admitted
             //collect contact ids 
-            //and set lead score reset to true
             if (enrolment.hed__Contact__c != null && isStudying) {
                 contactIdSet.add(enrolment.hed__Contact__c);
-                enrolment.Lead_Score_Reset__c = true;
             }
         }
 
@@ -42,21 +40,11 @@ public with sharing class ProgramEnrollmentTriggerHelper {
         if (!contactIdSet.isEmpty()) {
             Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
             if (isAsyncProcess) {
-                updateLeadScoreRelatedRecords(contactIdSet);
+                LeadScoreService.updateLeadScoreRelatedRecords(contactIdSet);
             } else {
                 QueueableCall executeQueueable = new QueueableCall(contactIdSet);
                 System.enqueueJob(executeQueueable);
             }
-        }
-    }
-
-    private static void updateLeadScoreRelatedRecords(Set<Id> contactIdSet){
-        List<Lead_Score_Detail__c> leadScoreDetails = LeadScoreResetService.getLeadScoreDetailsToUpdate(contactIdSet);
-        if(!leadScoreDetails.isEmpty()){
-            LeadScoreDetailsDAO.newInstance().updateRecords(leadScoreDetails, false, AccessLevel.SYSTEM_MODE);
-            LeadScoreResetService.updateLeadScoreResetForMktgInt(contactIdSet);
-            LeadScoreResetService.updateLeadScoreResetForIndivEmail(contactIdSet);
-            LeadScoreResetService.updateLeadScoreResetForCase(contactIdSet);
         }
     }
 
@@ -67,7 +55,7 @@ public with sharing class ProgramEnrollmentTriggerHelper {
             this.contactIdSet = contactIdSet;
         }
         public void execute(QueueableContext context) {
-            updateLeadScoreRelatedRecords(contactIdSet);
+            LeadScoreService.updateLeadScoreRelatedRecords(contactIdSet);
         }
     }
 }
