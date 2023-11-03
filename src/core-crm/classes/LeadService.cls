@@ -17,6 +17,8 @@
  *    |                                |                       |                        | automated cadence in the processSaleCadences|
  *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated getLeadCalculatedCadence to include |
  *    |                                |                       |                        |     updateCompletedCadences                 |
+ *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | updated createMarketingSegmentationForLeads |
+ *    |                                |                       |                        |     to future                               |
  */
 @SuppressWarnings('PMD')
 public with sharing class LeadService {
@@ -99,14 +101,15 @@ public with sharing class LeadService {
     }
 
     /**
-     * @description create a Marketing Segmentation on the newly created contact
+     * @description create a Marketing Segmentation on the newly created Lead
      *
-     * @param Map<Id, Lead> newItems
+     * @param Set<Id> leadIds
      */
-    public static void createMarketingSegmentationForLeads(Map<Id, Lead> newItems) {
+    @future
+    public static void createMarketingSegmentationForLeads(Set<Id> leadIds) {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
 
-        for (Lead leads : newItems.values()) {
+        for (Lead leads : LeadsDAO.newInstance().getLeadsByIdSet(leadIds,AccessLevel.SYSTEM_MODE)) {
             if (leads.Marketing_Segmentation__c == null) {
                 marketingSegToInsert.add(new Marketing_Segmentation__c(Lead__c = leads.Id));
             }

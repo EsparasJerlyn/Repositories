@@ -15,9 +15,10 @@ public with sharing class CaseLeadScoreHelperTest {
     @TestSetup
     static void makeData(){
         TestDataFactory.generateTestUsers(new List<String>{'QUT_ESB'});
-        Test.startTest();
+        
         System.runAs(TestDataFactory.getESBIntegrationUser()){
-
+            
+            Test.startTest();
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
@@ -34,8 +35,14 @@ public with sharing class CaseLeadScoreHelperTest {
             );
 
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(1,3);
-            LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.SYSTEM_MODE);    
-            
+            LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.SYSTEM_MODE);     
+
+            //Contact
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);               
+        
+            Test.stopTest();
+
             List<Marketing_Segmentation__c> mktgSegToUpdate = new List<Marketing_Segmentation__c>();
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id}, AccessLevel.SYSTEM_MODE);
             for(Marketing_Segmentation__c mktgSeg : marketingSegmentationList){
@@ -62,12 +69,8 @@ public with sharing class CaseLeadScoreHelperTest {
             List<Case> caseList = new List<Case>();
             caseList.addAll(caseListDomUG);
             caseList.addAll(caseListIntPG);
-            CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);   
+            CasesDAO.newInstance().insertRecords(caseList, true, AccessLevel.SYSTEM_MODE);  
 
-            //Contact
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
-            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);    
-            
             List<Marketing_Segmentation__c> marketingSegmentationConList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactIds(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
             List<Marketing_Segmentation__c> mktgSegConToUpdate = new List<Marketing_Segmentation__c>();
             for(Marketing_Segmentation__c mktgSeg : marketingSegmentationConList){
@@ -80,10 +83,8 @@ public with sharing class CaseLeadScoreHelperTest {
             for(Case caseRec : caseConList){
                 caseRec.ContactId = contactList[0].Id;
             }
-            CasesDAO.newInstance().insertRecords(caseConList, true, AccessLevel.SYSTEM_MODE);   
-           
-        }
-        Test.stopTest();
+            CasesDAO.newInstance().insertRecords(caseConList, true, AccessLevel.SYSTEM_MODE);  
+        } 
     }
 
     @isTest

@@ -15,8 +15,9 @@ public with sharing class MarketingInteractionLeadScoreHelperTest {
     @TestSetup
     static void makeData() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
-        Test.startTest();
+        
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
             setupLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC,
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
@@ -38,7 +39,8 @@ public with sharing class MarketingInteractionLeadScoreHelperTest {
 
             List<Lead> leadList = TestDataFactory.createTestLeadRecords(1, 2);
             LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.SYSTEM_MODE);
-
+            Test.stopTest();
+            
             List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance()
                 .getMarketingSegmentationByContactOrLead(
                     new Set<Id>{ contactList[0].Id, contactList[1].Id},
@@ -65,7 +67,7 @@ public with sharing class MarketingInteractionLeadScoreHelperTest {
             MarketingInteractionsDAO.newInstance()
                 .insertRecords(marInteractionList, true, AccessLevel.USER_MODE);
         }
-        Test.stopTest();
+        
     }
 
     @isTest
