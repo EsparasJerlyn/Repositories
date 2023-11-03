@@ -123,7 +123,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             }
 
             tempWrapper.completedCadenceStatus = completedCadenceMap.get(record.Id).Completed_Cadence_Status__c;
-            tempWrapper.entryDate = completedCadenceMap.get(record.Id).CreatedDate;
+            tempWrapper.entryDate = convertDatetime(completedCadenceMap.get(record.Id).CreatedDate);
             tempWrapper.offeredPreference = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name;
             tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c;
             tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
@@ -132,6 +132,16 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
 
             recordDetailsWrapper.add(tempWrapper);
         }
+    }
+
+    /**
+     * Convert the input datetime object to a display friendly value in user's local timezone.
+     * @param dt the input datetime object 
+     * @return a datetime object with year, month, day, hour in user's local timezone.
+     */
+    @TestVisible
+    private static DateTime convertDatetime(DateTime dt) {
+        return DateTime.newInstance(dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second());
     }
 
     private static void buildLeadColumns(
@@ -157,7 +167,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             }
 
             tempWrapper.completedCadenceStatus = completedCadenceMap.get(record.Id).Completed_Cadence_Status__c;
-            tempWrapper.entryDate = completedCadenceMap.get(record.Id).CreatedDate;
+            tempWrapper.entryDate = convertDatetime(completedCadenceMap.get(record.Id).CreatedDate);
             tempWrapper.offeredPreference = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Name;
             tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c;
             tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
