@@ -199,4 +199,28 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
         System.assert(!SalesCadenceListViewCtrl.getTableDataWrapper('test cadence').isEmpty(), 'was not able to get table wrapper');
     }
+
+    @isTest
+    private static void testConvertDateTime() {
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+
+        Datetime actualDatetime;
+
+        // 2023-11-23 15:00:00 in GMT, which is 2023-11-24 01:00:00 in BNE time
+        Datetime rawDateTime = Datetime.newInstanceGmt(2023, 11, 23, 15, 0, 0);
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            Test.startTest();
+            System.debug('timezone = ' + UserInfo.getTimeZone());
+            actualDatetime = SalesCadenceListViewCtrl.convertDatetime(rawDateTime);
+            Test.stopTest();
+        }
+        
+        /*
+            This rely on that fact that the TestDataFactory.TestUserGenerator.generateUsers() is setting the TimeZoneSidKey as 'Australia/Brisbane'
+            If the timezone setting of the test user is changed, this test may break
+
+        */
+        Assert.areEqual(24, actualDatetime.day(), 'Day of month should be 24 in BNE timezone');
+    }
 }
