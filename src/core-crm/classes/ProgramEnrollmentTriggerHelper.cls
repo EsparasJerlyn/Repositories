@@ -33,6 +33,7 @@ public with sharing class ProgramEnrollmentTriggerHelper {
             //collect contact ids 
             if (enrolment.hed__Contact__c != null && isStudying) {
                 contactIdSet.add(enrolment.hed__Contact__c);
+                enrolment.Lead_Score_Reset__c = true;
             }
         }
 
