@@ -54,6 +54,7 @@ public with sharing class ManageAdhocCommsSectionCtrl {
         try {
             List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
             Map<Id, List<String>> learnerEmailsMap = new Map<Id, List<String>>();
+            List<OrgWideEmailAddress> orgWideEmailAddress = queryOrgWideEmailAddress();
 
             Set<Id> courseOfferingIdSet = new Set<Id>();
             Set<Id> programOfferingIdSet = new Set<Id>();
@@ -81,9 +82,9 @@ public with sharing class ManageAdhocCommsSectionCtrl {
                     Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
                     message.subject = adhocCommunication.Subject__c;
                     message.htmlBody = emailContentCentered;
+                    message.setOrgWideEmailAddressId(orgWideEmailAddress.get(0).Id);
             
                     List<String> emailGroup = new List<String>();
-            
                     for (String email : recipientEmails) {
                         emailGroup.add(email);
 
@@ -152,7 +153,8 @@ public with sharing class ManageAdhocCommsSectionCtrl {
     */
     private static void initializeLearnerEmailsMap(Map<Id, List<String>> learnerEmailsMap, List<hed__Course_Enrollment__c> courseConnectionRecordList) {
         for (hed__Course_Enrollment__c courseConnectionRecord : courseConnectionRecordList) {
-            if (String.isNotEmpty(courseConnectionRecord.hed__Course_Offering__c) || String.isNotEmpty(courseConnectionRecord.Program_Offering__c)) {
+            if ((String.isNotEmpty(courseConnectionRecord.hed__Course_Offering__c) || String.isNotEmpty(courseConnectionRecord.Program_Offering__c)) 
+                    && String.isNotEmpty(courseConnectionRecord.hed__Contact__r.Registered_Email__c)) {
                 addLearnerEmailToMap(learnerEmailsMap, courseConnectionRecord.hed__Course_Offering__c, courseConnectionRecord.hed__Contact__r.Registered_Email__c);
                 addLearnerEmailToMap(learnerEmailsMap, courseConnectionRecord.Program_Offering__c, courseConnectionRecord.hed__Contact__r.Registered_Email__c);
             }
@@ -173,6 +175,21 @@ public with sharing class ManageAdhocCommsSectionCtrl {
             }
             learnerEmailsMap.get(offeringId).add(email);
         }
+    }
+
+    /**
+     * retrieves org wide email address to be used in email sending
+     */
+    private static List<OrgWideEmailAddress> queryOrgWideEmailAddress(){
+        List<OrgWideEmailAddress> owea = new List<OrgWideEmailAddress>();
+
+        Set<String> orgWideDisplayName = new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_ADD_QUTEX};
+
+        for(OrgWideEmailAddress orgWideEmailAddress : OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(orgWideDisplayName, AccessLevel.USER_MODE)){
+            owea.add(orgWideEmailAddress);
+        }
+
+        return owea;
     }
 
     /**
@@ -197,20 +214,24 @@ public with sharing class ManageAdhocCommsSectionCtrl {
     */
     private static Boolean sendEmails(List<Messaging.SingleEmailMessage> messages) {
         Boolean sendEmailResult = false;
+        String errorResult;
         // Check email limits before sending
-        if (Limits.getEmailInvocations() < Limits.getLimitEmailInvocations() && !messages.isEmpty()) {
+        if (!messages.isEmpty()) {
             Messaging.SendEmailResult[] results = Messaging.sendEmail(messages, false);
             for (Messaging.SendEmailResult result : results) {
                 if (result.isSuccess()) {
                     sendEmailResult = true; // Email sent successfully
                 } else {
-             Logger.error(result.getErrors()[0].getMessage());
+                    errorResult = result.getErrors()[0].getMessage();
+                }
             }
-        }
+            if(String.isNotBlank(errorResult)){
+                Logger.error(errorResult);
+            }
         } else {
-        // Handle the case where email limits have been reached
-        Logger.error('Sending email has reached and wasnt able to send an Adhoc Communication');
-    }
+            // Handle the case where email limits have been reached
+            Logger.error('Sending email has reached and wasnt able to send an Adhoc Communication');
+        }
         return sendEmailResult; 
     }
 
