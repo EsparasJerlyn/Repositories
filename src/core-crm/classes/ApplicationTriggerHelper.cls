@@ -16,6 +16,7 @@
       | alexander.cadalin              | Sep. 22, 2023         | DEPP-6652,6653,6654    | Added methods for contact field updates on match to application|
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added method to reset lead score of linked contact/lead        |
       | mark.j.mahilum                 | Oct 19, 2023          | DEPP-6933              | Added logic in handling bulkAPI data when running queable job  |
+      | roy.nino.s.regala              | Nov 03, 2023          | DEPP-7145              | Moved reusable methods for Lead Score Reset Logic              |
  */
 public with sharing class ApplicationTriggerHelper {
     /**
@@ -122,7 +123,7 @@ public with sharing class ApplicationTriggerHelper {
 
         Set<Id> contactLeadIdSet = new Set<Id>();
         for(hed__Application__c app : newItems){
-            if(isStudyLinkForScoreReset(app) || isSAMSLegacyForScoreReset(app) || isSAMSCIAnywhereForScoreReset(app)){
+            if(isStudyLinkForScoreReset(app,oldItems) || isSAMSLegacyForScoreReset(app,oldItems) || isSAMSCIAnywhereForScoreReset(app,oldItems)){
                 if(app.hed__Applicant__c != null){
                     contactLeadIdSet.add(app.hed__Applicant__c);
                 }else if(app.Lead__c != null){
@@ -134,7 +135,7 @@ public with sharing class ApplicationTriggerHelper {
         if(!contactLeadIdSet.isEmpty()){
             Boolean isAsyncProcess = System.isQueueable() || System.isFuture() || System.isBatch();
             if(isAsyncProcess){
-                updateLeadScoreRelatedRecords(contactLeadIdSet);    
+                LeadScoreService.updateLeadScoreRelatedRecords(contactLeadIdSet);    
             }else{      
                 QueueableCall executeQueueable = new QueueableCall(contactLeadIdSet);
                 System.enqueueJob(executeQueueable);   
@@ -142,109 +143,43 @@ public with sharing class ApplicationTriggerHelper {
         }   
     }
 
-    private static void updateLeadScoreRelatedRecords(Set<Id> contactLeadIdSet){
-        List<Lead_Score_Detail__c> leadScoreDetails = getLeadScoreDetailsToUpdate(contactLeadIdSet);
-        if(!leadScoreDetails.isEmpty()){
-            LeadScoreDetailsDAO.newInstance().updateRecords(leadScoreDetails, false, AccessLevel.SYSTEM_MODE);
-            updateLeadScoreResetForMktgInt(contactLeadIdSet);
-            updateLeadScoreResetForIndivEmail(contactLeadIdSet);
-            updateLeadScoreResetForCase(contactLeadIdSet);
-            updateLeadScoreResetForProgEng(contactLeadIdSet);
-        }
+    private static Boolean isStudyLinkForScoreReset(
+        hed__Application__c app,
+        Map<Id, hed__Application__c> oldItems
+    ) {
+        //only reset lead score for Study link
+        //if application status is updated to
+        //Declined by applicant or Withdrawn
+        return app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+            app.Application_Status__c != oldItems.get(app.Id).Application_Status__c &&
+            (app.Application_Status__c == ApplicationsDAO.STATUS_DECLINED_BY_APP ||
+            app.Application_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
     }
 
-    private static void updateLeadScoreResetForMktgInt(Set<Id> contactLeadIdSet){
-        if(!contactLeadIdSet.isEmpty()){
-            List<Marketing_Interaction__c> mktIntListToUpdate = new List<Marketing_Interaction__c>();
-            List<Marketing_Interaction__c> mktInList = MarketingInteractionsDAO.newInstance().getMarketingInteractionsByContactOrLeadIds(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
-            for(Marketing_Interaction__c mktInt : mktInList){
-                mktInt.Lead_Score_Reset__c = true;
-                mktIntListToUpdate.add(mktInt);
-            }
-            MarketingInteractionsDAO.newInstance().updateRecords(mktIntListToUpdate, false, AccessLevel.SYSTEM_MODE);
-        }
+    private static Boolean isSAMSLegacyForScoreReset(
+        hed__Application__c app,
+        Map<Id, hed__Application__c> oldItems
+    ) {
+        //only reset lead score for SAMS
+        //if offer status is updated to
+        //Declined or Withdrawn
+        return app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID &&
+            app.Offer_Status__c != oldItems.get(app.Id).Offer_Status__c &&
+            (app.Offer_Status__c == ApplicationsDAO.STATUS_DECLINED ||
+            app.Offer_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
     }
 
-    private static void updateLeadScoreResetForIndivEmail(Set<Id> contactLeadIdSet){
-        if(!contactLeadIdSet.isEmpty()){
-            List<et4ae5__IndividualEmailResult__c> indivEmailListToUpdate = new List<et4ae5__IndividualEmailResult__c>();
-            List<et4ae5__IndividualEmailResult__c> indivEmailList = IndividualEmailResultsDAO.newInstance().getIndivEmailResultsByContactOrLeadIds(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
-            for(et4ae5__IndividualEmailResult__c indivEmail : indivEmailList){
-                indivEmail.Lead_Score_Reset__c = true;
-                indivEmailListToUpdate.add(indivEmail);
-            }
-            IndividualEmailResultsDAO.newInstance().updateRecords(indivEmailListToUpdate, false, AccessLevel.SYSTEM_MODE);
-        }
-    }
-
-    private static void updateLeadScoreResetForCase(Set<Id> contactLeadIdSet){
-        if(!contactLeadIdSet.isEmpty()){
-            List<Case> caseListToUpdate = new List<Case>();
-            List<Case> caseList = CasesDAO.newInstance().getCasesByContactOrLeadIds(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
-            for(Case caseRec : caseList){
-                caseRec.Lead_Score_Reset__c = true;
-                caseListToUpdate.add(caseRec);
-            }
-            CasesDAO.newInstance().updateRecords(caseListToUpdate, false, AccessLevel.SYSTEM_MODE);
-        }
-    }
-
-    private static void updateLeadScoreResetForProgEng(Set<Id> contactLeadIdSet){
-        if(!contactLeadIdSet.isEmpty()){
-            List<hed__Program_Enrollment__c> progEngListToUpdate = new List<hed__Program_Enrollment__c>();
-            List<hed__Program_Enrollment__c> progEngList = ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
-            for(hed__Program_Enrollment__c progEng : progEngList){
-                progEng.Lead_Score_Reset__c = true;
-                progEngListToUpdate.add(progEng);
-            }
-            ProgramEnrollmentsDAO.newInstance().updateRecords(progEngListToUpdate, false, AccessLevel.SYSTEM_MODE);
-        }
-    }
-
-    /**
-     * Retrieves the lead score details by contact/lead and sets all categories to 0
-     */
-    private static List<Lead_Score_Detail__c> getLeadScoreDetailsToUpdate(Set<Id> contactLeadIdSet){
-        List<Lead_Score_Detail__c> leadScoreDetailsToUpdate = new List<Lead_Score_Detail__c>();
-        if(!contactLeadIdSet.isEmpty()){
-            List<Lead_Score_Detail__c> leadScoreDetailsList = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(contactLeadIdSet, AccessLevel.SYSTEM_MODE);
-            for(Lead_Score_Detail__c detail: leadScoreDetailsList){            
-                leadScoreDetailsToUpdate.add(new Lead_Score_Detail__c(
-                    Id = detail.Id,
-                    Country_Tier__c = 0,
-                    Course_Level__c = 0,
-                    Download__c = 0,
-                    Email_Interaction__c = 0,
-                    Enquiries__c = 0,
-                    Event_Registration_Attendance__c = 0,
-                    Funding__c = 0,
-                    Interested_In_Double_Degrees__c = 0,
-                    Interested_In_English_Pathway_Programs__c = 0,
-                    Manual_Assessment__c = 0,
-                    Marketing_Consent__c = 0,
-                    Match_My_Skills__c = 0,
-                    Preferred_Intake__c = 0,
-                    Primary_NSA__c = 0,
-                    Primary_BSA__c = 0,
-                    Program_Engagement__c = 0,
-                    Residence__c = 0
-                ));
-            }
-        }
-        
-        return leadScoreDetailsToUpdate;
-    }
-
-    private static Boolean isStudyLinkForScoreReset(hed__Application__c app){
-        return app.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID && (app.Application_Status__c == ApplicationsDAO.STATUS_DECLINED_BY_APP || app.Application_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
-    }
-
-    private static Boolean isSAMSLegacyForScoreReset(hed__Application__c app){
-        return app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID && (app.Offer_Status__c == ApplicationsDAO.STATUS_DECLINED|| app.Offer_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
-    }
-
-    private static Boolean isSAMSCIAnywhereForScoreReset(hed__Application__c app){
-        return app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID && (app.Offer_Status__c == ApplicationsDAO.STATUS_DECLINED || app.Offer_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
+    private static Boolean isSAMSCIAnywhereForScoreReset(
+        hed__Application__c app,
+        Map<Id, hed__Application__c> oldItems
+    ) {
+        //only reset lead score for SAMS
+        //if offer status is updated to
+        //Declined or Withdrawn
+        return app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID &&
+            app.Offer_Status__c != oldItems.get(app.Id).Offer_Status__c &&
+            (app.Offer_Status__c == ApplicationsDAO.STATUS_DECLINED ||
+            app.Offer_Status__c == ApplicationsDAO.STATUS_WITHDRAWN);
     }
 
     /**
@@ -356,7 +291,7 @@ public with sharing class ApplicationTriggerHelper {
             this.contactLeadIdSet = contactLeadIdSet;
         }
         public void execute(QueueableContext context) {
-            updateLeadScoreRelatedRecords(contactLeadIdSet);
+            LeadScoreService.updateLeadScoreRelatedRecords(contactLeadIdSet);
         }
     }
 }

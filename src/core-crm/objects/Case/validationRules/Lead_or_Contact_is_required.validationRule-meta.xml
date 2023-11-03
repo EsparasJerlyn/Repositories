@@ -13,7 +13,6 @@
   ISPICKVAL( Status , &apos;Assigned&apos;),
   ISPICKVAL( Status , &apos;Awaiting Response&apos;),
   ISPICKVAL( Status , &apos;Escalated&apos;),
-  ISPICKVAL( Status , &apos;Pending Closure&apos;),
   AND(
    ISPICKVAL( Status , &apos;Closed&apos;),
    OR(

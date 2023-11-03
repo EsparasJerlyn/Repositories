@@ -5,10 +5,7 @@
     <errorConditionFormula>AND (
  RecordType.DeveloperName = &apos;International_Enquiry&apos;,
  AND(
-  OR(
-   ISPICKVAL( Status , &apos;Closed&apos;),
-   ISPICKVAL( Status , &apos;Pending Closure&apos;)
-  ),
+  ISPICKVAL( Status , &apos;Closed&apos;),
   OR(
    ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
    ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;)
