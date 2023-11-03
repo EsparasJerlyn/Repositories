@@ -63,14 +63,9 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
     public static void resetLeadScoreTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
 
-            
-
             Test.startTest();
 
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
-
-            List<Lead_Score_Detail__c> leadScoreDetails = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
-            system.debug('leadScoreDetailsUpdated[0].Total_Lead_Score__c'+leadScoreDetails[0].Total_Lead_Score__c);
             
             List<hed__Program_Enrollment__c> programEnList = ProgramEnrollmentsDAO.newInstance()
             .getAllProgramEnrollmentsByContactId(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
@@ -83,7 +78,6 @@ public with sharing class ProgramEnrollmentTriggerHelperTest {
             Test.stopTest();
 
             List<Lead_Score_Detail__c> leadScoreDetailsUpdated = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(new Set<Id>{contactList[0].Id}, AccessLevel.SYSTEM_MODE);
-            system.debug('leadScoreDetailsUpdated[0].Total_Lead_Score__c'+leadScoreDetailsUpdated[0].Total_Lead_Score__c);
             System.assert(leadScoreDetailsUpdated[0].Total_Lead_Score__c == 0, 'Incorrect Total Lead Score.');
         }        
     }
