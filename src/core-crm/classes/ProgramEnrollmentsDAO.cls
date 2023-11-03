@@ -7,10 +7,12 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
  *    | eccarius.munoz                 | August 08, 2023       |DEPP-5760               | Created File                        |
+ *    | roy.nino.s.regala              | November 03, 2023     |DEPP-7145               | Added new static string variable    |
  */
 public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements IProgramEnrollmentsDAO{
 
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
+    public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
 
     public Schema.SObjectType getSObjectType(){
 		return hed__Program_Enrollment__c.SObjectType;
