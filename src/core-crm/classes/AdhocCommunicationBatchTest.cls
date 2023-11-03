@@ -42,7 +42,8 @@ public with sharing class AdhocCommunicationBatchTest {
                 hed__Contact__c = newContacts[0].Id, 
                 Enrollment_Status__c = 'Test',
                 hed__Program_Enrollment__c = programEnrollmentList[0].Id,
-                Program_Offering__c = programOffering[0].Id
+                Program_Offering__c = programOffering[0].Id,
+                hed__Status__c = 'Active'
             )); 
             CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 			
