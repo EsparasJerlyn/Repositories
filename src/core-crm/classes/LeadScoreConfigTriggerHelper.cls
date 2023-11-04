@@ -14,6 +14,7 @@ public with sharing class LeadScoreConfigTriggerHelper {
     
     public static void processLeadScoreCalculation(List<Lead_Score_Configuration__c> newItems, Map<Id, Lead_Score_Configuration__c> oldItems){
 
+        Set<Id> leadScoreConfigIds = new Set<Id>();
         Set<Id> parentCategoryIds = new Set<Id>();
         Map<Id, Lead_Score_Configuration__c> configMap = new Map<Id,Lead_Score_Configuration__c>();
         Set<String> citizenshipStatusSet = new Set<String>();
@@ -27,65 +28,21 @@ public with sharing class LeadScoreConfigTriggerHelper {
                 configMap.put(leadScoreConfig.Id, leadScoreConfig);
                 citizenshipStatusSet.add(leadScoreConfig.Domestic_International__c);
                 primaryStudyLevelSet.add(leadScoreConfig.Study_Level__c);
+                leadScoreConfigIds.add(leadScoreConfig.Id);
             }
 
             if(isSubCategUpdated){
                 parentCategoryIds.add(leadScoreConfig.Parent_Category__c);
+                leadScoreConfigIds.add(leadScoreConfig.Parent_Category__c);
             }
-        }        
-
-        List<String> fields = new List<String>{'Name', 'Domestic_International__c', 'Study_Level__c'};
-        List<Lead_Score_Configuration__c> parentConfigs = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigsById(parentCategoryIds, fields, AccessLevel.SYSTEM_MODE);
-        for(Lead_Score_Configuration__c parentConfig : parentConfigs){
-            citizenshipStatusSet.add(parentConfig.Domestic_International__c);
-            primaryStudyLevelSet.add(parentConfig.Study_Level__c);
-            
-            if(!configMap.containsKey(parentConfig.Id)){
-                configMap.put(parentConfig.Id, parentConfig);
-            }
-        }
-
-        processRecalculation(configMap, citizenshipStatusSet, primaryStudyLevelSet);        
+        }     
         
-    }
-
-    private static void processRecalculation(Map<Id, Lead_Score_Configuration__c> configMap, Set<String> citizenshipStatusSet, Set<String> primaryStudyLevelSet){
-        Set<Id> contactIdSet = new Set<Id>();
-        Set<Id> leadIdSet = new Set<Id>();
-        List<Lead_Score_Detail__c> leadScoreDetails = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByCitizenshipAndStudyLevel(citizenshipStatusSet, primaryStudyLevelSet, AccessLevel.SYSTEM_MODE);
-        for(Lead_Score_Detail__c leadScoreDtl : leadScoreDetails){
-            if(leadScoreDtl.Contact__c != null){
-                contactIdSet.add(leadScoreDtl.Contact__c);
-            }else if(leadScoreDtl.Lead__c != null){
-                leadIdSet.add(leadScoreDtl.Lead__c);
-            }
-        }
-
-        for(Lead_Score_Configuration__c config : configMap.values()){
-            Boolean isForMktgInteraction = config.Name == 'Event Registration and Attendance' || config.Name == 'Downloaded PDF' || config.Name == 'Match My Skills';
-            Boolean isForCase = config.Name == 'Enquiries';
-            Boolean isForMktgSegmentation = 
-                config.Name == 'Funding' ||
-                config.Name == 'Primary BSA' || 
-                config.Name == 'Primary NSA' ||
-                config.Name == 'Country Tier' ||
-                config.Name == 'Residency' ||
-                config.Name == 'Interested in Double Degrees' ||
-                config.Name == 'Interested in English Pathway Programs' ||
-                config.Name == 'Preferred Intake' ||
-                config.Name == 'Course Level';
-            Boolean isForContactAndLead = config.Name == 'Marketing consent';
-            Boolean isForProgEnrollment = config.Name == 'Program Engagement';
-            Boolean isForIndivEmailEmail = config.Name == 'Email Interaction';
-            
-            LeadScoreCalculatorService.processMarketingInterActions(contactIdSet, leadIdSet, isForMktgInteraction);
-            LeadScoreCalculatorService.processMarketingSegmentation(contactIdSet, isForMktgSegmentation);
-            LeadScoreCalculatorService.processContact(contactIdSet, isForContactAndLead);
-            LeadScoreCalculatorService.processLead(leadIdSet, isForContactAndLead);
-            LeadScoreCalculatorService.processCase(contactIdSet, leadIdSet, isForCase);
-            LeadScoreCalculatorService.processProgramEngagement(contactIdSet, isForProgEnrollment);
-            LeadScoreCalculatorService.processIndivEmailResults(contactIdSet, leadIdSet, isForIndivEmailEmail);
-        }
+        if(!leadScoreConfigIds.isEmpty()){
+            Database.executeBatch(
+                new LeadScoreConfigRecalculationBatch(leadScoreConfigIds)
+            );
+        }   
+        
     }
 
     private static Boolean validateIfForSubCategory(Lead_Score_Configuration__c leadScoreConfig, Map<Id, Lead_Score_Configuration__c> oldItems){
