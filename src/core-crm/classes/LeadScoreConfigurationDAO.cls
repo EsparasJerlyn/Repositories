@@ -173,7 +173,7 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
 
     }
 
-    public Database.QueryLocator getUpdatedLeadScoreConfigs(Set<Id> leadScoreConfigIds){
+    public Database.QueryLocator queryLocatorLeadScoreConfigByIds(Set<Id> leadScoreConfigIds){
         String query =
             'SELECT Id, Name, Domestic_International__c, Study_Level__c ' + 
               'FROM Lead_Score_Configuration__c ' + 

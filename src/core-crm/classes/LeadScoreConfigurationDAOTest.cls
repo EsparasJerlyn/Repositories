@@ -55,10 +55,10 @@ public with sharing class LeadScoreConfigurationDAOTest {
     }
 
     @isTest
-    static void getUpdatedLeadScoreConfigsTest() {
+    static void queryLocatorLeadScoreConfigByIdsTest() {
         Test.startTest();
         System.assert(
-            LeadScoreConfigurationDAO.newInstance().getUpdatedLeadScoreConfigs(new Set<Id>()) != null,
+            LeadScoreConfigurationDAO.newInstance().queryLocatorLeadScoreConfigByIds(new Set<Id>()) != null,
             'leadScoreConfig should be empty'
         );
         Test.stopTest();

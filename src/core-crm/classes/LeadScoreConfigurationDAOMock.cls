@@ -88,7 +88,7 @@ public inherited sharing class LeadScoreConfigurationDAOMock extends DmlBaseMock
         return leadScoreConfigList;
     }
 
-    public Database.QueryLocator getUpdatedLeadScoreConfigs(Set<Id> leadScoreConfigIds) {
+    public Database.QueryLocator queryLocatorLeadScoreConfigByIds(Set<Id> leadScoreConfigIds) {
         return null;
     }
 } 
