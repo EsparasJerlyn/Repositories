@@ -24,7 +24,7 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
     * @return query - filtered query of lead score config
     */
     public Database.QueryLocator start(Database.BatchableContext bc){
-        return LeadScoreConfigurationDAO.newInstance().getUpdatedLeadScoreConfigs(leadScoreConfigIds);
+        return LeadScoreConfigurationDAO.newInstance().queryLocatorLeadScoreConfigByIds(leadScoreConfigIds);
     }
 
     /**
