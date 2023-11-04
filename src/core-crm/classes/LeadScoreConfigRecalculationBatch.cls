@@ -9,6 +9,8 @@
   *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
   *    | eccarius.munoz                 | November 04, 2023     | DEPP-7155              | Created file to handle lead score calculation  |
   */
+
+@SuppressWarnings('PMD.EmptyStatementBlock')
 public with sharing class LeadScoreConfigRecalculationBatch implements Database.Batchable<sObject> {
 
     private Set<Id> leadScoreConfigIds;
@@ -86,23 +88,23 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
         }
     }  
     
-    private static Boolean validateContactAndLeadRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
+    private Boolean validateContactAndLeadRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_MKT_CONSENT);        
     }
 
-    private static Boolean validateCaseRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
+    private Boolean validateCaseRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return  leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_ENQUIRIES);
     }
 
-    private static Boolean validateIndivEmailRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
+    private Boolean validateIndivEmailRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_EMAIL_INTERACTION);        
     }
 
-    private static Boolean validateProgramEnrollmentRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
+    private Boolean validateProgramEnrollmentRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PROGRAM_ENGAGEMENT);        
     }
 
-    private static Boolean validateMarketingInteractionRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
+    private Boolean validateMarketingInteractionRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return 
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_EVENT_REG_ATTD) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_DOWNLOADED_PDF) ||
@@ -110,7 +112,7 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
         
     }
 
-    private static Boolean validateMarketingSegmentationRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
+    private Boolean validateMarketingSegmentationRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return 
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_FUNDING) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_BSA) ||
@@ -124,5 +126,5 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
         
     }
 
-    public void finish(Database.BatchableContext bc) {} //NOPMD
+    public void finish(Database.BatchableContext bc) {}
 }
