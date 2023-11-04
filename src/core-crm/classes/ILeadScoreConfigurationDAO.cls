@@ -19,4 +19,5 @@ public interface ILeadScoreConfigurationDAO extends DmlInterface {
     
     List<Lead_Score_Configuration__c> getLeadScoreConfigsById(Set<Id> leadScoreConfigIds, List<String> fields, AccessLevel accessLevel);
 
+    Database.QueryLocator queryLocatorLeadScoreConfigByIds(Set<Id> leadScoreConfigIds);
 } 
