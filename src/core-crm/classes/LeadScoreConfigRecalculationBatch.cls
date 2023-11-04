@@ -106,23 +106,23 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
 
     private Boolean validateMarketingInteractionRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return 
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_EVENT_REG_ATTD) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_DOWNLOADED_PDF) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_MATCH_MY_SKILLS);
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_MATCH_MY_SKILLS) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_EVENT_REG_ATTD);
         
     }
 
     private Boolean validateMarketingSegmentationRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return 
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_FUNDING) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_BSA) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_NSA) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_FUNDING) ||            
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_COUNTRY_TIER) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_RESIDENCE) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_DOUBLE_DEG) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_ENG_PATH) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PREF_INTAKE) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_COURSE_LEVEL);
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_COURSE_LEVEL) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_BSA) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_NSA);
         
     }
 
