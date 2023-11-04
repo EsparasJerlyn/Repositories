@@ -7,14 +7,15 @@
   *
   *    | Developer                      | Date                  | JIRA                   | Change Summary                                 |
   *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
-  *    | eccarius.munoz                 | November 04, 2023     | DEPP-5866              | Created file to handle lead score calculation  |
+  *    | eccarius.munoz                 | November 04, 2023     | DEPP-7155              | Created file to handle lead score calculation  |
   */
 public with sharing class LeadScoreConfigRecalculationBatch implements Database.Batchable<sObject> {
 
     private Set<Id> leadScoreConfigIds;
 
-    public LeadScoreConfigRecalculationBatch(Set<Id> leadScoreConfigIds){
+    public void recalculateLeadScore(Set<Id> leadScoreConfigIds){
         this.leadScoreConfigIds = leadScoreConfigIds;
+        Database.executeBatch(this);
     }
 
     /**
@@ -23,7 +24,6 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
     * @return query - filtered query of lead score config
     */
     public Database.QueryLocator start(Database.BatchableContext bc){
-        
         return LeadScoreConfigurationDAO.newInstance().getUpdatedLeadScoreConfigs(leadScoreConfigIds);
     }
 

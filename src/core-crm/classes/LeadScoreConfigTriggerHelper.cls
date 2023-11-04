@@ -38,9 +38,8 @@ public with sharing class LeadScoreConfigTriggerHelper {
         }     
         
         if(!leadScoreConfigIds.isEmpty()){
-            Database.executeBatch(
-                new LeadScoreConfigRecalculationBatch(leadScoreConfigIds)
-            );
+            LeadScoreConfigRecalculationBatch batch = new LeadScoreConfigRecalculationBatch();
+            batch.recalculateLeadScore(leadScoreConfigIds);
         }   
         
     }

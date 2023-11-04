@@ -1,5 +1,5 @@
 /**
- * @description Test class for LeadScoreConfigTriggerHelper
+ * @description Test class for LeadScoreConfigRecalculationBatch
  * 
  * @author Accenture
  *
@@ -7,12 +7,11 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eccarius.munoz                 | October 25, 2023      | DEPP-5866              | Created file                 |
+      | eccarius.munoz                 | November 04, 2023     | DEPP-7155              | Created file                 |
       |                                |                       |                        |                              |
  */
 @isTest
-public with sharing class LeadScoreConfigTriggerHelperTest {
-
+public with sharing class LeadScoreConfigRecalculationBatchTest {
     @TestSetup
     static void setupData(){
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
@@ -180,5 +179,4 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
 
         return leadScoreConfig;
     }
-
 }
