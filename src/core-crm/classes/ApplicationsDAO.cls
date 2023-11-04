@@ -241,7 +241,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             'AND (Lead__r.Calculated_Cadence__c IN:cadencesName OR hed__Applicant__r.Calculated_Cadence__c IN:cadencesName) ' +            
             'WITH ' +
             String.escapeSingleQuotes(accessLevel) +
-            ' ORDER by CreatedDate DESC'
+            ' ORDER by Calculated_Intake_Date__c DESC NULLS LAST'
         );
     }
 }
