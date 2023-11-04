@@ -414,7 +414,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             if (
                 isStudyLinkRecordType &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
-                ApplicationsDAO.OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c) &&
+                ApplicationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK.contains(application.Application_Status__c) &&
                 NurturingTrackService.isDateWithinRange(
                     application.Calculated_Intake_Date__c,
                     CURRENT_INTAKE_PERIOD.get('START_DATE'),
