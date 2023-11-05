@@ -9,30 +9,22 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | October 24, 2023      | DEPP-5866              | Created file                 |   
+      | eccarius.munoz                 | November 05, 2023     | DEPP-7155              | Transferred recalc to batch  |   
  */
 public with sharing class LeadScoreConfigTriggerHelper {
     
     public static void processLeadScoreCalculation(List<Lead_Score_Configuration__c> newItems, Map<Id, Lead_Score_Configuration__c> oldItems){
 
         Set<Id> leadScoreConfigIds = new Set<Id>();
-        Set<Id> parentCategoryIds = new Set<Id>();
-        Map<Id, Lead_Score_Configuration__c> configMap = new Map<Id,Lead_Score_Configuration__c>();
-        Set<String> citizenshipStatusSet = new Set<String>();
-        Set<String> primaryStudyLevelSet = new Set<String>();
-
         for(Lead_Score_Configuration__c leadScoreConfig : newItems){
             Boolean isCategoryUpdated = validateIfForCategory(leadScoreConfig, oldItems);
             Boolean isSubCategUpdated = validateIfForSubCategory(leadScoreConfig, oldItems);
 
             if(isCategoryUpdated){
-                configMap.put(leadScoreConfig.Id, leadScoreConfig);
-                citizenshipStatusSet.add(leadScoreConfig.Domestic_International__c);
-                primaryStudyLevelSet.add(leadScoreConfig.Study_Level__c);
                 leadScoreConfigIds.add(leadScoreConfig.Id);
             }
 
             if(isSubCategUpdated){
-                parentCategoryIds.add(leadScoreConfig.Parent_Category__c);
                 leadScoreConfigIds.add(leadScoreConfig.Parent_Category__c);
             }
         }     
@@ -41,7 +33,6 @@ public with sharing class LeadScoreConfigTriggerHelper {
             LeadScoreConfigRecalculationBatch batch = new LeadScoreConfigRecalculationBatch();
             batch.recalculateLeadScore(leadScoreConfigIds);
         }   
-        
     }
 
     private static Boolean validateIfForSubCategory(Lead_Score_Configuration__c leadScoreConfig, Map<Id, Lead_Score_Configuration__c> oldItems){

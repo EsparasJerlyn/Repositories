@@ -84,5 +84,20 @@ public with sharing class LeadScoreDetailsDAOTest{
             Test.stopTest();
         }
     }
+    
+    @isTest
+    static void queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevelTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                LeadScoreDetailsDAO.newInstance().queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevel(
+                    new Set<String>(),
+                    new Set<String>()
+                ) != null,
+                'leadScoreDetailList should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
 
 }
