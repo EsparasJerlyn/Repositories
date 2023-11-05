@@ -66,7 +66,6 @@ public with sharing class LeadScoreConfigProgEngagmentService {
     private static Boolean validateProgEngRecord(hed__Program_Enrollment__c progEng, Map<Id, Account> accountMap){
         return 
             !progEng.Lead_Score_Reset__c &&
-            progEng.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ENROLLED && 
             accountMap.containsKey(progEng.hed__Account__c) && 
             accountMap.get(progEng.hed__Account__c).RecordTypeId == AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID &&
             (

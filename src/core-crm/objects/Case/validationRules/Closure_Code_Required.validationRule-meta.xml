@@ -2,12 +2,9 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Closure_Code_Required</fullName>
     <active>true</active>
-    <description>When the Status of the case is &quot;Pending Closure&quot; or &quot;Closed&quot;, the Closure Code is required.</description>
+    <description>When the Status of the case is &quot;Closed&quot;, the Closure Code is required.</description>
     <errorConditionFormula>AND (
-    OR(
-        ISPICKVAL( Status , &apos;Pending Closure&apos;),
-        ISPICKVAL( Status , &apos;Closed&apos;)
-    ),
+    ISPICKVAL( Status , &apos;Closed&apos;),
     OR(
         ISBLANK(TEXT(Closure_Code__c)),
         LEN(Closure_Details__c) = 0
@@ -15,5 +12,5 @@
     TEXT(Closure_Code__c)!= &apos;Invalid Enquiry&apos;
 )</errorConditionFormula>
     <errorDisplayField>Closure_Code__c</errorDisplayField>
-    <errorMessage>Closure Code and Closure Details are required when Status is &quot;Pending Closure&quot; or &quot;Closed&quot;.</errorMessage>
+    <errorMessage>Closure Code and Closure Details are required when Status is &quot;Closed&quot;.</errorMessage>
 </ValidationRule>

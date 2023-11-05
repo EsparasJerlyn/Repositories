@@ -57,7 +57,7 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
     }
 
     @isTest
-    private static void executeBatchTest() {
+    private static void updateSubCategoryConfigTest() {
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
@@ -65,6 +65,27 @@ public with sharing class LeadScoreConfigTriggerHelperTest {
             for(Lead_Score_Configuration__c config : configs){
                 if(config.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY){
                     config.Score_Allocation__c = 5;
+                    configsToUpdate.add(config);
+                }
+            }
+            LeadScoreConfigurationDAO.newInstance().updateRecords(configsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            System.assert(
+                !configsToUpdate.isEmpty(),
+                'Lead Score Config update failed.'
+            );
+        }
+    }
+
+    @isTest
+    private static void updateCategoryConfigTest() {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+            Test.startTest();
+            List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
+            List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c FROM Lead_Score_Configuration__c];
+            for(Lead_Score_Configuration__c config : configs){
+                if(config.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY){
+                    config.Max_Score__c = 50;
                     configsToUpdate.add(config);
                 }
             }

@@ -9,9 +9,11 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | mark.j.mahilum		           | July 23, 2023     	   | DEPP-5799              | Created file                 |
+      | roy.nino.s.regala		       | Nov 03, 2023     	   | DEPP-7145              | called resetLeadScore method |
  */
 
 public with sharing class ProgramEnrollmentTriggerHandler implements Disableable, BeforeUpdate, AfterInsert, AfterUpdate {
+
 
    /**
     * @description afterInsert trigger event
@@ -43,6 +45,7 @@ public with sharing class ProgramEnrollmentTriggerHandler implements Disableable
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ){
+        ProgramEnrollmentTriggerHelper.resetLeadScore((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
         ProgEnrollLeadScoreHelper.processLeadScoreCalculation((List<hed__Program_Enrollment__c>) newItems.values(), (Map<Id, hed__Program_Enrollment__c>) oldItems);
     }
     

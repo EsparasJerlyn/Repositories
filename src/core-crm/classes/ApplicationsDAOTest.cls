@@ -116,4 +116,18 @@ public with sharing class ApplicationsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getAppsWithLatestCalculatedIntakeDateByContactIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
+                .getAppsWithLatestCalculatedIntakeDateByContactIds(
+                    new Set<Id>(),
+                    'SYSTEM_MODE'
+                );
+            System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
+        }
+        Test.stopTest();
+    }
 }
