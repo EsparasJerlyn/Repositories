@@ -37,4 +37,9 @@ public interface IApplicationsDAO extends DmlInterface{
         Set<String> cadenceNames,
         String accessLevel
     ); 
+
+    List<hed__Application__c> getAppsWithLatestCalculatedIntakeDateByContactIds(
+        Set<Id> contactIds,
+        String accessLevel
+    );
 } 

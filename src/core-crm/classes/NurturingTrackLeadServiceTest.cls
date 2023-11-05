@@ -69,7 +69,7 @@ public with sharing class NurturingTrackLeadServiceTest {
                     Max_Score__c = 200,
                     Parent_Category__c = leadScoreParentConfigList[0].Id
                 )
-            );
+            );            
             leadScoreConfigList.add(
                 new Lead_Score_Configuration__c(
                     Name = 'Marketing consent',
@@ -79,6 +79,19 @@ public with sharing class NurturingTrackLeadServiceTest {
                     Description__c = '',
                     Score_Allocation__c = null,
                     Time_Limit_Months__c = null,
+                    Max_Score__c = 200,
+                    Parent_Category__c = leadScoreParentConfigList[0].Id
+                )
+            );
+            leadScoreConfigList.add(
+                new Lead_Score_Configuration__c(
+                    Name = 'Enquiries',
+                    RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+                    Domestic_International__c = 'International',
+                    Study_Level__c = 'Undetermined',
+                    Description__c = '',
+                    Score_Allocation__c = null,
+                    Time_Limit_Months__c = 3,
                     Max_Score__c = 200,
                     Parent_Category__c = leadScoreParentConfigList[0].Id
                 )
@@ -101,6 +114,14 @@ public with sharing class NurturingTrackLeadServiceTest {
                 new List<String>{
                     'Yes',
                     'is blank'
+                },
+                new List<Integer>{ 200,200}
+            ));
+            leadScoreConfigChildList.addAll(TestDataFactory.createIntlAndUndeterminedSubCategory(
+                leadScoreConfigList[2].Id,
+                new List<String>{
+                    'Applying for a course'
+                    
                 },
                 new List<Integer>{ 200,200}
             ));
@@ -384,6 +405,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             ));
             CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
 
             List<hed__Application__c> applList = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Accepted');
             applList[0].hed__Initial_Creation_Date__c = System.today().addYears(-2);

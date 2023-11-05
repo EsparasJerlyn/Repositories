@@ -45,7 +45,9 @@
         <pageOrSobjectType>standard-home</pageOrSobjectType>
     </actionOverrides>
     <brand>
-        <headerColor>#0070D2</headerColor>
+        <headerColor>#113B71</headerColor>
+        <logo>QUT_logo_Blue_RGB_PNG_11</logo>
+        <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <formFactors>Small</formFactors>
@@ -55,22 +57,6 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Future Student Nurturing</label>
     <navType>Console</navType>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>International_Tier_Future_Student_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>International_Tier__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>International_Tier_Future_Student_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>International_Tier__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Future Student Engagement</profile>
-    </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Application_SAMS_CIAnywhere_Record_Page</content>

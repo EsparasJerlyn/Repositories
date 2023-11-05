@@ -6,10 +6,7 @@
  OR (RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,
      RecordType.DeveloperName = &apos;Domestic_Future_Student_Enquiry&apos;),
  AND(
-  OR(
-   ISPICKVAL( Status , &apos;Pending Closure&apos;),
-   ISPICKVAL( Status , &apos;Closed&apos;)
-  ),   
+  ISPICKVAL( Status , &apos;Closed&apos;),   
   OR(
    ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
    ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;)

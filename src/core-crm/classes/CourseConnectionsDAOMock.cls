@@ -83,8 +83,9 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
 
         for (hed__Course_Enrollment__c record : courseConnectionMap.values()) {
             if (
-                courseOfferingIds.contains(record.hed__Course_Offering__c) ||
-                programOfferingIds.contains(record.Program_Offering__c)
+                (courseOfferingIds.contains(record.hed__Course_Offering__c) ||
+                programOfferingIds.contains(record.Program_Offering__c)) && 
+                record.hed__Status__c == 'Active'
             ) {
                 courseConnectionList.add(record);
             }

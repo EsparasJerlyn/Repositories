@@ -10,6 +10,7 @@
       | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Created File                                |
       | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
       | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                |
+      | roy.nino.s.regala              | Novmeber 03, 2023     | DEPP-7145              | Added Lead_Score_Reset__c as expected field |
  */
 @isTest
 public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICasesDAO {
@@ -79,6 +80,7 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
                 tempCase.Category__c = record.Category__c;
                 tempCase.ContactId = record.ContactId;
                 tempCase.Lead__c = record.Lead__c;
+                tempCase.Lead_Score_Reset__c = record.Lead_Score_Reset__c;
                 caseList.add(tempCase);
             }
         }
