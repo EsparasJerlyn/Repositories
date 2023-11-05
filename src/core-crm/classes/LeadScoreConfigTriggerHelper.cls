@@ -30,8 +30,16 @@ public with sharing class LeadScoreConfigTriggerHelper {
         }     
         
         if(!leadScoreConfigIds.isEmpty()){
-            LeadScoreConfigRecalculationBatch batch = new LeadScoreConfigRecalculationBatch();
-            batch.recalculateLeadScore(leadScoreConfigIds);
+            List<AsyncApexJob> asyncJob = [
+                SELECT Id, Status, ApexClassID
+                  FROM AsyncApexJob
+                 WHERE ApexClass.Name = 'LeadScoreConfigRecalculationBatch'
+                   AND Status = 'Processing' WITH SYSTEM_MODE
+            ];
+            if(asyncJob.isEmpty()){
+                LeadScoreConfigRecalculationBatch batch = new LeadScoreConfigRecalculationBatch();
+                batch.recalculateLeadScore(leadScoreConfigIds);
+            }
         }   
     }
 
