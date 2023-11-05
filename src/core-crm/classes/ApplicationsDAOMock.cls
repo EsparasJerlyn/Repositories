@@ -117,4 +117,19 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
 
         return applicationList;
     }
+
+    public List<hed__Application__c> getAppsWithLatestCalculatedIntakeDateByContactIds(
+        Set<Id> contactIds,
+        String accessLevel
+    ) {
+        List<hed__Application__c> applicationList = new List<hed__Application__c>();
+
+        for (hed__Application__c record : applicationMap.values()) {
+            if (contactIds.contains(record.hed__Applicant__c) && record.Calculated_Intake_Date__c != null) {
+                applicationList.add(record);
+            }
+        }
+
+        return applicationList;
+    }
 }

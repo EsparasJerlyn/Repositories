@@ -39,6 +39,7 @@ public with sharing class LeadScoreConfigRecalculationBatchTest {
                 mktgSegConToUpdate.add(mktgSeg);
             }
             MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegConToUpdate, true, AccessLevel.SYSTEM_MODE);
+            System.debug('mktgSegConToUpdate: ' +mktgSegConToUpdate.size());
             
             List<Marketing_Interaction__c> marInteractionList = new List<Marketing_Interaction__c>();
             marInteractionList.add(
