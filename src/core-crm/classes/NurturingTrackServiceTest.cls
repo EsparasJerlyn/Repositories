@@ -69,9 +69,13 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             cadence2.Completed_Cadence_Status__c ='Successful';
             insert cadence2;
-            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new List<Completed_Cadence__c>{cadence1},Contact.getSObjectType());
             System.assertEquals(1,applicationWithCadenceMapContact.size(),'Cadence map should not be empty');
-            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new List<Completed_Cadence__c>{cadence2},Lead.getSObjectType());
+            System.assertEquals(1,applicationWithCadenceMapLead.size(),'Cadence map should not be empty');
+            applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(new Set<Id>{contactID},new List<Completed_Cadence__c>{cadence1},Contact.getSObjectType());
+            System.assertEquals(1,applicationWithCadenceMapContact.size(),'Cadence map should not be empty');
+            applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(new Set<Id>{leadID},new List<Completed_Cadence__c>{cadence2},Lead.getSObjectType());
             System.assertEquals(1,applicationWithCadenceMapLead.size(),'Cadence map should not be empty');
             Test.stopTest();
         }
@@ -110,8 +114,8 @@ public with sharing class NurturingTrackServiceTest {
             cadence2.Nurture_Track_Configuration__c = nurtureList[0].Id;
             cadence2.Completed_Cadence_Status__c ='Successful';
             insert cadence2;
-            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Contact.getSObjectType());
-            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new Set<String>{'International Application Submission - Direct Applicant (Automated)'},Lead.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapContact = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{contactID},new List<Completed_Cadence__c>{cadence1},Contact.getSObjectType());
+            Map<Id, Set<String>> applicationWithCadenceMapLead = NurturingTrackService.getApplicantIdsWithCompletedCadence(new Set<Id>{leadID},new List<Completed_Cadence__c>{cadence2},Lead.getSObjectType());
 
             List<hed__Application__c> appListContact = new List<hed__Application__c>();
             hed__Application__c appContact = new hed__Application__c();

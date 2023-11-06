@@ -38,6 +38,75 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     public static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
 
+    public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST = new Set<String>{
+        DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED, //Domestic First Offer to Acceptance (Automated)
+        DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL, //Domestic Deferred Offer to Acceptance
+        DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED, //Domestic Accepted not yet Enrolled (Automated)
+        DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL, //Domestic Accepted and Admitted'
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE, //Domestic and International Enrolment to Census
+        DOMESTIC_OFFER_LAPSED_AUTOMATED//Domestic Offer Lapsed (Automated)
+    };
+
+    public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_FIRST_OFFER = new Set<String>{
+        DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL, //Domestic Deferred Offer to Acceptance
+        DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED, //Domestic Accepted not yet Enrolled (Automated)
+        DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL, //Domestic Accepted and Admitted'
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE, //Domestic and International Enrolment to Census
+        DOMESTIC_OFFER_LAPSED_AUTOMATED//Domestic Offer Lapsed (Automated)
+    };
+
+    public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_DEFFERED_OFFER = new Set<String>{
+        DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED, //Domestic Accepted not yet Enrolled (Automated)
+        DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL, //Domestic Accepted and Admitted'
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE, //Domestic and International Enrolment to Census
+        DOMESTIC_OFFER_LAPSED_AUTOMATED//Domestic Offer Lapsed (Automated)
+    };
+    public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_NOT_YET_ENROLLED = new Set<String>{
+        DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL, //Domestic Accepted and Admitted'
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE, //Domestic and International Enrolment to Census
+        DOMESTIC_OFFER_LAPSED_AUTOMATED//Domestic Offer Lapsed (Automated)
+    };
+
+    public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_ACCEPTED_ADMITTED = new Set<String>{
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE, //Domestic and International Enrolment to Census
+        DOMESTIC_OFFER_LAPSED_AUTOMATED//Domestic Offer Lapsed (Automated)
+    };
+
+    public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_CENSUS = new Set<String>{
+        DOMESTIC_OFFER_LAPSED_AUTOMATED//Domestic Offer Lapsed (Automated)
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST = new Set<String>{
+        INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED, //International Application Submission - Direct Applicant (Automated)
+        INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED, //International Offer to Acceptance (Automated)
+        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_DIRECT_APPLICANT = new Set<String>{
+        INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED, //International Offer to Acceptance (Automated)
+        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_APP_TO_OFFER = new Set<String>{
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED, //International Offer to Acceptance (Automated)
+        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL,//International Acceptance Deposit not Paid
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_OFFER_TO_ACCEPTANCE = new Set<String>{
+        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
+    };
+    
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_ACCEPTANCE_DEPOSIT_NOT_PAID = new Set<String>{
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
+    };
+
+
 
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 

@@ -44,7 +44,7 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
             citizenshipStatusSet.add(leadScoreConfig.Domestic_International__c);
             primaryStudyLevelSet.add(leadScoreConfig.Study_Level__c);
             leadScoreConfigMap.put(leadScoreConfig.Name, leadScoreConfig);
-        }  
+        }        
         
         isForCase = validateCaseRecords(leadScoreConfigMap);
         isForMarketingInteraction = validateMarketingInteractionRecords(leadScoreConfigMap);
@@ -74,7 +74,7 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
             }
             
             LeadScoreCalculatorService.processMarketingInterActions(contactIdSet, leadIdSet, isForMarketingInteraction);
-            LeadScoreCalculatorService.processMarketingSegmentation(contactIdSet, isForMarketingSegmentation);
+            LeadScoreCalculatorService.processMarketingSegmentation(contactIdSet, leadIdSet, isForMarketingSegmentation);
             LeadScoreCalculatorService.processContact(contactIdSet, isForContactAndLead);
             LeadScoreCalculatorService.processLead(leadIdSet, isForContactAndLead);
             LeadScoreCalculatorService.processCase(contactIdSet, leadIdSet, isForCase);
