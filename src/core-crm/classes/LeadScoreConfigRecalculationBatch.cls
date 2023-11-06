@@ -11,7 +11,14 @@
   */
 
 @SuppressWarnings('PMD.EmptyStatementBlock')
-public with sharing class LeadScoreConfigRecalculationBatch implements Database.Batchable<sObject> {
+public with sharing class LeadScoreConfigRecalculationBatch implements Database.Batchable<sObject>, Database.Stateful {
+
+    private Boolean isForContactAndLead = false;
+    private Boolean isForMarketingInteraction = false;
+    private Boolean isForMarketingSegmentation = false;                
+    private Boolean isForProgEnrollment = false;
+    private Boolean isForIndivEmail = false;
+    private Boolean isForCase = false;   
 
     private Set<Id> leadScoreConfigIds;
 
@@ -26,43 +33,38 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
     * @return query - filtered query of lead score config
     */
     public Database.QueryLocator start(Database.BatchableContext bc){
-        return LeadScoreConfigurationDAO.newInstance().queryLocatorLeadScoreConfigByIds(leadScoreConfigIds);
+        
+        Set<String> citizenshipStatusSet = new Set<String>();
+        Set<String> primaryStudyLevelSet = new Set<String>();
+
+        List<String> fields = new List<String>{'Name', 'Domestic_International__c', 'Study_Level__c'};
+        List<Lead_Score_Configuration__c> leadScoreConfigList = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigsById(leadScoreConfigIds, fields, AccessLevel.SYSTEM_MODE);
+        Map<String, Lead_Score_Configuration__c> leadScoreConfigMap = new Map<String, Lead_Score_Configuration__c>();
+        for(Lead_Score_Configuration__c leadScoreConfig : leadScoreConfigList){
+            citizenshipStatusSet.add(leadScoreConfig.Domestic_International__c);
+            primaryStudyLevelSet.add(leadScoreConfig.Study_Level__c);
+            leadScoreConfigMap.put(leadScoreConfig.Name, leadScoreConfig);
+        }        
+        
+        isForCase = validateCaseRecords(leadScoreConfigMap);
+        isForMarketingInteraction = validateMarketingInteractionRecords(leadScoreConfigMap);
+        isForMarketingSegmentation = validateMarketingSegmentationRecords(leadScoreConfigMap);
+        isForContactAndLead = validateContactAndLeadRecords(leadScoreConfigMap);
+        isForProgEnrollment = validateProgramEnrollmentRecords(leadScoreConfigMap);
+        isForIndivEmail = validateIndivEmailRecords(leadScoreConfigMap);
+
+        return LeadScoreDetailsDAO.newInstance().queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevel(citizenshipStatusSet, primaryStudyLevelSet);
     }
 
     /**
     * @description Method to execute the batch
     * @param bc - BatchableContext
-    * @param leadScoreConfigList - List of Lead_Score_Configuration__c
+    * @param leadScoreDetails - List of Lead_Score_Detail__c
     */
-    public void execute(Database.BatchableContext bc, List<Lead_Score_Configuration__c> leadScoreConfigList){
+    public void execute(Database.BatchableContext bc, List<Lead_Score_Detail__c> leadScoreDetails){
         try{ 
-            Set<String> citizenshipStatusSet = new Set<String>();
-            Set<String> primaryStudyLevelSet = new Set<String>();
-
-            Boolean isForContactAndLead = false;
-            Boolean isForMarketingInteraction = false;
-            Boolean isForMarketingSegmentation = false;                
-            Boolean isForProgEnrollment = false;
-            Boolean isForIndivEmail = false;
-            Boolean isForCase = false;          
-            
-            Map<String, Lead_Score_Configuration__c> leadScoreConfigMap = new Map<String, Lead_Score_Configuration__c>();
-            for(Lead_Score_Configuration__c config : leadScoreConfigList){
-                citizenshipStatusSet.add(config.Domestic_International__c);
-                primaryStudyLevelSet.add(config.Study_Level__c);
-                leadScoreConfigMap.put(config.Name, config);
-            }  
-
-            isForCase = validateCaseRecords(leadScoreConfigMap);
-            isForMarketingInteraction = validateMarketingInteractionRecords(leadScoreConfigMap);
-            isForMarketingSegmentation = validateMarketingSegmentationRecords(leadScoreConfigMap);
-            isForContactAndLead = validateContactAndLeadRecords(leadScoreConfigMap);
-            isForProgEnrollment = validateProgramEnrollmentRecords(leadScoreConfigMap);
-            isForIndivEmail = validateIndivEmailRecords(leadScoreConfigMap);
-
             Set<Id> contactIdSet = new Set<Id>();
             Set<Id> leadIdSet = new Set<Id>();
-            List<Lead_Score_Detail__c> leadScoreDetails = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByCitizenshipAndStudyLevel(citizenshipStatusSet, primaryStudyLevelSet, AccessLevel.SYSTEM_MODE);
             for(Lead_Score_Detail__c leadScoreDtl : leadScoreDetails){
                 if(leadScoreDtl.Contact__c != null){
                     contactIdSet.add(leadScoreDtl.Contact__c);
@@ -72,7 +74,7 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
             }
             
             LeadScoreCalculatorService.processMarketingInterActions(contactIdSet, leadIdSet, isForMarketingInteraction);
-            LeadScoreCalculatorService.processMarketingSegmentation(contactIdSet, isForMarketingSegmentation);
+            LeadScoreCalculatorService.processMarketingSegmentation(contactIdSet, leadIdSet, isForMarketingSegmentation);
             LeadScoreCalculatorService.processContact(contactIdSet, isForContactAndLead);
             LeadScoreCalculatorService.processLead(leadIdSet, isForContactAndLead);
             LeadScoreCalculatorService.processCase(contactIdSet, leadIdSet, isForCase);
@@ -80,7 +82,7 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
             LeadScoreCalculatorService.processIndivEmailResults(contactIdSet, leadIdSet, isForIndivEmail);
 
         }catch(Exception e){
-            Logger.error('Exception caught in method execute in Apex class LeadScoreConfigBatch.').setExceptionDetails(e);
+            Logger.error('Exception caught in method execute in Apex class LeadScoreConfigRecalculationBatch.').setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
@@ -109,7 +111,6 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_DOWNLOADED_PDF) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_MATCH_MY_SKILLS) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_EVENT_REG_ATTD);
-        
     }
 
     private Boolean validateMarketingSegmentationRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
@@ -123,7 +124,6 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_COURSE_LEVEL) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_BSA) ||
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_NSA);
-        
     }
 
     public void finish(Database.BatchableContext bc) {}
