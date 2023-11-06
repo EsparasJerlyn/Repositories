@@ -27,12 +27,27 @@
         <routingAddresses>
             <addressType>EmailToCase</addressType>
             <caseOrigin>Email</caseOrigin>
+            <caseOwner>Future_Student_Domestic_Queue</caseOwner>
+            <caseOwnerType>Queue</caseOwnerType>
+            <casePriority>Low</casePriority>
+            <createTask>false</createTask>
+            <emailAddress>qut@qut.edu.au</emailAddress>
+            <emailServicesAddress>qut@k-1xin2q4uxolo4eg6fjej9obqqgf3t109yhwzx919xwnup7jp90.5g-1fdgjeao.aus84.case.salesforce.com</emailServicesAddress>
+            <isVerified>true</isVerified>
+            <routingName>Domestic Future Student Enquiries</routingName>
+            <saveEmailHeaders>false</saveEmailHeaders>
+        </routingAddresses>
+        <routingAddresses>
+            <addressType>EmailToCase</addressType>
+            <caseOrigin>Email</caseOrigin>
             <caseOwner>Future_Student_International_Queue</caseOwner>
             <caseOwnerType>Queue</caseOwnerType>
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
             <emailAddress>qut.direct@qut.edu.au</emailAddress>
-            <routingName>Direct Email Enquiries</routingName>
+            <emailServicesAddress>qut.direct@sm3tzmy5lgm8gccillsg0mncnwizblqmf4yyy0319dhyoc6ij.5g-1fdgjeao.aus84.case.salesforce.com</emailServicesAddress>
+            <isVerified>true</isVerified>
+            <routingName>International Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>        
         <unauthorizedSenderAction>Discard</unauthorizedSenderAction>
