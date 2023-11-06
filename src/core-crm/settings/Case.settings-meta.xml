@@ -33,7 +33,6 @@
             <createTask>false</createTask>
             <emailAddress>testdomestic@qut.edu.au</emailAddress>
             <emailServicesAddress>testdomestic@g-9zcoqu6jq94b8fc1dwwisgfgi1misganpjxlbjjvljk4a5qr5.bn-u2wzmai.aus20s.case.sandbox.salesforce.com</emailServicesAddress>
-            <isVerified>true</isVerified>
             <routingName>Domestic Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
@@ -46,7 +45,6 @@
             <createTask>false</createTask>
             <emailAddress>testinternational@qut.edu.au</emailAddress>
             <emailServicesAddress>testinternational@r-301ly46jc9lny5jsqzfhajz75jvk6bqdsy5m7t3k6ry5205ma5.bn-u2wzmai.aus20s.case.sandbox.salesforce.com</emailServicesAddress>
-            <isVerified>true</isVerified>
             <routingName>International Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
