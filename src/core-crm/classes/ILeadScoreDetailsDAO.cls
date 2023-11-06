@@ -17,8 +17,8 @@ public interface ILeadScoreDetailsDAO extends DmlInterface{
 
     List<Lead_Score_Detail__c> getLeadScoreDetailsByContactOrLeadId(
         Set<Id> contactLeadIdSet, 
-        AccessLevel accessLevel)
-    ;
+        AccessLevel accessLevel
+    );
 
     Database.QueryLocator getLeadScoreDetailsWithContactOrLead();
 
@@ -26,6 +26,11 @@ public interface ILeadScoreDetailsDAO extends DmlInterface{
         Set<String> citizenshipStatusSet,
         Set<String> primaryStudyLevelSet,
         AccessLevel accessLevel
+    );
+
+    Database.QueryLocator queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevel(
+        Set<String> citizenshipStatusSet,
+        Set<String> primaryStudyLevelSet
     );
     
 }

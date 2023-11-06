@@ -22,6 +22,11 @@ public with sharing class LeadScoreConfigRecalculationBatchTest {
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD
             );
 
+            setupDomesticUndeterminedLeadScoreConfig(
+                LeadScoreConfigurationDAO.DOMESTIC, 
+                LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED
+            );
+
             List<Contact> contactsToAdd = new List<Contact>();
             List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
             contactsToAdd.addAll(contactList);
@@ -60,9 +65,13 @@ public with sharing class LeadScoreConfigRecalculationBatchTest {
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
-            List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c FROM Lead_Score_Configuration__c];
+            List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c, Study_Level__c, Domestic_International__c FROM Lead_Score_Configuration__c];
             for(Lead_Score_Configuration__c config : configs){
-                if(config.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY){
+                if(
+                    config.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY &&
+                    config.Domestic_International__c == 'Domestic' && 
+                    config.Study_Level__c == 'Undergraduate'
+                ){
                     config.Score_Allocation__c = 5;
                     configsToUpdate.add(config);
                 }
@@ -81,9 +90,13 @@ public with sharing class LeadScoreConfigRecalculationBatchTest {
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
-            List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c FROM Lead_Score_Configuration__c];
+            List<Lead_Score_Configuration__c> configs = [SELECT Id, RecordTypeId, Score_Allocation__c, Study_Level__c, Domestic_International__c FROM Lead_Score_Configuration__c];
             for(Lead_Score_Configuration__c config : configs){
-                if(config.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY){
+                if(
+                    config.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY &&
+                    config.Domestic_International__c == 'Domestic' && 
+                    config.Study_Level__c == 'Undergraduate'
+                ){
                     config.Max_Score__c = 50;
                     configsToUpdate.add(config);
                 }
@@ -175,6 +188,89 @@ public with sharing class LeadScoreConfigRecalculationBatchTest {
             Score_Allocation__c = null,
             Time_Limit_Months__c = 18,
             Max_Score__c = 30
+        );
+
+        return leadScoreConfig;
+    }
+
+    private static void setupDomesticUndeterminedLeadScoreConfig(String citizenship, String studyLevel){
+        List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
+        leadScoreParentConfigList.add(
+            new Lead_Score_Configuration__c(
+                Name = 'Total Max Score DUD',
+                RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
+                Domestic_International__c = citizenship,
+                Study_Level__c = studyLevel
+            )
+        );
+
+        LeadScoreConfigurationDAO.newInstance().insertRecords(leadScoreParentConfigList, true, AccessLevel.SYSTEM_MODE);
+
+        List<Lead_Score_Configuration__c> categList = new List<Lead_Score_Configuration__c>();
+        categList.add(setDomesticUndeterminedCategory('Event Registration and Attendance', leadScoreParentConfigList[0].Id)); 
+        categList.add(setDomesticUndeterminedCategory('Enquiries', leadScoreParentConfigList[0].Id)); 
+        categList.add(setDomesticUndeterminedCategory('Primary BSA', leadScoreParentConfigList[0].Id)); 
+        categList.add(setDomesticUndeterminedCategory('Program Engagement', leadScoreParentConfigList[0].Id)); 
+        categList.add(setDomesticUndeterminedCategory('Marketing consent', leadScoreParentConfigList[0].Id)); 
+        LeadScoreConfigurationDAO.newInstance().insertRecords(categList, true, AccessLevel.SYSTEM_MODE);
+
+        List<Lead_Score_Configuration__c> subCategList = new List<Lead_Score_Configuration__c>();
+        for(Lead_Score_Configuration__c conf : categList){
+            if(conf.Name == 'Event Registration and Attendance'){
+                subCategList.add(setUpSubCategory('Open Day Registration', conf.Id, 10));
+                subCategList.add(setUpSubCategory('Other Event Registration', conf.Id, 5));
+                subCategList.add(setUpSubCategory('Other Event Attendance', conf.Id, 5));
+            }
+            else if(conf.Name == 'Enquiries'){
+                subCategList.add(setDomesticUndeterminedSubCategory('Applying for a course', conf.Id, 10));
+                subCategList.add(setDomesticUndeterminedSubCategory('Entry requirements & university study pathways', conf.Id, 10));
+                subCategList.add(setDomesticUndeterminedSubCategory('Fees, costs and scholarships', conf.Id, 5));
+                subCategList.add(setDomesticUndeterminedSubCategory('Course information', conf.Id, 5));
+                subCategList.add(setDomesticUndeterminedSubCategory('My application and offer', conf.Id, 5));
+                subCategList.add(setDomesticUndeterminedSubCategory('My enrolment', conf.Id, 5));
+                subCategList.add(setDomesticUndeterminedSubCategory('Student Life', conf.Id, 5));
+            }
+            else if(conf.Name == 'Primary BSA'){
+                subCategList.add(setDomesticUndeterminedSubCategory('Is not blank', conf.Id, 10));
+                subCategList.add(setDomesticUndeterminedSubCategory('Is unsure', conf.Id, 5));
+                subCategList.add(setDomesticUndeterminedSubCategory('Is blank', conf.Id, 5));
+            }
+            else if(conf.Name == 'Program Engagement'){
+                subCategList.add(setDomesticUndeterminedSubCategory('Program Engagement attendance', conf.Id, 10));
+            }
+            else if(conf.Name == 'Marketing consent'){
+                subCategList.add(setDomesticUndeterminedSubCategory('Yes', conf.Id, 10));
+                subCategList.add(setDomesticUndeterminedSubCategory('Blank', conf.Id, 5));
+            }
+        }
+        LeadScoreConfigurationDAO.newInstance().insertRecords(subCategList, true, AccessLevel.SYSTEM_MODE);
+    }
+
+    private static Lead_Score_Configuration__c setDomesticUndeterminedCategory(String categName, Id parentCategId){
+        Lead_Score_Configuration__c leadScoreConfig = new Lead_Score_Configuration__c(
+            Parent_Category__c = parentCategId,
+            Name = categName,
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Undetermined',
+            Description__c = '',
+            Score_Allocation__c = null,
+            Time_Limit_Months__c = 18,
+            Max_Score__c = 30
+        );
+
+        return leadScoreConfig;
+    }
+
+    private static Lead_Score_Configuration__c setDomesticUndeterminedSubCategory(String subCategName, Id parentCategId, Integer score){
+        Lead_Score_Configuration__c leadScoreConfig = new Lead_Score_Configuration__c(
+            Parent_Category__c = parentCategId,
+            Name = subCategName,
+            RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_SUB_CATEGORY,
+            Domestic_International__c = 'Domestic',
+            Study_Level__c = 'Undergraduate',
+            Description__c = '',
+            Score_Allocation__c = score
         );
 
         return leadScoreConfig;
