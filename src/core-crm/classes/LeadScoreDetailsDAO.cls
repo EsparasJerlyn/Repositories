@@ -66,5 +66,17 @@ public inherited sharing class LeadScoreDetailsDAO extends DmlBase implements IL
             accessLevel
         );
     }
+
+    public Database.QueryLocator queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevel(
+        Set<String> citizenshipStatusSet,
+        Set<String> primaryStudyLevelSet
+    ){
+        String query =
+            'SELECT Id, Contact__c, Lead__c, Domestic_International__c, Study_Level__c ' + 
+              'FROM Lead_Score_Detail__c ' + 
+             'WHERE Domestic_International__c IN :citizenshipStatusSet ' + 
+               'AND Study_Level__c IN : primaryStudyLevelSet';
+        return Database.getQueryLocator(query);
+    }
     
 }

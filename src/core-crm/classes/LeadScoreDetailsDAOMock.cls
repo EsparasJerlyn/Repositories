@@ -75,5 +75,12 @@ public inherited sharing class LeadScoreDetailsDAOMock extends DmlBaseMock imple
     public Database.QueryLocator getLeadScoreDetailsWithContactOrLead() {
         return null;
     }
+
+    public Database.QueryLocator queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevel(
+        Set<String> citizenshipStatusSet,
+        Set<String> primaryStudyLevelSet
+    ){
+        return null;
+    }
     
 }

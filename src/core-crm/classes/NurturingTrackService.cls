@@ -24,6 +24,7 @@ public with sharing class NurturingTrackService {
             'CompletedCadence' => 'Lead__c'
         }
     };
+    
 
     /**
      * @description: Get the nurturing Track Records and set the key to Cadence Name
@@ -50,12 +51,46 @@ public with sharing class NurturingTrackService {
      */
     public static Map<Id, Set<String>> getApplicantIdsWithCompletedCadence(
         Set<Id> applicantIdsSet, // Ids contact/lead
-        Set<String> candenceNamesSet,
+        List<Completed_Cadence__c> completedCadenceList,
         SObjectType objectType
     ) {
         Map<Id, Set<String>> completedCadencesByApplicantId = new Map<Id, Set<String>>();
 
-        List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(applicantIdsSet,candenceNamesSet,'SYSTEM_MODE');
+        for (Completed_Cadence__c completedCadence : completedCadenceList) {
+            String completedCadenceApiName = (String) OBJECT_TO_FIELD_MAP.get(objectType)
+                .get('CompletedCadence');
+            if (
+                !completedCadencesByApplicantId.containsKey(
+                    (Id) completedCadence.get(completedCadenceApiName)
+                ) && !CompletedCadencesDAO.completedCadenceStatuses.contains(completedCadence.Completed_Cadence_Status__c)
+            ) {
+                completedCadencesByApplicantId.put(
+                    (Id) completedCadence.get(completedCadenceApiName),
+                    new Set<String>()
+                );
+            }
+            completedCadencesByApplicantId.get((Id) completedCadence.get(completedCadenceApiName))
+                .add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
+        }
+        return completedCadencesByApplicantId;
+    }
+
+
+    /**
+     * @description Generate a map between applicant ids (either contact or lead) and a list of
+     *              the cadence names of their completed cadences regardless of the status if they have.
+     * @param {Set<Id>} applicantIdsSet A set of ids containing either contacts or leads to find completed cadences with
+     * @param {Set<String>} cadenceNamesSet A set of cadence names to filter through completed cadences via SOQL
+     * @param {SObjectType} objectType Needed to identify whether this method is used for leads or contacts
+     * @return {Map<Id, Set<String>>} a set of application ids that has a related completed cadence record
+     */
+    public static Map<Id, Set<String>> getApplicantIdsWithAllCompletedCadence(
+        Set<Id> applicantIdsSet, // Ids contact/lead
+        List<Completed_Cadence__c> completedCadenceList,
+        SObjectType objectType
+    ) {
+        Map<Id, Set<String>> completedCadencesByApplicantId = new Map<Id, Set<String>>();
+
         for (Completed_Cadence__c completedCadence : completedCadenceList) {
             String completedCadenceApiName = (String) OBJECT_TO_FIELD_MAP.get(objectType)
                 .get('CompletedCadence');

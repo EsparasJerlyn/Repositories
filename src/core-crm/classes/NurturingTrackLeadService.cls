@@ -23,11 +23,21 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = new Map<String, Nurture_Track_Configuration__c>();
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackWithThresholdForEntry = new Map<String, Nurture_Track_Configuration__c>();
     private static Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>(); 
+    private static Map<Id, Set<String>> applicantIdsWithAllCompletedCadence = new Map<Id, Set<String>>();
     private static Map<Id, Lead> domesticEntryLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> domesticExitLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalEntryLeadMap = new Map<Id, Lead>();
     private static Map<Id, Lead> internationalExitLeadMap = new Map<Id, Lead>();
     private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
+    private static final Set<String> ALL_CADENCES = new Set<String>{
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED,
+        NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+        NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+        NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+    };
 
     /**
      * @description: process All leads for Entry and Exit in Cadences assignment
@@ -68,18 +78,19 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         getLeadRecordCitizenship(mapOfLeads);
         getFilteredNurturingTrackRecords();
 
+        List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(mapOfLeads.keySet(),ALL_CADENCES,'SYSTEM_MODE');
+
         //get all related completed cadences related to the lead
         applicantIdsWithCompletedCadence = NurturingTrackService.getApplicantIdsWithCompletedCadence(
             mapOfLeads.keySet(),
-            new Set<String>{
-                NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL,
-                NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED,
-                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
-                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
-                NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL,
-                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
-                NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
-            },
+            completedCadenceList,
+            Lead.getSObjectType()
+        );
+
+        //get all completed cadences regardless of the status related to the contact
+        applicantIdsWithAllCompletedCadence = NurturingTrackService.getApplicantIdsWithAllCompletedCadence(
+            mapOfLeads.keySet(),
+            completedCadenceList,
             Lead.getSObjectType()
         );
     }
@@ -183,7 +194,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Set<Id> existingLeadIdOnApplication = getLeadOnApplicationForDomesticStrongInterestPreApplicationEntryFilter(applicationList,domesticEntryLeadMap.keySet());
         Set<Id> existingCaseFromLead = getCaseRecordsFromLead(domesticEntryLeadMap.keySet());
         Set<Id> leadIdsWithApplication = getLeadIdsWithApplication(applicationList);
-    
+        Set<String> completedCadencesCopy = new Set<String>();
+
         Map<Id, Set<String>> leadsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryLeadMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED },
@@ -197,12 +209,20 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         );
 
         for (Lead lead : domesticEntryLeadMap.values()){
+            //get a copy of completed cadences related to the contact regardless of status
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(lead.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(lead.Id)):new Set<String>();
+
             Boolean leadHasExistingApplication = leadIdsWithApplication.contains(lead.Id);
             Boolean hasInActiveApplication = existingLeadIdOnApplication.contains(lead.Id);
             Boolean hasExistingCaseFromLead = existingCaseFromLead.contains(lead.Id);
             Boolean hasExistingCompletedCadence = leadsWithCompletedCadence.containsKey(lead.Id);
             Boolean hasExistingCompletedCadenceManual = leadsWithCompletedCadenceManual.containsKey(lead.Id);
-            if ((!leadHasExistingApplication || hasInActiveApplication) && hasExistingCaseFromLead && !hasExistingCompletedCadenceManual)
+            if ((!leadHasExistingApplication || hasInActiveApplication) && 
+            hasExistingCaseFromLead && 
+            !hasExistingCompletedCadenceManual &&
+            //make sure that there are no completed cadence against any succeeding cadence
+            //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+            !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST))
             {
                 leadToUpdateMap.put(
                         lead.Id, 
@@ -472,6 +492,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     }
 
     private static Map<Id, Lead> getEntryInternationalStrongInterestPreApplication(Map<Id, Lead> internationalEntryLeadMap) {
+        Set<String> completedCadencesCopy = new Set<String>();
+
         Map<Id, Set<String>> leadIdsWithCmpltdCadenceSet = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryLeadMap.keySet(),
             new List<String>{NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED},
@@ -488,8 +510,14 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
         for(Lead internationalEntryLead : internationalEntryLeadMap.values()) {
             
-            boolean shouldContinueProcessing = leadIdsWithCmpltdCadenceSet.containsKey(internationalEntryLead.Id) && leadIdsWithCmpltdCadenceSet.get(internationalEntryLead.Id).size() >= 2;           
-            if (shouldContinueProcessing) {
+            boolean shouldContinueProcessing = leadIdsWithCmpltdCadenceSet.containsKey(internationalEntryLead.Id) && leadIdsWithCmpltdCadenceSet.get(internationalEntryLead.Id).size() >= 2;       
+            //get a copy of completed cadences related to the contact regardless of status
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(internationalEntryLead.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(internationalEntryLead.Id)):new Set<String>();
+    
+            if (shouldContinueProcessing || 
+                //make sure that there are no completed cadence against any succeeding cadence
+                //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST)) {
                 continue;
             }
             
