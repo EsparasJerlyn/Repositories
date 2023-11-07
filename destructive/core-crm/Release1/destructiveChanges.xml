@@ -28,6 +28,7 @@
         <!--(Start) DEPP-5866 -->
         <members>LeadScoreQueueableCall</members>
         <!--(End) DEPP-5866 -->
+        <members>Update_Latest_Queue_Name_Field_FlowTest</members>
         <name>ApexClass</name>
     </types>
     <types>
