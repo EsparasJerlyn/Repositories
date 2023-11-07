@@ -27,7 +27,7 @@
  *    | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added query for getContactMobilePhoneByRecordIds          |
  *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7015              | Added query for getPersonContactsBySetIds                 |
  *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added query for getPersonContactsWithLimit                |
- *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsWithMatchingCases|
+ *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -378,7 +378,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         );
     }
     
-    public static List<Contact> getExistingMCPersonaContactsWithMatchingCases(
+    public static List<Contact> getExistingMCPersonaContactsBySetIds(
         Set<Id> recordIds,
         AccessLevel accessLevel
     ) {

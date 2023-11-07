@@ -56,7 +56,7 @@ public with sharing class CaseTriggerHelper {
         if(!contactCaseMap.isEmpty()){    
             //check if contact is mc persona      
             for(Contact con: ContactsDAO.newInstance()
-                                .getExistingMCPersonaContactsWithMatchingCases(
+                                .getExistingMCPersonaContactsBySetIds(
                                     contactCaseMap.keySet(), 
                                     AccessLevel.SYSTEM_MODE)
                                 ){
