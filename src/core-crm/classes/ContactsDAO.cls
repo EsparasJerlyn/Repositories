@@ -27,6 +27,7 @@
  *    | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added query for getContactMobilePhoneByRecordIds          |
  *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7015              | Added query for getPersonContactsBySetIds                 |
  *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added query for getPersonContactsWithLimit                |
+ *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsWithMatchingCases|
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -36,6 +37,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final String ID_PREFIX = '003'; //Constant contact Id prefix see: https://help.salesforce.com/s/articleView?id=000385203&type=1
     public static final Id PERSON_RECORDTYPE_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
         .get(PERSON_RECORDTYPE)
+        .getRecordTypeId();
+    public static final Id MC_PERSONA_RECORDTYPE_ID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName()
+        .get('MC_Persona')
         .getRecordTypeId();
 
     public static final Set<String> CONTACT_HAS_APPLIED_STATUSES = new Set<String>{
@@ -371,6 +375,19 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'WHERE MobilePhone != NULL ' +
             'AND Id IN: recordIds ',
             accessLevel
+        );
+    }
+    
+    public static List<Contact> getExistingMCPersonaContactsWithMatchingCases(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT  Id ' +
+                'FROM Contact ' +
+                'WHERE Id IN: recordIds ' +
+                'AND RecordTypeId =: MC_PERSONA_RECORDTYPE_ID ',
+                accessLevel
         );
     }
 
