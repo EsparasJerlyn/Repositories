@@ -12,7 +12,6 @@
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for updating case using WhatsApp    |
       | ken.marvin.narido              | Oct  12,2023          | DEPP-6871              | changed the reference for the auto prio metadata |
       | mark.j.mahilum                 | Oct 30,2023           | DEPP-7051              | Updated case priority for whatsapp case origin   |
-      | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Updated matchExistingContactOrLeadToCase         |
  */
 public with sharing class CaseTriggerHelper {
     //map of object type to the field api names of the fields to be matched
@@ -34,40 +33,17 @@ public with sharing class CaseTriggerHelper {
     public static void matchExistingContactOrLeadToCase(List<Case> newCaseList) {
         Set<String> suppliedEmails = new Set<String>();
         Map<Id, Case> emailToCaseMap = new Map<Id, Case>();
-        Map<Id,Case> contactCaseMap = new Map<Id,Case>();
 
         for (Case caseRec : newCaseList) {
-            //Standard email-to-case functionality ensures that a case is matched to a contact,
-            //regardless of the record type, 
-            //and populates the Case.ContactId
-            //we must check if the contact has a recordtype MC PERSONA
-            if(String.isNotEmpty(caseRec.contactId)){
-                contactCaseMap.put(caseRec.contactId,caseRec);
-            }
-
             Boolean isWithEmailAndContactAndLeadEmpty = (String.isEmpty(caseRec.contactId) &&
             String.isEmpty(caseRec.Lead__c)) && String.isNotEmpty(caseRec.SuppliedEmail);
+
             if ( isWithEmailAndContactAndLeadEmpty) {
                 suppliedEmails.add(caseRec.SuppliedEmail);
                 emailToCaseMap.put(caseRec.Id, caseRec);
             }
         }
 
-        if(!contactCaseMap.isEmpty()){    
-            //check if contact is mc persona      
-            for(Contact con: ContactsDAO.newInstance()
-                                .getExistingMCPersonaContactsWithMatchingCases(
-                                    contactCaseMap.keySet(), 
-                                    AccessLevel.SYSTEM_MODE)
-                                ){
-                //store case and email info of MC Persona contact
-                //for it to be matched with the PERSON contact
-                Case caseRec = contactCaseMap.get(con.Id);
-                suppliedEmails.add(caseRec.SuppliedEmail);
-                emailToCaseMap.put(caseRec.Id, caseRec);
-            }
-        }
-        
         if (!suppliedEmails.isEmpty()) {
             processCaseRecordsToContactMatch(suppliedEmails, emailToCaseMap);
         }
@@ -237,8 +213,7 @@ public with sharing class CaseTriggerHelper {
                 caseToUpdate.add(
                     new Case(
                         Id = caseRec.Id,
-                        Lead__c = (Id) uniqueLeadMap.get(caseRec.SuppliedEmail),
-                        ContactId = null
+                        Lead__c = (Id) uniqueLeadMap.get(caseRec.SuppliedEmail)
                     )
                 );
             }
