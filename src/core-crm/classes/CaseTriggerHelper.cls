@@ -37,9 +37,14 @@ public with sharing class CaseTriggerHelper {
         Map<Id,Case> contactCaseMap = new Map<Id,Case>();
 
         for (Case caseRec : newCaseList) {
+            //Standard email-to-case functionality ensures that a case is matched to a contact,
+            //regardless of the record type, 
+            //and populates the Case.ContactId
+            //we must check if the contact has a recordtype MC PERSONA
             if(String.isNotEmpty(caseRec.contactId)){
                 contactCaseMap.put(caseRec.contactId,caseRec);
             }
+
             Boolean isWithEmailAndContactAndLeadEmpty = (String.isEmpty(caseRec.contactId) &&
             String.isEmpty(caseRec.Lead__c)) && String.isNotEmpty(caseRec.SuppliedEmail);
             if ( isWithEmailAndContactAndLeadEmpty) {
@@ -48,13 +53,15 @@ public with sharing class CaseTriggerHelper {
             }
         }
 
-        if(!contactCaseMap.isEmpty()){            
+        if(!contactCaseMap.isEmpty()){    
+            //check if contact is mc persona      
             for(Contact con: ContactsDAO.newInstance()
                                 .getExistingMCPersonaContactsWithMatchingCases(
                                     contactCaseMap.keySet(), 
                                     AccessLevel.SYSTEM_MODE)
                                 ){
-                
+                //store case and email info of MC Persona contact
+                //for it to be matched with the PERSON contact
                 Case caseRec = contactCaseMap.get(con.Id);
                 suppliedEmails.add(caseRec.SuppliedEmail);
                 emailToCaseMap.put(caseRec.Id, caseRec);
