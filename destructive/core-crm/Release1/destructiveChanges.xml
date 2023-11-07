@@ -209,6 +209,7 @@
         <!--(Start) DEPP-6426-->
         <members>Update_Case_Priority_Flow</members>
         <!--(End) DEPP-6426-->
+        <members>Update_Latest_Queue_Name_Field</members>
         <name>Flow</name>
     </types>
     <types>
