@@ -49,8 +49,8 @@ public with sharing class CaseTriggerHelper {
         }
 
         if(!contactCaseMap.isEmpty()){            
-            for(Contact con: ContactsDAO.newInstance().
-                                getExistingMCPersonaContactsWithMatchingCases(
+            for(Contact con: ContactsDAO.newInstance()
+                                .getExistingMCPersonaContactsWithMatchingCases(
                                     contactCaseMap.keySet(), 
                                     AccessLevel.SYSTEM_MODE)
                                 ){
