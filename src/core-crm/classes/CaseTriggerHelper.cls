@@ -11,7 +11,7 @@
       | mark.j.mahilum                 | Sept 11,2023          | DEPP-6421              | Created file                                     |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for updating case using WhatsApp    |
       | ken.marvin.narido              | Oct  12,2023          | DEPP-6871              | changed the reference for the auto prio metadata |
-      | mark.j.mahilum                 | Oct 30,2023           | DEPP-7052              | Updated matchExistingContactOrLeadToCase         |
+      | mark.j.mahilum                 | Oct 30,2023           | DEPP-7051              | Updated matchExistingContactOrLeadToCase         |
       | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Updated matchExistingContactOrLeadToCase         |
  */
 public with sharing class CaseTriggerHelper {
