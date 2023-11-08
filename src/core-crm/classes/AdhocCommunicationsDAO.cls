@@ -37,7 +37,7 @@ public inherited sharing class AdhocCommunicationsDAO extends DmlBase implements
         return Database.getQueryLocator(
             'SELECT Id, Subject__c, Email_Content__c, IsSent__c, Send_Date__c, Course_Offering__c , Program_Offering__c ' + 
             'FROM Adhoc_Communication__c ' + 
-            'WHERE Send_Date__c =: todayDate ' +
+            'WHERE Send_Date__c <= : todayDate ' +
             'AND IsSent__c = FALSE '
         );
     }
