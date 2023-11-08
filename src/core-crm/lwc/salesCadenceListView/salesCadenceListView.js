@@ -31,16 +31,16 @@ export default class SalesCadenceListView extends LightningElement {
   @track sortDirection = "DESC";
   @track sortBy = '';
 
-  domesticPreAndPostOffer = [
-    'Domestic First Offer to Acceptance',
+  domesticDeferredOfferOrEnrolment = [
     'Domestic Deferred Offer to Acceptance',
-    'Domestic Accepted not yet Enrolled',
-    'Domestic and International Enrolment to Census',
-    'Domestic Offer Lapsed'
+    'Domestic and International Enrolment to Census'
   ];
 
-  domesticAcceptedAdmitted = [
+  domesticPreOrPostAcceptance = [
     'Domestic Accepted and Admitted',
+    'Domestic First Offer to Acceptance',
+    'Domestic Accepted not yet Enrolled',
+    'Domestic Offer Lapsed'
   ];
 
   //columns for domestic strong interest pre application cadence
@@ -111,7 +111,7 @@ export default class SalesCadenceListView extends LightningElement {
   ];
 
   //columns for domestic with Offered Preference and Owning Faculty
-  @track domesticPreAndPostOfferColumns = [
+  @track domesticDeferredOfferOrEnrolmentColumns = [
     {
       label: "Name",
       fieldName: "name",
@@ -146,7 +146,7 @@ export default class SalesCadenceListView extends LightningElement {
   ];
 
   //columns for domestic with Offered Program and Owning Faculty
-  @track domesticAcceptedAdmittedColumns = [
+  @track domesticPreOrPostAcceptanceColumns = [
     {
       label: "Name",
       fieldName: "name",
@@ -324,10 +324,10 @@ export default class SalesCadenceListView extends LightningElement {
     if (this.calculatedCadence == "Domestic Strong Interest Pre-Application") {
       return this.domesticPreApplicationColumns;
     } else if (this.calculatedCadence.startsWith("Domestic")) {
-        if (this.domesticAcceptedAdmitted.includes(this.calculatedCadence)) {
-          return this.domesticAcceptedAdmittedColumns;
-        } else if (this.domesticPreAndPostOffer.includes(this.calculatedCadence)) {
-          return this.domesticPreAndPostOfferColumns;
+        if (this.domesticPreOrPostAcceptance.includes(this.calculatedCadence)) {
+          return this.domesticPreOrPostAcceptanceColumns;
+        } else if (this.domesticDeferredOfferOrEnrolment.includes(this.calculatedCadence)) {
+          return this.domesticDeferredOfferOrEnrolmentColumns;
         } else {
           return this.domesticColumns;
         }
