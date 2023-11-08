@@ -18,7 +18,8 @@
       | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application        | 
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
-    private static List<hed__Application__c> applicationList;
+    private static List<hed__Application__c> applicationListForStrongInterest = new List<hed__Application__c>();
+    private static List<hed__Application__c> applicationList = new List<hed__Application__c>();
     private static List<Case> caseList;
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackMap = new Map<String, Nurture_Track_Configuration__c>();
     private static Map<String, Nurture_Track_Configuration__c> nurturingTrackWithThresholdForEntry = new Map<String, Nurture_Track_Configuration__c>();
@@ -74,8 +75,9 @@ public with sharing class NurturingTrackLeadService { //NOPMD
      * @param Map<Id,Lead> mapOfLeads record to query
      */
     private static void getAllRelatedRecords(Map<Id, Lead> mapOfLeads) {
-        applicationList = ApplicationsDAO.newInstance().getApplicationsByLeadIds(mapOfLeads.keySet(), 'SYSTEM_MODE');
+        applicationListForStrongInterest = ApplicationsDAO.newInstance().getApplicationsByLeadIds(mapOfLeads.keySet(), 'SYSTEM_MODE');
         getLeadRecordCitizenship(mapOfLeads);
+        getAppsWithLatestCalculatedIntakeDatePerLead(mapOfLeads.keySet());
         getFilteredNurturingTrackRecords();
 
         List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByTargetIds(mapOfLeads.keySet(),ALL_CADENCES,'SYSTEM_MODE');
@@ -93,6 +95,23 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             completedCadenceList,
             Lead.getSObjectType()
         );
+    }
+
+    private static void getAppsWithLatestCalculatedIntakeDatePerLead(Set<Id> leadIds){
+        
+        Map<String, hed__Application__c> leadToOnePerApplicationRTMap = new Map<String, hed__Application__c>();
+        for(hed__Application__c app : ApplicationsDAO.newInstance()
+        .getAppsWithLatestCalculatedIntakeDateByApplicantIds(leadIds, 'SYSTEM_MODE')){
+            //gets the lead id + app recordtype string combo
+            //make this string combo the key
+            //this ensures that application list will only have 1 per lead and app record type
+            String leadToAppRTCombo = (String)app.Lead__c + (String)app.RecordTypeId;
+            if(!leadToOnePerApplicationRTMap.containsKey(leadToAppRTCombo)){
+                leadToOnePerApplicationRTMap.put(leadToAppRTCombo,app);
+            }
+        }
+        //add all application with unique lead and app recordtype
+        applicationList.addAll(leadToOnePerApplicationRTMap.values());
     }
 
     /**
@@ -191,9 +210,9 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Map<Id, Lead> domesticEntryLeadMap
     ) {
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
-        Set<Id> existingLeadIdOnApplication = getLeadOnApplicationForDomesticStrongInterestPreApplicationEntryFilter(applicationList,domesticEntryLeadMap.keySet());
+        Set<Id> existingLeadIdOnApplication = getLeadOnApplicationForDomesticStrongInterestPreApplicationEntryFilter(applicationListForStrongInterest,domesticEntryLeadMap.keySet());
         Set<Id> existingCaseFromLead = getCaseRecordsFromLead(domesticEntryLeadMap.keySet());
-        Set<Id> leadIdsWithApplication = getLeadIdsWithApplication(applicationList);
+        Set<Id> leadIdsWithApplication = getLeadIdsWithApplication(applicationListForStrongInterest);
         Set<String> completedCadencesCopy = new Set<String>();
 
         Map<Id, Set<String>> leadsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
@@ -297,7 +316,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     ) {
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         Set<Id> existingLeadIdOnApplicationToExit = getLeadOnApplicationForDomesticStrongInterestPreApplicationExitFilter(
-            applicationList
+            applicationListForStrongInterest
         );
         
         for (Id leadId : domesticExitLeadMap.keySet()) {
@@ -564,7 +583,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
         };
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
-        for(hed__Application__c application : applicationList) {
+        for(hed__Application__c application : applicationListForStrongInterest) {
             Lead relatedLead = internationalExitLeadMap.get(application.Lead__c);
             if(
                 relatedLead != null &&
