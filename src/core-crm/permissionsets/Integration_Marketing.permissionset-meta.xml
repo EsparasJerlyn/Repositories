@@ -497,6 +497,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Cadence_Application__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Calculated_Cadence__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1483,6 +1488,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.AnnualRevenue</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Cadence_Application__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
