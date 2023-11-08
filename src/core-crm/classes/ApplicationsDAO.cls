@@ -245,8 +245,8 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         );
     }
 
-    public List<hed__Application__c> getAppsWithLatestCalculatedIntakeDateByContactIds(
-        Set<Id> contactIds,
+    public List<hed__Application__c> getAppsWithLatestCalculatedIntakeDateByApplicantIds(
+        Set<Id> recordIds,
         String accessLevel
     ) {
         return Database.query(
@@ -254,11 +254,14 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
                 'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c, ' +
                 'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
                 'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, ' +
-                'hed__Applicant__r.QUT_Applicant__c, hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, ' +
+                'hed__Applicant__r.QUT_Applicant__c, hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, Lead__c, ' +
                 'hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c, hed__Initial_Creation_Date__c ' +
                 'FROM hed__Application__c ' +
-                'WHERE hed__Applicant__c IN :contactIds '+
+                'WHERE (hed__Applicant__c IN :recordIds  OR Lead__c IN: recordIds) '+
                 'AND Calculated_Intake_Date__c >= TODAY ' +
+                'AND ( RecordType.DeveloperName = \'StudyLink\' '+
+                'OR RecordType.DeveloperName = \'SAMS_Legacy\' '+ 
+                'OR RecordType.DeveloperName = \'SAMS_CIAnywhere\') ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel) +
                 ' ORDER BY Calculated_Intake_Date__c DESC'

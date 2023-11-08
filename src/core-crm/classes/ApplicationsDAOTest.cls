@@ -118,11 +118,11 @@ public with sharing class ApplicationsDAOTest {
     }
 
     @isTest
-    static void getAppsWithLatestCalculatedIntakeDateByContactIdsTest() {
+    static void getAppsWithLatestCalculatedIntakeDateByApplicantIdsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
-                .getAppsWithLatestCalculatedIntakeDateByContactIds(
+                .getAppsWithLatestCalculatedIntakeDateByApplicantIds(
                     new Set<Id>(),
                     'SYSTEM_MODE'
                 );
