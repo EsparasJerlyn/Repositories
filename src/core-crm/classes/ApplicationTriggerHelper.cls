@@ -229,14 +229,14 @@ public with sharing class ApplicationTriggerHelper {
         Boolean isQTACRecType = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
         Boolean isContactChanged = (app.hed__Applicant__c != oldApp.hed__Applicant__c);
         Boolean isStatusChanged = (app.Application_Status__c != oldApp.Application_Status__c);
-        Boolean isQTACActive = (app.Is_Active__c != oldApp.Is_Active__c && isQTACRecType);
-        Boolean isCalculatedIntakeDateChanged = (app.Calculated_Intake_Date__c != oldApp.Calculated_Intake_Date__c);
+        Boolean isQTACActive = (app.Is_Active__c != oldApp.Is_Active__c && isQTACRecType);        
+        Boolean isCalculatedIntakeDateValid = app.Calculated_Intake_Date__c !=NULL;
         
         if(String.isNotEmpty(oldApp.hed__Applicant__c) && isContactChanged){
             contactIds.add(oldApp.hed__Applicant__c); 
         }  
         
-        if((isStatusChanged || isQTACActive || isCalculatedIntakeDateChanged) && String.isNotEmpty(app.hed__Applicant__c)){
+        if((isStatusChanged || isQTACActive || isCalculatedIntakeDateValid) && String.isNotEmpty(app.hed__Applicant__c)){
             contactIds.add(app.hed__Applicant__c);
         }
     }
