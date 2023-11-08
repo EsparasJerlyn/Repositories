@@ -169,13 +169,15 @@ public with sharing class NurturingTrackService {
                               Id = (Id) application.get(applicantApiName),
                               Calculated_Cadence__c = (length == 1)
                                   ? wrapper.cadenceNameManual
-                                  : wrapper.cadenceNameAutomated
+                                  : wrapper.cadenceNameAutomated,
+                              Cadence_Application__c = (Id) application.get('Id')
                           )
                         : (SObject) new Lead(
                               Id = (Id) application.get(applicantApiName),
                               Calculated_Cadence__c = (length == 1)
                                     ? wrapper.cadenceNameManual
-                                    : wrapper.cadenceNameAutomated
+                                    : wrapper.cadenceNameAutomated,
+                              Cadence_Application__c = (Id) application.get('Id')
                           )
                 );
             }
@@ -202,11 +204,13 @@ public with sharing class NurturingTrackService {
                     recordId.startsWith('003') == true
                         ? (SObject) new Contact(
                               Id = (Id) application.get(applicantApiName),
-                              Calculated_Cadence__c =  (wrapper.cadenceNameManual != null) ? wrapper.cadenceNameManual : wrapper.cadenceNameAutomated
+                              Calculated_Cadence__c =  (wrapper.cadenceNameManual != null) ? wrapper.cadenceNameManual : wrapper.cadenceNameAutomated,
+                              Cadence_Application__c = (Id) application.get('Id')
                           )
                         : (SObject) new Lead(
                               Id = (Id) application.get(applicantApiName),
-                              Calculated_Cadence__c =  (wrapper.cadenceNameManual != null) ? wrapper.cadenceNameManual : wrapper.cadenceNameAutomated
+                              Calculated_Cadence__c =  (wrapper.cadenceNameManual != null) ? wrapper.cadenceNameManual : wrapper.cadenceNameAutomated,
+                              Cadence_Application__c = (Id) application.get('Id')
                           )
                 );
             }
