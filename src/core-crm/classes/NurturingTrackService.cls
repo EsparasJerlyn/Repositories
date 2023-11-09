@@ -69,8 +69,11 @@ public with sharing class NurturingTrackService {
                     new Set<String>()
                 );
             }
-            completedCadencesByApplicantId.get((Id) completedCadence.get(completedCadenceApiName))
+
+            if(completedCadencesByApplicantId.containsKey((Id) completedCadence.get(completedCadenceApiName))){
+                completedCadencesByApplicantId.get((Id) completedCadence.get(completedCadenceApiName))
                 .add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
+            }
         }
         return completedCadencesByApplicantId;
     }
