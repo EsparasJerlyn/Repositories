@@ -495,6 +495,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Accepted');
             newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
             newApplications[0].Is_Agent_Assisted__c = false;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -531,6 +532,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
             newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
             newApplications[0].Is_Agent_Assisted__c = false;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -565,6 +567,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
             newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
             newApplications[0].Is_Agent_Assisted__c = false;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // create completed cadence
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
@@ -642,6 +645,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -665,6 +669,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -688,6 +693,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Admitted');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -711,6 +717,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Admitted');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -737,6 +744,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             newApplications[0].Admission_Process__c = 'RTN_DEFER';
             newApplications[0].Offer_Status__c = 'Offered';
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -761,6 +769,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Offer_Status__c = 'Accepted';
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -924,6 +933,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -950,6 +960,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -1008,6 +1019,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             );
             newApplications[0].Offer_Status__c = 'Lapsed';
             newApplications[0].Offer_Lapse_Date__c = System.today().addDays(-(Integer) nurtureListAutomated[0].Key_Date_Offset_Days__c);
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance()
                 .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
@@ -1057,6 +1069,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             );
             newApplications[0].Offer_Status__c = 'Lapsed';
             newApplications[0].Offer_Lapse_Date__c = System.today().addDays(-(Integer)nurtureListManual[0].Key_Date_Offset_Days__c);
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance()
                 .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
@@ -1238,6 +1251,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -1284,6 +1298,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                 'New'
             );
             newApplications[0].Offer_Status__c = 'Offered'; //Offer Status is not Lapsed
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance()
                 .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
@@ -1317,6 +1332,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                 ApplicationsDAO.STUDYLINK_RECTYPE_ID,
                 'Withdrawn'
             );
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance()
                 .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
@@ -1348,6 +1364,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                 'New'
             );
             newApplications[0].Offer_Status__c = 'Offered'; //Offer Status is not Lapsed
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance()
                 .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
@@ -1394,6 +1411,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(contactList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             
             // call method
@@ -1443,6 +1461,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(contactList, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
@@ -1481,6 +1500,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
 
@@ -1512,6 +1532,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Submitted');
             newApplications[0].hed__Application_Date__c = System.Now();
             newApplications[0].Offer_Status__c = 'Deferred';
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
 

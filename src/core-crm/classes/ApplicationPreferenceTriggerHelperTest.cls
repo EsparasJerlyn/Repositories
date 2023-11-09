@@ -23,19 +23,25 @@ private class ApplicationPreferenceTriggerHelperTest {
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
 
             Integer numOfPrefRec = 2;
+            List<hed__Application__c> allApplicationList = new List<hed__Application__c>();
+            List<Application_Preference__c> allApplicationPrefList = new List<Application_Preference__c>();
+
             //QTAC
             List<hed__Application__c> qtacApplicationList = TestDataFactory.createApplicationRecords(contactList[0].Id, ApplicationsDAO.QTAC_RECTYPE_ID, 1);
-            ApplicationsDAO.newInstance().insertRecords(qtacApplicationList, false, AccessLevel.USER_MODE);
-            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(qtacApplicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, numOfPrefRec);
-            ApplicationPreferencesDAO.newInstance().insertRecords(qtacAppPrefList, false, AccessLevel.USER_MODE);
-
             //Study Link
             List<hed__Application__c> studyLinkApplicationList = TestDataFactory.createApplicationRecords(contactList[0].Id, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 1);
-            ApplicationsDAO.newInstance().insertRecords(studyLinkApplicationList, false, AccessLevel.USER_MODE);
-            List<Application_Preference__c> studyLinkappPrefList = TestDataFactory.createApplicationPreferenceRecords(studyLinkApplicationList[0].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, numOfPrefRec);
-            ApplicationPreferencesDAO.newInstance().insertRecords(studyLinkappPrefList, false, AccessLevel.USER_MODE);
+            allApplicationList.addAll(qtacApplicationList);
+            allApplicationList.addAll(studyLinkApplicationList);
 
-            List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(studyLinkappPrefList[0].Id, System.Today(), 1);
+            ApplicationsDAO.newInstance().insertRecords(allApplicationList, false, AccessLevel.USER_MODE);
+
+            List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(allApplicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, numOfPrefRec);
+            List<Application_Preference__c> studyLinkappPrefList = TestDataFactory.createApplicationPreferenceRecords(allApplicationList[1].Id, ApplicationPreferencesDAO.STUDYLINK_RECTYPE_ID, numOfPrefRec);
+            allApplicationPrefList.addAll(qtacAppPrefList);
+            allApplicationPrefList.addAll(studyLinkappPrefList);
+            ApplicationPreferencesDAO.newInstance().insertRecords(allApplicationPrefList, false, AccessLevel.USER_MODE);
+
+            List<Package_Component__c> packageComponentList = TestDataFactory.createPackageComponentRecords(allApplicationPrefList[1].Id, System.Today(), 1);
             PackageComponentDAO.newInstance().insertRecords(packageComponentList, false, AccessLevel.USER_MODE);
 			Test.stopTest();
         }

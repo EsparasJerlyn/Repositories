@@ -11,13 +11,19 @@
       | julie.jane.alegre              | August 11, 2023       | DEPP-6252              | Created file                                     |
  */
 public with sharing class ApplicationPreferenceTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
+
+    private static boolean isRunning = false;
     
     /**
      * @description afterInsert trigger event
      * @param newItems - List of Application_Preference__c.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems){
-        ApplicationPreferenceTriggerHelper.setCurrentPreference((List<Application_Preference__c>) newItems.values(), null);
+        if(!isRunning){
+            isRunning = true;
+            ApplicationPreferenceTriggerHelper.setCurrentPreference((List<Application_Preference__c>) newItems.values(), null);
+            isRunning = false;
+        }
     }
 
     /**
@@ -26,7 +32,11 @@ public with sharing class ApplicationPreferenceTriggerHandler implements Disable
      * @param oldItems - Map of Application_Preference__c.Trigger.oldMap
      */
     public void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        ApplicationPreferenceTriggerHelper.setCurrentPreference((List<Application_Preference__c>) newItems.values(), (Map<Id,Application_Preference__c>) oldItems);
+        if(!isRunning){
+            isRunning = true;
+            ApplicationPreferenceTriggerHelper.setCurrentPreference((List<Application_Preference__c>) newItems.values(), (Map<Id,Application_Preference__c>) oldItems);
+            isRunning = false;
+        }
     }
 
     /**

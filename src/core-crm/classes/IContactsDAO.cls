@@ -16,6 +16,7 @@
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652              | method getContactsForQTACAddressUpdate |
  *    | neil.s.h.lesidan               | Sep 20, 2023          | DEPP-6478              | Added getPersonContactsByEmailOrName   |
  *    | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added getContactByCaseMobile           |
+ *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
  */
 public interface IContactsDAO extends DmlInterface {
     List<Contact> getExistingPersonContactsWithMatchingEmails(
@@ -66,6 +67,10 @@ public interface IContactsDAO extends DmlInterface {
         AccessLevel accessLevel
     );
     List<Contact> getContactMobilePhoneByRecordIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ); 
+    List<Contact> getExistingMCPersonaContactsBySetIds(
         Set<Id> recordIds,
         AccessLevel accessLevel
     ); 
