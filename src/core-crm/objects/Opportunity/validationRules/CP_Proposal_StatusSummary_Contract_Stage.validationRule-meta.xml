@@ -5,7 +5,7 @@
     <errorConditionFormula>AND(
 RecordType.DeveloperName = &apos;Corporate_Partnership&apos;,
 ISCHANGED( StageName ),
-ISPICKVAL( PRIORVALUE( StageName ) , &apos;Proposal&apos;),
+ISPICKVAL( StageName , &apos;Contract&apos;),
 ISBLANK( Proposal_Status_Summary__c ) )</errorConditionFormula>
     <errorDisplayField>Proposal_Status_Summary__c</errorDisplayField>
     <errorMessage>Mandatory field.</errorMessage>
