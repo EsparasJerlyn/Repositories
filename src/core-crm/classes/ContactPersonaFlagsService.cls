@@ -24,8 +24,19 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
 
         List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance()
             .getApplicationsActiveApplicants(contactIds, 'SYSTEM_MODE');
+        
+        Set<Id> contactWithActiveApplications = new Set<Id>();
 
         for (hed__Application__c app : existingApplicationList) {
+
+            //get all the contact with active applications
+            contactWithActiveApplications.add(app.hed__Applicant__c);
+
+            //Skip update on contacts that is already an Applicant = TRUE
+            if(app.hed__Applicant__r.QUT_Applicant__c){
+                continue;
+            }
+
             //check if contact is applicant
             boolean isApplicant = true;
 
@@ -74,19 +85,31 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
             );
         }
 
-        //contact with no related application update QUT_Applicant flag to false
+        Set<Id> contactIdsWithNoActiveApplication = new Set<Id>();
+        //contact with no active application update QUT_Applicant flag to false
         for (Id contactId : contactIds) {
-            if (!updateContactMap.containsKey(contactId)) {
+            if (!contactWithActiveApplications.contains(contactId)) {
+                contactIdsWithNoActiveApplication.add(contactId);
+            }
+        }
+        
+        //get application link to contacts
+        List<hed__Application__c> getApplicationFromContactIds = ApplicationsDAO.newInstance()
+            .getApplicationsByContactIds(contactIdsWithNoActiveApplication, 'SYSTEM_MODE');
+        
+        for (hed__Application__c app : getApplicationFromContactIds) {         
+            //update only the contact with Active QUT_Application to false
+            if(app.hed__Applicant__r.QUT_Applicant__c){
                 updateContactMap.put(
-                    contactId,
+                    app.hed__Applicant__c,
                     new Contact(
-                        Id = contactId, 
+                        Id = app.hed__Applicant__c, 
                         QUT_Applicant__c = false, 
                         //set to blank - will be reevaluated for 'Explore' in contact trigger
                         Future_Student_Journey_Status__c = ''
                     )
                 );
-            }
+            }          
         }
 
         if (!updateContactMap.values().isEmpty()) {
