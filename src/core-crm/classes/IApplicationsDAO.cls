@@ -38,8 +38,8 @@ public interface IApplicationsDAO extends DmlInterface{
         String accessLevel
     ); 
 
-    List<hed__Application__c> getAppsWithLatestCalculatedIntakeDateByContactIds(
-        Set<Id> contactIds,
+    List<hed__Application__c> getAppsWithLatestCalculatedIntakeDateByApplicantIds(
+        Set<Id> recordIds,
         String accessLevel
     );
 } 
