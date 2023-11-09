@@ -6,5 +6,6 @@
     <errorConditionFormula>AND( RecordType.DeveloperName = &apos;Corporate_Partnership&apos;, ISCHANGED( StageName ),
 ISPICKVAL( PRIORVALUE( StageName ) , &apos;Proposal&apos;),
 NOT( ISPICKVAL(  Proposal_Status__c  , &apos;Accepted&apos;)) )</errorConditionFormula>
+    <errorDisplayField>Proposal_Status__c</errorDisplayField>
     <errorMessage>Proposal status must be accepted in order to progress to the contract stage.</errorMessage>
 </ValidationRule>
