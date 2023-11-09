@@ -32,14 +32,8 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
             //get all the contact with active applications
             contactWithActiveApplications.add(app.hed__Applicant__c);
 
-            //Skip update on contacts that is already an Applicant = TRUE
-            if(app.hed__Applicant__r.QUT_Applicant__c){
-                continue;
-            }
-
-            //check if contact is applicant
             boolean isApplicant = true;
-
+            
             //get new journey status
             //this will have a value if conditions are satisfied
             newJourneyStatus = FutureStudentJourneyStatusHelper.getNewJourneyStatus(
@@ -50,6 +44,15 @@ public with sharing class ContactPersonaFlagsService {//NOPMD Service Class(Not 
                 app,
                 updateContactMap
             );
+
+            //Skip update on contacts that is already an Applicant = TRUE
+            //And Future Student Journey Status unchanged
+            if( app.hed__Applicant__r.QUT_Applicant__c && 
+                app.hed__Applicant__r.Future_Student_Journey_Status__c == newJourneyStatus ){
+                continue;
+            }
+
+            
 
             //if new value is blank
             //make sure not to overwrite status of contact to be updated
