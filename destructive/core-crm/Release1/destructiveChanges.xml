@@ -266,10 +266,10 @@
         <members>Opportunity.Won</members>
         <members>Opportunity.Default_Opportunity_Pipeline</members>
         <!--(Start) DEPP-7067-->
-        <members>Future_Student_Advisor_Unassigned</members>
-        <members>International_Chat_Enquiries_Case</members>
-        <members>International_Enquiries_Unassigned</members>
-        <members>International_Enquiries_Case</members>
+        <members>Case.Future_Student_Advisor_Unassigned</members>
+        <members>Case.International_Chat_Enquiries_Case</members>
+        <members>Case.International_Enquiries_Unassigned</members>
+        <members>Case.International_Enquiries_Case</members>
         <!--(End) DEPP-7067-->
         <name>ListView</name>
     </types>
