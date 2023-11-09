@@ -33,7 +33,7 @@
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList = new List<hed__Application__c>();
-    private static List<hed__Application__c> applicationsWithLatestCalculatedIntakeDate = new List<hed__Application__c>();
+    private static List<hed__Application__c> applicationListForStrongInterest = new List<hed__Application__c>();
     private static Map<Id,hed__Application__c>  samsAppWithQtac = new Map<Id,hed__Application__c>();
     private static Map<String,String> appToQtacMap = new Map<String,String>();
     private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackWithOffSetDaysMap = new Map<String,Nurture_Track_Configuration__c>();
@@ -139,7 +139,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
      * @param Map<Id,Contact> mapOfContacts record to query
      */
     private static void getAllRelatedRecords(Map<Id, Contact> mapOfContacts) {
-        applicationList.addAll(ApplicationsDAO.newInstance()
+        applicationListForStrongInterest.addAll(ApplicationsDAO.newInstance()
             .getApplicationsByContactIds(mapOfContacts.keySet(), 'SYSTEM_MODE'));
         getAppsWithLatestCalculatedIntakeDatePerContact(mapOfContacts.keySet());
         getContactRecordCitizenship(mapOfContacts);
@@ -164,16 +164,19 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
     private static void getAppsWithLatestCalculatedIntakeDatePerContact(Set<Id> contactIds){
         
-        Map<Id, hed__Application__c> contactToSingleApp = new Map<Id, hed__Application__c>();
-
+        Map<String, hed__Application__c> contactToOnePerApplicationRTMap = new Map<String, hed__Application__c>();
         for(hed__Application__c app : ApplicationsDAO.newInstance()
-        .getAppsWithLatestCalculatedIntakeDateByContactIds(contactIds, 'SYSTEM_MODE')){
-            if(!contactToSingleApp.containsKey(app.hed__Applicant__c)){
-                contactToSingleApp.put(app.hed__Applicant__c,app);
+        .getAppsWithLatestCalculatedIntakeDateByApplicantIds(contactIds, 'SYSTEM_MODE')){
+            //gets the contact id + app recordtype string combo
+            //make this string combo the key
+            //this ensures that application list will only have 1 per contact and app record type
+            String contactToAppRTCombo = (String)app.hed__Applicant__c + (String)app.RecordTypeId;
+            if(!contactToOnePerApplicationRTMap.containsKey(contactToAppRTCombo)){
+                contactToOnePerApplicationRTMap.put(contactToAppRTCombo,app);
             }
         }
-
-        applicationsWithLatestCalculatedIntakeDate.addAll(contactToSingleApp.values());
+        //add all application with unique contact and recordtype
+        applicationList.addAll(contactToOnePerApplicationRTMap.values());
     }
 
 
@@ -467,7 +470,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Set<String> completedCadencesCopy = new Set<String>();
 
         // To group Automated and Manual Application
-        for (hed__Application__c application : applicationsWithLatestCalculatedIntakeDate) {
+        for (hed__Application__c application : applicationList) {
             Boolean hasCompletedCadence = filteredApplicantIdsWithCompletedCadence.containsKey(application.hed__Applicant__c);
             boolean isStudyLinkRecordType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
 
@@ -610,7 +613,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         Set<String> offerStatus = new Set<String>{ 'Accepted', 'Declined by Applicant', 'Deferral Requested','Acceptance - Payment Received','Acceptance - No Payment Required','Acceptance - Pending More Information','Acceptance - Pending Payment','Conditional Acceptance','Withdrawn' };
 
-        for (hed__Application__c application : applicationsWithLatestCalculatedIntakeDate) {
+        for (hed__Application__c application : applicationList) {
             boolean isStudyLinkRecordType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
             Boolean hasCalculatedCadence =
                 (application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED) ||
@@ -1248,7 +1251,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             applicantIdsWithCompletedCadence
         );
         // To group Automated and Manual Application
-        for (hed__Application__c application : applicationsWithLatestCalculatedIntakeDate) {
+        for (hed__Application__c application : applicationList) {
             boolean isSAMSLegacyRecType =
                 application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
             boolean isSAMSCiRecType =
@@ -1317,7 +1320,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         Set<String> offerStatus = new Set<String>{ 'Accepted', 'Declined', 'Deferred', 'Lapsed' };
 
-        for (hed__Application__c application : applicationsWithLatestCalculatedIntakeDate) {
+        for (hed__Application__c application : applicationList) {
             boolean isSAMSLegacyRecType =
                 application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
             boolean isSAMSCiRecType =
@@ -1602,7 +1605,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> domesticEntryContactMap
     ) {
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
-        Set<Id> existingContactIdOnApplication = getContactOnApplicationForDomesticStrongInterestPreApplicationEntryFilter(applicationList,domesticEntryContactMap.keySet());
+        Set<Id> existingContactIdOnApplication = getContactOnApplicationForDomesticStrongInterestPreApplicationEntryFilter(applicationListForStrongInterest,domesticEntryContactMap.keySet());
         Set<Id> existingCaseFromContact = getCaseRecordsFromContact(domesticEntryContactMap.keySet());
         Set<Id> contactIdsWithApplication = getContactIdsWithApplication(applicationList);
         Set<String> completedCadencesCopy = new Set<String>();
@@ -1720,7 +1723,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         
         if(!applicationList.isEmpty()){
             existingContactIdOnApplicationToExit.addAll(getContactOnApplicationForDomesticStrongInterestPreApplicationExitFilter(
-                applicationList
+                applicationListForStrongInterest
             ));
         }
         for (Id contactId : domesticExitContactMap.keySet()) {
