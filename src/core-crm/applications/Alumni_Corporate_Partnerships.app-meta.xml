@@ -16,6 +16,42 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Corporate_Partnership_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Corporate_Partnership</recordType>
+        <type>Flexipage</type>
+        <profile>Alumni &amp; Corporate Partnerships</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Partnership_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Corporate_Partnership</recordType>
+        <type>Flexipage</type>
+        <profile>Alumni &amp; Corporate Partnerships</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Partnership_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Corporate_Partnership</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Partnership_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Corporate_Partnership</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Engagement_Score_Configuration_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Engagement_Score_Configuration__c</pageOrSobjectType>
