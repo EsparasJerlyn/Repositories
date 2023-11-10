@@ -101,6 +101,16 @@
             <field>Cadence_Name__c</field>
             <table>Completed_Cadence__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Owning_Faculty__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>QTAC_Offer_Round__c</field>
+            <table>Completed_Cadence__c</table>
+        </columns>
         <masterLabel>Completed Cadences</masterLabel>
     </sections>
 </ReportType>
