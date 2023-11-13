@@ -8,7 +8,8 @@ RecordType.DeveloperName = &apos;Research_Partnership&apos;,
 ISCHANGED(StageName),
 ISPICKVAL( PRIORVALUE(StageName) ,&apos;Contract&apos;),
 NOT(ISPICKVAL(StageName,&apos;Executed&apos;)),
-NOT(ISPICKVAL(StageName,&apos;Discontinued&apos;))
+NOT(ISPICKVAL(StageName,&apos;Discontinued&apos;)),
+NOT( $Permission.Bypass_Engagement_Opportunity_Stage_Validation)
 )</errorConditionFormula>
     <errorDisplayField>StageName</errorDisplayField>
     <errorMessage>You can only progress the opportunity to next stage i.e. Executed or Discontinued</errorMessage>

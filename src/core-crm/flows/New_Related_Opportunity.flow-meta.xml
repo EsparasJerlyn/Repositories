@@ -1159,7 +1159,7 @@
             <dataType>Currency</dataType>
             <fieldText>Amount</fieldText>
             <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
+            <isRequired>false</isRequired>
             <scale>0</scale>
         </fields>
         <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>

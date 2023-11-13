@@ -8,7 +8,9 @@ ISCHANGED(Stage_Name__c),
 ISPICKVAL( PRIORVALUE(Stage_Name__c) ,&quot;Development&quot;),
 NOT(ISPICKVAL(Stage_Name__c, &quot;Commercialisation Ready&quot;)),
 NOT(ISPICKVAL(Stage_Name__c,&quot;On Hold&quot;)),
-NOT(ISPICKVAL(Stage_Name__c,&quot;Closed&quot;))
+NOT(ISPICKVAL(Stage_Name__c,&quot;Closed&quot;)),
+NOT( $Permission.Bypass_Engagement_Opportunity_Stage_Validation)
+
 )</errorConditionFormula>
     <errorDisplayField>Stage_Name__c</errorDisplayField>
     <errorMessage>You can only progress to the next stage, which is, Commercialisation Ready or choose to put the engagement on hold or closed.</errorMessage>
