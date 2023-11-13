@@ -3,6 +3,7 @@
     <fullName>Corporate_Partnership</fullName>
     <active>true</active>
     <businessProcess>Corporate Partnership</businessProcess>
+    <compactLayoutAssignment>Industry_Engagement_Compact_Layout</compactLayoutAssignment>
     <description>Create a corporate partnership opportunity to identify new specific interactions with contacts and organisations to support and grow industry, corporate and educational partnerships.</description>
     <label>Corporate Partnership</label>
     <picklistValues>
