@@ -4,6 +4,7 @@
     <active>true</active>
     <description>Negotiation Outcome Should be successful to move the opportunity to contract stage</description>
     <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
 ISCHANGED( StageName ),
 ISPICKVAL( StageName , &apos;Contract&apos; ),
 NOT(ISPICKVAL(  Negotiation_Outcome__c , &apos;Successful&apos; ))
