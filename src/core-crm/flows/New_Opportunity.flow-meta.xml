@@ -1887,7 +1887,7 @@
             <fieldText>Amount</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;The expected revenue the Opportunity may generate.&lt;/p&gt;</helpText>
-            <isRequired>true</isRequired>
+            <isRequired>false</isRequired>
             <scale>0</scale>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(234, 0, 30); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;You can&apos;t enter more than 16 characters.&lt;/span&gt;&lt;/p&gt;</errorMessage>

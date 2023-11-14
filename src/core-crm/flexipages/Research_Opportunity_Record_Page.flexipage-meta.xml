@@ -125,6 +125,16 @@
                 <identifier>RecordAmountField6</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Revenue_Potential__c</fieldItem>
+                <identifier>RecordRevenue_Potential_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-ebok1raxuy7</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -225,6 +235,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Amount</fieldItem>
                 <identifier>RecordAmountField7</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Revenue_Potential__c</fieldItem>
+                <identifier>RecordRevenue_Potential_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-btyqmvh1fia</name>
@@ -448,10 +468,16 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection33</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Identify</rightValue>
+                        <operator>NE</operator>
+                        <rightValue>Discontinued</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Executed</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -473,10 +499,16 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection38</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Identify</rightValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Discontinued</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Executed</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

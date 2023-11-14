@@ -59,18 +59,23 @@ public with sharing class NurturingTrackService {
         for (Completed_Cadence__c completedCadence : completedCadenceList) {
             String completedCadenceApiName = (String) OBJECT_TO_FIELD_MAP.get(objectType)
                 .get('CompletedCadence');
+
+            if(CompletedCadencesDAO.completedCadenceStatuses.contains(completedCadence.Completed_Cadence_Status__c)){
+                continue;
+            }
+
             if (
                 !completedCadencesByApplicantId.containsKey(
-                    (Id) completedCadence.get(completedCadenceApiName)
-                ) && !CompletedCadencesDAO.completedCadenceStatuses.contains(completedCadence.Completed_Cadence_Status__c)
+                    (Id) completedCadence.get(completedCadenceApiName)) 
             ) {
                 completedCadencesByApplicantId.put(
                     (Id) completedCadence.get(completedCadenceApiName),
                     new Set<String>()
                 );
             }
+
             completedCadencesByApplicantId.get((Id) completedCadence.get(completedCadenceApiName))
-                .add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
+            .add(completedCadence.Nurture_Track_Configuration__r.Cadence_Name__c);
         }
         return completedCadencesByApplicantId;
     }

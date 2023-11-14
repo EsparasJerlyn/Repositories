@@ -13,6 +13,7 @@
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new list getLeadsByCaseMobile   |
       | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getLeadById                     |
       | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getLeadByEmailOrName            |
+      | alexander.cadalin              | November 9, 2023      | DEPP-7212              | Added excludeConverted to getLeadByEmailOrName
  */
 public interface ILeadsDAO extends DmlInterface {
     List<Lead> getExistingUnconvertedLeadsByEmail(
@@ -34,6 +35,7 @@ public interface ILeadsDAO extends DmlInterface {
     );
     List<Lead> getLeadByEmailOrName(
         LeadsDAO.QueryParamWrapperEmailOrName queryParam,
+        Boolean excludeConverted,
         AccessLevel accessLevel
     );
     List<Lead> getLeadsByCaseMobile(

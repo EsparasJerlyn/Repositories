@@ -16,6 +16,7 @@
       | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added new method getLeadMobilePhoneByRecordIds  |
       | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | Updated fields on soql for getLeadsByIdSet      |
       | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added new method getLeadsWithLimit and  getLeadsByIdSet   |
+      | alexander.cadalin              | November 9, 2023      | DEPP-7212              | Added excludeConverted to getLeadByEmailOrName
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -158,8 +159,9 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         );
     }
 
-    public static List<Lead> getLeadByEmailOrName(
+    public List<Lead> getLeadByEmailOrName(
         QueryParamWrapperEmailOrName queryParam,
+        Boolean excludeConverted,
         AccessLevel accessLevel
     ) {
         List<Lead> leadList = new List<Lead>();
@@ -170,7 +172,11 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         String toQuery = removeEmptyParamsInQueryEmail(queryParam);
         toQuery = removeEmptyParamsInQueryName(queryParam, toQuery);
         toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
-
+        
+        if(excludeConverted) {
+            toQuery = toQuery != '' ? '(' + toQuery + ') AND ' : toQuery;
+            toQuery = toQuery + '(IsConverted = false)';
+        }
 
         if (!String.isBlank(toQuery)) {
             leadList = Database.query(
@@ -184,7 +190,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
 
     }
 
-    private static String removeEmptyParamsInQueryEmail(QueryParamWrapperEmailOrName queryParam) {
+    private String removeEmptyParamsInQueryEmail(QueryParamWrapperEmailOrName queryParam) {
         String email = queryParam.email;
         String toQuery = '';
 
@@ -195,7 +201,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         return toQuery;
     }
 
-    private static String removeEmptyParamsInQueryName(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+    private String removeEmptyParamsInQueryName(QueryParamWrapperEmailOrName queryParam, String toQuery) {
         String firstName = queryParam.firstName;
         String lastName = queryParam.lastName;
 
@@ -207,7 +213,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         return toQuery;
     }
 
-    private static String removeEmptyParamsInQueryMobile(QueryParamWrapperEmailOrName queryParam, String toQuery) {
+    private String removeEmptyParamsInQueryMobile(QueryParamWrapperEmailOrName queryParam, String toQuery) {
         String mobile = queryParam.mobile;
 
         if (mobile != null && mobile != '') {
