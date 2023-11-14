@@ -165,7 +165,7 @@ public with sharing class MarketingInteractionLeadScoreHelper{
             (
                 (   
                     (mktgInteraction.Lead_Source_Category__c != oldItems.get(mktgInteraction.Id).Lead_Source_Category__c) ||
-                    (mktgInteraction.Interaction_DateTime__c != null && mktgInteraction.Interaction_DateTime__c != oldItems.get(mktgInteraction.Id).Interaction_DateTime__c) ||
+                    (mktgInteraction.Interaction_DateTime__c != oldItems.get(mktgInteraction.Id).Interaction_DateTime__c) ||
                     (mktgInteraction.Lead_Source__c != oldItems.get(mktgInteraction.Id).Lead_Source__c) ||
                     (mktgInteraction.Match_My_Skill_Completion__c != oldItems.get(mktgInteraction.Id).Match_My_Skill_Completion__c) ||
                     (mktgInteraction.Event_Type__c != oldItems.get(mktgInteraction.Id).Event_Type__c) ||
