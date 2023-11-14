@@ -5,7 +5,6 @@
     <description>Negotiation Outcome Should be successful to move the opportunity to contract stage</description>
     <errorConditionFormula>AND (
 ISCHANGED( StageName ),
-ISPICKVAL( PRIORVALUE(StageName), &apos;Negotiate&apos; ),
 ISPICKVAL( StageName , &apos;Contract&apos; ),
 NOT(ISPICKVAL(  Negotiation_Outcome__c , &apos;Successful&apos; ))
 )</errorConditionFormula>

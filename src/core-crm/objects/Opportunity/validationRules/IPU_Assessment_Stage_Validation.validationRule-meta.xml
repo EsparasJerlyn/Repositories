@@ -6,7 +6,6 @@
     <errorConditionFormula>AND(
    RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
    ISCHANGED(StageName),
-   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Assessment&quot;),
    NOT(ISPICKVAL( StageName , &apos;Development&apos;)),
    NOT(ISPICKVAL( StageName , &apos;Discontinued&apos;)),
    NOT( $Permission.Bypass_Engagement_Opportunity_Stage_Validation)
