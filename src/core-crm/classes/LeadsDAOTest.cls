@@ -179,5 +179,20 @@ public with sharing class LeadsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void queryLocatorGetLeadsByIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                LeadsDAO.newInstance().queryLocatorGetLeadsByIds(
+                    new Set<Id>(),
+                    ''
+                ) != null,
+                'leadList should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
     
 }

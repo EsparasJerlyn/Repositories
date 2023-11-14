@@ -55,4 +55,8 @@ public interface ILeadsDAO extends DmlInterface {
         Set<Id> recordIdSet,
         AccessLevel accessLevel
     ); 
+    Database.QueryLocator queryLocatorGetLeadsByIds(
+        Set<Id> recordIds,
+        String leadType
+    );
 }

@@ -391,6 +391,17 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         );
     }
 
+    public Database.QueryLocator queryLocatorGetContactsByIds(
+        Set<Id> recordIds
+    ){
+        String query =
+        'SELECT Id, RecordTypeId, Email_Opt_In_DateTime__c, hed__Citizenship_Status__c ' +
+          'FROM Contact ' +
+         'WHERE Id IN: recordIds ' +
+           'AND RecordTypeId =: PERSON_RECORDTYPE_ID';
+        return Database.getQueryLocator(query);
+    }
+
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */

@@ -224,6 +224,17 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         return toQuery;
     }
 
+    public Database.QueryLocator queryLocatorGetLeadsByIds(
+        Set<Id> recordIds,
+        String leadType
+    ){
+        String query =
+            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status, Email_Opt_In_DateTime__c ' +
+              'FROM Lead ' +
+             'WHERE Id IN: recordIds AND Lead_Type__c =: leadType';
+        return Database.getQueryLocator(query);
+    }
+
     public class QueryParamWrapperEmailOrName{
         public String email;
         public String firstName;

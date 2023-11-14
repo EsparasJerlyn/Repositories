@@ -10,7 +10,6 @@
   *    | eccarius.munoz                 | November 04, 2023     | DEPP-7155              | Created file to handle lead score calculation  |
   */
 
-@SuppressWarnings('PMD.EmptyStatementBlock')
 public with sharing class LeadScoreConfigRecalculationBatch implements Database.Batchable<sObject>, Database.Stateful {
 
     private Boolean isForContactAndLead = false;
@@ -19,6 +18,9 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
     private Boolean isForProgEnrollment = false;
     private Boolean isForIndivEmail = false;
     private Boolean isForCase = false;   
+    
+    private Set<Id> contactIdSet = new Set<Id>();
+    private Set<Id> leadIdSet = new Set<Id>();
 
     private Set<Id> leadScoreConfigIds;
 
@@ -28,9 +30,10 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
     }
 
     /**
-    * @description Retrieves lead score config that was updated from previous day
+    * @description Retrieves lead score details based on the citizenship 
+    *               and study level of the triggered lead score config record.
     * @param bc - BatchableContext
-    * @return query - filtered query of lead score config
+    * @return query - filtered query of lead score details
     */
     public Database.QueryLocator start(Database.BatchableContext bc){
         
@@ -63,8 +66,7 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
     */
     public void execute(Database.BatchableContext bc, List<Lead_Score_Detail__c> leadScoreDetails){
         try{ 
-            Set<Id> contactIdSet = new Set<Id>();
-            Set<Id> leadIdSet = new Set<Id>();
+            
             for(Lead_Score_Detail__c leadScoreDtl : leadScoreDetails){
                 if(leadScoreDtl.Contact__c != null){
                     contactIdSet.add(leadScoreDtl.Contact__c);
@@ -72,14 +74,6 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
                     leadIdSet.add(leadScoreDtl.Lead__c);
                 }
             }
-            
-            LeadScoreCalculatorService.processMarketingInterActions(contactIdSet, leadIdSet, isForMarketingInteraction);
-            LeadScoreCalculatorService.processMarketingSegmentation(contactIdSet, leadIdSet, isForMarketingSegmentation);
-            LeadScoreCalculatorService.processContact(contactIdSet, isForContactAndLead);
-            LeadScoreCalculatorService.processLead(leadIdSet, isForContactAndLead);
-            LeadScoreCalculatorService.processCase(contactIdSet, leadIdSet, isForCase);
-            LeadScoreCalculatorService.processProgramEngagement(contactIdSet, isForProgEnrollment);
-            LeadScoreCalculatorService.processIndivEmailResults(contactIdSet, leadIdSet, isForIndivEmail);
 
         }catch(Exception e){
             Logger.error('Exception caught in method execute in Apex class LeadScoreConfigRecalculationBatch.').setExceptionDetails(e);
@@ -126,5 +120,40 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
             leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_NSA);
     }
 
-    public void finish(Database.BatchableContext bc) {}
+    public void finish(Database.BatchableContext bc) {
+
+        if(isForMarketingInteraction){
+            LeadScoreMktgInteractionBatch batch = new LeadScoreMktgInteractionBatch();        
+            batch.recalculateLeadScore(contactIdSet, leadIdSet);
+        }
+
+        if(isForMarketingSegmentation){
+            LeadScoreMktgSegmentationBatch batch = new LeadScoreMktgSegmentationBatch();        
+            batch.recalculateLeadScore(contactIdSet, leadIdSet);
+        }
+
+        if(isForContactAndLead){
+            LeadScoreContactBatch contactBatch = new LeadScoreContactBatch();        
+            contactBatch.recalculateLeadScore(contactIdSet);
+
+            LeadScoreLeadBatch leadBatch = new LeadScoreLeadBatch();        
+            leadBatch.recalculateLeadScore(leadIdSet);
+        }
+
+        if(isForCase){
+            LeadScoreCaseBatch batch = new LeadScoreCaseBatch();        
+            batch.recalculateLeadScore(contactIdSet, leadIdSet);
+        }
+
+        if(isForProgEnrollment){
+            LeadScoreProgEnrollmentBatch batch = new LeadScoreProgEnrollmentBatch();        
+            batch.recalculateLeadScore(contactIdSet);
+        }
+
+        if(isForIndivEmail){
+            LeadScoreIndivEmailBatch batch = new LeadScoreIndivEmailBatch();        
+            batch.recalculateLeadScore(contactIdSet, leadIdSet);
+        }
+
+    }
 }
