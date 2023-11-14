@@ -223,7 +223,8 @@ public with sharing class SalesCadenceCalloutService {
      *
      * @param String requestBody - the content of the request
      * @param String endpoint - the endpoint of the callout request
-     */ 
+     */
+    @future(callout = true) 
     public static void sendRequest(String requestBody,String endpoint) {
         
         String salesCadenceEndpoint = URL.getSalesforceBaseUrl().toExternalForm() + endpoint;  

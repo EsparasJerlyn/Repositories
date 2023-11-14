@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Revenue_Potential__c</fullName>
     <externalId>false</externalId>
-    <inlineHelpText>Revenue potential (approx. $ value)?</inlineHelpText>
+    <inlineHelpText>This field captures the estimated revenue for QUT.</inlineHelpText>
     <label>Revenue Potential</label>
     <precision>18</precision>
     <required>false</required>

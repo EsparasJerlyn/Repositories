@@ -99,7 +99,7 @@ public with sharing class CasePotentialMatchesListCtrl {
                 caseRecord.SuppliedPhone
             );
 
-            List<SObject> leadList =  LeadsDAO.newInstance().getLeadByEmailOrName(leadQueryParam, AccessLevel.USER_MODE);
+            List<SObject> leadList =  LeadsDAO.newInstance().getLeadByEmailOrName(leadQueryParam, true, AccessLevel.USER_MODE);
 
             potentialMatches.put('Lead', leadList);
         }
