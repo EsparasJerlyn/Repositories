@@ -11,4 +11,8 @@
         <layout>Document__c-Document Page Layout</layout>
         <recordType>Document__c.Standard</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Industry Engagement Layout</layout>
+        <recordType>Opportunity.Corporate_Partnership</recordType>
+    </layoutAssignments>
 </Profile>
