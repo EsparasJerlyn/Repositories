@@ -237,7 +237,11 @@ private class ApplicationServiceTest {
                     BirthDate__c = Date.valueOf(BIRTHDAY),
                     Email__c = 'work' + i + EMAIL,
                     Application_Status__c = applicationStatus,
-                    RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID
+                    RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                    Indigenous_Status__c = 'Aboriginal',
+                    Citizenship_Country__c = 'Australia',
+                    Mobile__c = '0400000000',
+                    Citizenship_Status__c = 'Domestic'
                 )
             );
         }

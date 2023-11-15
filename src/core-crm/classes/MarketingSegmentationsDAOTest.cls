@@ -78,4 +78,18 @@ public with sharing class MarketingSegmentationsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void queryLocatorGetMarketingSegmentationsByContactOrLeadIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                MarketingSegmentationsDAO.newInstance().queryLocatorGetMarketingSegmentationsByContactOrLeadIds(
+                    new Set<Id>()
+                ) != null,
+                'marketingSegmentationList should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
 }

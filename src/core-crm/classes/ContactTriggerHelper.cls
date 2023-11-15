@@ -351,10 +351,18 @@ public without sharing class ContactTriggerHelper {
     @future
     public static void createMarketingSegmentation(Set<Id> contactIds) {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
+        Map<Id, Marketing_Segmentation__c> marketingSegMap = new Map<Id, Marketing_Segmentation__c>();
 
-        for (Contact contacts : ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds,AccessLevel.SYSTEM_MODE)) {
-            if (contacts.Marketing_Segmentation__c == null) {
-                marketingSegToInsert.add(new Marketing_Segmentation__c(Contact__c = contacts.Id));
+        for (
+            Marketing_Segmentation__c marSeg : MarketingSegmentationsDAO.newInstance()
+                .getMarketingSegmentationByContactIds(contactIds, AccessLevel.SYSTEM_MODE)
+        ) {
+            marketingSegMap.put(marSeg.Contact__c, marSeg);
+        }
+
+        for (Id contactId : contactIds) {
+            if (!marketingSegMap.containsKey(contactId)) {
+                marketingSegToInsert.add(new Marketing_Segmentation__c(Contact__c = contactId));
             }
         }
         if (!marketingSegToInsert.IsEmpty()) {

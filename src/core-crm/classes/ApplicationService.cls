@@ -18,6 +18,7 @@
  *    | alexander.cadalin              | Oct 9, 2023           | DEPP-6848              | Rework QTAC address mapping        |
  *    | mark.j.mahilum                 | Oct 19, 2023          | DEPP-6933              | Update executeMatchingRule to check|
  *    |                                |                       |                        | if trigger is running via bulkAPI  |
+ *    | mark.j.mahilum                 | Nov 11, 2023          | DEPP-7161              | Revise Matching logic to Contact   |
  */
 public with sharing class ApplicationService { //NOPMD
 
@@ -360,18 +361,39 @@ public with sharing class ApplicationService { //NOPMD
      * If the field/s needs to follow certain rules, especially if it's complex, use a different method instead.
      * @param Contact contact - The contact record to modify.
      */
-    public static void mapFieldsToApplicant(Contact applicant, hed__Application__c application) {
-        applicant.Agency_Country__c = application.Agency_Country__c;
-        applicant.Agency_Email__c = application.Agency_Email__c;
-        applicant.Agency_Name__c = application.Agency_Name__c;
-        applicant.Education_Disruption_Applicant__c = application.Is_Education_Disruption_Applicant__c;
-        applicant.Elite_Athlete_Applicant__c = application.Is_Elite_Athlete_Applicant__c;
-        applicant.Financial_Hardship_Applicant__c = application.Is_Financial_Hardship_Applicant__c;
-        applicant.First_in_Family_Applicant__c = application.Is_First_In_Family_Applicant__c;
-        applicant.Is_Agent_Assisted__c = application.Is_Agent_Assisted__c;
-        applicant.Is_International_Applicant__c = application.Is_International_Applicant__c;
-        applicant.Personal_Illness_Disability_Applicant__c = application.Is_Personal_Illness_Disability_Applicant__c;
+    public static void mapFieldsToApplicant(Contact applicant, hed__Application__c application) {//NOPMD
+        if (application.Agency_Country__c != null) {
+            applicant.Agency_Country__c = application.Agency_Country__c;
+        }
+        if (application.Agency_Email__c != null) {
+            applicant.Agency_Email__c = application.Agency_Email__c;
+        }
+        if (application.Agency_Name__c != null) {
+            applicant.Agency_Name__c = application.Agency_Name__c;
+        }
+        if (application.Is_Education_Disruption_Applicant__c != null) {
+            applicant.Education_Disruption_Applicant__c = application.Is_Education_Disruption_Applicant__c;
+        }
+        if (application.Is_Elite_Athlete_Applicant__c != null) {
+            applicant.Elite_Athlete_Applicant__c = application.Is_Elite_Athlete_Applicant__c;
+        }
+        if (application.Is_Financial_Hardship_Applicant__c != null) {
+            applicant.Financial_Hardship_Applicant__c = application.Is_Financial_Hardship_Applicant__c;
+        }
+        if (application.Is_First_In_Family_Applicant__c != null) {
+            applicant.First_in_Family_Applicant__c = application.Is_First_In_Family_Applicant__c;
+        }
+        if (application.Is_Agent_Assisted__c != null) {
+            applicant.Is_Agent_Assisted__c = application.Is_Agent_Assisted__c;
+        }
+        if (application.Is_International_Applicant__c != null) {
+            applicant.Is_International_Applicant__c = application.Is_International_Applicant__c;
+        }
+        if (application.Is_Personal_Illness_Disability_Applicant__c != null) {
+            applicant.Personal_Illness_Disability_Applicant__c = application.Is_Personal_Illness_Disability_Applicant__c;
+        }
     }
+
     
     /**
      * @description Switch between various field mapping methods based on the record type of the application.
@@ -382,17 +404,15 @@ public with sharing class ApplicationService { //NOPMD
         Contact applicant,
         RecordsToReferenceWrapper recordsToReference
     ) {
-        if(recordsToReference.application.hed__Applicant__c != recordsToReference.oldApplication.hed__Applicant__c) {
-            Id applicationRecordType = recordsToReference.application.RecordTypeId;
-            if(applicationRecordType == ApplicationsDAO.STUDYLINK_RECTYPE_ID) {
-                mapFieldsToStudyLinkApplicant(applicant, recordsToReference);
-            } else if(applicationRecordType == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID) {
-                mapFieldsToSAMSCIAnywhereApplicant(applicant, recordsToReference);
-            } else if(applicationRecordType == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID) {
-                mapFieldsToSAMSLegacyApplicant(applicant, recordsToReference);
-            } else if(applicationRecordType == ApplicationsDAO.QTAC_RECTYPE_ID) {
-                mapFieldsToQTACApplicant(applicant, recordsToReference);
-            }
+        Id applicationRecordType = recordsToReference.application.RecordTypeId;
+        if(applicationRecordType == ApplicationsDAO.STUDYLINK_RECTYPE_ID) {
+            mapFieldsToStudyLinkApplicant(applicant, recordsToReference);
+        } else if(applicationRecordType == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID) {
+            mapFieldsToSAMSCIAnywhereApplicant(applicant, recordsToReference);
+        } else if(applicationRecordType == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID) {
+            mapFieldsToSAMSLegacyApplicant(applicant, recordsToReference);
+        } else if(applicationRecordType == ApplicationsDAO.QTAC_RECTYPE_ID) {
+            mapFieldsToQTACApplicant(applicant, recordsToReference);
         }
     }
     
@@ -401,18 +421,44 @@ public with sharing class ApplicationService { //NOPMD
      * Identify the record type first before using this method!
      * @param Contact applicantToUpdate - The applicant/contact record to map the fields to.
      * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
-     */
-    private static void mapFieldsToStudyLinkApplicant(
+     */    
+    private static void mapFieldsToStudyLinkApplicant(//NOPMD
         Contact applicantToUpdate, 
         RecordsToReferenceWrapper recordsToReference
     ) {
-        applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
-        applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate == null ? 
-            recordsToReference.application.BirthDate__c : recordsToReference.existingContact.Birthdate;
-        applicantToUpdate.Citizenship_Country__c = recordsToReference.application.Citizenship_Country__c;
-        applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;
-        applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
+        if (recordsToReference.application.Indigenous_Status__c != null) {
+            applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
+        }
+        
+        if (recordsToReference.existingContact.Birthdate == null) {
+            if (recordsToReference.application.BirthDate__c != null) {
+                applicantToUpdate.Birthdate = recordsToReference.application.BirthDate__c;
+            }
+        } else {
+            applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate;
+        }
+        
+        if (recordsToReference.application.Citizenship_Country__c != null) {
+            applicantToUpdate.Citizenship_Country__c = recordsToReference.application.Citizenship_Country__c;
+        }
+        
+        if (recordsToReference.application.Mobile__c != null) {  
+            Boolean isExecutedByIntegrationUser = UserInfo.getUserName().containsIgnoreCase('esb');
+            Boolean hasQtacAndAdmittedApplication =  recordsToReference.application.QTAC_Application_ID__c !=NULL && recordsToReference.application?.Offer_Status__c =='Admitted';
+            Boolean isContactMobileToUpdate = isExecutedByIntegrationUser && hasQtacAndAdmittedApplication;
+            
+            if(recordsToReference.application.RecordTypeId != ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID){                              
+                applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;                
+            } else if(isContactMobileToUpdate) {
+                applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c; 
+            }            
+        }
+        
+        if (recordsToReference.application.Citizenship_Status__c != null) {
+            applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
+        }
     }
+
     
     /** 
      * @description Set fields on a contact record of a SAMS CIAnywhere application. This method does not check the recordtype.
@@ -448,21 +494,53 @@ public with sharing class ApplicationService { //NOPMD
      * @param Contact applicantToUpdate - The applicant/contact to update.
      * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
      */
-    private static void mapFieldsToQTACApplicant(
+    private static void mapFieldsToQTACApplicant(//NOPMD
         Contact applicantToUpdate, 
         RecordsToReferenceWrapper recordsToReference
     ) {
-        applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
-        applicantToUpdate.Birth_Country__c = recordsToReference.application.Birth_Country__c;
-        applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate == null ? 
-            recordsToReference.application.BirthDate__c : recordsToReference.existingContact.Birthdate;
-        applicantToUpdate.Citizenship_Type__c = recordsToReference.application.Citizenship_Type__c;
-        applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
-        applicantToUpdate.Home_Language__c = recordsToReference.application.Home_Language__c;
-        applicantToUpdate.MiddleName = recordsToReference.application.MiddleName__c;
-        applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;
-        applicantToUpdate.Salutation = recordsToReference.application.Salutation__c;
+        if (recordsToReference.application.Indigenous_Status__c != null) {
+            applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
+        }
+        
+        if (recordsToReference.application.Birth_Country__c != null) {
+            applicantToUpdate.Birth_Country__c = recordsToReference.application.Birth_Country__c;
+        }
+        
+        if (recordsToReference.existingContact.Birthdate == null) {
+            if (recordsToReference.application.BirthDate__c != null) {
+                applicantToUpdate.Birthdate = recordsToReference.application.BirthDate__c;
+            }
+        } else {
+            applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate;
+        }
+        
+        if (recordsToReference.application.Citizenship_Type__c != null) {
+            applicantToUpdate.Citizenship_Type__c = recordsToReference.application.Citizenship_Type__c;
+        }
+        
+        if (recordsToReference.application.Citizenship_Status__c != null) {
+            applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
+        }
+        
+        if (recordsToReference.application.Home_Language__c != null) {
+            applicantToUpdate.Home_Language__c = recordsToReference.application.Home_Language__c;
+        }
+        
+        if (recordsToReference.application.MiddleName__c != null) {
+            applicantToUpdate.MiddleName = recordsToReference.application.MiddleName__c;
+        }
+        
+        if (recordsToReference.application.Mobile__c != null) {
+            if(recordsToReference.application.Offer_Status__c !='Accepted' || recordsToReference.application.Offer_Status__c !='Deferred'){
+                applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;
+            }
+        }
+        
+        if (recordsToReference.application.Salutation__c != null) {
+            applicantToUpdate.Salutation = recordsToReference.application.Salutation__c;
+        }
     }
+
     
     /**
      * @description Fill the address lines of an address record using address lines from an application.
