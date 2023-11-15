@@ -101,14 +101,13 @@ public with sharing class CaseMarketingHelper {
             marSegTemp = new Marketing_Segmentation__c();
 
             //construct marketing segmentation records to update using the contact/lead relationship
-
-            if (parentIdToMarketingSegmentation.containsKey(marSeg.Contact__c)) {
+            Boolean containsContact = marSeg.Contact__c != null && parentIdToMarketingSegmentation.containsKey(marSeg.Contact__c);
+            Boolean containsLead = marSeg.Lead__c != null && parentIdToMarketingSegmentation.containsKey(marSeg.Lead__c);
+            if (containsContact) {
                 marSegTemp = parentIdToMarketingSegmentation.get(marSeg.Contact__c);
                 marSegTemp.Id = marSeg.Id;
                 marketingSegmentationsToUpdate.put(marSeg.Id, marSegTemp);
-            }
-
-            if (parentIdToMarketingSegmentation.containsKey(marSeg.Lead__c)) {
+            } else if (containsLead) {
                 marSegTemp = parentIdToMarketingSegmentation.get(marSeg.Lead__c);
                 marSegTemp.Id = marSeg.Id;
                 marketingSegmentationsToUpdate.put(marSeg.Id, marSegTemp);

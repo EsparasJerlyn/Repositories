@@ -54,5 +54,19 @@ public with sharing class MarketingInteractionsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void queryLocatorGetMarketingInteractionsByContactOrLeadIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                MarketingInteractionsDAO.newInstance().queryLocatorGetMarketingInteractionsByContactOrLeadIds(
+                    new Set<Id>()
+                ) != null,
+                'marketingInteractionList should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
     
 }

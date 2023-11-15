@@ -12,6 +12,7 @@
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new test method coverage for getLeadsCalculatedCadenceByIds |
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrNameTest                                    |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new test method getLeadsByCaseMobile                        |
+      | alexander.cadalin              | November 9, 2023      | DEPP-7212              | Added excludeConverted to getLeadByEmailOrName
  */
 @isTest
 public with sharing class LeadsDAOTest {
@@ -157,6 +158,7 @@ public with sharing class LeadsDAOTest {
             List<Lead> leadList = LeadsDAO.newInstance()
                 .getLeadByEmailOrName(
                     leadQueryParam,
+                    true,
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(leadList.isEmpty(), 'leadList should be empty');
@@ -176,6 +178,21 @@ public with sharing class LeadsDAOTest {
             System.assert(leadList.isEmpty(), 'leadList should be empty');
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void queryLocatorGetLeadsByIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                LeadsDAO.newInstance().queryLocatorGetLeadsByIds(
+                    new Set<Id>(),
+                    ''
+                ) != null,
+                'leadList should not be empty.'
+            );
+            Test.stopTest();
+        }
     }
     
 }

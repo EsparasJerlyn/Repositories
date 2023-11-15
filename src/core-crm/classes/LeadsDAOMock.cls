@@ -12,9 +12,10 @@
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new mock method getLeadsCalculatedCadenceByIds |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new mock method getLeadsByCaseMobile           |
       | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                           |
+      | alexander.cadalin              | November 9, 2023      | DEPP-7212              | Added excludeConverted to getLeadByEmailOrName
  */
 @isTest
-public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILeadsDAO {
+public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILeadsDAO { //NOPMD
     public Map<Id, Lead> leadsMap;
 
     public Schema.SObjectType getSObjectType() {
@@ -123,6 +124,7 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
 
     public List<Lead> getLeadByEmailOrName(
         LeadsDAO.QueryParamWrapperEmailOrName queryParam,
+        Boolean excludeConverted,
         AccessLevel accessLevel
     ){
 
@@ -131,7 +133,11 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
 
         for (Lead record : leadsMap.values()) {
             if (email != null && email != '' && email == record.Email) {
-                leadList.add(record);
+                if(excludeConverted && record.IsConverted == false) {
+                    leadList.add(record);
+                } else if(!excludeConverted) {
+                    leadList.add(record);
+                }
             }
         }
 
@@ -186,6 +192,13 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
         }
         
         return leadList;
+    }
+
+    public Database.QueryLocator queryLocatorGetLeadsByIds(
+        Set<Id> recordIds,
+        String leadType
+    ){
+        return null;
     }
     
 }

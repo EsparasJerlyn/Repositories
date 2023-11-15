@@ -6,7 +6,6 @@
     <errorConditionFormula>AND (
    RecordType.DeveloperName =&quot;Research_Partnership&quot;,
    ISCHANGED(StageName),
-   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Project Scoping&quot;),
    ISPICKVAL(StageName, &quot;Submitted&quot;),
    ISBLANK(Project_Scoping_Description__c)
 )</errorConditionFormula>

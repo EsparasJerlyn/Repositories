@@ -84,5 +84,19 @@ public with sharing class ProgramEnrollmentsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void queryLocatorGetAllProgramEnrollmentsByContactIdTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                ProgramEnrollmentsDAO.newInstance().queryLocatorGetAllProgramEnrollmentsByContactId(
+                    new Set<Id>()
+                ) != null,
+                'Program Enrollment list should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
     
 }

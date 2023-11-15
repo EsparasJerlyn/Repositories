@@ -278,6 +278,9 @@
         <members>hed__Program_Plan__c.Location_Details_Required</members>
         <members>hed__Program_Plan__c.Location_Field_is_Required</members>
         <!-- (End) DEPP-6849 -->
+        <!-- (Start) DEPP-6868 -->
+        <members>Opportunity.RP_Amount_is_Required</members>
+        <!-- (End) DEPP-6868 -->       
         <name>ValidationRule</name>
     </types>
     <types>

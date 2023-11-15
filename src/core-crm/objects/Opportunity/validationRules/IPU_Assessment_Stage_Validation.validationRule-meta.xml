@@ -6,9 +6,9 @@
     <errorConditionFormula>AND(
    RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
    ISCHANGED(StageName),
-   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Assessment&quot;),
    NOT(ISPICKVAL( StageName , &apos;Development&apos;)),
-   NOT(ISPICKVAL( StageName , &apos;Discontinued&apos;))
+   NOT(ISPICKVAL( StageName , &apos;Discontinued&apos;)),
+   NOT( $Permission.Bypass_Engagement_Opportunity_Stage_Validation)
 )</errorConditionFormula>
     <errorDisplayField>StageName</errorDisplayField>
     <errorMessage>You can only progress to the next stage which is Development or mark the Opportunity as Discontinued.</errorMessage>

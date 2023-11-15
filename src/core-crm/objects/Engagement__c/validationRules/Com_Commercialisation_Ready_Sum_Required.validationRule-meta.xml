@@ -6,7 +6,6 @@
     <errorConditionFormula>AND(
 RecordType.DeveloperName = &apos;Commercialisation&apos;,
 ISCHANGED(Stage_Name__c),
-ISPICKVAL(PRIORVALUE(Stage_Name__c), &quot;Development&quot;),
 ISPICKVAL(Stage_Name__c, &quot;Commercialisation Ready&quot;),
 ISBLANK(Commercialisation_Ready_Summary__c)
 )</errorConditionFormula>

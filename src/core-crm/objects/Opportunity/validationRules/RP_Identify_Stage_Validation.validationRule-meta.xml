@@ -8,7 +8,9 @@
     ISCHANGED(StageName),
     ISPICKVAL( PRIORVALUE(StageName) ,&apos;Identify&apos;),
     NOT(ISPICKVAL(StageName,&apos;Project Scoping&apos;)),
-    NOT(ISPICKVAL(StageName,&apos;Discontinued&apos;))
+    NOT(ISPICKVAL(StageName,&apos;Discontinued&apos;)),
+   NOT( $Permission.Bypass_Engagement_Opportunity_Stage_Validation)
+
 )</errorConditionFormula>
     <errorDisplayField>StageName</errorDisplayField>
     <errorMessage>You can only progress to the next stage which is Project Scoping or mark the Opportunity as Discontinued</errorMessage>

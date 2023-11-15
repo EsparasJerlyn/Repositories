@@ -100,4 +100,19 @@ public with sharing class CasesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void queryLocatorGetCasesByContactOrLeadIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                CasesDAO.newInstance().queryLocatorGetCasesByContactOrLeadIds(
+                    new Set<Id>()
+                ) != null,
+                'caseList should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
+
 }
