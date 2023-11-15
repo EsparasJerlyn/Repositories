@@ -1821,6 +1821,16 @@
                         <assignToReference>Get_Contextual_Role_Record.Account__c</assignToReference>
                         <name>selectedRecordIdOutput</name>
                     </outputParameters>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_Contextual_Role_Record.Opportunity__r.RecordType.DeveloperName</leftValueReference>
+                            <operator>NotEqualTo</operator>
+                            <rightValue>
+                                <stringValue>Corporate_Partnership</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
