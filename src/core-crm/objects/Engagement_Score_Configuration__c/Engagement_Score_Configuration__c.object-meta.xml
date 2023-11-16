@@ -161,7 +161,12 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Engagement Score Configurations</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Score_Category__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Score_Subcategory__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Score__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

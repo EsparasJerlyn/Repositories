@@ -29567,6 +29567,14 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>List_Contributor__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>List_Member__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Marketing_Course_Application__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
