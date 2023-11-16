@@ -3133,7 +3133,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Engagement_Opportunity__c.Requester_Name__c</field>
+        <field>Engagement_Opportunity__c.Requestor_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5399,11 +5399,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity_Outcome__c.Outcome_Total_Value__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity_Outcome__c.Outcome_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
