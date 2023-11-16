@@ -2537,11 +2537,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_Opportunity__c.Requester_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Engagement_Opportunity__c.Requesting_Faculty__c</field>
         <readable>true</readable>
     </fieldPermissions>
