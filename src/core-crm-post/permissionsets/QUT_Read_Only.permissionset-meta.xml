@@ -4243,6 +4243,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>List_Member__c.List_Member_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Location.CloseDate</field>
         <readable>true</readable>
     </fieldPermissions>

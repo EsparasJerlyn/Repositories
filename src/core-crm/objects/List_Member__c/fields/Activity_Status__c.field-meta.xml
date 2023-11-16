@@ -34,19 +34,22 @@
                 <label>Completed</label>
             </value>
             <value>
-                <fullName>Qualified</fullName>
-                <default>false</default>
-                <label>Qualified</label>
-            </value>
-            <value>
                 <fullName>Disqualified</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Disqualified</label>
             </value>
             <value>
                 <fullName>On Hold</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>Qualified</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Qualified</label>
             </value>
         </valueSetDefinition>
     </valueSet>

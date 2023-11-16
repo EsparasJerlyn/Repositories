@@ -2472,6 +2472,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>List_Member__c.List_Member_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Marketing_Interaction__c.Contact__c</field>
         <readable>true</readable>
