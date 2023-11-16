@@ -157,7 +157,8 @@
     <label>Engagement Opportunity</label>
     <nameField>
         <displayFormat>EO-{000000}</displayFormat>
-        <label>Engagement Opportunity Number</label>
+        <label>Engagement Opportunity Reference</label>
+        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Engagement Opportunities</pluralLabel>
