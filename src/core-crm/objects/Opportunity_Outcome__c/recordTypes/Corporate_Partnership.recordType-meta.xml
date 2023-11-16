@@ -5,18 +5,7 @@
     <description>Create a Corporate Partnership Opportunity Outcome to capture the specific activities agreed as part of the corporate partnership contract.</description>
     <label>Corporate Partnership</label>
     <picklistValues>
-        <picklist>Outcome_Service_Type__c</picklist>
-        <values>
-            <fullName>Inward</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outward</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Outcome_Type__c</picklist>
+        <picklist>Component_Type__c</picklist>
         <values>
             <fullName>CPE</fullName>
             <default>false</default>
@@ -47,6 +36,17 @@
         </values>
         <values>
             <fullName>WIL Scholarship</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Outcome_Service_Type__c</picklist>
+        <values>
+            <fullName>Inward</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outward</fullName>
             <default>false</default>
         </values>
     </picklistValues>
