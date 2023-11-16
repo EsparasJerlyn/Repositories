@@ -6,6 +6,7 @@
     <errorConditionFormula>AND(
 RecordType.DeveloperName = &quot;Commercialisation&quot;,
 ISCHANGED(StageName),
+ISPICKVAL( PRIORVALUE(StageName) ,&quot;Contract&quot;),
 OR(ISPICKVAL(StageName, &quot;Discontinued&quot;),ISPICKVAL(StageName, &quot;Executed&quot;)),
 ISBLANK(CLMS_Contract_ID__c)
 )</errorConditionFormula>
