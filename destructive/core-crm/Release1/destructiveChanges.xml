@@ -158,6 +158,9 @@
         <members>Contact.QLD_School_Name__c</members>
         <members>Contact.Year_of_Arrival__c</members>
         <!-- End DEPP-6482-->
+         <!--Start DEPP-7104-->
+         <members>Opportunity_Outcome__c.Outcome_Type__c</members>
+         <!--End DEPP-7104-->
         <!-- Start DEPP-6621-->
         <members>Engagement_Opportunity__c.Requester_Name__c</members>
         <!-- End DEPP-6621-->
