@@ -6,7 +6,6 @@
     <errorConditionFormula>AND (
    RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
    ISCHANGED(StageName),
-   ISPICKVAL( PRIORVALUE(StageName) ,&quot;Assessment&quot;),
    ISPICKVAL(StageName, &quot;Development&quot;),
    NOT(ISPICKVAL(Assessment_Outcome__c, &quot;Successful&quot;))
 )</errorConditionFormula>

@@ -41,4 +41,18 @@ public with sharing class IndividualEmailResultsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void queryLocatorGetIndivEmailResultsByContactOrLeadIdsTest() {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+            Test.startTest();
+            System.assert(
+                IndividualEmailResultsDAO.newInstance().queryLocatorGetIndivEmailResultsByContactOrLeadIds(
+                    new Set<Id>()
+                ) != null,
+                'Individual Email Results should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
 }

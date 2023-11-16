@@ -60,4 +60,14 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
             accessLevel
         );
     }
+
+    public Database.QueryLocator queryLocatorGetAllProgramEnrollmentsByContactId(
+        Set<Id> recordIds
+    ){
+        String query =
+            'SELECT Id, hed__Account__c, hed__Contact__c, Enrollment_Status__c, Lead_Score_Reset__c ' +
+              'FROM hed__Program_Enrollment__c ' +
+             'WHERE hed__Contact__c IN :recordIds';
+        return Database.getQueryLocator(query);
+    }
 }

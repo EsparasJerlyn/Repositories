@@ -134,7 +134,9 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
                 Max_Score__c,
                 Study_Level__c,
                 Domestic_International__c,
-                RecordType.DeveloperName
+                RecordType.DeveloperName,
+                Score_Allocation__c,
+                Time_Limit_Months__c
             FROM Lead_Score_Configuration__c
             WHERE
                 Domestic_International__c = :citizenshipStatus

@@ -114,7 +114,7 @@ private class CasePotentialMatchesListCtrlTest {
                 EMAIL, '', '', ''
             );
 
-            List<SObject> leadList =  LeadsDAO.newInstance().getLeadByEmailOrName(leadQueryParam, AccessLevel.USER_MODE);
+            List<SObject> leadList =  LeadsDAO.newInstance().getLeadByEmailOrName(leadQueryParam, true, AccessLevel.USER_MODE);
 
             String leadId = '';
             String caseId = '';

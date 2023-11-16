@@ -57,12 +57,19 @@ public with sharing class SalesCadenceCalloutService {
                 wrapper.addInputData(assignCadenceMap.get(key), key,null);  
             }
         }
-   
+   		
+        Boolean isSendingRequestCompleted = false;
+        
         if(!wrapper.inputs.isEmpty()){
-            sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT);            
+            isSendingRequestCompleted = sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT);            
+        }else{
+            isSendingRequestCompleted = true;
         }
-        //create initial completed completed cadence without status
-        createInitialCompletedCadences(assignCadenceMap); 
+        
+        if(isSendingRequestCompleted){
+            //create initial completed completed cadence without status
+            createInitialCompletedCadences(assignCadenceMap); 
+        }       
     }
     
     /**
@@ -100,11 +107,15 @@ public with sharing class SalesCadenceCalloutService {
             }
         }
         
+        Boolean isSendingRequestCompleted = false;
+        
         if(!wrapper.inputs.isEmpty()){
-            sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT);
+            isSendingRequestCompleted = sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT);
+        }else{
+            isSendingRequestCompleted = true;
         }
         
-        if(!manualRemoveCadenceMap.isEmpty()){
+        if(!manualRemoveCadenceMap.isEmpty() && isSendingRequestCompleted){
             createCompletedCadence(manualRemoveCadenceMap,null);
         }
     }
@@ -224,7 +235,7 @@ public with sharing class SalesCadenceCalloutService {
      * @param String requestBody - the content of the request
      * @param String endpoint - the endpoint of the callout request
      */ 
-    public static void sendRequest(String requestBody,String endpoint) {
+    public static Boolean sendRequest(String requestBody,String endpoint) {
         
         String salesCadenceEndpoint = URL.getSalesforceBaseUrl().toExternalForm() + endpoint;  
         
@@ -246,14 +257,16 @@ public with sharing class SalesCadenceCalloutService {
             } else {
                 throw new CalloutException(httpResponse.getBody());
             }
-            
+            return true;
         }catch(Exception e){
             Logger.error('Exception caught in method execute in Apex class SalesCadenceCalloutService.').setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
             }
-        }      
+        }
+        
+        return true;
     }
     
    /**

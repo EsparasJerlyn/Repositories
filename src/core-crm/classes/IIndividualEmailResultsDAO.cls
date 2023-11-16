@@ -15,4 +15,8 @@ public interface IIndividualEmailResultsDAO extends DmlInterface{
         Set<Id> contactLeadIds,
         AccessLevel accessLevel
     );
+
+    Database.QueryLocator queryLocatorGetIndivEmailResultsByContactOrLeadIds(
+        Set<Id> recordIds
+    );
 }
