@@ -69,4 +69,10 @@ public inherited sharing  class MarketingSegmentationsDAOMock extends DmlBaseMoc
         return marketingSegmentationList;
     }  
 
+    public Database.QueryLocator queryLocatorGetMarketingSegmentationsByContactOrLeadIds(
+        Set<Id> recordIds
+    ){
+        return null;
+    }
+
 }

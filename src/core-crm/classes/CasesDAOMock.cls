@@ -148,4 +148,10 @@ public inherited sharing class CasesDAOMock extends DmlBaseMock implements ICase
 
         return caseList;
     }
+
+    public Database.QueryLocator queryLocatorGetCasesByContactOrLeadIds(
+        Set<Id> recordIds
+    ){
+        return null;
+    }
 }

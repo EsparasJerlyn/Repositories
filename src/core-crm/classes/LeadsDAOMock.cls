@@ -193,5 +193,12 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
         
         return leadList;
     }
+
+    public Database.QueryLocator queryLocatorGetLeadsByIds(
+        Set<Id> recordIds,
+        String leadType
+    ){
+        return null;
+    }
     
 }

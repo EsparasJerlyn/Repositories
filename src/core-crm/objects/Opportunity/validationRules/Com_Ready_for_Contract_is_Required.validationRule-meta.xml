@@ -4,8 +4,8 @@
     <active>true</active>
     <description>Ready for Contract should be true in order to proceed to contract stage.</description>
     <errorConditionFormula>AND (
+RecordType.DeveloperName = &apos;Commercialisation&apos;,
 ISCHANGED( StageName ),
-ISPICKVAL( PRIORVALUE(StageName), &apos;Negotiate&apos; ),
 ISPICKVAL( StageName , &apos;Contract&apos; ),
 NOT(ISPICKVAL(  Ready_For_Contract__c , &apos;Yes&apos; ))
 )</errorConditionFormula>

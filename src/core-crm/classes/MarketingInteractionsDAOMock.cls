@@ -47,4 +47,10 @@ public inherited sharing class MarketingInteractionsDAOMock extends DmlBaseMock 
         return marketingInteractionList;
     }
 
+    public Database.QueryLocator queryLocatorGetMarketingInteractionsByContactOrLeadIds(
+        Set<Id> recordIds
+    ){
+        return null;
+    }
+
 }

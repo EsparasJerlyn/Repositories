@@ -18,5 +18,9 @@ public interface IMarketingInteractionsDAO extends DmlInterface{
         Set<Id> recordIds,
         AccessLevel accessLevel
     );
+
+    Database.QueryLocator queryLocatorGetMarketingInteractionsByContactOrLeadIds(
+        Set<Id> recordIds
+    );
     
 }
