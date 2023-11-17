@@ -15,4 +15,8 @@
         <layout>Opportunity-Industry Engagement Layout</layout>
         <recordType>Opportunity.Corporate_Partnership</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity_Outcome__c-Corporate Partnership Outcome Page Layout</layout>
+        <recordType>Opportunity_Outcome__c.Corporate_Partnership</recordType>
+    </layoutAssignments>
 </Profile>
