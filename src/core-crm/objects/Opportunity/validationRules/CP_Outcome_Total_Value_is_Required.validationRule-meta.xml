@@ -7,8 +7,11 @@ RecordType.DeveloperName = &apos;Corporate_Partnership&apos;,
 ISCHANGED( StageName ),
 ISPICKVAL( PRIORVALUE( StageName ) , &apos;Negotiate&apos;),
 ISPICKVAL( StageName , &apos;Proposal&apos;),
-NOT( ISBLANK( Amount ) )
+OR(
+ISBLANK( Amount ),
+NOT(Amount &gt; 0)
+)
 )</errorConditionFormula>
-    <errorDisplayField>AccountId</errorDisplayField>
+    <errorDisplayField>Amount</errorDisplayField>
     <errorMessage>The Outcome Total Value should be greater than zero.</errorMessage>
 </ValidationRule>

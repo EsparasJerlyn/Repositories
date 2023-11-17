@@ -9,5 +9,5 @@ ISPICKVAL( PRIORVALUE( StageName ) , &apos;Negotiate&apos;),
 NOT( ISPICKVAL( StageName , &apos;Proposal&apos;) ),
 NOT( ISPICKVAL( StageName , &apos;Discontinued&apos;) ) )</errorConditionFormula>
     <errorDisplayField>StageName</errorDisplayField>
-    <errorMessage>ou can only progress to the next stage which is Proposal stage or mark the Opportunity as Discontinued.</errorMessage>
+    <errorMessage>You can only progress to the next stage which is Proposal stage or mark the Opportunity as Discontinued.</errorMessage>
 </ValidationRule>
