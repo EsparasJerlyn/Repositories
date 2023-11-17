@@ -158,12 +158,15 @@
         <members>Contact.QLD_School_Name__c</members>
         <members>Contact.Year_of_Arrival__c</members>
         <!-- End DEPP-6482-->
-         <!--Start DEPP-7104-->
-         <members>Opportunity_Outcome__c.Outcome_Type__c</members>
-         <!--End DEPP-7104-->
         <!-- Start DEPP-6621-->
         <members>Engagement_Opportunity__c.Requester_Name__c</members>
         <!-- End DEPP-6621-->
+        <!-- Start DEPP-7000-->
+        <members>Opportunity_Outcome__c.Outcome_Total_Value__c</members>
+        <!-- End DEPP-7000-->
+        <!--Start DEPP-7104-->
+        <members>Opportunity_Outcome__c.Outcome_Type__c</members>
+        <!--End DEPP-7104-->
         <name>CustomField</name>
     </types>
     <types>

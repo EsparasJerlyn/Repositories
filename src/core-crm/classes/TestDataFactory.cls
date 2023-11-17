@@ -107,7 +107,8 @@ public class TestDataFactory {
         'QUT_ISR_Student_Adviser',
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
-        'QUT_Domestic_Future_Student_Agent'
+        'QUT_Domestic_Future_Student_Agent',
+        'QUT_Corporate_Partnership_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -2360,7 +2361,21 @@ public class TestDataFactory {
             LIMIT 1
         ];
         return sysAdmin;
-    }
+    }    
+    /**
+    * @description Method for getting Corporate Partnerships Manager
+    * @param void
+    * @return Corporate Partnerships Manager
+    */
+   public static User getCorporatePartnershipsManager() {
+       User sysAdmin = [
+           SELECT Id
+           FROM User
+           WHERE Username LIKE 'QUT_Corporate_Partnership_Manager%'
+           LIMIT 1
+       ];
+       return sysAdmin;
+   }
 
     class TestUserGenerator {
         private Map<String, Id> groupMap;
@@ -3120,6 +3135,21 @@ public class TestDataFactory {
                 profileName = 'International Student Recruitment';
                 roleName = 'International User';
                 permSets = 'Enquiry_Management_Base,Run_Reports_and_Dashboards,Live_Chat_Agent';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            else if (name == 'QUT_Corporate_Partnership_Manager') {
+                userName = 'QUT_Corporate_Partnership_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Partnerships';
+                permSets = 'Alumni_Corporate_Partnership_Base';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
