@@ -1830,7 +1830,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>List__c.Requester_Name__c</field>
+        <field>List__c.Requestor_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2396,11 +2396,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity_Outcome__c.Outcome_Tangible_Value__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity_Outcome__c.Outcome_Total_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

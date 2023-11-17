@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Requester_Name__c</fullName>
+    <fullName>Requestor_Name__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>The QUT staff member requesting the contact list.</description>
     <externalId>false</externalId>
     <inlineHelpText>The QUT staff member requesting the contact list.</inlineHelpText>
-    <label>Requester Name</label>
+    <label>Requestor Name</label>
     <lookupFilter>
         <active>true</active>
         <filterItems>
-            <field>Contact.RecordType.Name</field>
+            <field>Contact.RecordType.DeveloperName</field>
             <operation>equals</operation>
             <value>Person</value>
         </filterItems>

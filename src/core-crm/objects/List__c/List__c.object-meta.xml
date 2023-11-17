@@ -157,14 +157,16 @@
     <label>List</label>
     <nameField>
         <displayFormat>LIST-{000000}</displayFormat>
-        <label>List Number</label>
+        <label>List Reference</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Lists</pluralLabel>
     <searchLayouts>
         <searchResultsAdditionalFields>List_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Stage__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Requestor_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>OWNER.FIRST_NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

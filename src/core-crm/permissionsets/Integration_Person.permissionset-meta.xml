@@ -3837,7 +3837,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>List__c.Requester_Name__c</field>
+        <field>List__c.Requestor_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
