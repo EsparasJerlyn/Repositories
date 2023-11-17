@@ -13,6 +13,7 @@
  *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | added method getOpportunityByAccountIds|
  *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID1__c before deleting the field  |
       | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID__c field      |
+ *    | kenneth.f.alsay                | November 7, 2023      | DEPP-7000              | Added Corporate Partnership record type|
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
@@ -23,6 +24,9 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
         .getRecordTypeId();
     public static final Id RESEARCHPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Research_Partnership')
+        .getRecordTypeId();
+	public static final Id CORPORATEPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+        .get('Corporate_Partnership')
         .getRecordTypeId();
 
     public static final String IDENTIFY_STAGE = 'Identify';
