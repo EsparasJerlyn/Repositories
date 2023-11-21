@@ -70,6 +70,11 @@ public interface IContactsDAO extends DmlInterface {
         Set<Id> recordIds,
         AccessLevel accessLevel
     ); 
+    
+    Database.QueryLocator queryLocatorGetContactsByIds(
+        Set<Id> recordIds
+    );
+    
     List<Contact> getExistingMCPersonaContactsBySetIds(
         Set<Id> recordIds,
         AccessLevel accessLevel

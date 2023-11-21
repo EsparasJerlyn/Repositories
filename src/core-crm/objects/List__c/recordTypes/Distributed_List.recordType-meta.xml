@@ -20,7 +20,7 @@
         </values>
         <values>
             <fullName>New</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Qualification</fullName>

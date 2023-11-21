@@ -69,5 +69,10 @@ public inherited sharing class ProgramEnrollmentsDAOMock extends DmlBaseMock imp
         return programEnrollmentList;
     }
     
+    public Database.QueryLocator queryLocatorGetAllProgramEnrollmentsByContactId(
+        Set<Id> recordIds
+    ){
+        return null;
+    }
     
 }

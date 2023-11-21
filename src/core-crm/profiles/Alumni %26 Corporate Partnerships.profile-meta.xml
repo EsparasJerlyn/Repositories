@@ -12,6 +12,10 @@
         <recordType>Document__c.Standard</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>List__c-Distributed List Layout</layout>
+        <recordType>List__c.Distributed_List</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Opportunity-Industry Engagement Layout</layout>
         <recordType>Opportunity.Corporate_Partnership</recordType>
     </layoutAssignments>

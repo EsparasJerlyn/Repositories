@@ -233,6 +233,20 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
+  
+    @isTest
+    static void queryLocatorGetContactsByIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                ContactsDAO.newInstance().queryLocatorGetContactsByIds(
+                    new Set<Id>()
+                ) != null,
+                'contactList should not be empty.'
+            );
+            Test.stopTest();
+        }
+    }
     
     @isTest
     static void getExistingMCPersonaContactsBySetIds() {

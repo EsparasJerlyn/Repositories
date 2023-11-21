@@ -127,4 +127,16 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
             accessLevel
         );
     }
+
+    public Database.QueryLocator queryLocatorGetCasesByContactOrLeadIds(
+        Set<Id> recordIds
+    ){
+        String query =
+            'SELECT Id, Category__c, CreatedDate, Lead__c, ContactId, Subject, Lead_Score_Reset__c ' +
+              'FROM Case ' +
+             'WHERE Lead__c IN :recordIds ' +
+                'OR ContactId IN :recordIds ';
+        return Database.getQueryLocator(query);
+    }
+
 }

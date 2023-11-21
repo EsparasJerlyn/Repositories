@@ -37,4 +37,10 @@ public inherited sharing class IndividualEmailResultsDAOMock extends DmlBaseMock
 
         return indivEmailList;
     }
+
+    public Database.QueryLocator queryLocatorGetIndivEmailResultsByContactOrLeadIds(
+        Set<Id> recordIds
+    ){
+        return null;
+    }
 }
