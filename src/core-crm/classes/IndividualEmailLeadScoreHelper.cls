@@ -257,9 +257,7 @@ public with sharing class IndividualEmailLeadScoreHelper {
             oldItems != null && (            
             (indivEmail.et4ae5__DateOpened__c!=null && oldItems.get(indivEmail.Id).et4ae5__DateOpened__c != indivEmail.et4ae5__DateOpened__c) ||
             oldItems.get(indivEmail.Id).et4ae5__Clicked__c != indivEmail.et4ae5__Clicked__c ||
-            oldItems.get(indivEmail.Id).et4ae5__Opened__c != indivEmail.et4ae5__Opened__c ||
-            oldItems.get(indivEmail.Id).et4ae5__Contact__c != indivEmail.et4ae5__Contact__c ||
-            oldItems.get(indivEmail.Id).et4ae5__Lead__c != indivEmail.et4ae5__Lead__c
+            oldItems.get(indivEmail.Id).et4ae5__Opened__c != indivEmail.et4ae5__Opened__c
         );
     }
 }
