@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Maximum_Daily_Email_Count__c</field>
-        <value xsi:type="xsd:double">1000.0</value>
+        <value xsi:type="xsd:double">0</value>
     </values>
     <values>
         <field>SMS_Messaging_Channel__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Supress_SMS__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>SMS_Retry_Count__c</field>
