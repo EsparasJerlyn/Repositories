@@ -467,4 +467,26 @@ public without sharing class ContactTriggerHelper {
             newItems.Registered_Email__c = newItems.Work_Email__c;    
         }
     }
+
+    public static void createLeadScoreDetailRecord(Set<Id> contactIds) {
+        List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
+        Map<Id, Lead_Score_Detail__c> leadScoreDetailMap = new Map<Id, Lead_Score_Detail__c>();
+
+        for (
+            Lead_Score_Detail__c leadScoreDetail : LeadScoreDetailsDAO.newInstance()
+                .getLeadScoreDetailsByContactOrLeadId(contactIds, AccessLevel.SYSTEM_MODE)
+        ) {
+            leadScoreDetailMap.put(leadScoreDetail.Contact__c, leadScoreDetail);
+        }
+
+        for (Id contactId : contactIds) {
+            if (!leadScoreDetailMap.containsKey(contactId)) {
+                leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Contact__c = contactId));
+            }
+        }
+        if (!leadScoreDetailsToInsert.IsEmpty()) {
+            LeadScoreDetailsDAO.newInstance()
+                .insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
 }

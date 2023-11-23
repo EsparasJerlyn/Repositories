@@ -96,6 +96,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
     processLeadOnInsert(newMap);
     createChildMCPersona(newMap.values());
+    ContactTriggerHelper.createLeadScoreDetailRecord(newMap.keySet());
     ContactTriggerHelper.createMarketingSegmentation(newMap.keySet());
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
