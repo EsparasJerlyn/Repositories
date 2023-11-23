@@ -23,14 +23,7 @@ private class FutureStudentJourneyStatusHelperTest {
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
             AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.USER_MODE);
-        }
-    }
 
-    @isTest
-    private static void testContactCreationWithExploreStatus() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
-
-            Test.startTest();
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
             leadScoreParentConfigList.add(
                 new Lead_Score_Configuration__c(
@@ -76,11 +69,29 @@ private class FutureStudentJourneyStatusHelperTest {
                 .insertRecords(leadScoreConfigChildList, true, AccessLevel.USER_MODE);
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);  
+            contactList[0].FirstName = 'Test Contact For Nurture';
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    @isTest
+    private static void testContactCreationWithExploreStatus() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
+            List<Contact> contactListToUpdate = new List<Contact>();
+            for (Contact record : contactList) { 
+                if(record.FirstName == 'Test Contact For Nurture') {
+                    record.Email_Opt_In_DateTime__c = Date.today();
+                    contactListToUpdate.add(record);
+                }
+            }
+            ContactsDAO.newInstance().updateRecords(contactListToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
-            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactList[0].Id},AccessLevel.SYSTEM_MODE)) {  
+            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactListToUpdate[0].Id},AccessLevel.SYSTEM_MODE)) {  
                 System.assertEquals(10,record.Lead_Score__c,'Contact Lead_Score__c did not match');
                 System.assertEquals('Explore',record.Future_Student_Journey_Status__c,'Contact Future_Student_Journey_Status__c did not match');
             }
@@ -104,13 +115,15 @@ private class FutureStudentJourneyStatusHelperTest {
     @isTest
     private static void testContactCreationWithStudyStatus() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0,10);   
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0,10);  
+            Set<Id> contactIds = new Set<Id>(); 
             for(Contact con: newContacts){
+                contactIds.add(con.Id);
                 con.QUT_Student__c = true;
             }         
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(10)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Study','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -134,7 +147,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(String.isBlank(record.Future_Student_Journey_Status__c),'Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -158,7 +171,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Apply','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -182,7 +195,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Apply','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -217,7 +230,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Apply','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -241,7 +254,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Offer','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -266,7 +279,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Offer','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -302,7 +315,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Offer','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -326,7 +339,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Accept-Admit','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -352,7 +365,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Accept-Admit','Record Future_Student_Journey_Status__c did not match');
             }
         }
@@ -388,7 +401,7 @@ private class FutureStudentJourneyStatusHelperTest {
             ApplicationsDAO.newInstance().insertRecords(newApplications,false,AccessLevel.USER_MODE);
             Test.stopTest();
            
-            for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(1)){
+            for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assert(record.Future_Student_Journey_Status__c == 'Accept-Admit','Record Future_Student_Journey_Status__c did not match');
             }
         }
