@@ -271,6 +271,9 @@
         <members>Case.International_Enquiries_Unassigned</members>
         <members>Case.International_Enquiries_Case</members>
         <!--(End) DEPP-7067-->
+        <!--(start) DEPP-7253-->
+        <members>ServiceAppointment.MyScheduledAppointments</members>
+        <!--(END) DEPP-7253-->
         <name>ListView</name>
     </types>
     <types>

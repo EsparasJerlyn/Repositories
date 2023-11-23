@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_30_Days_Appointments_Domestic</fullName>
+    <columns>SchedStartTime</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Appointment_Topic__c</columns>
+    <columns>SchedEndTime</columns>
+    <columns>Owner</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status</field>
+        <operation>equals</operation>
+        <value>Scheduled</value>
+    </filters>
+    <filters>
+        <field>SchedStartTime</field>
+        <operation>equals</operation>
+        <value>NEXT_N_DAYS:30</value>
+    </filters>
+    <filters>
+        <field>WorkType</field>
+        <operation>equals</operation>
+        <value>Domestic Support</value>
+    </filters>
+    <label>Next 30 Days Appointments - Domestic</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>Future_Student_Super_User_Domestic</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>
