@@ -94,7 +94,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     };
 
     public static final Set<String> ACCEPTED_OFFER_BY_OFFER_STATUSES_FOR_SAMS = new Set<String>{
-        'Accepted'
+        'Accepted','Admitted'
     };
 
     public static final Set<String> samsStatuses = new Set<String>{
