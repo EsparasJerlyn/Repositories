@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Completed_Appointments</fullName>
+    <columns>SchedStartTime</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Appointment_Topic__c</columns>
+    <columns>SchedEndTime</columns>
+    <columns>Owner</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Status</field>
+        <operation>notEqual</operation>
+        <value>Scheduled</value>
+    </filters>
+    <label>My Completed Appointments</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>Future_Student_Super_User_Domestic</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>Future_Student_Super_User_International</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>
