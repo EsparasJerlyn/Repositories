@@ -348,9 +348,13 @@
     <tabs>standard-home</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>Knowledge__kav</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Future_Student_Nurturing_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>Knowledge__kav</tab>
+        </mappings>
         <mappings>
             <tab>standard-Dashboard</tab>
         </mappings>
