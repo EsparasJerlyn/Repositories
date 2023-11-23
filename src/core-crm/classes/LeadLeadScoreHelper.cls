@@ -75,8 +75,8 @@ public with sharing class LeadLeadScoreHelper {
      */
     private static void mapPostGradStudyLevel(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         Boolean isPostGrad = marketingSegMap.containsKey(lead.Id) && marketingSegMap.get(lead.Id).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
-        Boolean isDomesticLead = isPostGrad && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
-        Boolean isInternationalLead = isPostGrad && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+        Boolean isDomesticLead = isPostGrad && validateDomesticLead(lead, marketingSegMap);
+        Boolean isInternationalLead = isPostGrad && validateInternationalLead(lead, marketingSegMap);
         if(isDomesticLead){
             domesticPostGradMap.put(lead.Id, lead);
         }
@@ -90,8 +90,8 @@ public with sharing class LeadLeadScoreHelper {
      */
     private static void mapUndeterminedStudyLevel(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         Boolean isUndetermined = marketingSegMap.containsKey(lead.Id) && String.isBlank(marketingSegMap.get(lead.Id).My_Primary_Study_Level__c);
-        Boolean isDomesticLead = isUndetermined && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
-        Boolean isInternationalLead = isUndetermined && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+        Boolean isDomesticLead = isUndetermined && validateDomesticLead(lead, marketingSegMap);
+        Boolean isInternationalLead = isUndetermined && validateInternationalLead(lead, marketingSegMap);
         Boolean hasNoCitizenship = isUndetermined && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == null;
 
         if(isDomesticLead){
