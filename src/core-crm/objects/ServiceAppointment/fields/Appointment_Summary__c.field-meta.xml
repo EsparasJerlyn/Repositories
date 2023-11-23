@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appointment_Summary__c</fullName>
+    <description>Covers the notes that the advisor will take during an appointment</description>
+    <externalId>false</externalId>
+    <label>Appointment Summary</label>
+    <length>32000</length>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ContactId</fullName>
+    <description>The Contact that an appointment is associated to.</description>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>Lookup</type>
+</CustomField>

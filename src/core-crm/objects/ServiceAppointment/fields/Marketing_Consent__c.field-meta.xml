@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marketing_Consent__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If the appointment setter has agreed to receive QUT marketing material.</description>
+    <externalId>false</externalId>
+    <label>Marketing Consent</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

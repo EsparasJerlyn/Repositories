@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Name__c</fullName>
+    <description>Appointment setters last name</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    NOT(ISBLANK( Web_Last_Name__c )),
+    Web_Last_Name__c,
+    IF(
+        NOT(ISBLANK( Contact.LastName )),
+        Contact.LastName,
+        IF(
+            NOT(ISBLANK( LeadId__r.LastName )),
+            LeadId__r.LastName,
+              IF(
+                NOT(ISBLANK(CaseId__r.Contact.LastName)),
+                CaseId__r.Contact.LastName,
+                IF(
+                   NOT(ISBLANK( CaseId__r.Lead__r.LastName  )),
+                   CaseId__r.Lead__r.LastName,
+                    &quot;&quot;
+                )
+           )
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Last Name</label>
+    <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
