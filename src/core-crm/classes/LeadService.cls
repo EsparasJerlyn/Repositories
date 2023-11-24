@@ -96,23 +96,9 @@ public with sharing class LeadService {
 
     public static void createLeadScoreDetailRecord(Set<Id> leadIds) {
         List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
-        Map<Id, Lead_Score_Detail__c> leadScoreDetailMap = new Map<Id, Lead_Score_Detail__c>();
-
-        for (
-            Lead_Score_Detail__c leadScoreDetail : LeadScoreDetailsDAO.newInstance()
-                .getLeadScoreDetailsByContactOrLeadId(leadIds, AccessLevel.SYSTEM_MODE)
-        ) {
-            leadScoreDetailMap.put(leadScoreDetail.Lead__c, leadScoreDetail);
-        }
-
         for (Id leadId : leadIds) {
-            if (!leadScoreDetailMap.containsKey(leadId)) {
-                leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Lead__c = leadId));
-            }
+            leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Lead__c = leadId));
         }
-        if (!leadScoreDetailsToInsert.IsEmpty()) {
-            LeadScoreDetailsDAO.newInstance()
-                .insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
-        }
+        LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
     }
 }
