@@ -32,6 +32,7 @@
     <tabs>Case_Priority_Configuration__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>Knowledge__kav</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
@@ -39,6 +40,9 @@
         </mappings>
         <mappings>
             <tab>International_Tier__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Knowledge__kav</tab>
         </mappings>
         <mappings>
             <tab>Lead_Score_Configuration__c</tab>

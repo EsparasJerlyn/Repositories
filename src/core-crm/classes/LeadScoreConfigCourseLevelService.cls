@@ -8,6 +8,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file                 |
+      | arsenio.jr.dayrit              | November 13, 2023     | DEPP-7210              | Updated getLeadScore Method  |
       |                                |                       |                        |                              |
  */
 public with sharing class LeadScoreConfigCourseLevelService {
@@ -43,7 +44,7 @@ public with sharing class LeadScoreConfigCourseLevelService {
     } 
 
     public static Map<Id, Integer> calculateLeadScore(Map<Id,Marketing_Segmentation__c> marketingSegmentationMap, LeadScoreConfigCourseLevel leadScoreConfigCourseLevel){
-        
+  
         Map<Id, Integer> courseLevelMap = new Map<Id, Integer>();
 
         Integer courseLevelScore = 0;
@@ -58,7 +59,7 @@ public with sharing class LeadScoreConfigCourseLevelService {
             }
 
             if(String.isNotBlank(marketingSeg.My_Primary_Study_Level__c)){
-                getLeadScore(marketingSeg, courseLevelScore, leadScoreConfigCourseLevel);
+                courseLevelScore = getLeadScore(marketingSeg, courseLevelScore, leadScoreConfigCourseLevel);
             }else{
                 courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelIsBlank();   
             }
@@ -75,7 +76,7 @@ public with sharing class LeadScoreConfigCourseLevelService {
         return courseLevelMap;
     }
 
-    private static void getLeadScore(Marketing_Segmentation__c marketingSeg, Integer courseLevelScore, LeadScoreConfigCourseLevel leadScoreConfigCourseLevel){
+    private static Integer getLeadScore(Marketing_Segmentation__c marketingSeg, Integer courseLevelScore, LeadScoreConfigCourseLevel leadScoreConfigCourseLevel){
         if(marketingSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.STUDY_LEVEL_UNDERGRAD){ 
             courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelUnderGrad();
         }
@@ -91,6 +92,8 @@ public with sharing class LeadScoreConfigCourseLevelService {
         else if(marketingSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.STUDY_LEVEL_EXCHANGE_AND_STUDY){ 
             courseLevelScore = courseLevelScore + leadScoreConfigCourseLevel.getStudyLevelExchange();
         }
+
+        return courseLevelScore;
     }
 
     private static Boolean validateIfForCourseLevel(Lead_Score_Configuration__c leadScoreConfig, String category) {
