@@ -51,6 +51,8 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
             leadScoreDetailList.addAll(processIndividualEmail((Map<Id,et4ae5__IndividualEmailResult__c>) sObjectMap, existingLeadScoreDetailMap, leadScoreConfigReference));
         }
         
+        LeadScoreCalculatorService.saveLogs();
+
         return leadScoreDetailList;
     }
 
@@ -106,6 +108,7 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
 
         for(Id contactLeadId : marketingSegmentationMap.keySet()){  
             if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
                 continue;
             }
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
@@ -147,6 +150,7 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
         Map<Id, Integer> enquiriesMap = LeadScoreConfigEnquiriesService.calculateLeadScore(caseMap, leadScoreConfigReference.leadScoreEnquiries);
         for(Id contactLeadId : enquiriesMap.keySet()){    
             if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
                 continue;
             }
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
@@ -187,8 +191,9 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
         contactLeadIds.addAll(downloadPDFMap.keySet());
         contactLeadIds.addAll(matchMySkillsMap.keySet());
 
-        for(Id contactLeadId : contactLeadIds){   
+        for(Id contactLeadId : contactLeadIds){          
             if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
                 continue;
             }      
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
@@ -226,6 +231,7 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
         
         for(Id contactId : contactMap.keySet()){   
             if(!existingLeadScoreDetailMap.containsKey(contactId)){
+                LeadScoreCalculatorService.addErrorLogs(contactId);
                 continue;
             }    
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
@@ -258,6 +264,7 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
     
         for(Id leadId : leadMap.keySet()){       
             if(!existingLeadScoreDetailMap.containsKey(leadId)){
+                LeadScoreCalculatorService.addErrorLogs(leadId);
                 continue;
             }
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
@@ -289,6 +296,7 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
         Map<Id, Integer> programEngMap = LeadScoreConfigProgEngagmentService.calculateLeadScore(programEnrollmentMap, leadScoreConfigReference.leadScoreProgEng);
         for(Id contactId : programEngMap.keySet()){  
             if(!existingLeadScoreDetailMap.containsKey(contactId)){
+                LeadScoreCalculatorService.addErrorLogs(contactId);
                 continue;
             }
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
@@ -319,6 +327,7 @@ public with sharing class LeadScoreUndergradIntCmd implements ILeadScoreStudyLev
         Map<Id, Integer> emailInteractionMap = LeadScoreConfigEmailInteractService.calculateLeadScore(indivEmailMap, leadScoreConfigReference.leadScoreEmailInteraction);
         for(Id contactLeadId : emailInteractionMap.keySet()){   
             if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
                 continue;
             }
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();

@@ -336,6 +336,17 @@ public inherited sharing class LeadScoreCalculatorService {
             }   
         }
     }
+
+    public static void addErrorLogs(Id recordId){
+        String logMessage = 'Lead Score Detail record already exist for this record: ' + recordId;
+        Logger.error(logMessage).setRecord(recordId);
+    }
+
+    public static void saveLogs() {        
+        if (Logger.getBufferSize() > 0) {
+            Logger.saveLog();
+        }
+    }  
     
     public class LeadScoreCalculatorParams{
         public SObjectType sObjectType;
