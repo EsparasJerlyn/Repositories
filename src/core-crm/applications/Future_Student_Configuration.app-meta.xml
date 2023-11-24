@@ -29,10 +29,14 @@
     <tabs>SMS_Template__c</tabs>
     <tabs>standard-CallTemplate</tabs>
     <tabs>International_Tier__c</tabs>
+    <tabs>Case_Priority_Configuration__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
+        <mappings>
+            <tab>Case_Priority_Configuration__c</tab>
+        </mappings>
         <mappings>
             <tab>International_Tier__c</tab>
         </mappings>
