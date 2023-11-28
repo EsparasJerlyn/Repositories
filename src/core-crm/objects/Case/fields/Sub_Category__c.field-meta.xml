@@ -166,11 +166,6 @@
                 <label>Student services and amenities fees</label>
             </value>
             <value>
-                <fullName>Commonwealth supported place</fullName>
-                <default>false</default>
-                <label>Commonwealth supported place</label>
-            </value>
-            <value>
                 <fullName>Payment of acceptance fees</fullName>
                 <default>false</default>
                 <label>Payment of acceptance fees</label>
@@ -350,10 +345,6 @@
         <valueSettings>
             <controllingFieldValue>Fees, costs and scholarships</controllingFieldValue>
             <valueName>Student services and amenities fees</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Fees, costs and scholarships</controllingFieldValue>
-            <valueName>Commonwealth supported place</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Fees, costs and scholarships</controllingFieldValue>
