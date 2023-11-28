@@ -338,7 +338,7 @@ public inherited sharing class LeadScoreCalculatorService {
     }
 
     public static void addErrorLogs(Id recordId){
-        String logMessage = 'Lead Score Detail record already exist for this record: ' + recordId;
+        String logMessage = 'Lead Score Detail does not exist for this record: ' + recordId;
         Logger.error(logMessage).setRecord(recordId);
     }
 
