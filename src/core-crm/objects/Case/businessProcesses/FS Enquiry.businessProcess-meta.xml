@@ -22,4 +22,8 @@
         <fullName>Escalated</fullName>
         <default>false</default>
     </values>
+    <values>
+        <fullName>Triaged</fullName>
+        <default>false</default>
+    </values>
 </BusinessProcess>
