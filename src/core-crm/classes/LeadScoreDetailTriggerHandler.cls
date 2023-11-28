@@ -26,10 +26,7 @@ public with sharing class LeadScoreDetailTriggerHandler implements Disableable, 
      * @param newItems - List of Lead_Score_Detail__c.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems){
-        if(!isRunning ){
-            isRunning = true; 
-            LeadScoreDetailTriggerHelper.linkLeadScoreDetailToContact( (Map<Id,Lead_Score_Detail__c>) newItems);
-        }
+        LeadScoreDetailTriggerHelper.linkLeadScoreDetailToContact( (Map<Id,Lead_Score_Detail__c>) newItems);
     }
 
     /**
@@ -41,10 +38,7 @@ public with sharing class LeadScoreDetailTriggerHandler implements Disableable, 
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        if(!isRunning ){
-            isRunning = true;
-            LeadScoreDetailTriggerHelper.calculateTotalLeadScore((List<Lead_Score_Detail__c>) newItems.values(), (Map<Id, Lead_Score_Detail__c>) oldItems);
-        }
+        LeadScoreDetailTriggerHelper.calculateTotalLeadScore((List<Lead_Score_Detail__c>) newItems.values(), (Map<Id, Lead_Score_Detail__c>) oldItems);
     }
 
     /**
