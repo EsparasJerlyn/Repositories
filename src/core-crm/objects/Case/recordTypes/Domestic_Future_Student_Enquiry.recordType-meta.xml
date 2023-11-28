@@ -8,7 +8,19 @@
     <picklistValues>
         <picklist>Awaiting_Response_From__c</picklist>
         <values>
+            <fullName>Admissions</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Enquirer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other QUT Department</fullName>
             <default>false</default>
         </values>
     </picklistValues>
