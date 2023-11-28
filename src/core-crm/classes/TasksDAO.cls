@@ -14,18 +14,20 @@
       |                                |                       |                        | used string literals for Statuses, and         |
       |                                |                       |                        | updated getCompletedTasksByTargetId to include |
       |                                |                       |                        | ACST CompletionDate and ACST CreatedDate       |
+      | johanna.a.gibas                | Nov 16, 2023          | DEPP-7118              | Replaced Closed - Contacted with               |
+      |                                |                       |                        |     Closed - No Further Action Required        |
  */
 public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
 
     public static final String CLOSED_UNSUCCESSFUL_CALL_STATUS = 'Closed - Unsuccessful Call';
     public static final String CLOSED_FOLLOW_UP_STATUS = 'Closed - Follow Up';
-    public static final String CLOSED_CONTACTED_STATUS = 'Closed - Contacted';
+    public static final String CLOSED_NO_FURTHER_ACTION_REQUIRED_STATUS = 'Closed - No Further Action Required';
     public static final Id SMS_RECTYPE_ID = Schema.SObjectType.Task.getRecordTypeInfosByDeveloperName().get('SMS').getRecordTypeId();   
 
     public static final Set<String> taskStatuses = new Set<String>{
         CLOSED_UNSUCCESSFUL_CALL_STATUS,
         CLOSED_FOLLOW_UP_STATUS,
-        CLOSED_CONTACTED_STATUS
+        CLOSED_NO_FURTHER_ACTION_REQUIRED_STATUS
     };    
 
     public static ITasksDAO newInstance() {

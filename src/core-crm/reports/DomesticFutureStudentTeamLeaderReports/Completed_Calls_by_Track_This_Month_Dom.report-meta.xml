@@ -46,7 +46,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Closed - Contacted</value>
+            <value>Closed - No Further Action Required</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
