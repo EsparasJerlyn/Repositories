@@ -31,7 +31,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ServiceAppointment.ContactId</field>
+        <field>ServiceAppointment.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
