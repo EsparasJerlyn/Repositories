@@ -10,6 +10,8 @@
       | wli                       | May 08/09/10/11, 2022       | DEPP-2549,2565,2581,2588      | Update                                        |
       | kenneth.f.alsay           | September 26, 2023          | DEPP-6629                     | Deleted LMSCourseWrapper and calloutLMSCourse |
       | kenneth.f.alsay           | October 3, 2023             | DEPP-6629                     | Added Logger on doCallout lines               |
+      | kenneth.f.alsay           | November 29, 2023           | DEPP-7318                     | Removed unused fields from CourseOfferingWrapper |
+      |                           |                             |                               | and CourseEnrollmentWrapper                      |
  */
 public without sharing class LMSIntegrationManager {
 
