@@ -361,6 +361,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Birthdate</fieldItem>
                 <identifier>RecordBirthdateField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.QUT_Staff__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-5cbccaf7-7ed3-40b4-ad4b-a151d634b5ec</name>
