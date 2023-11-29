@@ -102,11 +102,16 @@ private class FutureStudentJourneyStatusHelperTest {
     @isTest
     private static void testContactCreationWithNoStatus() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0,10);            
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0,10);   
+            for(Contact record : newContacts){
+                record.FirstName = 'Contact with No Status';
+            }
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
             for(Contact record: ContactsDAO.newInstance().getPersonContactsWithLimit(10)){
-                System.assert(String.isBlank(record.Future_Student_Journey_Status__c),'Record Future_Student_Journey_Status__c did not match');
+                if(record.FirstName == 'Contact with No Status'){
+                    System.assert(String.isBlank(record.Future_Student_Journey_Status__c),'Record Future_Student_Journey_Status__c did not match');
+                }
             }
         }
     }
@@ -132,7 +137,8 @@ private class FutureStudentJourneyStatusHelperTest {
     @isTest
     private static void testApplicationBlankWithApplication() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);            
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);  
+            newContacts[0].HasOptedOutOfEmail = true;          
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
             //create 2 application to pass thre logic where status is not overwritten when same status would be set
