@@ -8,6 +8,7 @@
       | kathy.cornejo             | July 27, 2022         | DEPP-1771             | Added Section Header                         |
       | kathy.cornejo             | August 31, 2022       | DEPP-2254             | Removed Track Attendance Section from PWP    |
       | alexander.cadalin         | September 05, 2022    | DEPP-4100             | Removed Time from Session Combobox Text      |
+      | sebastianne.k.trias       | October 20, 2023      | DEPP-6946             | Fixed lists of registered students           |
  */
 
 import { LightningElement,wire,api } from 'lwc';
@@ -75,9 +76,6 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         return SECTION_HEADER_STUDENTS; 
     }
 
-    /**
-     * gets product request status
-    */
     @wire(getRecord, { recordId: '$recordId', fields: [PR_STATUS,PR_RECORD_TYPE,PRESCRIBED_CHILD] })
     handleParentRecord(result){
         if(result.data){
@@ -102,6 +100,9 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
            this.offeringData = this.formatCourseOffering(this.offeringTemp);
            this.isLoading= false;
            this.isSaving =false;
+           if(this.sessionValue){
+            this.setOnSessionChange();
+           }
            
         }
         else if(result.error)
@@ -143,7 +144,6 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         });
     }
    
-    //Student that has attendance
     formatStudent(studentList)
     {
         return studentList.filter((filter) => filter.hed__Course_Connection__c && filter.hed__Course_Connection__r.hed__Contact__c).map(item =>{
@@ -189,23 +189,32 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
         });
     } 
 
-    //Student that has attendance
+    formatStudentList(connectionList, attendanceList){
+        return connectionList.map(item => {
+            let attendanceEventRecord = attendanceList.find(attendance => attendance.hed__Course_Connection__r.hed__Contact__c == item.hed__Contact__r.Id);
+            let newItem = {};
+            newItem.courseConnectionId = item.Id;
+            newItem.contactId = item.hed__Contact__r.Id;
+            newItem.contactName  = item.hed__Contact__r.Name;
+            newItem.sessionId = this.sessionValue;
+            newItem.isPresent = attendanceEventRecord ? attendanceEventRecord.Present__c : false;
+            newItem.attendanceId= attendanceEventRecord ? attendanceEventRecord.Id : null;
+            return newItem;
+        });
+    }
+
     sessionChange(event)
     { 
         this.sessionValue = event.detail.value;
+        this.setOnSessionChange();
+    }
+
+    setOnSessionChange(){
         this.selectedRelatedSessions = this.masterList.find(item => item.id == this.offeringValue).sessions;
-
-        //find existing attendance record from session record
-        this.selectedSessionData = this.selectedRelatedSessions.find(item => item.Id == this.sessionValue).Attendance_Events__r;     
-
-        //find courseConnection Students from masterlist
+        this.selectedSessionData = this.selectedRelatedSessions.find(item => item.Id == this.sessionValue).Attendance_Events__r;
         this.selectedRelatedConnections = this.masterList.find(item => item.id == this.offeringValue).courseConnections;
-
-        //format course connection data to desired format
-        this.connectionStudentData = this.formatCourseConnectionStudents(this.selectedRelatedConnections);
-       
-        //if existing attendance data found display record from session, else display record from course connection
-        this.studentData = this.selectedSessionData?this.formatStudent(this.selectedSessionData):this.connectionStudentData;
+        this.connectionStudentData = this.formatCourseConnectionStudents(this.selectedRelatedConnections); 
+        this.studentData = this.selectedSessionData?this.formatStudentList(this.selectedRelatedConnections, this.selectedSessionData):this.connectionStudentData;
         this.createdAttendance= true;
         this.cantSave = this.connectionStudentData.attendanceId == null?true:false;
     }
@@ -213,7 +222,6 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     handleOfferingChange(event)
     {
         this.offeringValue = event.detail.value;
-        //find session
         this.selectedRelatedSessions = this.masterList.find(item => item.id == this.offeringValue).sessions;
         this.sessionData =this.formatSession(this.selectedRelatedSessions);
         this.createdAttendance= false;    
@@ -272,10 +280,7 @@ export default class TrackAttendanceAndEvaluation extends LightningElement {
     this.createdAttendance= false;
    }
 
-   
-    /*
-    * generates toasts
-    */
+
     generateToast(_title,_message,_variant){
         const evt = new ShowToastEvent({
             title: _title,
