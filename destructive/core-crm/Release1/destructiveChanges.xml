@@ -274,6 +274,10 @@
         <!--(start) DEPP-7253-->
         <members>ServiceAppointment.MyScheduledAppointments</members>
         <!--(END) DEPP-7253-->
+        <!--(Start) DEPP-7278-->
+        <members>Task.Hot_Call_List</members>
+        <members>Task.Warm_Call_List</members>
+        <!--(End) DEPP-7078-->
         <name>ListView</name>
     </types>
     <types>
@@ -366,6 +370,9 @@
         <members>International_Chat_Enquiries</members>
         <members>International_Enquiries</members>
         <!--(End) DEPP-7067-->
+        <!--(Start) DEPP-7278-->
+        <members>Nurture_Team</members>
+        <!--(End) DEPP-7078-->
         <name>Queue</name>
     </types>
     <version>52.0</version> 
