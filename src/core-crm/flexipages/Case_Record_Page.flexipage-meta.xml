@@ -549,6 +549,9 @@
                             <value>Edit</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Case.Schedule_Appointment</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>ChangeOwnerOne</value>
                         </valueListItems>
                     </valueList>

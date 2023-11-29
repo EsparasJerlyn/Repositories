@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ServiceAppointment.AppointmentType</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ServiceAppointment.Appointment_Email__c</field>
         <readable>true</readable>
@@ -13,11 +18,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ServiceAppointment.Appointment_Topic__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ServiceAppointment.AppointmentType</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -115,9 +115,13 @@
         <field>ServiceAppointment.Web_Mobile_No_Locale__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Appointment_Scheduler</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Lightning Scheduler User</label>
-    <license>Salesforce</license>
+    <license>LightningSchedulerPsl</license>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
@@ -131,4 +135,8 @@
         <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>LightningSchedulerUserAccess</name>
+    </userPermissions>
 </PermissionSet>
