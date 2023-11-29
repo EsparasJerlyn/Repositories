@@ -1290,6 +1290,16 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Offer Lapsed (Automated)';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            // create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
+            List<hed__Term__c> newTerms = new List<hed__Term__c>();
+            newTerms.add(new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id,
+                Last_Admission_Date__c = Date.today().addDays(-1)
+            ));
+            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
 
             //Create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(
@@ -1299,6 +1309,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             );
             newApplications[0].Offer_Status__c = 'Offered'; //Offer Status is not Lapsed
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
+            newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
             ApplicationsDAO.newInstance()
                 .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
@@ -1356,7 +1367,15 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic Offer Lapsed';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-
+			// create applied intake term
+            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
+            List<hed__Term__c> newTerms = new List<hed__Term__c>();
+            newTerms.add(new hed__Term__c(
+                hed__Start_Date__c = Date.today().addMonths(4),
+                hed__Account__c = accountList[0].Id,
+                Last_Admission_Date__c = Date.today().addDays(-1)
+            ));
+            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
             //Create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(
                 newContacts,
@@ -1365,6 +1384,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             );
             newApplications[0].Offer_Status__c = 'Offered'; //Offer Status is not Lapsed
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
+            newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
             ApplicationsDAO.newInstance()
                 .insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(
