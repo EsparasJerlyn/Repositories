@@ -12,6 +12,7 @@
       |--------------------------------|-----------------------|------------------------|-------------------------------------------|
   	  | kenneth.f.alsay                | September 25, 2023    | DEPP-6629 - AC1        | Updated Schedule to 15 mins               |
       |                                |                       |                        | Updated WHERE clause to match criteria    |
+      | kenneth.f.alsay                | November 29, 2023     | DEPP-7318              | Removed unused fields from SOQL           |
  */
 
 
@@ -25,8 +26,7 @@ public without sharing class LMSCourseOfferingBatchHandler implements Database.B
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
-            'SELECT Id, Course_Code__c, Name, hed__Start_Date__c, hed__End_Date__c, LMS_Integration_Status__c, hed__Course__r.Name,' +
-            ' hed__Course__r.LMS_Integration_Status__c, hed__Course__r.Primary_Delivery_Platform__c, hed__Course__r.Mark_Content_as_Complete__c' +
+            'SELECT Id' +
             ' FROM hed__Course_Offering__c' +
             ' WHERE (LMS_Integration_Status__c = NULL OR LMS_Integration_Status__c = :IS_CHANGED)' +
             ' AND LMS_Creation_Date__c <= :TODAY' +
