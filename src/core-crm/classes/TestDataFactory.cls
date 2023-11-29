@@ -2952,7 +2952,7 @@ public class TestDataFactory {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3914,5 +3914,20 @@ public class TestDataFactory {
             ));
         }
         return sprinklrCases;
+    }
+
+    /**
+     * @description Method for creating test Service Appointment records
+     * @param numServiceAppointment - number of Service Appointment to be created
+     * @return serviceApp - list of Service Appointment created
+     */
+    public static List<ServiceAppointment> createTestServiceAppointmentRecords(Integer numServiceAppointment, Id AccountId) {
+        List<ServiceAppointment> serviceApp = new List<ServiceAppointment>();
+
+        for (Integer i = 0; i < numServiceAppointment; i++) {
+            serviceApp.add(new ServiceAppointment(EarliestStartTime = System.Now(), DueDate = System.Now().addDays(10), ParentRecordId = AccountId));
+        }
+
+        return serviceApp;
     }
 }

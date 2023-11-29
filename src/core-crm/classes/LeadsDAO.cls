@@ -261,4 +261,5 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             accessLevel
         );
     }
-}
+    
+} 

@@ -435,4 +435,4 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
     }
     
-}
+} 
