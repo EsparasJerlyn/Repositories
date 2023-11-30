@@ -26,7 +26,7 @@ public without sharing class LMSIntegrationManager {
         }
 
         try {
-            doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(new LMSCourseOfferingWrapper(courseOfferingList)));
+            doCallout(ENDPOINT_ESB_LMS_COURSE_OFFERING, 'POST', JSON.serialize(courseOfferingList));
             update courseOfferings;
         } catch(Exception e) {
             Logger.error('Exception caught in finish in class LMSIntegrationManager, method calloutLMSCourseOffering.')
@@ -47,7 +47,7 @@ public without sharing class LMSIntegrationManager {
         }
 
         try {
-            doCallout(ENDPOINT_ESB_LMS_COURSE_ENROLLMENT, 'POST', JSON.serialize(new LMSCourseEnrollmentWrapper(courseEnrollmentList)));
+            doCallout(ENDPOINT_ESB_LMS_COURSE_ENROLLMENT, 'POST', JSON.serialize(courseEnrollmentList));
             update courseEnrollments;
         } catch(Exception e) {
             Logger.error('Exception caught in finish in class LMSIntegrationManager, method calloutLMSCourseEnrollment.')
@@ -102,65 +102,17 @@ public without sharing class LMSIntegrationManager {
 
     private class CourseOfferingWrapper {
         private String courseOfferingSFId {get; set;}
-        private String courseCode {get; set;}
-        private String courseName {get; set;}
-        private String courseOfferingName {get; set;}
-        private String startDate {get; set;}
-        private String endDate {get; set;}
-        private String primaryDeliveryPlatform {get; set;}
 
         private CourseOfferingWrapper(hed__Course_Offering__c courseOffering) {
             courseOfferingSFId = courseOffering.Id;
-            courseOfferingName = courseOffering.Name;
-            courseCode = courseOffering.Course_Code__c;
-            courseName = courseOffering.hed__Course__r.Name;
-            startDate = courseOffering.hed__Start_Date__c != null ? courseOffering.hed__Start_Date__c.year() + '-' + String.valueOf(courseOffering.hed__Start_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__Start_Date__c.day()).leftPad(2,'0') : null;
-            endDate = courseOffering.hed__End_Date__c!= null ? courseOffering.hed__End_Date__c.year() + '-' + String.valueOf(courseOffering.hed__End_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseOffering.hed__End_Date__c.day()).leftPad(2,'0') : null;
-            primaryDeliveryPlatform = courseOffering.hed__Course__r.Primary_Delivery_Platform__c;
-        }
-    }
-
-    private class LMSCourseOfferingWrapper {
-        private List<CourseOfferingWrapper> courseOfferings {get; set;}
-
-        private LMSCourseOfferingWrapper(List<CourseOfferingWrapper> courseOfferings) {
-            this.courseOfferings = courseOfferings;
-        }
-    }
-  
-    private class LMSCourseEnrollmentWrapper {
-        private List<CourseEnrollmentWrapper> courseEnrolments {get; set;}
-
-        private LMSCourseEnrollmentWrapper(List<CourseEnrollmentWrapper> courseEnrolments) {
-            this.courseEnrolments = courseEnrolments;
         }
     }
 
     private class CourseEnrollmentWrapper {
-        private String courseEnrolmentSFId {get; set;}
-        private String courseCode {get; set;}
-        private String courseOfferingName {get; set;}
-        private String courseOfferingSFId {get; set;}
-        private String roleType {get; set;}
-        private String startDate {get; set;}
-        private String endDate {get; set;}
-        private String QUTIdentityId {get; set;}
-        private String QUTstudentId {get; set;}
-        private String QUTemployeeId {get; set;}
-        private String primaryDeliveryPlatform {get; set;}
+        private String Id {get; set;}
 
         private CourseEnrollmentWrapper(hed__Course_Enrollment__c courseEnrollment) {
-            courseEnrolmentSFId = courseEnrollment.Id;
-            courseCode = courseEnrollment.Course_Code__c;
-            courseOfferingName = courseEnrollment.Course_Offering_Name__c;
-            courseOfferingSFId = courseEnrollment.hed__Course_Offering__r.Id;
-            roleType = courseEnrollment.Recordtype_Name__c == 'Faculty' ? 'STAFF' : 'STUDENT';
-            startDate =   courseEnrollment.Course_Offering_Start_Date__c != null ? courseEnrollment.Course_Offering_Start_Date__c.year() + '-' + String.valueOf(courseEnrollment.Course_Offering_Start_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.Course_Offering_Start_Date__c.day()).leftPad(2,'0') : null;
-            endDate =  courseEnrollment.Course_Offering_End_Date__c != null ? courseEnrollment.Course_Offering_End_Date__c.year() + '-' + String.valueOf(courseEnrollment.Course_Offering_End_Date__c.month()).leftPad(2,'0') + '-' + String.valueOf(courseEnrollment.Course_Offering_End_Date__c.day()).leftPad(2,'0') : null;
-            QUTIdentityId = courseEnrollment.hed__Contact__r.QUT_Identity_ID__c;
-            QUTstudentId = courseEnrollment.hed__Contact__r.QUT_Student_ID__c;
-            QUTemployeeId = courseEnrollment.hed__Contact__r.QUT_Employee_ID__c;
-            primaryDeliveryPlatform = courseEnrollment.hed__Course_Offering__r.hed__Course__r.Primary_Delivery_Platform__c;
+            Id = courseEnrollment.Id;
         }
     }
 
