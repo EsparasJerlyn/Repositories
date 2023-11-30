@@ -83,7 +83,7 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         return Database.query(
             'SELECT Lead__c, Contact__c, My_Primary_Study_Level__c, My_Citizenship_Status__c, Contact__r.hed__Citizenship_Status__c, ' +
             'My_Funding_Source__c, My_Primary_BSA__c, My_Primary_NSA__c, My_Expected_Admission_Year__c, My_Country_Of_Citizenship__c, ' +
-            'My_Country_Of_Residency__c, My_Double_Degree__c, My_Interested_English_Pathways__c, My_Education_Level__c ' +
+            'My_Country_Of_Residency__c, My_Double_Degree__c, My_Interested_English_Pathways__c, My_Education_Level__c, Contact__r.RecordTypeId, Lead__r.Lead_Type__c ' +
             'FROM Marketing_Segmentation__c ' +
             'WHERE Contact__c IN : contactIdSet OR Lead__c IN : leadIdSet ',
             accessLevel

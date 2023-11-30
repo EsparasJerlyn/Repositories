@@ -40,7 +40,7 @@
     */
     public void execute(Database.BatchableContext bc, List<Marketing_Segmentation__c> marketingSegmentationList){
         try{ 
-            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, new Map<Id, Marketing_Segmentation__c>(marketingSegmentationList));
+            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, new Map<Id, Marketing_Segmentation__c>(marketingSegmentationList));
             if(!marketingSegmentationList.isEmpty()){
                 LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Marketing_Segmentation__c.getSObjectType());
             }  

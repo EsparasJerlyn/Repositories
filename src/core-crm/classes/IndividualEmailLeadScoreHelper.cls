@@ -136,10 +136,14 @@
      */
     private static void mapUnderGradStudyLevel(et4ae5__IndividualEmailResult__c indivEmail, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         
-        Boolean isContactUnderGrad = marketingSegMap.containsKey(indivEmail.et4ae5__Contact__c) && marketingSegMap.get(indivEmail.et4ae5__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
+        Boolean isContactUnderGrad = 
+            marketingSegMap.containsKey(indivEmail.et4ae5__Contact__c) && marketingSegMap.get(indivEmail.et4ae5__Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
+            marketingSegMap.get(indivEmail.et4ae5__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
         Boolean isContactDomestic = isContactUnderGrad && validateDomesticContact(indivEmail, marketingSegMap);
         Boolean isContactInternational = isContactUnderGrad && validateInternationalContact(indivEmail, marketingSegMap);
-        Boolean isLeadUnderGrad = marketingSegMap.containsKey(indivEmail.et4ae5__Lead__c) && marketingSegMap.get(indivEmail.et4ae5__Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
+        Boolean isLeadUnderGrad = 
+            marketingSegMap.containsKey(indivEmail.et4ae5__Lead__c) && marketingSegMap.get(indivEmail.et4ae5__Lead__c).Lead__r.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE &&
+            marketingSegMap.get(indivEmail.et4ae5__Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
         Boolean isLeadDomestic = isLeadUnderGrad && validateDomesticLead(indivEmail, marketingSegMap);
         Boolean isLeadInternational = isLeadUnderGrad && validateInternationalLead(indivEmail, marketingSegMap);
 
@@ -162,10 +166,14 @@
      */
     private static void mapPostGradStudyLevel(et4ae5__IndividualEmailResult__c indivEmail, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         
-        Boolean isContactPostGrad = marketingSegMap.containsKey(indivEmail.et4ae5__Contact__c) && marketingSegMap.get(indivEmail.et4ae5__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
+        Boolean isContactPostGrad = 
+            marketingSegMap.containsKey(indivEmail.et4ae5__Contact__c) && marketingSegMap.get(indivEmail.et4ae5__Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
+            marketingSegMap.get(indivEmail.et4ae5__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
         Boolean isContactDomestic = isContactPostGrad && validateDomesticContact(indivEmail, marketingSegMap);
         Boolean isContactInternational = isContactPostGrad && validateInternationalContact(indivEmail, marketingSegMap);
-        Boolean isLeadPostGrad = marketingSegMap.containsKey(indivEmail.et4ae5__Lead__c) &&  marketingSegMap.get(indivEmail.et4ae5__Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
+        Boolean isLeadPostGrad = 
+            marketingSegMap.containsKey(indivEmail.et4ae5__Lead__c) && marketingSegMap.get(indivEmail.et4ae5__Lead__c).Lead__r.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE &&
+            marketingSegMap.get(indivEmail.et4ae5__Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
         Boolean isLeadDomestic = isLeadPostGrad && validateDomesticLead(indivEmail, marketingSegMap);
         Boolean isLeadInternational = isLeadPostGrad && validateInternationalLead(indivEmail, marketingSegMap);
 
@@ -189,10 +197,14 @@
      */
     private static void mapUndeterminedStudyLevel(et4ae5__IndividualEmailResult__c indivEmail, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         
-        Boolean isContactUndetermined = marketingSegMap.containsKey(indivEmail.et4ae5__Contact__c) && String.isBlank(marketingSegMap.get(indivEmail.et4ae5__Contact__c).My_Primary_Study_Level__c);
+        Boolean isContactUndetermined =
+            marketingSegMap.containsKey(indivEmail.et4ae5__Contact__c) && marketingSegMap.get(indivEmail.et4ae5__Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
+            String.isBlank(marketingSegMap.get(indivEmail.et4ae5__Contact__c).My_Primary_Study_Level__c);
         Boolean isContactDomestic = isContactUndetermined && validateDomesticContact(indivEmail, marketingSegMap);
         Boolean isContactInternational = isContactUndetermined && validateInternationalContact(indivEmail, marketingSegMap);
-        Boolean isLeadUndetermined = marketingSegMap.containsKey(indivEmail.et4ae5__Lead__c) && String.isBlank(marketingSegMap.get(indivEmail.et4ae5__Lead__c).My_Primary_Study_Level__c);
+        Boolean isLeadUndetermined = 
+            marketingSegMap.containsKey(indivEmail.et4ae5__Lead__c) && marketingSegMap.get(indivEmail.et4ae5__Lead__c).Lead__r.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE &&
+            String.isBlank(marketingSegMap.get(indivEmail.et4ae5__Lead__c).My_Primary_Study_Level__c);
         Boolean isLeadDomestic = isLeadUndetermined && validateDomesticLead(indivEmail, marketingSegMap);
         Boolean isLeadInternational = isLeadUndetermined && validateInternationalLead(indivEmail, marketingSegMap);
         Boolean isConCitizenshipUD = isContactUndetermined && validateUndeterminedContact(indivEmail, marketingSegMap);
