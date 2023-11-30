@@ -1428,6 +1428,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case_Priority_Configuration__c.Applicant_Onshore__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case_Priority_Configuration__c.Lead_Score__c</field>
         <readable>true</readable>
     </fieldPermissions>

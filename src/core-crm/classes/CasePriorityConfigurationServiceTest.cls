@@ -63,4 +63,5 @@ private class CasePriorityConfigurationServiceTest {
             'Case was not updated'
         );
     }
+    
 }

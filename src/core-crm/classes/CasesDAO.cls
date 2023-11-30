@@ -121,7 +121,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         AccessLevel accessLevel
     ) {
         return Database.query(
-            'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject  ' +
+            'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c  ' +
             'FROM Case ' +
             'WHERE Id IN :caseIds ',
             accessLevel
@@ -138,5 +138,4 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
                 'OR ContactId IN :recordIds ';
         return Database.getQueryLocator(query);
     }
-
 }
