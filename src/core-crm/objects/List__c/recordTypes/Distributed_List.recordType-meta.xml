@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Distributed_List</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Distributed_List_Compact_Layout</compactLayoutAssignment>
     <description>List of contacts identified that meet the list criteria that have been qualified for inclusion</description>
     <label>Distributed List</label>
     <picklistValues>
