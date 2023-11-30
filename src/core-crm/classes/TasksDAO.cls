@@ -14,6 +14,7 @@
       |                                |                       |                        | used string literals for Statuses, and         |
       |                                |                       |                        | updated getCompletedTasksByTargetId to include |
       |                                |                       |                        | ACST CompletionDate and ACST CreatedDate       |
+      | mark.j.mahilum                 | Nov 09, 2023          | DEPP-7110              | Added method getCompletedSMSTask               |
       | johanna.a.gibas                | Nov 16, 2023          | DEPP-7118              | Replaced Closed - Contacted with               |
       |                                |                       |                        |     Closed - No Further Action Required        |
  */
@@ -38,11 +39,12 @@ public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
         return Task.SObjectType;
     }
 
+    @SuppressWarnings('PMD.ApexCRUDViolation')
     public List<Task> getCompletedTasksByTargetId(
         Set<String> targetIds,
         Set<String> actionCadenceIds
     ) {
-        return [//NOPMD
+        return [
             SELECT Id,ActionCadenceStepTracker.TargetId, CompletedDateTime, Status, 
                    ActionCadenceStepTracker.ActionCadenceName, ActionCadenceStepTracker.CompletionDate, ActionCadenceStepTracker.CreatedDate
             FROM Task
@@ -52,6 +54,22 @@ public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
                 AND Status IN: taskStatuses
             WITH SYSTEM_MODE
             ORDER BY CompletedDateTime DESC
+        ];
+    }
+
+    @SuppressWarnings('PMD.ApexCRUDViolation')
+    public List<Task> getCompletedSMSTasksByActionCadenceStepTrackerId(
+        Set<String> actionCadenceStepTrackerIds
+    ) {
+        return [
+            SELECT Id, Status, Subject, Type, WhoId, ActionCadenceStepTrackerId 
+            FROM Task
+            WHERE
+                ActionCadenceStepTrackerId IN: actionCadenceStepTrackerIds
+                AND Status ='Completed'
+                AND IsClosed = TRUE
+                AND ActionCadenceStepTracker.StepType = 'CreateTask'
+            WITH SYSTEM_MODE
         ];
     }
 }
