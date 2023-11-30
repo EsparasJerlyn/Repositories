@@ -18520,6 +18520,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ServiceAppointment.Alteration_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ServiceAppointment.Appointment_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18617,6 +18622,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ServiceAppointment.My_Country_Of_Residency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ServiceAppointment.Service_Appointment_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -65,3 +65,4 @@ private class CasePriorityConfigurationServiceTest {
     }
     
 }
+
