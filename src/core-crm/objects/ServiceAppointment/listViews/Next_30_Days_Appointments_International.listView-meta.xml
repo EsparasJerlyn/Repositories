@@ -22,7 +22,7 @@
     <filters>
         <field>WorkType</field>
         <operation>equals</operation>
-        <value>International Support</value>
+        <value>International Phone Calls</value>
     </filters>
     <label>Next 30 Days Appointments- International</label>
     <sharedTo>

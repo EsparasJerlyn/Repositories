@@ -21,7 +21,7 @@
     <filters>
         <field>WorkType</field>
         <operation>equals</operation>
-        <value>Domestic Support</value>
+        <value>Domestic Phone Calls</value>
     </filters>
     <label>Next 30 Days Appointments - Domestic</label>
     <sharedTo>
