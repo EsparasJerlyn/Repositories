@@ -4,7 +4,7 @@
     <description>Priority assigned to the Tier Category</description>
     <externalId>false</externalId>
     <label>Tier Priority</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

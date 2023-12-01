@@ -62,6 +62,7 @@
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
+ *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
  * 
  **/
 
@@ -1992,7 +1993,6 @@ public class TestDataFactory {
      */
     public static List<International_Tier__c> createInternationalTierRecords(
         List<String> countryNames,
-        String priority,
         String category,
         Boolean isActive
     ) {
@@ -2002,7 +2002,6 @@ public class TestDataFactory {
             International_Tier__c tier = new International_Tier__c(
                 IsActive__c = isActive,
                 Country_Name__c = country,
-                Tier_Priority__c = priority,
                 Tier_Category__c = category
             );
             records.add(tier);

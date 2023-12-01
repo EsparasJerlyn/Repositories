@@ -8,7 +8,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+      | johanna.a.gibas                | November 24, 2023     | DEPP-7143              | Added Developed Nations      |
  */
 public with sharing class LeadScoreConfigCountryTierService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigCountryTier leadScoreConfigCountryTier, Boolean isDomestic){
@@ -31,12 +31,15 @@ public with sharing class LeadScoreConfigCountryTierService {
             else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COUNTRY_TIER3){
                 leadScoreConfigCountryTier.setCountryTier3(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_DEVELOPED_NATIONS){
+                leadScoreConfigCountryTier.setDevelopedNations(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
+            }
             else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_UNRESTRICTED_COHORT){
                 leadScoreConfigCountryTier.setUntieredUnrestricted(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
             else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_RESTRICTED_COHORT){
                 leadScoreConfigCountryTier.setUntieredRestricted(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
-            } 
+            }
         }
               
     } 
@@ -74,11 +77,17 @@ public with sharing class LeadScoreConfigCountryTierService {
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getCountryTier3();                
                 }
                 else if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.DEVELOPED_NATIONS){ 
+                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getDevelopedNations();                
+                }
+                else if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.UNTIERED_UNRESTRICTED){ 
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredUnrestricted();                
                 }
             }else if(isValid){
                 if(marketingSeg.My_Country_Of_Citizenship__c == MarketingSegmentationsDAO.COUNTRY_AU){
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredRestricted();
+                }
+                else if(!countrTierRefMap.containsKey(marketingSeg.My_Country_Of_Citizenship__c)){ 
+                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredUnrestricted();            
                 }
             }
 

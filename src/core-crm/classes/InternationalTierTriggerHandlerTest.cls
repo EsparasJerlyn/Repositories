@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA     | Change Summary                  |
-      |---------------------------|-----------------------|----------|---------------------------------|
-      | rhea.b.torres             | November 10, 2022     | DEPP-4448| Created file                    | 
-      |                           |                       |          |                                 |
+ *    | Developer                 | Date                  | JIRA      | Change Summary                  |
+      |---------------------------|-----------------------|-----------|---------------------------------|
+      | rhea.b.torres             | November 10, 2022     | DEPP-4448 | Created file                    | 
+      | johanna.a.gibas           | November 24, 2023     | DEPP-7143 | Removed references to Priority  |
 */
 @isTest
 public with sharing class InternationalTierTriggerHandlerTest {
@@ -24,9 +24,9 @@ public with sharing class InternationalTierTriggerHandlerTest {
         Test.startTest();
         System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
-                                                            new List<String>{'Wales','Australia'}, 'High', 'Tier 1',true);
+                                                            new List<String>{'Wales','Australia'}, 'Tier 1',true);
             tierList.addAll(TestDataFactory.createInternationalTierRecords(
-                                                                new List<String>{'Wales','Australia'}, 'High', 'Tier 1',false));                                                
+                                                                new List<String>{'Wales','Australia'}, 'Tier 1',false));                                                
             insert tierList;
             List<International_Tier__c> result = [SELECT Id FROM International_Tier__c];
             System.assertEquals(4, result.size(), 'More than one record exist.');
@@ -40,12 +40,12 @@ public with sharing class InternationalTierTriggerHandlerTest {
         System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
             Boolean hasException = false;
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
-                                                            new List<String>{'Wales','Australia'}, 'High', 'Tier 1',true);
+                                                            new List<String>{'Wales','Australia'}, 'Tier 1',true);
             insert tierList;
             
             try{
                 List<International_Tier__c> newTier = TestDataFactory.createInternationalTierRecords(
-                                                            new List<String>{'Wales'}, 'High', 'Tier 1',true);
+                                                            new List<String>{'Wales'}, 'Tier 1',true);
                 insert newTier;
             }catch(Exception e){
                 hasException = true;
@@ -65,7 +65,7 @@ public with sharing class InternationalTierTriggerHandlerTest {
             Boolean hasException = false;
             try{
                 List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
-                                                                new List<String>{'Wales','Wales'}, 'High', 'Tier 1',true);
+                                                                new List<String>{'Wales','Wales'}, 'Tier 1',true);
                 insert tierList;
             }catch(Exception e){
                 hasException = true;
@@ -82,9 +82,9 @@ public with sharing class InternationalTierTriggerHandlerTest {
         System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
             Boolean hasException = false;
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
-                                                            new List<String>{'Wales'}, 'High', 'Tier 1',true);
+                                                            new List<String>{'Wales'}, 'Tier 1',true);
             tierList.addAll(TestDataFactory.createInternationalTierRecords(
-                                                                new List<String>{'Wales'}, 'Low', 'Tier 3',false));                                                
+                                                                new List<String>{'Wales'}, 'Tier 3',false));                                                
             insert tierList;
             try{
                 // Switch the 2 created records to make Wales with Low TierPriority as the active one
@@ -111,15 +111,14 @@ public with sharing class InternationalTierTriggerHandlerTest {
         System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
             Boolean hasException = false;
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
-                                                            new List<String>{'Wales','Australia'}, 'High', 'Tier 1',true);
+                                                            new List<String>{'Wales','Australia'}, 'Tier 1',true);
             tierList.addAll(TestDataFactory.createInternationalTierRecords(
-                                                                new List<String>{'Wales','Australia'}, 'High', 'Tier 1',false));                                                
+                                                                new List<String>{'Wales','Australia'}, 'Tier 1',false));                                                
             insert tierList;
             try{
-                List<International_Tier__c> result = [SELECT Id, IsActive__c, Tier_Priority__c,Tier_Category__c FROM International_Tier__c WHERE Country_Name__c='Wales'];
+                List<International_Tier__c> result = [SELECT Id, IsActive__c, Tier_Category__c FROM International_Tier__c WHERE Country_Name__c='Wales'];
                 for(International_Tier__c tier : result){
                     tier.IsActive__c=true;
-                    tier.Tier_Priority__c='Low';
                     tier.Tier_Category__c='Tier 3';
                 }
                 update result;

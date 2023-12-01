@@ -10,6 +10,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                        |
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
       | roy.nino.s.regala              | Oct 5, 2023           | DEPP-6425              | Created file                                          |
+      | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
  */
 @isTest
 private class CasePriorityConfigurationServiceTest {
@@ -30,7 +31,6 @@ private class CasePriorityConfigurationServiceTest {
             .insertRecords(
                 TestDataFactory.createInternationalTierRecords(
                     new List<String>{ 'Wales', 'Australia' },
-                    'High',
                     'Tier 1',
                     true
                 ),
