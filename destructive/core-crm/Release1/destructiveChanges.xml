@@ -29,6 +29,9 @@
         <members>LeadScoreQueueableCall</members>
         <!--(End) DEPP-5866 -->
         <members>Update_Latest_Queue_Name_Field_FlowTest</members>
+        <!--(End) DEPP-7280 -->
+        <members>CasePotentialMatchesListCtrl</members>
+        <members>CasePotentialMatchesListCtrlTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -39,6 +42,8 @@
         <!--(End) DEPP-5797 -->
     </types>
     <types>
+        <!--(Start) DEPP-7280 -->
+        <members>casePotentialMatchesRecord</members>
         <!--(Start) DEPP-6047 -->
         <members>newEngagementDocument</members>
         <members>newOpportunityDocument</members>
@@ -232,6 +237,10 @@
         <name>Layout</name>
     </types>
     <types>
+        <!--Start DEPP-7280-->
+        <members>casePotentialMatchesViewAll</members>
+        <members>casePotentialMatches</members>
+        <members>casePotentialMatchesList</members>
         <!--Start DEPP-4925-->
         <members>enableCCECorporateUser</members>
         <!--End DEPP-4925-->

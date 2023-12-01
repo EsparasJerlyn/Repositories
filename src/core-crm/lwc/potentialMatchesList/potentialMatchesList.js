@@ -1,14 +1,14 @@
 import { LightningElement, api, track } from 'lwc';
 import { updateRecord } from 'lightning/uiRecordApi';
-import getPossibleMatchEnquery from '@salesforce/apex/CasePotentialMatchesListCtrl.getPossibleMatchEnquery';
-import linkToCase from '@salesforce/apex/CasePotentialMatchesListCtrl.linkToCase';
+import getPossibleMatchEnquery from '@salesforce/apex/PotentialMatchesListCtrl.getPossibleMatchEnquery';
+import linkToObject from '@salesforce/apex/PotentialMatchesListCtrl.linkToObject';
 
-export default class CasePotentialMatchesList extends LightningElement {
-    @api caseId;
+export default class PotentialMatchesList extends LightningElement {
+    @api objectId;
+    @api objectName;
     @api isTriggerViewAll = false;
     @track isLoaded = false;
     @track dataRecord = [];
-    @track columns = [];
     @track totalRecord = 0;
     isDisabledBtn;
     toShowLimit = 5;
@@ -23,11 +23,32 @@ export default class CasePotentialMatchesList extends LightningElement {
         { label: 'Type', fieldName: 'type', type: 'text' },
     ];
 
+    viewAllColumnsWithDOB = [
+        { label: 'Name', fieldName: 'name', type: 'text' },
+        { label: 'Email', fieldName: 'email', type: 'text' },
+        { label: 'Mobile', fieldName: 'mobile', type: 'text' },
+        { label: 'Birthdate', fieldName: 'birthdate', type: 'text' },
+        { label: 'Work Email', fieldName: 'workeMail', type: 'text' },
+        { label: 'QUT Staff Email', fieldName: 'qutStaffEmail', type: 'text' },
+        { label: 'QUT Learner', fieldName: 'qutLearner', type: 'text' },
+        { label: 'Type', fieldName: 'type', type: 'text' },
+    ];
+
     defaultViewColumns = [
         { label: 'Name', fieldName: 'name', type: 'text'},
         { label: 'Email', fieldName: 'email', type: 'text'},
         { label: 'Mobile', fieldName: 'mobile', type: 'text'}
     ];
+    get linkBtnlabelName() {
+        let labelName = '';
+        if (this.objectName == 'Case') {
+            labelName = 'Link to Case';
+        } else if (this.objectName == 'ServiceAppointment') {
+            labelName = 'Link to Service Appointment';
+        }
+
+        return labelName;
+    }
 
     get getTitle() {
         let isDisabledBtn = true;
@@ -45,11 +66,21 @@ export default class CasePotentialMatchesList extends LightningElement {
         return `We Found (${this.totalRecord}) Possible Matches for Enquirer`
     }
 
-    connectedCallback() {
-        this.columns = this.isTriggerViewAll ? this.viewAllColumns : this.defaultViewColumns
+    get tableColumns() {
+        let columns = this.defaultViewColumns;
 
-        if (this.caseId) {
-            this.possibleMatchEnquery(this.caseId);
+        if (this.isTriggerViewAll && this.objectName == 'Case') {
+            columns = this.viewAllColumns;
+        } else if (this.isTriggerViewAll && this.objectName == 'ServiceAppointment') {
+            columns = this.viewAllColumnsWithDOB;
+        }
+
+        return columns;
+    }
+
+    connectedCallback() {
+        if (this.objectId) {
+            this.possibleMatchEnquery(this.objectId);
         }
 
         window.addEventListener('casePotentialListener', this.handleCustomEvent.bind(this));
@@ -57,7 +88,7 @@ export default class CasePotentialMatchesList extends LightningElement {
 
     handleCustomEvent(event) {
         if (event.detail.isReload) {
-            this.possibleMatchEnquery(this.caseId);
+            this.possibleMatchEnquery(this.objectId);
         }
     }
 
@@ -67,7 +98,7 @@ export default class CasePotentialMatchesList extends LightningElement {
 
     possibleMatchEnquery(recordId) {
         this.dataRecord = [];
-        getPossibleMatchEnquery({caseId: recordId})
+        getPossibleMatchEnquery({objectId: recordId, objectName: this.objectName})
             .then((response) => {
                 const contacts = response.Contact;
                 const leads = response.Lead;
@@ -98,7 +129,7 @@ export default class CasePotentialMatchesList extends LightningElement {
             })
     }
 
-    handleLinkToCase() {
+    handlelinkToObject() {
         this.isLoaded = false;
         const selectedRecords =  this.template.querySelector("lightning-datatable").getSelectedRows();
 
@@ -106,10 +137,10 @@ export default class CasePotentialMatchesList extends LightningElement {
             const record = selectedRecords[0];
 
             if (record) {
-                linkToCase({ caseId: this.caseId, contactLeadId: record.id, type: record.type })
+                linkToObject({ objectId: this.objectId, contactLeadId: record.id, type: record.type, objectName: this.objectName })
                     .then(() => {
-                        this.possibleMatchEnquery(this.caseId);
-                        updateRecord({fields: { Id: this.caseId }});
+                        this.possibleMatchEnquery(this.objectId);
+                        updateRecord({fields: { Id: this.objectId }});
 
                         const cEvent = new CustomEvent('casePotentialListener', {
                             detail: { isReload: true }
@@ -136,6 +167,7 @@ export default class CasePotentialMatchesList extends LightningElement {
             name: obj.Name,
             email: obj.Email,
             mobile: obj.MobilePhone,
+            birthdate: obj.Birthdate,
             workeMail: obj.Work_Email__c,
             qutStaffEmail: obj.QUT_Staff_Email__c,
             qutLearner: obj.QUT_Learner_Email__c,

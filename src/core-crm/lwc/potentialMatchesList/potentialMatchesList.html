@@ -19,13 +19,21 @@
                 max-row-selection="1"
                 key-field="Id"
                 data={dataRecord}
-                columns={columns}
+                columns={tableColumns}
             >
             </lightning-datatable>
-            <slot name="viewall"></slot>
+            <div class="box-viewall">
+                <slot name="viewall"></slot>
+            </div>
             <div class="btn-link-to-case">
-                <lightning-button disabled={isDisabledBtn} variant="brand" label="Link to Case" title="Link to Case" onclick={handleLinkToCase} class="slds-m-left_x-small">
-                </lightning-button>
+                <lightning-button
+                    disabled={isDisabledBtn}
+                    variant="brand"
+                    label={linkBtnlabelName}
+                    title={linkBtnlabelName}
+                    onclick={handlelinkToObject}
+                    class="slds-m-left_x-small"
+                ></lightning-button>
             </div>
         </lightning-card>
     </div>

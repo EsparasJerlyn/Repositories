@@ -4,19 +4,20 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
-      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
-      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                    |
-      | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads    |
-      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                |
-      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds |
-      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                      |
-      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName              |
-      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile           |
-      | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added new method getLeadMobilePhoneByRecordIds  |
-      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | Updated fields on soql for getLeadsByIdSet      |
-      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added new method getLeadsWithLimit and  getLeadsByIdSet   |
-      | alexander.cadalin              | November 9, 2023      | DEPP-7212              | Added excludeConverted to getLeadByEmailOrName
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                    |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------|
+      | rhea.b.torres                  | April 25, 2023        | DEPP-5567              | Created file                                                      |
+      | mark.j.mahilum                 | June 26,2023          | DEPP-5846              | Added new method getExistingUnconvertedLeads                      |
+      | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | Added new method                                                  |
+      | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added new method getLeadsCalculatedCadenceByIds                   |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added getLeadByEmailOrName                                        |
+      | neil.s.h.lesidan               | Sept 20, 2023         | DEPP-6478              | Added QueryParamWrapperEmailOrName                                |
+      | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added new method getLeadsByCaseMobile                             |
+      | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added new method getLeadMobilePhoneByRecordIds                    |
+      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | Updated fields on soql for getLeadsByIdSet                        |
+      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added new method getLeadsWithLimit and  getLeadsByIdSet           |
+      | alexander.cadalin              | November 9, 2023      | DEPP-7212              | Added excludeConverted to getLeadByEmailOrName                    |
+      | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Fix conditional query getLeadByEmailOrName                        |
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -172,10 +173,10 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         String toQuery = removeEmptyParamsInQueryEmail(queryParam);
         toQuery = removeEmptyParamsInQueryName(queryParam, toQuery);
         toQuery = removeEmptyParamsInQueryMobile(queryParam, toQuery);
-        
+
         if(excludeConverted) {
             toQuery = toQuery != '' ? '(' + toQuery + ') AND ' : toQuery;
-            toQuery = toQuery + '(IsConverted = false)';
+            toQuery = toQuery != '' ? toQuery + '(IsConverted = false)' : toQuery;
         }
 
         if (!String.isBlank(toQuery)) {

@@ -27,7 +27,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>lookupFieldName</name>
-                    <value>ServiceAppointment.ContactId</value>
+                    <value>ServiceAppointment.Contact__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
@@ -57,8 +57,19 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>casePotentialMatchesList</componentName>
-                <identifier>c_casePotentialMatchesList</identifier>
+                <componentName>potentialMatches</componentName>
+                <identifier>c_potentialMatches</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Contact__r.LastName}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.LeadId__r.LastName}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

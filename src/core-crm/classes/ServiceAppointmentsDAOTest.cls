@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | arsenio.jr.dayrit              | November 22, 2023     |DEPP-7264               | Created File                        |
+ *    | Developer                      | Date                  | JIRA                   | Change Summary                                      |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------------|
+ *    | arsenio.jr.dayrit              | November 22, 2023     |DEPP-7264               | Created File                                        |
+ *    | neil.s.h.lesidan               | November 29, 2023     |DEPP-7280               | Add test method getServiceAppointmentByEmailTest    |
  */
 @isTest
 public with sharing class ServiceAppointmentsDAOTest {
@@ -37,5 +38,17 @@ public with sharing class ServiceAppointmentsDAOTest {
         Test.stopTest();
     }
 
-    
+    @isTest
+    static void getServiceAppointmentByEmailTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance()
+                .getServiceAppointmentByEmail(
+                    '',
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(serviceAppointment.isEmpty(), 'serviceAppointment is not empty');
+        }
+        Test.stopTest();
+    }
 } 

@@ -5,11 +5,11 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>CasePotentialMatchesListCtrl</apexClass>
+        <apexClass>PotentialMatchesListCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CasePotentialMatchesListCtrlTest</apexClass>
+        <apexClass>PotentialMatchesListCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

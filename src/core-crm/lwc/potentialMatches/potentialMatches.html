@@ -1,7 +1,7 @@
 <template>
     <article class="slds-card">
-        <c-case-potential-matches-list case-id={recordId}>
+        <c-potential-matches-list object-id={recordId} object-name={objectApiName}>
             <p slot="viewall" class="btn-view-all" onclick={handleViewAll}>View All</p>
-        </c-case-potential-matches-list>
+        </c-potential-matches-list>
     </article>
 </template>
