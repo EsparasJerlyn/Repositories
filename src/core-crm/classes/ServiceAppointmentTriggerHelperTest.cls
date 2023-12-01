@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
-      |--------------------------------|-----------------------|------------------------|-----------------------------------|
-      | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                      | 
- */
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
+      | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                                              | 
+      | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added test methods for existing lead and contact matching |
+*/
 @isTest
 public with sharing class ServiceAppointmentTriggerHelperTest {
     private static final String FIRSTNAME = 'TestfirstName';
@@ -128,5 +129,64 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             );
         }
         return newLeads;
+    }
+    
+    @isTest
+    private static void testAppointmentEmailMatchToContactEmail() {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            
+            List<Account> newAccounts = new List<Account>();
+            newAccounts.add(TestDataFactory.createTestAccount(false));
+            newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
+            AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.SYSTEM_MODE);
+            
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].Email = '1testmail@mail.test';
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+            Test.startTest();
+            List<ServiceAppointment> serviceAppointmentList = TestDataFactory.createTestServiceAppointmentRecords(1, newAccounts[0].Id);
+            serviceAppointmentList[0].Email = '1testmail@mail.test';
+            serviceAppointmentList[0].Contact__c = null;
+            serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
+            serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
+            serviceAppointmentList[0].Marketing_Consent__c = true;
+            serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
+            serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
+            serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
+            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+                    
+            List<ServiceAppointment> appointmentRecordList = [SELECT Id, Contact__c FROM ServiceAppointment WHERE Email = '1testmail@mail.test' WITH USER_MODE LIMIT 1];
+            System.assert(appointmentRecordList[0].Contact__c !=null, 'Service Appointment is not link to existing contact.');            
+        }
+    }
+    
+    @isTest
+    private static void testAppointmentEmailMatchToLeadEmail() {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            
+            List<Lead> leadList = TestDataFactory.createTestLeadRecords(6,7);
+            LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.USER_MODE);
+            
+            List<Account> newAccounts = new List<Account>();
+            newAccounts.add(TestDataFactory.createTestAccount(false));
+            newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
+            AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.startTest();
+            List<ServiceAppointment> serviceAppointmentList = TestDataFactory.createTestServiceAppointmentRecords(1, newAccounts[0].Id);
+            serviceAppointmentList[0].Email = '6testmail@mail.test';
+            serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
+            serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
+            serviceAppointmentList[0].Marketing_Consent__c = true;
+            serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
+            serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
+            serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
+            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+                    
+            List<ServiceAppointment> appointmentRecordList = [SELECT Id, LeadId__c FROM ServiceAppointment WHERE Email = '6testmail@mail.test' WITH USER_MODE LIMIT 1];
+            System.assert(appointmentRecordList[0].LeadId__c !=null, 'Service Appointment is not link to existing lead.');
+        }
     }
 }
