@@ -78,6 +78,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Redirected Agent Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Response Given</fullName>
             <default>false</default>
         </values>
