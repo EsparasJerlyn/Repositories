@@ -399,7 +399,7 @@
         </faultConnector>
         <inputReference>ServiceAppointment</inputReference>
     </recordUpdates>
-    <runInMode>DefaultMode</runInMode>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <name>ConfirmationScreen</name>
         <label>ConfirmationScreen</label>

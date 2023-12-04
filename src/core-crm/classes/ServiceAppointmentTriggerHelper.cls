@@ -171,13 +171,14 @@ public with sharing class ServiceAppointmentTriggerHelper {
     * @param newItems - List of case record
     */
     public static void matchExistingContactOrLeadToAppointment(List<ServiceAppointment> newAppointmentList) {
+        ServiceAppointmentTriggerHelperWithoutSharing withoutSharingInnerClass = new ServiceAppointmentTriggerHelperWithoutSharing();
+        
         Set<String> suppliedEmails = new Set<String>();
         Set<String> emailsWithoutContactMatch = new Set<String>();
         Map<String, ServiceAppointment> emailToAppointmentMap = new Map<String, ServiceAppointment>();
         Map<Id, ServiceAppointment> contacToAppointmentMap = new Map<Id, ServiceAppointment>();
         Map<String, Id> appointmentToContactMap = new Map<String, Id>();
         Map<String, Id> appointmentToLeadMap = new Map<String, Id>();
-        
         
         for (ServiceAppointment appointment : newAppointmentList) {
             Boolean isWithEmailAndContactAndLeadEmpty = (String.isEmpty(appointment.Contact__c) &&
@@ -188,14 +189,14 @@ public with sharing class ServiceAppointmentTriggerHelper {
             }
         }
         if (!suppliedEmails.isEmpty()) {
-            appointmentToContactMap = processAppointmentRecordsToContactMatch(suppliedEmails, emailToAppointmentMap);
+            appointmentToContactMap = withoutSharingInnerClass.processAppointmentRecordsToContactMatch(suppliedEmails, emailToAppointmentMap);
         }
         if(!appointmentToContactMap.isEmpty()){
             for(ServiceAppointment record: newAppointmentList){
                 if(appointmentToContactMap.containsKey(record.Email)){
                     record.Contact__c = appointmentToContactMap.get(record.Email);
                 }
-            }
+            }           
             emailToAppointmentMap.keySet().removeAll(appointmentToContactMap.keySet());
         }
         if(!emailToAppointmentMap.isEmpty()){
@@ -204,7 +205,7 @@ public with sharing class ServiceAppointmentTriggerHelper {
                 	 emailsWithoutContactMatch.add(email);   
                 }
             }
-			appointmentToLeadMap = processAppointmentRecordsToLeadMatch(emailsWithoutContactMatch, emailToAppointmentMap);   
+			appointmentToLeadMap = withoutSharingInnerClass.processAppointmentRecordsToLeadMatch(emailsWithoutContactMatch, emailToAppointmentMap);   
         }
         if(!appointmentToLeadMap.isEmpty()){
             for(ServiceAppointment record: newAppointmentList){
@@ -213,94 +214,7 @@ public with sharing class ServiceAppointmentTriggerHelper {
                 }
             }
         }
-
 	}
-    
-    
-    /**
-	* @description: Check contact or lead records for any potential match of an existing contact
-	* and returns a Map of the supplied email to the matching contact Id
-	* @param Set<String> suppliedEmails
-	* @param Map<String,ServiceAppointment> emailToAppointmentMap
-	*/
-    
-    private static Map<String, Id> processAppointmentRecordsToContactMatch(
-        Set<String> suppliedEmails,
-        Map<String, ServiceAppointment> emailToAppointmentMap
-    ) {
-        List<ServiceAppointment> appointmentToUpdate = new List<ServiceAppointment>();
-        DuplicateCheckerHelper.newItemsMatchCount = new Map<String, Integer>();
-        Map<String,Id> appointmentToContactMap = new Map<String, Id>();
-        List<Contact> existingContactsWithMatchingEmails = ContactsDAO.newInstance()
-            .getExistingPersonContactsWithMatchingEmails(
-                suppliedEmails,
-                new Set<Id>(),
-                'SYSTEM_MODE'
-            );
-        
-        if (!existingContactsWithMatchingEmails.isEmpty()) {
-            for (Contact newRecord : existingContactsWithMatchingEmails) {
-                DuplicateCheckerHelper.countUniqueFieldsToMap(
-                    newRecord,
-                    new ContactsDAO().getSObjectType()
-                );
-            }
-            
-            if (!DuplicateCheckerHelper.newItemsMatchCount.isEmpty()) {
-                //get unique contact record
-                Map<String, String> uniqueContactMap = getUniqueRecords(
-                    (List<sObject>) existingContactsWithMatchingEmails,
-                    new ContactsDAO().getSObjectType()
-                );
-                appointmentToContactMap = mapAppointmentToContactRecord(
-                    (List<ServiceAppointment>) emailToAppointmentMap.values(),
-                    appointmentToUpdate,
-                    uniqueContactMap
-                );
-            }
-            
-        }
-        return appointmentToContactMap;
-    }
-    
-    /**
-    * @description: Check contact or lead records for any potential match of an existing contact
-    *               or lead records
-    * @param Set<String> suppliedEmails
-    * @param List<ServiceAppointment> appointmentList
-    */
-    private static Map<String, Id> processAppointmentRecordsToLeadMatch(
-        Set<String> suppliedEmails,
-        Map<String, ServiceAppointment> emailToAppointmentMap
-    ) {
-        Map<String,Id> appointmentToLeadMap = new Map<String, Id>();
-        List<ServiceAppointment> appointmentToUpdate = new List<ServiceAppointment>();
-        DuplicateCheckerHelper.newItemsMatchCount = new Map<String, Integer>();
-        List<Lead> existingLeadsWithMatchingEmails = LeadsDAO.newInstance()
-            .getExistingUnconvertedLeads(suppliedEmails, 'SYSTEM_MODE');
-        
-        if (!existingLeadsWithMatchingEmails.isEmpty()) {
-            for (Lead newRecord : existingLeadsWithMatchingEmails) {
-                DuplicateCheckerHelper.countUniqueFieldsToMap(
-                    newRecord,
-                    new LeadsDAO().getSObjectType()
-                );
-            }
-            if (!DuplicateCheckerHelper.newItemsMatchCount.isEmpty()) {
-                //get unique record match to case email
-                Map<String, String> uniqueLeadMap = getUniqueRecords(
-                    (List<sObject>) existingLeadsWithMatchingEmails,
-                    new LeadsDAO().getSObjectType()
-                );
-                appointmentToLeadMap = mapAppointmentToContactRecord(
-                    (List<ServiceAppointment>) emailToAppointmentMap.values(),
-                    appointmentToUpdate,
-                    uniqueLeadMap
-                );
-            }
-        }
-        return appointmentToLeadMap;
-    }
     
     /**
     * @description: link ServiceAppointment record to the match lead record
@@ -308,7 +222,7 @@ public with sharing class ServiceAppointmentTriggerHelper {
     * @param List<ServiceAppointment> appointmentToUpdate
     * @param Map<String,String> uniqueLeadMap
     */
-    private static Map<String,Id> mapAppoinmentToLeadRecord(
+    public static Map<String,Id> mapAppoinmentToLeadRecord(
         List<ServiceAppointment> appointmentList,
         List<ServiceAppointment> appointmentToUpdate,
         Map<String, String> uniqueLeadMap
@@ -321,14 +235,15 @@ public with sharing class ServiceAppointmentTriggerHelper {
         }
         return appointmentToLeadMap;
     }
-        /**
+    
+    /**
     * @description: link ServiceAppointment record to the match contact record and returns a map of the supplied email 
     * and the matching contact
     * @param List<ServiceAppointment> appointmentList
     * @param List<ServiceAppointment> appointmentToUpdate
     * @param Map<String,String> uniqueContactMap
     */
-    private static Map<String,Id> mapAppointmentToContactRecord(
+    public static Map<String,Id> mapAppointmentToContactRecord(
         List<ServiceAppointment> appointmentList,
         List<ServiceAppointment> appointmentToUpdate,
         Map<String, String> uniqueContactMap
@@ -351,7 +266,7 @@ public with sharing class ServiceAppointmentTriggerHelper {
 	* @param SObjectType recordObjectType
 	* @return Map<String,String> uniqueRecordMap
 	*/
-    private static Map<String, String> getUniqueRecords(
+    public static Map<String, String> getUniqueRecords(
         List<sObject> recordList,
         SObjectType recordObjectType
     ) {
@@ -368,4 +283,89 @@ public with sharing class ServiceAppointmentTriggerHelper {
         }
         return uniqueRecordMap;
     }
+    
+    public without sharing class ServiceAppointmentTriggerHelperWithoutSharing{
+        /**
+        * @description: Check contact or lead records for any potential match of an existing contact
+        * and returns a Map of the supplied email to the matching contact Id
+        * @param Set<String> suppliedEmails
+        * @param Map<String,ServiceAppointment> emailToAppointmentMap
+        */                
+        public Map<String, Id> processAppointmentRecordsToContactMatch(
+            Set<String> suppliedEmails,
+            Map<String, ServiceAppointment> emailToAppointmentMap
+        ) {
+            List<ServiceAppointment> appointmentToUpdate = new List<ServiceAppointment>();
+            DuplicateCheckerHelper.newItemsMatchCount = new Map<String, Integer>();
+            Map<String,Id> appointmentToContactMap = new Map<String, Id>();
+            List<Contact> existingContactsWithMatchingEmails = ContactsDAO.newInstance()
+                .getExistingPersonContactsWithMatchingEmails(
+                    suppliedEmails,
+                    new Set<Id>(),
+                    'SYSTEM_MODE'
+                );
+            
+            if (!existingContactsWithMatchingEmails.isEmpty()) {
+                for (Contact newRecord : existingContactsWithMatchingEmails) {
+                    DuplicateCheckerHelper.countUniqueFieldsToMap(
+                        newRecord,
+                        new ContactsDAO().getSObjectType()
+                    );
+                }
+                
+                if (!DuplicateCheckerHelper.newItemsMatchCount.isEmpty()) {
+                    //get unique contact record
+                    Map<String, String> uniqueContactMap = getUniqueRecords(
+                        (List<sObject>) existingContactsWithMatchingEmails,
+                        new ContactsDAO().getSObjectType()
+                    );
+                    appointmentToContactMap = mapAppointmentToContactRecord(
+                        (List<ServiceAppointment>) emailToAppointmentMap.values(),
+                        appointmentToUpdate,
+                        uniqueContactMap
+                    );
+                }
+                
+            }
+            return appointmentToContactMap;
+        }
+        /**
+        * @description: Check contact or lead records for any potential match of an existing contact
+        *               or lead records
+        * @param Set<String> suppliedEmails
+        * @param List<ServiceAppointment> appointmentList
+        */
+        public Map<String, Id> processAppointmentRecordsToLeadMatch(
+            Set<String> suppliedEmails,
+            Map<String, ServiceAppointment> emailToAppointmentMap
+        ) {
+            Map<String,Id> appointmentToLeadMap = new Map<String, Id>();
+            List<ServiceAppointment> appointmentToUpdate = new List<ServiceAppointment>();
+            DuplicateCheckerHelper.newItemsMatchCount = new Map<String, Integer>();
+            List<Lead> existingLeadsWithMatchingEmails = LeadsDAO.newInstance()
+                .getExistingUnconvertedLeads(suppliedEmails, 'SYSTEM_MODE');
+            
+            if (!existingLeadsWithMatchingEmails.isEmpty()) {
+                for (Lead newRecord : existingLeadsWithMatchingEmails) {
+                    DuplicateCheckerHelper.countUniqueFieldsToMap(
+                        newRecord,
+                        new LeadsDAO().getSObjectType()
+                    );
+                }
+                if (!DuplicateCheckerHelper.newItemsMatchCount.isEmpty()) {
+                    //get unique record match to case email
+                    Map<String, String> uniqueLeadMap = getUniqueRecords(
+                        (List<sObject>) existingLeadsWithMatchingEmails,
+                        new LeadsDAO().getSObjectType()
+                    );
+                    appointmentToLeadMap = mapAppointmentToContactRecord(
+                        (List<ServiceAppointment>) emailToAppointmentMap.values(),
+                        appointmentToUpdate,
+                        uniqueLeadMap
+                    );
+                }
+            }
+            return appointmentToLeadMap;
+        }
+    }   
 }

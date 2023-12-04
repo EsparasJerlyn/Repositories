@@ -29,4 +29,4 @@ public with sharing class ServiceAppointmentTriggerHandler implements Disableabl
         final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
         return bypass.isDisabled();
     }
-}
+} 

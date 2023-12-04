@@ -63,4 +63,4 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             System.assertEquals(serviceAppList[0].My_Country_Of_Residency__c, updatedMarketingSeg[0].My_Country_Of_Residency__c, 'My_Country_Of_Residency__c should be populated');
         }
     }
-}
+} 

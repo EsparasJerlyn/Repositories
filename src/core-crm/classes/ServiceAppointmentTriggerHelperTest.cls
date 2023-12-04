@@ -60,7 +60,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             List<Contact> updatedContact = [SELECT Id, Email, Email_Opt_In_DateTime__c,ContactMobile_Locale__c, Mobile_No_Locale__c FROM Contact];
             List<Marketing_Segmentation__c> updatedMarketingSeg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>{newContacts[0].Id}, new Set<Id>(), AccessLevel.SYSTEM_MODE);
             List<ServiceAppointment> serviceAppList = [SELECT Id,Email,Mobile_Locale__c,Mobile_No_Locale__c, My_Citizenship_Status__c, My_Country_Of_Citizenship__c, My_Country_Of_Residency__c FROM ServiceAppointment];
-
+            
             System.assertEquals(serviceAppList[0].Email, updatedContact[0].Email, 'Email should be populated');
             System.assert(updatedContact[0].Email_Opt_In_DateTime__c != null, 'Email_Opt_In_DateTime__c should be populated');
             System.assertEquals(serviceAppList[0].Mobile_Locale__c, updatedContact[0].ContactMobile_Locale__c, 'ContactMobile_Locale__c should be populated');
@@ -188,5 +188,5 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             List<ServiceAppointment> appointmentRecordList = [SELECT Id, LeadId__c FROM ServiceAppointment WHERE Email = '6testmail@mail.test' WITH USER_MODE LIMIT 1];
             System.assert(appointmentRecordList[0].LeadId__c !=null, 'Service Appointment is not link to existing lead.');
         }
-    }
-}
+    } 
+} 

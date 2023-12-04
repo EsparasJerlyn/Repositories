@@ -4,7 +4,7 @@
         <description>Logs an Error to the Nebula Logger when Getting a data</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1546</locationX>
+        <locationX>1810</locationX>
         <locationY>566</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -44,7 +44,7 @@
         <description>Saves the Error Action for Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>1546</locationX>
+        <locationX>1810</locationX>
         <locationY>674</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
@@ -57,41 +57,9 @@
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
-        <name>Assign_Domestic_Variable</name>
-        <label>Assign Domestic Variable</label>
-        <locationX>754</locationX>
-        <locationY>1214</locationY>
-        <assignmentItems>
-            <assignToReference>assetName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Domestic Enquiries 1</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Get_Asset_Id</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_International_Variables</name>
-        <label>Assign International Variables</label>
-        <locationX>1018</locationX>
-        <locationY>1214</locationY>
-        <assignmentItems>
-            <assignToReference>assetName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>International Enquiries 1</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Get_Asset_Id</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment</name>
         <label>Assign Object Related Data For Service Appointment</label>
-        <locationX>1084</locationX>
+        <locationX>1150</locationX>
         <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>CaseId</assignToReference>
@@ -156,7 +124,7 @@
     <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment_for_Contact</name>
         <label>Assign Object Related Data For Service Appointment for Contact</label>
-        <locationX>1986</locationX>
+        <locationX>2250</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
@@ -201,7 +169,7 @@
     <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment_for_Lead</name>
         <label>Assign Object Related Data For Service Appointment for Lead</label>
-        <locationX>2690</locationX>
+        <locationX>2954</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>LeadId</assignToReference>
@@ -239,7 +207,7 @@
     <assignments>
         <name>Copy_2_of_Field_Visibility_Control</name>
         <label>Field Visibility for Lead</label>
-        <locationX>2602</locationX>
+        <locationX>2866</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -290,7 +258,7 @@
     <assignments>
         <name>Field_Visibility_Control</name>
         <label>Field Visibility Control</label>
-        <locationX>572</locationX>
+        <locationX>589</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -341,7 +309,7 @@
     <assignments>
         <name>Field_Visibility_Control_for_Contact</name>
         <label>Field Visibility Control for Contact</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -392,7 +360,7 @@
     <assignments>
         <name>From_Website_Assignment</name>
         <label>From Website Assignment</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>isWebsite</assignToReference>
@@ -409,7 +377,7 @@
     <assignments>
         <name>Prepare_Initial_Service_Appointment_Data</name>
         <label>Prepare Initial Service Appointment Data</label>
-        <locationX>1282</locationX>
+        <locationX>1546</locationX>
         <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>ServiceAppointment.Contact__c</assignToReference>
@@ -432,8 +400,8 @@
     <assignments>
         <name>Prepare_Service_Appointment_Data</name>
         <label>Prepare Service Appointment Data</label>
-        <locationX>1084</locationX>
-        <locationY>1706</locationY>
+        <locationX>1150</locationX>
+        <locationY>1514</locationY>
         <assignmentItems>
             <assignToReference>ServiceAppointment.CaseId__c</assignToReference>
             <operator>Assign</operator>
@@ -539,7 +507,7 @@
     <assignments>
         <name>Web_Field_Visibility</name>
         <label>Web Field Visibility</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Web_First_Name_Visibility</assignToReference>
@@ -583,8 +551,8 @@
     <assignments>
         <name>Website_Override_Values</name>
         <label>Website Override Values</label>
-        <locationX>886</locationX>
-        <locationY>1514</locationY>
+        <locationX>754</locationX>
+        <locationY>1322</locationY>
         <assignmentItems>
             <assignToReference>Phone</assignToReference>
             <operator>Assign</operator>
@@ -603,7 +571,7 @@
             <assignToReference>recordId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>assetId</elementReference>
+                <elementReference>accountId</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -613,7 +581,7 @@
     <decisions>
         <name>Check_User_Role_And_Profile</name>
         <label>Check User Role And Profile</label>
-        <locationX>972</locationX>
+        <locationX>1042</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>Which_Object_Is_It</targetReference>
@@ -694,7 +662,7 @@
     <decisions>
         <name>From_Website</name>
         <label>From Website?</label>
-        <locationX>1084</locationX>
+        <locationX>1150</locationX>
         <locationY>998</locationY>
         <defaultConnector>
             <targetReference>Prepare_Initial_Service_Appointment_Data</targetReference>
@@ -711,47 +679,15 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Is_Selected_Appointment_Option_Domestic_Or_International</targetReference>
+                <targetReference>Get_Account_Record_Type_Id</targetReference>
             </connector>
             <label>YES</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Is_Selected_Appointment_Option_Domestic_Or_International</name>
-        <label>Is Selected Appointment Option Domestic Or International?</label>
-        <locationX>886</locationX>
-        <locationY>1106</locationY>
-        <defaultConnector>
-            <targetReference>Assign_International_Variables</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>International</defaultConnectorLabel>
-        <rules>
-            <name>Domestic</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>What_best_option_describe_you</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Australian Citizen or Permanent Resident</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>What_best_option_describe_you</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>New Zealand Citizen</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Domestic_Variable</targetReference>
-            </connector>
-            <label>Domestic</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_There_A_Lead_Or_Contact_Associated_To_The_Case</name>
         <label>Is There A Lead Or Contact Associated To The Case?</label>
-        <locationX>572</locationX>
+        <locationX>589</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Is_There_An_Email_Or_Mobile_For_The_Associated_Contact_Or_Lead_Of_The_Case</targetReference>
@@ -783,7 +719,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_Contact</name>
         <label>Is There An Email Or Mobile For Contact</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment_for_Contact</targetReference>
@@ -836,7 +772,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_Lead</name>
         <label>Is There An Email Or Mobile For Lead</label>
-        <locationX>2602</locationX>
+        <locationX>2866</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment_for_Lead</targetReference>
@@ -875,7 +811,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_The_Associated_Contact_Or_Lead_Of_The_Case</name>
         <label>Is There An Email Or Mobile For The Associated Contact Or Lead Of The Case?</label>
-        <locationX>831</locationX>
+        <locationX>864</locationX>
         <locationY>674</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment</targetReference>
@@ -950,7 +886,7 @@
         <description>Decision to determine which object is the passed record Id</description>
         <name>Which_Object_Is_It</name>
         <label>Which Object Is It?</label>
-        <locationX>1895</locationX>
+        <locationX>2035</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Web_Field_Visibility</targetReference>
@@ -1132,25 +1068,72 @@
     </processMetadataValues>
     <processType>Appointments</processType>
     <recordLookups>
-        <name>Get_Asset_Id</name>
-        <label>Get Asset Id</label>
-        <locationX>886</locationX>
-        <locationY>1406</locationY>
-        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <name>Get_Account_Id</name>
+        <label>Get Account Id</label>
+        <locationX>754</locationX>
+        <locationY>1214</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Website_Override_Values</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Name</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>assetName</elementReference>
+                <stringValue>QUT</stringValue>
             </value>
         </filters>
-        <object>Asset</object>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>accountRecordId</elementReference>
+            </value>
+        </filters>
+        <object>Account</object>
         <outputAssignments>
-            <assignToReference>assetId</assignToReference>
+            <assignToReference>accountId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Account_Record_Type_Id</name>
+        <label>Get Account Record Type Id</label>
+        <locationX>754</locationX>
+        <locationY>1106</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Account_Id</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Educational_Institution</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Account</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>accountRecordId</assignToReference>
             <field>Id</field>
         </outputAssignments>
         <sortField>Id</sortField>
@@ -1160,7 +1143,7 @@
         <description>Get Case Record based from Record Id</description>
         <name>Get_Case_Record</name>
         <label>Get Case Record</label>
-        <locationX>572</locationX>
+        <locationX>589</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1185,7 +1168,7 @@
         <description>Get Contact Record based from Record Id</description>
         <name>Get_Contact_Record</name>
         <label>Get Contact Record</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1211,7 +1194,7 @@
         <description>Get Lead Record based from Record Id</description>
         <name>Get_Lead_Record</name>
         <label>Get Lead Record</label>
-        <locationX>2602</locationX>
+        <locationX>2866</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1254,7 +1237,7 @@
     <screens>
         <name>ErrorScreen</name>
         <label>Error Screen</label>
-        <locationX>1546</locationX>
+        <locationX>1810</locationX>
         <locationY>782</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1270,8 +1253,8 @@
     <screens>
         <name>Mobile_Or_Email_Is_Empty</name>
         <label>Mobile Or Email Is Empty</label>
-        <locationX>1895</locationX>
-        <locationY>2282</locationY>
+        <locationX>2035</locationX>
+        <locationY>2090</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1344,7 +1327,7 @@
     <screens>
         <name>Schedule_Advisor_Appointment</name>
         <label>Schedule Advisor Appointment</label>
-        <locationX>1084</locationX>
+        <locationX>1150</locationX>
         <locationY>890</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1538,13 +1521,19 @@
             <inputParameters>
                 <name>label</name>
                 <value>
-                    <stringValue>Mobile</stringValue>
+                    <stringValue>Mobile (eg 423288654)</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>required</name>
                 <value>
                     <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>pattern</name>
+                <value>
+                    <stringValue>^(\+)?(?:[0-9] ?(?:-)?){3,14}[0-9]$</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1640,7 +1629,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>846</locationX>
+        <locationX>916</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_User_Role_And_Profile</targetReference>
@@ -1650,8 +1639,8 @@
     <subflows>
         <name>Appointment_Scheduler_Subflow</name>
         <label>Appointment Scheduler Subflow</label>
-        <locationX>1084</locationX>
-        <locationY>1814</locationY>
+        <locationX>1150</locationX>
+        <locationY>1622</locationY>
         <flowName>Appointment_Scheduler</flowName>
         <inputAssignments>
             <name>recordId</name>
@@ -1666,6 +1655,20 @@
             </value>
         </inputAssignments>
     </subflows>
+    <variables>
+        <name>accountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>accountRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>assetId</name>
         <dataType>String</dataType>

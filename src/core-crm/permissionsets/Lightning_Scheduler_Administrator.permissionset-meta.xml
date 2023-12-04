@@ -279,6 +279,10 @@
         <enabled>true</enabled>
         <flow>Appointment_Scheduler</flow>
     </flowAccesses>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Bookable_Appointment</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Lightning Scheduler Administrator</label>
     <license>LightningSchedulerPsl</license>
