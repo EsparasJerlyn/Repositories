@@ -8,10 +8,14 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
       |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
       | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                                              | 
+      | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added Test classes                                        |
       | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added test methods for existing lead and contact matching |
-*/
+ */
 @isTest
 public with sharing class ServiceAppointmentTriggerHelperTest {
+    private static final String DOMESTIC_WORK_TYPE = 'Domestic team';
+    private static final String TEST_ACCOUNT_NAME = 'TestAccount0';
+    private static final List<String> FIELDS = new List<String>{'Appointment_Email__c', 'Web_Email__c', 'SchedStartTime','SchedEndTime', 'WorkTypeId', 'Description', 'First_Name__c', 'Last_Name__c', 'Mobile_Locale__c', 'Mobile_No_Locale__c', 'Appointment_Topic__c', 'Status'};
     private static final String FIRSTNAME = 'TestfirstName';
     private static final String LASTNAME = 'Testlastname';
     private static final String BIRTHDAY = '2000-06-28';
@@ -19,12 +23,54 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent' });
         // create lead
         List<Lead> newLead = TestDataFactory.createTestLeadRecords(0,1);
         LeadsDAO.newInstance().insertRecords(newLead, true, AccessLevel.SYSTEM_MODE);
+
+        List<Account> accList = TestDataFactory.createTestAccountRecords(1);
+        AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.SYSTEM_MODE);
+
+        List<Contact> conList = TestDataFactory.createTestContactRecords(1);
+        ContactsDAO.newInstance().insertRecords(conList, false, AccessLevel.SYSTEM_MODE);
+
+        List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
+        WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.SYSTEM_MODE);
+
         Test.stopTest();
 
+    }
+
+    @isTest
+    private static void sendEmailOnDomesticServiceAppointmentCreation() {
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            Test.startTest();
+
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
+            List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
+
+            for(ServiceAppointment ap : serviceAppList){
+                ap.Web_Email__c = 'nicolesample@mailinator.com';
+                ap.Web_First_Name__c = 'Austin';
+                ap.Web_Last_Name__c = 'Brisbane';
+                ap.SchedStartTime = DateTime.Now().AddDays(1);
+                ap.SchedEndTime = DateTime.Now().AddDays(3);
+                ap.WorkTypeId = workTypeIds.get(0).Id;
+                ap.description = 'This is an inquiry on QUT student enrolment.';
+                ap.Status = 'Scheduled';
+                ap.Appointment_Topic__c = 'My enrolment';
+            }
+
+            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
+
+            Test.stopTest();
+
+            List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByAppointmentEmail('nicolesample@mailinator.com',AccessLevel.SYSTEM_MODE);
+
+            System.assert(insertedAppointment.get(0).Appointment_Email__c.equals('nicolesample@mailinator.com'), 'Appointment Email is not null. Email is sent to the user.');
+        }
     }
 
     @isTest
@@ -130,6 +176,54 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
         }
         return newLeads;
     }
+
+    @isTest
+    private static void sendEmailAfterUpdateCancellationOrReschedule() {
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+
+            Test.startTest();
+
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
+
+            List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(2,accList.get(0).Id);
+
+            for(ServiceAppointment ap : serviceAppList){
+                ap.Web_Email__c = 'nicolesample@mailinator.com';
+                ap.Web_First_Name__c = 'Austin';
+                ap.Web_Last_Name__c = 'Brisbane';
+                ap.Status = 'Scheduled';
+                ap.SchedStartTime = DateTime.Now().AddDays(1);
+                ap.SchedEndTime = DateTime.Now().AddDays(3);
+                ap.WorkTypeId = workTypeIds.get(0).Id;
+                ap.description = 'This is an inquiry on QUT student enrolment.';
+                ap.Status = 'Scheduled';
+                ap.Appointment_Topic__c = 'My enrolment';
+            }
+
+            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
+
+            Map<Id,ServiceAppointment> oldRecords = new Map<Id,ServiceAppointment>(ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE));
+            List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE);
+            serviceAppointment.get(0).Status = 'Cancelled';
+            serviceAppointment.get(1).SchedStartTime = DateTime.Now().AddDays(2);
+
+            Database.SaveResult[] srList = Database.update(serviceAppointment);
+            
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record was not updated.');
+            }
+
+            Test.stopTest();
+            
+            System.assert(serviceAppList.get(0).Id != null, 'Email is sent to the user');
+
+            List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByAppointmentEmail('nicolesample@mailinator.com',AccessLevel.SYSTEM_MODE);
+
+            System.assert(insertedAppointment.get(0).Appointment_Email__c.equals('nicolesample@mailinator.com'), 'Appointment Email is not null. Email is sent to the user.');
+        }
+    }    
     
     @isTest
     private static void testAppointmentEmailMatchToContactEmail() {

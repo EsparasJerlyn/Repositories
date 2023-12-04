@@ -5,19 +5,32 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
- *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | created file                               |
- *    | neil.s.h.lesidan               | November 29, 2023     | DEPP-7280              | Added getServiceAppointmentByEmail         |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
+      | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | created file                                         |
+      | nicole.genon                   | November 24, 2023     | DEPP-7259              | added getServiceAppointmentsBySetIds                 |
+      | neil.s.h.lesidan               | November 29, 2023     | DEPP-7280              | Added getServiceAppointmentByEmail                   |
+      |                                |                       |                        |                                                      |
  */
-public inherited sharing class ServiceAppointmentsDAO extends DmlBase implements IServiceAppointmentsDAO {
+public inherited sharing class ServiceAppointmentsDAO extends DmlBase implements IServiceAppointmentsDAO{
 
-    public static IServiceAppointmentsDAO newInstance() {
-        return (IServiceAppointmentsDAO) ImplementationSelector.DAO.newInstance(ServiceAppointment.SObjectType);
-    }
+    public Schema.SObjectType getSObjectType(){
+		return ServiceAppointment.SObjectType;
+	}
 
-    public Schema.SObjectType getSObjectType() {
-        return ServiceAppointment.SObjectType;
+    public static IServiceAppointmentsDAO newInstance(){
+		return (IServiceAppointmentsDAO) ImplementationSelector.DAO.newInstance(ServiceAppointment.SObjectType);
+	}
+
+    public List<ServiceAppointment> getServiceAppointmentsBySetIds(Set<Id> serviceAppointmentIds, List<String> fields, AccessLevel accessLevel) {
+
+        String fieldsToQuery = fields.size() > 0 ? 'Id, ' + String.join(fields, ',') : 'Id';
+
+        return Database.query(
+            'SELECT ' + String.escapeSingleQuotes(fieldsToQuery) + ' ' +
+              'FROM ServiceAppointment ' +
+             'WHERE Id IN: serviceAppointmentIds', accessLevel
+        );
     }
 
     public List<ServiceAppointment> getServiceAppointmentByEmail(
@@ -28,6 +41,18 @@ public inherited sharing class ServiceAppointmentsDAO extends DmlBase implements
             'SELECT Id, Mobile_No_Locale__c, First_Name__c, Last_Name__c, Email, Contact__c, LeadId__c ' +
                 'FROM ServiceAppointment ' +
                 'WHERE Email =: email ',
+                accessLevel
+        );
+    }
+
+    public List<ServiceAppointment> getServiceAppointmentByAppointmentEmail(
+        String email,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Appointment_Email__c ' +
+                'FROM ServiceAppointment ' +
+                'WHERE Appointment_Email__c =: email ',
                 accessLevel
         );
     }
