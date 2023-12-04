@@ -24,7 +24,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ContactId</field>
+                <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
