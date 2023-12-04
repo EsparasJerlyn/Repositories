@@ -25,14 +25,6 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id,Name,OperatingHoursId, IsActive FROM ServiceTerritory",
-            "operation": "Insert",
-            "externalId": "Name",
-            "useCSVValuesMapping": true,
-            "targetObject": "ServiceTerritory",
-            "importCSVFilesAsIs": true
-        },
-        {
             "query": "SELECT Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account')",
             "operation": "Upsert",
             "externalId": "DeveloperName;SobjectType",
@@ -57,7 +49,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name, OperatingHoursId, EstimatedDuration, DurationType FROM WorkType",
+            "query": "SELECT Id, Name, OperatingHoursId, EstimatedDuration, DurationType, ApptStartTimeIntvlInMin FROM WorkType",
             "operation": "Insert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
