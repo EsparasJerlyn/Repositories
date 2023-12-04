@@ -307,6 +307,24 @@
         <relatedList>Case.Lead__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>Name</fields>
+        <fields>Appointment_Topic__c</fields>
+        <fields>SchedStartTime</fields>
+        <fields>SchedEndTime</fields>
+        <fields>WorkType</fields>
+        <fields>CreatedDate</fields>
+        <relatedList>ServiceAppointments</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>Appointment_Topic__c</fields>
+        <fields>SchedStartTime</fields>
+        <fields>SchedEndTime</fields>
+        <fields>WorkType</fields>
+        <fields>CreatedDate</fields>
+        <relatedList>ServiceAppointment.LeadId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedFileList</relatedList>
     </relatedLists>
     <relatedLists>

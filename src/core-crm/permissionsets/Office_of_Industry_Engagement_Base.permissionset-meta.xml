@@ -5949,6 +5949,10 @@
         <recordType>hed__Application__c.StudyLink</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>Engagement_Opportunity__c</tab>
         <visibility>Visible</visibility>

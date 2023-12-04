@@ -19,6 +19,8 @@
  *    | mark.j.mahilum                 | Oct 19, 2023          | DEPP-6933              | Update executeMatchingRule to check|
  *    |                                |                       |                        | if trigger is running via bulkAPI  |
  *    | mark.j.mahilum                 | Nov 11, 2023          | DEPP-7161              | Revise Matching logic to Contact   |
+ *    | mark.j.mahilum                 | Nov 16, 2023          | DEPP-7120              | Refactor logic for application and |
+ *    |                                |                       |                        | contact mapping                    |
  */
 public with sharing class ApplicationService { //NOPMD
 
@@ -361,187 +363,130 @@ public with sharing class ApplicationService { //NOPMD
      * If the field/s needs to follow certain rules, especially if it's complex, use a different method instead.
      * @param Contact contact - The contact record to modify.
      */
-    public static void mapFieldsToApplicant(Contact applicant, hed__Application__c application) {//NOPMD
-        if (application.Agency_Country__c != null) {
-            applicant.Agency_Country__c = application.Agency_Country__c;
-        }
-        if (application.Agency_Email__c != null) {
-            applicant.Agency_Email__c = application.Agency_Email__c;
-        }
-        if (application.Agency_Name__c != null) {
-            applicant.Agency_Name__c = application.Agency_Name__c;
-        }
-        if (application.Is_Education_Disruption_Applicant__c != null) {
-            applicant.Education_Disruption_Applicant__c = application.Is_Education_Disruption_Applicant__c;
-        }
-        if (application.Is_Elite_Athlete_Applicant__c != null) {
-            applicant.Elite_Athlete_Applicant__c = application.Is_Elite_Athlete_Applicant__c;
-        }
-        if (application.Is_Financial_Hardship_Applicant__c != null) {
-            applicant.Financial_Hardship_Applicant__c = application.Is_Financial_Hardship_Applicant__c;
-        }
-        if (application.Is_First_In_Family_Applicant__c != null) {
-            applicant.First_in_Family_Applicant__c = application.Is_First_In_Family_Applicant__c;
-        }
-        if (application.Is_Agent_Assisted__c != null) {
-            applicant.Is_Agent_Assisted__c = application.Is_Agent_Assisted__c;
-        }
-        if (application.Is_International_Applicant__c != null) {
-            applicant.Is_International_Applicant__c = application.Is_International_Applicant__c;
-        }
-        if (application.Is_Personal_Illness_Disability_Applicant__c != null) {
-            applicant.Personal_Illness_Disability_Applicant__c = application.Is_Personal_Illness_Disability_Applicant__c;
-        }
-    }
-
-    
-    /**
-     * @description Switch between various field mapping methods based on the record type of the application.
-     * @param Contact applicant - The applicant/contact records to update.
-     * @param RecordsToReferenceWrapper recordsToReference - The collection of records to base the updates from.
-     */
-    public static void switchMapFieldsByRecordType(
-        Contact applicant,
-        RecordsToReferenceWrapper recordsToReference
-    ) {
-        Id applicationRecordType = recordsToReference.application.RecordTypeId;
-        if(applicationRecordType == ApplicationsDAO.STUDYLINK_RECTYPE_ID) {
-            mapFieldsToStudyLinkApplicant(applicant, recordsToReference);
-        } else if(applicationRecordType == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID) {
-            mapFieldsToSAMSCIAnywhereApplicant(applicant, recordsToReference);
-        } else if(applicationRecordType == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID) {
-            mapFieldsToSAMSLegacyApplicant(applicant, recordsToReference);
-        } else if(applicationRecordType == ApplicationsDAO.QTAC_RECTYPE_ID) {
-            mapFieldsToQTACApplicant(applicant, recordsToReference);
-        }
-    }
-    
-    /**
-     * @description Set fields on a contact record of a StudyLink application. This method does not check the recordtype.
-     * Identify the record type first before using this method!
-     * @param Contact applicantToUpdate - The applicant/contact record to map the fields to.
-     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
-     */    
-    private static void mapFieldsToStudyLinkApplicant(//NOPMD
-        Contact applicantToUpdate, 
-        RecordsToReferenceWrapper recordsToReference
-    ) {
-        if (recordsToReference.application.Indigenous_Status__c != null) {
-            applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
-        }
+    public static void mappedApplicationToContact(Contact applicant, RecordsToReferenceWrapper recordsToReference) {//NOPMD
         
-        if (recordsToReference.existingContact.Birthdate == null) {
-            if (recordsToReference.application.BirthDate__c != null) {
-                applicantToUpdate.Birthdate = recordsToReference.application.BirthDate__c;
-            }
-        } else {
-            applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate;
-        }
-        
-        if (recordsToReference.application.Citizenship_Country__c != null) {
-            applicantToUpdate.Citizenship_Country__c = recordsToReference.application.Citizenship_Country__c;
-        }
-        
-        if (recordsToReference.application.Mobile__c != null) {  
-            Boolean isExecutedByIntegrationUser = UserInfo.getUserName().containsIgnoreCase('esb');
-            Boolean hasQtacAndAdmittedApplication =  recordsToReference.application.QTAC_Application_ID__c !=NULL && recordsToReference.application?.Offer_Status__c =='Admitted';
-            Boolean isContactMobileToUpdate = isExecutedByIntegrationUser && hasQtacAndAdmittedApplication;
+        //Application Fields as Key => Contact fields as value
+        Map<String, String> fieldMapping = new Map<String, String>{
+            'Agency_Country__c' => 'Agency_Country__c',
+            'Agency_Email__c' => 'Agency_Email__c',
+            'Agency_Name__c' => 'Agency_Name__c',
+            'Is_Education_Disruption_Applicant__c' => 'Education_Disruption_Applicant__c',
+            'Is_Elite_Athlete_Applicant__c' => 'Elite_Athlete_Applicant__c',
+            'Is_Financial_Hardship_Applicant__c' => 'Financial_Hardship_Applicant__c',
+            'Is_First_In_Family_Applicant__c' => 'First_in_Family_Applicant__c',
+            'Is_Agent_Assisted__c' => 'Is_Agent_Assisted__c',
+            'Is_International_Applicant__c' => 'Is_International_Applicant__c',
+            'Is_Personal_Illness_Disability_Applicant__c' => 'Personal_Illness_Disability_Applicant__c',
+            'Indigenous_Status__c' => 'ATSI_Code__c',
+            'BirthDate__c' => 'Birthdate',
+            'Citizenship_Country__c' => 'Citizenship_Country__c',
+            'Citizenship_Status__c' => 'hed__Citizenship_Status__c',
+            'Birth_Country__c' => 'Birth_Country__c',
+            'Citizenship_Type__c' => 'Citizenship_Type__c',
+            'Home_Language__c' => 'Home_Language__c',
+            'MiddleName__c' => 'MiddleName',
+            'Mobile__c' => 'Mobile_No_Locale__c',
+            'Salutation__c' => 'Salutation',
+            'Applicant_Onshore__c' => 'Applicant_Onshore__c',
+            'Country_of_Residency__c' => 'Country_of_Residency__c'
+        };
             
-            if(recordsToReference.application.RecordTypeId != ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID){                              
-                applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;                
-            } else if(isContactMobileToUpdate) {
-                applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c; 
-            }            
-        }
+        //Unique SAMS and StudyLink application Field as Key => Contact field
+        Map<String, String> samsStudyLinkUniquefieldMapping = new Map<String, String>{
+            'Citizenship_Country__c' => 'Citizenship_Country__c'
+        };
+            
+        //Unique studyLink application Field as Key => Contact field
+        Map<String, String> studyLinkUniquefieldMapping = new Map<String, String>{
+            'Applicant_Onshore__c' => 'Applicant_Onshore__c',
+            'Country_of_Residency__c' => 'Country_of_Residency__c'
+        };
         
-        if (recordsToReference.application.Citizenship_Status__c != null) {
-            applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
+        //Unique QTAC Application field as key => Contact field as value
+        Map<String, String> qtacUniquefieldMapping = new Map<String, String>{
+            'Birth_Country__c' => 'Birth_Country__c',
+            'Citizenship_Type__c' => 'Citizenship_Type__c',
+            'Home_Language__c' => 'Home_Language__c',
+            'MiddleName__c' => 'MiddleName',
+            'Salutation__c' => 'Salutation'
+        };
+
+        //application record        
+        hed__Application__c application = recordsToReference.application;
+        //existing contact record
+        Contact existingContact = recordsToReference.existingContact;
+        
+        //record type matching
+        boolean isStudylinkRecType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+        boolean isQTACRecType = application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID; 
+        boolean isSAMSLegacyRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+        boolean isSAMSCIAnywhere = application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;//NOPMD
+
+        //Application Object fields is use as the key for the sourceField 
+        for (String sourceField : fieldMapping.keySet()) {
+            //targetField is the contact object fields
+            String targetField = fieldMapping.get(sourceField);
+            
+            //only the application field that is not null will be updated into the contact object fields
+            if (application.get(sourceField) != null) {
+                
+                // Check if the source field is BirthDate__c and existing contact Birthdate field is null
+                if(sourceField =='BirthDate__c'){
+                    if(existingContact.Birthdate == null){//NOPMD
+                       applicant.put(targetField, application.get(sourceField)); 
+                    }                  
+                   continue;
+                }
+
+                // Check if the source field is Mobile__c and the record type is QTAC
+                if(sourceField =='Mobile__c' && (isQTACRecType || isSAMSLegacyRecType)){                   
+                    //only set the value of mobile field if the Offer Status is Not Accepted Or Deferred
+                    if(isQTACRecType && (application.Offer_Status__c !='Accepted' && application.Offer_Status__c !='Deferred')){//NOPMD
+                        applicant.put(targetField, application.get(sourceField));
+                    }
+
+					//check if the application is SAMS Legacy
+                    Boolean isExecutedByIntegrationUser = UserInfo.getUserName().containsIgnoreCase('esb');
+                    Boolean hasQtacAndAdmittedApplication =  application.QTAC_Application_ID__c !=NULL && application?.Offer_Status__c =='Admitted';
+                    Boolean isContactMobileToUpdate = isExecutedByIntegrationUser && hasQtacAndAdmittedApplication;
+                    
+                    //Update the mobile field when the SAMS Legacy criteria is satisfied
+                    if(isSAMSLegacyRecType && isContactMobileToUpdate) {//NOPMD
+                        applicant.put(targetField, application.get(sourceField));
+                    }                    
+                    continue;
+                }
+                
+                //set unique field mapping for QTAC applications
+                if(qtacUniquefieldMapping.containsKey(sourceField)){
+                    if(isQTACRecType){//NOPMD
+                      applicant.put(targetField, application.get(sourceField));  
+                    }                    
+                    continue;
+                }
+
+                //only set this field if the application is not QTAC
+                if(samsStudyLinkUniquefieldMapping.containsKey(sourceField)){
+                    if(!isQTACRecType){//NOPMD
+                      applicant.put(targetField, application.get(sourceField));  
+                    }                      
+                    continue;
+                }
+
+                //only set this field if the application is StudyLink
+                if(studyLinkUniquefieldMapping.containsKey(sourceField)){
+                    if(isStudylinkRecType){//NOPMD
+                      applicant.put(targetField, application.get(sourceField));  
+                    }                    
+                    continue;
+                }
+                
+                // Set the value in the Contact target field and get the value from application Source Field
+                applicant.put(targetField, application.get(sourceField));           
+            }
         }
     }
 
-    
-    /** 
-     * @description Set fields on a contact record of a SAMS CIAnywhere application. This method does not check the recordtype.
-     * Identify the record type first before using this method!
-     * @param Contact applicantToUpdate - The applicant/contact record to map the fields to.
-     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
-     */
-    private static void mapFieldsToSAMSCIAnywhereApplicant(
-        Contact applicantToUpdate, 
-        RecordsToReferenceWrapper recordsToReference
-    ) {
-        // As of 2023-09-21, StudyLink, SAMS CIAnywhere, and SAMS Legacy all follow the same mapping.
-        mapFieldsToStudyLinkApplicant(applicantToUpdate, recordsToReference);
-    }
-    
-    /** 
-     * @description Set fields on a contact record of a SAMS Legacy application. This method does not check the recordtype.
-     * Identify the record type first before using this method!
-     * @param Contact applicantToUpdate - The applicant/contact record to map the fields to.
-     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
-     */
-    private static void mapFieldsToSAMSLegacyApplicant(
-        Contact applicantToUpdate, 
-        RecordsToReferenceWrapper recordsToReference
-    ) {
-        // As of 2023-09-21, StudyLink, SAMS CIAnywhere, and SAMS Legacy all follow the same mapping.
-        mapFieldsToStudyLinkApplicant(applicantToUpdate, recordsToReference);
-    }
-    
-    /**
-     * @description Set fields on a contact record of a QTAC application. This method does not check the recordtype.
-     * Identify the record type first before using this method!
-     * @param Contact applicantToUpdate - The applicant/contact to update.
-     * @param RecordsToReferenceWrapper recordsToReference - A collection of records to base the mappings from.
-     */
-    private static void mapFieldsToQTACApplicant(//NOPMD
-        Contact applicantToUpdate, 
-        RecordsToReferenceWrapper recordsToReference
-    ) {
-        if (recordsToReference.application.Indigenous_Status__c != null) {
-            applicantToUpdate.ATSI_Code__c = recordsToReference.application.Indigenous_Status__c;
-        }
-        
-        if (recordsToReference.application.Birth_Country__c != null) {
-            applicantToUpdate.Birth_Country__c = recordsToReference.application.Birth_Country__c;
-        }
-        
-        if (recordsToReference.existingContact.Birthdate == null) {
-            if (recordsToReference.application.BirthDate__c != null) {
-                applicantToUpdate.Birthdate = recordsToReference.application.BirthDate__c;
-            }
-        } else {
-            applicantToUpdate.Birthdate = recordsToReference.existingContact.Birthdate;
-        }
-        
-        if (recordsToReference.application.Citizenship_Type__c != null) {
-            applicantToUpdate.Citizenship_Type__c = recordsToReference.application.Citizenship_Type__c;
-        }
-        
-        if (recordsToReference.application.Citizenship_Status__c != null) {
-            applicantToUpdate.hed__Citizenship_Status__c = recordsToReference.application.Citizenship_Status__c;
-        }
-        
-        if (recordsToReference.application.Home_Language__c != null) {
-            applicantToUpdate.Home_Language__c = recordsToReference.application.Home_Language__c;
-        }
-        
-        if (recordsToReference.application.MiddleName__c != null) {
-            applicantToUpdate.MiddleName = recordsToReference.application.MiddleName__c;
-        }
-        
-        if (recordsToReference.application.Mobile__c != null) {
-            if(recordsToReference.application.Offer_Status__c !='Accepted' || recordsToReference.application.Offer_Status__c !='Deferred'){
-                applicantToUpdate.Mobile_No_Locale__c = recordsToReference.application.Mobile__c;
-            }
-        }
-        
-        if (recordsToReference.application.Salutation__c != null) {
-            applicantToUpdate.Salutation = recordsToReference.application.Salutation__c;
-        }
-    }
-
-    
     /**
      * @description Fill the address lines of an address record using address lines from an application.
      * NOTE: This method is assuming that at least one field below is populated, or that the address record

@@ -266,6 +266,13 @@
         <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>ServiceAppointment-Future Student Appointment</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ServiceAppointment-Future Student Appointment</layout>
+        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>SMS_Template__c-SMS Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

@@ -1273,7 +1273,7 @@
                             <value>Intake_Year__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Application_Status__c</value>
+                            <value>Offer_Status__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

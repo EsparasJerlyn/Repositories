@@ -19,6 +19,8 @@
  *    | alexander.cadalin              | Oct 10, 2023          | DEPP-6814              | Added Initial Creation Date field to methods                                  |
  *    | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Added CreatedDate and is Active field in  getApplicationsByLeadIds and        |
  *    |                                |                       |                        | getApplicationsByContactIds                                                   |
+ *    | arsenio.jr.dayrit              | November 20, 2023     | DEPP-7268              | Added Offered_Program_Plan__r.Program_Level__c field in                       |         
+ *    |                                |                       |                        | getAppsWithLatestCalculatedIntakeDateByApplicantIds                           |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -94,7 +96,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     };
 
     public static final Set<String> ACCEPTED_OFFER_BY_OFFER_STATUSES_FOR_SAMS = new Set<String>{
-        'Accepted'
+        'Accepted','Admitted'
     };
 
     public static final Set<String> samsStatuses = new Set<String>{
@@ -251,11 +253,11 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     ) {
         return Database.query(
             'SELECT Id,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c,CreatedDate, ' +
-                'Offered_Program_Plan__r.Availability_Start_Date__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c, ' +
+                'Offered_Program_Plan__r.Availability_Start_Date__c,Offered_Program_Plan__r.Program_Level__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c, ' +
                 'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
                 'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, ' +
                 'hed__Applicant__r.QUT_Applicant__c, hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, Lead__c, ' +
-                'hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c, hed__Initial_Creation_Date__c ' +
+                'hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c, hed__Initial_Creation_Date__c, Applied_Intake_Study_Period__r.Last_Admission_Date__c ' +
                 'FROM hed__Application__c ' +
                 'WHERE (hed__Applicant__c IN :recordIds  OR Lead__c IN: recordIds) '+
                 'AND Calculated_Intake_Date__c >= TODAY ' +

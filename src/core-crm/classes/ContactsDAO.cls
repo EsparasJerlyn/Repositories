@@ -27,7 +27,8 @@
  *    | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added query for getContactMobilePhoneByRecordIds          |
  *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7015              | Added query for getPersonContactsBySetIds                 |
  *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added query for getPersonContactsWithLimit                |
- *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
+ *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds         |
+ *    | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Add Birthdate in getPersonContactsByEmailOrName           |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -274,7 +275,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         if (!String.isBlank(toQuery)) {
             contactList = Database.query(
-                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE RecordTypeId =: PERSON_RECORDTYPE_ID AND (' +
+                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Birthdate, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE RecordTypeId =: PERSON_RECORDTYPE_ID AND (' +
                 toQuery + ')',
                 AccessLevel
             );
@@ -435,4 +436,4 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
     }
     
-}
+} 

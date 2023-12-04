@@ -257,7 +257,8 @@ private class ApplicationTriggerHelperTest {
             Contact updatedContact = [
                 SELECT Id, Birthdate, Mobile_No_Locale__c,
                 ATSI_Code__c, hed__Citizenship_Status__c,
-                Citizenship_Country__c
+                Citizenship_Country__c, Country_of_Residency__c,
+                Applicant_Onshore__c
                 FROM Contact WHERE Id = :contactId 
                 WITH SYSTEM_MODE LIMIT 1];
             System.assertEquals(applications[0].BirthDate__c, updatedContact.Birthdate, 'Birthdate update failed.');
@@ -265,6 +266,8 @@ private class ApplicationTriggerHelperTest {
             System.assertEquals(applications[0].Indigenous_Status__c, updatedContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
             System.assertEquals(applications[0].Citizenship_Status__c, updatedContact.hed__Citizenship_Status__c, 'hed__Citizenship_Status__c update failed.');
             System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
+            System.assertEquals(applications[0].Country_of_Residency__c, updatedContact.Country_of_Residency__c, 'Country_of_Residency__c update failed.');
+            System.assertEquals(applications[0].Applicant_Onshore__c, updatedContact.Applicant_Onshore__c, 'Applicant_Onshore__c update failed.');
         }
     }
     
@@ -390,7 +393,11 @@ private class ApplicationTriggerHelperTest {
             Mobile__c = '0987654321',
             Indigenous_Status__c = 'I prefer not to say',
             Citizenship_Status__c = 'International',
-            Citizenship_Country__c = 'Antarctica'
+            Citizenship_Country__c = 'Antarctica',
+            Offer_Status__c = 'Admitted',
+            QTAC_Application_ID__c = applicationRecordType,
+            Applicant_Onshore__c = true,
+            Country_of_Residency__c = 'Test'
         );
     }
 

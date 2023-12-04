@@ -7,8 +7,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | Octover 5, 2023       | DEPP-6426              | Created file                 |
-      |                                |                       |                        |                              |
+      | roy.nino.s.regala              | October 5, 2023       | DEPP-6426              | Created file                 |
+      | johanna.a.gibas                | November 24, 2023     | DEPP-7143              | Updated Tier Category        |
  */
 public with sharing class InternationalTiersDAO extends DmlBase implements IInternationalTiersDAO {
 
@@ -16,6 +16,8 @@ public with sharing class InternationalTiersDAO extends DmlBase implements IInte
     public static String TIER_CATEGORY_2 = 'Tier 2';
     public static String TIER_CATEGORY_3 = 'Tier 3';
     public static String DEVELOPED_NATIONS = 'Developed Nations';
+    public static String UNTIERED_UNRESTRICTED = 'Untiered - Unrestricted';
+    public static String UNTIERED_RESTRICTED = 'Untiered - Restricted';
 
     public Schema.SObjectType getSObjectType() {
         return International_Tier__c.SObjectType;

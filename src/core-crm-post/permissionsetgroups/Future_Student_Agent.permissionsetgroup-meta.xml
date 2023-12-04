@@ -3,8 +3,11 @@
     <description>Permission set group to be added to users that are Agents within the teams</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Future Student Agent</label>
+    <mutingPermissionSets>Future_Student_Agent_Muted</mutingPermissionSets>
     <permissionSets>Future_Student_Engagement</permissionSets>
     <permissionSets>Google_Integration_User</permissionSets>
+    <permissionSets>Knowledge_User</permissionSets>
+    <permissionSets>Lightning_Scheduler_User</permissionSets>
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <permissionSets>spr_sf__Sprinklr_User</permissionSets>

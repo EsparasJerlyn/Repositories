@@ -78,8 +78,8 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>casePotentialMatches</componentName>
-                <identifier>c_casePotentialMatches</identifier>
+                <componentName>potentialMatches</componentName>
+                <identifier>c_potentialMatches</identifier>
                 <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
@@ -547,6 +547,9 @@
                     <valueList>
                         <valueListItems>
                             <value>Edit</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Schedule_Appointment</value>
                         </valueListItems>
                         <valueListItems>
                             <value>ChangeOwnerOne</value>

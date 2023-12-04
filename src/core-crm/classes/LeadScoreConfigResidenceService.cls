@@ -45,9 +45,10 @@ public with sharing class LeadScoreConfigResidenceService {
             }
 
             if(!isDomestic && String.isNotBlank(marketingSeg.My_Country_Of_Residency__c)){
-                residenceCategoryScore = residenceCategoryScore + leadScoreConfigResidence.getNonAustraliaOffShore();
                 if(marketingSeg.My_Country_Of_Residency__c == MarketingSegmentationsDAO.COUNTRY_AU){ 
                     residenceCategoryScore = residenceCategoryScore + leadScoreConfigResidence.getAustraliaOnshore();
+                }else{
+                    residenceCategoryScore = residenceCategoryScore + leadScoreConfigResidence.getNonAustraliaOffShore();
                 }
             }
             

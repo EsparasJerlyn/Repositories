@@ -5,23 +5,24 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                              |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------|
- *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                                |
- *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking               |
- *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated createCompletedCaddence method                      |
- *    |                                |                       |                        | added logic to get the unsuccessful task                    |
- *    |                                |                       |                        | and update any existing completed cadence                   |
- *    |                                |                       |                        | to succesful once the task is Contact Successful            |
- *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes            |
- *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation              |
- *    | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6856              | Added checking for running user                             |
- *    | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Added Closed - Contacted in createCompletedCadence and      |
- *    |                                |                       |                        |     created updateTasks                                     |
- *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated createInitialCompletedCadences with                 |
- *    |                                |                       |                        |     Displayed in List View, and created                     |
- *    |                                |                       |                        |     updateCompletedCadences and getRunningCallACTrackersMap |
- *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7064              | updated logic to get the latest application                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                       |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------------|
+ *    | mark.j.mahilum                 | June 26, 2023         | DEPP-6107              | created file                                                         |
+ *    | roy.nino.s.regala              | Aug 09, 2023          | DEPP-5677              | made sendRequest public and add type checking                        |
+ *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated createCompletedCaddence method                               |
+ *    |                                |                       |                        | added logic to get the unsuccessful task                             |
+ *    |                                |                       |                        | and update any existing completed cadence                            |
+ *    |                                |                       |                        | to succesful once the task is Contact Successful                     |
+ *    | mark.j.mahilum                 | Sept 19,2023          | DEPP-6524              | Updated logic to include Follow-up call outcomes                     |
+ *    | mark.j.mahilum                 | Sept 22, 2023         | DEPP-6488              | Added new method in completed Cadence creation                       |
+ *    | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6856              | Added checking for running user                                      |
+ *    | johanna.a.gibas                | Oct 16, 2023          | DEPP-6855              | Added Closed - Contacted in createCompletedCadence and               |
+ *    |                                |                       |                        |     created updateTasks                                              |
+ *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated createInitialCompletedCadences with                          |
+ *    |                                |                       |                        |     Displayed in List View, and created                              |
+ *    |                                |                       |                        |     updateCompletedCadences and getRunningCallACTrackersMap          |
+ *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7064              | updated logic to get the latest application                          |
+ *    | johanna.a.gibas                | Nov 16, 2023          | DEPP-7118              | Replaced Closed - Contacted with Closed - No Further Action Required |
  */
 public with sharing class SalesCadenceCalloutService {
     
@@ -173,7 +174,7 @@ public with sharing class SalesCadenceCalloutService {
                 String taskStatus = mapTasks.get(recId).Status;
                 
                 if(taskCadenceName == cadenceName){
-                    calculatedStatus = (taskStatus == TasksDAO.CLOSED_FOLLOW_UP_STATUS) ? taskStatus : ((taskStatus == TasksDAO.CLOSED_CONTACTED_STATUS) ? CompletedCadencesDAO.SUCCESSFUL_STATUS : CompletedCadencesDAO.UNSUCCESSFUL_STATUS);
+                    calculatedStatus = (taskStatus == TasksDAO.CLOSED_FOLLOW_UP_STATUS) ? taskStatus : ((taskStatus == TasksDAO.CLOSED_NO_FURTHER_ACTION_REQUIRED_STATUS) ? CompletedCadencesDAO.SUCCESSFUL_STATUS : CompletedCadencesDAO.UNSUCCESSFUL_STATUS);
                     tasksToUpdateList.add(mapTasks.get(recId));
                 }               
             }
@@ -642,4 +643,5 @@ public with sharing class SalesCadenceCalloutService {
         }
         return actMap;
     }
-}
+    
+} 
