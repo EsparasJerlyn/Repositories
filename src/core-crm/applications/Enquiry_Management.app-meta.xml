@@ -345,6 +345,8 @@
     <tabs>standard-Lead</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Case</tabs>
+    <tabs>standard-ServiceAppointment</tabs>
+    <tabs>standard-Dashboard</tabs>
     <tabs>Knowledge__kav</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Enquiry_Management_UtilityBar</utilityBar>
@@ -359,7 +361,13 @@
             <tab>standard-Contact</tab>
         </mappings>
         <mappings>
+            <tab>standard-Dashboard</tab>
+        </mappings>
+        <mappings>
             <tab>standard-Lead</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-ServiceAppointment</tab>
         </mappings>
         <mappings>
             <tab>standard-home</tab>
