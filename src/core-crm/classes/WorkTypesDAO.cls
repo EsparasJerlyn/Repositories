@@ -13,8 +13,8 @@
 public with sharing class WorkTypesDAO extends DmlBase implements IWorkTypesDAO{
 
     //Add Template Names here
-    public static final String WORK_TYPE_INTERNATIONAL_TEAM = 'International team';
-    public static final String WORK_TYPE_DOMESTIC_TEAM = 'Domestic team';
+    public static final String INTERNATIONAL_WORK_TYPE = 'International Phone Calls';
+    public static final String DOMESTIC_WORK_TYPE = 'Domestic Phone Calls';
 
     public Schema.SObjectType getSObjectType(){
 		return WorkType.SObjectType;

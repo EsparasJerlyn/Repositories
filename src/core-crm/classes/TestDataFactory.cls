@@ -3967,7 +3967,7 @@ public class TestDataFactory {
     public static List<WorkType> createTestWorkTypeRecords() {
         List<WorkType> newWorkTypes = new List<WorkType>();
         String workName;
-        for (Integer i = 0; i < 3; i++) {
+        for (Integer i = 0; i < 2; i++) {
             newWorkTypes.add(
                 new WorkType(
                     Name = 'Team',
@@ -3975,9 +3975,8 @@ public class TestDataFactory {
                 )
             );
         }
-        newWorkTypes.get(0).Name = 'International team';
-        newWorkTypes.get(1).Name = 'Domestic team';
-        newWorkTypes.get(2).Name = 'QUT team';
+        newWorkTypes.get(0).Name = 'International Phone Calls';
+        newWorkTypes.get(1).Name = 'Domestic Phone Calls';
         return newWorkTypes;
     }
 }

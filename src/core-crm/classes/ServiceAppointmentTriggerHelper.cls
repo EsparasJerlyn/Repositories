@@ -13,20 +13,18 @@
       | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added methods for existing lead and contact matching |
  */
 public with sharing class ServiceAppointmentTriggerHelper {
-    private static final String INTERNATIONAL_WORK_TYPE = 'International team';
-    private static final String DOMESTIC_WORK_TYPE = 'Domestic team';
 
     /**
      * @description Send email on Service Appointment record creation 
-     * if work Type is either International team or Domestic team
+     * if work Type is either International Phone Calls or Domestic Phone Calls
      *
      * @param newItems  List of new Service Appointment records
      */
     public static void sendEmailOnServiceAppointmentCreation(List<ServiceAppointment> newItems){
         List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
         List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
-        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
 
         Map<Id, String> workTypeMap = new Map<Id, String>{
             internationalWorkType.get(0).id => internationalWorkType.get(0).Name,
@@ -265,8 +263,8 @@ public with sharing class ServiceAppointmentTriggerHelper {
         List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
         List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
 
-        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
 
         Map<Id, String> workTypeMap = new Map<Id, String>{
             internationalWorkType.get(0).id => internationalWorkType.get(0).Name,
@@ -293,8 +291,8 @@ public with sharing class ServiceAppointmentTriggerHelper {
         List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
         
         Boolean emailSent = false;
-        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
 
         Map<Id, String> workTypeMap = new Map<Id, String>{
             internationalWorkType.get(0).id => internationalWorkType.get(0).Name,

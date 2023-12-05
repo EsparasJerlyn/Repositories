@@ -12,15 +12,9 @@
  */
 @isTest
 public with sharing class ServiceAppointmentTriggerHandlerTest {
-    private static final String INTERNATIONAL_WORK_TYPE = 'International team';
-    private static final String DOMESTIC_WORK_TYPE = 'Domestic team';
     private static final String QUT_WORK_TYPE = 'QUT team';
     private static final String TEST_ACCOUNT_NAME = 'TestAccount0';
     private static final List<String> FIELDS = new List<String>{'Appointment_Email__c', 'Web_Email__c', 'SchedStartTime', 'WorkTypeId', 'Description', 'First_Name__c', 'Last_Name__c', 'Mobile_Locale__c', 'Mobile_No_Locale__c', 'Appointment_Topic__c', 'Status'};
-    private static final Map<String, String> ORG_WIDE_EMAIL_ADDRESS_MAP = new Map<String, String>{
-        'International team' => 'International Future Student Enquiries',
-        'Domestic team' => 'Domestic Future Student Enquiries'
-    };
     
     @testSetup
     static void testSetup() {
@@ -30,8 +24,15 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
         List<Account> accList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.SYSTEM_MODE);
 
-        List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
-        WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.SYSTEM_MODE);
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        	List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
+        	WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.SYSTEM_MODE);
+        }
+        
+        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+        	List<WorkType> workTypesInt = TestDataFactory.createTestWorkTypeRecords();
+        	WorkTypesDAO.newInstance().insertRecords(workTypesInt, false, AccessLevel.SYSTEM_MODE);
+        }
 
         Test.stopTest();
 
@@ -86,7 +87,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
         System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
 
@@ -119,7 +120,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
 
@@ -150,7 +151,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
         System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
 
@@ -187,7 +188,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
 
@@ -226,7 +227,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
 
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
@@ -271,7 +272,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
 
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
@@ -316,7 +317,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
 
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
@@ -362,7 +363,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
             Test.startTest();
 
-            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+            List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
 
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
