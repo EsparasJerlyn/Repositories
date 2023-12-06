@@ -425,6 +425,13 @@
                 <elementReference>Email</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.Confirmation_Email_Sent__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Appointment_Scheduler_Subflow</targetReference>
         </connector>

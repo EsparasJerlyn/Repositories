@@ -7,47 +7,13 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
-      |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
-      | arsenio.jr.dayrit              | November 21, 2023     | DEPP-7264              | Created file                                         |
-      | nicole.genon                   | November 21, 2023     | DEPP-7259              | Added methods for email for confirmation and reminder|
-      | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added methods for existing lead and contact matching |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
+ *    | arsenio.jr.dayrit              | November 21, 2023     | DEPP-7264              | Created file                                         |
+ *    | nicole.genon                   | November 21, 2023     | DEPP-7259              | Added methods for email for confirmation and reminder|
+ *    | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added methods for existing lead and contact matching |
+ *    | ryan.j.a.dela.cruz             | December 6, 2023      | DEPP-7369              | Confirmation email sending fix                       |
  */
 public with sharing class ServiceAppointmentTriggerHelper {
-
-    /**
-     * @description Send email on Service Appointment record creation 
-     * if work Type is either International Phone Calls or Domestic Phone Calls
-     *
-     * @param newItems  List of new Service Appointment records
-     */
-    public static void sendEmailOnServiceAppointmentCreation(List<ServiceAppointment> newItems){
-        List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
-        List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
-        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-
-        Map<Id, String> workTypeMap = new Map<Id, String>{
-            internationalWorkType.get(0).id => internationalWorkType.get(0).Name,
-            domesticWorkType.get(0).id => domesticWorkType.get(0).Name
-        };
-
-        for(ServiceAppointment serviceAppointment : newItems){
-            if(serviceAppointment.WorkTypeId != null && String.IsNotBlank(serviceAppointment.Appointment_Email__c) && serviceAppointment.WorkTypeId == internationalWorkType.get(0).id){
-                internationalServiceAppointments.add(serviceAppointment);
-            }
-
-            if(serviceAppointment.WorkTypeId != null && String.IsNotBlank(serviceAppointment.Appointment_Email__c) && serviceAppointment.WorkTypeId == domesticWorkType.get(0).id){
-                domesticServiceAppointments.add(serviceAppointment);
-            }
-        }
-
-        if(!internationalServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendEmailToInternationalServiceAppointments(internationalServiceAppointments);
-        }
-        if(!domesticServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendEmailToDomesticServiceAppointments(domesticServiceAppointments);
-        }
-    }
 
     /**
      * @description update the Contact or Lead and its related Marketing Segmentation record from Service Appointment
@@ -168,8 +134,7 @@ public with sharing class ServiceAppointmentTriggerHelper {
         }
         if(hasChanged){
             marketingSegToUpdate.add(marketingSeg);
-        }
-        
+        }   
     }
 
     private static void mapServiceAppointmentToLeadMarketingSeg(Marketing_Segmentation__c marketingSeg, Map<Id,ServiceAppointment> serviceAppointmentMap, List<Marketing_Segmentation__c> marketingSegToUpdate){
@@ -189,9 +154,9 @@ public with sharing class ServiceAppointmentTriggerHelper {
         }
         if(hasChanged){
             marketingSegToUpdate.add(marketingSeg);
-        }
-    
+        }  
     }
+
     //map of object type to the field api names of the fields to be matched
     private static final Map<SObjectType, List<String>> OBJECT_MAP = new Map<SObjectType, List<String>>{
         Lead.SObjectType => new List<String>{ 'Email', 'Work_Email__c' },
@@ -202,6 +167,7 @@ public with sharing class ServiceAppointmentTriggerHelper {
                     'QUT_Staff_Email__c'
                     }
     };
+
 	/**
     * @description: Match the case supplied email from an existing contact or lead email address to
     *               the new created case record
@@ -259,38 +225,97 @@ public with sharing class ServiceAppointmentTriggerHelper {
      * @param newItems  List of new ServiceAppointment records
      * @param oldItems  Map of old ServiceAppointment records
      */
-    public static void sendEmailAfterUpdate(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems) {
-        List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
-        List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
-
-        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-
-        Map<Id, String> workTypeMap = new Map<Id, String>{
-            internationalWorkType.get(0).id => internationalWorkType.get(0).Name,
-            domesticWorkType.get(0).id => domesticWorkType.get(0).Name
-        };
-        
-        for (ServiceAppointment sa : newItems) {
-            if(!oldItems.get(sa.Id).status.equals('Cancelled') && sa.status.equals('Cancelled') && sa.WorkTypeId != null && String.IsNotBlank(sa.Appointment_Email__c) && sa.WorkTypeId == internationalWorkType.get(0).id){
-                internationalServiceAppointments.add(sa);
-            }
-
-            if(!oldItems.get(sa.Id).status.equals('Cancelled') && sa.status.equals('Cancelled') && sa.WorkTypeId != null && String.IsNotBlank(sa.Appointment_Email__c) && sa.WorkTypeId == domesticWorkType.get(0).id){
-                domesticServiceAppointments.add(sa);
-            }
-        }
-        
-        ServiceAppointmentService.sendEmailAfterServiceAppointmentCancellation(internationalServiceAppointments,domesticServiceAppointments);
-
-        checkIfRescheduled(newItems,oldItems);
+    public static void sendEmailOnServiceAppointmentUpdate(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems) {
+        checkCreatedAppointments(newItems,oldItems);
+        checkCancelledAppointments(newItems,oldItems);
+        checkRescheduledAppointments(newItems,oldItems);
     }
 
-    public static void checkIfRescheduled(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems) {
+    /**
+     * @description Send email on Service Appointment record creation 
+     * if work Type is either International Phone Calls or Domestic Phone Calls
+     *
+     * @param newItems  List of new Service Appointment records
+     */
+    public static void checkCreatedAppointments(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems){
+        List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
+        List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
+        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+
+        Map<Id, String> workTypeMap = new Map<Id, String>{
+            internationalWorkType.get(0).id => internationalWorkType.get(0).Name,
+            domesticWorkType.get(0).id => domesticWorkType.get(0).Name
+        };
+
+        for(ServiceAppointment serviceAppointment : newItems){
+
+            // Check if the Confirmation_Email_Sent__c has changed
+            if (oldItems.containsKey(serviceAppointment.Id)) {
+                ServiceAppointment oldItem = oldItems.get(serviceAppointment.Id);
+
+                if (serviceAppointment.Confirmation_Email_Sent__c != oldItem.Confirmation_Email_Sent__c) {
+                    if(serviceAppointment.WorkTypeId != null && String.IsNotBlank(serviceAppointment.Appointment_Email__c) && serviceAppointment.WorkTypeId == internationalWorkType.get(0).id){
+                        internationalServiceAppointments.add(serviceAppointment);
+                    }
+        
+                    if(serviceAppointment.WorkTypeId != null && String.IsNotBlank(serviceAppointment.Appointment_Email__c) && serviceAppointment.WorkTypeId == domesticWorkType.get(0).id){
+                        domesticServiceAppointments.add(serviceAppointment);
+                    }
+                }
+            }
+        }
+
+        if(!internationalServiceAppointments.isEmpty()){
+            ServiceAppointmentService.sendEmailToInternationalServiceAppointments(internationalServiceAppointments);
+        }
+        if(!domesticServiceAppointments.isEmpty()){
+            ServiceAppointmentService.sendEmailToDomesticServiceAppointments(domesticServiceAppointments);
+        }
+    }
+
+    /**
+     * Checks for cancelled appointments and processes them.
+     *
+     * @param newItems   List of new service appointments
+     * @param oldItems   Map of old service appointments
+     */
+    private static void checkCancelledAppointments(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems) {
+        // Lists to store international and domestic service appointments
+        List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
+        List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
+
+        // Fetching international and domestic work types
+        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE}, AccessLevel.SYSTEM_MODE);
+        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE}, AccessLevel.SYSTEM_MODE);
+
+        // Loop through new service appointments
+        for (ServiceAppointment sa : newItems) {
+            // Check if the appointment was not previously cancelled, is now cancelled, has a WorkTypeId, and Appointment_Email__c is not blank
+            if (!oldItems.get(sa.Id).status.equals('Cancelled') && sa.status.equals('Cancelled') && sa.WorkTypeId != null && String.IsNotBlank(sa.Appointment_Email__c)) {
+                // Categorize appointments based on work type
+                if (sa.WorkTypeId == internationalWorkType.get(0).id) {
+                    internationalServiceAppointments.add(sa);
+                } else if (sa.WorkTypeId == domesticWorkType.get(0).id) {
+                    domesticServiceAppointments.add(sa);
+                }
+            }
+        }
+
+        // Check if there are cancelled appointments
+        Boolean withCancelledAppointments = !internationalServiceAppointments.isEmpty() || !domesticServiceAppointments.isEmpty();
+
+        // If there are cancelled appointments, send emails
+        if (withCancelledAppointments) {
+            ServiceAppointmentService.sendEmailAfterServiceAppointmentCancellation(internationalServiceAppointments, domesticServiceAppointments);
+        }
+    }
+
+
+    public static void checkRescheduledAppointments(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems) {
         List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
         List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
         
-        Boolean emailSent = false;
         List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
         List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
 
@@ -299,6 +324,8 @@ public with sharing class ServiceAppointmentTriggerHelper {
             domesticWorkType.get(0).id => domesticWorkType.get(0).Name
         };
         
+        Boolean emailSent = false;
+
         for (ServiceAppointment sa : newItems) {
                           
             if((sa.SchedStartTime == null && sa.SchedEndTime == null) || !String.IsNotBlank(sa.Appointment_Email__c)){
@@ -318,10 +345,10 @@ public with sharing class ServiceAppointmentTriggerHelper {
         if(!internationalServiceAppointments.isEmpty()){
             ServiceAppointmentService.sendEmailToInternationalServiceAppointments(internationalServiceAppointments);
         }
+
         if(!domesticServiceAppointments.isEmpty()){
             ServiceAppointmentService.sendEmailToDomesticServiceAppointments(domesticServiceAppointments);
         }
-        
     }
     
     /**
