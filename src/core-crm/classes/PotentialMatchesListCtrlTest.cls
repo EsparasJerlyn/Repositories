@@ -41,6 +41,9 @@ private class PotentialMatchesListCtrlTest {
 
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
 
+            List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
+            WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.SYSTEM_MODE);
+
             List<ServiceAppointment> serviceAppointment = new List<ServiceAppointment>();
             serviceAppointment.add(
                 new ServiceAppointment(

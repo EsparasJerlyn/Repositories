@@ -24,7 +24,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ContactId</field>
+                <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -116,6 +116,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>My_Citizenship_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>My_Country_Of_Residency__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

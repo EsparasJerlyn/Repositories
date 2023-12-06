@@ -35,4 +35,16 @@ public with sharing class EmailTemplatesDAO extends DmlBase implements IEmailTem
              String.escapeSingleQuotes(accessLevel)
         );
     }
+
+    public List<EmailTemplate> getEmailTemplatesByDeveloperNameSet(
+        Set<String> developerNameSet,
+		String accessLevel   
+    ) {
+        return Database.query(
+            'SELECT Name, Subject, HtmlValue, Body ' +
+              'FROM EmailTemplate ' +
+             'WHERE DeveloperName IN: developerNameSet WITH ' +
+             String.escapeSingleQuotes(accessLevel)
+        );
+    }
 }

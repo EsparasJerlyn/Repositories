@@ -7,10 +7,10 @@
     NOT(ISBLANK( Web_Email__c  )),
     Web_Email__c ,
     IF(
-        NOT(ISBLANK( Contact.Email )),
-        Contact.Email,
+        NOT(ISBLANK(  Contact__r.Email  )),
+        Contact__r.Email,
         IF(
-            NOT(ISBLANK(  LeadId__r.Email )),
+            NOT(ISBLANK(  LeadId__r.Email  )),
             LeadId__r.Email,
             IF(
                 NOT(ISBLANK( CaseId__r.Contact.Email )),

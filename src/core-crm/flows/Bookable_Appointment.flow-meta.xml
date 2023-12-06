@@ -4,7 +4,7 @@
         <description>Logs an Error to the Nebula Logger when Getting a data</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1546</locationX>
+        <locationX>1018</locationX>
         <locationY>566</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -44,7 +44,7 @@
         <description>Saves the Error Action for Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>1546</locationX>
+        <locationX>1018</locationX>
         <locationY>674</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
@@ -57,41 +57,9 @@
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
-        <name>Assign_Domestic_Variable</name>
-        <label>Assign Domestic Variable</label>
-        <locationX>754</locationX>
-        <locationY>1214</locationY>
-        <assignmentItems>
-            <assignToReference>assetName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Domestic Enquiries 1</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Get_Asset_Id</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_International_Variables</name>
-        <label>Assign International Variables</label>
-        <locationX>1018</locationX>
-        <locationY>1214</locationY>
-        <assignmentItems>
-            <assignToReference>assetName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>International Enquiries 1</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Get_Asset_Id</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment</name>
         <label>Assign Object Related Data For Service Appointment</label>
-        <locationX>1084</locationX>
+        <locationX>754</locationX>
         <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>CaseId</assignToReference>
@@ -156,7 +124,7 @@
     <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment_for_Contact</name>
         <label>Assign Object Related Data For Service Appointment for Contact</label>
-        <locationX>1986</locationX>
+        <locationX>1458</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
@@ -201,7 +169,7 @@
     <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment_for_Lead</name>
         <label>Assign Object Related Data For Service Appointment for Lead</label>
-        <locationX>2690</locationX>
+        <locationX>2162</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>LeadId</assignToReference>
@@ -239,7 +207,7 @@
     <assignments>
         <name>Copy_2_of_Field_Visibility_Control</name>
         <label>Field Visibility for Lead</label>
-        <locationX>2602</locationX>
+        <locationX>2074</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -290,7 +258,7 @@
     <assignments>
         <name>Field_Visibility_Control</name>
         <label>Field Visibility Control</label>
-        <locationX>572</locationX>
+        <locationX>490</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -341,7 +309,7 @@
     <assignments>
         <name>Field_Visibility_Control_for_Contact</name>
         <label>Field Visibility Control for Contact</label>
-        <locationX>1898</locationX>
+        <locationX>1370</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -390,50 +358,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>From_Website_Assignment</name>
-        <label>From Website Assignment</label>
-        <locationX>3218</locationX>
-        <locationY>458</locationY>
-        <assignmentItems>
-            <assignToReference>isWebsite</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Schedule_Advisor_Appointment</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Prepare_Initial_Service_Appointment_Data</name>
-        <label>Prepare Initial Service Appointment Data</label>
-        <locationX>1282</locationX>
-        <locationY>1106</locationY>
-        <assignmentItems>
-            <assignToReference>ServiceAppointment.Contact__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ContactId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ServiceAppointment.LeadId__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>LeadId</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Prepare_Service_Appointment_Data</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Prepare_Service_Appointment_Data</name>
         <label>Prepare Service Appointment Data</label>
-        <locationX>1084</locationX>
-        <locationY>1706</locationY>
+        <locationX>754</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>ServiceAppointment.CaseId__c</assignToReference>
             <operator>Assign</operator>
@@ -445,7 +373,7 @@
             <assignToReference>ServiceAppointment.My_Citizenship_Status__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>What_best_option_describe_you</elementReference>
+                <elementReference>Which_option_best_describes_the_person</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -466,21 +394,21 @@
             <assignToReference>ServiceAppointment.Appointment_Topic__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Which_option_best_describes_what_you_would_like_to_talk_about</elementReference>
+                <elementReference>What_is_the_primary_topic_for_this_appointment</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Please_provide_any_additional_information_to_help_us_prepare_for_your_appointmen</elementReference>
+                <elementReference>Please_provide_any_additional_information_about_this_appointment</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>ServiceAppointment.Marketing_Consent__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>I_would_like_to_receive_information_about_QUT_and_upcoming_events</elementReference>
+                <elementReference>This_person_has_provided_verbal_consent_to_receive_study_event_and_other_informa</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -497,123 +425,14 @@
                 <elementReference>Email</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ServiceAppointment.Web_First_Name__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Web_First_Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ServiceAppointment.Web_Last_Name__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Web_Last_Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ServiceAppointment.Web_Email__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Web_Email.value</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ServiceAppointment.Web_Mobile_Locale__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Web_Mobile_Locale</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ServiceAppointment.Web_Mobile_No_Locale__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Web_Mobile_No_Locale.value</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
             <targetReference>Appointment_Scheduler_Subflow</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Web_Field_Visibility</name>
-        <label>Web Field Visibility</label>
-        <locationX>3218</locationX>
-        <locationY>350</locationY>
-        <assignmentItems>
-            <assignToReference>Web_First_Name_Visibility</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Web_Last_Name_Visibility</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Web_Email_Visibility</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Web_Mobile_Locale_Visibility</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Web_Mobile_No_Locale_Visibility</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>From_Website_Assignment</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Website_Override_Values</name>
-        <label>Website Override Values</label>
-        <locationX>886</locationX>
-        <locationY>1514</locationY>
-        <assignmentItems>
-            <assignToReference>Phone</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Web_Mobile_No_Locale.value</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Email</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Web_Email.value</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>recordId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>assetId</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Prepare_Service_Appointment_Data</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>Check_User_Role_And_Profile</name>
         <label>Check User Role And Profile</label>
-        <locationX>972</locationX>
+        <locationX>820</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>Which_Object_Is_It</targetReference>
@@ -692,66 +511,9 @@
         </rules>
     </decisions>
     <decisions>
-        <name>From_Website</name>
-        <label>From Website?</label>
-        <locationX>1084</locationX>
-        <locationY>998</locationY>
-        <defaultConnector>
-            <targetReference>Prepare_Initial_Service_Appointment_Data</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>NO</defaultConnectorLabel>
-        <rules>
-            <name>YES</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>isWebsite</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Is_Selected_Appointment_Option_Domestic_Or_International</targetReference>
-            </connector>
-            <label>YES</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Is_Selected_Appointment_Option_Domestic_Or_International</name>
-        <label>Is Selected Appointment Option Domestic Or International?</label>
-        <locationX>886</locationX>
-        <locationY>1106</locationY>
-        <defaultConnector>
-            <targetReference>Assign_International_Variables</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>International</defaultConnectorLabel>
-        <rules>
-            <name>Domestic</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>What_best_option_describe_you</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Australian Citizen or Permanent Resident</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>What_best_option_describe_you</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>New Zealand Citizen</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Domestic_Variable</targetReference>
-            </connector>
-            <label>Domestic</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_There_A_Lead_Or_Contact_Associated_To_The_Case</name>
         <label>Is There A Lead Or Contact Associated To The Case?</label>
-        <locationX>572</locationX>
+        <locationX>490</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Is_There_An_Email_Or_Mobile_For_The_Associated_Contact_Or_Lead_Of_The_Case</targetReference>
@@ -783,7 +545,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_Contact</name>
         <label>Is There An Email Or Mobile For Contact</label>
-        <locationX>1898</locationX>
+        <locationX>1370</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment_for_Contact</targetReference>
@@ -836,7 +598,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_Lead</name>
         <label>Is There An Email Or Mobile For Lead</label>
-        <locationX>2602</locationX>
+        <locationX>2074</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment_for_Lead</targetReference>
@@ -875,7 +637,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_The_Associated_Contact_Or_Lead_Of_The_Case</name>
         <label>Is There An Email Or Mobile For The Associated Contact Or Lead Of The Case?</label>
-        <locationX>831</locationX>
+        <locationX>666</locationX>
         <locationY>674</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment</targetReference>
@@ -950,12 +712,9 @@
         <description>Decision to determine which object is the passed record Id</description>
         <name>Which_Object_Is_It</name>
         <label>Which Object Is It?</label>
-        <locationX>1895</locationX>
+        <locationX>1590</locationX>
         <locationY>242</locationY>
-        <defaultConnector>
-            <targetReference>Web_Field_Visibility</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Website</defaultConnectorLabel>
+        <defaultConnectorLabel>Unkown Object</defaultConnectorLabel>
         <rules>
             <name>Case</name>
             <conditionLogic>and</conditionLogic>
@@ -1036,15 +795,6 @@
         <object xsi:nil="true"/>
         <picklistField>My_Country_Of_Residency__c</picklistField>
         <picklistObject>ServiceAppointment</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>Web_Mobile_Locale_Picklist</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Web_Mobile_Locale__c</picklistField>
-        <picklistObject>ServiceAppointment</picklistObject>
-        <sortOrder>Asc</sortOrder>
     </dynamicChoiceSets>
     <environments>Default</environments>
     <formulas>
@@ -1132,35 +882,10 @@
     </processMetadataValues>
     <processType>Appointments</processType>
     <recordLookups>
-        <name>Get_Asset_Id</name>
-        <label>Get Asset Id</label>
-        <locationX>886</locationX>
-        <locationY>1406</locationY>
-        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Website_Override_Values</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Name</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>assetName</elementReference>
-            </value>
-        </filters>
-        <object>Asset</object>
-        <outputAssignments>
-            <assignToReference>assetId</assignToReference>
-            <field>Id</field>
-        </outputAssignments>
-        <sortField>Id</sortField>
-        <sortOrder>Asc</sortOrder>
-    </recordLookups>
-    <recordLookups>
         <description>Get Case Record based from Record Id</description>
         <name>Get_Case_Record</name>
         <label>Get Case Record</label>
-        <locationX>572</locationX>
+        <locationX>490</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1185,7 +910,7 @@
         <description>Get Contact Record based from Record Id</description>
         <name>Get_Contact_Record</name>
         <label>Get Contact Record</label>
-        <locationX>1898</locationX>
+        <locationX>1370</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1211,7 +936,7 @@
         <description>Get Lead Record based from Record Id</description>
         <name>Get_Lead_Record</name>
         <label>Get Lead Record</label>
-        <locationX>2602</locationX>
+        <locationX>2074</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1254,7 +979,7 @@
     <screens>
         <name>ErrorScreen</name>
         <label>Error Screen</label>
-        <locationX>1546</locationX>
+        <locationX>1018</locationX>
         <locationY>782</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1270,8 +995,8 @@
     <screens>
         <name>Mobile_Or_Email_Is_Empty</name>
         <label>Mobile Or Email Is Empty</label>
-        <locationX>1895</locationX>
-        <locationY>2282</locationY>
+        <locationX>1590</locationX>
+        <locationY>1574</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1344,13 +1069,13 @@
     <screens>
         <name>Schedule_Advisor_Appointment</name>
         <label>Schedule Advisor Appointment</label>
-        <locationX>1084</locationX>
+        <locationX>754</locationX>
         <locationY>890</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>From_Website</targetReference>
+            <targetReference>Prepare_Service_Appointment_Data</targetReference>
         </connector>
         <fields>
             <name>HeaderTitle</name>
@@ -1359,12 +1084,12 @@
         </fields>
         <fields>
             <name>Schedule_Advisor_Appointment_Description</name>
-            <fieldText>&lt;p&gt;We just have a few questions before booking you in for a 30-minute appointment with us.&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Please complete the following to schedule an appointment.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Your_Details_Section</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 24px; color: rgb(1, 118, 211);&quot;&gt;Your Details&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <name>Persons_Details_Section</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(1, 118, 211); font-size: 24px;&quot;&gt;Person&apos;s Details&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1456,116 +1181,10 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>Web_First_Name</name>
-            <dataType>String</dataType>
-            <fieldText>First Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Web_First_Name_Visibility</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>Web_Last_Name</name>
-            <dataType>String</dataType>
-            <fieldText>Last Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Web_Last_Name_Visibility</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>Web_Email</name>
-            <extensionName>flowruntime:email</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>required</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Web_Email_Visibility</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>Web_Mobile_Locale</name>
-            <choiceReferences>Web_Mobile_Locale_Picklist</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Mobile Locale</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Web_Mobile_Locale_Visibility</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>Web_Mobile_No_Locale</name>
-            <extensionName>flowruntime:phone</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>label</name>
-                <value>
-                    <stringValue>Mobile</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>required</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Web_Mobile_No_Locale_Visibility</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>What_best_option_describe_you</name>
+            <name>Which_option_best_describes_the_person</name>
             <choiceReferences>CitizenshipStatus</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>What best option describe you?</fieldText>
+            <fieldText>Which option best describes the person?</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1579,7 +1198,7 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
-                    <leftValueReference>What_best_option_describe_you</leftValueReference>
+                    <leftValueReference>Which_option_best_describes_the_person</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <stringValue>International Student</stringValue>
@@ -1597,7 +1216,7 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
-                    <leftValueReference>What_best_option_describe_you</leftValueReference>
+                    <leftValueReference>Which_option_best_describes_the_person</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <stringValue>International Student</stringValue>
@@ -1611,28 +1230,23 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Which_option_best_describes_what_you_would_like_to_talk_about</name>
+            <name>What_is_the_primary_topic_for_this_appointment</name>
             <choiceReferences>AppointmentTopic</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>Which option best describes what you would like to talk about?</fieldText>
+            <fieldText>What is the primary topic for this appointment?</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <fields>
-            <name>Appointment_Details_Note</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(1, 118, 211);&quot;&gt;NOTE: If you have more than one topic you would like to discuss please detail this below.&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>Please_provide_any_additional_information_to_help_us_prepare_for_your_appointmen</name>
-            <fieldText>Please provide any additional information to help us prepare for your appointment.</fieldText>
+            <name>Please_provide_any_additional_information_about_this_appointment</name>
+            <fieldText>Please provide any additional information about this appointment.</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
         </fields>
         <fields>
-            <name>I_would_like_to_receive_information_about_QUT_and_upcoming_events</name>
+            <name>This_person_has_provided_verbal_consent_to_receive_study_event_and_other_informa</name>
             <dataType>Boolean</dataType>
-            <fieldText>I would like to receive information about QUT and upcoming events</fieldText>
+            <fieldText>This person has provided verbal consent to receive study, event and other information from QUT.</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1640,7 +1254,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>846</locationX>
+        <locationX>694</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_User_Role_And_Profile</targetReference>
@@ -1650,9 +1264,15 @@
     <subflows>
         <name>Appointment_Scheduler_Subflow</name>
         <label>Appointment Scheduler Subflow</label>
-        <locationX>1084</locationX>
-        <locationY>1814</locationY>
+        <locationX>754</locationX>
+        <locationY>1106</locationY>
         <flowName>Appointment_Scheduler</flowName>
+        <inputAssignments>
+            <name>fromWebsite</name>
+            <value>
+                <elementReference>fromWebsite</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <name>recordId</name>
             <value>
@@ -1666,6 +1286,20 @@
             </value>
         </inputAssignments>
     </subflows>
+    <variables>
+        <name>accountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>accountRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>assetId</name>
         <dataType>String</dataType>
@@ -1752,11 +1386,14 @@
         <objectType>EntityDefinition</objectType>
     </variables>
     <variables>
-        <name>isWebsite</name>
+        <name>fromWebsite</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>Lead_Name_Disabled</name>
@@ -1811,48 +1448,6 @@
     <variables>
         <name>Set_Parent_Record_Id</name>
         <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>Web_Email_Value</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>Web_Email_Visibility</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>Web_First_Name_Visibility</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>Web_Last_Name_Visibility</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>Web_Mobile_Locale_Visibility</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>Web_Mobile_No_Locale_Visibility</name>
-        <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
