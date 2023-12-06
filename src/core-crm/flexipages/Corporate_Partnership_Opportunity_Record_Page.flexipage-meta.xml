@@ -693,6 +693,16 @@
                 <identifier>RecordLoss_Reason_cField5</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CloseDate</fieldItem>
+                <identifier>RecordCloseDateField3</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-w472t2qjvki</name>
         <type>Facet</type>
     </flexiPageRegions>
