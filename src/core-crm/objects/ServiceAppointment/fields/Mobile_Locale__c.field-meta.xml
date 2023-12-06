@@ -7,8 +7,8 @@
     NOT(ISBLANK(TEXT(Web_Mobile_Locale__c))),
     TEXT(Web_Mobile_Locale__c),
     IF(
-        NOT(ISBLANK(Contact.MobilePhone)),
-        Contact.MobilePhone,
+        NOT(ISBLANK(Contact__r.MobilePhone)),
+        Contact__r.MobilePhone,
         IF(
             NOT(ISBLANK(LeadId__r.MobilePhone)),
             LeadId__r.MobilePhone,
