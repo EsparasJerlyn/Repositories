@@ -58,7 +58,7 @@
                 </groupingSortProperties>
                 <header>Open Cases Per Channel</header>
                 <legendPosition>Right</legendPosition>
-                <maxValuesDisplayed>6</maxValuesDisplayed>
+                <maxValuesDisplayed>10</maxValuesDisplayed>
                 <report>InternationalFutureStudentReports/Open_Cases_Per_Channel_Int</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
