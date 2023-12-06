@@ -35,6 +35,9 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Contact.Schedule_Appointment</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1273,7 +1276,7 @@
                             <value>Intake_Year__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Application_Status__c</value>
+                            <value>Offer_Status__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

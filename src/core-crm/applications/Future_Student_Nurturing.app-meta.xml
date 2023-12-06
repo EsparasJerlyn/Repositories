@@ -345,12 +345,84 @@
         <type>Flexipage</type>
         <profile>Future Student Engagement</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Future Student Engagement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Future_Student_Appointment</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ServiceAppointment</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>Knowledge__kav</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Future_Student_Nurturing_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>Knowledge__kav</tab>
+        </mappings>
         <mappings>
             <tab>standard-Dashboard</tab>
         </mappings>

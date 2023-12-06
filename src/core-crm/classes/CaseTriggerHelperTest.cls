@@ -11,6 +11,7 @@
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
       | mark.j.mahilum                 | Sept 12, 2023         | DEPP-6421              | Created file                                          |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added test method for updating case using WhatsApp    |
+      | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
  */
 @isTest
 private class CaseTriggerHelperTest {
@@ -20,7 +21,7 @@ private class CaseTriggerHelperTest {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB'});
         Test.startTest();
         System.runAs(TestDataFactory.getESBIntegrationUser()){
-            List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'High', 'Tier 1',true);
+            List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);
             InternationalTiersDAO.newInstance().insertRecords(tierList,false,AccessLevel.USER_MODE);
             List<Case_Priority_Configuration__c> casePrioConfig = TestDataFactory.createCasePrioConfigRecords();
             CasePriorityConfigurationsDAO.newInstance().insertRecords(casePrioConfig,false,AccessLevel.USER_MODE);

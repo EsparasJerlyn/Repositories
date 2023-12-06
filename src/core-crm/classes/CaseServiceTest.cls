@@ -11,6 +11,7 @@
       |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
       | arsenio.jr.dayrit              | Sept 27,2023          | DEPP-6720              | Created file                                          |
       | roy.nino.s.regala              | Oct 5, 2023           | DEPP-6425              | updated to use DAO Mock                               |
+      | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
  */
 @isTest
 private class CaseServiceTest {
@@ -97,7 +98,6 @@ private class CaseServiceTest {
             .insertRecords(
                 TestDataFactory.createInternationalTierRecords(
                     new List<String>{ 'Wales', 'Australia' },
-                    'High',
                     'Tier 1',
                     true
                 ),

@@ -6,7 +6,7 @@
     <cases>
         <enableArticleCreation>false</enableArticleCreation>
         <enableArticlePublicSharingSites>false</enableArticlePublicSharingSites>
-        <enableCaseDataCategoryMapping>false</enableCaseDataCategoryMapping>
+        <enableCaseDataCategoryMapping>true</enableCaseDataCategoryMapping>
         <useProfileForPDFCreation>false</useProfileForPDFCreation>
     </cases>
     <defaultLanguage>en_US</defaultLanguage>
@@ -21,16 +21,22 @@
     <enableKnowledgeCaseRL>true</enableKnowledgeCaseRL>
     <enableKnowledgeKeywordAutoComplete>true</enableKnowledgeKeywordAutoComplete>
     <enableKnowledgeTitleAutoComplete>true</enableKnowledgeTitleAutoComplete>
-    <enableLightningKbAutoLoadRichTextField>false</enableLightningKbAutoLoadRichTextField>
+    <enableLightningKbAutoLoadRichTextField>true</enableLightningKbAutoLoadRichTextField>
     <enableLightningKnowledge>true</enableLightningKnowledge>
-    <showArticleSummariesCustomerPortal>false</showArticleSummariesCustomerPortal>
-    <showArticleSummariesInternalApp>false</showArticleSummariesInternalApp>
-    <showArticleSummariesPartnerPortal>false</showArticleSummariesPartnerPortal>
-    <showValidationStatusField>false</showValidationStatusField>
+    <showArticleSummariesCustomerPortal>true</showArticleSummariesCustomerPortal>
+    <showArticleSummariesInternalApp>true</showArticleSummariesInternalApp>
+    <showArticleSummariesPartnerPortal>true</showArticleSummariesPartnerPortal>
+    <showValidationStatusField>true</showValidationStatusField>
     <suggestedArticles>
         <caseFields>
             <field>
                 <name>Subject</name>
+            </field>
+            <field>
+                <name>Category__c</name>
+            </field>
+            <field>
+                <name>Sub_Category__c</name>
             </field>
         </caseFields>
         <useSuggestedArticlesForCase>true</useSuggestedArticlesForCase>

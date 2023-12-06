@@ -1,0 +1,66 @@
+/**
+ * @description Test class for ServiceAppointmentTriggerHandler
+ * 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------|
+      | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                      | 
+ */
+@isTest
+public with sharing class ServiceAppointmentTriggerHandlerTest {
+    
+    @testSetup
+    static void testSetup() {
+        Test.startTest();
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Domestic_Future_Student_Agent' });
+        Test.stopTest();
+
+    }
+
+    @isTest
+    private static void updateContactLeadLinkedtoServiceAppointmentBeforeInsertTest(){
+        
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            Test.startTest();
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            update newContacts;
+
+            List<Account> newAccounts = new List<Account>();
+            newAccounts.add(TestDataFactory.createTestAccount(false));
+            newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
+            AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
+            // the insertion of Service Appointment record is excluded in the startTest() and stopTest() because the trigger is dependent with asynchronous process from Contact trigger
+            // to get the value of related marketing segmentation record of contact
+
+            List<ServiceAppointment> serviceAppointmentList = TestDataFactory.createTestServiceAppointmentRecords(1, newAccounts[0].Id);
+            serviceAppointmentList[0].Contact__c = newContacts[0].Id;
+            serviceAppointmentList[0].Email = 'testContact@mailinator.com';
+            serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
+            serviceAppointmentList[0].Web_Mobile_No_Locale__c = '11111';
+            serviceAppointmentList[0].Marketing_Consent__c = true;
+            serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
+            serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
+            serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
+            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
+
+            List<Contact> updatedContact = [SELECT Id, Email, Email_Opt_In_DateTime__c,ContactMobile_Locale__c, Mobile_No_Locale__c FROM Contact];
+            List<Marketing_Segmentation__c> updatedMarketingSeg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>{newContacts[0].Id}, new Set<Id>(), AccessLevel.SYSTEM_MODE);
+            List<ServiceAppointment> serviceAppList = [SELECT Id,Email,Mobile_Locale__c,Mobile_No_Locale__c, My_Citizenship_Status__c, My_Country_Of_Citizenship__c, My_Country_Of_Residency__c FROM ServiceAppointment];
+
+            System.assertEquals(serviceAppList[0].Email, updatedContact[0].Email, 'Email should be populated');
+            System.assert(updatedContact[0].Email_Opt_In_DateTime__c != null, 'Email_Opt_In_DateTime__c should be populated');
+            System.assertEquals(serviceAppList[0].Mobile_Locale__c, updatedContact[0].ContactMobile_Locale__c, 'ContactMobile_Locale__c should be populated');
+            System.assertEquals(serviceAppList[0].Mobile_No_Locale__c, updatedContact[0].Mobile_No_Locale__c, 'Mobile_No_Locale__c should be populated');
+            System.assertEquals(serviceAppList[0].My_Citizenship_Status__c, updatedMarketingSeg[0].My_Citizenship_Status__c, 'My_Citizenship_Status__c should be populated');
+            System.assertEquals(serviceAppList[0].My_Country_Of_Citizenship__c, updatedMarketingSeg[0].My_Country_Of_Citizenship__c, 'My_Country_Of_Citizenship__c should be populated');
+            System.assertEquals(serviceAppList[0].My_Country_Of_Residency__c, updatedMarketingSeg[0].My_Country_Of_Residency__c, 'My_Country_Of_Residency__c should be populated');
+        }
+    }
+}

@@ -69,13 +69,10 @@ public with sharing class LeadScoreConfigEmailInteractService {
             indvEmail.et4ae5__Opened__c && 
             indvEmail.et4ae5__Clicked__c &&
             !indvEmail.Lead_Score_Reset__c &&
-            (  
-                timeLimit != null && 
-                DateService.isDateWithinRangeDefaultFalse(
-                    today, 
-                    indvEmail.et4ae5__DateOpened__c.date(), 
-                    indvEmail.et4ae5__DateOpened__c.date().addMonths(timeLimit)
-                )
+            DateService.isDateWithinRangeDefaultFalse(
+                today, 
+                indvEmail.et4ae5__DateOpened__c.date(), 
+                indvEmail.et4ae5__DateOpened__c.date().addMonths(timeLimit)
             );
     }
 }

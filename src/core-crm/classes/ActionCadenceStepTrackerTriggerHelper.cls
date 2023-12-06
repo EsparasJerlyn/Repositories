@@ -14,6 +14,8 @@
       |                                |                       |                        | cadence step tracker to C.Q.  |
       | mark.j.mahilum                 | Oct 05, 2023          | DEPP-6781              | Added field mapping to duedate|
       | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added SMS logic               |
+      | mark.j.mahilum                 | Nov 11, 2023          | DEPP-7110              | Added logic to delete SMS     |
+      |                                |                       |                        | completed tasks               |
  */
 public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
@@ -44,6 +46,12 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
                 if(!insertCommunicationQueue.isEmpty()){
                     CommunicationQueuesDAO.newInstance().insertRecords(insertCommunicationQueue, false, AccessLevel.SYSTEM_MODE);
+                }
+                
+                //get the completed tasks created by SMS Cadence Step
+                List<Task> completedTaskList = TasksDAO.newInstance().getCompletedSMSTasksByActionCadenceStepTrackerId(new Set<String>(recordIds));
+                if (!completedTaskList.isEmpty()) {
+                    TasksDAO.newInstance().deleteRecords(completedTaskList, false, AccessLevel.SYSTEM_MODE);
                 }
                 
             }catch(Exception e){
