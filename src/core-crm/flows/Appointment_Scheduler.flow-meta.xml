@@ -194,6 +194,13 @@
                 <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SetDefaultTimeZone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Australia/Brisbane</stringValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Time_Slot_Screen</targetReference>
         </connector>
@@ -611,7 +618,7 @@
             <inputParameters>
                 <name>preselectedTimezone</name>
                 <value>
-                    <elementReference>DefaultTimeZone</elementReference>
+                    <elementReference>SetDefaultTimeZone</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -882,6 +889,13 @@
     </variables>
     <variables>
         <name>serviceResources</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SetDefaultTimeZone</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

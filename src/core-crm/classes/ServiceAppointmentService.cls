@@ -86,7 +86,7 @@ public inherited sharing class ServiceAppointmentService {
      */
     public static void sendEmailAfterServiceAppointmentCancellation(List<ServiceAppointment> internationalServiceAppointments,List<ServiceAppointment> domesticServiceAppointments) {
         List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES,OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByDeveloperNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'USER_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByDeveloperNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
         
         if(!internationalServiceAppointments.isEmpty()){
             sendEmail(internationalServiceAppointments,owea,emailTemplate.get(0));
@@ -120,7 +120,7 @@ public inherited sharing class ServiceAppointmentService {
                     '{{{ServiceAppointment.SchedStartTime}}}' => schedStartTime
                 };
     
-                //Build the email
+                // Build the email
                 msg.setToAddresses(new String[]{sa.Appointment_Email__c});
                 msg.setSubject(emailTemplate.Subject);
                 msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate.HtmlValue, emailParams, false));
