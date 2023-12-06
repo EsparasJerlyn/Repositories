@@ -388,6 +388,9 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                     if(layout && layout.field == 'hed__Capacity__c'){
                         _layout.value = this.parentRecord.Maximum_Participants__c;
                     }
+                    if(layout && layout.field == 'LMS_Integration_Status__c'){
+                        _layout.disabled = true;
+                    }
                     return _layout;
                 });
             }
