@@ -16,6 +16,9 @@
         <assignmentItems>
             <assignToReference>$Record.MobilePhone</assignToReference>
             <operator>Assign</operator>
+            <value>
+                <elementReference>MobileFullNumber</elementReference>
+            </value>
         </assignmentItems>
         <connector>
             <targetReference>Work_Phone_Is_Changed</targetReference>
@@ -36,6 +39,9 @@
         <assignmentItems>
             <assignToReference>$Record.Phone</assignToReference>
             <operator>Assign</operator>
+            <value>
+                <elementReference>PhoneFullNumber</elementReference>
+            </value>
         </assignmentItems>
         <connector>
             <targetReference>Mobile_Is_Changed</targetReference>
@@ -56,6 +62,9 @@
         <assignmentItems>
             <assignToReference>$Record.hed__WorkPhone__c</assignToReference>
             <operator>Assign</operator>
+            <value>
+                <elementReference>WorkFullNumber</elementReference>
+            </value>
         </assignmentItems>
     </assignments>
     <assignments>
@@ -228,7 +237,7 @@
         </rules>
         <rules>
             <name>Yes_Mobile_Is_Changed</name>
-            <conditionLogic>2 AND (4 OR 5) AND (1 OR 3 OR (6 AND 7 ) )</conditionLogic>
+            <conditionLogic>2 AND (4 OR 5) AND (1 OR 3 OR 6 )</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Mobile_No_Locale__c</leftValueReference>
                 <operator>IsChanged</operator>
@@ -266,13 +275,6 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record__Prior.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.MobilePhone</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -627,17 +629,57 @@
     <formulas>
         <name>MobileFullNumber</name>
         <dataType>String</dataType>
-        <expression>{!CountryLocaleNumber}&amp;TEXT(VALUE(IF(MobileHasLocale,TRIM(RIGHT(TEXT(VALUE({!$Record.Mobile_No_Locale__c})),LEN(TEXT(VALUE({!$Record.Mobile_No_Locale__c}))) - LEN({!CountryLocaleNumber}))),{!$Record.Mobile_No_Locale__c})))</expression>
+        <expression>{!CountryLocaleNumber} &amp;
+TEXT(
+    VALUE(
+        IF(
+            MobileHasLocale,
+            TRIM(
+                    RIGHT(
+                        TEXT(
+                            VALUE({!$Record.MobilePhone})
+                        ),
+                        LEN(TEXT(VALUE({!$Record.MobilePhone}))) - LEN({!CountryLocaleNumber})
+                    )
+            ),
+            {!$Record.Mobile_No_Locale__c}
+        )
+    )
+)</expression>
     </formulas>
     <formulas>
         <name>MobileHasLocale</name>
         <dataType>Boolean</dataType>
-        <expression>IF(LEFT(TEXT(VALUE({!$Record.Mobile_No_Locale__c})),LEN({!CountryLocaleNumber})) = {!CountryLocaleNumber},  TRUE, FALSE)</expression>
+        <expression>IF(
+    LEFT(
+        TEXT(
+            VALUE({!$Record.MobilePhone}
+            )
+        ),
+        LEN({!CountryLocaleNumber})
+    ) = {!CountryLocaleNumber},  TRUE, FALSE
+)</expression>
     </formulas>
     <formulas>
         <name>PhoneFullNumber</name>
         <dataType>String</dataType>
-        <expression>{!CountryLocaleNumber}&amp;TEXT(VALUE(IF(PhoneHasLocale,TRIM(RIGHT(TEXT(VALUE({!$Record.Phone_No_Locale__c})),LEN(TEXT(VALUE({!$Record.Phone_No_Locale__c}))) - LEN({!CountryLocaleNumber}))),{!$Record.Phone_No_Locale__c})))</expression>
+        <expression>{!CountryLocaleNumber} &amp;
+TEXT(
+    VALUE(
+        IF(
+            PhoneHasLocale,
+            TRIM(
+                RIGHT(
+                    TEXT(
+                        VALUE({!$Record.Phone})
+                    ),
+                    LEN(TEXT(VALUE({!$Record.Phone}))) - LEN({!CountryLocaleNumber})
+                )
+            ),
+            {!$Record.Phone_No_Locale__c}
+        )
+    )
+)</expression>
     </formulas>
     <formulas>
         <name>PhoneHasLocale</name>
@@ -647,7 +689,23 @@
     <formulas>
         <name>WorkFullNumber</name>
         <dataType>String</dataType>
-        <expression>{!CountryLocaleNumber}&amp;TEXT(VALUE(IF(WorkHasLocale,TRIM(RIGHT(TEXT(VALUE({!$Record.Work_Phone_No_Locale__c})),LEN(TEXT(VALUE({!$Record.Work_Phone_No_Locale__c}))) - LEN({!CountryLocaleNumber}))),{!$Record.Work_Phone_No_Locale__c})))</expression>
+        <expression>{!CountryLocaleNumber} &amp;
+TEXT(
+    VALUE(
+        IF(
+            WorkHasLocale,
+            TRIM(
+                RIGHT(
+                    TEXT(
+                        VALUE({!$Record.hed__WorkPhone__c})
+                    ),
+                    LEN(TEXT(VALUE({!$Record.hed__WorkPhone__c}))) - LEN({!CountryLocaleNumber})
+                )
+            ),
+            {!$Record.Work_Phone_No_Locale__c}
+        )
+    )
+)</expression>
     </formulas>
     <formulas>
         <name>WorkHasLocale</name>
@@ -689,7 +747,7 @@
             <field>Display_Name__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Phone_No_Locale__c</elementReference>
+                <elementReference>$Record.ContactPhone_Locale__c</elementReference>
             </value>
         </filters>
         <object>Mobile_Country_Code__mdt</object>
@@ -712,7 +770,7 @@
             <field>Display_Name__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.Mobile_No_Locale__c</elementReference>
+                <elementReference>$Record.ContactMobile_Locale__c</elementReference>
             </value>
         </filters>
         <object>Mobile_Country_Code__mdt</object>

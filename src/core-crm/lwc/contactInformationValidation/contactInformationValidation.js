@@ -34,6 +34,7 @@ const CONTACT_VERIFICATION_SECTION_HEADER = "Contact Verification";
 const LEAD_VERIFICATION_SECTION_HEADER = "Lead Contact Verification";
 const STR_NONE = "None";
 const STR_NOT_VALID = "Not Valid";
+const STR_UNVALIDATED = "Unvalidated";
 const STR_VALID = "Valid";
 const STR_DOT = ".";
 const STR_AU = "Australia (+61)";
@@ -140,7 +141,8 @@ export default class ContactInformationValidation extends LightningElement {
   handleFieldValues({ error, data }) {
     if (data) {
       //get all non-empty fields with 'None' validation status
-      this.fieldsToValidate = this.fieldsMapping
+      const fieldsMapping = this.fieldsMapping;
+      const fieldsToValidate = fieldsMapping
         .filter(
           (field) =>
             getFieldValue(
@@ -172,6 +174,23 @@ export default class ContactInformationValidation extends LightningElement {
           return _field;
         });
 
+      fieldsMapping.forEach(field => {
+        let isValidated = false;
+        let fieldStatus = getFieldValue(
+          data,
+          this.generateFieldName(field.statusValidationField)
+        );
+
+        if (fieldStatus == STR_VALID || fieldStatus == STR_UNVALIDATED || fieldStatus == STR_NOT_VALID) {
+          isValidated = true;
+        }
+
+        field.isValidated = isValidated;
+      });
+
+      this.fieldsMapping = fieldsMapping;
+
+      this.fieldsToValidate = fieldsToValidate;
       this.publishMessage();
     } else if (error) {
       this.generateToast("Error.", LWC_Error_General, "error");
@@ -223,20 +242,16 @@ export default class ContactInformationValidation extends LightningElement {
     fields.Id = this.recordId;
 
     this.fieldsMapping.forEach((field) => {
-      if (
-        (fields[field.apiNameNoLocale] &&
-          fields[field.localeField] !== STR_AU &&
-          fields[field.localeField] !== STR_NZ) ||
-        (fields[field.apiNameNoLocale] &&
-          (field.apiName == "Phone" ||
-            field.apiName == "hed__WorkPhone__c" ||
-            field.apiName == "Work_Phone__c"))
-      ) {
-        fields[field.apiName] = this.combineLocaleAndNumber(
+      let apiName = '';
+
+      if (fields[field.apiNameNoLocale]) {
+        apiName= this.combineLocaleAndNumber(
           fields[field.localeField],
           fields[field.apiNameNoLocale]
         );
       }
+
+      fields[field.apiName] = apiName;
     });
 
     this.template.querySelector("lightning-record-edit-form").submit(fields);
