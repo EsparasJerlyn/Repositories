@@ -183,7 +183,7 @@ private class Update_Product_from_CourseTest{
                 courses[i].Certificate_Type__c = 'Certificate of Achievement';
                 courses[i].Delivery_Type__c = 'Face to Face';
                 courses[i].Description__c = 'test';
-                courses[i].Primary_Delivery_Platform__c = 'Blackboard';
+                courses[i].Primary_Delivery_Platform__c = 'QUT Canvas';
                 courses[i].Owning_Faculty__c = accounts[0].Id;
                 courses[i].Owning_School_Discipline_Area__c = owningSchoolAccounts[0].Id;
                 courses[i].Overviewv2__c = 'test';

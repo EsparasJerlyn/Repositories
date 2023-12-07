@@ -9,6 +9,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | July 30, 2022         | DEPP-3557              | Created file                 |
       | rhea.b.torres                  | November 25, 2022     | DEPP-4628              | 7-day window logic update    | 
+      | kenneth.f.alsay                | December 6, 2023      | DEPP-7339              | Updated query as per AC3     |
  */
 public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
 {
@@ -22,7 +23,7 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
     {
         /**
          * startdate of offering starts 7 days from today
-         * primary delivery platform is blackboard
+         * primary delivery platform is QUT Canvas
          * Student Username is available
          * and active enrollment
          * is student
@@ -32,11 +33,12 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
         'SELECT Id, hed__Contact__c ' + 
         'FROM hed__Course_Enrollment__c ' + 
     	'WHERE hed__Course_Offering__r.hed__Start_Date__c =:sevenDaysBefore ' +
-        'AND hed__Course_Offering__r.Primary_Delivery_Platform__c = \'Blackboard\' ' + 
+        'AND hed__Course_Offering__r.Primary_Delivery_Platform__c = \'QUT Canvas\' ' + 
         'AND hed__Contact__r.QUT_Student_Username__c != null ' + 
         'AND hed__Contact__r.Registered_Email__c != null ' +
         'AND hed__Status__c  = \'Active\' ' + 
-        'AND RecordType.DeveloperName = \'Student\' ';
+        'AND RecordType.DeveloperName = \'Student\' ' +
+        'AND LMS_Integration_Status__c = \'Success\' ';
         return Database.getQueryLocator(query);
     }
 
