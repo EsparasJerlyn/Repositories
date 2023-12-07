@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Future_Student_Domestic_Service_Appointment_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Future Student - Domestic Service Appointment Sharing Rule</description>
+        <label>Future Student - Domestic Service Appointment Sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Future_Student_Super_User_Domestic</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>My_Citizenship_Status__c</field>
+            <operation>equals</operation>
+            <value>Australian Citizen or Permanent Resident,New Zealand Citizen</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Future_Student_International_Service_Appointment_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Future Student - International Service Appointment Sharing Rule</description>
+        <label>Future Student - International Service Appointment Sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Future_Student_Super_User_International</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>My_Citizenship_Status__c</field>
+            <operation>equals</operation>
+            <value>International Student</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>
