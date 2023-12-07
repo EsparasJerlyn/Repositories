@@ -83,7 +83,7 @@
         <inputAssignments>
             <field>Email</field>
             <value>
-                <elementReference>Email</elementReference>
+                <elementReference>Email.value</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -225,13 +225,23 @@
                 </fields>
                 <fields>
                     <name>Email</name>
-                    <dataType>String</dataType>
-                    <defaultValue>
-                        <elementReference>Get_Service_Appointment_Record.Web_Email__c</elementReference>
-                    </defaultValue>
-                    <fieldText>Email</fieldText>
-                    <fieldType>InputField</fieldType>
+                    <extensionName>flowruntime:email</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>value</name>
+                        <value>
+                            <elementReference>Get_Service_Appointment_Record.Web_Email__c</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <inputParameters>
                     <name>width</name>
