@@ -18,8 +18,9 @@
 | rhea.b.torres                  | August 9, 2022        | DEPP-3723              | Added logic to send Welcome Email for learners with QUT Student Username      |
 | rhea.b.torres                  | August 18, 2022       | DEPP-2002              | Added logic for creating Session records for Diagnostic Tool                  |
 | rhea.b.torres                  | November 25, 2022     | DEPP-4628              | Welcome Email implementation                                                  |
-| roy.nino.s.regala              | Sep 20, 2023          | DEPP-6417              | Added before update method, processEnrolmentPricingValidation                |
-
+| roy.nino.s.regala              | Sep 20, 2023          | DEPP-6417              | Added before update method, processEnrolmentPricingValidation                 |
+| kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | Added before update method, setLMSIntegrationStatusToNull                 	  |
+| kenneth.f.alsay                | December 6, 2023      | DEPP-7339              | Updated query in sendWelcomeEmail method as per AC2                           |
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate, AfterDelete {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -49,6 +50,10 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     Map<Id, SObject> oldItems
   ) {
     CourseConPricingValidationHelper.processEnrolmentPricingValidation(
+      (List<hed__Course_Enrollment__c>) newItems.values(),
+      (Map<Id,hed__Course_Enrollment__c>) oldItems
+    );
+    CourseConnectionTriggerHelper.setLMSIntegrationStatusToNull(
       (List<hed__Course_Enrollment__c>) newItems.values(),
       (Map<Id,hed__Course_Enrollment__c>) oldItems
     );
@@ -99,6 +104,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     );
 
     List<hed__Course_Enrollment__c> courseConNewStatusList = new List<hed__Course_Enrollment__c>();
+    List<hed__Course_Enrollment__c> cancelledCourseConnectionList = new List<hed__Course_Enrollment__c>();
 
     Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>) newItems;
     Map<Id,hed__Course_Enrollment__c> oldMap = (Map<Id, hed__Course_Enrollment__c>) oldItems;
@@ -112,7 +118,7 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     if(!courseConNewStatusList.isEmpty()){
       ProductLedgerTriggerHelper.productLedgerRollUpUpdate(courseConNewStatusList);
     }   
-      
+
     ESBIntegrateOnCourseConnectionUpsert.calloutToMDM((Map<Id, hed__Course_Enrollment__c>) newItems);
   }
     
@@ -259,11 +265,12 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
                                                       SELECT Id, hed__Contact__c,hed__Course_Offering__r.hed__Start_Date__c
                                                       FROM hed__Course_Enrollment__c
                                                       WHERE Id IN: courseConnectionIdSet
-                                                        AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'Blackboard'
+                                                        AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'QUT Canvas'
                                                         AND hed__Contact__r.QUT_Student_Username__c != null
                                                         AND hed__Contact__r.Registered_Email__c != null
                                                         AND hed__Status__c = 'Active'
-                                                        AND RecordTypeId =:STUDENT_RECTYPEID WITH SECURITY_ENFORCED]){
+                                                        AND RecordTypeId =:STUDENT_RECTYPEID
+                                                        AND LMS_Integration_Status__c = 'Success' WITH SECURITY_ENFORCED]){
       Integer dayBeforeStart = Date.today().daysBetween(courseConnection.hed__Course_Offering__r.hed__Start_Date__c);
       if(dayBeforeStart <= 7){
         contactsToSendWelcomeEmailSet.add(courseConnection.hed__Contact__c); //set of contacts who will receive welcome email

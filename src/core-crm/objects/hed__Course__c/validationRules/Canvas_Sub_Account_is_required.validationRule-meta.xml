@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canvas_Sub_Account_is_required</fullName>
+    <active>true</active>
+    <description>This ensure that the Canvas Sub-Account field has value</description>
+    <errorConditionFormula>AND (
+ OR(
+  RecordType.DeveloperName = &apos;Activity&apos;,
+  RecordType.DeveloperName = &apos;Short_Course&apos;,
+  RecordType.DeveloperName = &apos;Unit&apos;,
+  RecordType.DeveloperName = &apos;Module&apos;,
+  RecordType.DeveloperName = &apos;Individual_Coaching&apos;,
+  RecordType.DeveloperName = &apos;Group_Coaching&apos;
+ ),
+ ISPICKVAL( ProductRequestID__r.Product_Request_Status__c , &apos;Design&apos;),
+ ISPICKVAL( Primary_Delivery_Platform__c , &apos;QUT Canvas&apos;),
+ ISBLANK( TEXT ( Canvas_Sub_Account__c  ) ),
+ Mark_Design_Stage_as_Complete__c = true
+)</errorConditionFormula>
+    <errorDisplayField>Canvas_Sub_Account__c</errorDisplayField>
+    <errorMessage>Please ensure that the Canvas Sub-Account is completed when the Primary Delivery Platform = QUT Canvas</errorMessage>
+</ValidationRule>

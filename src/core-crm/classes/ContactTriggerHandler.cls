@@ -34,6 +34,7 @@
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added lead score calculation    |
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | updated creation of marketing   |
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | segmentation to future          |
+      | kenneth.f.alsay                | December 06, 2023     | DEPP-7339              | updated query in sendWelcomeEmail|
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -184,7 +185,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   }
 
   /**
-   * @description Sends Welcome email to the list of contacts which is enrolled to a blackboard
+   * @description Sends Welcome email to the list of contacts which is enrolled to QUT Canvas
    * @param contactSet - List of Contact.Trigger.new
    */
   private void sendWelcomeEmail(Set<Id> contactSet){
@@ -196,10 +197,11 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
         SELECT Id, hed__Contact__c,hed__Course_Offering__r.hed__Start_Date__c
         FROM hed__Course_Enrollment__c
         WHERE hed__Contact__r.Id IN: contactSet
-          AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'Blackboard'
+          AND hed__Course_Offering__r.Primary_Delivery_Platform__c = 'QUT Canvas'
           AND hed__Contact__r.Registered_Email__c != null
           AND hed__Status__c = 'Active'
           AND RecordType.DeveloperName =:STUDENT
+          AND LMS_Integration_Status__c = 'Success' 
       ];
     }
 
