@@ -49,7 +49,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Id, Name, OperatingHoursId, EstimatedDuration, DurationType, ApptStartTimeIntvlInMin FROM WorkType",
+            "query": "SELECT Id, Name, OperatingHoursId, EstimatedDuration, DurationType, ApptStartTimeIntvlInMin,TimeframeStart,TimeFrameStartUnit,TimeframeEnd,TimeFrameEndUnit FROM WorkType",
             "operation": "Insert",
             "externalId": "Name",
             "useCSVValuesMapping": true,
