@@ -280,6 +280,7 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
         <fields>Name</fields>
         <fields>Appointment_Topic__c</fields>
         <fields>SchedStartTime</fields>
