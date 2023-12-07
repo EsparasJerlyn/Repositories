@@ -51,4 +51,17 @@ public with sharing class TasksDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getCompletedSMSTasksByActionCadenceStepTrackerIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<task> taskList = TasksDAO.newInstance()
+                .getCompletedSMSTasksByActionCadenceStepTrackerId(
+                    new Set<String>()
+                );
+            System.assert(taskList.isEmpty(), 'taskList should not be empty.');
+        }
+        Test.stopTest();
+    }
 }

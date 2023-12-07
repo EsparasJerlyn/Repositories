@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Domestic_Manual_Cadences</fullName>
+    <columns>Name</columns>
+    <columns>State</columns>
+    <columns>LastModifiedBy</columns>
+    <columns>LastModifiedDate</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Name</field>
+        <operation>startsWith</operation>
+        <value>Domestic</value>
+    </filters>
+    <filters>
+        <field>Name</field>
+        <operation>notContain</operation>
+        <value>(Automated)</value>
+    </filters>
+    <label>Domestic Manual Cadences</label>
+    <sharedTo>
+        <role>Future_Student_Super_User_Domestic</role>
+        <role>System_Administrator</role>
+    </sharedTo>
+</ListView>

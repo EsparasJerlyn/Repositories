@@ -53,4 +53,18 @@ public with sharing class EmailTemplatesDAOTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void getEmailTemplatesByDeveloperNameSetTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<EmailTemplate> emailTempList = EmailTemplatesDAO.newInstance()
+                .getEmailTemplatesByDeveloperNameSet(
+                    new Set<String>(),
+                    'USER_MODE'
+                );
+            System.assert(emailTempList.isEmpty(), 'emailTempList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
 }

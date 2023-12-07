@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appointment_Email__c</fullName>
+    <description>Appointment setters email address</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    NOT(ISBLANK( Web_Email__c  )),
+    Web_Email__c ,
+    IF(
+        NOT(ISBLANK(  Contact__r.Email  )),
+        Contact__r.Email,
+        IF(
+            NOT(ISBLANK(  LeadId__r.Email  )),
+            LeadId__r.Email,
+            IF(
+                NOT(ISBLANK( CaseId__r.Contact.Email )),
+                CaseId__r.Contact.Email,
+                IF(
+                   NOT(ISBLANK( CaseId__r.Lead__r.Email  )),
+                   CaseId__r.Lead__r.Email,
+                 &quot;&quot;
+                )
+           )
+               
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Email</label>
+    <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

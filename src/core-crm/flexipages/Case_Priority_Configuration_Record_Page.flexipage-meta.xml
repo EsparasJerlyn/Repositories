@@ -85,6 +85,16 @@
                 <identifier>RecordPriority_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Active__c</fieldItem>
+                <identifier>RecordIs_Active_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-f364ea33-071a-4c8c-b791-fb33486b6e6f</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -135,8 +145,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Active__c</fieldItem>
-                <identifier>RecordIs_Active_cField</identifier>
+                <fieldItem>Record.Applicant_Onshore__c</fieldItem>
+                <identifier>RecordApplicant_Onshore_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-073bc802-4d21-4b2b-8f64-080c45c5ed09</name>

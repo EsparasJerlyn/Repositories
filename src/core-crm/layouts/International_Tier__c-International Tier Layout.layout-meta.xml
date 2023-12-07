@@ -25,10 +25,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Tier_Priority__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
                 <field>Tier_Category__c</field>
             </layoutItems>
             <layoutItems>

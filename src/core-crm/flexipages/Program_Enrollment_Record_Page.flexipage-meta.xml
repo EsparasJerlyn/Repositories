@@ -66,8 +66,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__Start_Date__c</fieldItem>
-                <identifier>Recordhed_Start_Date_cField2</identifier>
+                <fieldItem>Record.Commencement_Date__c</fieldItem>
+                <identifier>RecordCommencement_Date_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -76,18 +76,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Completion_Date__c</fieldItem>
-                <identifier>RecordCompletion_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Graduating_Faculty_A__c</fieldItem>
-                <identifier>RecordGraduating_Faculty_A_cField</identifier>
+                <fieldItem>Record.Discontinued_Date__c</fieldItem>
+                <identifier>RecordDiscontinued_Date_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -106,8 +96,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.hed__GPA__c</fieldItem>
-                <identifier>Recordhed_GPA_cField</identifier>
+                <fieldItem>Record.Graduating_Faculty_A__c</fieldItem>
+                <identifier>RecordGraduating_Faculty_A_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -118,6 +108,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Visa_Effective_Date__c</fieldItem>
                 <identifier>RecordVisa_Effective_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Visa_Status__c</fieldItem>
+                <identifier>RecordVisa_Status_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-20e01279-b7f6-4f8e-b7d8-00e262838e0a</name>
@@ -160,8 +160,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Commencement_Date__c</fieldItem>
-                <identifier>RecordCommencement_Date_cField</identifier>
+                <fieldItem>Record.Completion_Date__c</fieldItem>
+                <identifier>RecordCompletion_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -170,18 +170,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Discontinued_Date__c</fieldItem>
-                <identifier>RecordDiscontinued_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Graduating_Faculty_B__c</fieldItem>
-                <identifier>RecordGraduating_Faculty_B_cField</identifier>
+                <fieldItem>Record.hed__GPA__c</fieldItem>
+                <identifier>Recordhed_GPA_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -200,8 +190,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Visa_Status__c</fieldItem>
-                <identifier>RecordVisa_Status_cField</identifier>
+                <fieldItem>Record.Graduating_Faculty_B__c</fieldItem>
+                <identifier>RecordGraduating_Faculty_B_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

@@ -104,8 +104,7 @@ public with sharing class ApplicationTriggerHelper {
                 recordsToReference.application = application;
                 recordsToReference.oldApplication = oldItems == null ? null : (hed__Application__c) oldItems.get(application.Id);
                 // field updates...
-                ApplicationService.mapFieldsToApplicant(applicant, recordsToReference.application);
-                ApplicationService.switchMapFieldsByRecordType(applicant, recordsToReference);
+                ApplicationService.mappedApplicationToContact(applicant, recordsToReference);
             }
         }
         // update

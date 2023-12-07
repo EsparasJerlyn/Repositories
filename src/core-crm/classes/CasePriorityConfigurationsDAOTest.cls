@@ -40,4 +40,5 @@ public with sharing class CasePriorityConfigurationsDAOTest {
             Test.stopTest();
         }
     }
+    
 }
