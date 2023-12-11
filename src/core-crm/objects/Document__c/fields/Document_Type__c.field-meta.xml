@@ -3,7 +3,7 @@
     <fullName>Document_Type__c</fullName>
     <description>The document type.</description>
     <externalId>false</externalId>
-    <inlineHelpText>The name of the Startup Company.</inlineHelpText>
+    <inlineHelpText>The document type i.e., proposal, agreement etc.</inlineHelpText>
     <label>Document Type</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
