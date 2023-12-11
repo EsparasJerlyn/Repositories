@@ -175,6 +175,11 @@ export default class ContactInformationValidation extends LightningElement {
         });
 
       fieldsMapping.forEach(field => {
+        const localeFieldValue = getFieldValue(
+          data,
+          this.generateFieldName(field.localeField)
+        );
+
         let isValidated = false;
         let fieldStatus = getFieldValue(
           data,
@@ -186,6 +191,7 @@ export default class ContactInformationValidation extends LightningElement {
         }
 
         field.isValidated = isValidated;
+        field.localeFieldValue = localeFieldValue;
       });
 
       this.fieldsMapping = fieldsMapping;

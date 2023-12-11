@@ -21,15 +21,10 @@
                             <template if:false={fieldItem.isValidated}>
                                 <lightning-layout-item if:false={disableEditButton} size="4" class="slds-align-bottom slds-p-right_small">
                                     <div class="slds-border_bottom">
-                                        <lightning-layout-item if:false={disableEditButton} size="4" class="slds-align-bottom slds-p-right_small">
-                                            <span class="slds-form-element__label">
-                                                {fieldItem.localeLabel}
-                                            </span>
-                                            <lightning-output-field
-                                                variant="label-hidden"
-                                                field-name={fieldItem.localeField}>
-                                            </lightning-output-field>
-                                        </lightning-layout-item>
+                                        <span class="slds-form-element__label">
+                                            {fieldItem.localeLabel}
+                                        </span>
+                                        <p>{fieldItem.localeFieldValue}</p>
                                     </div>
                                 </lightning-layout-item>
                             </template>
