@@ -219,6 +219,9 @@
                     <name>Mobile_Locale</name>
                     <choiceReferences>MobileLocaleChoiceSet</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Get_Service_Appointment_Record.Web_Mobile_Locale__c</elementReference>
+                    </defaultValue>
                     <fieldText>Mobile Locale</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>false</isRequired>
