@@ -163,6 +163,9 @@
         <members>Contact.QLD_School_Name__c</members>
         <members>Contact.Year_of_Arrival__c</members>
         <!-- End DEPP-6482-->
+        <!-- Start DEPP-7143-->
+        <members>International_Tier__c.Tier_Priority__c</members>
+        <!-- End DEPP-7143-->
         <name>CustomField</name>
     </types>
     <types>
