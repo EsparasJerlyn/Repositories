@@ -17,9 +17,27 @@
  *    | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | fixed pmd issue                                           |
  *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c |
  *    | roy.nino.s.regala              | Nov 22, 2023          | DEPP-7283              | validate contact/lead before assigning to cadence and user|
+ *    | roy.nino.s.regala              | Dec 11, 2023          | DEPP-7311              | Added assign to others logic and user filter              |
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
+
+    private static final Map<String,Set<String>> ROLE_MAPPING = new Map<String,Set<String>>{
+        'Domestic' => new Set<String>{
+            'Future_Student_Agent_Domestic',
+            'Future_Student_Concierge_Domestic',
+            'Future_Student_Team_Leader_Domestic'
+        },
+        'International' => new Set<String>{
+            'Future_Student_Agent_International',
+            'Future_Student_Concierge_International',
+            'Future_Student_Team_Leader_International'
+        }
+    };
+    private static final Set<String> TEAM_LEADER_ROLES = new Set<String>{
+        'Future_Student_Team_Leader_International',
+        'Future_Student_Team_Leader_Domestic'
+    };
 
     /**
      * @description gets the data for the salescadence on the list view
@@ -187,14 +205,13 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
      *                                   e.g. "[{targetId:003A4434F,salesCadenceNameOrId:'Domestic Strong Interest Pre-Application Edit'}]"
      */
     @AuraEnabled
-    public static void assignToMe(List<Object> targetsToEnroll, String targetsToChange) {
-
+    public static void assignToCadence(List<Object> targetsToEnroll, String targetsToChange) {
         if(targetsToEnroll.isEmpty()){
             return;
         }
-        
-        Map<String, List<Object>> targetMap = new Map<String, List<Object>>();
 
+        Map<String, List<Object>> targetMap = new Map<String, List<Object>>();
+        
         String endPoint = ASSIGN_TARGET_CADENCE_ENDPOINT;
 
         //rempves the contact/lead from the table by changing the calculated cadence value
@@ -354,6 +371,105 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         if (!targetIdCadenceMap.isEmpty()) {
             SalesCadenceCalloutService.updateCompletedCadences(targetIdCadenceMap);
         }
+    }
+
+        /**
+     * @description get list of user searched
+     * @param filterString - search string for filter
+     * @param citizenship - tells us if domestic or international
+     * @return list of map of formatted user for customSearch
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> getSearchedUsers(
+        String filterString,
+        String citizenship
+    ) {
+        List<Map<String, String>> userMap = new List<Map<String, String>>();
+        Set<String> roleSet = ROLE_MAPPING.get(citizenship);
+
+        if(String.isBlank(filterString)){
+            return userMap;
+        }
+
+        String whereClause = 'UserRole.DeveloperName IN';
+        whereClause += '(\'' + String.join(roleSet, '\',\'') + '\')';
+        whereClause += ' AND Id != ' + '\'' + UserInfo.getUserId() + '\'';
+
+        List<User> users = FlowLookupController.search(
+            filterString,
+            'User',
+            'Name',
+            'Id,Name,Email',
+            15,
+            whereClause,
+            ''
+        );
+
+        for (User user : users) {
+            userMap.add(
+                new Map<String, String>{
+                    'id' => user.Id,
+                    'label' => user.Name,
+                    'meta' => user.Email
+                }
+            );
+        }
+        return userMap;
+    }
+
+    /**
+     * @description get list of recently viewed user records
+     * @param citizenship - tells us if domestic or international
+     * @return list of map of formatted user for customSearch
+     */
+    @AuraEnabled
+    public static List<Map<String, String>> getRecentlyViewed(String citizenship) {
+        List<Map<String, String>> userMap = new List<Map<String, String>>();
+        Set<String> roleSet = ROLE_MAPPING.get(citizenship);
+
+        String whereClause = 'UserRole.DeveloperName IN';
+        whereClause += '(\'' + String.join(roleSet, '\',\'') + '\')';
+        whereClause += ' AND Id != ' + '\'' + UserInfo.getUserId() + '\'';
+
+        List<User> recentlyViewedUsers = FlowLookupController.getRecentlyViewed(
+            'User',
+            'Id,Name,Email',
+            5,
+            whereClause
+        );
+
+        for (User user : recentlyViewedUsers) {
+            userMap.add(
+                new Map<String, String>{
+                    'id' => user.Id,
+                    'label' => user.Name,
+                    'meta' => user.Email
+                }
+            );
+        }
+        return userMap;
+    }
+    /**
+     * @description get list of user searched
+     * @param filterString - search string for filter
+     * @param filterUsers - list of user ids
+     * @return list of map of formatted user for customSearch
+     */
+    @AuraEnabled(cacheable=true)
+    public static boolean checkUserRole() {
+        if (
+            TEAM_LEADER_ROLES.contains(
+                UsersDAO.newInstance()
+                        .getUsersByNameSet(
+                            new Set<String>{ UserInfo.getUserName() },
+                            AccessLevel.SYSTEM_MODE
+                        )[0]
+                    .UserRole.DeveloperName
+            )
+        ) {
+            return true;
+        }
+        return false;
     }
 
     private class DataTableWrapper {
