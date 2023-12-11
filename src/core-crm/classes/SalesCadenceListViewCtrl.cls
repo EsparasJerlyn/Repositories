@@ -6,8 +6,8 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
- *    |--------------------------------|-----------------------|------------------------|---------------------------------------|
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
  *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                                              |
  *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence                     |
  *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings                                  |
@@ -15,7 +15,8 @@
  *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated updateCalculatedCadence to                        |
  *    |                                |                       |                        |     include updateCompletedCadences                       |
  *    | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | fixed pmd issue                                           |
- *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c
+ *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c |
+ *    | roy.nino.s.regala              | Nov 22, 2023          | DEPP-7283              | validate contact/lead before assigning to cadence and user|
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
@@ -187,17 +188,98 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
      */
     @AuraEnabled
     public static void assignToMe(List<Object> targetsToEnroll, String targetsToChange) {
+
+        if(targetsToEnroll.isEmpty()){
+            return;
+        }
+        
         Map<String, List<Object>> targetMap = new Map<String, List<Object>>();
 
         String endPoint = ASSIGN_TARGET_CADENCE_ENDPOINT;
 
         //rempves the contact/lead from the table by changing the calculated cadence value
         updateCalculatedCadence(targetsToChange);
+        targetMap.put('inputs', targetsToEnroll);
+        doNativeCallout(JSON.serialize(targetMap), endPoint);
+    }
 
-        if (!targetsToEnroll.isEmpty()) {
-            targetMap.put('inputs', targetsToEnroll);
-            doNativeCallout(JSON.serialize(targetMap), endPoint);
+    private static void collectIdsToRemove(Set<Id> targetIdsToRemove, List<Id> targetIds, String calculatedCadence){
+
+        for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>(targetIds),AccessLevel.SYSTEM_MODE)){
+            if(record.Calculated_Cadence__c == calculatedCadence + ' Edit'){
+                //collect contact/leads ids where asignment is in progress
+                targetIdsToRemove.add(record.Id);
+            }
         }
+
+        for(Lead record: LeadsDAO.newInstance().getLeadsByIdSet(new Set<Id>(targetIds),AccessLevel.SYSTEM_MODE)){
+            if(record.Calculated_Cadence__c == calculatedCadence + ' Edit'){
+                //collect contact/leads ids where asignment is in progress
+                targetIdsToRemove.add(record.Id);
+            }
+        }
+
+        for (
+            ActionCadenceTracker aCadenceTracker : ActionCadenceTrackersDAO.newInstance()
+                .getRunningACTrackerByTargetIdAndCadenceName(
+                    new Set<Id>(targetIds),
+                    new Set<String>{ calculatedCadence },
+                    'USER_MODE'
+                )
+        ){
+            //collect contact/leads ids that has a running action cadence tracker
+            targetIdsToRemove.add(aCadenceTracker.TargetId);
+        } 
+
+        for (
+            Completed_Cadence__C completedCadence : CompletedCadencesDAO.newInstance()
+                .getCompletedCadenceByTargetIds(
+                    new Set<Id>(targetIds),
+                    new Set<String>{ calculatedCadence },
+                    'USER_MODE'
+                )
+        ){
+            //collect contact/leads ids that has a Succesful cadence status
+            if(completedCadence.Completed_Cadence_Status__c != CompletedCadencesDAO.SUCCESSFUL_STATUS){
+                continue;
+            }
+
+            if(completedCadence.Lead__c != null){
+                targetIdsToRemove.add(completedCadence.Lead__c);
+            }
+            
+            if(completedCadence.Contact__c != null){
+                targetIdsToRemove.add(completedCadence.Contact__c);
+            }
+        } 
+    }
+
+
+    /**
+     * @description validate contact/lead ids to assign
+     * check if contact or lead already has a running action cadence tracker
+     *
+     * @param List<Id> targetIds - contact or lead ids to be assigned 
+     * @param String calculatedCadence -  the manual cadence name the contact/lead is to be assigned
+     * @return List<Id> - final list of ids to be assigned to a cadence and user
+     */
+    @AuraEnabled
+    public static List<Id> validateTargetsToAssign(List<Id> targetIds, String calculatedCadence){
+        Set<Id> targetIdsToRemove = new Set<Id>();
+        List<Id> finalTragetIds = new List<Id>();
+        
+        collectIdsToRemove(targetIdsToRemove,targetIds,calculatedCadence);
+
+        //create a final list of contact or lead ids to assign to cadence and user
+        for(Id targetId: targetIds){
+            //add the contact/lead id to the final list
+            //if it has no running action cadence and no successful completed cadence
+            if(!targetIdsToRemove.contains(targetId)){
+                finalTragetIds.add(targetId);
+            }
+        }
+
+        return finalTragetIds;
     }
 
     /**
