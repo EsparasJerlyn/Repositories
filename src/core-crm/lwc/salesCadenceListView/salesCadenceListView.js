@@ -17,9 +17,12 @@ import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import Id from "@salesforce/user/Id";
 import assignToMe from "@salesforce/apex/SalesCadenceListViewCtrl.assignToMe";
+import validateTargetsToAssign from "@salesforce/apex/SalesCadenceListViewCtrl.validateTargetsToAssign";
 
 const ERROR_TOAST_VARIANT = "error";
 const ERROR_TOAST_TITLE = "Error";
+const MULTI_ASSIGN_ERROR_MSG = "Some of the contacts you selected have already been assigned to another user, those that weren't have now been assigned to you";
+const SINGLE_ASSIGN_ERROR_MSG = "The contact you selected has already been assigned to another user";
 export default class SalesCadenceListView extends LightningElement {
   /* TARGET CONFIG START */
   @api calculatedCadence;
@@ -282,6 +285,8 @@ export default class SalesCadenceListView extends LightningElement {
   selectedRows = [];
   selectedRowsData = [];
   userId = Id;
+  hasAssignmentError = false;
+  assignmentErrorMessage = '';
   /* DATATABLE VARIABLES END */
 
   /*USER EXPERIENCE VARIABLES START*/
@@ -461,50 +466,86 @@ export default class SalesCadenceListView extends LightningElement {
     this.loadData(this.calculatedCadence);
   }
 
-  handleAssignToMe() {
+  handleValidateTargetsToAssign(){
     const logger = this.template.querySelector("c-logger");
     this.dataTableIsLoading = true;
-    return assignToMe({
-      targetsToEnroll: this.setTargetObject(this.calculatedCadence),
-      targetsToChange: JSON.stringify(
-        this.setTargetObject(this.calculatedCadence + " Edit")
-      )
+    return validateTargetsToAssign({
+      targetIds: this.getTargetIds(),
+      calculatedCadence: this.calculatedCadence
     })
-      .then(() => {
-        this.handleRefreshData();
+    .then((returnedTargetIds)=>{
+      if(returnedTargetIds.length != this.selectedRowsData.length){
+        this.assignmentErrorMessage = this.selectedRowsData.length > 1?MULTI_ASSIGN_ERROR_MSG:SINGLE_ASSIGN_ERROR_MSG;
+        this.hasAssignmentError = true;
+      }
+      return assignToMe({
+        targetsToEnroll: this.setTargetObject(this.calculatedCadence, returnedTargetIds),
+        targetsToChange: JSON.stringify(
+          this.setTargetObject(this.calculatedCadence + " Edit", returnedTargetIds)
+        )
       })
-      .catch((error) => {
+    })
+    .then(()=>{
+      this.handleRefreshData();
+      if(this.hasAssignmentError){
+        
+        this.generateToast(
+          ERROR_TOAST_TITLE,
+          this.assignmentErrorMessage,
+          ERROR_TOAST_VARIANT
+        );
+      }
+    })
+    .catch((error)=> {
+      if(error.message && error.message.includes('UNABLE_TO_LOCK_ROW')){
+        this.assignmentErrorMessage = this.selectedRowsData.length > 1?MULTI_ASSIGN_ERROR_MSG:SINGLE_ASSIGN_ERROR_MSG;
+        this.generateToast(
+          ERROR_TOAST_TITLE,
+          this.assignmentErrorMessage,
+          ERROR_TOAST_VARIANT
+        );
+      }else{
         this.generateToast(
           ERROR_TOAST_TITLE,
           LWC_Error_General,
           ERROR_TOAST_VARIANT
         );
-        if (logger) {
-          logger
-            .error(
-              "Exception caught in method handleAssignToMe in LWC salesCadenceListView: "
-            )
-            .setError(error);
-          logger.saveLog();
-        }
-      })
-      .finally(() => {
-        this.dataTableIsLoading = false;
-      });
+      }
+      if (logger) {
+        logger
+          .error(
+            "Exception caught in method handleValidateTargetsToAssign in LWC salesCadenceListView: "
+          )
+          .setError(error);
+        logger.saveLog();
+      }
+    })
+    .finally(() => {
+      this.dataTableIsLoading = false;
+      this.hasAssignmentError = false;
+    });
   }
 
   /* ACTION HANDLERS END */
 
   /* HELPER METHOD START */
 
-  setTargetObject(calculatedCadence) {
+  setTargetObject(calculatedCadence, targetIds) {
     let targets = [];
-    targets = [...this.selectedRowsData].map((key) => {
+    targets = [...targetIds].map((key) => {
       let target = {};
-      target.targetId = key.id;
+      target.targetId = key;
       target.salesCadenceNameOrId = calculatedCadence;
       target.userId = this.userId;
       return target;
+    });
+    return targets;
+  }
+
+  getTargetIds(){
+    let targets = [];
+    targets = [...this.selectedRowsData].map((key) => {
+      return key.id;
     });
     return targets;
   }
