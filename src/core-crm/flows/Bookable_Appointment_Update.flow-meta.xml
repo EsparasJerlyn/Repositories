@@ -81,9 +81,10 @@
             <choiceReferences>CancelChoice</choiceReferences>
             <choiceReferences>RescheduleChoice</choiceReferences>
             <dataType>String</dataType>
+            <defaultSelectedChoiceReference>CancelChoice</defaultSelectedChoiceReference>
             <fieldText>What would you like to do for your appointment?</fieldText>
             <fieldType>RadioButtons</fieldType>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>

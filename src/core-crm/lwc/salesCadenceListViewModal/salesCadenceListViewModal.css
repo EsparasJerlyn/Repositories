@@ -1,0 +1,6 @@
+.modal-hidden {
+  display: none;
+}
+.slds-modal__content {
+  overflow: initial;
+}

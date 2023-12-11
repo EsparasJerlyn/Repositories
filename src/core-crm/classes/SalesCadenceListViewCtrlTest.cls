@@ -146,7 +146,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @isTest
     // prettier-ignore
-    static void assignToMeTest() {// NOPMD - test class is mocked
+    static void assignToCadenceTest() {// NOPMD - test class is mocked
 
         List<Contact> contactList;
         List<Lead> leadList;
@@ -193,7 +193,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
             'salesCadenceNameOrId' => 'test cadence edit'
         });
         
-        SalesCadenceListViewCtrl.assignToMe((List<Object>)targetsToEnroll,JSON.serialize(targetsToChange));
+        SalesCadenceListViewCtrl.assignToCadence((List<Object>)targetsToEnroll,JSON.serialize(targetsToChange));
 
         Test.stopTest();
 
@@ -286,5 +286,39 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
         */
         Assert.areEqual(24, actualDatetime.day(), 'Day of month should be 24 in BNE timezone');
+    }
+
+
+    @istest
+    private static void getRecentlyViewedTest(){
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
+            Test.startTest();
+            System.assertEquals(0, SalesCadenceListViewCtrl.getRecentlyViewed('Domestic').size(), 'recentlyviewed should be empty');
+            Test.stopTest();
+        }
+    }
+
+    @istest
+    private static void checkUserRoleTest(){
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
+            Test.startTest();
+            System.assertEquals(false, SalesCadenceListViewCtrl.checkUserRole(), 'Return should be false');
+            Test.stopTest();
+        }
+    }
+
+    @istest
+    private static void getSearchedUsersTest(){
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent','QUT_ESB'});
+
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            Test.startTest();
+            System.assertEquals(1, SalesCadenceListViewCtrl.getSearchedUsers('QUT','Domestic').size(), 'there should be 1 user queried');
+            Test.stopTest();
+        }
     }
 }
