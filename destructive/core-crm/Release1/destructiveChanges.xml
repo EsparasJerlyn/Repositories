@@ -172,6 +172,9 @@
         <!--Start DEPP-7104-->
         <members>Opportunity_Outcome__c.Outcome_Type__c</members>
         <!--End DEPP-7104-->
+        <!-- Start DEPP-7143-->
+        <members>International_Tier__c.Tier_Priority__c</members>
+        <!-- End DEPP-7143-->
         <name>CustomField</name>
     </types>
     <types>
@@ -292,6 +295,11 @@
         <!--(start) DEPP-7253-->
         <members>ServiceAppointment.MyScheduledAppointments</members>
         <!--(END) DEPP-7253-->
+        <!--(START) DEPP-7395-->
+        <members>ServiceAppointment.MyPendingAppointments</members>
+        <members>ServiceAppointment.My_Completed_Appointments</members>
+        <members>ServiceAppointment.My_Scheduled_Appointments</members>
+        <!--(END) DEPP-7395)-->
         <!--(Start) DEPP-7278-->
         <members>Task.Hot_Call_List</members>
         <members>Task.Warm_Call_List</members>

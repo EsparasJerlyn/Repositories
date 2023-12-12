@@ -28,7 +28,9 @@
       &quot;statusValidationField&quot;:&quot;LeadPhone_Validation__c&quot;,
       &quot;localeField&quot;:&quot;LeadPhone_Locale__c&quot;,
       &quot;loqateRequest&quot;:&quot;fullPhone&quot;,
-      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;
+      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;,
+      &quot;localeLabel&quot;: &quot;Phone Locale&quot;,
+      &quot;statusLabel&quot;: &quot;Phone Status&quot;
    },
    {
       &quot;label&quot;:&quot;Mobile&quot;,
@@ -37,7 +39,9 @@
       &quot;statusValidationField&quot;:&quot;LeadMobile_Validation__c&quot;,
       &quot;localeField&quot;:&quot;LeadMobile_Locale__c&quot;,
       &quot;loqateRequest&quot;:&quot;fullPhone&quot;,
-      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;
+      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;,
+      &quot;localeLabel&quot;:&quot;Mobile Locale&quot;,
+      &quot;statusLabel&quot;:&quot;Mobile Status&quot;
    },
    {
       &quot;label&quot;:&quot;Work Phone&quot;,
@@ -46,7 +50,9 @@
       &quot;statusValidationField&quot;:&quot;WorkPhone_Validation__c&quot;,
       &quot;localeField&quot;:&quot;WorkPhone_Locale__c&quot;,
       &quot;loqateRequest&quot;:&quot;fullPhone&quot;,
-      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;
+      &quot;loqateResponse&quot;:&quot;phoneStatus&quot;,
+      &quot;localeLabel&quot;:&quot;Work Phone Locale&quot;,
+      &quot;statusLabel&quot;:&quot;Work Phone Status&quot;
    }
 ]</value>
     </values>

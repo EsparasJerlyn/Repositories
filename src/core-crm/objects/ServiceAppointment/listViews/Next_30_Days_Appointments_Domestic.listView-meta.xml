@@ -2,6 +2,8 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Next_30_Days_Appointments_Domestic</fullName>
     <columns>SchedStartTime</columns>
+    <columns>Name</columns>
+    <columns>WorkType</columns>
     <columns>First_Name__c</columns>
     <columns>Last_Name__c</columns>
     <columns>Appointment_Topic__c</columns>

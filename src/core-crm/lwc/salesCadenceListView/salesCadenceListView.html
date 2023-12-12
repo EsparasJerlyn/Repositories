@@ -1,6 +1,46 @@
 <template>
   <c-logger></c-logger>
-
+  <template if:true={showModal}>
+    <div class="slds-is-relative">
+      <c-sales-cadence-list-view-modal
+        onclosedialog={closeModal}
+        show-close-button={closeModal}>
+        <span slot="header">{header} {calculatedCadence}</span>
+        <slot>
+          <c-custom-search
+              search-label="Another Sales Engagement user"
+              search-input-placeholder="Search user..."
+              search-items={finalSearchItems}
+              search-item-icon="standard:user"
+              onitemselect={handleLookupSelect}
+              onitemremove={handleLookupRemove}
+              onsearch={handleSearchUser}
+              item-id={searchedId}
+              search-in-progress={searchInProgress}
+              object-label-name={objectLabelName}
+              custom-lookup
+              custom-server-search
+              empty-message="Enter at least three (3) characters to show results..."
+              ></c-custom-search>
+        </slot>
+        <span slot="footer">
+          <lightning-button
+            class="slds-button"
+            variant="neutral"
+            label="Cancel"
+            onclick={closeModal}
+          ></lightning-button>
+          <lightning-button
+            disabled={hasNoUserSelected}
+            class="slds-button slds-m-left_x-small"
+            variant="brand"
+            label="Add"
+            onclick={handleAssignToOther}
+          ></lightning-button>
+        </span> 
+      </c-sales-cadence-list-view-modal>
+    </div>
+  </template>
   <lightning-layout>
     <article
       class="slds-card slds-card_boundary lightning-card slds-theme_shade">
@@ -30,6 +70,12 @@
             label="Assign to me"
             disabled={hasNoRowSelected}
             onclick={handleAssignToMe}></lightning-button>
+          <lightning-button
+            if:true={isTeamLeader}
+            class="slds-m-right_xx-small"
+            label="Assign to others"
+            disabled={hasNoRowSelected}
+            onclick={handleAssignToOtherSearch}></lightning-button>
         </header>
       </div>
       <div if:true={dataTableIsLoading}>

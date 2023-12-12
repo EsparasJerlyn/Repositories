@@ -6,8 +6,8 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
- *    |--------------------------------|-----------------------|------------------------|---------------------------------------|
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
  *    | roy.nino.s.regala              | July 19, 2023         | DEPP-5677              | Created file                                              |
  *    | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added method to add completed cadence                     |
  *    | roy.nino.s.regala              | Sep 22, 2023          | DEPP-6365              | Added new field mappings                                  |
@@ -15,10 +15,29 @@
  *    | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated updateCalculatedCadence to                        |
  *    |                                |                       |                        |     include updateCompletedCadences                       |
  *    | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | fixed pmd issue                                           |
- *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c
+ *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c |
+ *    | roy.nino.s.regala              | Nov 22, 2023          | DEPP-7283              | validate contact/lead before assigning to cadence and user|
+ *    | roy.nino.s.regala              | Dec 11, 2023          | DEPP-7311              | Added assign to others logic and user filter              |
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
+
+    private static final Map<String,Set<String>> ROLE_MAPPING = new Map<String,Set<String>>{
+        'Domestic' => new Set<String>{
+            'Future_Student_Agent_Domestic',
+            'Future_Student_Concierge_Domestic',
+            'Future_Student_Team_Leader_Domestic'
+        },
+        'International' => new Set<String>{
+            'Future_Student_Agent_International',
+            'Future_Student_Concierge_International',
+            'Future_Student_Team_Leader_International'
+        }
+    };
+    private static final Set<String> TEAM_LEADER_ROLES = new Set<String>{
+        'Future_Student_Team_Leader_International',
+        'Future_Student_Team_Leader_Domestic'
+    };
 
     /**
      * @description gets the data for the salescadence on the list view
@@ -186,18 +205,98 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
      *                                   e.g. "[{targetId:003A4434F,salesCadenceNameOrId:'Domestic Strong Interest Pre-Application Edit'}]"
      */
     @AuraEnabled
-    public static void assignToMe(List<Object> targetsToEnroll, String targetsToChange) {
-        Map<String, List<Object>> targetMap = new Map<String, List<Object>>();
+    public static void assignToCadence(List<Object> targetsToEnroll, String targetsToChange) {
+        if(targetsToEnroll.isEmpty()){
+            return;
+        }
 
+        Map<String, List<Object>> targetMap = new Map<String, List<Object>>();
+        
         String endPoint = ASSIGN_TARGET_CADENCE_ENDPOINT;
 
         //rempves the contact/lead from the table by changing the calculated cadence value
         updateCalculatedCadence(targetsToChange);
+        targetMap.put('inputs', targetsToEnroll);
+        doNativeCallout(JSON.serialize(targetMap), endPoint);
+    }
 
-        if (!targetsToEnroll.isEmpty()) {
-            targetMap.put('inputs', targetsToEnroll);
-            doNativeCallout(JSON.serialize(targetMap), endPoint);
+    private static void collectIdsToRemove(Set<Id> targetIdsToRemove, List<Id> targetIds, String calculatedCadence){
+
+        for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>(targetIds),AccessLevel.SYSTEM_MODE)){
+            if(record.Calculated_Cadence__c == calculatedCadence + ' Edit'){
+                //collect contact/leads ids where asignment is in progress
+                targetIdsToRemove.add(record.Id);
+            }
         }
+
+        for(Lead record: LeadsDAO.newInstance().getLeadsByIdSet(new Set<Id>(targetIds),AccessLevel.SYSTEM_MODE)){
+            if(record.Calculated_Cadence__c == calculatedCadence + ' Edit'){
+                //collect contact/leads ids where asignment is in progress
+                targetIdsToRemove.add(record.Id);
+            }
+        }
+
+        for (
+            ActionCadenceTracker aCadenceTracker : ActionCadenceTrackersDAO.newInstance()
+                .getRunningACTrackerByTargetIdAndCadenceName(
+                    new Set<Id>(targetIds),
+                    new Set<String>{ calculatedCadence },
+                    'USER_MODE'
+                )
+        ){
+            //collect contact/leads ids that has a running action cadence tracker
+            targetIdsToRemove.add(aCadenceTracker.TargetId);
+        } 
+
+        for (
+            Completed_Cadence__C completedCadence : CompletedCadencesDAO.newInstance()
+                .getCompletedCadenceByTargetIds(
+                    new Set<Id>(targetIds),
+                    new Set<String>{ calculatedCadence },
+                    'USER_MODE'
+                )
+        ){
+            //collect contact/leads ids that has a Succesful cadence status
+            if(completedCadence.Completed_Cadence_Status__c != CompletedCadencesDAO.SUCCESSFUL_STATUS){
+                continue;
+            }
+
+            if(completedCadence.Lead__c != null){
+                targetIdsToRemove.add(completedCadence.Lead__c);
+            }
+            
+            if(completedCadence.Contact__c != null){
+                targetIdsToRemove.add(completedCadence.Contact__c);
+            }
+        } 
+    }
+
+
+    /**
+     * @description validate contact/lead ids to assign
+     * check if contact or lead already has a running action cadence tracker
+     *
+     * @param List<Id> targetIds - contact or lead ids to be assigned 
+     * @param String calculatedCadence -  the manual cadence name the contact/lead is to be assigned
+     * @return List<Id> - final list of ids to be assigned to a cadence and user
+     */
+    @AuraEnabled
+    public static List<Id> validateTargetsToAssign(List<Id> targetIds, String calculatedCadence){
+        Set<Id> targetIdsToRemove = new Set<Id>();
+        List<Id> finalTragetIds = new List<Id>();
+        
+        collectIdsToRemove(targetIdsToRemove,targetIds,calculatedCadence);
+
+        //create a final list of contact or lead ids to assign to cadence and user
+        for(Id targetId: targetIds){
+            //add the contact/lead id to the final list
+            //if it has no running action cadence and no successful completed cadence
+            if(!targetIdsToRemove.contains(targetId)){
+                finalTragetIds.add(targetId);
+            }
+        }
+
+        return finalTragetIds;
     }
 
     /**
@@ -272,6 +371,105 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         if (!targetIdCadenceMap.isEmpty()) {
             SalesCadenceCalloutService.updateCompletedCadences(targetIdCadenceMap);
         }
+    }
+
+        /**
+     * @description get list of user searched
+     * @param filterString - search string for filter
+     * @param citizenship - tells us if domestic or international
+     * @return list of map of formatted user for customSearch
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> getSearchedUsers(
+        String filterString,
+        String citizenship
+    ) {
+        List<Map<String, String>> userMap = new List<Map<String, String>>();
+        Set<String> roleSet = ROLE_MAPPING.get(citizenship);
+
+        if(String.isBlank(filterString)){
+            return userMap;
+        }
+
+        String whereClause = 'UserRole.DeveloperName IN';
+        whereClause += '(\'' + String.join(roleSet, '\',\'') + '\')';
+        whereClause += ' AND Id != ' + '\'' + UserInfo.getUserId() + '\'';
+
+        List<User> users = FlowLookupController.search(
+            filterString,
+            'User',
+            'Name',
+            'Id,Name,Email',
+            15,
+            whereClause,
+            ''
+        );
+
+        for (User user : users) {
+            userMap.add(
+                new Map<String, String>{
+                    'id' => user.Id,
+                    'label' => user.Name,
+                    'meta' => user.Email
+                }
+            );
+        }
+        return userMap;
+    }
+
+    /**
+     * @description get list of recently viewed user records
+     * @param citizenship - tells us if domestic or international
+     * @return list of map of formatted user for customSearch
+     */
+    @AuraEnabled
+    public static List<Map<String, String>> getRecentlyViewed(String citizenship) {
+        List<Map<String, String>> userMap = new List<Map<String, String>>();
+        Set<String> roleSet = ROLE_MAPPING.get(citizenship);
+
+        String whereClause = 'UserRole.DeveloperName IN';
+        whereClause += '(\'' + String.join(roleSet, '\',\'') + '\')';
+        whereClause += ' AND Id != ' + '\'' + UserInfo.getUserId() + '\'';
+
+        List<User> recentlyViewedUsers = FlowLookupController.getRecentlyViewed(
+            'User',
+            'Id,Name,Email',
+            5,
+            whereClause
+        );
+
+        for (User user : recentlyViewedUsers) {
+            userMap.add(
+                new Map<String, String>{
+                    'id' => user.Id,
+                    'label' => user.Name,
+                    'meta' => user.Email
+                }
+            );
+        }
+        return userMap;
+    }
+    /**
+     * @description get list of user searched
+     * @param filterString - search string for filter
+     * @param filterUsers - list of user ids
+     * @return list of map of formatted user for customSearch
+     */
+    @AuraEnabled(cacheable=true)
+    public static boolean checkUserRole() {
+        if (
+            TEAM_LEADER_ROLES.contains(
+                UsersDAO.newInstance()
+                        .getUsersByNameSet(
+                            new Set<String>{ UserInfo.getUserName() },
+                            AccessLevel.SYSTEM_MODE
+                        )[0]
+                    .UserRole.DeveloperName
+            )
+        ) {
+            return true;
+        }
+        return false;
     }
 
     private class DataTableWrapper {
