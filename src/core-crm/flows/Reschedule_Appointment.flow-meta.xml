@@ -56,33 +56,15 @@
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>optionalServiceResourceId</name>
-            <value>
-                <elementReference>optionalAttendees</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>serviceAppointmentFields</name>
             <value>
                 <elementReference>serviceAppointmentFields</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>serviceResources</name>
-            <value>
-                <elementReference>serviceResources</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>selectedTimezone</name>
             <value>
                 <elementReference>selectedTimezone</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>WorkType</name>
-            <value>
-                <elementReference>workType</elementReference>
             </value>
         </inputParameters>
         <nameSegment>saveAppointment</nameSegment>
@@ -149,6 +131,14 @@
             <value>
                 <stringValue>Australia/Brisbane</stringValue>
             </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.SchedStartTime</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.SchedEndTime</assignToReference>
+            <operator>Assign</operator>
         </assignmentItems>
         <connector>
             <targetReference>getWorkTypeRecord</targetReference>
@@ -304,14 +294,13 @@
         <queriedFields>PostalCode</queriedFields>
         <queriedFields>State</queriedFields>
         <queriedFields>Street</queriedFields>
-        <queriedFields>SchedEndTime</queriedFields>
-        <queriedFields>SchedStartTime</queriedFields>
         <queriedFields>Description</queriedFields>
         <queriedFields>Subject</queriedFields>
         <queriedFields>Phone</queriedFields>
         <queriedFields>Email</queriedFields>
         <queriedFields>ContactId</queriedFields>
         <queriedFields>StatusCategory</queriedFields>
+        <queriedFields>IsAnonymousBooking</queriedFields>
     </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
@@ -390,7 +379,7 @@
             <inputParameters>
                 <name>isSlotChanged</name>
                 <value>
-                    <elementReference>isSlotChanged</elementReference>
+                    <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -456,7 +445,7 @@
             <inputParameters>
                 <name>disableMultiResourceAndConcurrency</name>
                 <value>
-                    <elementReference>disableMultiResource</elementReference>
+                    <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -493,6 +482,12 @@
                 <name>engagementChannelType</name>
                 <value>
                     <elementReference>engagementChannelTypeId</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>isAnonymousBooking</name>
+                <value>
+                    <elementReference>ServiceAppointment.IsAnonymousBooking</elementReference>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
@@ -566,16 +561,6 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>disableMultiResource</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>true</booleanValue>
-        </value>
-    </variables>
-    <variables>
         <description>The ID of the selected Engagement Channel Type.</description>
         <name>engagementChannelTypeId</name>
         <dataType>String</dataType>
@@ -592,13 +577,6 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
-    </variables>
-    <variables>
-        <name>optionalAttendees</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>Stores the API name of the scheduling policy you want to associate with the flow.</description>
@@ -650,16 +628,6 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>showServiceResource</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>true</booleanValue>
-        </value>
     </variables>
     <variables>
         <name>showTimeZonePicklist</name>
