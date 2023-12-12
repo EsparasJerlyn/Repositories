@@ -419,7 +419,12 @@
         <editable>true</editable>
         <field>Asset.Migration_Id__c</field>
         <readable>true</readable>
-    </fieldPermissions>	
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>BuyerAccount.AvailableCredit</field>

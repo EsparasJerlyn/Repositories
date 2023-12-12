@@ -9,6 +9,7 @@
       |--------------------------------|-----------------------|------------------------|-----------------------------------|
       | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                      | 
       | nicole.genon                   | November 23, 2023     | DEPP-7259              | Added test classes                |
+      | arsenio.jr.dayrit       	   | November 12, 2023     | DEPP-7357              | Update Test method                |
  */
 @isTest
 public with sharing class ServiceAppointmentTriggerHandlerTest {
@@ -41,7 +42,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
     @isTest
     private static void updateContactLeadLinkedtoServiceAppointmentBeforeInsertTest(){
         
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
             Test.startTest();
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -58,6 +59,8 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             // to get the value of related marketing segmentation record of contact
 
             List<ServiceAppointment> serviceAppointmentList = TestDataFactory.createTestServiceAppointmentRecords(1, newAccounts[0].Id);
+            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
+
             serviceAppointmentList[0].Contact__c = newContacts[0].Id;
             serviceAppointmentList[0].Email = 'testContact@mailinator.com';
             serviceAppointmentList[0].Web_Mobile_Locale__c = 'Australia (+61)';
@@ -66,7 +69,7 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             serviceAppointmentList[0].My_Citizenship_Status__c = 'International Student';
             serviceAppointmentList[0].My_Country_Of_Citizenship__c = 'Afghanistan';
             serviceAppointmentList[0].My_Country_Of_Residency__c = 'Afghanistan';
-            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
+            ServiceAppointmentsDAO.newInstance().updateRecords(serviceAppointmentList, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> updatedContact = [SELECT Id, Email, Email_Opt_In_DateTime__c,ContactMobile_Locale__c, Mobile_No_Locale__c FROM Contact];
             List<Marketing_Segmentation__c> updatedMarketingSeg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>{newContacts[0].Id}, new Set<Id>(), AccessLevel.SYSTEM_MODE);
@@ -399,6 +402,22 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
             System.assert(!newItems.get(0).Status.equals(oldRecords.get(serviceAppList.get(0).Id).Status), 'Service Appointment is Cancelled.');
             System.assert(newItems.get(0).Status.equals('Cancelled'), 'Service Appointment is Cancelled.');
+        }
+    }
+
+    @isTest
+    private static void sendEmailFailureOnServiceAppointmentCreation() {
+        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+            Test.startTest();
+
+            Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+            msg.setSubject('Mock Test');
+
+            ServiceAppointmentService.sendEmail(new List<Messaging.SingleEmailMessage> {msg});
+
+            Test.stopTest();
+
+            System.assert(msg != null,'Single Email Message is not empty');
         }
     }
 }

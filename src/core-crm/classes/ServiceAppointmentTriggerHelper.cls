@@ -6,14 +6,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
- *    |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
- *    | arsenio.jr.dayrit              | November 21, 2023     | DEPP-7264              | Created file                                         |
- *    | nicole.genon                   | November 21, 2023     | DEPP-7259              | Added methods for email for confirmation and reminder|
- *    | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added methods for existing lead and contact matching |
- *    | ryan.j.a.dela.cruz             | December 6, 2023      | DEPP-7369              | Confirmation email sending fix                       |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                           |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
+ *    | arsenio.jr.dayrit              | November 21, 2023     | DEPP-7264              | Created file                                             |
+ *    | nicole.genon                   | November 21, 2023     | DEPP-7259              | Added methods for email for confirmation and reminder    |
+ *    | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added methods for existing lead and contact matching     |
+ *    | ryan.j.a.dela.cruz             | December 6, 2023      | DEPP-7369              | Confirmation email sending fix                           |
+ *    | kenneth.f.alsay                | December 11, 2023     | DEPP-7394              | Added convert email string to lower case before matching |
  */
-public with sharing class ServiceAppointmentTriggerHelper {
+public without sharing class ServiceAppointmentTriggerHelper {
 
     /**
      * @description update the Contact or Lead and its related Marketing Segmentation record from Service Appointment
@@ -177,7 +178,6 @@ public with sharing class ServiceAppointmentTriggerHelper {
         ServiceAppointmentTriggerHelperWithoutSharing withoutSharingInnerClass = new ServiceAppointmentTriggerHelperWithoutSharing();
         
         Set<String> suppliedEmails = new Set<String>();
-        Set<String> emailsWithoutContactMatch = new Set<String>();
         Map<String, ServiceAppointment> emailToAppointmentMap = new Map<String, ServiceAppointment>();
         Map<Id, ServiceAppointment> contacToAppointmentMap = new Map<Id, ServiceAppointment>();
         Map<String, Id> appointmentToContactMap = new Map<String, Id>();
@@ -186,7 +186,11 @@ public with sharing class ServiceAppointmentTriggerHelper {
         for (ServiceAppointment appointment : newAppointmentList) {
             Boolean isWithEmailAndContactAndLeadEmpty = (String.isEmpty(appointment.Contact__c) &&
                                                          String.isEmpty(appointment.LeadId__c)) && String.isNotEmpty(appointment.Email);
+            
             if ( isWithEmailAndContactAndLeadEmpty) {
+                //convert email to all lowercase
+                String email = appointment.Email;
+                appointment.Email = email.toLowerCase();
                 suppliedEmails.add(appointment.Email);
                 emailToAppointmentMap.put(appointment.Email, appointment);
             }
@@ -199,20 +203,17 @@ public with sharing class ServiceAppointmentTriggerHelper {
                 if(appointmentToContactMap.containsKey(record.Email)){
                     record.Contact__c = appointmentToContactMap.get(record.Email);
                 }
-            }           
-            emailToAppointmentMap.keySet().removeAll(appointmentToContactMap.keySet());
+            }
         }
         if(!emailToAppointmentMap.isEmpty()){
-            for(String email : suppliedEmails){
-                if(emailToAppointmentMap.containsKey(email)){
-                	 emailsWithoutContactMatch.add(email);   
-                }
-            }
-			appointmentToLeadMap = withoutSharingInnerClass.processAppointmentRecordsToLeadMatch(emailsWithoutContactMatch, emailToAppointmentMap);   
+			appointmentToLeadMap = withoutSharingInnerClass.processAppointmentRecordsToLeadMatch(suppliedEmails, emailToAppointmentMap);   
         }
         if(!appointmentToLeadMap.isEmpty()){
             for(ServiceAppointment record: newAppointmentList){
-                if(appointmentToLeadMap.containsKey(record.Email)){
+                if(appointmentToLeadMap.containsKey(record.Email) && appointmentToContactMap.containsKey(record.Email)){
+                    //remove assigned Contact Id if Lead match found
+                    record.Contact__c = null;
+                }else if(appointmentToLeadMap.containsKey(record.Email) && !appointmentToContactMap.containsKey(record.Email)){                    
                     record.LeadId__c = appointmentToLeadMap.get(record.Email);
                 }
             }
@@ -426,7 +427,7 @@ public with sharing class ServiceAppointmentTriggerHelper {
                     (List<sObject>) existingLeadsWithMatchingEmails,
                     new LeadsDAO().getSObjectType()
                 );
-                appointmentToLeadMap = mapAppointmentToContactRecord(
+                appointmentToLeadMap = mapAppoinmentToLeadRecord(
                     (List<ServiceAppointment>) emailToAppointmentMap.values(),
                     appointmentToUpdate,
                     uniqueLeadMap

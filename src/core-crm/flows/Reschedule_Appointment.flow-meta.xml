@@ -4,8 +4,8 @@
         <description>Logs an Error to the Nebula Logger</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1320</locationX>
-        <locationY>242</locationY>
+        <locationX>578</locationX>
+        <locationY>998</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,40 +43,21 @@
     <actionCalls>
         <name>Save_Appointment</name>
         <label>Save Appointment</label>
-        <locationX>264</locationX>
+        <locationX>314</locationX>
         <locationY>890</locationY>
         <actionName>saveAppointment</actionName>
         <actionType>saveAppointment</actionType>
         <connector>
-            <targetReference>ConfirmationScreen</targetReference>
+            <targetReference>Confirmation_Screen</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>optionalServiceResourceId</name>
-            <value>
-                <elementReference>optionalAttendees</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>serviceAppointmentFields</name>
             <value>
                 <elementReference>serviceAppointmentFields</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>serviceResources</name>
-            <value>
-                <elementReference>serviceResources</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>WorkType</name>
-            <value>
-                <elementReference>workType</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -96,8 +77,8 @@
         <description>Saves the Error Action of the Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>1320</locationX>
-        <locationY>350</locationY>
+        <locationX>578</locationX>
+        <locationY>1106</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -111,7 +92,7 @@
     <assignments>
         <name>Set_Appointment_Fields</name>
         <label>Set Appointment Fields</label>
-        <locationX>264</locationX>
+        <locationX>314</locationX>
         <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>serviceAppointmentFields</assignToReference>
@@ -127,7 +108,7 @@
     <assignments>
         <name>Set_Initial_Values</name>
         <label>Set Initial Values</label>
-        <locationX>264</locationX>
+        <locationX>314</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>serviceResourceId</assignToReference>
@@ -150,14 +131,22 @@
                 <stringValue>Australia/Brisbane</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.SchedStartTime</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.SchedEndTime</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
         <connector>
             <targetReference>getWorkTypeRecord</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>Check_Appointment_Status_Category</name>
-        <label>Check Appointment Status Category</label>
-        <locationX>176</locationX>
+        <name>Check_Appointment_Status_Category_If_Canceled</name>
+        <label>Check Appointment Status Category If Canceled?</label>
+        <locationX>182</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Assigned_Resource</targetReference>
@@ -174,7 +163,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>ConfirmationScreen</targetReference>
+                <targetReference>Validation_Error_Screen</targetReference>
             </connector>
             <label>Canceled Appointment</label>
         </rules>
@@ -190,9 +179,10 @@
   &quot;\&quot;ParentRecordId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.ParentRecordId} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;ServiceTerritoryId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.ServiceTerritoryId} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;ServiceResourceId\&quot;:\&quot;&quot; &amp; {!serviceResourceId} &amp; &quot;\&quot;,&quot; &amp; 
-  &quot;\&quot;WorkTypeId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.WorkTypeId} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;SchedStartTime\&quot;:\&quot;&quot; &amp; SUBSTITUTE(SUBSTITUTE(TEXT({!ServiceAppointment.SchedStartTime}), &quot; &quot;, &quot;T&quot;), &quot;Z&quot;, &quot;&quot;) &amp; &quot;.000Z\&quot;,&quot; &amp;
   &quot;\&quot;SchedEndTime\&quot;:\&quot;&quot; &amp; SUBSTITUTE(SUBSTITUTE(TEXT({!ServiceAppointment.SchedEndTime}), &quot; &quot;, &quot;T&quot;), &quot;Z&quot;, &quot;&quot;) &amp; &quot;.000Z\&quot;,&quot; &amp;
+  &quot;\&quot;WorkTypeId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.WorkTypeId} &amp; &quot;\&quot;,&quot; &amp;   
+  &quot;\&quot;Id\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Id} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Description\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Description} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Subject\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Subject} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Phone\&quot;:\&quot;&quot; &amp;  {!ServiceAppointment.Phone} &amp; &quot;\&quot;,&quot; &amp; 
@@ -219,7 +209,7 @@
     <recordLookups>
         <name>Assigned_Resource</name>
         <label>Assigned Resource</label>
-        <locationX>264</locationX>
+        <locationX>314</locationX>
         <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -245,7 +235,7 @@
     <recordLookups>
         <name>getWorkTypeRecord</name>
         <label>getWorkTypeRecord</label>
-        <locationX>264</locationX>
+        <locationX>314</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -272,13 +262,14 @@
     <recordLookups>
         <name>Service_Appointment</name>
         <label>Service Appointment</label>
-        <locationX>176</locationX>
+        <locationX>182</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Appointment_Status_Category</targetReference>
+            <targetReference>Check_Appointment_Status_Category_If_Canceled</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
@@ -303,45 +294,41 @@
         <queriedFields>PostalCode</queriedFields>
         <queriedFields>State</queriedFields>
         <queriedFields>Street</queriedFields>
-        <queriedFields>SchedEndTime</queriedFields>
-        <queriedFields>SchedStartTime</queriedFields>
         <queriedFields>Description</queriedFields>
         <queriedFields>Subject</queriedFields>
         <queriedFields>Phone</queriedFields>
         <queriedFields>Email</queriedFields>
         <queriedFields>ContactId</queriedFields>
         <queriedFields>StatusCategory</queriedFields>
+        <queriedFields>IsAnonymousBooking</queriedFields>
     </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
-        <name>ConfirmationScreen</name>
+        <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
-        <locationX>176</locationX>
-        <locationY>1130</locationY>
+        <locationX>314</locationX>
+        <locationY>998</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>flowConfirm</name>
-            <extensionName>runtime_appointmentbooking:flowConfirm</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>category</name>
-                <value>
-                    <elementReference>ServiceAppointment.StatusCategory</elementReference>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
+            <name>Your_Appointment_Has_Been_Updated</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 28px; color: rgb(1, 118, 211);&quot;&gt;Your Appointment Has Been Updated&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Body_Appointments_Updated</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;You will receive a confirmation email with the updated booking details shortly.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>1320</locationX>
-        <locationY>458</locationY>
+        <locationX>578</locationX>
+        <locationY>1214</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -356,7 +343,7 @@
     <screens>
         <name>TimeSlotScreen</name>
         <label>Time Slot Screen</label>
-        <locationX>264</locationX>
+        <locationX>314</locationX>
         <locationY>674</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -389,7 +376,7 @@
             <inputParameters>
                 <name>isSlotChanged</name>
                 <value>
-                    <elementReference>isSlotChanged</elementReference>
+                    <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -455,7 +442,7 @@
             <inputParameters>
                 <name>disableMultiResourceAndConcurrency</name>
                 <value>
-                    <elementReference>disableMultiResource</elementReference>
+                    <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -492,6 +479,12 @@
                 <name>engagementChannelType</name>
                 <value>
                     <elementReference>engagementChannelTypeId</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>isAnonymousBooking</name>
+                <value>
+                    <elementReference>ServiceAppointment.IsAnonymousBooking</elementReference>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
@@ -532,9 +525,25 @@
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
+    <screens>
+        <name>Validation_Error_Screen</name>
+        <label>Validation Error Screen</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>ValidationErrorText</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;You can’t reschedule or modify a canceled service appointment.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
     <sourceTemplate>runtime_appointmentbooking__In_Modify</sourceTemplate>
     <start>
-        <locationX>50</locationX>
+        <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Service_Appointment</targetReference>
@@ -565,16 +574,6 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>disableMultiResource</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>true</booleanValue>
-        </value>
-    </variables>
-    <variables>
         <description>The ID of the selected Engagement Channel Type.</description>
         <name>engagementChannelTypeId</name>
         <dataType>String</dataType>
@@ -591,13 +590,6 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
-    </variables>
-    <variables>
-        <name>optionalAttendees</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>Stores the API name of the scheduling policy you want to associate with the flow.</description>
@@ -651,23 +643,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>showServiceResource</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>true</booleanValue>
-        </value>
-    </variables>
-    <variables>
         <name>showTimeZonePicklist</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <value>
-            <booleanValue>false</booleanValue>
+            <booleanValue>true</booleanValue>
         </value>
     </variables>
     <variables>
