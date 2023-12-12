@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Cancel_Appointment_Action</name>
-        <label>Cancel Appointment Action</label>
-        <locationX>264</locationX>
-        <locationY>458</locationY>
-        <actionName>cancelAppointment</actionName>
-        <actionType>cancelAppointment</actionType>
-        <connector>
-            <targetReference>Confirmation_Screen</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>ServiceAppointmentId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>cancelStatus</name>
-            <value>
-                <elementReference>CancellationStatus</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>cancellationReason</name>
-            <value>
-                <elementReference>CancellationReason</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>cancelAppointment</nameSegment>
-        <outputParameters>
-            <assignToReference>ErrorMessage</assignToReference>
-            <name>errorMessage</name>
-        </outputParameters>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <description>Logs an Error to the Nebula Logger</description>
         <name>Error_Action</name>
         <label>Error Action</label>
@@ -96,13 +56,37 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
+    <assignments>
+        <name>Service_Appointment_Preparation</name>
+        <label>Service Appointment Preparation</label>
+        <locationX>264</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cancelled</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Appointment</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <name>CancelledChoice</name>
+        <choiceText>Cancelled</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Cancelled</stringValue>
+        </value>
+    </choices>
     <decisions>
         <name>Check_Appointment_Status_Category</name>
         <label>Check Appointment Status Category</label>
         <locationX>176</locationX>
         <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>Cancel_Appointment</targetReference>
+            <targetReference>Cancellation_Screen</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -123,7 +107,6 @@
     </decisions>
     <environments>Default</environments>
     <interviewLabel>Cancel Appointment {!$Flow.CurrentDateTime}</interviewLabel>
-    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>Cancel Appointment</label>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -168,73 +151,79 @@
         <outputReference>ServiceAppointment</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>StatusCategory</queriedFields>
+        <queriedFields>WorkTypeId</queriedFields>
+        <queriedFields>SchedStartTime</queriedFields>
+        <queriedFields>SchedEndTime</queriedFields>
         <sortField>Id</sortField>
         <sortOrder>Asc</sortOrder>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Appointment</name>
+        <label>Update Appointment</label>
+        <locationX>264</locationX>
+        <locationY>566</locationY>
+        <connector>
+            <targetReference>Confirmation_Screen</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>ServiceAppointment</inputReference>
+    </recordUpdates>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
-        <name>Cancel_Appointment</name>
-        <label>Cancel Appointment</label>
+        <name>Cancellation_Screen</name>
+        <label>Cancellation Screen</label>
         <locationX>264</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
-            <targetReference>Cancel_Appointment_Action</targetReference>
+            <targetReference>Service_Appointment_Preparation</targetReference>
         </connector>
         <fields>
-            <name>CancelApppointment</name>
-            <extensionName>runtime_appointmentbooking:cancelApp</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>recordId</name>
-                <value>
-                    <elementReference>ServiceAppointmentId</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>cancellationReason</name>
-                <value>
-                    <elementReference>CancellationReason</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>status</name>
-                <value>
-                    <elementReference>CancellationStatus</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>isInbound</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>cancelErrors</name>
-                <value>
-                    <elementReference>$Flow.FaultMessage</elementReference>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>ServiceAppointmentId</assignToReference>
-                <name>recordId</name>
-            </outputParameters>
-            <outputParameters>
-                <assignToReference>ErrorMessage</assignToReference>
-                <name>cancelErrors</name>
-            </outputParameters>
-            <outputParameters>
-                <assignToReference>CancellationReason</assignToReference>
-                <name>cancellationReason</name>
-            </outputParameters>
-            <outputParameters>
-                <assignToReference>CancellationStatus</assignToReference>
-                <name>status</name>
-            </outputParameters>
+            <name>ReviewText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(3, 45, 96); background-color: rgb(255, 255, 255);&quot;&gt;Review your service appointment details for cancellation.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Cancellation_Screen_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Cancellation_Screen_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Scheduled_Start</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>ServiceAppointment.SchedStartTime</elementReference>
+                    </defaultValue>
+                    <fieldText>Scheduled Start:</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>Scheduled_End</name>
+                    <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>ServiceAppointment.SchedEndTime</elementReference>
+                    </defaultValue>
+                    <fieldText>Scheduled End:</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -243,7 +232,7 @@
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
         <locationX>176</locationX>
-        <locationY>698</locationY>
+        <locationY>806</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -301,16 +290,6 @@
         <isOutput>false</isOutput>
         <value>
             <stringValue></stringValue>
-        </value>
-    </variables>
-    <variables>
-        <name>CancellationStatus</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <stringValue>Cancelled</stringValue>
         </value>
     </variables>
     <variables>

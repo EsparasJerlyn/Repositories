@@ -36,7 +36,7 @@
           class="slds-p-horizontal_medium butttonLabel"
           variant="brand"
           label={copySubjectAndDescriptionButtonLabel}
-          onclick={handleCopySubjectAndDescription}></lightning-button>
+          onclick={handleCopyFieldValues}></lightning-button>
 
         <div class="slds-m-around_small slds-box slds-box_small">
           <lightning-combobox
@@ -89,12 +89,14 @@
             onclick={handleCopyTranslation}
             variant="brand"></lightning-button>
 
-          <lightning-button
-            class="slds-p-right_medium slds-p-vertical_x-small slds-float_right butttonLabel"
-            label={addTranslationToCommentButtonLabel}
-            disabled={addTranslationToCommentDisabled}
-            variant="brand"
-            onclick={handleTranslationToComment}></lightning-button>
+          <template if:true={showAddTranslationButton}>
+            <lightning-button
+              class="slds-p-right_medium slds-p-vertical_x-small slds-float_right butttonLabel"
+              label={addTranslationToCommentButtonLabel}
+              disabled={addTranslationToCommentDisabled}
+              variant="brand"
+              onclick={handleTranslationToComment}></lightning-button>
+          </template>
         </div>
       </div>
     </div>

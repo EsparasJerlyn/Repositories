@@ -74,15 +74,15 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>WorkType</name>
-            <value>
-                <elementReference>workType</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>selectedTimezone</name>
             <value>
                 <elementReference>selectedTimezone</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>WorkType</name>
+            <value>
+                <elementReference>workType</elementReference>
             </value>
         </inputParameters>
         <nameSegment>saveAppointment</nameSegment>
@@ -190,9 +190,10 @@
   &quot;\&quot;ParentRecordId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.ParentRecordId} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;ServiceTerritoryId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.ServiceTerritoryId} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;ServiceResourceId\&quot;:\&quot;&quot; &amp; {!serviceResourceId} &amp; &quot;\&quot;,&quot; &amp; 
-  &quot;\&quot;WorkTypeId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.WorkTypeId} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;SchedStartTime\&quot;:\&quot;&quot; &amp; SUBSTITUTE(SUBSTITUTE(TEXT({!ServiceAppointment.SchedStartTime}), &quot; &quot;, &quot;T&quot;), &quot;Z&quot;, &quot;&quot;) &amp; &quot;.000Z\&quot;,&quot; &amp;
   &quot;\&quot;SchedEndTime\&quot;:\&quot;&quot; &amp; SUBSTITUTE(SUBSTITUTE(TEXT({!ServiceAppointment.SchedEndTime}), &quot; &quot;, &quot;T&quot;), &quot;Z&quot;, &quot;&quot;) &amp; &quot;.000Z\&quot;,&quot; &amp;
+  &quot;\&quot;WorkTypeId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.WorkTypeId} &amp; &quot;\&quot;,&quot; &amp;   
+  &quot;\&quot;Id\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Id} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Description\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Description} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Subject\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Subject} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Phone\&quot;:\&quot;&quot; &amp;  {!ServiceAppointment.Phone} &amp; &quot;\&quot;,&quot; &amp; 
@@ -667,7 +668,7 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <value>
-            <booleanValue>false</booleanValue>
+            <booleanValue>true</booleanValue>
         </value>
     </variables>
     <variables>
