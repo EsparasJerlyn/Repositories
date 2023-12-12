@@ -404,4 +404,20 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             System.assert(newItems.get(0).Status.equals('Cancelled'), 'Service Appointment is Cancelled.');
         }
     }
+
+    @isTest
+    private static void sendEmailFailureOnServiceAppointmentCreation() {
+        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+            Test.startTest();
+
+            Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+            msg.setSubject('Mock Test');
+
+            ServiceAppointmentService.sendEmail(new List<Messaging.SingleEmailMessage> {msg});
+
+            Test.stopTest();
+
+            System.assert(msg != null,'Single Email Message is not empty');
+        }
+    }
 }

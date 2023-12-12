@@ -9,19 +9,20 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------|
  *    | nicole.genon                   | December 4,2023       | DEPP-7259	            | Created File                  |
+ *    | ryan.j.a.dela.cruz             | December 12,2023      | DEPP-7259	            | Updated template merge fields |
  */
 public inherited sharing class ServiceAppointmentService {
     private static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
-        'International Phone Calls' => 'Bookable_Appointment_International_Confirmation_1700639088819',
-        'Domestic Phone Calls' => 'Bookable_Appointment_Domestic_Confirmation_1700702503498'
+        'International Phone Calls' => 'Bookable Appointment - International Confirmation',
+        'Domestic Phone Calls' => 'Bookable Appointment - Domestic Confirmation'
     };
     private static final Map<String, String> REMINDER_EMAIL_TEMPLATE_MAP = new Map<String, String>{
-        'International Phone Calls' => 'International_Reminder_1700703819733',
-        'Domestic Phone Calls' => 'Domestic_Reminder_1700703497776'
+        'International Phone Calls' => 'International Reminder',
+        'Domestic Phone Calls' => 'Domestic Reminder'
     };
     private static final Map<String, String> CANCELLED_EMAIL_TEMPLATE_MAP = new Map<String, String>{
-        'International Phone Calls' => 'International_Cancellation_1701248664023',
-        'Domestic Phone Calls' => 'Domestic_Cancellation_1701248527521'
+        'International Phone Calls' => 'International Cancellation',
+        'Domestic Phone Calls' => 'Domestic Cancellation'
     };
     private static final List<String> MONTH_NAMES = new List<String>{'January','February','March','April','May','June','July','August','September','October','November','December'
     };
@@ -38,8 +39,8 @@ public inherited sharing class ServiceAppointmentService {
         List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
 
         // Get Email Template
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByDeveloperNameSet(new Set<String>{CONFIRMATION_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE)},'SYSTEM_MODE');
-        List<EmailTemplate> reminderEmailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByDeveloperNameSet(new Set<String>{REMINDER_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE)},'SYSTEM_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CONFIRMATION_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE)},'SYSTEM_MODE');
+        List<EmailTemplate> reminderEmailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{REMINDER_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE)},'SYSTEM_MODE');
 
         for(ServiceAppointment serviceAppointment : internationalServiceAppointments){
             if(serviceAppointment.SchedStartTime != null && calculateSchedStartDateRange(WorkTypesDAO.INTERNATIONAL_WORK_TYPE,serviceAppointment.SchedStartTime)){
@@ -47,8 +48,8 @@ public inherited sharing class ServiceAppointmentService {
             }    
         }
 
-        sendEmail(internationalServiceAppointments,owea,emailTemplate.get(0));
-        sendEmail(reminderEmailRecords,owea,reminderEmailTemplate.get(0));
+        buildEmail(internationalServiceAppointments,owea,emailTemplate.get(0));
+        buildEmail(reminderEmailRecords,owea,reminderEmailTemplate.get(0));
     }
 
     /**
@@ -63,17 +64,17 @@ public inherited sharing class ServiceAppointmentService {
         List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
 
         // Get Email Template
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByDeveloperNameSet(new Set<String>{CONFIRMATION_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
-        List<EmailTemplate> reminderEmailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByDeveloperNameSet(new Set<String>{REMINDER_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CONFIRMATION_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
+        List<EmailTemplate> reminderEmailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{REMINDER_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
 
         for(ServiceAppointment serviceAppointment : domesticServiceAppointments){
             if(serviceAppointment.SchedStartTime != null && calculateSchedStartDateRange(WorkTypesDAO.DOMESTIC_WORK_TYPE,serviceAppointment.SchedStartTime)){
                 reminderEmailRecords.add(serviceAppointment);
-            }    
+            }
         }
 
-        sendEmail(domesticServiceAppointments,owea,emailTemplate.get(0));
-        sendEmail(reminderEmailRecords,owea,reminderEmailTemplate.get(0));
+        buildEmail(domesticServiceAppointments,owea,emailTemplate.get(0));
+        buildEmail(reminderEmailRecords,owea,reminderEmailTemplate.get(0));
     }
 
     /**
@@ -86,17 +87,17 @@ public inherited sharing class ServiceAppointmentService {
      */
     public static void sendEmailAfterServiceAppointmentCancellation(List<ServiceAppointment> internationalServiceAppointments,List<ServiceAppointment> domesticServiceAppointments) {
         List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES,OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByDeveloperNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
         
         if(!internationalServiceAppointments.isEmpty()){
-            sendEmail(internationalServiceAppointments,owea,emailTemplate.get(0));
+            buildEmail(internationalServiceAppointments,owea,emailTemplate.get(0));
         }
         if(!domesticServiceAppointments.isEmpty()){
-            sendEmail(domesticServiceAppointments,new List<OrgWideEmailAddress> {owea[1]},emailTemplate.get(0));
+            buildEmail(domesticServiceAppointments,new List<OrgWideEmailAddress> {owea[1]},emailTemplate.get(0));
         }
     }
 
-    public static void sendEmail(List<ServiceAppointment> serviceAppointments, List<OrgWideEmailAddress> owea, EmailTemplate emailTemplate){
+    public static void buildEmail(List<ServiceAppointment> serviceAppointments, List<OrgWideEmailAddress> owea, EmailTemplate emailTemplate){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         List<Messaging.SingleEmailMessage> sendEmailList = new List<Messaging.SingleEmailMessage>();
         String schedStartTime = '';
@@ -117,6 +118,7 @@ public inherited sharing class ServiceAppointmentService {
                     '{{{ServiceAppointment.Mobile_Locale__c}}}' => fieldsOnEmail.get(3),
                     '{{{ServiceAppointment.Mobile_No_Locale__c}}}' => fieldsOnEmail.get(4),
                     '{{{ServiceAppointment.Appointment_Topic__c}}}' => fieldsOnEmail.get(5),
+                    '{{{ServiceAppointment.Alteration_URL__c}}}' => fieldsOnEmail.get(6),
                     '{{{ServiceAppointment.SchedStartTime}}}' => schedStartTime
                 };
     
@@ -133,9 +135,46 @@ public inherited sharing class ServiceAppointmentService {
             }
         }
 
+        sendEmail(sendEmailList);
+    }
+
+    public static void sendEmail(List<Messaging.SingleEmailMessage> sendEmailList){
+        if(!stopSendingEmails()){
+            Logger.info('Service Appointment Daily Maximum Email Count has been reached.');
+            return;
+        }
+        
+        // make checker if org limit is reached
         // Send Email only when list it's not empty
         if(!sendEmailList.isEmpty()){
-            Messaging.sendEmail(sendEmailList);
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(sendEmailList, false);
+            getErrorResults((List<Messaging.SendEmailResult>) results);
+        }
+    }
+
+    /**
+     * check limit for email sending
+     */
+    private static Boolean stopSendingEmails(){        
+        Map<String,System.OrgLimit> limitsMap = OrgLimits.getMap();
+        System.OrgLimit sendEmailLimit = limitsMap.get('SingleEmail');
+       
+        return (sendEmailLimit.getValue() >= sendEmailLimit.getLimit());
+    } 
+
+    /**
+     * retrieves list of failed email sending results
+     */
+    public static void getErrorResults(List<Messaging.SendEmailResult> sendResults){
+        List<Messaging.SendEmailError> errorResults = new List<Messaging.SendEmailError>();
+        for (Messaging.SendEmailResult result : sendResults) {
+            if (!result.isSuccess()) {
+                errorResults = result.getErrors();
+                Logger.error('Exception caught in method execute in Apex class ServiceAppointmentService.').addTag(errorResults.toString());
+            } 
+        }
+        if(Logger.getBufferSize() > 0) {
+            Logger.saveLog();
         }
     }
 
@@ -185,6 +224,7 @@ public inherited sharing class ServiceAppointmentService {
             fieldsOnEmail.add((serviceAppointment.Mobile_Locale__c != null)? serviceAppointment.Mobile_Locale__c : '');
             fieldsOnEmail.add((serviceAppointment.Mobile_No_Locale__c != null)? serviceAppointment.Mobile_No_Locale__c : '');
             fieldsOnEmail.add((serviceAppointment.Appointment_Topic__c != null)? serviceAppointment.Appointment_Topic__c : '');
+            fieldsOnEmail.add((serviceAppointment.Alteration_URL__c != null)? serviceAppointment.Alteration_URL__c : '');
 
             return fieldsOnEmail;
     }

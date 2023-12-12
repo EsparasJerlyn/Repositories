@@ -159,7 +159,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ServiceAppointment.Alteration_URL__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -349,7 +349,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ServiceAppointment.Service_Appointment_ID__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
