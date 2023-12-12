@@ -68,6 +68,13 @@
                 <stringValue>Cancelled</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.CancellationReason</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Reason_for_Cancellation</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Update_Appointment</targetReference>
         </connector>
@@ -107,6 +114,7 @@
     </decisions>
     <environments>Default</environments>
     <interviewLabel>Cancel Appointment {!$Flow.CurrentDateTime}</interviewLabel>
+    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>Cancel Appointment</label>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -224,6 +232,12 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Reason_for_Cancellation</name>
+            <fieldText>Reason for Cancellation</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
