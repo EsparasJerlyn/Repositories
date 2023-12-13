@@ -72,7 +72,7 @@
             <assignToReference>ServiceAppointment.My_Citizenship_Status__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>What_best_option_describe_you</elementReference>
+                <elementReference>Which_option_best_describes_you</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -486,10 +486,10 @@
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <fields>
-            <name>What_best_option_describe_you</name>
+            <name>Which_option_best_describes_you</name>
             <choiceReferences>CitizenshipStatus</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>What best option describe you?</fieldText>
+            <fieldText>Which option best describes you?</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -503,7 +503,7 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
-                    <leftValueReference>What_best_option_describe_you</leftValueReference>
+                    <leftValueReference>Which_option_best_describes_you</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <stringValue>International Student</stringValue>
@@ -521,7 +521,7 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
-                    <leftValueReference>What_best_option_describe_you</leftValueReference>
+                    <leftValueReference>Which_option_best_describes_you</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <stringValue>International Student</stringValue>
