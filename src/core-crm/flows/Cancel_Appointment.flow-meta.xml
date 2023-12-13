@@ -203,29 +203,40 @@
                 <name>Cancellation_Screen_Section1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>Scheduled_Start</name>
-                    <dataType>DateTime</dataType>
-                    <defaultValue>
-                        <elementReference>ServiceAppointment.SchedStartTime</elementReference>
-                    </defaultValue>
-                    <fieldText>Scheduled Start:</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <isRequired>false</isRequired>
+                    <name>ScheduledStartLabel</name>
+                    <fieldText>&lt;p&gt;&lt;strong&gt;Scheduled Start:&lt;/strong&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
                 </fields>
                 <fields>
-                    <name>Scheduled_End</name>
-                    <dataType>DateTime</dataType>
-                    <defaultValue>
-                        <elementReference>ServiceAppointment.SchedEndTime</elementReference>
-                    </defaultValue>
-                    <fieldText>Scheduled End:</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <isRequired>false</isRequired>
+                    <name>ScheduledStartValue</name>
+                    <fieldText>&lt;p&gt;{!ServiceAppointment.SchedStartTime}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>12</stringValue>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Cancellation_Screen_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ScheduledEndLabel</name>
+                    <fieldText>&lt;p&gt;&lt;strong&gt;Scheduled End:&lt;/strong&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>ScheduledEndValue</name>
+                    <fieldText>&lt;p&gt;{!ServiceAppointment.SchedEndTime}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
