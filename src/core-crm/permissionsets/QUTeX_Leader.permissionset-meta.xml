@@ -13,6 +13,11 @@
         <field>Opportunity.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>hed__Course__c.Canvas_Sub_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>QUTeX Leader</label>
     <license>Salesforce</license>

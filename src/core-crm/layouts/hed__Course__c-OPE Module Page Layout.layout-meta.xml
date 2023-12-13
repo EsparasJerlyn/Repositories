@@ -31,6 +31,14 @@
                 <behavior>Edit</behavior>
                 <field>Primary_Delivery_Platform__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Suggested_Delivery_Dates__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Canvas_Sub_Account__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -58,8 +66,10 @@
                 <field>Owning_School_Discipline_Area__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Suggested_Delivery_Dates__c</field>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
