@@ -194,20 +194,5 @@ public with sharing class LeadsDAOTest {
             Test.stopTest();
         }
     }
-
-    @isTest
-    static void getUnconvertedLeadsByIdSetAndTypeTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
-            List<Lead> leadList = LeadsDAO.newInstance()
-                .getUnconvertedLeadsByIdSetAndType(
-                    new Set<Id>(),
-                    '',
-                    AccessLevel.USER_MODE
-                );
-            System.assert(leadList.isEmpty(), 'leadList should be empty');
-        }
-        Test.stopTest();
-    }
     
 }

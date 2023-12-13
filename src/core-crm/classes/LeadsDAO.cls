@@ -261,17 +261,4 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             accessLevel
         );
     }
-
-    public List<Lead> getUnconvertedLeadsByIdSetAndType(
-        Set<Id> recordIdSet,
-        String leadType,
-        AccessLevel accessLevel
-    ){
-        return Database.query(
-            'SELECT Id, Lead_Type__c ' +
-              'FROM Lead ' +
-             'WHERE Id IN: recordIdSet AND Lead_Type__c =: leadType AND IsConverted = FALSE',
-            accessLevel
-        );
-    }
 }

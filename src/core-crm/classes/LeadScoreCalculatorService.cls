@@ -249,7 +249,7 @@ public inherited sharing class LeadScoreCalculatorService {
     public static void processMarketingSegmentation(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForMktgSegmentation){
         if(isForMktgSegmentation){
             Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, leadIdSet);
-            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, marketingSegmentationMap);
+            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, marketingSegmentationMap);
             if(!marketingSegmentationMap.isEmpty()){
                 LeadScoreCalculatorService.calculateLeadScore(objMap, marketingSegmentationMap.keySet(), Marketing_Segmentation__c.getSObjectType());
             }

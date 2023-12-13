@@ -64,14 +64,10 @@ public with sharing class MarketingInteractionLeadScoreHelper{
      */
     private static void mapUnderGradStudyLevel(Marketing_Interaction__c mktgInt, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         
-        Boolean isContactUnderGrad = 
-            marketingSegMap.containsKey(mktgInt.Contact__c) && marketingSegMap.get(mktgInt.Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
-            marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
+        Boolean isContactUnderGrad = marketingSegMap.containsKey(mktgInt.Contact__c) && marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
         Boolean isContactDomestic = isContactUnderGrad && validateDomesticContact(mktgInt, marketingSegMap);
         Boolean isContactInternational = isContactUnderGrad && validateInternationalContact(mktgInt, marketingSegMap);
-        Boolean isLeadUnderGrad = 
-            marketingSegMap.containsKey(mktgInt.Lead__c) && marketingSegMap.get(mktgInt.Lead__c).Lead__r.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE &&
-            marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
+        Boolean isLeadUnderGrad = marketingSegMap.containsKey(mktgInt.Lead__c) && marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
         Boolean isLeadDomestic = isLeadUnderGrad && validateDomesticLead(mktgInt, marketingSegMap);
         Boolean isLeadInternational = isLeadUnderGrad && validateInternationalLead(mktgInt, marketingSegMap);
 
@@ -94,14 +90,10 @@ public with sharing class MarketingInteractionLeadScoreHelper{
      */
     private static void mapPostGradStudyLevel(Marketing_Interaction__c mktgInt, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         
-        Boolean isContactPostGrad = 
-            marketingSegMap.containsKey(mktgInt.Contact__c) && marketingSegMap.get(mktgInt.Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
-            marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
+        Boolean isContactPostGrad = marketingSegMap.containsKey(mktgInt.Contact__c) && marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
         Boolean isContactDomestic = isContactPostGrad && validateDomesticContact(mktgInt, marketingSegMap);
         Boolean isContactInternational = isContactPostGrad && validateInternationalContact(mktgInt, marketingSegMap);
-        Boolean isLeadPostGrad = 
-            marketingSegMap.containsKey(mktgInt.Lead__c) && marketingSegMap.get(mktgInt.Lead__c).Lead__r.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE &&
-            marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
+        Boolean isLeadPostGrad = marketingSegMap.containsKey(mktgInt.Lead__c) && marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
         Boolean isLeadDomestic = isLeadPostGrad && validateDomesticLead(mktgInt, marketingSegMap);
         Boolean isLeadInternational = isLeadPostGrad && validateInternationalLead(mktgInt, marketingSegMap);
 
@@ -125,14 +117,10 @@ public with sharing class MarketingInteractionLeadScoreHelper{
      */
     private static void mapUndeterminedStudyLevel(Marketing_Interaction__c mktgInt, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         
-        Boolean isContactUndetermined = 
-            marketingSegMap.containsKey(mktgInt.Contact__c) && marketingSegMap.get(mktgInt.Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
-            marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c == null;
+        Boolean isContactUndetermined = marketingSegMap.containsKey(mktgInt.Contact__c) && marketingSegMap.get(mktgInt.Contact__c).My_Primary_Study_Level__c == null;
         Boolean isContactDomestic = isContactUndetermined && validateDomesticContact(mktgInt, marketingSegMap);
         Boolean isContactInternational = isContactUndetermined && validateInternationalContact(mktgInt, marketingSegMap);
-        Boolean isLeadUndetermined = 
-            marketingSegMap.containsKey(mktgInt.Lead__c) && marketingSegMap.get(mktgInt.Lead__c).Lead__r.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE &&
-            marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c == null;
+        Boolean isLeadUndetermined = marketingSegMap.containsKey(mktgInt.Lead__c) && marketingSegMap.get(mktgInt.Lead__c).My_Primary_Study_Level__c == null;
         Boolean isLeadDomestic = isLeadUndetermined && validateDomesticLead(mktgInt, marketingSegMap);
         Boolean isLeadInternational = isLeadUndetermined && validateInternationalLead(mktgInt, marketingSegMap);
         Boolean isConCitizenshipUD = isContactUndetermined && validateUndeterminedContact(mktgInt, marketingSegMap);
