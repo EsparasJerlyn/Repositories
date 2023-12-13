@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LMS_Integration_Creation_Date_Validation</fullName>
+    <active>true</active>
+    <description>Validates the start date &lt; 8 and shoud not be editable if LMS Integration Status is Sent or Success</description>
+    <errorConditionFormula>AND(
+  ISCHANGED(LMS_Creation_Date__c),
+  OR(ISPICKVAL( LMS_Integration_Status__c ,&apos;Sent&apos;),  
+    ISPICKVAL( LMS_Integration_Status__c ,&apos;Success&apos;),
+    LMS_Creation_Date__c  &lt;=  hed__Start_Date__c - 8 
+)
+)</errorConditionFormula>
+    <errorDisplayField>LMS_Creation_Date__c</errorDisplayField>
+    <errorMessage>You are unable to change the LMS Creation Date, please check the details of the offering below as this can impact changing this data field - Offering Start Date - LMS Integration Status</errorMessage>
+</ValidationRule>

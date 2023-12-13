@@ -27,6 +27,11 @@
                 <default>false</default>
                 <label>Fail</label>
             </value>
+            <value>
+                <fullName>isChanged</fullName>
+                <default>false</default>
+                <label>isChanged</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

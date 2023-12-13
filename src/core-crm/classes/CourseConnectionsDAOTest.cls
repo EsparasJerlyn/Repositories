@@ -12,6 +12,8 @@
       |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
       | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                         |
       |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
+      | kenneth.f.alsay                | Sep 25, 2023          | DEPP-6629              | added method named                         |
+      |                                |                       |                        | getCourseConnectionByStatusTest            |
  */
 @isTest
 public with sharing class CourseConnectionsDAOTest {
@@ -85,6 +87,20 @@ public with sharing class CourseConnectionsDAOTest {
                     new Set<Id>(),
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCourseConnectionByStatusTest(){
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
+                .getCourseConnectionByStatus(
+                    'Active',
+                    'Sent'
                 );
             System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should be empty.');
         }

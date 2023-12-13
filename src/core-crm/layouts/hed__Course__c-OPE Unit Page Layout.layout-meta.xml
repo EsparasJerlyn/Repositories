@@ -43,6 +43,10 @@
                 <behavior>Edit</behavior>
                 <field>Suggested_Delivery_Dates__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Canvas_Sub_Account__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

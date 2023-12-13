@@ -4,9 +4,9 @@
  *
  * @history
  *
- *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
- *    | julie.jane.alegre              | September 18, 2023    |DEPP-6667               | Created File                        |
+ *    | Developer                      | Date                  | JIRA                   | Change Summary                     |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------|
+ *    | julie.jane.alegre              | September 18, 2023    |DEPP-6667               | Created File                       |
  */
 public inherited sharing class MarketingInteractionsDAO extends DmlBase implements IMarketingInteractionsDAO {
 
