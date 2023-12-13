@@ -28,7 +28,6 @@
         <!--(Start) DEPP-5866 -->
         <members>LeadScoreQueueableCall</members>
         <!--(End) DEPP-5866 -->
-        <members>Update_Latest_Queue_Name_Field_FlowTest</members>
         <!--(Start) DEPP-6629 -->
         <members>LMSCourseBatchHandler</members>
         <members>LMSCourseBatchHandlerTest</members>
@@ -280,12 +279,6 @@
         <members>Opportunity.NewThisWeek</members>
         <members>Opportunity.Won</members>
         <members>Opportunity.Default_Opportunity_Pipeline</members>
-        <!--(Start) DEPP-7067-->
-        <members>Case.Future_Student_Advisor_Unassigned</members>
-        <members>Case.International_Chat_Enquiries_Case</members>
-        <members>Case.International_Enquiries_Unassigned</members>
-        <members>Case.International_Enquiries_Case</members>
-        <!--(End) DEPP-7067-->
         <!--(start) DEPP-7253-->
         <members>ServiceAppointment.MyScheduledAppointments</members>
         <!--(END) DEPP-7253-->
