@@ -21,7 +21,7 @@
         <enableOnDemandEmailToCase>true</enableOnDemandEmailToCase>
         <enableThreadIDInBody>false</enableThreadIDInBody>
         <enableThreadIDInSubject>true</enableThreadIDInSubject>
-        <notifyOwnerOnNewCaseEmail>false</notifyOwnerOnNewCaseEmail>
+        <notifyOwnerOnNewCaseEmail>true</notifyOwnerOnNewCaseEmail>
         <overEmailLimitAction>Requeue</overEmailLimitAction>
         <preQuoteSignature>true</preQuoteSignature>
         <routingAddresses>
@@ -32,6 +32,8 @@
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
             <emailAddress>qut@qut.edu.au</emailAddress>
+            <emailServicesAddress>qut@k-1xin2q4uxolo4eg6fjej9obqqgf3t109yhwzx919xwnup7jp90.5g-1fdgjeao.aus84.case.salesforce.com</emailServicesAddress>
+            <isVerified>true</isVerified>
             <routingName>Domestic Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
@@ -43,6 +45,8 @@
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
             <emailAddress>qut.direct@qut.edu.au</emailAddress>
+            <emailServicesAddress>qut.direct@sm3tzmy5lgm8gccillsg0mncnwizblqmf4yyy0319dhyoc6ij.5g-1fdgjeao.aus84.case.salesforce.com</emailServicesAddress>
+            <isVerified>true</isVerified>
             <routingName>International Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>        

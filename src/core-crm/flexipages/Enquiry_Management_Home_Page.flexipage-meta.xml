@@ -271,7 +271,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>filterName</name>
-                    <value>International_Chat_Enquiries</value>
+                    <value>International_Chat_Enquiries_Case</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideActionBar</name>

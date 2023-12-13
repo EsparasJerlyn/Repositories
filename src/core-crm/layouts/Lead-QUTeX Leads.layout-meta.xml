@@ -291,6 +291,11 @@
                 <field>CampaignId</field>
             </layoutItem>
         </relatedContentItems>
+        <relatedContentItems>
+            <layoutItem>
+                <component>runtime_sales_social:socialPanel</component>
+            </layoutItem>
+        </relatedContentItems>
     </relatedContent>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
@@ -339,6 +344,16 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>Account</fields>
+        <fields>Case</fields>
+        <fields>ChatDuration</fields>
+        <fields>CreatedDate</fields>
+        <relatedList>RelatedLiveChatTranscriptList</relatedList>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <runAssignmentRulesDefault>false</runAssignmentRulesDefault>
     <showEmailCheckbox>false</showEmailCheckbox>

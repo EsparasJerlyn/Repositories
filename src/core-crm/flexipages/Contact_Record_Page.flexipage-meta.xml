@@ -2017,6 +2017,10 @@
                     <value>Service_Appointments__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>LiveChatTranscripts</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
                     <value>NONE</value>
                 </componentInstanceProperties>

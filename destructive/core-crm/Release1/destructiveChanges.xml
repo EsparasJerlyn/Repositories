@@ -29,6 +29,10 @@
         <members>LeadScoreQueueableCall</members>
         <!--(End) DEPP-5866 -->
         <members>Update_Latest_Queue_Name_Field_FlowTest</members>
+        <!--(Start) DEPP-6629 -->
+        <members>LMSCourseBatchHandler</members>
+        <members>LMSCourseBatchHandlerTest</members>
+        <!--(End) DEPP-6629 -->
         <!--(End) DEPP-7280 -->
         <members>CasePotentialMatchesListCtrl</members>
         <members>CasePotentialMatchesListCtrlTest</members>
@@ -217,7 +221,6 @@
         <!--(Start) DEPP-6426-->
         <members>Update_Case_Priority_Flow</members>
         <!--(End) DEPP-6426-->
-        <members>Update_Latest_Queue_Name_Field</members>
         <name>Flow</name>
     </types>
     <types>
@@ -312,7 +315,7 @@
         <!-- (End) DEPP-6849 -->
         <!-- (Start) DEPP-6868 -->
         <members>Opportunity.RP_Amount_is_Required</members>
-        <!-- (End) DEPP-6868 -->       
+        <!-- (End) DEPP-6868 -->
         <name>ValidationRule</name>
     </types>
     <types>

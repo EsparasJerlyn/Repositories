@@ -51,18 +51,16 @@ public class LMSCourseEnrollmentBatchHandlerTest {
             Test.startTest();
             Contact contact = [SELECT Id, QUT_Identity_ID__c, QUT_Employee_ID__c, QUT_Student_ID__c  FROM Contact LIMIT 1];
             contact.QUT_Identity_ID__c = 'test';
-            contact.QUT_Employee_ID__c = 'test';
             contact.QUT_Student_ID__c = 'test';
             update contact;
 
             hed__Course__c course = [SELECT Id, Mark_Content_as_Complete__c, Primary_Delivery_Platform__c, LMS_Integration_Status__c FROM hed__Course__c LIMIT 1];
-            course.Mark_Content_as_Complete__c = true;
-            course.Primary_Delivery_Platform__c = 'Blackboard';
-            course.LMS_Integration_Status__c = 'Success';
+            course.Primary_Delivery_Platform__c = 'QUT Canvas';
             update course;
 
             hed__Course_Offering__c courseOffering = [SELECT Id, LMS_Integration_Status__c, hed__Start_Date__c FROM hed__Course_Offering__c LIMIT 1];
             courseOffering.LMS_Integration_Status__c = 'Success';
+            courseOffering.hed__Start_Date__c = System.Today();
             update courseOffering;
             
             LMSCourseEnrollmentBatchHandler job = new LMSCourseEnrollmentBatchHandler();
