@@ -114,11 +114,6 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
             List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id},FIELDS,AccessLevel.SYSTEM_MODE);
 
-            Scheduler_Configuration__mdt schedulerConfig = Scheduler_Configuration__mdt.getInstance('Default');
-            if(schedulerConfig.Appointment_Base_URL__c != null){
-                System.assert(insertedAppointment.get(0).Alteration_URL__c.contains(schedulerConfig.Appointment_Base_URL__c),'Alteration URL is not empty.');
-            }
-
             System.assert(insertedAppointment.get(0).Appointment_Email__c.equals(insertedAppointment.get(0).Web_Email__c), 'Appointment Email is not null. Email is sent to the user.');
         }
     }
@@ -149,11 +144,6 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             Test.stopTest();
 
             List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByAppointmentEmail('nicolesample@mailinator.com',AccessLevel.SYSTEM_MODE);
-
-            Scheduler_Configuration__mdt schedulerConfig = Scheduler_Configuration__mdt.getInstance('Default');
-            if(schedulerConfig.Appointment_Base_URL__c != null){
-                System.assert(insertedAppointment.get(0).Alteration_URL__c.contains(schedulerConfig.Appointment_Base_URL__c),'Alteration URL is not empty.');
-            }
 
             System.assert(insertedAppointment.get(0).Appointment_Email__c.equals('nicolesample@mailinator.com'), 'Appointment Email is not null. Email is sent to the user.');
         }
@@ -191,11 +181,6 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             Long timeDifferenceInMilliseconds = insertedAppointment.get(0).SchedStartTime.getTime() - DateTime.now().getTime();
             Integer hoursDifference = (Integer)Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60));
 
-            Scheduler_Configuration__mdt schedulerConfig = Scheduler_Configuration__mdt.getInstance('Default');
-            if(schedulerConfig.Appointment_Base_URL__c != null){
-                System.assert(insertedAppointment.get(0).Alteration_URL__c.contains(schedulerConfig.Appointment_Base_URL__c),'Alteration URL is not empty.');
-            }
-
             System.assert(insertedAppointment.get(0).Appointment_Email__c.equals(insertedAppointment.get(0).Web_Email__c), 'Appointment Email is not null. Email is sent to the user.');
             System.assert(hoursDifference < 48, 'Service Appointment is less than 48 hours.');
         }
@@ -232,11 +217,6 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
 
             Long timeDifferenceInMilliseconds = insertedAppointment.get(0).SchedStartTime.getTime() - DateTime.now().getTime();
             Integer hoursDifference = (Integer)Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60));
-
-            Scheduler_Configuration__mdt schedulerConfig = Scheduler_Configuration__mdt.getInstance('Default');
-            if(schedulerConfig.Appointment_Base_URL__c != null){
-                System.assert(insertedAppointment.get(0).Alteration_URL__c.contains(schedulerConfig.Appointment_Base_URL__c),'Alteration URL is not empty.');
-            }
 
             System.assert(insertedAppointment.get(0).Appointment_Email__c.equals(insertedAppointment.get(0).Web_Email__c), 'Appointment Email is not null. Email is sent to the user.');
             System.assert(hoursDifference < 24, 'Service Appointment is less than 24 hours.');

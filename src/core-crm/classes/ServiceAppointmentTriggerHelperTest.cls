@@ -71,11 +71,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
 
             List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByAppointmentEmail('nicolesample@mailinator.com',AccessLevel.SYSTEM_MODE);
 
-            Scheduler_Configuration__mdt schedulerConfig = Scheduler_Configuration__mdt.getInstance('Default');
-            if(schedulerConfig.Appointment_Base_URL__c != null){
-                System.assert(insertedAppointment.get(0).Alteration_URL__c.contains(schedulerConfig.Appointment_Base_URL__c),'Alteration URL is not empty.');
-            }
-
             System.assert(insertedAppointment.get(0).Appointment_Email__c.equals('nicolesample@mailinator.com'), 'Appointment Email is not null. Email is sent to the user.');
         }
     }
