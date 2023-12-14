@@ -33,6 +33,7 @@
         <members>LMSCourseBatchHandler</members>
         <members>LMSCourseBatchHandlerTest</members>
         <!--(End) DEPP-6629 -->
+        <members>NullifyLMSIntegrationStatusFlowTest</members>
         <!--(End) DEPP-7280 -->
         <members>CasePotentialMatchesListCtrl</members>
         <members>CasePotentialMatchesListCtrlTest</members>
