@@ -4,7 +4,7 @@
         <description>Logs an Error to the Nebula Logger when Getting a data</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1986</locationX>
+        <locationX>2778</locationX>
         <locationY>566</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -44,7 +44,7 @@
         <description>Saves the Error Action for Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>1986</locationX>
+        <locationX>2778</locationX>
         <locationY>674</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
@@ -125,7 +125,7 @@
     <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment_for_Contact</name>
         <label>Assign Object Related Data For Service Appointment for Contact</label>
-        <locationX>1590</locationX>
+        <locationX>1656</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
@@ -155,21 +155,14 @@
                 <elementReference>Get_Contact_Record.MobilePhone</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>recordId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Contact_Record.AccountId</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
-            <targetReference>Schedule_Advisor_Appointment</targetReference>
+            <targetReference>Get_Educational_Institution_Record_Type_Id</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Object_Related_Data_For_Service_Appointment_for_Lead</name>
         <label>Assign Object Related Data For Service Appointment for Lead</label>
-        <locationX>2426</locationX>
+        <locationX>3218</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>LeadId</assignToReference>
@@ -207,7 +200,7 @@
     <assignments>
         <name>Copy_2_of_Field_Visibility_Control</name>
         <label>Field Visibility for Lead</label>
-        <locationX>2338</locationX>
+        <locationX>3130</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -309,7 +302,7 @@
     <assignments>
         <name>Field_Visibility_Control_for_Contact</name>
         <label>Field Visibility Control for Contact</label>
-        <locationX>1436</locationX>
+        <locationX>1469</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>Case_Number_Visibility</assignToReference>
@@ -360,8 +353,8 @@
     <assignments>
         <name>Prepare_Service_Appointment_Data</name>
         <label>Prepare Service Appointment Data</label>
-        <locationX>1722</locationX>
-        <locationY>998</locationY>
+        <locationX>1986</locationX>
+        <locationY>1430</locationY>
         <assignmentItems>
             <assignToReference>ServiceAppointment.CaseId__c</assignToReference>
             <operator>Assign</operator>
@@ -436,10 +429,68 @@
             <targetReference>Appointment_Scheduler_Subflow</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Set_Validation_Error_To_False</name>
+        <label>Set Validation Error To False</label>
+        <locationX>1854</locationX>
+        <locationY>1214</locationY>
+        <assignmentItems>
+            <assignToReference>ValidationField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Is_Selected_Appointment_Option_Domestic_Or_International</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Validation_Error_To_True</name>
+        <label>Set Validation Error To True</label>
+        <locationX>1458</locationX>
+        <locationY>1214</locationY>
+        <assignmentItems>
+            <assignToReference>ValidationField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Schedule_Advisor_Appointment</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_Description_Length</name>
+        <label>Check Description Length</label>
+        <locationX>1656</locationX>
+        <locationY>1106</locationY>
+        <defaultConnector>
+            <targetReference>Set_Validation_Error_To_False</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>More_than_the_Maximum_Limit</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Description_Length</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>32000.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Validation_Error_To_True</targetReference>
+            </connector>
+            <label>More than the Maximum Limit</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>886</locationX>
+        <locationX>1084</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>Which_Object_Is_It</targetReference>
@@ -513,8 +564,8 @@
     <decisions>
         <name>Is_Selected_Appointment_Option_Domestic_Or_International</name>
         <label>Is Selected Appointment Option Domestic Or International?</label>
-        <locationX>1590</locationX>
-        <locationY>890</locationY>
+        <locationX>1854</locationX>
+        <locationY>1322</locationY>
         <defaultConnector>
             <targetReference>Prepare_Service_Appointment_Data</targetReference>
         </defaultConnector>
@@ -640,7 +691,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_Contact</name>
         <label>Is There An Email Or Mobile For Contact</label>
-        <locationX>1436</locationX>
+        <locationX>1469</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment_for_Contact</targetReference>
@@ -693,7 +744,7 @@
     <decisions>
         <name>Is_There_An_Email_Or_Mobile_For_Lead</name>
         <label>Is There An Email Or Mobile For Lead</label>
-        <locationX>2338</locationX>
+        <locationX>3130</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_Object_Related_Data_For_Service_Appointment_for_Lead</targetReference>
@@ -807,7 +858,7 @@
         <description>Decision to determine which object is the passed record Id</description>
         <name>Which_Object_Is_It</name>
         <label>Which Object Is It?</label>
-        <locationX>1722</locationX>
+        <locationX>2118</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Unkown Object</defaultConnectorLabel>
         <rules>
@@ -954,6 +1005,12 @@
     )
 )</expression>
     </formulas>
+    <formulas>
+        <name>Description_Length</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!Please_provide_any_additional_information_about_this_appointment})</expression>
+        <scale>0</scale>
+    </formulas>
     <interviewLabel>Bookable Appointments {!$Flow.CurrentDateTime}</interviewLabel>
     <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>Bookable Appointment</label>
@@ -1006,7 +1063,7 @@
         <description>Get Contact Record based from Record Id</description>
         <name>Get_Contact_Record</name>
         <label>Get Contact Record</label>
-        <locationX>1436</locationX>
+        <locationX>1469</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1028,10 +1085,39 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Educational_Institution_Record_Type_Id</name>
+        <label>Get Educational Institution Record Type Id</label>
+        <locationX>1656</locationX>
+        <locationY>782</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_QUT_Account_Id</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Educational_Institution</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>educationalInstitutionRecordTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
         <description>Get Lead Record based from Record Id</description>
         <name>Get_Lead_Record</name>
         <label>Get Lead Record</label>
-        <locationX>2338</locationX>
+        <locationX>3130</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1053,12 +1139,48 @@
         <object>Lead</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_QUT_Account_Id</name>
+        <label>Get QUT Account Id</label>
+        <locationX>1656</locationX>
+        <locationY>890</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Schedule_Advisor_Appointment</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>QUT</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>educationalInstitutionRecordTypeId</elementReference>
+            </value>
+        </filters>
+        <object>Account</object>
+        <outputAssignments>
+            <assignToReference>recordId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+    </recordLookups>
     <runInMode>DefaultMode</runInMode>
     <screens>
         <name>Access_Error_Screen</name>
         <label>Access Error Screen</label>
-        <locationX>1458</locationX>
-        <locationY>998</locationY>
+        <locationX>1722</locationX>
+        <locationY>1430</locationY>
         <allowBack>true</allowBack>
         <allowFinish>false</allowFinish>
         <allowPause>false</allowPause>
@@ -1090,7 +1212,7 @@
     <screens>
         <name>ErrorScreen</name>
         <label>Error Screen</label>
-        <locationX>1986</locationX>
+        <locationX>2778</locationX>
         <locationY>782</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1106,8 +1228,8 @@
     <screens>
         <name>Mobile_Or_Email_Is_Empty</name>
         <label>Mobile Or Email Is Empty</label>
-        <locationX>1722</locationX>
-        <locationY>1574</locationY>
+        <locationX>2118</locationX>
+        <locationY>2090</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1180,13 +1302,13 @@
     <screens>
         <name>Schedule_Advisor_Appointment</name>
         <label>Schedule Advisor Appointment</label>
-        <locationX>1590</locationX>
-        <locationY>782</locationY>
+        <locationX>1656</locationX>
+        <locationY>998</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Is_Selected_Appointment_Option_Domestic_Or_International</targetReference>
+            <targetReference>Check_Description_Length</targetReference>
         </connector>
         <fields>
             <name>HeaderTitle</name>
@@ -1295,6 +1417,9 @@
             <name>Which_option_best_describes_the_person</name>
             <choiceReferences>CitizenshipStatus</choiceReferences>
             <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>CitizenshipStatus</elementReference>
+            </defaultValue>
             <fieldText>Which option best describes the person?</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
@@ -1303,6 +1428,9 @@
             <name>Country_of_citizenship</name>
             <choiceReferences>CitizenshipCountry</choiceReferences>
             <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>CitizenshipCountry</elementReference>
+            </defaultValue>
             <fieldText>Country of citizenship</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>false</isRequired>
@@ -1321,6 +1449,9 @@
             <name>Country_of_residency</name>
             <choiceReferences>ResidencyCountry</choiceReferences>
             <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>ResidencyCountry</elementReference>
+            </defaultValue>
             <fieldText>Country of residency</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>false</isRequired>
@@ -1344,19 +1475,43 @@
             <name>What_is_the_primary_topic_for_this_appointment</name>
             <choiceReferences>AppointmentTopic</choiceReferences>
             <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>AppointmentTopic</elementReference>
+            </defaultValue>
             <fieldText>What is the primary topic for this appointment?</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Please_provide_any_additional_information_about_this_appointment</name>
+            <defaultValue>
+                <stringValue>{!Please_provide_any_additional_information_about_this_appointment}</stringValue>
+            </defaultValue>
             <fieldText>Please provide any additional information about this appointment.</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
         </fields>
         <fields>
+            <name>Description_Error_Message</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(221, 27, 27);&quot;&gt;﻿* Please enter additional information with maximum limit of 32000.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ValidationField</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>This_person_has_provided_verbal_consent_to_receive_study_event_and_other_informa</name>
             <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>This_person_has_provided_verbal_consent_to_receive_study_event_and_other_informa</elementReference>
+            </defaultValue>
             <fieldText>This person has provided verbal consent to receive study, event and other information from QUT.</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
@@ -1365,7 +1520,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>760</locationX>
+        <locationX>958</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_User_Role</targetReference>
@@ -1375,8 +1530,8 @@
     <subflows>
         <name>Appointment_Scheduler_Subflow</name>
         <label>Appointment Scheduler Subflow</label>
-        <locationX>1722</locationX>
-        <locationY>1106</locationY>
+        <locationX>1986</locationX>
+        <locationY>1538</locationY>
         <flowName>Appointment_Scheduler</flowName>
         <inputAssignments>
             <name>fromWebsite</name>
@@ -1482,6 +1637,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>educationalInstitutionRecordTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>Email</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1562,5 +1724,15 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ValidationField</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
 </Flow>

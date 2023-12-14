@@ -51,7 +51,6 @@
         <sharedTo>
             <guestUser>Study</guestUser>
         </sharedTo>
-        <booleanFilter>(1 AND 2) OR 3</booleanFilter>
         <criteriaItems>
             <field>Name</field>
             <operation>equals</operation>
@@ -61,11 +60,6 @@
             <field>RecordTypeId</field>
             <operation>equals</operation>
             <value>Educational Institution</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>RecordTypeId</field>
-            <operation>equals</operation>
-            <value>Administrative</value>
         </criteriaItems>
         <includeHVUOwnedRecords>false</includeHVUOwnedRecords>
     </sharingGuestRules>
