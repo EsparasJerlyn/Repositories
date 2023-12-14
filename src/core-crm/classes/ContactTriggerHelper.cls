@@ -36,7 +36,6 @@ public without sharing class ContactTriggerHelper {
         List<Contact> newItems,
         Map<Id, Contact> oldItems
     ) {
-        Boolean isInsert = oldItems == null;
 
         List<Contact> contactsToRecalculate = new List<Contact>();
 
@@ -58,7 +57,7 @@ public without sharing class ContactTriggerHelper {
 
         //processes with soql and dml start
         //recalculate Can Nurture by threshold
-        recalculateCanNuture(contactsToRecalculate);
+        recalculateCanNurture(contactsToRecalculate);
     }
 
     /**
@@ -409,42 +408,96 @@ public without sharing class ContactTriggerHelper {
     ) {
         Boolean isInsert = oldContacts == null;
         //on insert or update
-        //check if QUT Applicant is set to false on insert or udpate
-        Boolean isQUTApplicantChanged =
-            !isInsert && oldContacts.get(con.Id).QUT_Applicant__c != con.QUT_Applicant__c;
-
-        //check if contact is applicant
-        if (con.QUT_Applicant__c) {
+        //check if QUT Applicant is set to false on insert or update
+        Boolean isQUTApplicantChanged = (!isInsert && oldContacts.get(con.Id).QUT_Applicant__c != con.QUT_Applicant__c);
+        
+        //check if lead score value changed
+        Boolean isLeadScoreChanged = (!isInsert && oldContacts.get(con.Id).Lead_Score__c != con.Lead_Score__c);
+        
+        
+       //check if contact is applicant
+        if (con.QUT_Applicant__c && isInsert) {
             con.Can_Nurture__c = true;
-        } else if (con.Lead_Score__c > 0 && (isInsert || isQUTApplicantChanged)) {
+        } else if(isLeadScoreChanged || isQUTApplicantChanged) {
             contactsToRecalculate.add(con);
         }
     }
 
     /**
-     * @description recalculate lead score if above or below threshold
+     * @description recalculate contacts and set Can_Nurture__c based on the specified criteria
      *
      * @param List<Contact> contactsToRecalculate
      */
-    private static void recalculateCanNuture(List<Contact> contactsToRecalculate) {
+    private static void recalculateCanNurture(List<Contact> contactsToRecalculate) {
+        if (contactsToRecalculate.isEmpty()) {
+            return;
+        }
         
-        if (!contactsToRecalculate.isEmpty()) {
-            List<Nurture_Track_Configuration__c> nurtureList = NurtureTrackConfigurationsDAO.newInstance()
-                .getNurtureTrackLeadScoreThreshold('SYSTEM_MODE');
-
-            if (!nurtureList.isEmpty()) {
-                Decimal minScore = nurtureList[0].Lead_Score_Threshold__c;
-
-                for (Contact con : contactsToRecalculate) {
-                    //checks if the lead score is greater than the least threshold
-                    con.Can_Nurture__c = LeadScoreService.isLeadScoreInRange(
-                        con.Lead_Score__c,
-                        minScore,
-                        null
-                    );
-                }
+        Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack = new Map<String, Nurture_Track_Configuration__c>();
+        Set<Id> contactWithActiveApplications = new Set<Id>();
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(contactsToRecalculate);
+        
+        // Populate mapOfNurtureTrack with nurturing track records for Strong Interest
+        populateNurtureTrackMap(mapOfNurtureTrack);
+        
+        // Populate contactWithActiveApplications with active contact IDs
+        populateActiveApplicationsSet(contactWithActiveApplications, contactMap);
+        
+        if (!mapOfNurtureTrack.isEmpty() || !contactWithActiveApplications.isEmpty()) {
+            for (Contact con : contactsToRecalculate) {
+                Decimal minScore = getMinScore(con.hed__Citizenship_Status__c, mapOfNurtureTrack);
+                
+                // Check if the lead score is greater than or equal to the Strong Interest threshold nurture track
+                // Or if the contact is linked to an active application record, then set the Can_Nurture flag to TRUE
+                con.Can_Nurture__c = LeadScoreService.isLeadScoreInRange(con.Lead_Score__c, minScore, null) || contactWithActiveApplications.contains(con.Id);
             }
         }
+    }
+    /**
+     * @description get strong interest nurture track
+     *
+     * @param Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack)
+     */    
+    private static void populateNurtureTrackMap(Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack) {
+        for (Nurture_Track_Configuration__c nurture : NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackLeadScoreThreshold('SYSTEM_MODE')) {
+            if (isStrongInterestCadence(nurture.Cadence_Name__c)) {
+                mapOfNurtureTrack.put(nurture.Cadence_Name__c, nurture);
+            }
+        }
+    }
+    
+    /**
+     * @description check if cadence is strong interest
+     *
+     * @param String cadenceName
+     */      
+    private static boolean isStrongInterestCadence(String cadenceName) {
+        return cadenceName == NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL ||
+            cadenceName == NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
+    }
+
+    /**
+     * @description get active application of contact
+     *
+     * @param Set<Id> contactWithActiveApplications, Map<Id, Contact> contactMap
+     */     
+    private static void populateActiveApplicationsSet(Set<Id> contactWithActiveApplications, Map<Id, Contact> contactMap) {
+        for (hed__Application__c app : ApplicationsDAO.newInstance().getApplicationsActiveApplicants(contactMap.keySet(), 'SYSTEM_MODE')) {
+            contactWithActiveApplications.add(app.hed__Applicant__c);
+        }
+    }
+    
+    /**
+     * @description set the nurture track lead score threshold
+     *
+     * @param String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack
+     */     
+    private static Decimal getMinScore(String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack) {
+        if (citizenshipStatus == 'Domestic' || citizenshipStatus == 'International') {
+            String cadenceName = (citizenshipStatus == 'International') ? NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL : NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
+            return mapOfNurtureTrack.get(cadenceName)?.Lead_Score_Threshold__c;
+        }
+        return null;
     }
 
     /***

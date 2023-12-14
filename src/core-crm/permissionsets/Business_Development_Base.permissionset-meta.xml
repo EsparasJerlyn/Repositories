@@ -5629,6 +5629,10 @@
         <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>et4ae5__IndividualEmailResult__c</tab>
         <visibility>Visible</visibility>

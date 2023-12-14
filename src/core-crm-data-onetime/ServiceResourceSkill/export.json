@@ -1,0 +1,124 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Id, Name, TimeZone FROM OperatingHours",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "OperatingHours",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,TimeSlotNumber, DayOfWeek, OperatingHoursId, StartTime, EndTime FROM TimeSlot",
+            "operation": "Insert",
+            "externalId": "DayOfWeek;OperatingHoursId;StartTime;EndTime",
+            "useCSVValuesMapping": true,
+            "targetObject": "TimeSlot",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name,OperatingHoursId, IsActive FROM ServiceTerritory",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ServiceTerritory",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, DeveloperName, SobjectType, Name From RecordType Where SobjectType IN ('Account')",
+            "operation": "Upsert",
+            "externalId": "DeveloperName;SobjectType",
+            "useCSVValuesMapping": true,
+            "targetObject": "RecordType",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,Name, RecordTypeId FROM Account WHERE RecordType.DeveloperName='Educational_Institution'",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Account",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, AccountId, Start_Date__c FROM Asset",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "Asset",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, OperatingHoursId, EstimatedDuration, DurationType, ApptStartTimeIntvlInMin,TimeframeStart,TimeFrameStartUnit,TimeframeEnd,TimeFrameEndUnit FROM WorkType",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "WorkType",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, GroupType, IsActive FROM WorkTypeGroup",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "WorkTypeGroup",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, AssetId, ResourceType, IsActive FROM ServiceResource",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ServiceResource",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, DeveloperName, MasterLabel FROM Skill",
+            "operation": "Upsert",
+            "externalId": "DeveloperName",
+            "useCSVValuesMapping": true,
+            "targetObject": "Skill",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, SkillNumber, EffectiveStartDate,ServiceResourceId, SkillId FROM ServiceResourceSkill",
+            "operation": "Insert",
+            "externalId": "SkillNumber",
+            "useCSVValuesMapping": true,
+            "targetObject": "ServiceResourceSkill",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name,WorkTypeGroupId,WorkTypeId FROM WorkTypeGroupMember",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "WorkTypeGroupMember",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id,MemberNumber,EffectiveStartDate,ServiceResourceId, ServiceTerritoryId,TerritoryType FROM ServiceTerritoryMember",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ServiceTerritoryMember",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, RelatedRecordId$WorkType, SkillId, SkillNumber FROM SkillRequirement",
+            "operation": "Insert",
+            "externalId": "SkillNumber",
+            "useCSVValuesMapping": true,
+            "targetObject": "SkillRequirement",
+            "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Id, Name, ServiceTerritoryId, WorkTypeId FROM ServiceTerritoryWorkType",
+            "operation": "Insert",
+            "externalId": "Name",
+            "useCSVValuesMapping": true,
+            "targetObject": "ServiceTerritoryWorkType",
+            "importCSVFilesAsIs": true
+        }
+    ]
+}

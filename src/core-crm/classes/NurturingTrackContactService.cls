@@ -1934,11 +1934,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 DOMESTIC_OFFER_LAPSED_AUTOMATED) ||
                 (application.hed__Applicant__r.Calculated_Cadence__c ==
                 DOMESTIC_OFFER_LAPSED_MANUAL);
+            // Check if today's date is greater than the application last admission date            
+            Boolean isTodayGreaterThanLastAdmissionDate = Date.today() >= application.Applied_Intake_Study_Period__r.Last_Admission_Date__c;
+            
             if (
                 isSAMSApplicant &&
                 hasDomesticOfferLapsedCadence &&
                 domesticExitContactMap.containsKey(application.hed__Applicant__c) &&
-                application.Offer_Status__c != 'Lapsed'
+                application.Offer_Status__c != 'Lapsed' &&
+                isTodayGreaterThanLastAdmissionDate
             ) {
                 contactsToUpdateMap.put(
                     application.hed__Applicant__c,

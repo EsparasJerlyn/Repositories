@@ -63,6 +63,8 @@
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
+ *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
+ *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
  *
  **/
 
@@ -106,7 +108,8 @@ public class TestDataFactory {
         'QUT_ISR_Student_Adviser',
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
-        'QUT_Domestic_Future_Student_Agent'
+        'QUT_Domestic_Future_Student_Agent',
+        'QUT_International_Future_Student_Agent'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -2019,7 +2022,6 @@ public class TestDataFactory {
      */
     public static List<International_Tier__c> createInternationalTierRecords(
         List<String> countryNames,
-        String priority,
         String category,
         Boolean isActive
     ) {
@@ -2029,7 +2031,6 @@ public class TestDataFactory {
             International_Tier__c tier = new International_Tier__c(
                 IsActive__c = isActive,
                 Country_Name__c = country,
-                Tier_Priority__c = priority,
                 Tier_Category__c = category
             );
             records.add(tier);
@@ -2215,6 +2216,21 @@ public class TestDataFactory {
             SELECT Id
             FROM User
             WHERE Username LIKE 'QUT_Domestic_Future_Student_Agent%'
+            LIMIT 1
+        ];
+        return futureStudentAgent;
+    }
+
+    /**
+     * @description Method for creating International Future Student Agent
+     * @param void
+     * @return futureStudentAgent - International Future Student Agent
+     */
+    public static User getInternationalFutureStudentAgent() {
+        User futureStudentAgent = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_International_Future_Student_Agent%'
             LIMIT 1
         ];
         return futureStudentAgent;
@@ -2979,8 +2995,22 @@ public class TestDataFactory {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User,Future_Student_Domestic_Email_Access';
                 publicGroups = 'Future Students - Domestic';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }else if (name == 'QUT_International_Future_Student_Agent') {
+                userName = 'QUT_International_Future_Student_Agent';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Agent - International';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User,Future_Student_International_Email_Access';
+                publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
@@ -3941,5 +3971,39 @@ public class TestDataFactory {
             ));
         }
         return sprinklrCases;
+    }
+
+    /**
+     * @description Method for creating test Service Appointment records
+     * @param numServiceAppointment - number of Service Appointment to be created
+     * @return serviceApp - list of Service Appointment created
+     */
+    public static List<ServiceAppointment> createTestServiceAppointmentRecords(Integer numServiceAppointment, Id accountId) {
+        List<ServiceAppointment> serviceApp = new List<ServiceAppointment>();
+
+        for (Integer i = 0; i < numServiceAppointment; i++) {
+            serviceApp.add(new ServiceAppointment(EarliestStartTime = System.Now(), DueDate = System.Now().addDays(10), ParentRecordId = accountId));
+        }
+
+        return serviceApp;
+    }
+
+    /** @description Method for creating test WorkType records
+     * @return workTypes - list of WorkTypes created
+     */
+    public static List<WorkType> createTestWorkTypeRecords() {
+        List<WorkType> newWorkTypes = new List<WorkType>();
+        String workName;
+        for (Integer i = 0; i < 2; i++) {
+            newWorkTypes.add(
+                new WorkType(
+                    Name = 'Team',
+                    EstimatedDuration = 5
+                )
+            );
+        }
+        newWorkTypes.get(0).Name = 'International Phone Calls';
+        newWorkTypes.get(1).Name = 'Domestic Phone Calls';
+        return newWorkTypes;
     }
 }

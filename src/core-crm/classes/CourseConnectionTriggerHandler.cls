@@ -269,7 +269,8 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
                                                         AND hed__Contact__r.QUT_Student_Username__c != null
                                                         AND hed__Contact__r.Registered_Email__c != null
                                                         AND hed__Status__c = 'Active'
-                                                        AND RecordTypeId =:STUDENT_RECTYPEID WITH SECURITY_ENFORCED]){
+                                                        AND RecordTypeId =:STUDENT_RECTYPEID
+                                                        AND LMS_Integration_Status__c = 'Success' WITH SECURITY_ENFORCED]){
       Integer dayBeforeStart = Date.today().daysBetween(courseConnection.hed__Course_Offering__r.hed__Start_Date__c);
       if(dayBeforeStart <= 7){
         contactsToSendWelcomeEmailSet.add(courseConnection.hed__Contact__c); //set of contacts who will receive welcome email

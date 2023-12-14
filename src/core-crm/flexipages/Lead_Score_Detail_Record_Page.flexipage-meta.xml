@@ -163,8 +163,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Course_Level__c</fieldItem>
-                <identifier>RecordCourse_Level_cField</identifier>
+                <fieldItem>Record.Preferred_Intake__c</fieldItem>
+                <identifier>RecordPreferred_Intake_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -173,8 +173,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Match_My_Skills__c</fieldItem>
-                <identifier>RecordMatch_My_Skills_cField</identifier>
+                <fieldItem>Record.Marketing_Consent__c</fieldItem>
+                <identifier>RecordMarketing_Consent_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -183,8 +183,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Interested_In_Double_Degrees__c</fieldItem>
-                <identifier>RecordInterested_In_Double_Degrees_cField</identifier>
+                <fieldItem>Record.Program_Engagement__c</fieldItem>
+                <identifier>RecordProgram_Engagement_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Interested_In_English_Pathway_Programs__c</fieldItem>
+                <identifier>RecordInterested_In_English_Pathway_Programs_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a313412f-ca0b-4430-a342-70d0c7891721</name>
@@ -247,8 +257,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Marketing_Consent__c</fieldItem>
-                <identifier>RecordMarketing_Consent_cField</identifier>
+                <fieldItem>Record.Course_Level__c</fieldItem>
+                <identifier>RecordCourse_Level_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -257,8 +267,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Program_Engagement__c</fieldItem>
-                <identifier>RecordProgram_Engagement_cField</identifier>
+                <fieldItem>Record.Match_My_Skills__c</fieldItem>
+                <identifier>RecordMatch_My_Skills_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -267,8 +277,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Interested_In_English_Pathway_Programs__c</fieldItem>
-                <identifier>RecordInterested_In_English_Pathway_Programs_cField</identifier>
+                <fieldItem>Record.Interested_In_Double_Degrees__c</fieldItem>
+                <identifier>RecordInterested_In_Double_Degrees_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-5a3417f2-8dc4-41d6-a556-8d1de8cba2c0</name>

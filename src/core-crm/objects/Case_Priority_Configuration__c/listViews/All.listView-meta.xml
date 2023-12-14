@@ -7,6 +7,7 @@
     <columns>Enquiry_Sub_Category__c</columns>
     <columns>Lead_Score__c</columns>
     <columns>Future_Student_Stage__c</columns>
+    <columns>Applicant_Onshore__c</columns>
     <columns>Date_from__c</columns>
     <columns>Date_to__c</columns>
     <columns>Priority__c</columns>

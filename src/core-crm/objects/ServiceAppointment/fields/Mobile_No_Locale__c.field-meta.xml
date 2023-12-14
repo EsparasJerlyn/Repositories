@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mobile_No_Locale__c</fullName>
+    <description>Appointment setters mobile without the international locale</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    NOT(ISBLANK(  Web_Mobile_No_Locale__c  )),
+    Web_Mobile_No_Locale__c ,
+    IF(
+        NOT(ISBLANK( Contact__r.Mobile_No_Locale__c  )),
+        Contact__r.Mobile_No_Locale__c,
+        IF(
+            NOT(ISBLANK(  LeadId__r.Mobile_No_Locale__c  )),
+            LeadId__r.Mobile_No_Locale__c,
+            IF(
+                NOT(ISBLANK(  CaseId__r.Contact.Mobile_No_Locale__c  )),
+                CaseId__r.Contact.Mobile_No_Locale__c,
+                IF(
+                   NOT(ISBLANK( CaseId__r.Lead__r.Mobile_No_Locale__c   )),
+                   CaseId__r.Lead__r.Mobile_No_Locale__c,
+                    &quot;&quot;
+                )
+           )
+
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Mobile No Locale</label>
+    <required>false</required>
+    <securityClassification>Sensitive</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

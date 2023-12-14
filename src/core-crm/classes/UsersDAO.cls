@@ -22,7 +22,7 @@ public with sharing class UsersDAO extends DmlBase implements IUsersDAO {
 
     public List<User> getUsersByNameSet(Set<String> usernames, AccessLevel accessLevel) {
         return Database.query(
-            'SELECT Id ' + 
+            'SELECT Id, UserRole.DeveloperName ' + 
               'FROM User ' + 
              'WHERE Username IN: usernames', accessLevel
         );

@@ -1,0 +1,40 @@
+<template>
+    <div class="box-data-list">
+        <lightning-card>
+            <div class="box-header">
+                <h3 slot="title">
+                    <div class="box-icon-work-plan">
+                        <lightning-icon icon-name="standard:work_plan" size="small"></lightning-icon>
+                    </div>
+                    <p class="title">{getTitle}</p>
+                </h3>
+            </div>
+            <template if:false={isLoaded}>
+                <div class="spinner_class_div">
+                    <lightning-spinner class="spinner_class" alternative-text="Loading" variant="brand">
+                    </lightning-spinner>
+                </div>
+            </template>
+            <lightning-datatable
+                max-row-selection="1"
+                key-field="Id"
+                data={dataRecord}
+                columns={tableColumns}
+            >
+            </lightning-datatable>
+            <div class="box-viewall">
+                <slot name="viewall"></slot>
+            </div>
+            <div class="btn-link-to-case">
+                <lightning-button
+                    disabled={isDisabledBtn}
+                    variant="brand"
+                    label={linkBtnlabelName}
+                    title={linkBtnlabelName}
+                    onclick={handlelinkToObject}
+                    class="slds-m-left_x-small"
+                ></lightning-button>
+            </div>
+        </lightning-card>
+    </div>
+</template>

@@ -417,6 +417,16 @@
         <relatedList>RelatedCaseList</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
+        <fields>Name</fields>
+        <fields>Appointment_Topic__c</fields>
+        <fields>SchedStartTime</fields>
+        <fields>SchedEndTime</fields>
+        <fields>WorkType</fields>
+        <fields>CreatedDate</fields>
+        <relatedList>ServiceAppointment.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
         <fields>Course_Name__c</fields>
         <fields>RECORDTYPE</fields>
@@ -484,16 +494,6 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Marketing_Interaction__c.Contact__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>Name</fields>
-        <fields>Account</fields>
-        <fields>Case</fields>
-        <fields>ChatDuration</fields>
-        <fields>CreatedDate</fields>
-        <relatedList>RelatedLiveChatTranscriptList</relatedList>
-        <sortField>CreatedDate</sortField>
-        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

@@ -49,16 +49,17 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>Case.Category__c</groupingColumn>
+                <groupingColumn>BucketField_16964222</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Open Cases Grouped by Enquiry Category</header>
+                <header>Open Cases Per Channel</header>
                 <legendPosition>Right</legendPosition>
-                <report>InternationalFutureStudentReports/Open_Cases_Grouped_by_Enquiry_Category_Int</report>
+                <maxValuesDisplayed>10</maxValuesDisplayed>
+                <report>InternationalFutureStudentReports/Open_Cases_Per_Channel_Int</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>

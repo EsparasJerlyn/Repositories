@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>Invalid Enquiry</label>
             </value>
+            <value>
+                <fullName>Redirected Agent Enquiry</fullName>
+                <default>false</default>
+                <label>Redirected Agent Enquiry</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Closed</controllingFieldValue>
@@ -55,6 +60,11 @@
             <controllingFieldValue>Closed</controllingFieldValue>
             <controllingFieldValue>Pending Closure</controllingFieldValue>
             <valueName>Invalid Enquiry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Redirected Agent Enquiry</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

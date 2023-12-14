@@ -10,14 +10,19 @@
  *    | roy.nino.s.regala         | July 14, 2023         | DEPP-5677            | Created file                                                                |
  *    | roy.nino.s.regala         | Sep 22, 2023          | DEPP-6365            | Added new field mapping and column logic                                    |
  *    | roy.nino.s.regala         | Oct 30, 2023          | DEPP-7024            | Added new field mapping and column logic                                    |
+ *    | roy.nino.s.regala         | Dec 11, 2023          | DEPP-7311            | Added assign to others logic                                                |
  */
 import { LightningElement, api, track} from "lwc";
 import getTableDataWrapper from "@salesforce/apex/SalesCadenceListViewCtrl.getTableDataWrapper";
 import LWC_Error_General from "@salesforce/label/c.LWC_Error_General";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import Id from "@salesforce/user/Id";
-import assignToMe from "@salesforce/apex/SalesCadenceListViewCtrl.assignToMe";
 import validateTargetsToAssign from "@salesforce/apex/SalesCadenceListViewCtrl.validateTargetsToAssign";
+import assignToCadence from "@salesforce/apex/SalesCadenceListViewCtrl.assignToCadence";
+import getSearchedUsers from "@salesforce/apex/SalesCadenceListViewCtrl.getSearchedUsers";
+import getRecentlyViewed from "@salesforce/apex/SalesCadenceListViewCtrl.getRecentlyViewed";
+import checkUserRole from "@salesforce/apex/SalesCadenceListViewCtrl.checkUserRole";
+
 
 const ERROR_TOAST_VARIANT = "error";
 const ERROR_TOAST_TITLE = "Error";
@@ -285,6 +290,15 @@ export default class SalesCadenceListView extends LightningElement {
   selectedRows = [];
   selectedRowsData = [];
   userId = Id;
+  showModal = false;
+  header = 'Add to ';
+  objectLabelName ='User';
+  searchInProgress = false;
+  searchedId = '';
+  userSearchItems = [];
+  recentlyViewed = [];
+  filterString = '';
+  isTeamLeader = false;
   hasAssignmentError = false;
   assignmentErrorMessage = '';
   /* DATATABLE VARIABLES END */
@@ -302,6 +316,19 @@ export default class SalesCadenceListView extends LightningElement {
     } else {
       return " (" + this.finalDataList.length + ")";
     }
+  }
+
+  get hasNoUserSelected(){
+    return !this.searchedId;
+  }
+
+  get finalSearchItems(){
+    if(this.userSearchItems.length != 0){
+      return this.userSearchItems;
+    }else if(this.filterString.length == 0 || this.filterString.trim() == 0){
+      return this.recentlyViewed;
+    }
+    return [];
   }
 
   get hasNoRowSelected() {
@@ -359,6 +386,14 @@ export default class SalesCadenceListView extends LightningElement {
   /*SERVER CALLS START */
   connectedCallback() {
     this.loadData(this.calculatedCadence);
+    this.checkIfTeamLeader();
+  }
+
+  checkIfTeamLeader(){
+    return checkUserRole({})
+    .then((result)=>{
+      this.isTeamLeader = result;
+    })
   }
 
   //loads the datatable column,data, and recordcount
@@ -403,6 +438,44 @@ export default class SalesCadenceListView extends LightningElement {
     target.isLoading = true;
     let tempRowLimit = this.rowLimit + 10;
     this.processLoadMoreData(tempRowLimit, target);
+  }
+
+  handleSearchUser(event){
+    this.searchInProgress = true;
+    this.filterString = event.detail.filterString;
+    const logger = this.template.querySelector("c-logger");
+    getSearchedUsers({
+        filterString: event.detail.filterString,
+        citizenship: this.calculatedCadence.split(' ')[0]
+    })
+    .then(result =>{
+        if(result){
+            this.userSearchItems = result;
+        }else{
+            this.userSearchItems = [];
+        }
+    })
+    .finally(()=>{
+        this.searchInProgress = false;
+    })
+    .catch(error =>{
+        if (logger) {
+          logger
+            .error(
+              "Exception caught in method handleSearchUser in LWC salesCadenceListView: "
+            )
+            .setError(error);
+          logger.saveLog();
+        }
+        this.generateToast('Error.',LWC_Error_General,'error');
+    });
+  }
+  handleLookupSelect(event){
+    this.searchedId = event.detail.value;
+  }
+  handleLookupRemove(){
+    this.searchedId = '';
+    this.userSearchItems = [];
   }
 
   processLoadMoreData(limit, target) {
@@ -466,7 +539,16 @@ export default class SalesCadenceListView extends LightningElement {
     this.loadData(this.calculatedCadence);
   }
 
-  handleValidateTargetsToAssign(){
+  handleAssignToMe() {
+    this.handleValidateTargetsToAssign(this.userId);
+  }
+
+  handleAssignToOther() {
+    this.handleValidateTargetsToAssign(this.searchedId);
+    this.closeModal();
+  }
+
+  handleValidateTargetsToAssign(userId){
     const logger = this.template.querySelector("c-logger");
     this.dataTableIsLoading = true;
     return validateTargetsToAssign({
@@ -478,10 +560,10 @@ export default class SalesCadenceListView extends LightningElement {
         this.assignmentErrorMessage = this.selectedRowsData.length > 1?MULTI_ASSIGN_ERROR_MSG:SINGLE_ASSIGN_ERROR_MSG;
         this.hasAssignmentError = true;
       }
-      return assignToMe({
-        targetsToEnroll: this.setTargetObject(this.calculatedCadence, returnedTargetIds),
+      return assignToCadence({
+        targetsToEnroll: this.setTargetObject(this.calculatedCadence, returnedTargetIds,userId),
         targetsToChange: JSON.stringify(
-          this.setTargetObject(this.calculatedCadence + " Edit", returnedTargetIds)
+          this.setTargetObject(this.calculatedCadence + " Edit", returnedTargetIds,userId)
         )
       })
     })
@@ -526,17 +608,36 @@ export default class SalesCadenceListView extends LightningElement {
     });
   }
 
+  closeModal(){
+    this.showModal = false;
+    this.searchedId = '';
+    this.userSearchItems = [];
+  }
+
+  handleAssignToOtherSearch(){
+    this.showModal = true;
+    return getRecentlyViewed({
+        citizenship: this.calculatedCadence.split(' ')[0]
+    }).then((result)=>{
+      if(result){
+        this.recentlyViewed = result;
+      }else{
+        this.recentlyViewed = [];
+      }
+    })
+  }
+
   /* ACTION HANDLERS END */
 
   /* HELPER METHOD START */
 
-  setTargetObject(calculatedCadence, targetIds) {
+  setTargetObject(calculatedCadence,targetIds,userId) {
     let targets = [];
     targets = [...targetIds].map((key) => {
       let target = {};
       target.targetId = key;
       target.salesCadenceNameOrId = calculatedCadence;
-      target.userId = this.userId;
+      target.userId = userId;
       return target;
     });
     return targets;

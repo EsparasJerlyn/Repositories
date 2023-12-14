@@ -284,10 +284,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Commonwealth supported place</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Course overview</fullName>
             <default>false</default>
         </values>

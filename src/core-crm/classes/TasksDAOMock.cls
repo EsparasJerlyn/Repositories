@@ -36,4 +36,18 @@ public inherited sharing class TasksDAOMock extends DmlBaseMock implements ITask
         }
         return taskList;
     }
+    
+    public List<Task> getCompletedSMSTasksByActionCadenceStepTrackerId(
+        Set<String> actionCadenceStepTrackerIds
+    ) {
+        List<Task> taskList = new List<Task>();
+        for (Task ts : taskMap.values()) {
+            if (
+                actionCadenceStepTrackerIds.contains(ts.ActionCadenceStepTrackerId)
+            ) {
+                taskList.add(ts);
+            }
+        }
+        return taskList;
+    }
 }
