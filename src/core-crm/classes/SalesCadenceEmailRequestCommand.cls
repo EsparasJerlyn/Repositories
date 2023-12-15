@@ -27,7 +27,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
 
     public void execute() {
         		
-        if(stopSendingEmails() && !Test.isRunningTest() ){
+        if(stopSendingEmails() && !Test.isRunningTest()){
             Logger.info('Communication Queue Daily Maximum Email Count has been reached.');
             return;
         }

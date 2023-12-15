@@ -18,12 +18,15 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
     static void setupMethod() {
         Test.startTest();
         TestDataFactory.generateTestUsers();
+        
+
         System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
             List<Contact> contactList = TestDataFactory.createTestContactRecords(50);
             List<Lead> leadList =  TestDataFactory.createTestLeadRecords(50);
             insert contactList;
             insert leadList;
         }
+     	
         Test.stopTest();
         
         System.assert(![SELECT Id FROM Lead WHERE Marketing_Segmentation__c != null].isEmpty(), 'Marketing Segmentation field on lead is not updated.');

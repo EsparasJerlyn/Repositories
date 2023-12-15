@@ -139,7 +139,7 @@ public inherited sharing class ServiceAppointmentService {
     }
 
     public static void sendEmail(List<Messaging.SingleEmailMessage> sendEmailList){
-        if(!stopSendingEmails()){
+        if(stopSendingEmails()){
             Logger.info('Service Appointment Daily Maximum Email Count has been reached.');
             return;
         }

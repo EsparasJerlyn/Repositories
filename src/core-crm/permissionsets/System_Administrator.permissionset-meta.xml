@@ -1129,14 +1129,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>LMSCourseBatchHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LMSCourseBatchHandlerTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>LMSCourseEnrollmentBatchHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -24184,6 +24176,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.LMS_Creation_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Course_Offering__c.LMS_Integration_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -24300,6 +24297,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>hed__Course_Offering__c.hed__Time_Block__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>hed__Course__c.Canvas_Sub_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

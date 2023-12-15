@@ -10,6 +10,7 @@
       | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                         |
       |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
       | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | getActiveCourseConnectionsBySetContactIds  |
+      | kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | added method getCourseConnectionByStatus   |    
  */
 public interface ICourseConnectionsDAO extends DmlInterface{
     List<hed__Course_Enrollment__c> getCourseConnectionByPEContactIds(
@@ -25,6 +26,11 @@ public interface ICourseConnectionsDAO extends DmlInterface{
     List<hed__Course_Enrollment__c> getActiveCourseConnectionsBySetContactIds(
         Set<String> contactIds,
         AccessLevel accessLevel
+    );
+
+    List<hed__Course_Enrollment__c> getCourseConnectionByStatus(
+        String status,
+        String lmsIntegrationTStatus
     );
     
     List<hed__Course_Enrollment__c> getRegisteredLearnersEmailByCourseOffering (
