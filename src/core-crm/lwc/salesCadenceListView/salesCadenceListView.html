@@ -65,6 +65,13 @@
             class="slds-m-right_xx-small"
             tooltip="Refresh"
             onclick={handleRefreshData}></lightning-button-icon>
+          <lightning-input  
+            variant="label-hidden" 
+            type="search" 
+            onchange={handleFilter} 
+            oncommit={handleCommit}
+            placeholder="Search this list..."
+            class="slds-m-right_xx-small"></lightning-input>
           <lightning-button
             class="slds-m-right_xx-small"
             label="Assign to me"
