@@ -4,12 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
-      |--------------------------------|-----------------------|------------------------|---------------------------------------|
-      | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Created File                          |
-      | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added getServiceAppointmentsBySetIds  |
-      | neil.s.h.lesidan               | November 29, 2023     | DEPP-7280              | Added getServiceAppointmentByEmail    |
-      |                                |                       |                        |                                       |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                            |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------|
+      | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Created File                              |
+      | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added getServiceAppointmentsBySetIds      |
+      | neil.s.h.lesidan               | November 29, 2023     | DEPP-7280              | Added getServiceAppointmentByEmail        |
+      | arsenio.jr.dayrit              | December 14, 2023     |DEPP-7357               | Added method getServiceAppointmentByLeadId|
  */
 public interface IServiceAppointmentsDAO extends DmlInterface{
     List<ServiceAppointment> getServiceAppointmentsBySetIds(
@@ -23,5 +23,8 @@ public interface IServiceAppointmentsDAO extends DmlInterface{
      List<ServiceAppointment> getServiceAppointmentByAppointmentEmail(
         String email,
         AccessLevel accessLevel
+    );
+    List<ServiceAppointment> getServiceAppointmentByLeadId(
+        Set<Id> leadId
     );
 }

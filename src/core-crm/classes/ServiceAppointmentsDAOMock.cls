@@ -10,6 +10,7 @@
  *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Created File                               |
  *    | nicole.genon                   | November 27, 2023     | DEPP-7259              | Added getServiceAppointmentsBySetIds       |
  *    | neil.s.h.lesidan               | November 29, 2023     | DEPP-7280              | Add method getServiceAppointmentByEmail    |
+ *    | arsenio.jr.dayrit              | December 14, 2023     |DEPP-7357               | Added method getServiceAppointmentByLeadId |
  */
 @isTest
 public inherited sharing class ServiceAppointmentsDAOMock extends DmlBaseMock implements IServiceAppointmentsDAO{
@@ -57,6 +58,19 @@ public inherited sharing class ServiceAppointmentsDAOMock extends DmlBaseMock im
         List<ServiceAppointment> serviceAppointmentList = new List<ServiceAppointment>();
         for (ServiceAppointment record : serviceAppointmentMap.values()) {
             if (record.Appointment_Email__c == email) {
+                serviceAppointmentList.add(record);
+            }
+        }
+        
+        return serviceAppointmentList;
+    }
+
+    public List<ServiceAppointment> getServiceAppointmentByLeadId(
+        Set<Id> leadId
+    ) {
+        List<ServiceAppointment> serviceAppointmentList = new List<ServiceAppointment>();
+        for (ServiceAppointment record : serviceAppointmentMap.values()) {
+            if (leadId.contains(record.LeadId__c)) {
                 serviceAppointmentList.add(record);
             }
         }

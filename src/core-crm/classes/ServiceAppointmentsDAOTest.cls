@@ -10,6 +10,7 @@
  *    | arsenio.jr.dayrit              | November 22, 2023     |DEPP-7264               | Created File                                        |
  *    | nicole.genon                   | November 27, 2023     |DEPP-7259               | Added getServiceAppointmentsBySetIdsTest            |
  *    | neil.s.h.lesidan               | November 29, 2023     |DEPP-7280               | Add test method getServiceAppointmentByEmailTest    |
+ *    | arsenio.jr.dayrit              | December 14, 2023     |DEPP-7357               | Added Test Method getServiceAppointmentByLeadIdTest |
  */
 @isTest
 public with sharing class ServiceAppointmentsDAOTest {
@@ -72,6 +73,19 @@ public with sharing class ServiceAppointmentsDAOTest {
                 .getServiceAppointmentByAppointmentEmail(
                     '',
                     AccessLevel.SYSTEM_MODE
+                );
+            System.assert(serviceAppointment.isEmpty(), 'serviceAppointment is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getServiceAppointmentByLeadIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance()
+                .getServiceAppointmentByLeadId(
+                    new Set<Id>()
                 );
             System.assert(serviceAppointment.isEmpty(), 'serviceAppointment is not empty');
         }

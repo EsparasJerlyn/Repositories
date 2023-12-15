@@ -301,6 +301,7 @@ export default class SalesCadenceListView extends LightningElement {
   isTeamLeader = false;
   hasAssignmentError = false;
   assignmentErrorMessage = '';
+  filterArray = [];
   /* DATATABLE VARIABLES END */
 
   /*USER EXPERIENCE VARIABLES START*/
@@ -371,6 +372,12 @@ export default class SalesCadenceListView extends LightningElement {
     return this.internationalColumns;
   }
 
+  get columnFieldNames(){
+    return this.finalColumns.map((col) => {
+      return col['fieldName'];
+    });
+  }
+
   get initialSortBy() {
     if (
       this.calculatedCadence == "Domestic Strong Interest Pre-Application" ||
@@ -400,18 +407,41 @@ export default class SalesCadenceListView extends LightningElement {
   loadData(calculatedCadence) {
     const logger = this.template.querySelector("c-logger");
     this.dataTableIsLoading = true;
+    this.dataList = [];
     return getTableDataWrapper({ calculatedCadence: calculatedCadence })
       .then((result) => {
-        this.dataList = result;
-        this.recordCount = this.dataList.length;
-        this.sortBy = this.initialSortBy;
-        this.sortDirection = 'DESC';
-        if (this.dataList.length > 0) {
-          this.sortData(this.sortBy, this.sortDirection);
+        this.sortBy = this.sortBy ? this.sortBy : this.initialSortBy;
+        this.sortDirection = this.sortDirection ? this.sortDirection : "DESC";
+
+        if (this.filterArray.length > 0 && result.length > 0) {
+          let filterDataList = result;
+          //loop through the filter string separated by ';' as delimmiter
+          for (let searchString of this.filterArray) {
+            let tempfilterDataList = [];
+            //loop through the column field names
+            for (let fieldName of this.columnFieldNames) {
+              tempfilterDataList = [
+                ...tempfilterDataList,
+                ...this.filteredRecords(filterDataList, fieldName, searchString)
+              ];
+            }
+            filterDataList = tempfilterDataList;
+          }
+
+          //collect the ids
+          const ids = filterDataList.map(({ id }) => id);
+
+          //remove duplicates
+          this.dataList = filterDataList.filter(
+            ({ id }, index) => !ids.includes(id, index + 1)
+          );
         } else {
-          let splicedData = [...this.dataList].splice(0, this.rowLimit);
-          this.finalDataList = splicedData;
+          this.dataList = result;
         }
+      })
+      .then(() => {
+        this.recordCount = this.dataList.length;
+        this.sortData(this.sortBy, this.sortDirection);
       })
       .catch((error) => {
         if (logger) {
@@ -442,10 +472,10 @@ export default class SalesCadenceListView extends LightningElement {
 
   handleSearchUser(event){
     this.searchInProgress = true;
-    this.filterString = event.detail.filterString;
+    this.filterString = event.detail.filterString.trim();
     const logger = this.template.querySelector("c-logger");
     getSearchedUsers({
-        filterString: event.detail.filterString,
+        filterString: this.filterString,
         citizenship: this.calculatedCadence.split(' ')[0]
     })
     .then(result =>{
@@ -608,6 +638,17 @@ export default class SalesCadenceListView extends LightningElement {
     });
   }
 
+  handleFilter(event) {
+    const searchKey = event.target.value.toLowerCase();
+    const searchArray =
+      searchKey.trim().length === 0 ? [] : searchKey.trim().split(";").map(key => key.trim());
+    this.filterArray = searchArray;
+  }
+
+  handleCommit() {
+    this.handleRefreshData();
+  }
+
   closeModal(){
     this.showModal = false;
     this.searchedId = '';
@@ -649,6 +690,27 @@ export default class SalesCadenceListView extends LightningElement {
       return key.id;
     });
     return targets;
+  }
+
+  //filter out the records where field name value includes the filter string
+  //e.g QTAC Offer Round column value includes 250
+  filteredRecords(filteredList, fieldName, filterString) {
+    return filteredList.filter(
+      (record) =>
+        //only proceed if value is type of boolean or value is valid
+        (typeof record[fieldName] == "boolean" || record[fieldName]) &&
+        //compare to a date string for date filters.
+        (this.convertDate(record[fieldName].toString().slice(0, 10)).includes(
+            filterString
+          ) ||
+          record[fieldName].toString().toLowerCase().includes(filterString))
+    );
+  }
+
+  //converts YYYY-mm-dd to dd/mm/YYYY
+  convertDate(dateString) {
+    let p = dateString.split(/\D/g);
+    return [p[2], p[1], p[0]].join("/");
   }
 
   /**
