@@ -10,7 +10,8 @@
       | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | created file                                         |
       | nicole.genon                   | November 24, 2023     | DEPP-7259              | added getServiceAppointmentsBySetIds                 |
       | neil.s.h.lesidan               | November 29, 2023     | DEPP-7280              | Added getServiceAppointmentByEmail                   |
-      |                                |                       |                        |                                                      |
+      | arsenio.jr.dayrit              | December 14, 2023     |DEPP-7357               | Added Test  getServiceAppointmentByLeadId            |
+
  */
 public inherited sharing class ServiceAppointmentsDAO extends DmlBase implements IServiceAppointmentsDAO{
 
@@ -55,5 +56,18 @@ public inherited sharing class ServiceAppointmentsDAO extends DmlBase implements
                 'WHERE Appointment_Email__c =: email ',
                 accessLevel
         );
+    }
+
+    @SuppressWarnings('PMD.ApexCRUDViolation')
+    public List<ServiceAppointment> getServiceAppointmentByLeadId(
+        Set<Id> leadId
+    ) {
+        return [
+            SELECT Id,LeadId__c,My_Country_Of_Citizenship__c,My_Citizenship_Status__c,My_Country_Of_Residency__c 
+            FROM ServiceAppointment
+            WHERE LeadId__c IN: leadId 
+            WITH SYSTEM_MODE
+            ORDER BY LastModifiedDate DESC
+        ];
     }
 }
