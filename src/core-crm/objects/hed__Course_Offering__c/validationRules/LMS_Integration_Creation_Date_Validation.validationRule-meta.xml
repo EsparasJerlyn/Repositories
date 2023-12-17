@@ -7,7 +7,7 @@
   ISCHANGED(LMS_Creation_Date__c),
   OR(ISPICKVAL( LMS_Integration_Status__c ,&apos;Sent&apos;),  
     ISPICKVAL( LMS_Integration_Status__c ,&apos;Success&apos;),
-    LMS_Creation_Date__c  &lt;=  hed__Start_Date__c - 8 
+    LMS_Creation_Date__c  &gt;  hed__Start_Date__c - 8 
 )
 )</errorConditionFormula>
     <errorDisplayField>LMS_Creation_Date__c</errorDisplayField>
