@@ -97,6 +97,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
     processLeadOnInsert(newMap);
     createChildMCPersona(newMap.values());
+    ContactTriggerHelper.createLeadScoreDetailRecord(newMap.keySet());
     ContactTriggerHelper.createMarketingSegmentation(newMap.keySet());
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
@@ -201,7 +202,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
           AND hed__Contact__r.Registered_Email__c != null
           AND hed__Status__c = 'Active'
           AND RecordType.DeveloperName =:STUDENT
-          AND LMS_Integration_Status__c = 'Success' 
       ];
     }
 

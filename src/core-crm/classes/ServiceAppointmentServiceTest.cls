@@ -47,7 +47,7 @@ public with sharing class ServiceAppointmentServiceTest {
     }
 
     @isTest
-    private static void sendEmailToInternationalServiceAppointmentsTest() {
+    private static void sendConfirmationEmailToInternationalServiceAppointmentsTest() {
         System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
             Test.startTest();
 
@@ -72,7 +72,7 @@ public with sharing class ServiceAppointmentServiceTest {
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            ServiceAppointmentService.sendEmailToInternationalServiceAppointments(serviceAppList);
+            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(serviceAppList);
 
             Test.stopTest();
             
@@ -85,7 +85,7 @@ public with sharing class ServiceAppointmentServiceTest {
     }
 
     @isTest
-    private static void sendEmailToDomesticServiceAppointmentsTest() {
+    private static void sendConfirmationEmailToDomesticServiceAppointmentsTest() {
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
@@ -107,7 +107,7 @@ public with sharing class ServiceAppointmentServiceTest {
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            ServiceAppointmentService.sendEmailToDomesticServiceAppointments(serviceAppList);
+            ServiceAppointmentService.sendConfirmationEmailToDomesticServiceAppointments(serviceAppList);
 
             Test.stopTest();
 
@@ -191,7 +191,7 @@ public with sharing class ServiceAppointmentServiceTest {
     }
 
     @isTest
-    private static void sendEmailToInternationalServiceAppointmentsFailedTest() {
+    private static void sendConfirmationEmailToInternationalServiceAppointmentsFailedTest() {
         System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
             Test.startTest();
 
@@ -215,7 +215,7 @@ public with sharing class ServiceAppointmentServiceTest {
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            ServiceAppointmentService.sendEmailToInternationalServiceAppointments(serviceAppList);
+            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(serviceAppList);
 
             Test.stopTest();
             

@@ -37,8 +37,7 @@ public class SendWelcomeEmailBatch implements Database.Batchable<sObject>
         'AND hed__Contact__r.QUT_Student_Username__c != null ' + 
         'AND hed__Contact__r.Registered_Email__c != null ' +
         'AND hed__Status__c  = \'Active\' ' + 
-        'AND RecordType.DeveloperName = \'Student\' ' +
-        'AND LMS_Integration_Status__c = \'Success\' ';
+        'AND RecordType.DeveloperName = \'Student\' ';
         return Database.getQueryLocator(query);
     }
 

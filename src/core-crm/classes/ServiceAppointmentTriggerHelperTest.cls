@@ -288,4 +288,5 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             System.assert(appointmentRecordList[0].LeadId__c !=null, 'Service Appointment is not link to existing lead.');
         }
     } 
+    
 }
