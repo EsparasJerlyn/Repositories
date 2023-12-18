@@ -268,10 +268,10 @@ public without sharing class ServiceAppointmentTriggerHelper {
         }
 
         if(!internationalServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendEmailToInternationalServiceAppointments(internationalServiceAppointments);
+            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(internationalServiceAppointments);
         }
         if(!domesticServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendEmailToDomesticServiceAppointments(domesticServiceAppointments);
+            ServiceAppointmentService.sendConfirmationEmailToDomesticServiceAppointments(domesticServiceAppointments);
         }
     }
 
@@ -344,11 +344,11 @@ public without sharing class ServiceAppointmentTriggerHelper {
         }
 
         if(!internationalServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendEmailToInternationalServiceAppointments(internationalServiceAppointments);
+            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(internationalServiceAppointments);
         }
 
         if(!domesticServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendEmailToDomesticServiceAppointments(domesticServiceAppointments);
+            ServiceAppointmentService.sendConfirmationEmailToDomesticServiceAppointments(domesticServiceAppointments);
         }
     }
     
