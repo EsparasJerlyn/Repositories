@@ -69,7 +69,6 @@ public with sharing class SendWelcomeEmailBatchTest {
             for (hed__Course_Enrollment__c courseConnection : courseConnections) {
             courseConnection.RecordTypeId = STUDENT_RECTYPEID;
             courseConnection.hed__Status__c = 'Active';
-            courseConnection.LMS_Integration_Status__c = 'Success';
             }
             
             Test.startTest();
