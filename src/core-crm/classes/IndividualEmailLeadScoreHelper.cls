@@ -11,7 +11,7 @@
   *    | eccarius.munoz                 | October 26, 2023      | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for Individual Email                           |
   */
-public with sharing class IndividualEmailLeadScoreHelper {
+  public with sharing class IndividualEmailLeadScoreHelper {
 
     private static Map<Id,et4ae5__IndividualEmailResult__c> domesticUnderGradMap = new Map<Id,et4ae5__IndividualEmailResult__c>();
     private static Map<Id,et4ae5__IndividualEmailResult__c> domesticPostGradMap = new Map<Id,et4ae5__IndividualEmailResult__c>();
@@ -257,7 +257,9 @@ public with sharing class IndividualEmailLeadScoreHelper {
             oldItems != null && (            
             (indivEmail.et4ae5__DateOpened__c!=null && oldItems.get(indivEmail.Id).et4ae5__DateOpened__c != indivEmail.et4ae5__DateOpened__c) ||
             oldItems.get(indivEmail.Id).et4ae5__Clicked__c != indivEmail.et4ae5__Clicked__c ||
-            oldItems.get(indivEmail.Id).et4ae5__Opened__c != indivEmail.et4ae5__Opened__c
+            oldItems.get(indivEmail.Id).et4ae5__Opened__c != indivEmail.et4ae5__Opened__c ||
+            oldItems.get(indivEmail.Id).et4ae5__Contact__c != indivEmail.et4ae5__Contact__c ||
+            oldItems.get(indivEmail.Id).et4ae5__Lead__c != indivEmail.et4ae5__Lead__c
         );
     }
 }
