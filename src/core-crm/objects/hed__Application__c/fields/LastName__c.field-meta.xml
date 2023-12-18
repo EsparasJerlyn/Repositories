@@ -4,7 +4,7 @@
     <description>The applicant’s last name</description>
     <externalId>false</externalId>
     <label>Last Name</label>
-    <length>40</length>
+    <length>80</length>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

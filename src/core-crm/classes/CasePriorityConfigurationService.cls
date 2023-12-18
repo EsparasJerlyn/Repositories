@@ -47,6 +47,13 @@ public inherited sharing class CasePriorityConfigurationService {
         ) {
             trueSoFar = false;
         }
+        if (
+            config.Applicant_Onshore__c != null &&
+            config.Applicant_Onshore__c != item.Contact.Applicant_Onshore__c
+        ) {
+            trueSoFar = false;
+        }
+        
         return trueSoFar;
     }
 

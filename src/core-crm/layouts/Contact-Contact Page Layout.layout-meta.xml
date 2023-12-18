@@ -417,6 +417,16 @@
         <relatedList>RelatedCaseList</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
+        <fields>Name</fields>
+        <fields>Appointment_Topic__c</fields>
+        <fields>SchedStartTime</fields>
+        <fields>SchedEndTime</fields>
+        <fields>WorkType</fields>
+        <fields>CreatedDate</fields>
+        <relatedList>ServiceAppointment.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
         <fields>Course_Name__c</fields>
         <fields>RECORDTYPE</fields>

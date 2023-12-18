@@ -14,9 +14,9 @@
         <closed>true</closed>
     </standardValue>
     <standardValue>
-        <fullName>Closed - Contacted</fullName>
+        <fullName>Closed - No Further Action Required</fullName>
         <default>false</default>
-        <label>Closed - Contacted</label>
+        <label>Closed - No Further Action Required</label>
         <closed>true</closed>
     </standardValue>
     <standardValue>

@@ -14,4 +14,7 @@ public interface ITasksDAO extends DmlInterface {
           Set<String> targetIds,
           Set<String> actionCadenceIds
      );
+     List<Task> getCompletedSMSTasksByActionCadenceStepTrackerId(
+          Set<String> actionCadenceStepTrackerIds
+     );
 }

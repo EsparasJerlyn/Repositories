@@ -8,7 +8,8 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+      | johanna.a.gibas                | November 24, 2023     | DEPP-7143              | Added Developed Nations      |
+      | johanna.a.gibas                | December 11, 2023     | DEPP-7143              | Updated logic                |
  */
 public with sharing class LeadScoreConfigCountryTierService {
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigCountryTier leadScoreConfigCountryTier, Boolean isDomestic){
@@ -31,12 +32,15 @@ public with sharing class LeadScoreConfigCountryTierService {
             else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_COUNTRY_TIER3){
                 leadScoreConfigCountryTier.setCountryTier3(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
+            else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_DEVELOPED_NATIONS){
+                leadScoreConfigCountryTier.setDevelopedNations(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
+            }
             else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_UNRESTRICTED_COHORT){
                 leadScoreConfigCountryTier.setUntieredUnrestricted(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
             }
             else if(leadScoreConfig.Name == LeadScoreConfigurationDAO.CONFIG_SUB_CATEGORY_RESTRICTED_COHORT){
                 leadScoreConfigCountryTier.setUntieredRestricted(Integer.valueOf(leadScoreConfig.Score_Allocation__c));
-            } 
+            }
         }
               
     } 
@@ -59,11 +63,8 @@ public with sharing class LeadScoreConfigCountryTierService {
             }
 
             Boolean isValid = String.isNotBlank(marketingSeg.My_Country_Of_Citizenship__c);
-            Boolean isNotAustralia = isValid && 
-                marketingSeg.My_Country_Of_Citizenship__c != MarketingSegmentationsDAO.COUNTRY_AU && 
-                countrTierRefMap.containsKey(marketingSeg.My_Country_Of_Citizenship__c);
 
-            if(isNotAustralia){
+            if(isValid){
                 if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.TIER_CATEGORY_1) { 
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getCountryTier1();                
                 }
@@ -74,11 +75,14 @@ public with sharing class LeadScoreConfigCountryTierService {
                     countryTierScore = countryTierScore + leadScoreConfigCountryTier.getCountryTier3();                
                 }
                 else if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.DEVELOPED_NATIONS){ 
-                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredUnrestricted();                
+                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getDevelopedNations();                
                 }
-            }else if(isValid){
-                if(marketingSeg.My_Country_Of_Citizenship__c == MarketingSegmentationsDAO.COUNTRY_AU){
-                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredRestricted();
+                else if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.UNTIERED_RESTRICTED){ 
+                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredRestricted();                
+                }
+                else if(countrTierRefMap.get(marketingSeg.My_Country_Of_Citizenship__c) == InternationalTiersDAO.UNTIERED_UNRESTRICTED || 
+                        !countrTierRefMap.containsKey(marketingSeg.My_Country_Of_Citizenship__c)){ 
+                    countryTierScore = countryTierScore + leadScoreConfigCountryTier.getUntieredUnrestricted();                
                 }
             }
 

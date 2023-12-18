@@ -79,27 +79,13 @@ public with sharing class ManageAdhocCommsSectionCtrl {
                 List<String> recipientEmails = getRecipientEmails(adhocCommunication, learnerEmailsMap);
             
                 if (!recipientEmails.isEmpty()) {
-                    Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-                    message.subject = adhocCommunication.Subject__c;
-                    message.htmlBody = emailContentCentered;
-                    message.setOrgWideEmailAddressId(orgWideEmailAddress.get(0).Id);
-            
-                    List<String> emailGroup = new List<String>();
                     for (String email : recipientEmails) {
-                        emailGroup.add(email);
-
-                        if (emailGroup.size() >= 100) {
-                            message.toAddresses = emailGroup;
-                            messages.add(message);
-                            emailGroup.clear();
-                            message = new Messaging.SingleEmailMessage(); // Create a new message
-                            message.subject = adhocCommunication.Subject__c;
-                            message.htmlBody = emailContentCentered;
-                        }
-                    }
-
-                    if (!emailGroup.isEmpty()) {
-                        message.toAddresses = emailGroup;
+                        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+                        message.subject = adhocCommunication.Subject__c;
+                        message.htmlBody = emailContentCentered;
+                        message.setOrgWideEmailAddressId(orgWideEmailAddress.get(0).Id);
+            
+                        message.toAddresses = new List<String>{email};
                         messages.add(message);
                     }
                 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Share_Asset_with_Partnership_Manager</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>To share CCE related assets to Partnership Managers</description>
+        <label>Share Asset with Partnership Manager</label>
+        <sharedTo>
+            <group>Partnership_Manager</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Sharing__c</field>
+            <operation>notEqual</operation>
+            <value>Service Appointment</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Asset_with_Program_Administrator</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>To share CCE related assets to Program Administrators</description>
+        <label>Share Asset with Program Administrator</label>
+        <sharedTo>
+            <group>Program_Administrator</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Sharing__c</field>
+            <operation>notEqual</operation>
+            <value>Service Appointment</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingGuestRules>
+        <fullName>Service_Appointment_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>To share QUT Service Appointment related assets to guest user</description>
+        <label>Service Appointment Asset Sharing</label>
+        <sharedTo>
+            <guestUser>Study</guestUser>
+        </sharedTo>
+        <criteriaItems>
+            <field>Sharing__c</field>
+            <operation>equals</operation>
+            <value>Service Appointment</value>
+        </criteriaItems>
+        <includeHVUOwnedRecords>false</includeHVUOwnedRecords>
+    </sharingGuestRules>
+</SharingRules>

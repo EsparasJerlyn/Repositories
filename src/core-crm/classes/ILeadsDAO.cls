@@ -59,4 +59,5 @@ public interface ILeadsDAO extends DmlInterface {
         Set<Id> recordIds,
         String leadType
     );
-}
+    
+} 

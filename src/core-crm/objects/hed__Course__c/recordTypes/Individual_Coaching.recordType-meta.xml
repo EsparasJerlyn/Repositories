@@ -4,6 +4,45 @@
     <active>true</active>
     <label>Individual Coaching</label>
     <picklistValues>
+        <picklist>Canvas_Sub_Account__c</picklist>
+        <values>
+            <fullName>Faculty of Business and Law - 138</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Creation Industries%2C Education and Social Justice - 139</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Engineering - 140</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Health - 141</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faculty of Science - 142</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HiQ Student Engagement - 205</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IPU - 137</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT College - 143</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUTeX - 125</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Certificate_Type__c</picklist>
         <values>
             <fullName>Certificate of Achievement</fullName>
@@ -167,6 +206,10 @@
         </values>
         <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUT Canvas</fullName>
             <default>false</default>
         </values>
     </picklistValues>

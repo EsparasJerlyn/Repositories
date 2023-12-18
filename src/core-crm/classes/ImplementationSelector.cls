@@ -28,13 +28,16 @@
  *    | neil.s.h.lesidan               | August 31, 2023       | DEPP-5835              | Added Object mapping for Lead_Score_Configuration__c obj      |
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | Added Object mapping for Case obj                             |
  *    | julie.jane.alegre              | September 14, 2023    | DEPP-6679              | Added Object mapping for Marketing_Segmentation__c obj        |
+ *    | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Added Object mapping for Course Offering, term, & course obj  |
  *    | julie.jane.alegre              | September 18, 2023    | DEPP-6667              | Added Object mapping for Marketing_Interaction__c obj         |
- *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Adde mapping for cartdeliverygroup,webstore,webcart,cartitem, |
+ *    | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | Added mapping for cartdeliverygroup,webstore,webcart,cartitem,|
  *    |                                |                       |                        | pricebook and pricebookentry                                  |
  *    | alexander.cadalin              | Sep 22, 2023          | DEPP-6652,6653,6654    | Added object mapping for Address                              |
  *    | eugene.andrew.abuan            | October 10, 2023      | DEPP-6612              | Added object mapping for Adhoc Communication Object           |
  *    | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Added object mapping for SMS Template Object                  |
-
+ *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Added Object mapping for Service Appointment object           |
+ *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                      |
+ *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object            |
  */
 public class ImplementationSelector { 
 
@@ -72,7 +75,9 @@ public class ImplementationSelector {
             hed__Address__c.SObjectType => AddressesDAO.class,
             hed__Affiliation__c.SObjectType => AffiliationsDAO.class,
             hed__Application__c.SObjectType => ApplicationsDAO.class,
+            hed__Course__c.SObjectType => CoursesDAO.class,
             hed__Course_Enrollment__c.SObjectType => CourseConnectionsDAO.class,
+            hed__Course_Offering__c.SObjectType => CourseOfferingsDAO.class,
             hed__Facility__c.SObjectType => FacilitiesDAO.class,
             hed__Program_Enrollment__c.SObjectType => ProgramEnrollmentsDAO.class,
             hed__Program_Plan__c.SObjectType => ProgramPlansDAO.class,
@@ -102,6 +107,7 @@ public class ImplementationSelector {
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,
+            ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,
             SMS_Template__c.SObjectType => SMSTemplatesDAO.class,
             Task.SObjectType => TasksDAO.class,
             User.SObjectType => UsersDAO.class,
@@ -109,7 +115,8 @@ public class ImplementationSelector {
             UserRecordAccess.SObjectType => UserRecordAccessesDAO.class,
             Expense__c.SObjectType => ExpensesDAO.class,
             WebCart.SObjectType => WebCartsDAO.class,
-            WebStore.SOBjectType => WebStoresDAO.class
+            WebStore.SOBjectType => WebStoresDAO.class,
+            WorkType.SOBjectType => WorkTypesDAO.class
         }
     ); 
 

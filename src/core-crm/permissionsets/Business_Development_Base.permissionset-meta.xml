@@ -4618,6 +4618,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course__c.Canvas_Sub_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Course_Enrollment__c.Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5622,6 +5627,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>

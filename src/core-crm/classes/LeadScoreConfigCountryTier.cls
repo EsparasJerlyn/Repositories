@@ -8,7 +8,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+      | johanna.a.gibas                | November 24, 2023     | DEPP-7143              | Added Developed Nations      |
  */
 public with sharing class LeadScoreConfigCountryTier extends LeadScoreConfigBaseModel{
     private Integer countryTier1 = 0;
@@ -16,6 +16,7 @@ public with sharing class LeadScoreConfigCountryTier extends LeadScoreConfigBase
     private Integer countryTier3 = 0;
     private Integer untieredUnrestricted = 0;
     private Integer untieredRestricted = 0;
+    private Integer developedNations = 0;
 
     public Integer getCountryTier1() {
         return countryTier1;
@@ -55,5 +56,13 @@ public with sharing class LeadScoreConfigCountryTier extends LeadScoreConfigBase
 
     public void setUntieredRestricted(Integer untieredRestricted) {
         this.untieredRestricted = untieredRestricted;
+    }
+
+    public Integer getDevelopedNations() {
+        return developedNations;
+    }
+
+    public void setDevelopedNations(Integer developedNations) {
+        this.developedNations = developedNations;
     }
 }

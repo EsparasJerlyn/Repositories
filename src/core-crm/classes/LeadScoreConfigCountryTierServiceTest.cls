@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | October 06, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                        |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
+      | roy.nino.s.regala              | October 06, 2023      | DEPP-5866              | Created file                                          |
+      | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
+      |                                |                       |                        |     and added Developed Nations sub category          |
  */
 @isTest
 private class LeadScoreConfigCountryTierServiceTest {
@@ -42,9 +43,10 @@ private class LeadScoreConfigCountryTierServiceTest {
                 'Country Tier2',
                 'Country Tier3',
                 'Untiered nationality - unrestricted cohort (ex. developed countries)',
-                'Untiered nationality - restricted cohort, Australian'
+                'Untiered nationality - restricted cohort, Australian',
+                'Developed Nations'
             },
-            new List<Integer>{ 30, 20, 10, 5, 5 }
+            new List<Integer>{ 30, 20, 10, 5, 5, 20 }
         );
 
         LeadScoreConfigurationDAO.newInstance()
@@ -81,7 +83,6 @@ private class LeadScoreConfigCountryTierServiceTest {
         internationalTiers.addAll(
             TestDataFactory.createInternationalTierRecords(
                 new List<String>{ 'Australia1' },
-                'High',
                 'Tier 1',
                 true
             )
@@ -89,7 +90,6 @@ private class LeadScoreConfigCountryTierServiceTest {
         internationalTiers.addAll(
             TestDataFactory.createInternationalTierRecords(
                 new List<String>{ 'Australia2' },
-                'High',
                 'Tier 2',
                 true
             )
@@ -97,7 +97,6 @@ private class LeadScoreConfigCountryTierServiceTest {
         internationalTiers.addAll(
             TestDataFactory.createInternationalTierRecords(
                 new List<String>{ 'Australia3' },
-                'High',
                 'Tier 3',
                 true
             )
@@ -153,6 +152,7 @@ private class LeadScoreConfigCountryTierServiceTest {
         leadScoreConfig.setCountryTier3(10);
         leadScoreConfig.setUntieredRestricted(10);
         leadScoreConfig.setUntieredUnrestricted(10);
+        leadScoreConfig.setDevelopedNations(10);
 
         System.assert(
             !LeadScoreConfigCountryTierService.calculateLeadScore(

@@ -5,8 +5,8 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
  */
 public inherited sharing class PricebookEntriesDAO extends DmlBase implements IPricebookEntriesDAO {
     public Schema.SObjectType getSObjectType() {

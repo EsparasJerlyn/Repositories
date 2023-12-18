@@ -226,7 +226,7 @@ private class OPE_Design_Complete_FlowTest{
                 course.Certificate_Type__c = 'Certificate of Achievement';
                 course.Delivery_Type__c = 'Face to Face';
                 course.Description__c = 'test';
-                course.Primary_Delivery_Platform__c = 'Blackboard';
+                course.Primary_Delivery_Platform__c = 'QUT Canvas';
                 course.Owning_Faculty__c = accounts[0].Id;
                 course.Owning_School_Discipline_Area__c = accountsForOwningSchool[0].Id;
                 course.Overviewv2__c = 'test';  

@@ -10,6 +10,7 @@
  *    | eccarius.munoz                 | September 25, 2023    | DEPP-5866              | Added constants for Lead Score Calculation  |
  *    | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added getLeadScoreConfig                    |
  *    | arsenio.jr.dayrit              | October 23, 2023      | DEPP-6929              | Added constant for Lead Score Calculation   |
+ *    | johanna.a.gibas                | November 24, 2023     | DEPP-7143              | Added Developed Nations Sub Category        |
  */
 public inherited sharing class LeadScoreConfigurationDAO extends DmlBase implements ILeadScoreConfigurationDAO {
     public static final Id RECTYPE_ID_CONFIG = Schema.SObjectType.Lead_Score_Configuration__c.getRecordTypeInfosByDeveloperName()
@@ -62,6 +63,7 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String CONFIG_SUB_CATEGORY_COUNTRY_TIER3 = 'Country Tier3';
     public static final String CONFIG_SUB_CATEGORY_UNRESTRICTED_COHORT = 'Untiered nationality - unrestricted cohort (ex. developed countries)';
     public static final String CONFIG_SUB_CATEGORY_RESTRICTED_COHORT = 'Untiered nationality - restricted cohort, Australian';
+    public static final String CONFIG_SUB_CATEGORY_DEVELOPED_NATIONS = 'Developed Nations';
     //CONFIG_CATEGORY_FUNDING
     public static final String CONFIG_SUB_CATEGORY_COMPANY_FUNDED = 'Company Funded';
     public static final String CONFIG_SUB_CATEGORY_I_FUND_MY_STUDIES_MYSELF = 'I will fund my studies myself';

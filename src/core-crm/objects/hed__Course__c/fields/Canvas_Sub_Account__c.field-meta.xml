@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canvas_Sub_Account__c</fullName>
+    <description>The Canvas sub-account represents the owning faculty for the course</description>
+    <externalId>false</externalId>
+    <label>Canvas Sub-Account</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>QUTeX - 125</fullName>
+                <default>false</default>
+                <label>QUTeX - 125</label>
+            </value>
+            <value>
+                <fullName>Faculty of Creation Industries, Education and Social Justice - 139</fullName>
+                <default>false</default>
+                <label>Faculty of Creation Industries, Education and Social Justice - 139</label>
+            </value>
+            <value>
+                <fullName>Faculty of Engineering - 140</fullName>
+                <default>false</default>
+                <label>Faculty of Engineering - 140</label>
+            </value>
+            <value>
+                <fullName>Faculty of Health - 141</fullName>
+                <default>false</default>
+                <label>Faculty of Health - 141</label>
+            </value>
+            <value>
+                <fullName>Faculty of Science - 142</fullName>
+                <default>false</default>
+                <label>Faculty of Science - 142</label>
+            </value>
+            <value>
+                <fullName>HiQ Student Engagement - 205</fullName>
+                <default>false</default>
+                <label>HiQ Student Engagement - 205</label>
+            </value>
+            <value>
+                <fullName>IPU - 137</fullName>
+                <default>false</default>
+                <label>IPU - 137</label>
+            </value>
+            <value>
+                <fullName>QUT College - 143</fullName>
+                <default>false</default>
+                <label>QUT College - 143</label>
+            </value>
+            <value>
+                <fullName>Faculty of Business and Law - 138</fullName>
+                <default>false</default>
+                <label>Faculty of Business and Law - 138</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

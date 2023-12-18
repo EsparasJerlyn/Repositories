@@ -9,6 +9,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala   	    | July 30, 2022         | DEPP-3557            | Created file                 | 
       | alexander.cadalin         | September 07, 2022    |                      | Test Error Fixes             |
+      | kenneth.f.alsay           | December 06, 2023     | DEPP-7339            | Updated for changes to SendWelcomeEmailBatch.cls |
  */
 @isTest
 public with sharing class SendWelcomeEmailBatchTest {
@@ -24,7 +25,7 @@ public with sharing class SendWelcomeEmailBatchTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Sys_Admin'});
         Test.stopTest();
     }
         
@@ -57,7 +58,7 @@ public with sharing class SendWelcomeEmailBatchTest {
             insert prodRequest;
     
             List<hed__Course__c> courses = TestDataFactory.createTestCourseRecords(1,accounts[0].Id,prodRequest[0].Id);
-            courses[0].Primary_Delivery_Platform__c = 'Blackboard';
+            courses[0].Primary_Delivery_Platform__c = 'QUT Canvas';
             insert courses;
     
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1,courses, terms);
@@ -68,6 +69,7 @@ public with sharing class SendWelcomeEmailBatchTest {
             for (hed__Course_Enrollment__c courseConnection : courseConnections) {
             courseConnection.RecordTypeId = STUDENT_RECTYPEID;
             courseConnection.hed__Status__c = 'Active';
+            courseConnection.LMS_Integration_Status__c = 'Success';
             }
             
             Test.startTest();

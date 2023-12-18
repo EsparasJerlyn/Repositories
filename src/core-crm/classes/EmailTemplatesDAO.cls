@@ -10,7 +10,7 @@
       | eccarius.munoz                 | August 31, 2023       | DEPP-6138              | Created file                 |
       |                                |                       |                        |                              |
  */
-public with sharing class EmailTemplatesDAO extends DmlBase implements IEmailTemplatesDAO{
+public without sharing class EmailTemplatesDAO extends DmlBase implements IEmailTemplatesDAO{
 
     //Add Template Names here
     public static final String TEMPLATE_NURTURE_MANAGEMENT_DOM = 'Nurture Management Email - Domestic';
@@ -32,6 +32,18 @@ public with sharing class EmailTemplatesDAO extends DmlBase implements IEmailTem
             'SELECT Name, Subject, HtmlValue, Body ' +
               'FROM EmailTemplate ' +
              'WHERE Name IN: nameSet WITH ' +
+             String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<EmailTemplate> getEmailTemplatesByDeveloperNameSet(
+        Set<String> developerNameSet,
+		String accessLevel   
+    ) {
+        return Database.query(
+            'SELECT Name, Subject, HtmlValue, Body ' +
+              'FROM EmailTemplate ' +
+             'WHERE DeveloperName IN: developerNameSet WITH ' +
              String.escapeSingleQuotes(accessLevel)
         );
     }
