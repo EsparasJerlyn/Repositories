@@ -53,6 +53,7 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
             leadScoreDetailList.addAll(processIndividualEmail((Map<Id,et4ae5__IndividualEmailResult__c>) sObjectMap, existingLeadScoreDetailMap, leadScoreConfigReference));
         }
         
+        LeadScoreCalculatorService.saveLogs();
         return leadScoreDetailList;
     }
     
@@ -98,7 +99,11 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
         Map<Id, Integer> preferredIntakeMap = LeadScoreConfigPrefIntakeService.calculateLeadScore(marketingSegmentationMap, leadScoreConfigReference.leadScorePrefIntake);
         Map<Id, Integer> courseLevelMap = LeadScoreConfigCourseLevelService.calculateLeadScore(marketingSegmentationMap, leadScoreConfigReference.leadScoreCourseLevel);
 
-        for(Id contactLeadId : marketingSegmentationMap.keySet()){   
+        for(Id contactLeadId : marketingSegmentationMap.keySet()){
+            if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
+                continue;
+            } 
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
             leadScoreDetail.Funding__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactLeadId, fundingMap);
             leadScoreDetail.Primary_BSA__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactLeadId, primaryBSAMap);
@@ -109,9 +114,7 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
             leadScoreDetail.Lead__c = marketingSegmentationMap.get(contactLeadId).Lead__c != null ? marketingSegmentationMap.get(contactLeadId).Lead__c : null;
             leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDERGRAD;
             leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.DOMESTIC;         
-            if(existingLeadScoreDetailMap.containsKey(contactLeadId)){
-                leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
-            }
+            leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
             leadScoreDetailList.add(leadScoreDetail);
         }
 
@@ -133,7 +136,11 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
         List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
         
         Map<Id, Integer> enquiriesMap = LeadScoreConfigEnquiriesService.calculateLeadScore(caseMap, leadScoreConfigReference.leadScoreEnquiries);
-        for(Id contactLeadId : enquiriesMap.keySet()){   
+        for(Id contactLeadId : enquiriesMap.keySet()){  
+            if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
+                continue;
+            } 
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
             leadScoreDetail.Enquiries__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactLeadId, enquiriesMap);
             if(ContactService.isContact(contactLeadId)){    //Validates if id is for contact
@@ -143,10 +150,7 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
             }
             leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDERGRAD;
             leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.DOMESTIC;   
-
-            if(existingLeadScoreDetailMap.containsKey(contactLeadId)){
-                leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
-            }
+            leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
             leadScoreDetailList.add(leadScoreDetail);
         }
         return leadScoreDetailList;
@@ -175,7 +179,11 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
         contactLeadIds.addAll(downloadPDFMap.keySet());
         contactLeadIds.addAll(matchMySkillsMap.keySet());
 
-        for(Id contactLeadId : contactLeadIds){      
+        for(Id contactLeadId : contactLeadIds){
+            if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
+                continue;
+            }   
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
             leadScoreDetail.Event_Registration_Attendance__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactLeadId, eventRegMap);
             leadScoreDetail.Download__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactLeadId, downloadPDFMap);
@@ -187,9 +195,7 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
             }
             leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDERGRAD;
             leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.DOMESTIC;         
-            if(existingLeadScoreDetailMap.containsKey(contactLeadId)){
-                leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
-            }
+            leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
             leadScoreDetailList.add(leadScoreDetail);
         }
 
@@ -212,15 +218,17 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
 
         Map<Id, Integer> mktConsentMap = LeadScoreConfigMktgConsentService.calculateLeadScoreForContact(contactMap, leadScoreConfigReference.leadScoreMktConsent);
         
-        for(Id contactId : contactMap.keySet()){       
+        for(Id contactId : contactMap.keySet()){
+            if(!existingLeadScoreDetailMap.containsKey(contactId)){
+                LeadScoreCalculatorService.addErrorLogs(contactId);
+                continue;
+            }      
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
             leadScoreDetail.Marketing_Consent__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactId, mktConsentMap);
             leadScoreDetail.Contact__c = contactId;
             leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDERGRAD;
             leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.DOMESTIC;         
-            if(existingLeadScoreDetailMap.containsKey(contactId)){
-                leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactId).Id;
-            }
+            leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactId).Id;
             leadScoreDetailList.add(leadScoreDetail);
             
         }
@@ -244,14 +252,16 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
         Map<Id, Integer> mktConsentMap = LeadScoreConfigMktgConsentService.calculateLeadScoreForLead(leadMap, leadScoreConfigReference.leadScoreMktConsent);
     
         for(Id leadId : leadMap.keySet()){       
+            if(!existingLeadScoreDetailMap.containsKey(leadId)){
+                LeadScoreCalculatorService.addErrorLogs(leadId);
+                continue;
+            } 
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
             leadScoreDetail.Marketing_Consent__c = LeadScoreCalculatorService.getLeadScoreByCategory(leadId, mktConsentMap);
             leadScoreDetail.Lead__c = leadId;
             leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDERGRAD;
             leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.DOMESTIC;         
-            if(existingLeadScoreDetailMap.containsKey(leadId)){
-                leadScoreDetail.Id = existingLeadScoreDetailMap.get(leadId).Id;
-            }
+            leadScoreDetail.Id = existingLeadScoreDetailMap.get(leadId).Id;
             leadScoreDetailList.add(leadScoreDetail);
             
         }
@@ -274,15 +284,16 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
 
         Map<Id, Integer> programEngMap = LeadScoreConfigProgEngagmentService.calculateLeadScore(programEnrollmentMap, leadScoreConfigReference.leadScoreProgEng);
         for(Id contactId : programEngMap.keySet()){  
+            if(!existingLeadScoreDetailMap.containsKey(contactId)){
+                LeadScoreCalculatorService.addErrorLogs(contactId);
+                continue;
+            } 
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
             leadScoreDetail.Program_Engagement__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactId, programEngMap);
             leadScoreDetail.Contact__c = contactId;
             leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDERGRAD;
             leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.DOMESTIC;   
-
-            if(existingLeadScoreDetailMap.containsKey(contactId)){
-                leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactId).Id;
-            }
+            leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactId).Id;
             leadScoreDetailList.add(leadScoreDetail);
         }
         return leadScoreDetailList;
@@ -304,6 +315,10 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
         
         Map<Id, Integer> emailInteractionMap = LeadScoreConfigEmailInteractService.calculateLeadScore(indivEmailMap, leadScoreConfigReference.leadScoreEmailInteraction);
         for(Id contactLeadId : emailInteractionMap.keySet()){   
+            if(!existingLeadScoreDetailMap.containsKey(contactLeadId)){
+                LeadScoreCalculatorService.addErrorLogs(contactLeadId);
+                continue;
+            } 
             Lead_Score_Detail__c leadScoreDetail = new Lead_Score_Detail__c();
             leadScoreDetail.Email_Interaction__c = LeadScoreCalculatorService.getLeadScoreByCategory(contactLeadId, emailInteractionMap);
             if(ContactService.isContact(contactLeadId)){   
@@ -313,10 +328,7 @@ public with sharing class LeadScoreUndergradDomCmd implements ILeadScoreStudyLev
             }
             leadScoreDetail.Study_Level__c = LeadScoreDetailsDAO.STUDY_LEVEL_UNDERGRAD;
             leadScoreDetail.Domestic_International__c = LeadScoreDetailsDAO.DOMESTIC;   
-
-            if(existingLeadScoreDetailMap.containsKey(contactLeadId)){
-                leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
-            }
+            leadScoreDetail.Id = existingLeadScoreDetailMap.get(contactLeadId).Id;
             leadScoreDetailList.add(leadScoreDetail);
         }
         return leadScoreDetailList;

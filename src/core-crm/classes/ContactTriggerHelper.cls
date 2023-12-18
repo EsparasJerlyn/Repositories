@@ -520,4 +520,12 @@ public without sharing class ContactTriggerHelper {
             newItems.Registered_Email__c = newItems.Work_Email__c;    
         }
     }
+
+    public static void createLeadScoreDetailRecord(Set<Id> contactIds) {
+        List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
+        for (Id contactId : contactIds) {
+            leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Contact__c = contactId));
+        }
+        LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+    }
 }
