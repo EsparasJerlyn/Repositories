@@ -120,12 +120,11 @@ public inherited sharing class LeadScoreCalculatorService {
 
             //upserts lead score details
             if(!leadScoreDetailList.isEmpty()){
-                LeadScoreDetailsDAO.newInstance().upsertRecords(leadScoreDetailList, false, AccessLevel.SYSTEM_MODE);
+                LeadScoreDetailsDAO.newInstance().updateRecords(leadScoreDetailList, false, AccessLevel.SYSTEM_MODE);
             }
 
         }catch(Exception e){
             Logger.error('Exception caught during lead score calculation for ' + sObjectType + '.').setExceptionDetails(e);
-            System.debug(e);
         }finally {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
@@ -146,37 +145,30 @@ public inherited sharing class LeadScoreCalculatorService {
         if(!leadScoreCalculatorParams.sObjectMap.isEmpty()){
             switch on studyLevelAndCitizenship {
                 when 'Domestic Undergrad'{
-                    System.debug('Domestic Undergrad');
                     leadScoreStudyLevelCommand = new LeadScoreStudyLevelCommand(new LeadScoreUndergradDomCmd());
                     leadScoreDetails.addAll(leadScoreStudyLevelCommand.processStudyLevel(leadScoreCalculatorParams));
                 }
                 when 'Domestic Postgrad'{
-                    System.debug('Domestic Postgrad');
                     leadScoreStudyLevelCommand = new LeadScoreStudyLevelCommand(new LeadScorePostgradDomCmd());
                     leadScoreDetails.addAll(leadScoreStudyLevelCommand.processStudyLevel(leadScoreCalculatorParams));
                 }
                 when 'Domestic Undetermined'{
-                    System.debug('Domestic Undetermined');
                     leadScoreStudyLevelCommand = new LeadScoreStudyLevelCommand(new LeadScoreUndeterminedDomCmd());
                     leadScoreDetails.addAll(leadScoreStudyLevelCommand.processStudyLevel(leadScoreCalculatorParams));
                 }
                 when 'International Undergrad'{
-                    System.debug('International Undergrad');
                     leadScoreStudyLevelCommand = new LeadScoreStudyLevelCommand(new LeadScoreUndergradIntCmd());
                     leadScoreDetails.addAll(leadScoreStudyLevelCommand.processStudyLevel(leadScoreCalculatorParams));
                 }
                 when 'International Postgrad'{
-                    System.debug('International Postgrad');
                     leadScoreStudyLevelCommand = new LeadScoreStudyLevelCommand(new LeadScorePostgradIntCmd());
                     leadScoreDetails.addAll(leadScoreStudyLevelCommand.processStudyLevel(leadScoreCalculatorParams));
                 }
                 when 'International Undetermined'{
-                    System.debug('International Undetermined');
                     leadScoreStudyLevelCommand = new LeadScoreStudyLevelCommand(new LeadScoreUndeterminedIntCmd());
                     leadScoreDetails.addAll(leadScoreStudyLevelCommand.processStudyLevel(leadScoreCalculatorParams));
                 }
                 when 'Undetermined Undetermined'{
-                    System.debug('Undetermined Undetermined');
                     leadScoreStudyLevelCommand = new LeadScoreStudyLevelCommand(new LeadScoreUndeterminedUndCmd());
                     leadScoreDetails.addAll(leadScoreStudyLevelCommand.processStudyLevel(leadScoreCalculatorParams));
                 }
@@ -344,6 +336,17 @@ public inherited sharing class LeadScoreCalculatorService {
             }   
         }
     }
+
+    public static void addErrorLogs(Id recordId){
+        String logMessage = 'Lead Score Detail does not exist for this record: ' + recordId;
+        Logger.error(logMessage).setRecord(recordId);
+    }
+
+    public static void saveLogs() {        
+        if (Logger.getBufferSize() > 0) {
+            Logger.saveLog();
+        }
+    }  
     
     public class LeadScoreCalculatorParams{
         public SObjectType sObjectType;

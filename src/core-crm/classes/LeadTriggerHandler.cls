@@ -44,7 +44,6 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLeadStatus((List<Lead>) newItems.values());
         LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
-        LeadService.createLeadScoreDetail((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
     }
 
     /**
@@ -54,8 +53,10 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
     public void afterInsert(Map<Id, SObject> newItems) {
         if(!isRunning ){
             isRunning = true;
+            LeadService.createLeadScoreDetailRecord(newItems.keySet());
             LeadService.createMarketingSegmentationForLeads(newItems.keySet());
             LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), null);
+            isRunning = false;
         }
     }
 

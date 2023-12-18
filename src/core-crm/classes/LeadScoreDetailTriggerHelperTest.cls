@@ -82,7 +82,12 @@ private class LeadScoreDetailTriggerHelperTest {
                 lead.Email_Opt_In_Datetime__c = System.Today();
             }   
             LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
-        }    
+        }  
+        
+        List<Contact> newContact = TestDataFactory.createTestContactRecords(0, 1);
+        newContact[0].FirstName = 'Test Contact Flag';
+        ContactsDAO.newInstance().insertRecords(newContact, true, AccessLevel.SYSTEM_MODE);
+
     }
     @isTest 
     private static void linkLeadScoreDetailToContactTest(){ 
@@ -113,11 +118,19 @@ private class LeadScoreDetailTriggerHelperTest {
     private static void setLeadFlagsTest(){
         System.runAs(TestDataFactory.getESBIntegrationUser()){ 
             Test.startTest();
-            // create lead
-            List<Lead> newLead = TestDataFactory.createTestLeadRecords(0,1);
-            newLead[0].Email_Opt_In_Datetime__c = System.Today();
-            LeadsDAO.newInstance().insertRecords(newLead, true, AccessLevel.SYSTEM_MODE);
+            
+            Set<Id> leadIdSet = new Set<Id>();
+            for (Lead record : LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords)) { 
+                leadIdSet.add(record.Id);
+            }
 
+            List<Marketing_Segmentation__c> mktgSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByContactOrLead(new Set<Id>(), leadIdSet, AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> mktgSegListToUpdate = new List<Marketing_Segmentation__c>();
+            for (Marketing_Segmentation__c record : mktgSegList) { 
+                record.My_Expected_Admission_Year__c = System.today().year();
+                mktgSegListToUpdate.add(record);
+            }
+            MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegListToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
             for(Lead lead: LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords)){
@@ -132,13 +145,18 @@ private class LeadScoreDetailTriggerHelperTest {
     private static void setContactFlagsTest(){
         System.runAs(TestDataFactory.getESBIntegrationUser()){ 
             Test.startTest();
-            // create Contact
-            List<Contact> newContact = TestDataFactory.createTestContactRecords(0, 1);
-            ContactsDAO.newInstance().insertRecords(newContact, true, AccessLevel.SYSTEM_MODE);
-
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
+            List<Contact> contactListToUpdate = new List<Contact>();
+            for (Contact record : contactList) { 
+                if(record.FirstName == 'Test Contact Flag') {
+                    record.Email_Opt_In_DateTime__c = Date.today();
+                    contactListToUpdate.add(record);
+                }
+            }
+            ContactsDAO.newInstance().updateRecords(contactListToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
-            for(Contact con: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContact[0].Id}, AccessLevel.SYSTEM_MODE)){
+            for(Contact con: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactListToUpdate[0].Id}, AccessLevel.SYSTEM_MODE)){
                 System.assertEquals(true, con.QUT_Lead__c, 'QUT Lead should match');
                 System.assertEquals(true, con.Can_Nurture__c, 'Can_Nurture__c should match');
             }

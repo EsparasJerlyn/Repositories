@@ -29,16 +29,13 @@ public with sharing class LeadScoreCalculationBatch implements Database.Batchabl
     */
     public void execute(Database.BatchableContext bc, List<Lead_Score_Detail__c> leadScoreDetails){
         try{ 
-            Set<Id> contactLeadIds = new Set<Id>();
             Set<Id> contactIdSet = new Set<Id>();
             Set<Id> leadIdSet = new Set<Id>();
             for(Lead_Score_Detail__c leadScoreDtl : leadScoreDetails){
                 if(leadScoreDtl.Contact__c != null){
-                    contactLeadIds.add(leadScoreDtl.Contact__c);
                     contactIdSet.add(leadScoreDtl.Contact__c);
                 }
                 else if(leadScoreDtl.Lead__c != null){
-                    contactLeadIds.add(leadScoreDtl.Lead__c);
                     leadIdSet.add(leadScoreDtl.Lead__c);
                 }
             }            

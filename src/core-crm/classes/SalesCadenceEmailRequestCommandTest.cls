@@ -152,10 +152,14 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
                 AccessLevel.USER_MODE
             );
             Test.startTest();
+            contactList[0].Email_Opt_In_DateTime__c = Date.today();
+            contactList[1].Email_Opt_In_DateTime__c = Date.today();
+            ContactsDAO.newInstance().updateRecords(contactList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
             RequestCommand cmd = new RequestCommand();
             cmd.setCommand(new SalesCadenceEmailRequestCommand(communicationQueueList));
             cmd.executeCommand();     
-            Test.stopTest();
         }
 
         List<Communication_Queue__c> commsQueue = CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByStatus(
