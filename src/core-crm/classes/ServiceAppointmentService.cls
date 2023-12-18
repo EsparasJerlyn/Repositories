@@ -10,6 +10,8 @@
  *    |--------------------------------|-----------------------|------------------------|-------------------------------|
  *    | nicole.genon                   | December 4,2023       | DEPP-7259	            | Created File                  |
  *    | ryan.j.a.dela.cruz             | December 12,2023      | DEPP-7259	            | Updated template merge fields |
+ *    | eugene.andrew.abuan            | December 15,2023      | DEPP-7448	            | Removed Reminder email        |
+
  */
 public inherited sharing class ServiceAppointmentService {
     private static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
@@ -28,54 +30,57 @@ public inherited sharing class ServiceAppointmentService {
     };
 
     /**
-     * @description Send email on Service Appointment record creation or reschedule 
-     * if work type is Internation team
-     *
-     * @param internationalServiceAppointments  List of new Service Appointment records 
-     * with International Phone Calls work type
+     * @description Method that will Send either a confirmation email or reminder email
+     * @param serviceAppointments  - list of new Service Appointment records
+     * @param orgWideEmailName  - org wide email for domestic/international
+     * @param workTypeName  - either International Phone Call/Domestic Phone Call, public string found in WorkTypesDAO
+     * @param emailTemplateMap  - Confirmation or Reminder Map of the email template depeding on the worktype specified
+     * @return void
      */
-    public static void sendEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments){
-        List<ServiceAppointment> reminderEmailRecords = new List<ServiceAppointment>();
-        List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
-
-        // Get Email Template
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CONFIRMATION_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE)},'SYSTEM_MODE');
-        List<EmailTemplate> reminderEmailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{REMINDER_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE)},'SYSTEM_MODE');
-
-        for(ServiceAppointment serviceAppointment : internationalServiceAppointments){
-            if(serviceAppointment.SchedStartTime != null && calculateSchedStartDateRange(WorkTypesDAO.INTERNATIONAL_WORK_TYPE,serviceAppointment.SchedStartTime)){
-                reminderEmailRecords.add(serviceAppointment);
-            }    
-        }
-
-        buildEmail(internationalServiceAppointments,owea,emailTemplate.get(0));
-        buildEmail(reminderEmailRecords,owea,reminderEmailTemplate.get(0));
+    public static void sendConfirmationOrReminderEmail(List<ServiceAppointment> serviceAppointments, String orgWideEmailName, String workTypeName, Map<String, String> emailTemplateMap) {
+        List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{orgWideEmailName}, AccessLevel.SYSTEM_MODE);
+    
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{emailTemplateMap.get(workTypeName)}, 'SYSTEM_MODE');
+    
+        buildEmail(serviceAppointments, owea, emailTemplate.get(0));
+    }
+    
+    /**
+     * @description Method that sends a confirmation email from the Trigger Helper if work type is International Phone Call
+     * @param internationalServiceAppointments  List of new Service Appointment records 
+     * @return void
+     */
+    public static void sendConfrimationEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
+        sendConfirmationOrReminderEmail(internationalServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.INTERNATIONAL_WORK_TYPE, CONFIRMATION_EMAIL_TEMPLATE_MAP);
     }
 
     /**
-     * @description Send email on Service Appointment record creation or reschedule 
-     * if work type is Internation team
-     *
-     * @param internationalServiceAppointments  List of new Service Appointment records 
-     * with International Phone Calls work type
+     * @description Method that sends a confirmation email from the Trigger Helper if work type is Domestic Phone Call
+     * @param domesticServiceAppointments  List of new Service Appointment records 
+     * @return void
      */
-    public static void sendEmailToDomesticServiceAppointments(List<ServiceAppointment> domesticServiceAppointments){
-        List<ServiceAppointment> reminderEmailRecords = new List<ServiceAppointment>();
-        List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
-
-        // Get Email Template
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CONFIRMATION_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
-        List<EmailTemplate> reminderEmailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{REMINDER_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
-
-        for(ServiceAppointment serviceAppointment : domesticServiceAppointments){
-            if(serviceAppointment.SchedStartTime != null && calculateSchedStartDateRange(WorkTypesDAO.DOMESTIC_WORK_TYPE,serviceAppointment.SchedStartTime)){
-                reminderEmailRecords.add(serviceAppointment);
-            }
-        }
-
-        buildEmail(domesticServiceAppointments,owea,emailTemplate.get(0));
-        buildEmail(reminderEmailRecords,owea,reminderEmailTemplate.get(0));
+    public static void sendConfirmationEmailToDomesticServiceAppointments(List<ServiceAppointment> domesticServiceAppointments) {
+        sendConfirmationOrReminderEmail(domesticServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.DOMESTIC_WORK_TYPE, CONFIRMATION_EMAIL_TEMPLATE_MAP);
     }
+    
+    /**
+     * @description Method that sends a confirmation email from the Service Appointment Batch if work type is Domestic Phone Call
+     * @param domesticServiceAppointments  List of Filtered Records specific for Domestic WorkTypes
+     * @return void
+     */
+    public static void sendReminderEmailToDomesticServiceAppointment(List<ServiceAppointment> domesticServiceAppointments) {
+        sendConfirmationOrReminderEmail(domesticServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.DOMESTIC_WORK_TYPE, REMINDER_EMAIL_TEMPLATE_MAP);
+    }
+
+    /**
+     * @description Method that sends a confirmation email from the Service Appointment Batch if work type is Domestic Phone Call
+     * @param internationalServiceAppointments  List of Filtered Records specific for International WorkTypes
+     * @return void
+     */
+    public static void sendReminderEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
+        sendConfirmationOrReminderEmail(internationalServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.INTERNATIONAL_WORK_TYPE, REMINDER_EMAIL_TEMPLATE_MAP);
+    }
+    
 
     /**
      * @description Send email if status is cancelled or SchedStartTime and SchedEndTime is updated
@@ -176,25 +181,6 @@ public inherited sharing class ServiceAppointmentService {
         if(Logger.getBufferSize() > 0) {
             Logger.saveLog();
         }
-    }
-
-    public static Boolean calculateSchedStartDateRange(String workTypeName, DateTime startDate){
-        Datetime todayDate = DateTime.now();
-        Boolean sched = false;
-
-        // Calculate the difference between end and start dates
-        Long timeDifferenceInMilliseconds = startDate.getTime() - todayDate.getTime();
-
-        // Convert milliseconds to hours
-        Integer hoursDifference = (Integer)Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60));
-
-        if(workTypeName.equals(WorkTypesDAO.INTERNATIONAL_WORK_TYPE) && hoursDifference < 48){
-            sched = true;
-        }else if(workTypeName.equals(WorkTypesDAO.DOMESTIC_WORK_TYPE) && hoursDifference < 24){
-            sched = true;
-        }
-
-        return sched;
     }
 
     public static String formatSchedStartDate(DateTime schedStartTime){
