@@ -146,7 +146,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @isTest
     // prettier-ignore
-    static void assignToMeTest() {// NOPMD - test class is mocked
+    static void assignToCadenceTest() {// NOPMD - test class is mocked
 
         List<Contact> contactList;
         List<Lead> leadList;
@@ -193,11 +193,75 @@ public with sharing class SalesCadenceListViewCtrlTest {
             'salesCadenceNameOrId' => 'test cadence edit'
         });
         
-        SalesCadenceListViewCtrl.assignToMe((List<Object>)targetsToEnroll,JSON.serialize(targetsToChange));
+        SalesCadenceListViewCtrl.assignToCadence((List<Object>)targetsToEnroll,JSON.serialize(targetsToChange));
 
         Test.stopTest();
 
         System.assert(!SalesCadenceListViewCtrl.getTableDataWrapper('test cadence').isEmpty(), 'was not able to get table wrapper');
+    }
+
+    @isTest
+    // prettier-ignore
+    static void validateTargetsToAssignTest() {// NOPMD - test class is mocked
+        List<Contact> contactList;
+        List<Lead> leadList;
+        List<Completed_Cadence__c> completedCadenceList;
+
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        ImplementationSelector.DAO.setMock(new LeadsDAOMock());
+        ImplementationSelector.DAO.setMock(new ActionCadenceTrackersDAOMock());
+        ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
+
+        contactList = TestDataFactory.createTestContactRecords(1);
+        contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+        contactList[0].Calculated_Cadence__c = 'test cadence';
+        ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+
+        leadList = TestDataFactory.createTestLeadRecords(1);
+        leadList[0].Lead_Type__c = 'Learner';
+        leadList[0].Calculated_Cadence__c = 'test cadence';
+        LeadsDAO.newInstance().insertRecords(leadList,true,AccessLevel.USER_MODE);
+
+        completedCadenceList = TestDataFactory.createCompletedCadence('Unsuccessful',null,new Set<Id>{contactList[0].Id});
+        CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.USER_MODE);
+
+        System.assertEquals(
+            2,
+            SalesCadenceListViewCtrl.validateTargetsToAssign(new List<Id>{contactList[0].Id,leadList[0].Id},'test cadence').size(),
+            'should get the right number of target ids after validation'
+        );
+    }
+
+    @isTest
+    // prettier-ignore
+    static void validateTargetsToAssignWithCompletedCadenceTest() {// NOPMD - test class is mocked
+        List<Contact> contactList;
+        List<Lead> leadList;
+        List<Completed_Cadence__c> completedCadenceList;
+
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+        ImplementationSelector.DAO.setMock(new LeadsDAOMock());
+        ImplementationSelector.DAO.setMock(new ActionCadenceTrackersDAOMock());
+        ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
+
+        contactList = TestDataFactory.createTestContactRecords(1);
+        contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+        contactList[0].Calculated_Cadence__c = 'test cadence';
+        ContactsDAO.newInstance().insertRecords(contactList,true,AccessLevel.USER_MODE);
+
+        leadList = TestDataFactory.createTestLeadRecords(1);
+        leadList[0].Lead_Type__c = 'Learner';
+        leadList[0].Calculated_Cadence__c = 'test cadence';
+        LeadsDAO.newInstance().insertRecords(leadList,true,AccessLevel.USER_MODE);
+
+        completedCadenceList = TestDataFactory.createCompletedCadence('Successful',null,new Set<Id>{contactList[0].Id});
+        CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.USER_MODE);
+
+        System.assertEquals(
+            1,
+            SalesCadenceListViewCtrl.validateTargetsToAssign(new List<Id>{contactList[0].Id,leadList[0].Id},'test cadence').size(),
+            'should get the right number of target ids after validation'
+        );
     }
 
     @isTest
@@ -222,5 +286,39 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
         */
         Assert.areEqual(24, actualDatetime.day(), 'Day of month should be 24 in BNE timezone');
+    }
+
+
+    @istest
+    private static void getRecentlyViewedTest(){
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
+            Test.startTest();
+            System.assertEquals(0, SalesCadenceListViewCtrl.getRecentlyViewed('Domestic').size(), 'recentlyviewed should be empty');
+            Test.stopTest();
+        }
+    }
+
+    @istest
+    private static void checkUserRoleTest(){
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
+            Test.startTest();
+            System.assertEquals(false, SalesCadenceListViewCtrl.checkUserRole(), 'Return should be false');
+            Test.stopTest();
+        }
+    }
+
+    @istest
+    private static void getSearchedUsersTest(){
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent','QUT_ESB'});
+
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            Test.startTest();
+            System.assertEquals(1, SalesCadenceListViewCtrl.getSearchedUsers('QUT','Domestic').size(), 'there should be 1 user queried');
+            Test.stopTest();
+        }
     }
 }

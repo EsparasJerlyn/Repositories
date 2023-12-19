@@ -95,6 +95,9 @@
     </types>
 
     <types>
+        <!--(Start) DEPP-6629-->
+        <members>Nullify_LMS_Integration_Status</members>
+        <!--(End) DEPP-6629-->
         <!--(Start) DEPP-6714-->
         <members>Course_Connection_Pricing_Validation</members>
         <!--(End) DEPP-6714-->

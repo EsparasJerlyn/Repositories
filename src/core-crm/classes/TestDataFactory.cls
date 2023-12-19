@@ -61,11 +61,13 @@
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
  *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          | 
  *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
+ *    | kenneth.f.alsay           | September 22, 2023    | DEPP-6629           | Added method createTestCourseConnectionRecordsByStatus                  |
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
+ *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
- * 
+ *
  **/
 
 @isTest
@@ -109,7 +111,8 @@ public class TestDataFactory {
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
         'QUT_Domestic_Future_Student_Agent',
-        'QUT_Corporate_Partnership_Manager'
+        'QUT_Corporate_Partnership_Manager',
+        'QUT_International_Future_Student_Agent'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -193,7 +196,7 @@ public class TestDataFactory {
 
         for (Integer i = 0; i < numContacts; i++) {
             contactList.add(new Contact(
-                FirstName = 'Test' + i, 
+                FirstName = 'Test' + i,
                 LastName = 'Contact' + i,
                 hed__Citizenship_Status__c = citizenship,
                 RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID
@@ -962,7 +965,9 @@ public class TestDataFactory {
                     hed__Course__c = cour[i].id,
                     hed__Term__c = terms[i].id,
                     hed__Start_Date__c = system.today() + 2,
-                    hed__Capacity__c = 10
+                    hed__Capacity__c = 10,
+                    IsActive__c = TRUE,
+                    LMS_Creation_Date__c = System.today() + 30
                 )
             );
         }
@@ -1115,7 +1120,7 @@ public class TestDataFactory {
         for (Id  targetId:targetIds) {
             String targetIdString = (String)targetId;
 
-            // CreatedDate field is a readonly field and cannot be set directly, a workaround is to create the sObject by deserializing from JSON 
+            // CreatedDate field is a readonly field and cannot be set directly, a workaround is to create the sObject by deserializing from JSON
             String completedCadenceJSON = '{"CreatedDate":"2023-11-23T20:34:56.000z"}';
             Completed_Cadence__c c = (Completed_Cadence__c) JSON.deserialize(completedCadenceJSON, Completed_Cadence__c.class );
             c.Completed_Cadence_Status__c = status;
@@ -1360,6 +1365,30 @@ public class TestDataFactory {
                 new hed__Course_Enrollment__c(
                     hed__Contact__c = conId,
                     Program_Offering__c = programOfferings[i].id
+                )
+            );
+        }
+        return courseConnectionRecord;
+    }
+
+        /**
+     * @description Method for creating Course Connection Record
+     * @param nCourseConnection - number of Course Connection to be created
+     * @param status - hed__Status__c picklist value
+     * @param lmsIntegrationStatus - LMS_Integration_Status__c picklist value
+     * @return courseConnectionRecord - List of Course Connection Created
+     */
+    public static List<hed__Course_Enrollment__c> createTestCourseConnectionRecordsByStatus(
+        Integer nCourseConnection,
+        String status,
+        String lmsIntegrationStatus
+    ) {
+        List<hed__Course_Enrollment__c> courseConnectionRecord = new List<hed__Course_Enrollment__c>();
+        for (Integer i = 0; i < nCourseConnection; i++) {
+            courseConnectionRecord.add(
+                new hed__Course_Enrollment__c(
+                    hed__status__c = status,
+                    LMS_Integration_Status__c = lmsIntegrationStatus
                 )
             );
         }
@@ -2259,6 +2288,21 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating International Future Student Agent
+     * @param void
+     * @return futureStudentAgent - International Future Student Agent
+     */
+    public static User getInternationalFutureStudentAgent() {
+        User futureStudentAgent = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_International_Future_Student_Agent%'
+            LIMIT 1
+        ];
+        return futureStudentAgent;
+    }
+
+    /**
      * @description Method for creating Learning Designer
      * @param void
      * @return learningDesigner - Learning Designer
@@ -3031,8 +3075,22 @@ public class TestDataFactory {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User,Future_Student_Domestic_Email_Access';
                 publicGroups = 'Future Students - Domestic';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }else if (name == 'QUT_International_Future_Student_Agent') {
+                userName = 'QUT_International_Future_Student_Agent';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Agent - International';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User,Future_Student_International_Email_Access';
+                publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
@@ -3759,7 +3817,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createInlAndPostGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3779,7 +3837,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createDomstcAndPostGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3799,7 +3857,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createDomstcAndUnderGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3819,7 +3877,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createIntlAndUnderGradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3839,7 +3897,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createDomestcAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3859,7 +3917,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createIntlAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3879,7 +3937,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createUndAndUndeterminedSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3899,7 +3957,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createIntlAndPostgradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3919,7 +3977,7 @@ public class TestDataFactory {
     public static List<Lead_Score_Configuration__c> createDomestcAndPostgradSubCategory(Id parentCategory, List<String> categoryNamesList, List<Integer> scoreAllocationsList ){
 
         List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
-        
+
         for(Integer i = 0;i<categoryNamesList.size();i++){
             leadScoreConfigList.add(new Lead_Score_Configuration__c(
                 Name = categoryNamesList[i],
@@ -3940,14 +3998,14 @@ public class TestDataFactory {
         List<Case_Priority_Configuration__c> casePrioConfigList = new List<Case_Priority_Configuration__c>();
         casePrioConfigList.add(new Case_Priority_Configuration__c(
             Case_Record_Type__c = 'International Future Student Enquiry',
-            Future_Student_Stage__c = 'Apply', 
+            Future_Student_Stage__c = 'Apply',
             Is_Active__c = true,
             Priority__c = 'High'
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
             Case_Record_Type__c = 'International Future Student Enquiry',
             Enquiry_Category__c = 'My enrolment',
-            Future_Student_Stage__c = 'Apply', 
+            Future_Student_Stage__c = 'Apply',
             Is_Active__c = true,
             Priority__c = 'High'
         ));
@@ -3991,7 +4049,7 @@ public class TestDataFactory {
         ));
 
         return casePrioConfigList;
-    } 
+    }
 
     /**
      * @description Method for creating test Sprinklr case records. (Basically case records with Sprinklr case numbers.)
@@ -4015,13 +4073,32 @@ public class TestDataFactory {
      * @param numServiceAppointment - number of Service Appointment to be created
      * @return serviceApp - list of Service Appointment created
      */
-    public static List<ServiceAppointment> createTestServiceAppointmentRecords(Integer numServiceAppointment, Id AccountId) {
+    public static List<ServiceAppointment> createTestServiceAppointmentRecords(Integer numServiceAppointment, Id accountId) {
         List<ServiceAppointment> serviceApp = new List<ServiceAppointment>();
 
         for (Integer i = 0; i < numServiceAppointment; i++) {
-            serviceApp.add(new ServiceAppointment(EarliestStartTime = System.Now(), DueDate = System.Now().addDays(10), ParentRecordId = AccountId));
+            serviceApp.add(new ServiceAppointment(EarliestStartTime = System.Now(), DueDate = System.Now().addDays(10), ParentRecordId = accountId));
         }
 
         return serviceApp;
+    }
+
+    /** @description Method for creating test WorkType records
+     * @return workTypes - list of WorkTypes created
+     */
+    public static List<WorkType> createTestWorkTypeRecords() {
+        List<WorkType> newWorkTypes = new List<WorkType>();
+        String workName;
+        for (Integer i = 0; i < 2; i++) {
+            newWorkTypes.add(
+                new WorkType(
+                    Name = 'Team',
+                    EstimatedDuration = 5
+                )
+            );
+        }
+        newWorkTypes.get(0).Name = 'International Phone Calls';
+        newWorkTypes.get(1).Name = 'Domestic Phone Calls';
+        return newWorkTypes;
     }
 }

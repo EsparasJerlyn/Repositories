@@ -63,8 +63,19 @@ private class LeadScoreCalculatorServiceTest {
         List<Contact> contactList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
         ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
 
+        Lead_Score_Detail__c lsdForContact = new Lead_Score_Detail__c();
+        lsdForContact.Contact__c = contactList[0].Id;
+
         List<Lead> leadList = TestDataFactory.createTestLeadRecords(1);
         LeadsDAO.newInstance().insertRecords(leadList, true, AccessLevel.USER_MODE);
+
+        Lead_Score_Detail__c lsdForLead = new Lead_Score_Detail__c();
+        lsdForContact.Lead__c = leadList[0].Id;
+
+        List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
+        leadScoreDetailList.add(lsdForContact);
+        leadScoreDetailList.add(lsdForLead);
+        LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailList, true, AccessLevel.USER_MODE);
 
         List<Case> caseList = new List<Case>();
         caseList.add(
@@ -85,8 +96,10 @@ private class LeadScoreCalculatorServiceTest {
         objectMap.internationalUndeterminedMap = new Map<Id, Case>(new List<Case>());
         objectMap.undeterminedUndeterminedMap = new Map<Id, Case>(new List<Case>());
 
+        Test.startTest();
         LeadScoreCalculatorService.calculateLeadScore(objectMap, contactAndLeadIds, Case.sObjectType);
-
+        Test.stopTest();
+        List<Lead_Score_Detail__c> lsdsasdf = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(contactAndLeadIds,AccessLevel.USER_MODE);
         System.assert(!LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(contactAndLeadIds,AccessLevel.USER_MODE).isEmpty(),'lead score detail is not created');
             
     }

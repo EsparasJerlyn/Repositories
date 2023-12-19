@@ -37,4 +37,19 @@ public inherited sharing class EmailTemplatesDAOMock extends DmlBaseMock impleme
 
         return emailTempList;
     }
+
+    public List<EmailTemplate> getEmailTemplatesByDeveloperNameSet(
+        Set<String> developerNameSet,
+		String accessLevel 
+    ) {
+        List<EmailTemplate> emailTempList = new List<EmailTemplate>();
+
+        for (EmailTemplate record : emailTemplateMap.values()) {
+            if (developerNameSet.contains(record.DeveloperName)) {
+                emailTempList.add(record);
+            }
+        }
+
+        return emailTempList;
+    }
 }

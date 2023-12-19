@@ -5,7 +5,7 @@
         <name>Error_Action</name>
         <label>Error Action</label>
         <locationX>578</locationX>
-        <locationY>1406</locationY>
+        <locationY>1514</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -79,7 +79,7 @@
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>578</locationX>
-        <locationY>1514</locationY>
+        <locationY>1622</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -139,8 +139,8 @@
     <assignments>
         <name>Assign_Service_Appointment_Number</name>
         <label>Assign Service Appointment Number</label>
-        <locationX>182</locationX>
-        <locationY>1406</locationY>
+        <locationX>314</locationX>
+        <locationY>1514</locationY>
         <assignmentItems>
             <assignToReference>ServiceApointmentNumber</assignToReference>
             <operator>Add</operator>
@@ -149,7 +149,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>ConfirmationScreen</targetReference>
+            <targetReference>Confirmation_Screen_Internal</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -194,10 +194,42 @@
                 <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SetDefaultTimeZone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Australia/Brisbane</stringValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Time_Slot_Screen</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>Confirmation_Screen_for_Internal_or_Website</name>
+        <label>Confirmation Screen for Internal or Website?</label>
+        <locationX>182</locationX>
+        <locationY>1298</locationY>
+        <defaultConnector>
+            <targetReference>Get_Appointment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Website</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fromWebsite</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Confirmation_Screen_Web</targetReference>
+            </connector>
+            <label>Website</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Is_Selected_Appointment_Option_Domestic_Or_International</name>
         <label>Is Selected Appointment Option Domestic Or International?</label>
@@ -271,8 +303,8 @@
     <recordLookups>
         <name>Get_Appointment</name>
         <label>Get Appointment</label>
-        <locationX>182</locationX>
-        <locationY>1298</locationY>
+        <locationX>314</locationX>
+        <locationY>1406</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Service_Appointment_Number</targetReference>
@@ -391,7 +423,7 @@
         <locationX>182</locationX>
         <locationY>1190</locationY>
         <connector>
-            <targetReference>Get_Appointment</targetReference>
+            <targetReference>Confirmation_Screen_for_Internal_or_Website</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -399,12 +431,12 @@
         </faultConnector>
         <inputReference>ServiceAppointment</inputReference>
     </recordUpdates>
-    <runInMode>DefaultMode</runInMode>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
-        <name>ConfirmationScreen</name>
-        <label>ConfirmationScreen</label>
-        <locationX>182</locationX>
-        <locationY>1514</locationY>
+        <name>Confirmation_Screen_Internal</name>
+        <label>Confirmation Screen Internal</label>
+        <locationX>314</locationX>
+        <locationY>1622</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -450,10 +482,31 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Confirmation_Screen_Web</name>
+        <label>Confirmation Screen Web</label>
+        <locationX>50</locationX>
+        <locationY>1406</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Your_Appointment_Has_Been_Scheduled</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 28px; color: rgb(1, 118, 211);&quot;&gt;Your Appointment Has Been Scheduled&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Body_Appointments_Scheduled</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Thank you for scheduling an appointment with QUT. You will receive a confirmation email with the booking details shortly.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>ErrorScreen</name>
         <label>ErrorScreen</label>
         <locationX>578</locationX>
-        <locationY>1622</locationY>
+        <locationY>1730</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -567,7 +620,7 @@
             <inputParameters>
                 <name>preselectedTimezone</name>
                 <value>
-                    <elementReference>DefaultTimeZone</elementReference>
+                    <elementReference>SetDefaultTimeZone</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -718,6 +771,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>fromWebsite</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <description>Specify whether to display ST OH or not</description>
         <name>hideStOh</name>
         <dataType>Boolean</dataType>
@@ -831,6 +891,13 @@
     </variables>
     <variables>
         <name>serviceResources</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SetDefaultTimeZone</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

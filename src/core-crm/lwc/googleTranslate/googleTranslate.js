@@ -7,22 +7,26 @@
  *    |---------------------------|-----------------------|----------------------|----------------------------------------------|
  *    | eccarius.munoz            | November 08, 2022     | DEPP-4231            | Created file                                 |
  *    | ryan.j.a.dela.cruz        | October 17, 2023      | DEPP-5902            | Added translate integration service          |
+ *    | alexander.cadalin         | December 11, 2023     | DEPP-7407            | modified for use under service appointments  |
  */
 
 import { LightningElement, track, api, wire } from "lwc";
 import { createRecord, getRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-import CASE_COMMENT_OBJ from "@salesforce/schema/CaseComment";
-import SUBJECT_FIELD from "@salesforce/schema/Case.Subject";
-import DESCRIPTION_FIELD from "@salesforce/schema/Case.Description";
 import GOOGLE_LOGO from "@salesforce/resourceUrl/googleLogo";
+import CASE_COMMENT_OBJ from "@salesforce/schema/CaseComment";
+import CASE_SUBJECT_FIELD from "@salesforce/schema/Case.Subject";
+import CASE_DESCRIPTION_FIELD from "@salesforce/schema/Case.Description";
+import SERVAPP_TOPIC_FIELD from "@salesforce/schema/ServiceAppointment.Appointment_Topic__c";
+import SERVAPP_DESCRIPTION_FIELD from "@salesforce/schema/ServiceAppointment.Description";
 
 import getSupportedLanguages from "@salesforce/apex/TranslateService.getSupportedLanguages";
 import translateText from "@salesforce/apex/TranslateService.translateText";
 import detectLanguage from "@salesforce/apex/TranslateService.detectLanguage";
 
-const fields = [SUBJECT_FIELD, DESCRIPTION_FIELD];
+const CASE_FIELDS = [CASE_SUBJECT_FIELD, CASE_DESCRIPTION_FIELD];
+const SERVAPP_FIELDS = [SERVAPP_TOPIC_FIELD, SERVAPP_DESCRIPTION_FIELD];
 
 const SUCCESS_TITLE = "Success!";
 const SUCCESS_VARIANT = "success";
@@ -33,6 +37,7 @@ const WARNING_MSG_SAME_LANG =
   "Source and target languages should be different.";
 const HEADER_TITLE = "TRANSLATE";
 const COPY_SUBJ_DESC_BTN_LABEL = "Copy Subject & Description";
+const COPY_TOPIC_DESC_BTN_LABEL = "Copy Topic & Description";
 const COPY_TRANS_BTN_LABEL = "Copy Translation";
 const TRANS_BTN_LABEL = "Translate Text";
 const ADD_TO_COMMENT_BTN_LABEL = "Add Translation to Comment";
@@ -55,6 +60,9 @@ export default class GoogleTranslate extends LightningElement {
   targetTextValue;
 
   @api recordId;
+  @api objectApiName;
+
+  fields;
 
   /** GETTERS **/
   get googleLogo() {
@@ -66,7 +74,11 @@ export default class GoogleTranslate extends LightningElement {
   }
 
   get copySubjectAndDescriptionButtonLabel() {
-    return COPY_SUBJ_DESC_BTN_LABEL;
+    if(this.objectApiName == "Case") {
+      return COPY_SUBJ_DESC_BTN_LABEL;
+    } else if(this.objectApiName == "ServiceAppointment") {
+      return COPY_TOPIC_DESC_BTN_LABEL;
+    }
   }
 
   get translateButtonLabel() {
@@ -80,22 +92,35 @@ export default class GoogleTranslate extends LightningElement {
   get addTranslationToCommentButtonLabel() {
     return ADD_TO_COMMENT_BTN_LABEL;
   }
+
+  get showAddTranslationButton() {
+    return this.objectApiName == "Case" ? true : false;
+  }
   /** END GETTERS **/
 
-  @wire(getRecord, { recordId: "$recordId", fields })
-  case;
-
   connectedCallback() {
+    if(this.objectApiName == "Case") {
+      this.fields = CASE_FIELDS;
+    } else if (this.objectApiName == "ServiceAppointment") {
+      this.fields = SERVAPP_FIELDS;
+    }
     this.callGetSupportedLanguages();
   }
+  
+  @wire(getRecord, { recordId: "$recordId", fields: "$fields" })
+  currentRecord;
 
   /** MAIN BUTTONS **/
   /**
    * Handles copying the subject and description to the source text area,
    * detecting the source language, and updating the UI.
    */
-  handleCopySubjectAndDescription() {
-    this.sourceTextValue = this.combineSubjectAndDescription();
+  handleCopyFieldValues() {
+    if(this.objectApiName == "Case") {
+      this.sourceTextValue = this.combineCaseFieldValues();
+    } else if(this.objectApiName == "ServiceAppointment") {
+      this.sourceTextValue = this.combineServiceAppointmentFieldValues();
+    }
     this.translateDisabled = !this.sourceTextValue;
 
     this.detectAndSetSourceLanguage();
@@ -277,14 +302,32 @@ export default class GoogleTranslate extends LightningElement {
   /**
    * Combines subject and description and sets sourceTextValue accordingly.
    */
-  combineSubjectAndDescription() {
-    const subject = this.case.data.fields.Subject.value;
-    const description = this.case.data.fields.Description.value;
+  combineCaseFieldValues() {
+    const subject = this.currentRecord.data.fields.Subject.value;
+    const description = this.currentRecord.data.fields.Description.value;
 
     if (subject && description) {
       return `${subject}\n${description}`;
     } else if (subject) {
       return subject;
+    } else if (description) {
+      return description;
+    }
+
+    return "";
+  }
+
+  /**
+   * Combines subject and description and sets sourceTextValue accordingly.
+   */
+  combineServiceAppointmentFieldValues() {
+    const topic = this.currentRecord.data.fields.Appointment_Topic__c.value;
+    const description = this.currentRecord.data.fields.Description.value;
+
+    if (topic && description) {
+      return `${topic}\n${description}`;
+    } else if (topic) {
+      return topic;
     } else if (description) {
       return description;
     }

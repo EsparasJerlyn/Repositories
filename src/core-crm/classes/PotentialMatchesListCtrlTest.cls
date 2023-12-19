@@ -21,11 +21,28 @@ private class PotentialMatchesListCtrlTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Domestic_Future_Student_Agent' });
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<Account> accList = TestDataFactory.createTestAccountRecords(1);
-            AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.SYSTEM_MODE);
+            AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.USER_MODE);
+
+            List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
+            WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.USER_MODE);
+
+            List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1, accList[0].Id);
+
+            for (ServiceAppointment ap : serviceAppList) {
+                ap.Email = Email;
+                ap.SchedStartTime = DateTime.Now().AddDays(1);
+                ap.SchedEndTime = DateTime.Now().AddDays(3);
+                ap.WorkTypeId = workTypes[0].Id;
+                ap.description = 'This is an inquiry on QUT student enrolment.';
+                ap.Status = 'Scheduled';
+                ap.Appointment_Topic__c = 'My enrolment';
+            }
+
+            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
             List<Case> cases = new List<Case>();
             cases.add(
@@ -41,19 +58,7 @@ private class PotentialMatchesListCtrlTest {
 
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
 
-            List<ServiceAppointment> serviceAppointment = new List<ServiceAppointment>();
-            serviceAppointment.add(
-                new ServiceAppointment(
-                    EarliestStartTime = System.today(),
-                    DueDate = System.Today() + 7,
-                    ParentRecordId = accList[0].Id,
-                    Email = EMAIL
-                )
-            );
-
-            ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppointment, false, AccessLevel.SYSTEM_MODE);
-
-            List<Contact> conList = TestDataFactory.createTestContactRecords(1);
+            List<Contact> conList = TestDataFactory.createTestContactRecords(1, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
             conList[0].FirstName = FIRSTNAME;
             conList[0].LastName = LASTNAME;
             conList[0].Email = EMAIL;
@@ -71,7 +76,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testGetPossibleMatchEnquery() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
             List<Case> caseList = CasesDAO.newInstance().getCaseBySuppliedEmail(EMAIL, AccessLevel.USER_MODE);
@@ -91,8 +96,8 @@ private class PotentialMatchesListCtrlTest {
     }
 
     @isTest
-    private static void testPossibleMatchServiceAppointmentContact() { // DEPP-7280 AC-1 and AC-2
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+    private static void testPossibleMatchServiceAppointmentContactLead() { // DEPP-7280 AC-1 and AC-2
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
             List<ServiceAppointment> serviceAppointmentList = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByEmail(EMAIL, AccessLevel.SYSTEM_MODE);
@@ -113,7 +118,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToCaseContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
             List<Case> caseList = CasesDAO.newInstance().getCaseBySuppliedEmail(EMAIL, AccessLevel.USER_MODE);
@@ -143,7 +148,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToServiceAppointmentContact() { // DEPP-7280 AC-5 Contact
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
             List<ServiceAppointment> serviceAppointmentList = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByEmail(EMAIL, AccessLevel.SYSTEM_MODE);
@@ -173,7 +178,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToServiceAppointmentLead() { // DEPP-7280 AC-5 Lead
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
             List<ServiceAppointment> serviceAppointmentList = ServiceAppointmentsDAO.newInstance().getServiceAppointmentByEmail(EMAIL, AccessLevel.SYSTEM_MODE);
@@ -203,7 +208,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToCaseLead() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
             List<Case> caseList = CasesDAO.newInstance().getCaseBySuppliedEmail(EMAIL, AccessLevel.USER_MODE);
@@ -234,7 +239,7 @@ private class PotentialMatchesListCtrlTest {
 
     @isTest
     private static void testLinkToCaseLeadFailed() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
 
             Boolean updatedCase = PotentialMatchesListCtrl.linkToObject('', '', '', '');

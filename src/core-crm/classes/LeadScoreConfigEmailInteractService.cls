@@ -64,15 +64,25 @@ public with sharing class LeadScoreConfigEmailInteractService {
     }
 
     private static Boolean validateIndivEmailRecord(et4ae5__IndividualEmailResult__c indvEmail, Date today, Integer timeLimit){
-        return 
+        Boolean response = 
             indvEmail.et4ae5__DateOpened__c != null &&
             indvEmail.et4ae5__Opened__c && 
             indvEmail.et4ae5__Clicked__c &&
-            !indvEmail.Lead_Score_Reset__c &&
-            DateService.isDateWithinRangeDefaultFalse(
-                today, 
-                indvEmail.et4ae5__DateOpened__c.date(), 
-                indvEmail.et4ae5__DateOpened__c.date().addMonths(timeLimit)
-            );
+            !indvEmail.Lead_Score_Reset__c;
+
+        if(timeLimit != null){
+            response =
+                response &&
+                (  
+                    timeLimit != null && 
+                    DateService.isDateWithinRangeDefaultFalse(
+                        today, 
+                        indvEmail.et4ae5__DateOpened__c.date(), 
+                        indvEmail.et4ae5__DateOpened__c.date().addMonths(timeLimit)
+                    )
+                );
+        }
+
+        return response;
     }
 }

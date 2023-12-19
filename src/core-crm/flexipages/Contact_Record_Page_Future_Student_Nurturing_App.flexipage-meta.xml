@@ -37,6 +37,13 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Contact.Schedule_Appointment</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Future Student Engagement</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

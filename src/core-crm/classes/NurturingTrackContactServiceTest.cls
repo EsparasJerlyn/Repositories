@@ -659,7 +659,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
-            newQtacApplications[0].Offer_Status__c = 'Accepted unconditionally';
+            newQtacApplications[0].Offer_Status__c = 'Accepted';
             ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
@@ -684,7 +684,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
-            newQtacApplications[0].Offer_Status__c = 'Accepted unconditionally';
+            newQtacApplications[0].Offer_Status__c = 'Accepted';
             ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
@@ -1612,10 +1612,15 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                 hed__Program_Enrollment__c = programEnrollmentList[0].Id
             )); 
             CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
+            programList[0].Program_Level__c = 'Undergraduate';
+            insert programList;
             
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             newApplications[0].Calculated_Intake_Date__c = System.today().addDays(5);
+            newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             
             Test.startTest();

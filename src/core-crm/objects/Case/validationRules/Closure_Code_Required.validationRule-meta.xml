@@ -9,12 +9,11 @@
         ISBLANK(TEXT(Closure_Code__c)),
         LEN(Closure_Details__c) = 0
     ),
-    OR(
-       ISPICKVAL(Closure_Code__c, &apos;Response Given&apos;),
-       ISPICKVAL(Closure_Code__c, &apos;No response given&apos;),
-       ISPICKVAL(Closure_Code__c, &apos;Redirected&apos;)
-      )
-      
+    AND (
+        TEXT(Closure_Code__c)!= &apos;Invalid Enquiry&apos;,
+        TEXT(Closure_Code__c)!= &apos;Redirected Agent Enquiry&apos;
+    )
+    
 )</errorConditionFormula>
     <errorDisplayField>Closure_Code__c</errorDisplayField>
     <errorMessage>Closure Code and Closure Details are required when Status is &quot;Closed&quot;.</errorMessage>

@@ -6,12 +6,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                 |
-      | eugene.andrew.abuan            | March 22, 2022        | DEPP-3534              | Update                       |
-      | eugene.andrew.abuan            | July 29, 2022         | DEPP-3534              | Added Do no show start date logic   |
-      |                                |                       |                        |                                     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------|
+      | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                                                  |
+      | eugene.andrew.abuan            | March 22, 2022        | DEPP-3534              | Update                                                        |
+      | eugene.andrew.abuan            | July 29, 2022         | DEPP-3534              | Added Do no show start date logic                             |
+      | kenneth.f.alsay                | September 22, 2023    | DEPP-6299              | Added setLMSIntegrationStatusToIsChanged to before update     |
+      |                                |                       |                        |                                                               |
  */
 
 public without sharing class CourseOfferingTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
@@ -35,6 +36,7 @@ public without sharing class CourseOfferingTriggerHandler implements Disableable
         Map<Id, SObject> oldItems
     ) {
         validateRelatedProduct((List<hed__Course_Offering__c>) newItems.values(),(Map<Id, hed__Course_Offering__c>) oldItems );
+        CourseOfferingTriggerHelper.setLMSIntegrationStatusToIsChanged((List<hed__Course_Offering__c>) newItems.values(), (Map<Id, hed__Course_Offering__c>) oldItems);
     }
 
     /**

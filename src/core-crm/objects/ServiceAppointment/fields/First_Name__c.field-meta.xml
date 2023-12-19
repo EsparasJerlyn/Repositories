@@ -7,8 +7,8 @@
     NOT(ISBLANK(Web_First_Name__c)),
     Web_First_Name__c,
     IF(
-        NOT(ISBLANK( Contact.FirstName )),
-        Contact.FirstName,
+        NOT(ISBLANK( Contact__r.FirstName )),
+        Contact__r.FirstName,
         IF(
             NOT(ISBLANK( LeadId__r.FirstName )),
             LeadId__r.FirstName,

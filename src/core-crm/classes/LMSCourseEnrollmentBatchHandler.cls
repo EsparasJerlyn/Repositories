@@ -5,10 +5,15 @@
  * @author wli
  *
  * @date 10/05/2022
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                            |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------|
+      | kenneth.f.alsay                | November 29, 2023     | DEPP-7318              | Removed unused fields from SOQL           |
  */
 public without sharing class LMSCourseEnrollmentBatchHandler implements Database.Batchable<SObject>, Database.AllowsCallouts, Schedulable {
 
-    private static final String PRIMARY_DELIVERY_PLATFORM = 'Blackboard';
+    private static final String PRIMARY_DELIVERY_PLATFORM = 'QUT Canvas';
     private static final String SUCCESS = 'Success';
     private static final String FACULTY = 'Faculty';
     private static final String STUDENT = 'Student';
@@ -16,16 +21,14 @@ public without sharing class LMSCourseEnrollmentBatchHandler implements Database
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
-                'SELECT Id, Course_Code__c, Recordtype_Name__c, LMS_Integration_Status__c, hed__Contact__r.QUT_Identity_ID__c, hed__Course_Offering__r.LMS_Integration_Status__c,' +
-                        ' Course_Offering_Name__c, hed__Course_Offering__r.Id,' + 
-                        ' hed__Course_Offering__r.hed__Course__r.Primary_Delivery_Platform__c, Course_Offering_Start_Date__c, Course_Offering_End_Date__c,' + 
-                        ' hed__Contact__r.QUT_Employee_ID__c, hed__Contact__r.QUT_Student_ID__c' + 
+                'SELECT Id' +
                         ' FROM hed__Course_Enrollment__c' +
                         ' WHERE LMS_Integration_Status__c = NULL' +
                         ' AND hed__Contact__r.QUT_Identity_ID__c != NULL' +
+                        ' AND hed__Contact__r.QUT_Student_ID__c != NULL' +
                         ' AND hed__Course_Offering__r.LMS_Integration_Status__c = :SUCCESS' +
                         ' AND hed__Course_Offering__r.hed__Course__r.Primary_Delivery_Platform__c = :PRIMARY_DELIVERY_PLATFORM' +
-                        ' AND ( (Recordtype_Name__c = :FACULTY AND hed__Contact__r.QUT_Employee_ID__c != NULL) OR (Recordtype_Name__c = :STUDENT AND hed__Contact__r.QUT_Student_ID__c != NULL) )' + 
+                        ' AND Recordtype_Name__c = :STUDENT' + 
                         ' AND Course_Offering_Start_Date__c <= :TODAY_PLUS_7'
         );
     }

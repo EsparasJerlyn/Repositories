@@ -13,6 +13,11 @@
         <operation>startsWith</operation>
         <value>Call: Make a call</value>
     </filters>
+    <filters>
+        <field>Cadence_Name__c</field>
+        <operation>contains</operation>
+        <value>Domestic</value>
+    </filters>
     <label>Domestic Nurturing - Assigned Calls</label>
     <sharedTo>
         <group>Future_Students_Domestic</group>

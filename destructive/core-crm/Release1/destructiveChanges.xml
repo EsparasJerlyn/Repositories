@@ -29,6 +29,11 @@
         <members>LeadScoreQueueableCall</members>
         <!--(End) DEPP-5866 -->
         <members>Update_Latest_Queue_Name_Field_FlowTest</members>
+        <!--(Start) DEPP-6629 -->
+        <members>LMSCourseBatchHandler</members>
+        <members>LMSCourseBatchHandlerTest</members>
+        <!--(End) DEPP-6629 -->
+        <members>NullifyLMSIntegrationStatusFlowTest</members>
         <!--(End) DEPP-7280 -->
         <members>CasePotentialMatchesListCtrl</members>
         <members>CasePotentialMatchesListCtrlTest</members>
@@ -172,6 +177,9 @@
         <!--Start DEPP-7104-->
         <members>Opportunity_Outcome__c.Outcome_Type__c</members>
         <!--End DEPP-7104-->
+        <!-- Start DEPP-7143-->
+        <members>International_Tier__c.Tier_Priority__c</members>
+        <!-- End DEPP-7143-->
         <name>CustomField</name>
     </types>
     <types>
@@ -292,6 +300,11 @@
         <!--(start) DEPP-7253-->
         <members>ServiceAppointment.MyScheduledAppointments</members>
         <!--(END) DEPP-7253-->
+        <!--(START) DEPP-7395-->
+        <members>ServiceAppointment.MyPendingAppointments</members>
+        <members>ServiceAppointment.My_Completed_Appointments</members>
+        <members>ServiceAppointment.My_Scheduled_Appointments</members>
+        <!--(END) DEPP-7395)-->
         <!--(Start) DEPP-7278-->
         <members>Task.Hot_Call_List</members>
         <members>Task.Warm_Call_List</members>
@@ -313,7 +326,7 @@
         <!-- (End) DEPP-6849 -->
         <!-- (Start) DEPP-6868 -->
         <members>Opportunity.RP_Amount_is_Required</members>
-        <!-- (End) DEPP-6868 -->       
+        <!-- (End) DEPP-6868 -->
         <name>ValidationRule</name>
     </types>
     <types>

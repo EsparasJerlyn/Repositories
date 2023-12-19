@@ -5,7 +5,7 @@
                 <div class="slds-m-top_small slds-m-horizontal_medium slds-text-align_center">
                     <lightning-spinner if:true={isLoading} alternative-text="Validating..." size="small"></lightning-spinner>
                 </div>
-                
+
                 <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSaveButton} onsuccess={handleSuccess} onerror={handleError}>
                     <template for:each={fieldsMapping} for:item="fieldItem">
                         <lightning-layout key={fieldItem.apiName} multiple-rows="true" class="slds-m-vertical_xx-small">
@@ -14,37 +14,82 @@
                                     {fieldItem.localeLabel}
                                 </span>
                                 <lightning-input-field
-                                    variant="label-hidden" 
+                                    variant="label-hidden"
                                     field-name={fieldItem.localeField}>
                                 </lightning-input-field>
                             </lightning-layout-item>
-                            <lightning-layout-item size={fieldSize} class="slds-align-bottom slds-p-right_small slds-p-left_xx-small">
-                                <span class="slds-form-element__label">
-                                    {fieldItem.label}
-                                </span>
-                                <lightning-input-field
-                                    if:true={disableEditButton} 
-                                    variant="label-hidden" 
-                                    field-name={fieldItem.apiNameNoLocale}>
-                                </lightning-input-field>
-                                <div if:false={disableEditButton} class="slds-border_bottom">
-                                    <lightning-output-field
+                            <template if:false={fieldItem.isValidated}>
+                                <lightning-layout-item if:false={disableEditButton} size="4" class="slds-align-bottom slds-p-right_small">
+                                    <div class="slds-border_bottom">
+                                        <span class="slds-form-element__label">
+                                            {fieldItem.localeLabel}
+                                        </span>
+                                        <p>{fieldItem.localeFieldValue}</p>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:false={fieldItem.isValidated}>
+                                <lightning-layout-item size="4" class="slds-align-bottom slds-p-right_small slds-p-left_xx-small">
+                                    <span class="slds-form-element__label">
+                                        {fieldItem.label}
+                                    </span>
+                                    <lightning-input-field
+                                        if:true={disableEditButton}
                                         variant="label-hidden"
-                                        field-name={fieldItem.apiName}>
-                                    </lightning-output-field>
-                                </div>
-                            </lightning-layout-item>
-                            <lightning-layout-item size={statusFieldSize} class={statusClass}>
-                                <span class="slds-form-element__label">
-                                    {fieldItem.statusLabel}
-                                </span>
-                                <div class={statusBorderBottomClass}>
-                                    <lightning-output-field
+                                        field-name={fieldItem.apiNameNoLocale}>
+                                    </lightning-input-field>
+                                    <div if:false={disableEditButton} class="slds-border_bottom">
+                                        <lightning-output-field
+                                            variant="label-hidden"
+                                            field-name={fieldItem.apiName}>
+                                        </lightning-output-field>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={fieldItem.isValidated}>
+                                <lightning-layout-item size={statusFieldSize} class="slds-align-bottom slds-p-right_small slds-p-left_xx-small">
+                                    <span class="slds-form-element__label">
+                                        {fieldItem.label}
+                                    </span>
+                                    <lightning-input-field
+                                        if:true={disableEditButton}
                                         variant="label-hidden"
-                                        field-name={fieldItem.statusValidationField}>
-                                    </lightning-output-field>
-                                </div>
-                            </lightning-layout-item>
+                                        field-name={fieldItem.apiNameNoLocale}>
+                                    </lightning-input-field>
+                                    <div if:false={disableEditButton} class="slds-border_bottom">
+                                        <lightning-output-field
+                                            variant="label-hidden"
+                                            field-name={fieldItem.apiName}>
+                                        </lightning-output-field>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:false={fieldItem.isValidated}>
+                                <lightning-layout-item size="4" class={statusClass}>
+                                    <span class="slds-form-element__label">
+                                        {fieldItem.statusLabel}
+                                    </span>
+                                    <div class={statusBorderBottomClass}>
+                                        <lightning-output-field
+                                            variant="label-hidden"
+                                            field-name={fieldItem.statusValidationField}>
+                                        </lightning-output-field>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={fieldItem.isValidated}>
+                                <lightning-layout-item size={statusFieldSize} class={statusClass}>
+                                    <span class="slds-form-element__label">
+                                        {fieldItem.statusLabel}
+                                    </span>
+                                    <div class={statusBorderBottomClass}>
+                                        <lightning-output-field
+                                            variant="label-hidden"
+                                            field-name={fieldItem.statusValidationField}>
+                                        </lightning-output-field>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
                         </lightning-layout>
                     </template>
 

@@ -1003,7 +1003,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 app.Application_Status__c != 'Admitted' &&
                 app.Is_Active__c &&
                 app.Related_QTAC_Application__c != null &&
-                app.Related_QTAC_Application__r.Offer_Status__c == 'Accepted unconditionally'
+                app.Related_QTAC_Application__r.Offer_Status__c == 'Accepted'
             ) {
                 contactHasApplicationForEntry.add(app.hed__Applicant__c);
             }
@@ -1666,11 +1666,14 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         Map<Id, hed__Application__c> domesticAcceptedApplicants = new Map<Id, hed__Application__c>();
         Set<String> completedCadencesCopy = new Set<String>();
+        Set<Id> applicationProgramUnderGrad = getapplicationProgramUnderGrad(applicationList);
         for (hed__Application__c app : applicationList) {
-            
+
             Boolean isSAMSApplication = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
             Boolean isProgramEnrollmentAdmitted = (app.Program_Enrollment__c != NULL && String.isNotBlank(app.Program_Enrollment__r.Enrollment_Status__c));
             Boolean isSAMSLatestApplication = (app.Calculated_Intake_Date__c != NULL && app.Calculated_Intake_Date__c > Date.today());
+            boolean isApplicationProgramUnderGrad = applicationProgramUnderGrad.contains(app.Id);
+
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(app.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(app.hed__Applicant__c)):new Set<String>();
 
@@ -1681,7 +1684,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 app.Program_Enrollment__r.Enrollment_Status__c =='Admitted' &&
                 //make sure that there are no completed cadence against any succeeding cadence
                 //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
-                !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_ACCEPTED_ADMITTED)
+                !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_ACCEPTED_ADMITTED) &&
+                isApplicationProgramUnderGrad
             ) {
                 domesticAcceptedApplicants.put(app.Id, app);
             }

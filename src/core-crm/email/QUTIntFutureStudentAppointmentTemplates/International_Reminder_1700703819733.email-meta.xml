@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Send email when service appointment was created, the work type is International team and Scheduled Start Date / Time is less than 48 hours.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>International Reminder</name>
+    <relatedEntityType>ServiceAppointment</relatedEntityType>
+    <style>none</style>
+    <subject>Appointment Reminder</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

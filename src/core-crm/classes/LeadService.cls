@@ -73,32 +73,6 @@ public with sharing class LeadService {
             SalesCadenceCalloutService.updateCompletedCadences(assignLeadToCadenceMap);
         }
     }
-    /**
-     * @description creating Lead Score Detail to converted lead's contact
-     * @param newItems - Map of new leads
-     * @param oldItems - Map of old leads
-     */
-    public static void createLeadScoreDetail(Map<Id, Lead> newItems, Map<Id, Lead> oldItems) {
-        List<Lead_Score_Detail__c> leadScoreDetailToInsert = new List<Lead_Score_Detail__c>();
-        Set<Id> convertedContactIds = new Set<Id>();
-        //Create Lead Score Detail record for the Contact converted
-        for (Lead lead : newItems.values()) {
-            if (
-                oldItems.get(lead.Id).IsConverted != lead.IsConverted &&
-                lead.IsConverted == true &&
-                lead.ConvertedContactId != null
-            ) {
-                leadScoreDetailToInsert.add(
-                    new Lead_Score_Detail__c(Contact__c = lead.ConvertedContactId)
-                );
-                convertedContactIds.add(lead.ConvertedContactId);
-            }
-        }
-        if (!leadScoreDetailToInsert.isEmpty()) {
-            LeadScoreDetailsDAO.newInstance()
-                .insertRecords(leadScoreDetailToInsert, false, AccessLevel.SYSTEM_MODE);
-        }
-    }
 
     /**
      * @description create a Marketing Segmentation on the newly created Lead
@@ -108,15 +82,33 @@ public with sharing class LeadService {
     @future
     public static void createMarketingSegmentationForLeads(Set<Id> leadIds) {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
+        Map<Id,ServiceAppointment> serviceAppointmentMap = new Map<Id,ServiceAppointment>();
+        for(ServiceAppointment serviceAppointment : ServiceAppointmentsDAO.newInstance().getServiceAppointmentByLeadId(leadIds)){
+            serviceAppointmentMap.put(serviceAppointment.LeadId__c, serviceAppointment);
+        }
+        for (Lead lead : LeadsDAO.newInstance().getLeadsByIdSet(leadIds,AccessLevel.SYSTEM_MODE)) {
+            Boolean hasServiceAppointment = serviceAppointmentMap.containsKey(lead.Id);
+            if (lead.Marketing_Segmentation__c == null) {
+                marketingSegToInsert.add(new Marketing_Segmentation__c(
+                    Lead__c = lead.Id,
+                    My_Citizenship_Status__c = hasServiceAppointment?serviceAppointmentMap.get(lead.Id).My_Citizenship_Status__c:null,
+                    My_Country_Of_Citizenship__c = hasServiceAppointment?serviceAppointmentMap.get(lead.Id).My_Country_Of_Citizenship__c:null,
+                    My_Country_Of_Residency__c = hasServiceAppointment?serviceAppointmentMap.get(lead.Id).My_Country_Of_Residency__c:null
+                ));
 
-        for (Lead leads : LeadsDAO.newInstance().getLeadsByIdSet(leadIds,AccessLevel.SYSTEM_MODE)) {
-            if (leads.Marketing_Segmentation__c == null) {
-                marketingSegToInsert.add(new Marketing_Segmentation__c(Lead__c = leads.Id));
             }
         }
         if (!marketingSegToInsert.IsEmpty()) {
             MarketingSegmentationsDAO.newInstance()
                 .insertRecords(marketingSegToInsert, false, AccessLevel.SYSTEM_MODE);
         }
+    }
+
+    public static void createLeadScoreDetailRecord(Set<Id> leadIds) {
+        List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
+        for (Id leadId : leadIds) {
+            leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Lead__c = leadId));
+        }
+        LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
     }
 }

@@ -25,6 +25,10 @@ public class LMSCourseOfferingBatchHandlerTest {
         insert courses;
     
         List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(1, courses, terms);
+        for(hed__Course_Offering__c courseOffering : courseOfferings){
+            courseOffering.LMS_Integration_Status__c = 'isChanged';
+            courseOffering.LMS_Creation_Date__c = System.today();
+        }
         insert courseOfferings;   
         
         TestDataFactory.generateTestUsers();
@@ -35,15 +39,13 @@ public class LMSCourseOfferingBatchHandlerTest {
     {
     final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
 		System.runAs(PORTAL_SYS_ADMIN) {
-            hed__Course__c course = [SELECT Id, Mark_Content_as_Complete__c, Primary_Delivery_Platform__c, LMS_Integration_Status__c FROM hed__Course__c LIMIT 1];
-            course.Mark_Content_as_Complete__c = true;
-            course.Primary_Delivery_Platform__c = 'Blackboard';
-            course.LMS_Integration_Status__c = 'Success';
+            hed__Course__c course = [SELECT Id, Primary_Delivery_Platform__c FROM hed__Course__c LIMIT 1];
+            course.Primary_Delivery_Platform__c = 'QUT Canvas';
             update course;
             
             Test.startTest();
             LMSCourseOfferingBatchHandler job = new LMSCourseOfferingBatchHandler();
-            DataBase.executeBatch(job, 1); 
+            DataBase.executeBatch(job, 200); 
             Test.stopTest();
 
             hed__Course_Offering__c courseOffering = [SELECT Id, LMS_Integration_Status__c FROM hed__Course_Offering__c LIMIT 1];
