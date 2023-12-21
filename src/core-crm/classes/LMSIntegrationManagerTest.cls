@@ -6,7 +6,8 @@
  * @history
  *    | Developer                 | Date                  		| JIRA         					| Change Summary                              	|
  *    |---------------------------|-----------------------------|-------------------------------|-----------------------------------------------|
- *    | kenneth.f.alsay           | September 26, 2023    		| DEPP-6629						| Deleted testCalloutLMSCourse					|
+ *    | kenneth.f.alsay           | September 26, 2023          | DEPP-6629                     | Deleted testCalloutLMSCourse                  |
+ *    | kenneth.f.alsay           | December 19, 2023           | DEPP-7447                     | Updated course offering setup                 |
  */
 @isTest 
 public class LMSIntegrationManagerTest {
@@ -60,7 +61,7 @@ public class LMSIntegrationManagerTest {
             update course;
             
             hed__Course_Offering__c courseOfferingOld = [SELECT Id, LMS_Creation_Date__c FROM hed__Course_Offering__c LIMIT 1];
-            courseOfferingOld.LMS_Creation_Date__c = System.today();
+            courseOfferingOld.LMS_Creation_Date__c = System.today()-10;
             update courseOfferingOld;
             
             Test.startTest();
