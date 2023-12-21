@@ -38,6 +38,12 @@
         <closed>false</closed>
     </standardValue>
     <standardValue>
+        <fullName>Responded</fullName>
+        <default>false</default>
+        <label>Responded</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
         <fullName>Escalated</fullName>
         <default>false</default>
         <label>Escalated</label>
