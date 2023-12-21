@@ -26,4 +26,8 @@
         <fullName>Triaged</fullName>
         <default>false</default>
     </values>
+    <values>
+        <fullName>Responded</fullName>
+        <default>false</default>
+    </values>
 </BusinessProcess>
