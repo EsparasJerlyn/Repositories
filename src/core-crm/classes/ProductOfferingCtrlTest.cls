@@ -6,10 +6,11 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary                                |
-      |---------------------------|-----------------------|--------------|-----------------------------------------------|
-      | aljohn.motas              | February 8, 2022      | DEPP-1258    | Created file                                  |
-      |                           |                       |              |                                               |
+ *    | Developer                 | Date                  | JIRA         | Change Summary                                               |
+      |---------------------------|-----------------------|--------------|--------------------------------------------------------------|
+      | aljohn.motas              | February 8, 2022      | DEPP-1258    | Created file                                                 |
+      | kenneth.f.alsay           | December 19, 2023     | DEPP-7447    | Updated courseOffering creation in updateCourseOfferingsTest |
+      |                           |                       |              |                                                              |
 */
 @isTest
 public class ProductOfferingCtrlTest {
@@ -183,6 +184,10 @@ public class ProductOfferingCtrlTest {
             List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(25,accounts[0].Id);
             insert terms;
             List<hed__Course_Offering__c> courseOfferings = TestDataFactory.createTestCourseOfferingRecord(25,courses,terms);
+            for(hed__Course_Offering__c courseOffering : courseOfferings){
+                courseOffering.hed__Start_Date__c = System.today();
+                courseOffering.LMS_Creation_Date__c = System.today()-10;
+            }
             insert courseOfferings;
             for(hed__Course_Offering__c offering : courseOfferings){
                 offering.IsActive__c = false;
