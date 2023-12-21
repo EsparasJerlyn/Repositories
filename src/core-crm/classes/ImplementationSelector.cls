@@ -37,6 +37,7 @@
  *    | eugene.andrew.abuan            | October 10, 2023      | DEPP-6612              | Added object mapping for Adhoc Communication Object           |
  *    | mark.j.mahilum                 | October 25, 2023      | DEPP-6985              | Added object mapping for SMS Template Object                  |
  *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Added Object mapping for Service Appointment object           |
+ *    | carl.alvin.cabiles             | December 13, 2023     | DEPP-7186              | Added Object mapping for List Contributor object              |
  *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                      |
  *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object            |
  */
@@ -119,6 +120,7 @@ public class ImplementationSelector {
             List__c.SObjectType => ListsDAO.class,
             WebCart.SObjectType => WebCartsDAO.class,
             WebStore.SOBjectType => WebStoresDAO.class,
+            List_Contributor__c.SObjectType => ListContributorsDAO.class,
             WorkType.SOBjectType => WorkTypesDAO.class
         }
     ); 

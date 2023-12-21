@@ -162,7 +162,7 @@
     </nameField>
     <pluralLabel>List Contributors</pluralLabel>
     <searchLayouts>
-        <searchResultsAdditionalFields>Contact__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>List_Contributor__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Task_Status__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>

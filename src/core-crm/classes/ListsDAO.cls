@@ -16,7 +16,7 @@ public inherited sharing class ListsDAO extends DmlBase implements IListsDAO{
     
     public List<List__c> getListRecords(Integer recordsCount) {
         return [ //NOPMD
-            SELECT Id from List__c
+            SELECT Id, Due_Date__c from List__c
             WITH USER_MODE    
             LIMIT :recordsCount
         ];
