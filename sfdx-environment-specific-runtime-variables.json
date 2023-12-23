@@ -1,0 +1,28 @@
+{
+  "files":[
+    "src/core-crm/flows/MySampleFlow.notifications-meta.xml",
+    "src/core-crm/customMetadata/MySampleCustomMetadata.X1.md-meta.xml"
+  ],
+  "env":{
+    "prod":{
+      "SAMPLE_EMAIL_ADDRESS" : "prod.email@company.com",
+      "SAMPLE_EMAIL_ADDRESS2" : "prod.email2@company.com"
+    },
+    "stagingfc":{
+      "SAMPLE_EMAIL_ADDRESS" : "nonprod.test.email@company.com",
+      "SAMPLE_EMAIL_ADDRESS2" : "nonprod.test.email@company.com"
+    },
+    "uat":{
+      "SAMPLE_EMAIL_ADDRESS" : "nonprod.test.email@company.com",
+      "SAMPLE_EMAIL_ADDRESS2" : "nonprod.test.email@company.com"
+    },
+    "sit":{
+      "SAMPLE_EMAIL_ADDRESS" : "nonprod.test.email@company.com",
+      "SAMPLE_EMAIL_ADDRESS2" : "nonprod.test.email@company.com"
+    },
+    "default":{
+      "SAMPLE_EMAIL_ADDRESS" : "nonprod.test.email@company.com",
+      "SAMPLE_EMAIL_ADDRESS2" : "nonprod.test.email@company.com"
+    }
+  }
+}
