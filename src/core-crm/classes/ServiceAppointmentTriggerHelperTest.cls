@@ -7,10 +7,11 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
       |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
-      | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                                              | 
+      | arsenio.jr.dayrit              | November 23, 2023     | DEPP-7264              | Created file                                              | 
       | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added Test classes                                        |
       | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added test methods for existing lead and contact matching |
-      | arsenio.jr.dayrit       	   | December 12, 2023     | DEPP-7357              | Update Test method                						|
+      | arsenio.jr.dayrit              | December 12, 2023     | DEPP-7357              | Update Test method                                        |
+      | kenneth.f.alsay                | December 27, 2023     | DEPP-7357              | Removed unused variable                                   |
  */
 @isTest
 public with sharing class ServiceAppointmentTriggerHelperTest {
@@ -209,7 +210,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            Map<Id,ServiceAppointment> oldRecords = new Map<Id,ServiceAppointment>(ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE));
             List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE);
             serviceAppointment.get(0).Status = 'Cancelled';
             serviceAppointment.get(1).SchedStartTime = DateTime.Now().AddDays(2);
