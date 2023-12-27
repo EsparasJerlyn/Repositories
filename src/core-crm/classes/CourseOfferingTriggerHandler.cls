@@ -178,24 +178,19 @@ public without sharing class CourseOfferingTriggerHandler implements Disableable
                 Integer cOffCount = (Integer) cCounterMap.get(
                     cOffVal.hed__Course__c
                 );
-    
+                
+                //Check if Active Course Offering Count is 1
+                Boolean cOffCountIsOne = cOffCount >= 1? true: false;
                 // If Related Product Do Not Display Date is True
-                if (doNotDisplayDate == true) {
-                    // Active Course Offering Count is 1
-                    if (cOffCount >= 1) {
-                        if (cOffVal.IsActive__c == true) {
-                            cOffVal.IsActive__c.addError(
-                                'An active offering is already existing'
-                            );
-                        } else if (
-                            cOffVal.IsActive__c == false 
-                            && String.isNotBlank(cOffVal.Id)
-                        ) {
-                            cOffVal.IsActive__c.addError(
-                                '"Do not show start date" needs to be false before this offering can be deactivated.'
-                            );
-                        }
-                    }
+                if (doNotDisplayDate == true && cOffCountIsOne == true && cOffVal.IsActive__c == true) {
+                    cOffVal.IsActive__c.addError(
+                        'An active offering is already existing'
+                    );
+                }
+                if (doNotDisplayDate == true && cOffCountIsOne == true && !cOffVal.IsActive__c == false && String.isNotBlank(cOffVal.Id)) {
+                    cOffVal.IsActive__c.addError(
+                        '"Do not show start date" needs to be false before this offering can be deactivated.'
+                    );
                 }
             }
         }
