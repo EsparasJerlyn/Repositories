@@ -64,20 +64,15 @@ public with sharing class ContactImageHelper {
             String imageTag = imgMatcher.group();
             imageURL = imageTag.substringBetween(' src="', '"');
           }
-
           // Get All Contacts where Contact_Image__c is changed
-          if (conOld != null) {
-            if (conOld.get(con.Id).Contact_Image__c != con.Contact_Image__c) {
+          if (conOld != null && conOld.get(con.Id).Contact_Image__c != con.Contact_Image__c) {
               conIdImageFileDelete.add(con.Id);
-              if (String.isNotBlank(imageURL)) {
-                imageURLMap.put(con.Id, imageURL);
-              }
-            }
-          } else {
-            if (String.isNotBlank(imageURL)) {
-              imageURLMap.put(con.Id, imageURL);
-            }
+          }  
+          if (String.isNotBlank(imageURL)) {
+            imageURLMap.put(con.Id, imageURL);
           }
+
+
         } else {
           conIdImageFileDelete.add(con.Id);
         }
