@@ -108,9 +108,11 @@ public without sharing class MarketingStagingTriggerHelper{
         marketingClass = MarketingStagingMatchingHelper.getRelatedMarketingRecords(
             leadMatches.values(),
             contactMatches.values(),
-            qtacMatchingMap.values(),
-            samsMatchingMap.values(),
-            studylinkMatchingMap.values()
+            new Map<String, List<String>>{
+                'qtacMatchingList' => qtacMatchingMap.values(),
+                'samsMatchingList' => samsMatchingMap.values(),
+                'studylinkMatchingList' => studylinkMatchingMap.values()
+            }
         );
 
         //get matching map for lead and contact
