@@ -70,18 +70,19 @@ public with sharing class EmailTriggerPostCourseBatch implements Database.Batcha
                     if(String.isNotBlank(commSched.Course__c)){
                         courseAllowedEmailMap.put(commSched.Course__c, commSched.Email_on_completion__c);
 
-                        if(String.isNotBlank(commSched.On_Completion_Template__c)){
-                            productEmailTemplateMap.put(commSched.Course__c,
-                                                        String.valueOf(commSched.On_Completion_Template__c));
-                        }
+                        
+                    }
+                    if(String.isNotBlank(commSched.Course__c) && String.isNotBlank(commSched.On_Completion_Template__c)){
+                        productEmailTemplateMap.put(commSched.Course__c,
+                                                    String.valueOf(commSched.On_Completion_Template__c));
                     }
                     if(String.isNotBlank(commSched.Program_Plan__c)){
                         courseAllowedEmailMap.put(commSched.Program_Plan__c, commSched.Email_on_completion__c);
 
-                        if(String.isNotBlank(commSched.On_Completion_Template__c)){
-                            productEmailTemplateMap.put(commSched.Program_Plan__c,
-                                                        String.valueOf(commSched.On_Completion_Template__c));
-                        }
+                    }
+                    if(String.isNotBlank(commSched.Program_Plan__c) && String.isNotBlank(commSched.On_Completion_Template__c)){
+                        productEmailTemplateMap.put(commSched.Program_Plan__c,
+                                                    String.valueOf(commSched.On_Completion_Template__c));
                     }
                 }
             }
