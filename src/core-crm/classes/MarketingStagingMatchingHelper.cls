@@ -208,25 +208,25 @@ public without sharing class MarketingStagingMatchingHelper{
      * @param marketingObj - object api name
      * @return sObject marketing record
      */
-    public static sObject createMarketingRecord(sObject marketingStage, Id contactId, Id leadId, Id oldId,String marketingObj){
+    public static sObject createMarketingRecord(sObject marketingStage, Map<String, Id> idMap, String marketingObj){
 
         sObject obj = Schema.getGlobalDescribe().get(marketingObj).newSObject();
 
-        if(oldId != null){
+        if(idMap.get('oldId') != null){
             if(marketingObj == 'Marketing_Interaction__c'){
-                obj.put('Marketing_Segmentation__c',oldId);
+                obj.put('Marketing_Segmentation__c',idMap.get('oldId'));
             }else{
-                obj.put('Id',oldId);
+                obj.put('Id',idMap.get('oldId'));
             }
            
         }
 
-        if(leadId != null){
-            obj.put('Lead__c',leadId);
+        if(idMap.get('leadId') != null){
+            obj.put('Lead__c',idMap.get('leadId'));
         }
 
-        if(contactId != null){
-            obj.put('Contact__c',contactId);
+        if(idMap.get('contactId') != null){
+            obj.put('Contact__c',idMap.get('contactId'));
         }
 
         for(String fieldName: MARKETING_OBJECT_MAP.get(marketingObj)){
@@ -402,9 +402,11 @@ public without sharing class MarketingStagingMatchingHelper{
                         segmentation.Id,
                         (Marketing_Segmentation__c)createMarketingRecord(
                             staging,
-                            segmentation.Contact__c,
-                            segmentation.Lead__c,
-                            segmentation.Id,
+                            new Map<String, Id>{
+                                'contactId' => segmentation.Contact__c,
+                                'leadId' => segmentation.Lead__c,
+                                'oldId' => segmentation.Id
+                            },
                             'Marketing_Segmentation__c'
                         )
                     ); 
@@ -421,9 +423,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             staging.Id,
                             (Marketing_Interaction__c)createMarketingRecord(
                                 staging,
-                                segmentation.Contact__c,
-                                segmentation.Lead__c,
-                                segmentation.Id,
+                                new Map<String, Id>{
+                                    'contactId' => segmentation.Contact__c,
+                                    'leadId' => segmentation.Lead__c,
+                                    'oldId' => segmentation.Id
+                                },
                                 'Marketing_Interaction__c'
                             )
                         );
@@ -436,14 +440,15 @@ public without sharing class MarketingStagingMatchingHelper{
                     staging.Id,
                     (Marketing_Segmentation__c)createMarketingRecord(
                         staging,
-                        contactId,
-                        leadId,
-                        null,
+                        new Map<String, Id>{
+                            'contactId' => contactId,
+                            'leadId' => leadId,
+                            'oldId' => null
+                        },                       
                         'Marketing_Segmentation__c'
                     )
                 );
             }
-
             if( applicationMap.containsKey(parentId)){
                 Boolean exactMatchFound = false;
                 for(Marketing_Course_Application__c courseApp:applicationMap.get(parentId)){
@@ -456,9 +461,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             courseApp.Id,
                         (Marketing_Course_Application__c)createMarketingRecord(
                             staging,
-                            courseApp.Contact__c,
-                            courseApp.Lead__c,
-                            courseApp.Id,
+                            new Map<String, Id>{
+                                'contactId' => courseApp.Contact__c,
+                                'leadId' => courseApp.Lead__c,
+                                'oldId' => courseApp.Id
+                            },
                             'Marketing_Course_Application__c'
                             )
                         );
@@ -476,9 +483,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             staging.Id,
                             (Marketing_Course_Application__c)createMarketingRecord(
                                 staging,
-                                contactId,
-                                leadId,
-                                null,
+                                new Map<String, Id>{
+                                    'contactId' => contactId,
+                                    'leadId' => leadId,
+                                    'oldId' => null
+                                },
                                 'Marketing_Course_Application__c'
                             )
                         );
@@ -490,9 +499,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             staging.Id,
                             (Marketing_Course_Application__c)createMarketingRecord(
                                 staging,
-                                contactId,
-                                leadId,
-                                null,
+                                new Map<String, Id>{
+                                    'contactId' => contactId,
+                                    'leadId' => leadId,
+                                    'oldId' => null
+                                },
                                 'Marketing_Course_Application__c'
                             )
                         );

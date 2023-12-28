@@ -291,9 +291,11 @@ public without sharing class MarketingStagingTriggerHelper{
                         leadKey,
                         (Marketing_Segmentation__c) MarketingStagingMatchingHelper.createMarketingRecord(
                             newMap.get(leadKey),
-                            null,
-                            leadsToUpsertMap.get(leadKey).Id,
-                            null,
+                            new Map<String, Id>{
+                                'contactId' => null,
+                                'leadId' => leadsToUpsertMap.get(leadKey).Id,
+                                'oldId' => null
+                            },
                             'Marketing_Segmentation__c'
                         )
                     );
@@ -304,9 +306,11 @@ public without sharing class MarketingStagingTriggerHelper{
                             leadKey,
                             (Marketing_Course_Application__c)MarketingStagingMatchingHelper.createMarketingRecord(
                                 newMap.get(leadKey),
-                                null,
-                                leadsToUpsertMap.get(leadKey).Id,
-                                null,
+                                new Map<String, Id>{
+                                    'contactId' => null,
+                                    'leadId' => leadsToUpsertMap.get(leadKey).Id,
+                                    'oldId' => null
+                                },
                                 'Marketing_Course_Application__c'
                             )
                         );
@@ -327,9 +331,11 @@ public without sharing class MarketingStagingTriggerHelper{
                             leadKey,
                             (Marketing_Segmentation__c) MarketingStagingMatchingHelper.createMarketingRecord(
                                 ms,
-                                null,
-                                leadsToUpsertMap.get(leadKey).Id,
-                                null,
+                                new Map<String, Id>{
+                                    'contactId' => null,
+                                    'leadId' => leadsToUpsertMap.get(leadKey).Id,
+                                    'oldId' => null
+                                },
                                 'Marketing_Segmentation__c'
                             )
                         );
@@ -340,9 +346,11 @@ public without sharing class MarketingStagingTriggerHelper{
                                 ms.Id,
                                 (Marketing_Course_Application__c)MarketingStagingMatchingHelper.createMarketingRecord(
                                     ms,
-                                    null,
-                                    leadsToUpsertMap.get(leadKey).Id,
-                                    null,
+                                    new Map<String, Id>{
+                                        'contactId' => null,
+                                        'leadId' => leadsToUpsertMap.get(leadKey).Id,
+                                        'oldId' => null
+                                    },
                                     'Marketing_Course_Application__c'
                                 )
                             );
@@ -385,9 +393,11 @@ public without sharing class MarketingStagingTriggerHelper{
                             segKey,
                             (Marketing_Interaction__c) MarketingStagingMatchingHelper.createMarketingRecord(
                                     newMap.get(segKey),
-                                    marSegmentationToUpsertMap.get(segKey).Contact__c,
-                                    marSegmentationToUpsertMap.get(segKey).Lead__c,
-                                    marSegmentationToUpsertMap.get(segKey).Id,
+                                    new Map<String, Id>{
+                                        'contactId' => marSegmentationToUpsertMap.get(segKey).Contact__c,
+                                        'leadId' => marSegmentationToUpsertMap.get(segKey).Lead__c,
+                                        'oldId' => marSegmentationToUpsertMap.get(segKey).Id
+                                    },
                                     'Marketing_Interaction__c'
                                 )
                             );
@@ -406,9 +416,11 @@ public without sharing class MarketingStagingTriggerHelper{
                             ms.Id,
                             (Marketing_Interaction__c) MarketingStagingMatchingHelper.createMarketingRecord(
                                     ms,
-                                    marSegmentationToUpsertMap.get(segKey).Contact__c,
-                                    marSegmentationToUpsertMap.get(segKey).Lead__c,
-                                    marSegmentationToUpsertMap.get(segKey).Id,
+                                    new Map<String, Id>{
+                                        'contactId' => marSegmentationToUpsertMap.get(segKey).Contact__c,
+                                        'leadId' => marSegmentationToUpsertMap.get(segKey).Lead__c,
+                                        'oldId' => marSegmentationToUpsertMap.get(segKey).Id
+                                    },
                                     'Marketing_Interaction__c'
                                 )
                             );
