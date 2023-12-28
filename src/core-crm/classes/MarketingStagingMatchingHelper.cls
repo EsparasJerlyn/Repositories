@@ -257,17 +257,13 @@ public without sharing class MarketingStagingMatchingHelper{
      * @description get marketing records
      * @param leadMatches - list of lead matches
      * @param contactMatches - list of contact matches
-     * @param qtacMatchingList - list of qtac matching list
-     * @param samsMatchingList - list of sams matching list
-     * @param studylinkMatchingList - list of studylink matching list
+     * @param matchingList - map of list of qtac, sams and studyLink matching list
      * @return RelatedMarketingRecordsClass marketing record matching
      */
      public static RelatedMarketingRecordsClass getRelatedMarketingRecords( 
         List<Lead> leadMatches, 
-        List<Contact> contactMatches, 
-        List<String> qtacMatchingList, 
-        List<String> samsMatchingList,
-        List<String> studylinkMatchingList){
+        List<Contact> contactMatches,
+        Map<String, List<String>> matchingList){
 
         RelatedMarketingRecordsClass marketingClass = new RelatedMarketingRecordsClass();
         marketingClass.contactSegMap = new Map<Id,List<Marketing_Segmentation__c>>();
@@ -300,9 +296,9 @@ public without sharing class MarketingStagingMatchingHelper{
                                                 FROM Marketing_Course_Application__c 
                                                 WHERE (Lead__c IN: leadMatches 
                                                 OR Contact__c IN: contactMatches)
-                                                AND ( QTAC_Matching_Criteria__c IN: qtacMatchingList
-                                                OR SAMS_Matching_Criteria__c IN: samsMatchingList
-                                                OR Studylink_Matching_Criteria__c IN: studylinkMatchingList)]){
+                                                AND ( QTAC_Matching_Criteria__c IN: matchingList.get('qtacMatchingList')
+                                                OR SAMS_Matching_Criteria__c IN: matchingList.get('samsMatchingList')
+                                                OR Studylink_Matching_Criteria__c IN: matchingList.get('studylinkMatchingList'))]){
         //create a contact map against the marketing segmentation records 
             if(marCourApp.Contact__c != null){
                 if(!marketingClass.contactAppMap.containsKey(marCourApp.Contact__c)){
