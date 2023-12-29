@@ -1,7 +1,8 @@
 @isTest
  public with sharing class MicrobatchSelfRegControllerTest {
-      @isTest(SeeAllData=true)
+      @isTest
      public static void testMicrobatchSelfRegController() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
          MicrobatchSelfRegController controller = new MicrobatchSelfRegController();
          controller.firstName = 'FirstName';
          controller.lastName = 'LastName';
@@ -10,5 +11,6 @@
 
          // registerUser will always return null when the page isn't accessed as a guest user
          System.assert(controller.registerUser() == null, 'Must be null.');
+        }
      }
  }

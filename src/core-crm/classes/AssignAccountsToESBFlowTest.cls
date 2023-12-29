@@ -20,18 +20,20 @@ public class AssignAccountsToESBFlowTest {
     @isTest
     public static void updateOpportunityStagetoExecuted(){
         Id esbIntegrationUser = [SELECT Id FROM USER WHERE FirstName = 'ESB' AND LastName = 'Integration User' LIMIT 1].Id;
+        System.runAs(esbIntegrationUser){
         Set<String> accountName = new Set<String>();
         for(Integer i=0; i<200 ; i++){
             accountName.add('TestAccount' + i);
         }
         List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(accountName);
-        System.assertEquals(
+            System.assertEquals(
             200,
             [SELECT COUNT()
              FROM Account
              WHERE OwnerId = :esbIntegrationUser
              AND Id IN :accountList],
             'Incorrect number of Accounts'
-        );
+            );
+        }
     }
 }

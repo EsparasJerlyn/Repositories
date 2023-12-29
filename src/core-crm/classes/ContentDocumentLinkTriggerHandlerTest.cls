@@ -51,7 +51,7 @@ public class ContentDocumentLinkTriggerHandlerTest {
         Id oppId = opportunityList.iterator().next()?.Id;
 
         Test.startTest();
-        
+        System.runAs(TestDataFactory.getPortalSysAdminUser()){
         ContentDocumentLink contentDocumentLink = TestDataFactory.createTestContentDocumentLink(
             contentVersion.ContentDocumentId,
             oppId
@@ -62,7 +62,7 @@ public class ContentDocumentLinkTriggerHandlerTest {
                 false,
                 AccessLevel.USER_MODE
             );
-
+        }
         Test.stopTest();
         Opportunity opp = OpportunitiesDAO.newInstance()
             .getRecordsBySetIds(new Set<id>{ oppId })

@@ -38,6 +38,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
      */
     @isTest
     private static void shouldUpdateStatuswhenCreateAffiliation() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         // prepare test data
         hed__affiliation__c existingAffiliation = new hed__affiliation__c(hed__status__c = AFFILIATION_STATUS_CURRENT);
         insert existingAffiliation;
@@ -53,6 +54,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
         hed__affiliation__c actualAffiliation = [select id, hed__role__c, hed__status__c, hed__endDate__c from hed__affiliation__c where id = :existingAffiliation.id];
         System.assertEquals(AFFILIATION_STATUS_FORMER, actualAffiliation.hed__status__c, 'Status should be former');
         System.assertEquals(Date.today(), actualAffiliation.hed__endDate__c, 'End date should be today');
+        }
     }
 
     /**
@@ -60,6 +62,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
      */
     @isTest
     private static void shouldUpdateStatusWhenUpdateContactField() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         // prepare test data
         Contact c = TestDataFactory.createTestContactRecords(1).get(0);
         insert c;
@@ -83,6 +86,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
         hed__affiliation__c actualAffiliation = [select id, hed__status__c, hed__endDate__c from hed__affiliation__c where id = :uniqueAffiliation1.id];
         System.assertEquals(AFFILIATION_STATUS_FORMER, actualAffiliation.hed__status__c, 'Status should be former');
         System.assertEquals(Date.today(), actualAffiliation.hed__endDate__c, 'End date should be today');
+        }
     }
 
     /**
@@ -90,6 +94,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
      */
     @isTest
     private static void shouldUpdateStatusWhenUpdateAccountField() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         // prepare test data
         Account a = TestDataFactory.createTestAccount(false);
         a.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Business_Organization').getRecordTypeId();
@@ -114,6 +119,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
         hed__affiliation__c actualAffiliation = [select id, hed__status__c, hed__endDate__c from hed__affiliation__c where id = :uniqueAffiliation1.id];
         System.assertEquals(AFFILIATION_STATUS_FORMER, actualAffiliation.hed__status__c, 'Status should be former');
         System.assertEquals(Date.today(), actualAffiliation.hed__endDate__c, 'End date should be today');
+        }
     }
 
     /**
@@ -121,6 +127,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
      */
     @isTest
     private static void shouldUpdateStatusWhenUpdateStatusField() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         // prepare test data
         hed__affiliation__c uniqueAffiliation1 = new hed__affiliation__c(hed__status__c = AFFILIATION_STATUS_CURRENT);
         insert uniqueAffiliation1;
@@ -141,6 +148,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
         hed__affiliation__c actualAffiliation = [select id, hed__status__c, hed__endDate__c from hed__affiliation__c where id = :uniqueAffiliation1.id];
         System.assertEquals(AFFILIATION_STATUS_FORMER, actualAffiliation.hed__status__c, 'Status should be former');
         System.assertEquals(Date.today(), actualAffiliation.hed__endDate__c, 'End date should be today');
+        }
     }
 
     /**
@@ -148,6 +156,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
      */
     @isTest
     private static void shouldUpdateStatusWhenUpdateRoleField() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         // prepare test data
         hed__affiliation__c uniqueAffiliation1 = new hed__affiliation__c(hed__status__c = AFFILIATION_STATUS_CURRENT, hed__role__c = AFFILIATION_ROLE_EMPLOYEE);
         insert uniqueAffiliation1;
@@ -168,6 +177,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
         hed__affiliation__c actualAffiliation = [select id, hed__status__c, hed__endDate__c from hed__affiliation__c where id = :uniqueAffiliation1.id];
         System.assertEquals(AFFILIATION_STATUS_FORMER, actualAffiliation.hed__status__c, 'Status should be former');
         System.assertEquals(Date.today(), actualAffiliation.hed__endDate__c, 'End date should be today');
+        }
     }
 
     /**
@@ -175,6 +185,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
      */
     @isTest
     private static void shouldNotUpdateStatuswhenNoDuplicate() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         // prepare test data
         hed__affiliation__c uniqueAffiliation1 = new hed__affiliation__c(hed__status__c = AFFILIATION_STATUS_CURRENT, hed__role__c = AFFILIATION_ROLE_EMPLOYEE);
         insert uniqueAffiliation1;
@@ -191,5 +202,6 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
         hed__affiliation__c actualAffiliation = [select id, hed__status__c, hed__endDate__c from hed__affiliation__c where id = :uniqueAffiliation1.id];
         System.assertEquals(AFFILIATION_STATUS_CURRENT, actualAffiliation.hed__status__c, 'Status should be current');
         System.assertEquals(null, actualAffiliation.hed__endDate__c, 'End date should be null today');
+        }
     }
 }
