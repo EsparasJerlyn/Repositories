@@ -415,58 +415,40 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         String productName;
         Boolean sendEmail = false;
         Id emailTemplateIdStr;
-
-
+        Boolean isCourse = String.isNotBlank(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
+        Boolean isCourseAndEmailMapContainsCourse = isCourse && courseSendRegEmailMap.containsKey(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
+        Boolean isCourseAndProductEmailTemplateContainsCourse = isCourse && productEmailTemplateMap.containsKey(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
         /**Check Course */
-        if ( String.isNotBlank(
-          procCrsEnroll.hed__Course_Offering__r.hed__Course__c) ){
+        if (isCourse){
             // Set Product Name
             productName = procCrsEnroll.hed__Course_Offering__r.hed__Course__r.Name;
         }
         /**Check Course  &&  Check if Send Registration Email is True for Course */
-        if (
-          String.isNotBlank(
-            procCrsEnroll.hed__Course_Offering__r.hed__Course__c
-          ) && courseSendRegEmailMap.containsKey(
-            procCrsEnroll.hed__Course_Offering__r.hed__Course__c)
-        ) {
+        if (isCourseAndEmailMapContainsCourse) {
               sendEmail = (Boolean) courseSendRegEmailMap.get(
               procCrsEnroll.hed__Course_Offering__r.hed__Course__c
             );
           } 
-          /**Check Course && Resolve email template to use for this course */
-        if (
-          String.isNotBlank(
-            procCrsEnroll.hed__Course_Offering__r.hed__Course__c
-          ) && productEmailTemplateMap.containsKey(procCrsEnroll.hed__Course_Offering__r.hed__Course__c)){
+        /**Check Course && Resolve email template to use for this course */
+        if (isCourseAndProductEmailTemplateContainsCourse){
             emailTemplateIdStr = productEmailTemplateMap.get(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
         } 
         
-
+        Boolean isProgram = String.isNotBlank(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
+        Boolean isProgramAndSendRegistrationEmail = isProgram && progPlanSendRegEmailMap.containsKey(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
+        Boolean isProgramAndProductEmailTemplateContainsProgram = isProgram && productEmailTemplateMap.containsKey(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
         /** Check Program */
-        if (
-          String.isNotBlank(
-            procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-          )
-        ){
+        if (isProgram){
           // Set Product Name
           productName = procCrsEnroll.Program_Offering__r.hed_Program_Plan__r.Name;
         }
         // Check if Send Registration Email is True for Program Plan
-        if (
-          String.isNotBlank(
-            procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-          ) && progPlanSendRegEmailMap.containsKey(
-            procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-          )
-        ){
+        if (isProgramAndSendRegistrationEmail){
           sendEmail = (Boolean) progPlanSendRegEmailMap.get(
               procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
             );
         }
-        if(String.isNotBlank(
-          procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-        ) && productEmailTemplateMap.containsKey(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c)){
+        if(isProgramAndProductEmailTemplateContainsProgram ){
           emailTemplateIdStr = productEmailTemplateMap.get(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
         }
         
