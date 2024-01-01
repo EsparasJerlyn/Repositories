@@ -12,6 +12,7 @@
       | mary.grace.li                  | July 02, 2022         | DEPP-3124              | Update product detail url    |
       | john.bo.a.pineda               | July 12, 2022         | DEPP-3453              | Update URL in Email to       |
       |                                |                       |                        | Product2.Detail_Full_URL__c  |
+      | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused               |    
  */
 
 public without sharing class SendNewOfferingNotificationHelper {
@@ -240,7 +241,6 @@ public without sharing class SendNewOfferingNotificationHelper {
 
         if (!emailTemplateList.isEmpty()) {
             for (Id interestId : interestEmailRecipientsSet) {
-                Messaging.SingleEmailMessage objEmail = new Messaging.SingleEmailMessage();
                 //Prepare SendToEmail List
                 emailContent.put(
                     '{contactLastName}',
