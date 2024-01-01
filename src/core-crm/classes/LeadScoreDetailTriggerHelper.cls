@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | julie.jane.alegre              | Sept 07, 2023         | DEPP-5965              | Created file                                     |
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added handling for calculating total lead score  |
+      | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                         |
  */
 public with sharing class LeadScoreDetailTriggerHelper {
     /**
@@ -18,7 +19,6 @@ public with sharing class LeadScoreDetailTriggerHelper {
      * @param oldItems - Map<Id, Lead_Score_Detail__c> old records map
      */
     public static void linkLeadScoreDetailToContact(Map<Id, Lead_Score_Detail__c> newItems) {
-        Map<Id, Id> leadScoreDetailMap = new Map<Id, Id>();
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         //Get contact id link to the newly created lead score detail
@@ -57,8 +57,6 @@ public with sharing class LeadScoreDetailTriggerHelper {
         List<Lead_Score_Detail__c> newItems,
         Map<Id, Lead_Score_Detail__c> oldItems
     ) {
-        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
-        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         Map<String, Integer> configMap = mapLeadScoreConfigMax();
         Map<Id, Decimal> contactToScoreMap = new Map<Id, Decimal>();
         Map<Id, Decimal> leadToScoreMap = new Map<Id, Decimal>();
