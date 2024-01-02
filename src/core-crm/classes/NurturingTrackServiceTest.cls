@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------------------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                                      |
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriodTest,isDateWithinRangeTest and isDateWithinRangeFailsafeTest |
+      | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                                                                          |
  */
 @isTest
 public with sharing class NurturingTrackServiceTest {
@@ -259,11 +260,6 @@ public with sharing class NurturingTrackServiceTest {
         ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
 
         Set<Id> applicantIdSet = new Set<Id>{ contactList[0].Id, contactList[1].Id };
-
-        List<String> cadenceNameSet = new List<String>{
-            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
-            NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
-        };
 
         Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>{
             contactList[0].Id => new Set<String>{
