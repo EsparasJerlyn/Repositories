@@ -75,22 +75,24 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                                                             FROM Communication_Schedule__c
                                                             WHERE Email_on_final_confirmation__c = TRUE
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
-                    Boolean isCourseNotBlank = String.isNotBlank(commSched.Course__c);
-                    Boolean isProgramPlanNotBlank = String.isNotBlank(commSched.Program_Plan__c);
+                    Boolean isCourseBeforeStartDateNotBlank = commSched.Days_before_Start_Date__c != null && String.isNotBlank(commSched.Course__c);
+                    Boolean isProgramPlanBeforeStartDateNotBlank = commSched.Days_before_Start_Date__c != null && String.isNotBlank(commSched.Program_Plan__c);
                     // Get days before start date
-                    if(commSched.Days_before_Start_Date__c != null && isCourseNotBlank){
+                    if( isCourseBeforeStartDateNotBlank){
                         courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
                     }
-                    if(commSched.Days_before_Start_Date__c != null && isProgramPlanNotBlank){
+                    if(isProgramPlanBeforeStartDateNotBlank){
                         courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
                     }
 
                     // Get email template
-                    Boolean isOnFinalConfirmationTemplate = String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
-                    if(isOnFinalConfirmationTemplate && isCourseNotBlank ){
+                    Boolean isCourseFinalConfirmationTemplateNotBlank = String.isNotBlank(commSched.On_Final_Confirmation_Template__c) && String.isNotBlank(commSched.Course__c);
+                    Boolean isProgramPlanFinalConfirmationTemplateNotBlank = String.isNotBlank(commSched.On_Final_Confirmation_Template__c) && String.isNotBlank(commSched.Program_Plan__c);
+
+                    if(isCourseFinalConfirmationTemplateNotBlank){
                         productEmailTemplateMap.put(commSched.Course__c, commSched.On_Final_Confirmation_Template__c);
                     }
-                    if(isOnFinalConfirmationTemplate && isProgramPlanNotBlank){
+                    if(isProgramPlanFinalConfirmationTemplateNotBlank){
                         productEmailTemplateMap.put(commSched.Program_Plan__c, commSched.On_Final_Confirmation_Template__c);
 
                     }
@@ -129,8 +131,9 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                                                                 .get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                             emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                     }
-                    if(courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)
-                        && courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c) ){
+                    Boolean courseDaysContainsProgram = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)
+                    && courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                    if(courseDaysContainsProgram){
                             allowedEmailReminder = true;
                             daysBeforeStartDate = (Integer)courseDaysBeforeMap
                                                                 .get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
