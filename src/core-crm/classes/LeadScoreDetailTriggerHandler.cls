@@ -11,7 +11,6 @@
       | julie.jane.alegre              | Sept 07, 2023         | DEPP-5965              | Created file                                     |
  */
 public with sharing class LeadScoreDetailTriggerHandler implements Disableable,  AfterInsert, BeforeInsert, BeforeUpdate {
-    public static Boolean isRunning = false;
     
     /**
      * @description beforeInsert trigger event
