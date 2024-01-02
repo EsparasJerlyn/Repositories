@@ -10,18 +10,13 @@
      | mark.j.mahilum            | Aug 23, 2023          | DEPP-5846    | Created file                                                          |
 */
 public with sharing class ActionCadenceTrackerCETriggerHandler implements Disableable,  AfterInsert {
-    public static Boolean isRunning = false;
     
    /**
     * @description afterInsert trigger event
     * @param newItems - Map<Id, SObject> of ActionCadenceTrackerChangeEvent.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-        
-        if(!isRunning ){
-            isRunning = true; 
-            processCompletedCadenceTracker((List<ActionCadenceTrackerChangeEvent>) newItems.values());           
-        }
+        processCompletedCadenceTracker((List<ActionCadenceTrackerChangeEvent>) newItems.values());           
     }
     
     
