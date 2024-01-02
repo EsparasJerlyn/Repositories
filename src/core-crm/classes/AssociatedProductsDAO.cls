@@ -21,6 +21,22 @@ public inherited sharing class AssociatedProductsDAO extends DmlBase implements 
         ];
     }
 
+    public List<Associated_Products__c> getAssociatedProductsById(
+        Set<Id> assocateProdIds,
+        AccessLevel accessLevel
+    ){
+
+        if(assocateProdIds.isEmpty()){
+            return new List<Associated_Products__c>();
+        }
+        return Database.query(
+            'SELECT Id, Product_Request__c, Product_Request__r.RecordTypeId ' +
+            'FROM Associated_Products__c ' +
+            'WHERE Id IN :assocateProdIds ',
+            accessLevel
+        );
+    }
+
     public Schema.SObjectType getSObjectType() {
         return Associated_Products__c.SObjectType;
     }

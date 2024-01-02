@@ -1,0 +1,46 @@
+/**
+ * @description test class for productcategoriesdao
+ * 
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Created file                 |
+ */
+@isTest
+public with sharing class ProductCategoriesDAOTest {
+    @testSetup
+    static void testSetup() {
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+    }
+
+    @isTest
+    static void getProductCategoriesByProduct2CategoryTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(
+                ProductCategoriesDAO.newInstance()
+                    .getProductCategoriesByProduct2Category(
+                        new Set<String>(),
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product category retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getSObjectTypeTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(
+                new ProductCategoriesDAO().getSObjectType() == ProductCategory.SObjectType,
+                'SObject is not Product Categories'
+            );
+        }
+        Test.stopTest();
+    }
+}
