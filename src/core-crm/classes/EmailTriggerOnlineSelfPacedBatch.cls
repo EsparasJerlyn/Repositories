@@ -71,21 +71,23 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                                                             FROM Communication_Schedule__c
                                                             WHERE Email_on_final_confirmation__c = TRUE
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
-                    Boolean isCourseNotBlank =  String.isNotBlank(commSched.Course__c);
-                    Boolean isProgramPlanNotBlank = String.isNotBlank(commSched.Program_Plan__c);                        
-                 
-                    if(commSched.Days_before_Start_Date__c != null && isCourseNotBlank){
+                    Boolean isCourseBeforeStartDateNotNull = String.isNotBlank(commSched.Course__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isProgramPlanBeforeStartDateNotNull = String.isNotBlank(commSched.Program_Plan__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isCourseFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Course__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
+                    Boolean isProgramPlanFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Program_Plan__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
+
+                    if(isCourseBeforeStartDateNotNull){
                         courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
                     }
-                    if(commSched.Days_before_Start_Date__c != null && isProgramPlanNotBlank){
+                    if(isProgramPlanBeforeStartDateNotNull){
                         courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
                     }
                     
 
-                    if(String.isNotBlank(commSched.On_Final_Confirmation_Template__c) && isCourseNotBlank){
+                    if(isCourseFinalConfirmationTemplateNotBlank){
                         productEmailTemplateMap.put(commSched.Course__c, String.valueOf(commSched.On_Final_Confirmation_Template__c));
                     }
-                    if(String.isNotBlank(commSched.On_Final_Confirmation_Template__c) && isProgramPlanNotBlank){
+                    if(isProgramPlanFinalConfirmationTemplateNotBlank){
                         productEmailTemplateMap.put(commSched.Course__c, String.valueOf(commSched.On_Final_Confirmation_Template__c));
                     }
                     
