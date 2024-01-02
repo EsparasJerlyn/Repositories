@@ -77,15 +77,17 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                                                             FROM Communication_Schedule__c
                                                             WHERE Send_email_before_session__c = TRUE
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
-                    Boolean isNotBlankNotificationBeforeSessionTemplate = String.isNotBlank(commSched.Notification_Before_Session_Template__c);
+                    
                     Boolean isCourseNotBlank = String.isNotBlank(commSched.Course__c);
                     Boolean isProgramPlanNotBlank = String.isNotBlank(commSched.Program_Plan__c);
-
+                    Boolean isCourseNotificationNotBlank = String.isNotBlank(commSched.Course__c) && String.isNotBlank(commSched.Notification_Before_Session_Template__c);
+                    Boolean isProgramPlanNotificationNotBlank = String.isNotBlank(commSched.Program_Plan__c) && String.isNotBlank(commSched.Notification_Before_Session_Template__c);
+                    
                     if(isCourseNotBlank){
                         courseAllowedEmailMap.put(commSched.Course__c, commSched.Send_email_before_session__c);
                     }
                     // Get email template for Course
-                    if(isCourseNotBlank && isNotBlankNotificationBeforeSessionTemplate){
+                    if(isCourseNotificationNotBlank){
                         productEmailTemplateMap.put(commSched.Course__c,
                                                     String.valueOf(commSched.Notification_Before_Session_Template__c));
                     }
@@ -94,7 +96,7 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                         courseAllowedEmailMap.put(commSched.Program_Plan__c, commSched.Send_email_before_session__c);
                     }
                     // Get email template for Program
-                    if(isProgramPlanNotBlank && isNotBlankNotificationBeforeSessionTemplate){
+                    if(isProgramPlanNotificationNotBlank){
                         productEmailTemplateMap.put(commSched.Program_Plan__c,
                                                     String.valueOf(commSched.Notification_Before_Session_Template__c));
                     }
