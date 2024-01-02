@@ -71,23 +71,24 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
                                                             FROM Communication_Schedule__c
                                                             WHERE Email_on_final_confirmation__c = TRUE
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
-                    Boolean isCourseNotBlank = String.isNotBlank(commSched.Course__c);
-                    Boolean isProgramPlanNotBlank = String.isNotBlank(commSched.Program_Plan__c);
-                    Boolean isCourseBeforeStartDateNotNull = commSched.Days_before_Start_Date__c != null;
-                    Boolean isFinalConfirmationTemplateNotBlank = String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
                     
-                    if(isCourseBeforeStartDateNotNull && isCourseNotBlank){
+                    Boolean isCourseBeforeStartDateNotNull = String.isNotBlank(commSched.Course__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isProgramPlanBeforeStartDateNotNull = String.isNotBlank(commSched.Program_Plan__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isCourseFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Course__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
+                    Boolean isProgramPlanFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Program_Plan__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
+
+                    if(isCourseBeforeStartDateNotNull){
                         courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
                     }
-                    if(isCourseBeforeStartDateNotNull && isProgramPlanNotBlank){
+                    if(isProgramPlanBeforeStartDateNotNull){
                         courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
                     }
 
                     // Get email template
-                    if(isFinalConfirmationTemplateNotBlank && isCourseNotBlank){
+                    if(isCourseFinalConfirmationTemplateNotBlank){
                         productEmailTemplateMap.put(commSched.Course__c, commSched.On_Final_Confirmation_Template__c);
                     }
-                    if(isFinalConfirmationTemplateNotBlank && isProgramPlanNotBlank){        
+                    if(isProgramPlanFinalConfirmationTemplateNotBlank){        
                         productEmailTemplateMap.put(commSched.Program_Plan__c, commSched.On_Final_Confirmation_Template__c);
                     }
                 }
