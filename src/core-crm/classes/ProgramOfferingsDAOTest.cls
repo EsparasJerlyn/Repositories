@@ -1,16 +1,15 @@
 /**
- * @description Test class for CourseOfferingsDAO. 
+ * @description Test class for ProgramOfferingsDAO. 
  * @author Accenture
  *
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                 |
-      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIdsTest|                                                      |
+      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | Created file                 |                                                     |
  */
 @isTest
-public with sharing class CourseOfferingsDAOTest {
+public with sharing class ProgramOfferingsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
@@ -20,7 +19,7 @@ public with sharing class CourseOfferingsDAOTest {
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            System.assert(CourseOfferingsDAO.newInstance() != null, 'CoureOfferingsDAO instance is null');
+            System.assert(CourseOfferingsDAO.newInstance() != null, 'ProgramOfferingsDAO instance is null');
         }
         Test.stopTest();
     }
@@ -30,25 +29,26 @@ public with sharing class CourseOfferingsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             System.assert(
-                new CourseOfferingsDAO().getSObjectType() == hed__Course_Offering__c.SObjectType,
-                'SObject is not hed__Course__Offering__c'
+                new ProgramOfferingsDAO().getSObjectType() == Program_Offering__c.SObjectType,
+                'SObject is not Program_Offering__c'
             );
         }
         Test.stopTest();
     }
 
     @isTest
-    static void getCourseOfferingByRecordIdsTest() { 
+    static void getProgramOfferingByRecordIdsTest() { 
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
-                .getCourseOfferingByRecordIds(
+            List<Program_Offering__c> programOfferingList = ProgramOfferingsDAO.newInstance()
+                .getProgramOfferingByRecordIds(
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(courseOfferingList.isEmpty(), 'courseOfferingList should be empty');
+            System.assert(programOfferingList.isEmpty(), 'programOfferingList should be empty');
         }
         Test.stopTest();
     }
+
 
 } 
