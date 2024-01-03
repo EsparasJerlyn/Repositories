@@ -92,9 +92,7 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
         }
       }
 
-
-      List<AggregateResult> aggrCourseOfferList = [SELECT Course_Offering__c, COUNT(Id) counter FROM CartItem WHERE Course_Offering__c IN :courseOfferIdSet 
-                                                   AND Cart.Status__c = 'Checkout' GROUP BY Course_Offering__c];
+      List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance().countCartItemsGroupByCourseOffering(courseOfferIdSet, AccessLevel.SYSTEM_MODE);
 
       for (AggregateResult aggrCourseOffer : aggrCourseOfferList) {
         if (String.isNotBlank((Id) aggrCourseOffer.get('Course_Offering__c'))) {
@@ -114,8 +112,7 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
 
       CourseOfferingsDAO.newInstance().updateRecords(courseOfferList, false, AccessLevel.SYSTEM_MODE);
 
-      List<AggregateResult> aggrProgramOfferList = [SELECT Program_Offering__c, COUNT(Id) counter FROM CartItem WHERE Program_Offering__c IN :programOfferIdSet 
-                                                    AND Cart.Status__c = 'Checkout' GROUP BY Program_Offering__c];
+      List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance().countCartItemsGroupByProgramOffering(programOfferIdSet, AccessLevel.SYSTEM_MODE);
 
       for (AggregateResult aggrProgramOffer : aggrProgramOfferList) {
         if (String.isNotBlank((Id) aggrProgramOffer.get('Program_Offering__c'))) {

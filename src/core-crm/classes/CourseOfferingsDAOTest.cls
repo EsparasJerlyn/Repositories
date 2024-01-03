@@ -4,9 +4,9 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------|
+      | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                          |
       | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIdsTest|                                                      |
  */
 @isTest
