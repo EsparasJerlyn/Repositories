@@ -4,9 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                     |
- *    |--------------------------------|-----------------------|------------------------|------------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                       |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------------|
+ *    | roy.nino.s.regala              | Sept 19, 2023         | DEPP-6714              | Created file                                 |
+ *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCartItemsByWebCartIdTest |
+ *    |                                |                       |                        | getCartItemsByWebCartIdNotEmptyTest          |
  */
 @isTest
 private class CartItemsDAOTest {
@@ -48,6 +50,35 @@ private class CartItemsDAOTest {
             List<CartItem> cartItemList = CartItemsDAO.newInstance()
                 .getCartItemsByCartItemName(
                     new Set<String>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(cartItemList.isEmpty(), 'cartItemList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCartItemsByWebCartIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<CartItem> cartItemList = CartItemsDAO.newInstance()
+                .getCartItemsByWebCartId(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(cartItemList.isEmpty(), 'cartItemList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCartItemsByWebCartIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForWebCart = new MockIdGenerator(WebCart.sObjectType);
+            List<CartItem> cartItemList = CartItemsDAO.newInstance()
+                .getCartItemsByWebCartId(
+                    new Set<Id>{builderForWebCart.getMockId()},
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(cartItemList.isEmpty(), 'cartItemList is not empty');

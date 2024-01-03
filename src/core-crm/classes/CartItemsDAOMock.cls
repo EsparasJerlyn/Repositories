@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                           |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------|
+ *    | roy.nino.s.regala              | Sept 19, 2023         | DEPP-6714              | Created file                             |
+ *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCartItemsByWebCartId |
  */
 @isTest
 public inherited sharing class CartItemsDAOMock extends DmlBaseMock implements ICartItemsDAO {
@@ -44,6 +45,21 @@ public inherited sharing class CartItemsDAOMock extends DmlBaseMock implements I
 
         for (CartItem record : cartItemsMap.values()) {
             if (cartItemNames.contains(record.Name)) {
+                cartItemsList.add(record);
+            }
+        }
+
+        return cartItemsList;
+    }
+
+    public List<CartItem> getCartItemsByWebCartId(
+        Set<Id> webCartId,
+        AccessLevel accessLevel
+    ) {
+        List<CartItem> cartItemsList = new List<CartItem>();
+
+        for (CartItem record : cartItemsMap.values()) {
+            if (webCartId.contains(record.CartId)) {
                 cartItemsList.add(record);
             }
         }
