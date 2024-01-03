@@ -41,8 +41,8 @@ public with sharing class LeadStatusesDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             System.assert(LeadStatusesDAO.newInstance()
-                .getConvertedLeadStatus(AccessLevel.USER_MODE) == null,
-                'leadStatuses is not empty.'
+                .getConvertedLeadStatus(AccessLevel.USER_MODE) != null,
+                'leadStatus must not be empty.'
             );
             Test.stopTest();
         }
