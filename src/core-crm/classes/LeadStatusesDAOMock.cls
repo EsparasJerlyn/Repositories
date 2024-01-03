@@ -24,11 +24,15 @@ public inherited sharing class LeadStatusesDAOMock extends DmlBaseMock implement
 	}
 
 	public LeadStatus getConvertedLeadStatus(AccessLevel accessLevel) {
-		if(accessLevel == null) { return null; }
-		for(LeadStatus ls : leadStatusesMap.values()) {
-			if(ls.IsConverted == true) {
-				return ls;
-			} else { return null; }
+		if(accessLevel == null) { 
+			return null; 
+		} else {
+			for(LeadStatus ls : leadStatusesMap.values()) {
+				if(ls.IsConverted == true) {
+					return ls;
+				}
+			}
+			return null;
 		}
 	}
 }
