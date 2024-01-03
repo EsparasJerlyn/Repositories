@@ -117,16 +117,16 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
                     String emailTemplateIdStr = '';
 
                     //Do not send email if Course has no related Sessions
-                    Boolean isCourseSessionContainsCourse = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c);
-                    Boolean isCourseDaysBeforeContainsCourse = courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c);
-                    Boolean isCourseDaysBeforeContainsProgramPlan = courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c);
-                    if(isCourseSessionContainsCourse && isCourseDaysBeforeContainsCourse){
+                    Boolean isCourseDaysBeforeContainsCourse = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) && courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                    Boolean isCourseDaysBeforeContainsProgramPlan = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) && !courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) &&
+                                                                    courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                    if(isCourseDaysBeforeContainsCourse){
                         allowedEmailReminder = true;
                             daysBeforeStartDate = (Integer)courseDaysBeforeMap
                                                                 .get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                             emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                     }
-                    if(isCourseSessionContainsCourse && !isCourseDaysBeforeContainsCourse && isCourseDaysBeforeContainsProgramPlan ){
+                    if(isCourseDaysBeforeContainsProgramPlan ){
                         allowedEmailReminder = true;
                                 daysBeforeStartDate = (Integer)courseDaysBeforeMap
                                                                 .get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
