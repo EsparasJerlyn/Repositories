@@ -69,7 +69,7 @@ public inherited sharing  class MarketingSegmentationsDAOMock extends DmlBaseMoc
         return marketingSegmentationList;
     }  
 
-    public static List<Marketing_Segmentation__c> getLinkedMarketingSegFromContactOrLead(
+    public List<Marketing_Segmentation__c> getLinkedMarketingSegFromContactOrLead(
         Set<Id> recordIds,
         String contactOrLead,
         AccessLevel accessLevel

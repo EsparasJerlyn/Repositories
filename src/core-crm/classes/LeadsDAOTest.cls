@@ -222,7 +222,7 @@ public with sharing class LeadsDAOTest {
     }
 
     @isTest
-    static void getLearnerLeadsByEmailOrWorkEmailTest() {
+    static void getLearnerLeadsByEmailOrWorkEmailBothEmailSetsTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
@@ -236,7 +236,7 @@ public with sharing class LeadsDAOTest {
     }
 
     @isTest
-    static void getLearnerLeadsByEmailOrWorkEmailEmptyTest() {
+    static void getLearnerLeadsByEmailOrWorkEmailBothEmailSetsEmptyTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
