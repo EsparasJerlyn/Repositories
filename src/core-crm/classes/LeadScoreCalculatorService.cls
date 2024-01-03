@@ -10,7 +10,7 @@
       | eccarius.munoz                 | September 23, 2023    | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a service class, high number of public methods and complexity is expected
+public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a service class, high number of public methods and overall complexity are expected
 
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_UG = 'Domestic Undergrad';
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_PG = 'Domestic Postgrad';
