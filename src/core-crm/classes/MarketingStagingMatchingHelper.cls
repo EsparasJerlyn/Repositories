@@ -9,7 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
       |--------------------------------|-----------------------|------------------------|------------------------------------------------|
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | Created file                                   |
-      | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |     
+      | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
       | kenneth.f.alsay                | January 3, 2024       |                        | Fixed excessive param list                     |
  */
 public without sharing class MarketingStagingMatchingHelper{
