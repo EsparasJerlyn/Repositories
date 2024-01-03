@@ -677,7 +677,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         
         for (hed__Application__c application : filteredApplicationList) {
             
-            B2BStoreSearchIndexScheduleroolean isOfferedProgramPlanAvailable = (application.Offered_Program_Plan__c != NULL && application.Offered_Program_Plan__r.Availability_Start_Date__c != NULL);
+            boolean isOfferedProgramPlanAvailable = (application.Offered_Program_Plan__c != NULL && application.Offered_Program_Plan__r.Availability_Start_Date__c != NULL);
 			Date keyOffsetDaysFromToday = null;
             
             //get a copy of completed cadences related to the contact regardless of status
