@@ -122,10 +122,10 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
                     String emailTemplateIdStr = '';
 
                     // Do not send email if Course has no related Sessions
-                    if(courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)
-                        && courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) ){
+                    Boolean isCourseHasNoRelatedSessions = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)
+                                                            && courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                    if(isCourseHasNoRelatedSessions){
                         // Get DaysBeforeStartDate and email template
-                        
                             allowedEmailReminder = true;
                             daysBeforeStartDate = (Integer)courseDaysBeforeMap
                                                                 .get(courseConnection.hed__Course_Offering__r.hed__Course__c);
