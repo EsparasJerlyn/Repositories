@@ -124,7 +124,7 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
                 'ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c, ' +
                 'ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c, ' +
                 'ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c, ' +
-                'Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE ' + field + ' IN :recordIds)',
+                'Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE ' + field + ' IN :recordIds',
                 accessLevel
             );
         } else { return new List<Marketing_Segmentation__c>(); }

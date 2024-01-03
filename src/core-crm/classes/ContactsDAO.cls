@@ -410,7 +410,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         if(!leadIds.isEmpty() && accessLevel != null) {
             return Database.query(
                 'SELECT Id, Parent_Person_Contact__c, Parent_Person_Lead__c ' +
-                'FROM Contact WHERE Parent_Person_Lead__c IN :leadIdSet',
+                'FROM Contact WHERE Parent_Person_Lead__c IN :leadIds',
                 accessLevel
             );
         } else { return new List<Contact>(); }
