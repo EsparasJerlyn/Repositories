@@ -14,6 +14,11 @@
 
 @isTest
 public class TranslateServiceTest {
+    @testSetup
+    static void testSetup() {
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+    }
+    
     @isTest
     static void testGetTranslationEndpoint() {
         System.runAs(TestDataFactory.getSystemAdminUser()){

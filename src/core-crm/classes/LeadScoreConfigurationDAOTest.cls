@@ -11,6 +11,12 @@
  */
 @isTest
 public with sharing class LeadScoreConfigurationDAOTest {
+
+    @testSetup
+    static void testSetup() {
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+    }
+
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();

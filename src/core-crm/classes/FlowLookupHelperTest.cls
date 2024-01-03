@@ -12,6 +12,12 @@
  */
 @isTest
 public without sharing class FlowLookupHelperTest {
+    
+    @testSetup
+    static void testSetup() {
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+    }
+
     @isTest
     public static void getNameFieldTest() {
         System.runAs(TestDataFactory.getOperationsManager()){
