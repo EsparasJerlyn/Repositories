@@ -14,18 +14,26 @@ public interface IMarketingSegmentationsDAO extends DmlInterface{
      List<Marketing_Segmentation__c> getMarketingSegmentationByContactIds(
           Set<Id> contactIds,
           AccessLevel accessLevel
-      );
+     );
+
      List<Marketing_Segmentation__c> getMarketingSegmentationByLeadIds(
           Set<Id> leadIds,
           AccessLevel accessLevel
      );
-     List<Marketing_Segmentation__c> getMarketingSegmentationByContactOrLead(
-        Set<Id> contactIdSet, 
-        Set<Id> leadIdSet,
-        AccessLevel accessLevel
-    );
 
-    Database.QueryLocator queryLocatorGetMarketingSegmentationsByContactOrLeadIds(
-        Set<Id> recordIds
-    );
+     List<Marketing_Segmentation__c> getMarketingSegmentationByContactOrLead(
+          Set<Id> contactIdSet, 
+          Set<Id> leadIdSet,
+          AccessLevel accessLevel
+     );
+
+     List<Marketing_Segmentation__c> getLinkedMarketingSegFromContactOrLead(
+          Set<Id> recordIds,
+          String contactOrLead,
+          AccessLevel accessLevel
+     );
+
+     Database.QueryLocator queryLocatorGetMarketingSegmentationsByContactOrLeadIds(
+          Set<Id> recordIds
+     );
 }
