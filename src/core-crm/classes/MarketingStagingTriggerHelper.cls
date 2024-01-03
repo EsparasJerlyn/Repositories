@@ -16,6 +16,7 @@
       | roy.nino.s.regala              | Mar 3, 2022           | DEPP-5327              | Update lead's last name if unknown             |
       | mark.j.mahilum                 | July 3, 2023          | DEPP-5961              | Remove reference to MarketingCourseApplication |
       | mark.j.mahilum                 | August 18, 2023       | DEPP-6391              | Marketing Application logic revert changes     |
+      | kenneth.f.alsay                | January 3, 2024       |                        | Fixed excessive param list                     |
  */
 
 public without sharing class MarketingStagingTriggerHelper{
