@@ -37,7 +37,7 @@ public with sharing class ProgramOfferingsDAOTest {
     }
 
     @isTest
-    static void getProgramOfferingByRecordIdsTest() { 
+    static void getProgramOfferingByRecordIdsEmptyTest() { 
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Program_Offering__c> programOfferingList = ProgramOfferingsDAO.newInstance()
@@ -50,5 +50,18 @@ public with sharing class ProgramOfferingsDAOTest {
         Test.stopTest();
     }
 
-
+    @isTest
+    static void getProgramOfferingByRecordIdsNotEmptyTest() { 
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builder = new MockIdGenerator(hed__Course_Offering__c.sObjectType);
+            List<Program_Offering__c> programOfferingList = ProgramOfferingsDAO.newInstance()
+                .getProgramOfferingByRecordIds(
+                    new Set<Id>{builder.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(programOfferingList.isEmpty(), 'programOfferingList should be empty');
+        }
+        Test.stopTest();
+    }
 } 
