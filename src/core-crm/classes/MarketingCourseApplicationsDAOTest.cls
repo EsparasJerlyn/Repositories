@@ -44,7 +44,7 @@ public with sharing class MarketingCourseApplicationsDAOTest {
             List<Marketing_Course_Application__c> mrktgCourseAppList = MarketingCourseApplicationsDAO.newInstance()
                 .getMrktngCourseAppsById(
                     new Set<Id>{mockIdGen.getMockId()},
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
             Test.stopTest();
             System.assert(mrktgCourseAppList.isEmpty(), 'mrktgCourseAppList is not empty.');
@@ -58,7 +58,7 @@ public with sharing class MarketingCourseApplicationsDAOTest {
             List<Marketing_Course_Application__c> mrktgCourseAppList = MarketingCourseApplicationsDAO.newInstance()
                 .getMrktngCourseAppsById(
                     new Set<Id>(),
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
             Test.stopTest();
             System.assert(mrktgCourseAppList.isEmpty(), 'mrktgCourseAppList is not empty.');
