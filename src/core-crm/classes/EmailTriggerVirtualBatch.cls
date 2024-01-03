@@ -118,7 +118,7 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
 
                     //Do not send email if Course has no related Sessions
                     Boolean isCourseDaysBeforeContainsCourse = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) && courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c);
-                    Boolean isCourseDaysBeforeContainsProgramPlan = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) && !courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) &&
+                    Boolean isCourseDaysBeforeContainsProgramPlan = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) &&
                                                                     courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c);
                     if(isCourseDaysBeforeContainsCourse){
                         allowedEmailReminder = true;
@@ -126,7 +126,7 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
                                                                 .get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                             emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                     }
-                    if(isCourseDaysBeforeContainsProgramPlan ){
+                    else if(isCourseDaysBeforeContainsProgramPlan ){
                         allowedEmailReminder = true;
                                 daysBeforeStartDate = (Integer)courseDaysBeforeMap
                                                                 .get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
