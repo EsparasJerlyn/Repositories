@@ -11,6 +11,7 @@
       | mark.j.mahilum            | July 18,2023          | DEPP-5799    | Created file                                   |
       | johanna.a.gibas           | Oct 16, 2023          | DEPP-6855    | Added Completed Cadence to increase coverage   |
       | johanna.a.gibas           | Oct 25, 2023          | DEPP-6889    | Added test methods for updateCompletedCadences |
+      | kenneth.f.alsay           | December 27, 2023     |              | Removed unused variables                       |      
 */
 @isTest
 private class SalesCadenceCalloutServiceTest {
@@ -164,8 +165,6 @@ private class SalesCadenceCalloutServiceTest {
             acTracker.add(new ActionCadenceTracker(TargetId = leadList[0].Id, State = 'Complete'));
             
             ActionCadenceTrackersDAO.newInstance().insertRecords(acTracker,true,AccessLevel.SYSTEM_MODE);
-            
-            Map<String, String> targetCadenceMap = new Map<String, String>{ leadList[0].Id => 'Test Cadences automated'};
                 
             SalesCadenceCalloutService.processCompletedCadenceTracker(new List<String>{ acTracker[0].Id });
             
@@ -193,8 +192,6 @@ private class SalesCadenceCalloutServiceTest {
             acTracker.add(new ActionCadenceTracker(TargetId = newContacts[0].Id, State = 'Complete'));
             
             ActionCadenceTrackersDAO.newInstance().insertRecords(acTracker,true,AccessLevel.SYSTEM_MODE);
-            
-            Map<String, String> targetCadenceMap = new Map<String, String>{ newContacts[0].Id => 'Test Cadences automated'};
                 
             SalesCadenceCalloutService.processCompletedCadenceTracker(new List<String>{ acTracker[0].Id });
             

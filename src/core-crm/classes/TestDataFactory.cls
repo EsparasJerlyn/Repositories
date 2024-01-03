@@ -65,6 +65,7 @@
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
  *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
+ *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
  *
  **/
 
@@ -3993,7 +3994,6 @@ public class TestDataFactory {
      */
     public static List<WorkType> createTestWorkTypeRecords() {
         List<WorkType> newWorkTypes = new List<WorkType>();
-        String workName;
         for (Integer i = 0; i < 2; i++) {
             newWorkTypes.add(
                 new WorkType(
