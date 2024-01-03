@@ -40,6 +40,9 @@
  *    | carl.alvin.cabiles             | December 13, 2023     | DEPP-7186              | Added Object mapping for List Contributor object              |
  *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                      |
  *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object            |
+ *    | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added object mapping for BuyerGroups,                         |
+ *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
+ *    |                                |                       |                        | Product Category, Product Category Product Object             |
  */
 public class ImplementationSelector { 
 
@@ -55,11 +58,14 @@ public class ImplementationSelector {
             Application_Preference__c.SObjectType => ApplicationPreferencesDAO.class, 
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
+            BuyerGroup.SObjectType => BuyerGroupsDAO.class,
+            CommerceEntitlementProduct.SObjectType => CommerceEntitlementProductsDAO.class,
             Communication_Queue__c.SObjectType => CommunicationQueuesDAO.class,
             CartDeliveryGroup.SObjectType => CartDeliveryGroupsDAO.class,
             CartItem.SObjectType => CartItemsDAO.class,
             Case.SObjectType => CasesDAO.class,
             Case_Priority_Configuration__c.SObjectType => CasePriorityConfigurationsDAO.class,
+            CommerceEntitlementBuyerGroup.SObjectType => CommerceEntitlementBuyerGroupsDAO.class,
             Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
             Contact.SObjectType => ContactsDAO.class,
             ContentDocument.SObjectType => ContentDocumentsDAO.class,
@@ -105,6 +111,8 @@ public class ImplementationSelector {
             Pricebook2.SObjectType => PricebooksDAO.class,
             PricebookEntry.SObjectType => PricebookEntriesDAO.class,
             Product2.SObjectType => ProductsDAO.class,
+            ProductCategory.SObjectType => ProductCategoriesDAO.class,
+            ProductCategoryProduct.SObjectType => ProductCategoryProductsDAO.class,
             Profile.SObjectType => ProfilesDAO.class,            
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
