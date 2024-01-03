@@ -23,7 +23,7 @@ public inherited sharing class ProductCategoriesDAOMock extends DmlBaseMock impl
     }
 
     public List<ProductCategory> getProductCategoriesByProduct2Category(
-        Set<String> prodCategories,
+        List<String> prodCategories,
         AccessLevel accessLevel
     ){
         List<ProductCategory> ProductCategoriesList = new List<ProductCategory>();

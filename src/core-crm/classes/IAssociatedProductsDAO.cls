@@ -15,7 +15,7 @@ public interface IAssociatedProductsDAO extends DmlInterface {
     );
 
     List<Associated_Products__c> getAssociatedProductsById(
-        Set<Id> assocateProdIds,
+        Set<Id> associatedProdIds,
         AccessLevel accessLevel
     ); 
 }

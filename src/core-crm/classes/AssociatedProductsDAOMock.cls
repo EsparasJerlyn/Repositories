@@ -38,12 +38,12 @@ public inherited sharing class AssociatedProductsDAOMock extends DmlBaseMock imp
     }
 
     public List<Associated_Products__c> getAssociatedProductsById(
-        Set<Id> assocateProdIds,
+        Set<Id> associatedProdIds,
         AccessLevel accessLevel
     ){
         List<Associated_Products__c> associatedProductsList = new List<Associated_Products__c>();
         for (Associated_Products__c record : associatedProductsMap.values()) {
-            if (assocateProdIds.contains(record.Id)){
+            if (associatedProdIds.contains(record.Id)){
                 associatedProductsList.add(record);
             }
         }

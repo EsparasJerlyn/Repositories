@@ -32,6 +32,25 @@ public with sharing class BuyerGroupsDAOTest {
         Test.stopTest();
     }
 
+
+    @isTest
+    static void getBuyerGroupsByProductRequestIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builder = new MockIdGenerator(BuyerGroup.sObjectType);
+            System.assert(
+                BuyerGroupsDAO.newInstance()
+                    .getBuyerGroupsByProductRequestId(
+                        new Set<Id>{builder.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'buyer Group retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();

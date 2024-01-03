@@ -24,7 +24,7 @@ public inherited sharing class ProductCategoriesDAO extends DmlBase implements I
     }
 
     public List<ProductCategory> getProductCategoriesByProduct2Category(
-        Set<String> prodCategories,
+        List<String> prodCategories,
         
         AccessLevel accessLevel
     ){

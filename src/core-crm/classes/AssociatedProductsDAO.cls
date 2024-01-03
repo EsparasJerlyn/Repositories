@@ -23,17 +23,17 @@ public inherited sharing class AssociatedProductsDAO extends DmlBase implements 
     }
 
     public List<Associated_Products__c> getAssociatedProductsById(
-        Set<Id> assocateProdIds,
+        Set<Id> associatedProdIds,
         AccessLevel accessLevel
     ){
 
-        if(assocateProdIds.isEmpty()){
+        if(associatedProdIds.isEmpty()){
             return new List<Associated_Products__c>();
         }
         return Database.query(
             'SELECT Id, Product_Request__c, Product_Request__r.RecordTypeId ' +
             'FROM Associated_Products__c ' +
-            'WHERE Id IN :assocateProdIds ',
+            'WHERE Id IN :associatedProdIds ',
             accessLevel
         );
     }

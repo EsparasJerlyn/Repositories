@@ -23,7 +23,24 @@ public with sharing class ProductCategoriesDAOTest {
             System.assert(
                 ProductCategoriesDAO.newInstance()
                     .getProductCategoriesByProduct2Category(
-                        new Set<String>(),
+                        new List<String>(),
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product category retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getProductCategoriesByProduct2CategoryNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builder = new MockIdGenerator(ProductCategory.sObjectType);
+            System.assert(
+                ProductCategoriesDAO.newInstance()
+                    .getProductCategoriesByProduct2Category(
+                        new List<String>{builder.getMockId()},
                         AccessLevel.SYSTEM_MODE)
                     .isEmpty(),
                 'product category retrieved is not empty'

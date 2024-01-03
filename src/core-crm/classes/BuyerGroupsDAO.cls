@@ -30,9 +30,9 @@ public inherited sharing class BuyerGroupsDAO extends DmlBase implements IBuyerG
             return new List<BuyerGroup>();
         }
         return Database.query(
-            'SELECT Id, Name, buyerGroup.Product_Request__c ' +
+            'SELECT Id, Name, BuyerGroup.Product_Request__c ' +
             'FROM BuyerGroup ' +
-            'WHERE buyerGroup.Product_Request__c IN :productRequestIds ',
+            'WHERE BuyerGroup.Product_Request__c IN :productRequestIds ',
             accessLevel
         );
     }

@@ -11,7 +11,7 @@
 public interface IProductCategoriesDAO extends DmlInterface {
 
     List<ProductCategory> getProductCategoriesByProduct2Category(
-        Set<String> prodCategories,
+        List<String> prodCategories,
         AccessLevel accessLevel
     ); 
 }

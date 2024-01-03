@@ -34,6 +34,25 @@ public with sharing class ProductCategoryProductsDAOTest {
     }
 
     @isTest
+    static void getProductCategoryProductByProdCatalogIdAndProdCategoryIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForProductCatalog = new MockIdGenerator(ProductCatalog.sObjectType);
+            MockIdGenerator builderForProductCategory = new MockIdGenerator(ProductCategory.sObjectType);
+            System.assert(
+                ProductCategoryProductsDAO.newInstance()
+                    .getProductCategoryProductByProdCatalogIdAndProdCategoryId(
+                        new Set<Id>{builderForProductCatalog.getMockId()},
+                        new Set<Id>{builderForProductCategory.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product category product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {

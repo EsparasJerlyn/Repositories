@@ -74,7 +74,7 @@ public without sharing class AssociatedProductsTriggerHelper {
         Map<String, ProductCategory> prodCategoryMap = new Map<String, ProductCategory>();
         Set<Id> prodCategIdSet = new Set<Id>();
         Set<Id> prodCatalogIdSet = new Set<Id>();
-        for (ProductCategory prodCategory : ProductCategoriesDAO.newInstance().getProductCategoriesByProduct2Category(new Set<String>{CCE_CATEGORY_CB,CCE_CATEGORY_QLS},AccessLevel.SYSTEM_MODE)) {
+        for (ProductCategory prodCategory : ProductCategoriesDAO.newInstance().getProductCategoriesByProduct2Category(PROD2_CATEGORIES,AccessLevel.SYSTEM_MODE)) {
             prodCategoryMap.put(prodCategory.Name, prodCategory);
             prodCategIdSet.add(prodCategory.Id);
             prodCatalogIdSet.add(prodCategory.CatalogId);

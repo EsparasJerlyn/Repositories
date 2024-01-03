@@ -33,6 +33,23 @@ public with sharing class CommerceEntitlementBuyerGroupsDAOTest {
     }
 
     @isTest
+    static void getCommerceEntitlementBuyerGroupsByBuyerGroupIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builder = new MockIdGenerator(CommerceEntitlementBuyerGroup.sObjectType);
+            System.assert(
+                CommerceEntitlementBuyerGroupsDAO.newInstance()
+                    .getCommerceEntitlementBuyerGroupsByBuyerGroupId(
+                        new Set<Id>{builder.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'Commerce Entitlement Buyer Group retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
