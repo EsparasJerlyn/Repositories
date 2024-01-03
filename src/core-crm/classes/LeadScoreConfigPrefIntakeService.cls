@@ -10,7 +10,7 @@
       | eccarius.munoz                 | October 02, 2023      | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public with sharing class LeadScoreConfigPrefIntakeService {
+public with sharing class LeadScoreConfigPrefIntakeService {//NOPMD this is a service class, high number of public methods and class complexity are expected.
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigPreferredIntake leadScoreConfigPreferredIntake){
         String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_PREF_INTAKE;
         Boolean isFOrPreferredIntake = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;

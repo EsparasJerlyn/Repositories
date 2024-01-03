@@ -12,7 +12,7 @@
  */
 public with sharing class LeadScoreConfigService {
 
-    public static LeadScoreConfigStudyLevelParam getLeadScoreConfig(){
+    public static LeadScoreConfigStudyLevelParam getLeadScoreConfig(){//NOPMD this is a service class. high number of public methods and overall complexity is expected.
 
         LeadScoreConfigStudyLevelParam leadScoreConfigParam = new LeadScoreConfigStudyLevelParam();
         List<Lead_Score_Configuration__c> leadScoreConfigDomUnderGradList = new List<Lead_Score_Configuration__c>();
