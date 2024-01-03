@@ -34,12 +34,13 @@ public without sharing class FlowLookupHelperTest {
     @isTest
     public static void splitAndTrimTestNoDelimiter() {
         System.runAs(TestDataFactory.getOperationsManager()){
-        List<String> splitStrings = FlowLookupHelper.splitAndTrim(testString);
-        
-        System.assertEquals(3, splitStrings.size(), 'Three split strings are expected');
-        System.assertEquals('test1', splitStrings[0], 'First split string should match');
-        System.assertEquals('test2', splitStrings[1], 'Second split string should match');
-        System.assertEquals('test3', splitStrings[2], 'Third split string should match');
+            String testString = 'test1,test2,test3';
+            List<String> splitStrings = FlowLookupHelper.splitAndTrim(testString);
+            
+            System.assertEquals(3, splitStrings.size(), 'Three split strings are expected');
+            System.assertEquals('test1', splitStrings[0], 'First split string should match');
+            System.assertEquals('test2', splitStrings[1], 'Second split string should match');
+            System.assertEquals('test3', splitStrings[2], 'Third split string should match');
         }
     }
 
@@ -47,12 +48,12 @@ public without sharing class FlowLookupHelperTest {
     public static void splitAndTrimTestDelimiter() {
         String testString = 'test1,test2,test3';
         System.runAs(TestDataFactory.getOperationsManager()){
-        List<String> splitStrings = FlowLookupHelper.splitAndTrim(testString, ',');
-        
-        System.assertEquals(3, splitStrings.size(), 'Three split strings are expected');
-        System.assertEquals('test1', splitStrings[0], 'First split string should match');
-        System.assertEquals('test2', splitStrings[1], 'Second split string should match');
-        System.assertEquals('test3', splitStrings[2], 'Third split string should match');
+            List<String> splitStrings = FlowLookupHelper.splitAndTrim(testString, ',');
+            
+            System.assertEquals(3, splitStrings.size(), 'Three split strings are expected');
+            System.assertEquals('test1', splitStrings[0], 'First split string should match');
+            System.assertEquals('test2', splitStrings[1], 'Second split string should match');
+            System.assertEquals('test3', splitStrings[2], 'Third split string should match');
         }
     }
 }
