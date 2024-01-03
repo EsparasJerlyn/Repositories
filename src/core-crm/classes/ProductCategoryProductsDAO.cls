@@ -27,7 +27,7 @@ public inherited sharing class ProductCategoryProductsDAO extends DmlBase implem
         AccessLevel accessLevel
     ){
 
-        if(prodCatalogIdSet.isEmpty() && prodCategIdSet.isEmpty()){
+        if(prodCatalogIdSet.isEmpty() || prodCategIdSet.isEmpty()){
             return new List<ProductCategoryProduct>();
         }
         return Database.query(
