@@ -71,23 +71,25 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
                                                             FROM Communication_Schedule__c
                                                             WHERE Email_on_final_confirmation__c = TRUE
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
-                    if(commSched.Days_before_Start_Date__c != null){
-                        if(String.isNotBlank(commSched.Course__c)){
-                            courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
-                        }
-                        if(String.isNotBlank(commSched.Program_Plan__c)){
-                            courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
-                        }
+                    
+                    Boolean isCourseBeforeStartDateNotNull = String.isNotBlank(commSched.Course__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isProgramPlanBeforeStartDateNotNull = String.isNotBlank(commSched.Program_Plan__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isCourseFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Course__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
+                    Boolean isProgramPlanFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Program_Plan__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
+
+                    if(isCourseBeforeStartDateNotNull){
+                        courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
+                    }
+                    if(isProgramPlanBeforeStartDateNotNull){
+                        courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
                     }
 
                     // Get email template
-                    if(String.isNotBlank(commSched.On_Final_Confirmation_Template__c)){
-                        if(String.isNotBlank(commSched.Course__c)){
-                            productEmailTemplateMap.put(commSched.Course__c, commSched.On_Final_Confirmation_Template__c);
-                        }
-                        if(String.isNotBlank(commSched.Program_Plan__c)){
-                            productEmailTemplateMap.put(commSched.Program_Plan__c, commSched.On_Final_Confirmation_Template__c);
-                        }
+                    if(isCourseFinalConfirmationTemplateNotBlank){
+                        productEmailTemplateMap.put(commSched.Course__c, commSched.On_Final_Confirmation_Template__c);
+                    }
+                    if(isProgramPlanFinalConfirmationTemplateNotBlank){        
+                        productEmailTemplateMap.put(commSched.Program_Plan__c, commSched.On_Final_Confirmation_Template__c);
                     }
                 }
             }
@@ -115,22 +117,20 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
                     String emailTemplateIdStr = '';
 
                     //Do not send email if Course has no related Sessions
-                    if(courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-                        //Get DaysBeforeStartDate
-                        if(courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c)){
-                            allowedEmailReminder = true;
+                    Boolean isCourseDaysBeforeContainsCourse = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) && courseDaysBeforeMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c);
+                    Boolean isCourseDaysBeforeContainsProgramPlan = courseSessionMap.containsKey(courseConnection.hed__Course_Offering__r.hed__Course__c) &&
+                                                                    courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c);
+                    if(isCourseDaysBeforeContainsCourse){
+                        allowedEmailReminder = true;
                             daysBeforeStartDate = (Integer)courseDaysBeforeMap
                                                                 .get(courseConnection.hed__Course_Offering__r.hed__Course__c);
                             emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.hed__Course_Offering__r.hed__Course__c);
-                        } else {
-                            // Course is for a Program
-                            if(courseDaysBeforeMap.containsKey(courseConnection.Program_Offering__r.hed_Program_Plan__c)){
-                                allowedEmailReminder = true;
+                    }
+                    else if(isCourseDaysBeforeContainsProgramPlan ){
+                        allowedEmailReminder = true;
                                 daysBeforeStartDate = (Integer)courseDaysBeforeMap
                                                                 .get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
                                 emailTemplateIdStr = productEmailTemplateMap.get(courseConnection.Program_Offering__r.hed_Program_Plan__c);
-                            }
-                        }
                     }
 
                     String paidInFull = 'No';
@@ -144,33 +144,33 @@ public with sharing class EmailTriggerVirtualBatch implements Database.Batchable
 
                     // Get Study Store URL Custom Setting
                     Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-
-                    if(allowedEmailReminder && String.isNotBlank(emailTemplateIdStr)){
+                    Boolean isEmailReminderAllowedAndStartDateToday = allowedEmailReminder && String.isNotBlank(emailTemplateIdStr) &&
+                                                                    (courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today();
+                    if(isEmailReminderAllowedAndStartDateToday){
                         // Email reminder allowed
-                        if((courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today()){
-                            //Send email to this student
-                            EmailTriggerBatchHelper.EmailWrapper wrapper;
-                            wrapper = new EmailTriggerBatchHelper.EmailWrapper();
-                            wrapper.recordId = courseConnection.Id;
-                            wrapper.contactId = courseConnection.hed__Contact__c;
-                            wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
-                            wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
-                            wrapper.lastName = courseConnection.hed__Contact__r.LastName;
-                            wrapper.toAddress = courseConnection.hed__Contact__r.Registered_Email__c;
-                            wrapper.emailTemplateIdStr = emailTemplateIdStr;
-                            wrapper.startDate = courseConnection.Course_Offering_Start_Date__c;
-                            wrapper.endDate = courseConnection.Offering_End_Date__c;
-                            wrapper.amount = amount;
-                            wrapper.paidInFull = paidInFull;
-                            wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
-                                                                ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
-                                                                : '';
-                            wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
-                                                                ? courseConnection.hed__Contact__r.QUT_Student_Username__c
-                                                                : '';
-                            wrapper.attachmentType = 'Virtual';
-                            wrapperList.add(wrapper);
-                        }
+                        //Send email to this student
+                        EmailTriggerBatchHelper.EmailWrapper wrapper;
+                        wrapper = new EmailTriggerBatchHelper.EmailWrapper();
+                        wrapper.recordId = courseConnection.Id;
+                        wrapper.contactId = courseConnection.hed__Contact__c;
+                        wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
+                        wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
+                        wrapper.lastName = courseConnection.hed__Contact__r.LastName;
+                        wrapper.toAddress = courseConnection.hed__Contact__r.Registered_Email__c;
+                        wrapper.emailTemplateIdStr = emailTemplateIdStr;
+                        wrapper.startDate = courseConnection.Course_Offering_Start_Date__c;
+                        wrapper.endDate = courseConnection.Offering_End_Date__c;
+                        wrapper.amount = amount;
+                        wrapper.paidInFull = paidInFull;
+                        wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
+                                                            ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
+                                                            : '';
+                        wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
+                                                            ? courseConnection.hed__Contact__r.QUT_Student_Username__c
+                                                            : '';
+                        wrapper.attachmentType = 'Virtual';
+                        wrapperList.add(wrapper);
+                    
                     }
                 }
             }
