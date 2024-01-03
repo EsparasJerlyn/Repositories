@@ -13,8 +13,6 @@
  */
 public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, BeforeUpdate{
 
-    public static Boolean isRunning = false;
-
     /**
     * @description after insert
     * @param newItems - Map<Id, SObject> of MarketingInteraction.Trigger.new
@@ -32,13 +30,10 @@ public with sharing class MarketingInteractionTriggerHandler implements Disablea
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ) {
-        if(!isRunning){
-            isRunning = true;
-            MarketingInteractionLeadScoreHelper.processLeadScoreCalculation(
-                (List<Marketing_Interaction__c>) newItems.values(), 
-                (Map<Id, Marketing_Interaction__c>) oldItems
-            );
-        }
+        MarketingInteractionLeadScoreHelper.processLeadScoreCalculation(
+            (List<Marketing_Interaction__c>) newItems.values(), 
+            (Map<Id, Marketing_Interaction__c>) oldItems
+        );
     }
 
     /**
