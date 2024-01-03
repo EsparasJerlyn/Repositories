@@ -82,7 +82,7 @@ public inherited sharing  class MarketingSegmentationsDAOMock extends DmlBaseMoc
         }
         List<Marketing_Segmentation__c> msList = new List<Marketing_Segmentation__c>();
         for(Marketing_Segmentation__c ms : marketingSegmentationMap.values()) {
-            if(recordIds.contains(ms.get(field))) {
+            if(recordIds.contains((Id) ms.get(field))) {
                 msList.add(ms);
             }
         }

@@ -57,6 +57,7 @@ public with sharing class MarketingCourseApplicationsDAOTest {
             Test.startTest();
             List<Marketing_Course_Application__c> mrktgCourseAppList = MarketingCourseApplicationsDAO.newInstance()
                 .getMrktngCourseAppsById(
+                    new Set<Id>(),
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();

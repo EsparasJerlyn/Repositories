@@ -37,11 +37,11 @@ public with sharing class LeadStatusesDAOTest {
     }
 
     @isTest
-    static void getConvertedLeadStatusesTest() {
+    static void getConvertedLeadStatusTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             System.assert(LeadStatusesDAO.newInstance()
-                .getConvertedLeadStatuses(AccessLevel.USER_MODE) == null,
+                .getConvertedLeadStatus(AccessLevel.USER_MODE) == null,
                 'leadStatuses is not empty.'
             );
             Test.stopTest();

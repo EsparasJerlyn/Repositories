@@ -23,7 +23,7 @@ public inherited sharing class LeadStatusesDAOMock extends DmlBaseMock implement
 		this.leadStatusesMap = (Map<Id, LeadStatus>) super.records;
 	}
 
-	public LeadStatus getConvertedLeadStatuses(AccessLevel accessLevel) {
+	public LeadStatus getConvertedLeadStatus(AccessLevel accessLevel) {
 		accessLevel = accessLevel == null ? AccessLevel.SYSTEM_MODE : accessLevel;
 		for(LeadStatus ls : leadStatusesMap.values) {
 			if(ls.IsConverted == true) {

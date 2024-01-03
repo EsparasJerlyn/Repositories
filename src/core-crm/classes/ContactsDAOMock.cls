@@ -301,12 +301,12 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         Set<Id> recordIds,
         AccessLevel accessLevel
     ) {
-        List<Contact> contactsList = new List<Contact>();
+        List<Contact> contactList = new List<Contact>();
         for(Contact con : contactsMap.values()) {
             if(recordIds.contains(con.Id)) {
                 contactList.add(con);
             }
         }
-        return contactsList;
+        return contactList;
     }
 }

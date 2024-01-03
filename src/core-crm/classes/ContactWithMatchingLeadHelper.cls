@@ -303,7 +303,7 @@ public without sharing class ContactWithMatchingLeadHelper {
             initContactWorkEmailMap.keySet(),
             AccessLevel.SYSTEM_MODE
         );
-        LeadStatus convertStatus = LeadStatusesDAO.newInstance().getConvertedLeadStatuses(AccessLevel.SYSTEM_MODE);
+        LeadStatus convertStatus = LeadStatusesDAO.newInstance().getConvertedLeadStatus(AccessLevel.SYSTEM_MODE);
         Map<Id, Database.LeadConvert> leadsToConvertMap = new Map<Id, Database.LeadConvert>();     
         if(initLeads != null && !initLeads.isEmpty()){
             for(Lead lead : initLeads){

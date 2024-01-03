@@ -25,7 +25,7 @@ public inherited sharing class MarketingCourseApplicationsDAO extends DmlBase im
         Set<Id> leadIds,
         AccessLevel accessLevel
     ) {
-        if(!recordIds.isEmpty() && accessLevel != null) {
+        if(!leadIds.isEmpty() && accessLevel != null) {
             return Database.query(
                 'SELECT Id, Lead__c, Contact__c FROM Marketing_Course_Application__c WHERE Lead__c IN :leadIds',
                 accessLevel

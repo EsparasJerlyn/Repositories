@@ -20,7 +20,7 @@ public inherited sharing class LeadStatusesDAO extends DmlBase implements ILeadS
 		return (ILeadStatusesDAO) ImplementationSelector.DAO.newInstance(LeadStatus.SObjectType);
 	}
 
-	public LeadStatus getConvertedLeadStatuses(AccessLevel accessLevel) {
+	public LeadStatus getConvertedLeadStatus(AccessLevel accessLevel) {
 		accessLevel = accessLevel == null ? AccessLevel.SYSTEM_MODE : accessLevel;
 		return Database.query(
 			'SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = true LIMIT 1',
