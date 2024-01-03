@@ -10,9 +10,9 @@
       | eccarius.munoz                 | September 25, 2023    | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public with sharing class LeadScoreConfigService {
+public with sharing class LeadScoreConfigService {//NOPMD this is a service class. high number of public methods and overall complexity is expected.
 
-    public static LeadScoreConfigStudyLevelParam getLeadScoreConfig(){//NOPMD this is a service class. high number of public methods and overall complexity is expected.
+    public static LeadScoreConfigStudyLevelParam getLeadScoreConfig(){
 
         LeadScoreConfigStudyLevelParam leadScoreConfigParam = new LeadScoreConfigStudyLevelParam();
         List<Lead_Score_Configuration__c> leadScoreConfigDomUnderGradList = new List<Lead_Score_Configuration__c>();
