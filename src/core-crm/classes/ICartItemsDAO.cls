@@ -4,10 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                 |
- *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingIdTest |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                           |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------|
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                             |
+ *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCartItemsByWebCartId |
  */
 public interface ICartItemsDAO extends DmlInterface {
     List<CartItem> getCartItemsWithPricebookEntryByRecordIds(
