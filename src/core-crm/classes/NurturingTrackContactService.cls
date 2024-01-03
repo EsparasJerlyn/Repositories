@@ -31,6 +31,7 @@
       |                                |                       |                        | to NurtureTrackConfigurationsDAO.                                             |
       | arsenio.jr.dayrit              | Oct. 19, 2023         | DEPP-6958              | Added Domestic Deffered Offer to Acceptance exit handling                     |
       | arsenio.jr.dayrit              | Nov. 20, 2023         | DEPP-7268              | Added Domestic First Offer to Acceptance entry and exit criteria              |
+      | roy.nino.s.regala              | Jan. 03, 2023         | Shutdown PMD Fix       | Fix cyclomatic complexity issues                                              |
 
  */
 public with sharing class NurturingTrackContactService { //NOPMD
