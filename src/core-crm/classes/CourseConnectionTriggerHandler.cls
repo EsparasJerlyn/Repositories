@@ -362,25 +362,29 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
           WHERE ( Course__c IN :ccCourseSet 
           OR Program_Plan__c IN :ccProgPlanSet)
         ]) {
-          if (courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null) {
+          Boolean isEmailOnRegistrationAndCourseNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null;
+          Boolean isCourseOnRegistrationTemplateNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c);
+          Boolean isProgramPlanNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null;
+          Boolean isProgramPlanOnRegistrationTemplateNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c);
+          if (isEmailOnRegistrationAndCourseNotNull) {
               courseSendRegEmailMap.put(
               courseCommSched.Course__c,
               courseCommSched.Email_on_Registration__c
             );
            
           }
-          if (courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c)) {
+          if (isCourseOnRegistrationTemplateNotNull) {
             emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
             productEmailTemplateMap.put(courseCommSched.Course__c, String.valueOf(courseCommSched.On_Registration_Template__c));
           }
         
-          if(courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null){
+          if(isProgramPlanNotNull){
             progPlanSendRegEmailMap.put(
               courseCommSched.Program_Plan__c,
               courseCommSched.Email_on_Registration__c
             );
           }
-          if(courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c)){
+          if(isProgramPlanOnRegistrationTemplateNotNull){
             // use custom email template
              emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
              productEmailTemplateMap.put(courseCommSched.Program_Plan__c, courseCommSched.On_Registration_Template__c);
