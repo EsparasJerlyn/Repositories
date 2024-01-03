@@ -65,7 +65,8 @@ public with sharing class ContactImageHelper {
             imageURL = imageTag.substringBetween(' src="', '"');
           }
           // Get All Contacts where Contact_Image__c is changed
-          if (conOld != null && conOld.get(con.Id).Contact_Image__c != con.Contact_Image__c) {
+          Boolean isContactImageChanged = conOld != null && conOld.get(con.Id).Contact_Image__c != con.Contact_Image__c;
+          if (isContactImageChanged) {
               conIdImageFileDelete.add(con.Id);
           }  
           if (String.isNotBlank(imageURL)) {
