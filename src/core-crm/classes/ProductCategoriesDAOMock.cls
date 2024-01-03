@@ -11,7 +11,7 @@
  */
 @isTest
 public inherited sharing class ProductCategoriesDAOMock extends DmlBaseMock implements IProductCategoriesDAO {
-    public Map<Id, ProductCategory> ProductCategoriesMap;
+    public Map<Id, ProductCategory> productCategoriesMap;
 
     public Schema.SObjectType getSObjectType() {
         return ProductCategory.SObjectType;
@@ -19,19 +19,19 @@ public inherited sharing class ProductCategoriesDAOMock extends DmlBaseMock impl
 
     public ProductCategoriesDAOMock() {
         super(new Map<Id, ProductCategory>(), Schema.ProductCategory.SObjectType);
-        this.ProductCategoriesMap = (Map<Id, ProductCategory>) super.records;
+        this.productCategoriesMap = (Map<Id, ProductCategory>) super.records;
     }
 
     public List<ProductCategory> getProductCategoriesByProduct2Category(
         List<String> prodCategories,
         AccessLevel accessLevel
     ){
-        List<ProductCategory> ProductCategoriesList = new List<ProductCategory>();
-        for (ProductCategory record : ProductCategoriesMap.values()) {
+        List<ProductCategory> productCategoriesList = new List<ProductCategory>();  
+        for (ProductCategory record : productCategoriesMap.values()) {
             if (prodCategories.contains(record.Name)){
-                ProductCategoriesList.add(record);
+                productCategoriesList.add(record);
             }
         }
-        return ProductCategoriesList;
+        return productCategoriesList;
     }
 }

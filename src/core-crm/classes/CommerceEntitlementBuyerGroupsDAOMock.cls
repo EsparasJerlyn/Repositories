@@ -11,7 +11,7 @@
  */
 @isTest
 public inherited sharing class CommerceEntitlementBuyerGroupsDAOMock extends DmlBaseMock implements ICommerceEntitlementBuyerGroupsDAO {
-    public Map<Id, CommerceEntitlementBuyerGroup> CommerceEntitlementBuyerGroupsMap;
+    public Map<Id, CommerceEntitlementBuyerGroup> commerceEntitlementBuyerGroupsMap;
 
     public Schema.SObjectType getSObjectType() {
         return CommerceEntitlementBuyerGroup.SObjectType;
@@ -19,19 +19,19 @@ public inherited sharing class CommerceEntitlementBuyerGroupsDAOMock extends Dml
 
     public CommerceEntitlementBuyerGroupsDAOMock() {
         super(new Map<Id, CommerceEntitlementBuyerGroup>(), Schema.CommerceEntitlementBuyerGroup.SObjectType);
-        this.CommerceEntitlementBuyerGroupsMap = (Map<Id, CommerceEntitlementBuyerGroup>) super.records;
+        this.commerceEntitlementBuyerGroupsMap = (Map<Id, CommerceEntitlementBuyerGroup>) super.records;
     }
 
     public List<CommerceEntitlementBuyerGroup> getCommerceEntitlementBuyerGroupsByBuyerGroupId(
         Set<Id> buyerGroupIdSet,
         AccessLevel accessLevel
     ){
-        List<CommerceEntitlementBuyerGroup> CommerceEntitlementBuyerGroupsList = new List<CommerceEntitlementBuyerGroup>();
-        for (CommerceEntitlementBuyerGroup record : CommerceEntitlementBuyerGroupsMap.values()) {
+        List<CommerceEntitlementBuyerGroup> commerceEntitlementBuyerGroupsList = new List<CommerceEntitlementBuyerGroup>();
+        for (CommerceEntitlementBuyerGroup record : commerceEntitlementBuyerGroupsMap.values()) {
             if (buyerGroupIdSet.contains(record.BuyerGroupId)){
-                CommerceEntitlementBuyerGroupsList.add(record);
+                commerceEntitlementBuyerGroupsList.add(record);
             }
         }
-        return CommerceEntitlementBuyerGroupsList;
+        return commerceEntitlementBuyerGroupsList;
     }
 }
