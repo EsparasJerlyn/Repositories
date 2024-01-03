@@ -151,9 +151,8 @@ public with sharing class EmailTriggerFaceToFaceBatch implements Database.Batcha
 
                     // Get Study Store URL Custom Setting
                     Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-
-                    if(allowedEmailReminder && String.isNotBlank(emailTemplateIdStr) &&
-                        (courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today()){
+                    Boolean isAllowedEmailReminderAndTemplateNotBlank = allowedEmailReminder && String.isNotBlank(emailTemplateIdStr) && (courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today();
+                    if(isAllowedEmailReminderAndTemplateNotBlank){
                         // Email reminder allowed
                         //Send email to this student
                         EmailTriggerBatchHelper.EmailWrapper wrapper;
