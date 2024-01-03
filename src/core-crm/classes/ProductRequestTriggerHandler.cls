@@ -17,8 +17,6 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
 
     private static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
     private static final String PR_NOT_PROCEEDING = System.Label.PL_ProductRequest_Not_Proceeding;
-
-    public static Boolean isRunning = false;
     
     /**
      * @description call method to validate related Facilitator Contacts if Image is uploaded on Contact Image
@@ -40,69 +38,66 @@ public without sharing class ProductRequestTriggerHandler implements Disableable
         Map<Id, Product_Request__c> prodReqOld = (Map<Id, Product_Request__c>)oldItems;
 
         List<Id> completedOrNotProceedingPRs = new List<Id>();  
-        if(!isRunning){
-            isRunning = true;
 
-            //check if status is updated and is not proceeding or completed
-            for(Id prId: prodReqNew.keySet()){
-                if(prodReqNew.get(prId).Product_Request_Status__c != prodReqOld.get(prId).Product_Request_Status__c 
-                    && (prodReqNew.get(prId).Product_Request_Status__c == PR_NOT_PROCEEDING || 
-                    prodReqNew.get(prId).Product_Request_Status__c == PR_COMPLETED)){
-                        //store all productrequests that are updated to completed or not completed
-                        completedOrNotProceedingPRs.add(prId);
-                    }
-            } 
+        //check if status is updated and is not proceeding or completed
+        for(Id prId: prodReqNew.keySet()){
+            if(prodReqNew.get(prId).Product_Request_Status__c != prodReqOld.get(prId).Product_Request_Status__c 
+                && (prodReqNew.get(prId).Product_Request_Status__c == PR_NOT_PROCEEDING || 
+                prodReqNew.get(prId).Product_Request_Status__c == PR_COMPLETED)){
+                    //store all productrequests that are updated to completed or not completed
+                    completedOrNotProceedingPRs.add(prId);
+                }
+        } 
 
-            if(!completedOrNotProceedingPRs.isEmpty()){
-                productToDeactivate.putALL(deactivateRelatedProduct(
-                    completedOrNotProceedingPRs
-                ));
-                
-                courseToUpdate.putALL(updateRelatedCourse(
-                    completedOrNotProceedingPRs
-                ));
-
-                programToUpdate.putALL(updateRelatedProg(
-                    completedOrNotProceedingPRs
-                ));
+        if(!completedOrNotProceedingPRs.isEmpty()){
+            productToDeactivate.putALL(deactivateRelatedProduct(
+                completedOrNotProceedingPRs
+            ));
             
+            courseToUpdate.putALL(updateRelatedCourse(
+                completedOrNotProceedingPRs
+            ));
 
-            }
-            
-            if(!productToDeactivate.keySet().isEmpty()){
-                productToUpdateMap.putALL(productToDeactivate);
-            }
+            programToUpdate.putALL(updateRelatedProg(
+                completedOrNotProceedingPRs
+            ));
+        
 
-            if(!productToUpdateMap.keySet().isEmpty()){
-                Database.SaveResult[] srList=  Database.update(productToUpdateMap.values(), false);
-                for (Database.SaveResult sr : srList) {
-                    if(!sr.isSuccess()){
-                        Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Product records: ').setDatabaseResult(sr);
-                    }
+        }
+        
+        if(!productToDeactivate.keySet().isEmpty()){
+            productToUpdateMap.putALL(productToDeactivate);
+        }
+
+        if(!productToUpdateMap.keySet().isEmpty()){
+            Database.SaveResult[] srList=  Database.update(productToUpdateMap.values(), false);
+            for (Database.SaveResult sr : srList) {
+                if(!sr.isSuccess()){
+                    Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Product records: ').setDatabaseResult(sr);
                 }
             }
+        }
 
-            if(!courseToUpdate.keySet().isEmpty()){
-                Database.SaveResult[] srList=  Database.update(courseToUpdate.values(),false);
-                for (Database.SaveResult sr : srList) {
-                    if(!sr.isSuccess()){
-                        Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Course records: ').setDatabaseResult(sr);
-                    }
+        if(!courseToUpdate.keySet().isEmpty()){
+            Database.SaveResult[] srList=  Database.update(courseToUpdate.values(),false);
+            for (Database.SaveResult sr : srList) {
+                if(!sr.isSuccess()){
+                    Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Course records: ').setDatabaseResult(sr);
                 }
             }
+        }
 
-            if(!programToUpdate.keySet().isEmpty()){
-                Database.SaveResult[] srList=  Database.update(programToUpdate.values(),false);
-                for (Database.SaveResult sr : srList) {
-                    if(!sr.isSuccess()){
-                        Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Program Plan records: ').setDatabaseResult(sr);
-                    }
+        if(!programToUpdate.keySet().isEmpty()){
+            Database.SaveResult[] srList=  Database.update(programToUpdate.values(),false);
+            for (Database.SaveResult sr : srList) {
+                if(!sr.isSuccess()){
+                    Logger.error('Method ProductRequestTriggerHandler.AfterUpdate() updating Program Plan records: ').setDatabaseResult(sr);
                 }
             }
+        }
 
-            if(Logger.getBufferSize() > 0){
-                Logger.saveLog();
-            }
+        if(Logger.getBufferSize() > 0){
+            Logger.saveLog();
         }
     }
 
