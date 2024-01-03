@@ -23,6 +23,7 @@
  *    |                                |                       |                        |     updateCompletedCadences and getRunningCallACTrackersMap          |
  *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7064              | updated logic to get the latest application                          |
  *    | johanna.a.gibas                | Nov 16, 2023          | DEPP-7118              | Replaced Closed - Contacted with Closed - No Further Action Required |
+ *    | roy.nino.s.regala              | Jan 3, 2024           | Shutdown PMD Fix       | Fixed method complexity pmd issues                                   |
  */
 public with sharing class SalesCadenceCalloutService {//NOPMD this is a service class. high number of public methods and overall complexity are expected.
     
@@ -167,16 +168,19 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             String cadenceName = targetCadenceMap.get(recId);
             String nurtureId =  nurtureMap.get(cadenceName);          
             String calculatedStatus = CompletedCadencesDAO.SUCCESSFUL_STATUS;
+            String taskCadenceName = '';
+            String taskStatus = '';
             
             if(mapTasks.containsKey(recId)){
-                
-                String taskCadenceName = mapTasks.get(recId).ActionCadenceStepTracker.ActionCadenceName;
-                String taskStatus = mapTasks.get(recId).Status;
-                
-                if(taskCadenceName == cadenceName){
-                    calculatedStatus = (taskStatus == TasksDAO.CLOSED_FOLLOW_UP_STATUS) ? taskStatus : ((taskStatus == TasksDAO.CLOSED_NO_FURTHER_ACTION_REQUIRED_STATUS) ? CompletedCadencesDAO.SUCCESSFUL_STATUS : CompletedCadencesDAO.UNSUCCESSFUL_STATUS);
-                    tasksToUpdateList.add(mapTasks.get(recId));
-                }               
+                taskCadenceName = mapTasks.get(recId).ActionCadenceStepTracker.ActionCadenceName;
+                taskStatus = mapTasks.get(recId).Status;            
+            }
+
+            boolean hasTaskAndTaskCadenceMatch = mapTasks.containsKey(recId) && taskCadenceName == cadenceName;
+
+            if(hasTaskAndTaskCadenceMatch){
+                calculatedStatus = setCacluatedStatus(taskStatus);
+                tasksToUpdateList.add(mapTasks.get(recId));
             }
             
             if(recId.startsWith('003')){
@@ -185,7 +189,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                         Nurture_Track_Configuration__c = nurtureId,
                         Contact__c = recId,
                         Completed_Cadence_Status__c = calculatedStatus,
-                        Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null              
+                        Id = completedCadenceStatusMap.get(recId)              
                     )
                 );   
             }else{
@@ -194,7 +198,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                         Nurture_Track_Configuration__c = nurtureId,
                         Lead__c = recId,
                         Completed_Cadence_Status__c = calculatedStatus,
-                        Id = completedCadenceStatusMap.containsKey(recId)? completedCadenceStatusMap.get(recId): null  
+                        Id = completedCadenceStatusMap.get(recId)
                     )
                 );
             }
@@ -204,11 +208,18 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }
         
-        if(!tasksToUpdateList.isEmpty()){
-            updateTasks(tasksToUpdateList);
-        }
+        updateTasks(tasksToUpdateList);
     }
 
+    private static String setCacluatedStatus(String taskStatus){
+        if(taskStatus == TasksDAO.CLOSED_FOLLOW_UP_STATUS){
+            return taskStatus;
+        }else if(taskStatus == TasksDAO.CLOSED_NO_FURTHER_ACTION_REQUIRED_STATUS){
+            return CompletedCadencesDAO.SUCCESSFUL_STATUS;
+        }else{
+            return CompletedCadencesDAO.UNSUCCESSFUL_STATUS;
+        }
+    }
     /**
      * @description: Update tasks fields for reports
      *
@@ -510,14 +521,16 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             
             String cadenceName = targetCadenceMap.get(recId);
             String nurtureId =  nurtureMap.get(cadenceName);
+            boolean displayInListView = cadenceName.contains('(Automated)') ? false : true ;
+            String appId = appMap.containsKey(recId)? appMap.get(recId): null;
             
             if(recId.startsWith('003')){
                 completedCadenceList.add(
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
                         Contact__c = recId,
-                        Application__c = appMap.containsKey(recId)? appMap.get(recId): null,
-                        Displayed_in_List_View__c = cadenceName.contains('(Automated)') ? false : true 
+                        Application__c = appId,
+                        Displayed_in_List_View__c = displayInListView 
                     )
                 );   
             }else{
@@ -525,8 +538,8 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                     new Completed_Cadence__c(
                         Nurture_Track_Configuration__c = nurtureId,
                         Lead__c = recId,
-                        Application__c = appMap.containsKey(recId)? appMap.get(recId): null,
-                        Displayed_in_List_View__c = cadenceName.contains('(Automated)') ? false : true
+                        Application__c = appId,
+                        Displayed_in_List_View__c = displayInListView
                     )
                 );
             }
