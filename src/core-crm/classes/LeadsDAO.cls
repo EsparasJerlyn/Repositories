@@ -271,8 +271,8 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             return Database.query(
                 'SELECT Id, Email, Work_Email__c ' +
                 'FROM Lead ' +
-                'WHERE (Email IN :emails OR Work_Email__c IN :emails ' +
-                'AND Lead_Type__c = ' + String.escapeSingleQuotes('\'Learner\'') + ')',
+                'WHERE (Email IN :emails OR Work_Email__c IN :emails) ' +
+                'AND Lead_Type__c = ' + String.escapeSingleQuotes('\'Learner\''),
                 accessLevel
             );
         } else { return new List<Lead>(); }
@@ -288,7 +288,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
                 'SELECT Id, Email, Work_Email__c, Name FROM Lead ' +
                 'WHERE ((Email IN :emails OR Email IN :workEmails) ' +
                 'OR (Work_Email__c IN :workEmails OR Work_Email__c IN :emails)) ' +
-                'AND Lead_Type__c = ' + String.escapeSingleQuotes('\'Learner\'') + ')',
+                'AND Lead_Type__c = ' + String.escapeSingleQuotes('\'Learner\''),
                 accessLevel
             );
         } else { return new List<Lead>(); }
