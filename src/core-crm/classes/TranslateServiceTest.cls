@@ -16,7 +16,9 @@
 public class TranslateServiceTest {
     @testSetup
     static void testSetup() {
+        Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        Test.stopTest();
     }
     
     @isTest
@@ -179,12 +181,12 @@ public class TranslateServiceTest {
 
     @isTest
     static void testGetSupportedLanguages() {
-        //System.runAs(TestDataFactory.getSystemAdminUser()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleSupportedLanguagesMock());
 
         String supportedLanguages = TranslateService.getSupportedLanguages();
         System.assertNotEquals(null, supportedLanguages, 'Supported languages should not be null.');
-        //}
+        }
     }
 
     @isTest
