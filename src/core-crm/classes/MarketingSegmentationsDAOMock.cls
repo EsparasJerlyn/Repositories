@@ -76,7 +76,7 @@ public inherited sharing  class MarketingSegmentationsDAOMock extends DmlBaseMoc
         return null;
     }
 
-    public static List<Marketing_Segmentation__c> getExistingMarketingSegmentations(
+    public List<Marketing_Segmentation__c> getExistingMarketingSegmentations(
         Map<String, Contact> emailToContactMap,
         AccessLevel accessLevel
     ) {
