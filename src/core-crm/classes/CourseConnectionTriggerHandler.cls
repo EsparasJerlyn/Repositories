@@ -388,7 +388,6 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
             // use custom email template
              emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
              productEmailTemplateMap.put(courseCommSched.Program_Plan__c, courseCommSched.On_Registration_Template__c);
-          //         }
           }
         }
     }
