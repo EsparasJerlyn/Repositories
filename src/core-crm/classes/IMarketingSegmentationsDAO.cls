@@ -27,9 +27,8 @@ public interface IMarketingSegmentationsDAO extends DmlInterface{
           AccessLevel accessLevel
      );
 
-     List<Marketing_Segmentation__c> getLinkedMarketingSegFromContactOrLead(
+     List<Marketing_Segmentation__c> getLinkedMarketingSegByContactOrLeadIds(
           Set<Id> recordIds,
-          String contactOrLead,
           AccessLevel accessLevel
      );
 

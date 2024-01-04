@@ -90,18 +90,11 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         );
     }
 
-    public static List<Marketing_Segmentation__c> getLinkedMarketingSegFromContactOrLead(
+    public static List<Marketing_Segmentation__c> getLinkedMarketingSegByContactOrLeadIds(
         Set<Id> recordIds,
-        String contactOrLead,
         AccessLevel accessLevel
     ) {
-        if(!recordIds.isEmpty() && contactOrLead != null && accessLevel != null) {
-            String field = 'Contact__c';
-            if(contactOrLead.toLowerCase() == 'contact') {
-                field = 'Contact__c';
-            } else if(contactOrLead.toLowerCase() == 'lead') {
-                field = 'Lead__c';
-            }
+        if(!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
                 'SELECT Id, Lead__c, Contact__c, Migration_Key__c,Prospects_Behaviour__c,Prospects_Rank__c, ' +
                 'Prospects_Score__c,Previous_Educational_Institution__c,Secondary_School_Name__c, ' +
@@ -124,7 +117,7 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
                 'ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c, ' +
                 'ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c, ' +
                 'ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c, ' +
-                'Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE ' + field + ' IN :recordIds',
+                'Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Contact__c IN :recordIds OR Lead__c IN :recordIds',
                 accessLevel
             );
         } else { return new List<Marketing_Segmentation__c>(); }

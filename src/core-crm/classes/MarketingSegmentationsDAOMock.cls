@@ -69,20 +69,13 @@ public inherited sharing  class MarketingSegmentationsDAOMock extends DmlBaseMoc
         return marketingSegmentationList;
     }  
 
-    public List<Marketing_Segmentation__c> getLinkedMarketingSegFromContactOrLead(
+    public List<Marketing_Segmentation__c> getLinkedMarketingSegByContactOrLeadIds(
         Set<Id> recordIds,
-        String contactOrLead,
         AccessLevel accessLevel
     ) {
-        String field = 'Contact__c';
-        if(contactOrLead.toLowerCase() == 'contact') {
-            field = 'Contact__c';
-        } else if(contactOrLead.toLowerCase() == 'lead') {
-            field = 'Lead__c';
-        }
         List<Marketing_Segmentation__c> msList = new List<Marketing_Segmentation__c>();
         for(Marketing_Segmentation__c ms : marketingSegmentationMap.values()) {
-            if(recordIds.contains((Id) ms.get(field))) {
+            if(recordIds.contains(ms.Contact__c) || recordIds.contains(ms.Lead__c)) {
                 msList.add(ms);
             }
         }

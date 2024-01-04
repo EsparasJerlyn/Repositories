@@ -94,14 +94,17 @@ public with sharing class MarketingSegmentationsDAOTest {
     }
     
     @isTest
-    static void getLinkedMarketingSegFromContactOrLeadContactTest() {
+    static void getLinkedMarketingSegByContactOrLeadIdsTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
-            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            MockIdGenerator mockContact = new MockIdGenerator(Contact.SObjectType);
+            MockIdGenerator mockLead = new MockIdGenerator(Lead.SObjectType);
             List<Marketing_Segmentation__c> msList = MarketingSegmentationsDAO.newInstance()
-                .getLinkedMarketingSegFromContactOrLead(
-                    new Set<Id>{mockIdGen.getMockId()},
-                    'contact',
+                .getLinkedMarketingSegByContactOrLeadIds(
+                    new Set<Id>{
+                        mockContact.getMockId(),
+                        mockLead.getMockId()
+                    },
                     AccessLevel.USER_MODE
                 );
             System.assert(msList.isEmpty(), 'marketingSegmentationList should be empty.');
@@ -109,28 +112,12 @@ public with sharing class MarketingSegmentationsDAOTest {
     }
 
     @isTest
-    static void getLinkedMarketingSegFromContactOrLeadLeadTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
-            MockIdGenerator mockIdGen = new MockIdGenerator(Lead.SObjectType);
-            List<Marketing_Segmentation__c> msList = MarketingSegmentationsDAO.newInstance()
-                .getLinkedMarketingSegFromContactOrLead(
-                    new Set<Id>{mockIdGen.getMockId()},
-                    'lead',
-                    AccessLevel.USER_MODE
-                );
-            System.assert(msList.isEmpty(), 'marketingSegmentationList should be empty.');
-        }
-    }
-
-    @isTest
-    static void getLinkedMarketingSegFromContactOrLeadEmptyTest() {
+    static void getLinkedMarketingSegByContactOrLeadIdsEmptyTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             List<Marketing_Segmentation__c> msList = MarketingSegmentationsDAO.newInstance()
-                .getLinkedMarketingSegFromContactOrLead(
+                .getLinkedMarketingSegByContactOrLeadIds(
                     new Set<Id>(),
-                    'contact',
                     AccessLevel.USER_MODE
                 );
             System.assert(msList.isEmpty(), 'marketingSegmentationList should be empty.');
