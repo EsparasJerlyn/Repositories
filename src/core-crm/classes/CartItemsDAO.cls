@@ -9,6 +9,7 @@
  *    | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                            |
  *    | julie.jane.alegre              | January 03, 2024      | ApexCRUDViolationFix   | Add countCartItemsGroupByCourseOffering |
  *    |                                |                       |                        | Add countCartItemsGroupByProgramOffering|
+ *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCartItemsByWebCartId|
  */
 public inherited sharing class CartItemsDAO extends DmlBase implements ICartItemsDAO {
     public Schema.SObjectType getSObjectType() {
@@ -44,6 +45,22 @@ public inherited sharing class CartItemsDAO extends DmlBase implements ICartItem
         );
     }
 
+    public List<CartItem> getCartItemsByWebCartId(
+        Set<Id> webCartId,
+        AccessLevel accessLevel
+    ) {
+        if(webCartId.isEmpty()){
+            return new List<CartItem>();
+        }
+        return Database.query(
+            'SELECT  Id, Cart.Cart_Payment__c, Cart.External_Id__c, TotalPrice,  Course_Offering__c,  ' +
+                'Cart.TotalAmount, CartId, Contact__c, Pricebook_Entry_ID__c, Program_Offering__c ' +
+                'FROM CartItem ' +
+                'WHERE CartId IN: webCartId ',
+            accessLevel
+        );
+    }
+
     public List<AggregateResult> countCartItemsGroupByCourseOffering(
         Set<Id> courseOfferIdSet,
         AccessLevel accessLevel
@@ -60,6 +77,7 @@ public inherited sharing class CartItemsDAO extends DmlBase implements ICartItem
             accessLevel
         );
     }
+
     public List<AggregateResult> countCartItemsGroupByProgramOffering(
         Set<Id> programOfferIdSet,
         AccessLevel accessLevel
