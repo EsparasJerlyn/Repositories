@@ -27,4 +27,20 @@ public with sharing class UsersDAO extends DmlBase implements IUsersDAO {
              'WHERE Username IN: usernames', accessLevel
         );
     }
+
+    public List<User> getUsersById(
+        Set<Id> userIdSet, 
+        AccessLevel accessLevel
+    ) {
+        if(userIdSet.isEmpty()){
+            return new List<User>();
+        }
+        return Database.query(
+            'SELECT Id, Contact.Work_Email__c, Contact.Name ' + 
+            'FROM User ' + 
+            'WHERE Id IN: userIdSet ' +
+            'LIMIT 1 ', 
+            accessLevel
+        );
+    }
 }
