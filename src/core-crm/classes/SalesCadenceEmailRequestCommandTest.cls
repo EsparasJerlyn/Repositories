@@ -137,7 +137,7 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
-            List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, 'USER_MODE');
+            List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, AccessLevel.USER_MODE);
 
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
             List<Communication_Queue__c> commsQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(

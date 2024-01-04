@@ -41,4 +41,29 @@ public with sharing class UsersDAOTest {
             Test.stopTest();
         }
     }
+
+    @isTest
+    static void getUsersByIdTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                UsersDAO.newInstance().getUsersById(new Set<Id>(), AccessLevel.USER_MODE).isEmpty(),
+                'Users retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getUsersByIdNotEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator builderForUser = new MockIdGenerator(User.sObjectType);
+            System.assert(
+                UsersDAO.newInstance().getUsersById(new Set<Id>{builderForUser.getMockId()}, AccessLevel.USER_MODE).isEmpty(),
+                'Users retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
 }
