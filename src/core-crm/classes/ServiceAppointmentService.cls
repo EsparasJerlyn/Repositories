@@ -6,11 +6,12 @@
  * @author Accenture
  *
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | nicole.genon                   | December 4,2023       | DEPP-7259	            | Created File                  |
- *    | ryan.j.a.dela.cruz             | December 12,2023      | DEPP-7259	            | Updated template merge fields |
- *    | eugene.andrew.abuan            | December 15,2023      | DEPP-7448	            | Removed Reminder email        |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                   |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------|
+ *    | nicole.genon                   | December 4,2023       | DEPP-7259	            | Created File                     |
+ *    | ryan.j.a.dela.cruz             | December 12,2023      | DEPP-7259	            | Updated template merge fields    |
+ *    | eugene.andrew.abuan            | December 15,2023      | DEPP-7448	            | Removed Reminder email           |
+ *    | kenneth.f.alsay                | January 4, 2024       |                        | Fixed ExcessiveParameterList PMD |   
 
  */
 public inherited sharing class ServiceAppointmentService {
