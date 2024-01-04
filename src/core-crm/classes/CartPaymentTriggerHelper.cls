@@ -47,11 +47,8 @@ public without sharing class CartPaymentTriggerHelper{
             IN: cartPaymentIds
         ]);
 
-        if(!webCartMap.keySet().isEmpty()){
             //get all cart items related to the webcarts
             cartItemList = CartItemsDAO.newInstance().getCartItemsByWebCartId(webCartMap.keySet(), AccessLevel.SYSTEM_MODE);
-
-        }
 
         //get all existing courseconnections related to the cartitems
         
@@ -101,9 +98,7 @@ public without sharing class CartPaymentTriggerHelper{
         }
         
         //get child course offering related to the program offerings
-        if(!programOfferingIds.isEmpty()){
             getChildCourseOffering = CourseOfferingsDAO.newInstance().getCourseOfferingByProgramOfferingId(programOfferingIds, AccessLevel.SYSTEM_MODE);
-        }
         
         for(hed__Course_Offering__c co: getChildCourseOffering){
             if(!programToChild.containsKey(co.Program_Offering__c)){
