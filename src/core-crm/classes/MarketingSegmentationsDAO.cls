@@ -143,6 +143,9 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         if (emailToContactMap.keySet().isEmpty()) {
             return new List<Marketing_Segmentation__c>();
         }
+
+        Set<String> emailSet = emailToContactMap.keySet();//NOPMD
+
         return Database.query(
             'SELECT Id, My_Profile_Persona__c, ' +
                 'My_Primary_Study_Level__c, My_Secondary_Study_Level__c, ' +
@@ -150,11 +153,11 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
                 'Contact__r.Work_Email__c, Contact__r.QUT_Staff_Email__c, ' +
                 'Contact__r.QUT_Learner_Email__c ' +
                 'FROM Marketing_Segmentation__c ' +
-                'WHERE Contact__r.Registered_Email__c IN: emailToContactMap.keySet() ' +
-                'OR Contact__r.Email IN: emailToContactMap.keySet() ' +
-                'OR Contact__r.Work_Email__c IN: emailToContactMap.keySet() ' +
-                'OR Contact__r.QUT_Staff_Email__c IN: emailToContactMap.keySet() ' +
-                'OR Contact__r.QUT_Learner_Email__c IN: emailToContactMap.keySet() ',
+                'WHERE Contact__r.Registered_Email__c IN: emailSet ' +
+                'OR Contact__r.Email IN: emailSet ' +
+                'OR Contact__r.Work_Email__c IN: emailSet ' +
+                'OR Contact__r.QUT_Staff_Email__c IN: emailSet ' +
+                'OR Contact__r.QUT_Learner_Email__c IN: emailSet ',
             accessLevel
         );
     }
