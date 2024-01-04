@@ -92,4 +92,35 @@ public with sharing class MarketingSegmentationsDAOTest {
             Test.stopTest();
         }
     }
+    
+    @isTest
+    static void getLinkedMarketingSegByContactOrLeadIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator mockContact = new MockIdGenerator(Contact.SObjectType);
+            MockIdGenerator mockLead = new MockIdGenerator(Lead.SObjectType);
+            List<Marketing_Segmentation__c> msList = MarketingSegmentationsDAO.newInstance()
+                .getLinkedMarketingSegByContactOrLeadIds(
+                    new Set<Id>{
+                        mockContact.getMockId(),
+                        mockLead.getMockId()
+                    },
+                    AccessLevel.USER_MODE
+                );
+            System.assert(msList.isEmpty(), 'marketingSegmentationList should be empty.');
+        }
+    }
+
+    @isTest
+    static void getLinkedMarketingSegByContactOrLeadIdsEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Marketing_Segmentation__c> msList = MarketingSegmentationsDAO.newInstance()
+                .getLinkedMarketingSegByContactOrLeadIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            System.assert(msList.isEmpty(), 'marketingSegmentationList should be empty.');
+        }
+    }
 }

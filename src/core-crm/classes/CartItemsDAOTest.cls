@@ -6,7 +6,9 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
  *    |--------------------------------|-----------------------|------------------------|----------------------------------------------|
- *    | roy.nino.s.regala              | Sept 19, 2023         | DEPP-6714              | Created file                                 |
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                                 |
+ *    | julie.jane.alegre              | January 03, 2024      | ApexCRUDViolationFix   | Add countCartItemsGroupByCourseOffering      |
+ *    |                                |                       |                        | Add countCartItemsGroupByProgramOffering     |
  *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCartItemsByWebCartIdTest |
  *    |                                |                       |                        | getCartItemsByWebCartIdNotEmptyTest          |
  */
@@ -71,6 +73,19 @@ private class CartItemsDAOTest {
         Test.stopTest();
     }
 
+    static void countCartItemsGroupByCourseOfferingEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance()
+                .countCartItemsGroupByCourseOffering(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(aggrCourseOfferList.isEmpty(), 'aggrCourseOfferList is not empty');
+        }
+        Test.stopTest();
+    }
+
     @isTest
     static void getCartItemsByWebCartIdNotEmptyTest() {
         Test.startTest();
@@ -85,4 +100,18 @@ private class CartItemsDAOTest {
         }
         Test.stopTest();
     }
+
+    static void countCartItemsGroupByProgramOfferingEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance()
+                .countCartItemsGroupByProgramOffering(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(aggrProgramOfferList.isEmpty(), 'aggrProgramOfferList is not empty');
+        }
+        Test.stopTest();
+    }
+
 }

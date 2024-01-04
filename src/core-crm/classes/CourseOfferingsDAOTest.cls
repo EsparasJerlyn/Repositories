@@ -7,8 +7,9 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
       |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
       | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                                              |
+      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIdsTest                    |
       | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingIdTest |
-      |                                |                       |                        | getCourseOfferingByProgramOfferingIdNotEmptyTest          |                                                          
+      |                                |                       |                        | getCourseOfferingByProgramOfferingIdNotEmptyTest          |                                                      |
  */
 @isTest
 public with sharing class CourseOfferingsDAOTest {
@@ -66,4 +67,48 @@ public with sharing class CourseOfferingsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getRecordsLikeNameTest() { 
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String name = '%' + 'test' + '%';
+            List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
+                .getRecordsLikeName(
+                    name
+                );
+            System.assert(courseOfferingList.isEmpty(), 'courseOfferingList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCourseOfferingByRecordIdsEmptyTest() { 
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
+                .getCourseOfferingByRecordIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseOfferingList.isEmpty(), 'courseOfferingList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCourseOfferingByRecordIdsNotEmptyTest() { 
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builder = new MockIdGenerator(hed__Course_Offering__c.sObjectType);
+            List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
+                .getCourseOfferingByRecordIds(
+                    new Set<Id>{builder.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseOfferingList.isEmpty(), 'courseOfferingList should not be empty');
+        }
+        Test.stopTest();
+    }
+
 } 
