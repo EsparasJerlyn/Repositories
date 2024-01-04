@@ -154,7 +154,6 @@ public without sharing class ContactWithMatchingLeadHelper {
             contactMarketingSegmentations = MarketingSegmentationsDAO.newInstance()
                 .getLinkedMarketingSegByContactOrLeadIds(
                     contactIdSet,
-                    'contact',
                     AccessLevel.SYSTEM_MODE
                 );
         }
@@ -163,7 +162,6 @@ public without sharing class ContactWithMatchingLeadHelper {
             marketingSegmentations = MarketingSegmentationsDAO.newInstance()
                 .getLinkedMarketingSegByContactOrLeadIds(
                     leadIdSet,
-                    'lead',
                     AccessLevel.SYSTEM_MODE
                 );
         }
