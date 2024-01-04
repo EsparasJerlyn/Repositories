@@ -9,12 +9,12 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eugene.andrew.abuan            | August 17, 2022       | DEPP-2665              | Created File                 |
+      | arsenio.jr.dayrit              | January 02, 2024      | ApexCRUDViolationFix   | Fixed CRUD Violation         |
  */
 
 
 public without sharing class AssociatedProductsTriggerHelper {
 
-    public static final String CCE_CATALOG = 'CCE Catalog';
     public static final String CCE_CATEGORY_QLS = 'QUTeX Learning Solutions'; 
     public static final String CCE_CATEGORY_CB = 'Corporate Bundle';
 
@@ -38,14 +38,7 @@ public without sharing class AssociatedProductsTriggerHelper {
      */
     public static void includeProductToStore( Map<Id, Associated_Products__c> aProdNew){
         //Query the Product Request of the Associated Product
-        List<Associated_Products__c> associcateProductRequests = [
-            SELECT
-                Id,
-                Product_Request__c,
-                Product_Request__r.RecordTypeId
-            FROM Associated_Products__c
-            WHERE Id IN :aProdNew.keySet()
-        ];
+        List<Associated_Products__c> associcateProductRequests = AssociatedProductsDAO.newInstance().getAssociatedProductsById(aProdNew.keySet(),AccessLevel.SYSTEM_MODE);
 
         // Convert Associated Product List to Map
         Map<Id, Associated_Products__c> assocProdRecTypeMap = new Map<Id, Associated_Products__c>(associcateProductRequests);
@@ -69,12 +62,7 @@ public without sharing class AssociatedProductsTriggerHelper {
          // Query Buyer Group of the Associated Product
         Set<Id> buyerGroupIdSet = new Set<Id>();
         Map<Id, Id> productReqBGMap = new Map<Id, Id>();
-        List <BuyerGroup> buyerGroups = [SELECT 
-                                             Id,
-                                             Name,
-                                             buyerGroup.Product_Request__c
-                                          FROM BuyerGroup 
-                                          WHERE Product_Request__c IN : productRequestIdSet];
+        List <BuyerGroup> buyerGroups = BuyerGroupsDAO.newInstance().getBuyerGroupsByProductRequestId(productRequestIdSet,AccessLevel.SYSTEM_MODE);
         if(!buyerGroups.isEmpty()){
             for(BuyerGroup buyerGroup : buyerGroups){
                 buyerGroupIdSet.add(buyerGroup.Id);
@@ -86,13 +74,7 @@ public without sharing class AssociatedProductsTriggerHelper {
         Map<String, ProductCategory> prodCategoryMap = new Map<String, ProductCategory>();
         Set<Id> prodCategIdSet = new Set<Id>();
         Set<Id> prodCatalogIdSet = new Set<Id>();
-        for (ProductCategory prodCategory : [
-            SELECT Id, Name, CatalogId
-            FROM ProductCategory
-            WHERE
-                Name IN :PROD2_CATEGORIES
-                AND Catalog.Name =: CCE_CATALOG
-        ]) {
+        for (ProductCategory prodCategory : ProductCategoriesDAO.newInstance().getProductCategoriesByProduct2Category(PROD2_CATEGORIES,AccessLevel.SYSTEM_MODE)) {
             prodCategoryMap.put(prodCategory.Name, prodCategory);
             prodCategIdSet.add(prodCategory.Id);
             prodCatalogIdSet.add(prodCategory.CatalogId);
@@ -102,24 +84,14 @@ public without sharing class AssociatedProductsTriggerHelper {
 
          // Get CCE Entitlement Policy Map
         Map<Id, Id> entPolicyCCEMap = new Map<Id, Id>();
-        for(CommerceEntitlementBuyerGroup commEntBG : [
-                                                        SELECT BuyerGroupId, PolicyId
-                                                        FROM CommerceEntitlementBuyerGroup
-                                                        WHERE BuyerGroupId IN : buyerGroupIdSet
-                                                        AND PolicyId != null
-        ]) {
+        for(CommerceEntitlementBuyerGroup commEntBG : CommerceEntitlementBuyerGroupsDAO.newInstance().getCommerceEntitlementBuyerGroupsByBuyerGroupId(buyerGroupIdSet,AccessLevel.SYSTEM_MODE)) {
             // Assign BuyerGroup Id as Key and Policy Id as value on CCE Entitlment Policy Map
             entPolicyCCEMap.put(commEntBG.BuyerGroupId, commEntBG.PolicyId);
         }
 
         // Get Existing Products on Product Catalog Products
         Map<String, Set<Id>> prodCategProdIdMap = new Map<String, Set<Id>>();
-        for (ProductCategoryProduct prodCategProd : [
-                                                        SELECT ProductCategory.Name, ProductId
-                                                        FROM ProductCategoryProduct
-                                                        WHERE
-                                                            CatalogId IN :prodCatalogIdSet
-                                                            AND ProductCategoryId IN :prodCategIdSet]) 
+        for (ProductCategoryProduct prodCategProd : ProductCategoryProductsDAO.newInstance().getProductCategoryProductByProdCatalogIdAndProdCategoryId(prodCatalogIdSet,prodCategIdSet,AccessLevel.SYSTEM_MODE)) 
         {
             if (prodCategProdIdMap.containsKey(prodCategProd.ProductCategory.Name)){
                 // If Category Name Exists in Map, Get Set of Product Ids and Add new Product Id to Set
@@ -142,13 +114,7 @@ public without sharing class AssociatedProductsTriggerHelper {
 
         // Get Existing Products on CCE Product Catalog Products
         Map<Id, Set<Id>> prodEntPolicyCCEMap = new Map<Id, Set<Id>>();
-        for (CommerceEntitlementProduct prodEntCCEPolicy : [
-            SELECT PolicyId, ProductId
-            FROM CommerceEntitlementProduct
-            WHERE
-                PolicyId IN :entPolicyCCEMap.values()
-                AND ProductId IN :productIdSet
-        ]) {
+        for (CommerceEntitlementProduct prodEntCCEPolicy : CommerceEntitlementProductsDAO.newInstance().getCommerceEntitlementProductByPolicyIdAndProductId(entPolicyCCEMap.values(),productIdSet,AccessLevel.SYSTEM_MODE)) {
             if (prodEntPolicyCCEMap.containsKey(prodEntCCEPolicy.PolicyId)){
                 // If Policy Exists in Map, Get Set of Product Ids and Add new Product Id to Set
                 Set<Id> prodEntProdIdSet = prodEntPolicyCCEMap.get(prodEntCCEPolicy.PolicyId);
@@ -240,12 +206,12 @@ public without sharing class AssociatedProductsTriggerHelper {
 
         // Insert Product Category Product
         if (insertProdCategProdList.size() > 0) {
-            insert insertProdCategProdList;
+            ProductCategoryProductsDAO.newInstance().insertRecords(insertProdCategProdList, false, AccessLevel.SYSTEM_MODE);
         }
 
         // Insert Product Entitlement Policy
         if (insertProdEntPolicyList.size() > 0) {
-            insert insertProdEntPolicyList;
+            CommerceEntitlementProductsDAO.newInstance().insertRecords(insertProdEntPolicyList, false, AccessLevel.SYSTEM_MODE);
          }
 
         // Run Build Index
