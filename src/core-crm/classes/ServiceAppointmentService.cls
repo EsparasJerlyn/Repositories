@@ -40,7 +40,7 @@ public inherited sharing class ServiceAppointmentService {
     public static void sendConfirmationOrReminderEmail(List<ServiceAppointment> serviceAppointments, String orgWideEmailName, String workTypeName, Map<String, String> emailTemplateMap) {
         List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{orgWideEmailName}, AccessLevel.SYSTEM_MODE);
     
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{emailTemplateMap.get(workTypeName)}, 'SYSTEM_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{emailTemplateMap.get(workTypeName)}, AccessLevel.SYSTEM_MODE);
     
         buildEmail(serviceAppointments, owea, emailTemplate.get(0));
     }
@@ -92,7 +92,7 @@ public inherited sharing class ServiceAppointmentService {
      */
     public static void sendEmailAfterServiceAppointmentCancellation(List<ServiceAppointment> internationalServiceAppointments,List<ServiceAppointment> domesticServiceAppointments) {
         List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES,OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},AccessLevel.SYSTEM_MODE);
         
         if(!internationalServiceAppointments.isEmpty()){
             buildEmail(internationalServiceAppointments,owea,emailTemplate.get(0));
