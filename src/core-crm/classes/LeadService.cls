@@ -104,7 +104,7 @@ public with sharing class LeadService {
         }
     }
 
-    public static void createLeadScoreDetailRecord(Set<Id> leadIds) {
+    public static void createLeadScoreDetailRecord(Set<Id> leadIds) { 
         List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
         for (Id leadId : leadIds) {
             leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Lead__c = leadId));

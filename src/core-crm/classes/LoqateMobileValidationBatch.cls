@@ -219,7 +219,9 @@ public with sharing class LoqateMobileValidationBatch implements Database.Batcha
                     String locale = tempLocale.replaceAll('\\D', '');
                     String numberField = matcher1.replaceAll('');
                     String mobileNoLocaleCheckerStr = mobileNoLocaleTemp.replaceAll('\\D', '').substring(0,2);
-                    numberField = mobileNoLocaleCheckerStr == locale? numberField.removeStart(locale) : numberField;
+                    if(mobileNoLocaleCheckerStr == locale){
+                        numberField = numberField.removeStart(locale);
+                    }
                     loqateRecords[i].put(queryMapping.get('mobilePhone'), numberField);
                 }else{
                     loqateRecords[i].put(queryMapping.get('validationStatus'),'Not Valid');

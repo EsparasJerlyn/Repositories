@@ -21,6 +21,7 @@
 | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6417              | Added before update method, processEnrolmentPricingValidation                 |
 | kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | Added before update method, setLMSIntegrationStatusToNull                 	  |
 | kenneth.f.alsay                | December 6, 2023      | DEPP-7339              | Updated query in sendWelcomeEmail method as per AC2                           |
+| kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variable                                                       |
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate, AfterDelete {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -104,7 +105,6 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     );
 
     List<hed__Course_Enrollment__c> courseConNewStatusList = new List<hed__Course_Enrollment__c>();
-    List<hed__Course_Enrollment__c> cancelledCourseConnectionList = new List<hed__Course_Enrollment__c>();
 
     Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>) newItems;
     Map<Id,hed__Course_Enrollment__c> oldMap = (Map<Id, hed__Course_Enrollment__c>) oldItems;

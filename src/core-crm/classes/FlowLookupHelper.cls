@@ -281,21 +281,16 @@ public inherited sharing class FlowLookupHelper {
         }
 
         // Check if the relationship exists in the field map
-        if (fieldMap.get(relationshipName) != null) {
-            if (fieldMap.get(relationshipName).getDescribe().getRelationshipName() != null) {
-                Map<String, Schema.SObjectField> relationshipFieldMap = getFieldMap(
-                    relationshipObjectName
-                );
-
-                if (
-                    relationshipFieldMap.get(relationshipField) != null &&
-                    relationshipFieldMap.get(relationshipField).getDescribe().getType().name() ==
-                    'String'
-                ) {
-                    searchFieldList.add(searchFieldConverted + ' LIKE \'%' + searchTerm + '%\'');
-                }
+        Boolean isRelationshipInFieldmap = fieldMap.get(relationshipName) != null && fieldMap.get(relationshipName).getDescribe().getRelationshipName() != null;
+        if (isRelationshipInFieldmap) {
+            Map<String, Schema.SObjectField> relationshipFieldMap = getFieldMap(
+                relationshipObjectName
+            );
+            Boolean isRelationshipNameString = relationshipFieldMap.get(relationshipField) != null && relationshipFieldMap.get(relationshipField).getDescribe().getType().name() =='String';
+            if (isRelationshipNameString) {
+                searchFieldList.add(searchFieldConverted + ' LIKE \'%' + searchTerm + '%\'');
             }
-        }
+        }  
     }
 
     /**
