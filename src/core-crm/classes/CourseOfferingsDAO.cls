@@ -8,6 +8,7 @@
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
  *    | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                 |
  *    | kenneth.f.alsay                | September 25, 2023    | DEPP-6629              | added getRecordsLikeName     |
+ *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIds| 
  */
 public inherited sharing class CourseOfferingsDAO extends DmlBase implements ICourseOfferingsDAO{
 
@@ -32,4 +33,21 @@ public inherited sharing class CourseOfferingsDAO extends DmlBase implements ICo
             WITH USER_MODE
         ];
     }
+
+    public List<hed__Course_Offering__c> getCourseOfferingByRecordIds(
+        Set<Id> courseOfferIdSet,
+        AccessLevel accessLevel
+    ) {
+        if(courseOfferIdSet.isEmpty()){
+            return new List<hed__Course_Offering__c>();
+        }
+
+        return Database.query(
+            'SELECT Id, Checkout_Cart_Items_Count__c ' +
+                'FROM hed__Course_Offering__c ' +
+                'WHERE Id IN :courseOfferIdSet  ' ,
+            accessLevel
+        );
+    }
+
 }
