@@ -11,7 +11,7 @@
  */
 @isTest
 public inherited sharing class CommerceEntitlementProductsDAOMock extends DmlBaseMock implements ICommerceEntitlementProductsDAO {
-    public Map<Id, CommerceEntitlementProduct> CommerceEntitlementProductsMap;
+    public Map<Id, CommerceEntitlementProduct> commerceEntitlementProductsMap;
 
     public Schema.SObjectType getSObjectType() {
         return CommerceEntitlementProduct.SObjectType;
@@ -19,7 +19,7 @@ public inherited sharing class CommerceEntitlementProductsDAOMock extends DmlBas
 
     public CommerceEntitlementProductsDAOMock() {
         super(new Map<Id, CommerceEntitlementProduct>(), Schema.CommerceEntitlementProduct.SObjectType);
-        this.CommerceEntitlementProductsMap = (Map<Id, CommerceEntitlementProduct>) super.records;
+        this.commerceEntitlementProductsMap = (Map<Id, CommerceEntitlementProduct>) super.records;
     }
 
     public List<CommerceEntitlementProduct> getCommerceEntitlementProductByPolicyIdAndProductId(
@@ -27,12 +27,12 @@ public inherited sharing class CommerceEntitlementProductsDAOMock extends DmlBas
         Set<Id> productIdSet,
         AccessLevel accessLevel
     ){
-        List<CommerceEntitlementProduct> CommerceEntitlementProductsList = new List<CommerceEntitlementProduct>();
-        for (CommerceEntitlementProduct record : CommerceEntitlementProductsMap.values()) {
+        List<CommerceEntitlementProduct> commerceEntitlementProductsList = new List<CommerceEntitlementProduct>();
+        for (CommerceEntitlementProduct record : commerceEntitlementProductsMap.values()) {
             if (entPolicyCCEIdSet.contains(record.PolicyId) && productIdSet.contains(record.ProductId)){
-                CommerceEntitlementProductsList.add(record);
+                commerceEntitlementProductsList.add(record);
             }
         }
-        return CommerceEntitlementProductsList;
+        return commerceEntitlementProductsList;
     }
 }

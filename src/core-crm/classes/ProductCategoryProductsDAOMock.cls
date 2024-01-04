@@ -11,7 +11,7 @@
  */
 @isTest
 public inherited sharing class ProductCategoryProductsDAOMock extends DmlBaseMock implements IProductCategoryProductsDAO {
-    public Map<Id, ProductCategoryProduct> ProductCategoryProductsMap;
+    public Map<Id, ProductCategoryProduct> productCategoryProductsMap;
 
     public Schema.SObjectType getSObjectType() {
         return ProductCategoryProduct.SObjectType;
@@ -19,7 +19,7 @@ public inherited sharing class ProductCategoryProductsDAOMock extends DmlBaseMoc
 
     public ProductCategoryProductsDAOMock() {
         super(new Map<Id, ProductCategoryProduct>(), Schema.ProductCategoryProduct.SObjectType);
-        this.ProductCategoryProductsMap = (Map<Id, ProductCategoryProduct>) super.records;
+        this.productCategoryProductsMap = (Map<Id, ProductCategoryProduct>) super.records;
     }
 
     public List<ProductCategoryProduct> getProductCategoryProductByProdCatalogIdAndProdCategoryId(
@@ -27,12 +27,12 @@ public inherited sharing class ProductCategoryProductsDAOMock extends DmlBaseMoc
         Set<Id> prodCategIdSet,
         AccessLevel accessLevel
     ){
-        List<ProductCategoryProduct> ProductCategoryProductList = new List<ProductCategoryProduct>();
-        for (ProductCategoryProduct record : ProductCategoryProductsMap.values()) {
+        List<ProductCategoryProduct> productCategoryProductList = new List<ProductCategoryProduct>();
+        for (ProductCategoryProduct record : productCategoryProductsMap.values()) {
             if (prodCatalogIdSet.contains(record.CatalogId) && prodCategIdSet.contains(record.ProductCategoryId) ){
-                ProductCategoryProductList.add(record);
+                productCategoryProductList.add(record);
             }
         }
-        return ProductCategoryProductList;
+        return productCategoryProductList;
     }
 }
