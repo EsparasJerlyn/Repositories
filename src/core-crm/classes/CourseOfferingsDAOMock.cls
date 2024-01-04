@@ -4,11 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               		|
-      |--------------------------------|-----------------------|------------------------|-----------------------------------|
-      | eugene.andrew.abuan            | September 18, 2023    | DEPP-5483              | Created file                 		|
-	  | kenneth.f.alsay                | September 26, 2023    | DEPP-6629              | Added method getRecordsLikeName 	|
-      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIds|                                                            |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary               		                    |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------|
+      | eugene.andrew.abuan            | September 18, 2023    | DEPP-5483              | Created file                 		                    |
+	  | kenneth.f.alsay                | September 26, 2023    | DEPP-6629              | Added method getRecordsLikeName 	                    |
+      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIds                    |
+      | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingId |                                                            |
  */
 @isTest
 public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implements ICourseOfferingsDAO {
@@ -39,6 +40,20 @@ public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implem
 		return courseOfferingList;
     }
 
+	public List<hed__Course_Offering__c> getCourseOfferingByProgramOfferingId(
+        Set<Id> programOfferingIds,
+        AccessLevel accessLevel
+    ) {
+        List<hed__Course_Offering__c> courseOfferingList = new List<hed__Course_Offering__c>();
+
+        for (hed__Course_Offering__c record : courseOfferingsMap.values()) {
+            if (programOfferingIds.contains(record.Program_Offering__c)) {
+                courseOfferingList.add(record);
+            }
+        }
+        return courseOfferingList;
+    }
+
 	public List<hed__Course_Offering__c> getCourseOfferingByRecordIds(
     	Set<Id> courseOfferIdSet,
         AccessLevel accessLevel
@@ -50,7 +65,6 @@ public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implem
                 courseOfferingList.add(record);
             }
         }
-
 		return courseOfferingList;
     }
 }
