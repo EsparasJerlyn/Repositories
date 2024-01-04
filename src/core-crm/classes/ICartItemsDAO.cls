@@ -4,9 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                          |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------|
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                            |
+ *    | julie.jane.alegre              | January 03, 2024      | ApexCRUDViolationFix   | Add countCartItemsGroupByCourseOffering |
+ *    |                                |                       |                        | Add countCartItemsGroupByProgramOffering|
  */
 public interface ICartItemsDAO extends DmlInterface {
     List<CartItem> getCartItemsWithPricebookEntryByRecordIds(
@@ -16,6 +18,16 @@ public interface ICartItemsDAO extends DmlInterface {
 
     List<CartItem> getCartItemsByCartItemName(
         Set<String> cartItemNames,
+        AccessLevel accessLevel
+    );
+
+    List<AggregateResult> countCartItemsGroupByCourseOffering(
+        Set<Id> courseOfferIdSet,
+        AccessLevel accessLevel
+    );
+
+    List<AggregateResult> countCartItemsGroupByProgramOffering(
+        Set<Id> programOfferIdSet,
         AccessLevel accessLevel
     );
 }

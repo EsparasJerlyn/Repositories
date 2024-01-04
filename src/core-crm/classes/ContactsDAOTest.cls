@@ -261,4 +261,91 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getContactsByParentPersonLeadIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Lead.SObjectType);
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsByParentPersonLeadIds(
+                    new Set<Id>{mockIdGen.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+    }
+
+    @isTest
+    static void getContactsByParentPersonLeadIdsEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsByParentPersonLeadIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+    }
+
+    @isTest
+    static void getContactsNoParentPersonContactByIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsNoParentPersonContactByIds(
+                    new Set<Id>{mockIdGen.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+        }
+    }
+
+    @isTest
+    static void getContactsNoParentPersonContactByIdsEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsNoParentPersonContactByIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+        }
+    }
+
+    @isTest
+    static void getContactsWithParentPersonContactByIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Contact.SObjectType);
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsWithParentPersonContactByIds(
+                    new Set<Id>{mockIdGen.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+        }
+    }
+
+    @isTest
+    static void getContactsWithParentPersonContactByIdsEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getContactsWithParentPersonContactByIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+        }
+    }
 }
