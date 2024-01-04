@@ -77,6 +77,7 @@ public inherited sharing class CartItemsDAO extends DmlBase implements ICartItem
             accessLevel
         );
     }
+
     public List<AggregateResult> countCartItemsGroupByProgramOffering(
         Set<Id> programOfferIdSet,
         AccessLevel accessLevel
