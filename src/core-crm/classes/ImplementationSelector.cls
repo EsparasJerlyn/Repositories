@@ -95,6 +95,8 @@ public class ImplementationSelector {
             Lead.SObjectType => LeadsDAO.class,
             Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
+            LeadStatus.SObjectType => LeadStatusesDAO.class,
+            Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
             Marketing_Segmentation__c.SObjectType => MarketingSegmentationsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
