@@ -123,10 +123,8 @@ public without sharing class MarketingConsentHelper {
 			}
 		}
 
-		if(!segmentationsToUpsert.isEmpty() && 
-			(Schema.sObjectType.Marketing_Segmentation__c.isCreateable() ||
-			Schema.sObjectType.Marketing_Segmentation__c.isUpdateable())){
-			upsert segmentationsToUpsert;
+		if(!segmentationsToUpsert.isEmpty()){
+			MarketingSegmentationsDAO.newInstance().upsertRecords(segmentationsToUpsert, false, AccessLevel.SYSTEM_MODE);
 		}
 	}
 

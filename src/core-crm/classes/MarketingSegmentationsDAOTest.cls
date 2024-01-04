@@ -114,7 +114,7 @@ public with sharing class MarketingSegmentationsDAOTest {
     static void getExistingMarketingSegmentationsNotEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            List<Contact> contactList = TestDataFactory.createTestContactRecords(1,2);
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(0,1);
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             System.assert(
                 MarketingSegmentationsDAO.newInstance()
