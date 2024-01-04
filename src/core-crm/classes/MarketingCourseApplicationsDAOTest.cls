@@ -37,12 +37,12 @@ public with sharing class MarketingCourseApplicationsDAOTest {
     }
 
     @isTest
-    static void getMrktngCourseAppsByIdTest() {
+    static void getMrktngCourseAppsByLeadIdsTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             MockIdGenerator mockIdGen = new MockIdGenerator(Marketing_Course_Application__c.SObjectType);
             List<Marketing_Course_Application__c> mrktgCourseAppList = MarketingCourseApplicationsDAO.newInstance()
-                .getMrktngCourseAppsById(
+                .getMrktngCourseAppsByLeadIds(
                     new Set<Id>{mockIdGen.getMockId()},
                     AccessLevel.SYSTEM_MODE
                 );
@@ -52,11 +52,11 @@ public with sharing class MarketingCourseApplicationsDAOTest {
     }
 
     @isTest
-    static void getMrktngCourseAppsByIdEmptyTest() {
+    static void getMrktngCourseAppsByLeadIdsEmptyTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             Test.startTest();
             List<Marketing_Course_Application__c> mrktgCourseAppList = MarketingCourseApplicationsDAO.newInstance()
-                .getMrktngCourseAppsById(
+                .getMrktngCourseAppsByLeadIds(
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );

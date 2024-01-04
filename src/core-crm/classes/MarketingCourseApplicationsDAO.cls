@@ -21,7 +21,7 @@ public inherited sharing class MarketingCourseApplicationsDAO extends DmlBase im
         return (IMarketingCourseApplicationsDAO) ImplementationSelector.DAO.newInstance(Marketing_Course_Application__c.SObjectType);
     }
 
-    public List<Marketing_Course_Application__c> getMrktngCourseAppsById(
+    public List<Marketing_Course_Application__c> getMrktngCourseAppsByLeadIds(
         Set<Id> leadIds,
         AccessLevel accessLevel
     ) {

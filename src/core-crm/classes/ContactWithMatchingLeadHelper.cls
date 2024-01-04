@@ -120,7 +120,7 @@ public without sharing class ContactWithMatchingLeadHelper {
 
         Map<Id, List<Marketing_Course_Application__c>> marketingCourseAppsMap = new Map<Id, List<Marketing_Course_Application__c>>();
         if(!leadIdSet.isEmpty()){
-            marketingCourseApps = MarketingCourseApplicationsDAO.newInstance().getMrktngCourseAppsById(
+            marketingCourseApps = MarketingCourseApplicationsDAO.newInstance().getMrktngCourseAppsByLeadIds(
                 leadIdSet, AccessLevel.SYSTEM_MODE
             );          
         }

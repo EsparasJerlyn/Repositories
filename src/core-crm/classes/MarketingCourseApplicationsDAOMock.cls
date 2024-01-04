@@ -23,7 +23,7 @@ public inherited sharing class MarketingCourseApplicationsDAOMock extends DmlBas
 		this.marketingCourseApplicationsMap = (Map<Id, Marketing_Course_Application__c>) super.records;
 	}
 
-	public List<Marketing_Course_Application__c> getMrktngCourseAppsById(
+	public List<Marketing_Course_Application__c> getMrktngCourseAppsByLeadIds(
 		Set<Id> leadIds,
         AccessLevel accessLevel
 	) {
