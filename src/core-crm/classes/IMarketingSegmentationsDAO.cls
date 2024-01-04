@@ -22,10 +22,6 @@ public interface IMarketingSegmentationsDAO extends DmlInterface{
           AccessLevel accessLevel
      );
 
-     Database.QueryLocator queryLocatorGetMarketingSegmentationsByContactOrLeadIds(
-          Set<Id> recordIds
-     );
-
      List<Marketing_Segmentation__c> getExistingMarketingSegmentations(
           Map<String, Contact> emailToContactMap,
           AccessLevel accessLevel
