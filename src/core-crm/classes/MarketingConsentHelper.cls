@@ -123,7 +123,9 @@ public without sharing class MarketingConsentHelper {
 			}
 		}
 
-		if(!segmentationsToUpsert.isEmpty()){
+		if(!segmentationsToUpsert.isEmpty() && 
+			(Schema.sObjectType.Marketing_Segmentation__c.isCreateable() ||
+			Schema.sObjectType.Marketing_Segmentation__c.isUpdateable())){
 			upsert segmentationsToUpsert;
 		}
 	}
