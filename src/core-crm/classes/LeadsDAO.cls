@@ -263,4 +263,34 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         );
     }
     
+    public List<Lead> getLearnerLeadsByEmailOrWorkEmail(
+        Set<String> emails,
+        AccessLevel accessLevel
+    ) {
+        if(!emails.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id, Email, Work_Email__c ' +
+                'FROM Lead ' +
+                'WHERE (Email IN :emails OR Work_Email__c IN :emails) ' +
+                'AND Lead_Type__c = :LEARNER_LEAD_TYPE',
+                accessLevel
+            );
+        } else { return new List<Lead>(); }
+    }
+
+    public List<Lead> getLearnerLeadsByEmailOrWorkEmail(
+        Set<String> emails,
+        Set<String> workEmails,
+        AccessLevel accessLevel
+    ) {
+        if(!emails.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id, Email, Work_Email__c, Name FROM Lead ' +
+                'WHERE ((Email IN :emails OR Email IN :workEmails) ' +
+                'OR (Work_Email__c IN :workEmails OR Work_Email__c IN :emails)) ' +
+                'AND Lead_Type__c = :LEARNER_LEAD_TYPE',
+                accessLevel
+            );
+        } else { return new List<Lead>(); }
+    }
 } 
