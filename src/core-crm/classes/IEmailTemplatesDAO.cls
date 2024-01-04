@@ -13,7 +13,7 @@
 public interface IEmailTemplatesDAO extends DmlInterface{
     List<EmailTemplate> getEmailTemplatesByNameSet(
         Set<String> templateNames, 
-        String accessLevel
+        AccessLevel accessLevel 
     );
     List<EmailTemplate> getEmailTemplatesByDeveloperNameSet(
         Set<String> developerNameSet,
