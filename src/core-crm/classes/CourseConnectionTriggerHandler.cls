@@ -357,15 +357,15 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
 
     if(!ccCourseSet.isEmpty() || !ccProgPlanSet.isEmpty()){
         for (Communication_Schedule__c courseCommSched : [
-          SELECT Id, Course__c, Email_on_Registration__c,On_Registration_Template__c
+          SELECT Id, Course__c, Email_on_Registration__c,On_Registration_Template__c, Program_Plan__c
           FROM Communication_Schedule__c
           WHERE ( Course__c IN :ccCourseSet 
           OR Program_Plan__c IN :ccProgPlanSet)
         ]) {
           Boolean isEmailOnRegistrationAndCourseNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null;
           Boolean isCourseOnRegistrationTemplateNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c);
-          Boolean isProgramPlanNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null;
-          Boolean isProgramPlanOnRegistrationTemplateNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c);
+          Boolean isProgramPlanNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null && courseCommSched.Course__c == null;
+          Boolean isProgramPlanOnRegistrationTemplateNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c) && courseCommSched.Course__c == null;
           if (isEmailOnRegistrationAndCourseNotNull) {
               courseSendRegEmailMap.put(
               courseCommSched.Course__c,
