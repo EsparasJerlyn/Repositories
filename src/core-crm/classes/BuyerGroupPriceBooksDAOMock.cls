@@ -27,7 +27,7 @@ public inherited sharing class BuyerGroupPriceBooksDAOMock extends DmlBaseMock i
 		Id pricebookId,
 		AccessLevel accessLevel
 	) {
-		List<BuyerGroupPriceBook> bgPriceBooks = new List<BuyerGroupPriceBooks>();
+		List<BuyerGroupPriceBook> bgPriceBooks = new List<BuyerGroupPriceBook>();
 		for(BuyerGroupPriceBook bgPriceBook : buyerGroupPriceBooksMap.values()) {
 			if(bgPriceBook.Pricebook2Id == pricebookId) {
 				bgPriceBooks.add(bgPriceBook);
@@ -40,7 +40,7 @@ public inherited sharing class BuyerGroupPriceBooksDAOMock extends DmlBaseMock i
 		Set<Id> pricebookIds,
 		AccessLevel accessLevel
 	) {
-		List<BuyerGroupPriceBook> bgPriceBooks = new List<BuyerGroupPriceBooks>();
+		List<BuyerGroupPriceBook> bgPriceBooks = new List<BuyerGroupPriceBook>();
 		for(BuyerGroupPriceBook bgPriceBook : buyerGroupPriceBooksMap.values()) {
 			if(pricebookIds.contains(bgPriceBook.Pricebook2Id)) {
 				bgPriceBooks.add(bgPriceBook);
