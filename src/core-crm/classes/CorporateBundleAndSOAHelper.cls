@@ -132,7 +132,7 @@ public without sharing class CorporateBundleAndSOAHelper {
           Map<String,Asset> pbEntryToAssetMap = new Map<String,Asset>();
 
           for(PricebookEntry pbEntry: PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
-               pbEntryIds, AccessLevel.SYSTEM_MODE
+               new Set<Id>((List<Id>)pbEntryIds), AccessLevel.SYSTEM_MODE
           )){    
                priceBookToEntryMap.put(pbEntry.Pricebook2Id,pbEntry.Id);
           }
