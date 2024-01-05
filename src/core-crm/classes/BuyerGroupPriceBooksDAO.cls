@@ -43,7 +43,7 @@ public inherited sharing class BuyerGroupPriceBooksDAO extends DmlBase implement
 		Set<Id> pricebookIds,
 		AccessLevel accessLevel
 	) {
-		if(!pricebookId.isEmpty() && accessLevel != null) {
+		if(!pricebookIds.isEmpty() && accessLevel != null) {
 			return Database.query(
 				'SELECT Id, BuyerGroup.Product_Request__c, Pricebook2Id ' +
 				'FROM BuyerGroupPriceBook ' +
