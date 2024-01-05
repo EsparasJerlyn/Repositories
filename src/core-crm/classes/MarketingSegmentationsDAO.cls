@@ -9,6 +9,7 @@
       | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Created file                                              |
       | arsenio.jr.dayrit              | October 23, 2023      | DEPP-6929              | Added constant for Lead Score Calculation                 |
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7060              | Added field for getMarketingSegmentationByContactOrLead   |
+      | johanna.a.gibas                | Jan 04, 2024          | ApexCRUDViolationFix   | Added method for getExistingMarketingSegmentations        |
  */
 public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO{
 
@@ -135,4 +136,29 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         return Database.getQueryLocator(query);
     }
 
+    public static List<Marketing_Segmentation__c> getExistingMarketingSegmentations(
+        Map<String, Contact> emailToContactMap,
+        AccessLevel accessLevel
+    ) {
+        if (emailToContactMap.keySet().isEmpty()) {
+            return new List<Marketing_Segmentation__c>();
+        }
+
+        Set<String> emailSet = emailToContactMap.keySet();//NOPMD
+
+        return Database.query(
+            'SELECT Id, My_Profile_Persona__c, ' +
+                'My_Primary_Study_Level__c, My_Secondary_Study_Level__c, ' +
+                'Contact__c, Contact__r.Email, Contact__r.Registered_Email__c, ' +
+                'Contact__r.Work_Email__c, Contact__r.QUT_Staff_Email__c, ' +
+                'Contact__r.QUT_Learner_Email__c ' +
+                'FROM Marketing_Segmentation__c ' +
+                'WHERE Contact__r.Registered_Email__c IN: emailSet ' +
+                'OR Contact__r.Email IN: emailSet ' +
+                'OR Contact__r.Work_Email__c IN: emailSet ' +
+                'OR Contact__r.QUT_Staff_Email__c IN: emailSet ' +
+                'OR Contact__r.QUT_Learner_Email__c IN: emailSet ',
+            accessLevel
+        );
+    }
 }
