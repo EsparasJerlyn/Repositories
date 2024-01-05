@@ -129,7 +129,7 @@ public without sharing class CorporateBundleAndSOAHelper {
      public static Map<String,Asset> getAsset(List<String> pbEntryIds){
           Map<Id,Id> priceBookToEntryMap = new Map<Id,Id>();
           Map<Id,Id> productRequestToPriceBookMap = new Map<Id,Id>();
-          Map<Id,Asset> pbEntryToAssetMap = new Map<Id,Asset>();
+          Map<String,Asset> pbEntryToAssetMap = new Map<String,Asset>();
 
           for(PricebookEntry pbEntry: PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
                new Set<Id>((List<Id>)pbEntryIds), AccessLevel.SYSTEM_MODE
@@ -151,7 +151,7 @@ public without sharing class CorporateBundleAndSOAHelper {
                if(  productRequestToPriceBookMap.containsKey(asset.Product_Request__c) &&
                     priceBookToEntryMap.containsKey(productRequestToPriceBookMap.get(asset.Product_Request__c))){
                     asset.Total_Value__c = asset.Total_Value__c == null?0:asset.Total_Value__c;
-                    pbEntryToAssetMap.put((String)priceBookToEntryMap.get(productRequestToPriceBookMap.get(asset.Product_Request__c)),asset);
+                    pbEntryToAssetMap.put(priceBookToEntryMap.get(productRequestToPriceBookMap.get(asset.Product_Request__c)),asset);
                }
           }
           return pbEntryToAssetMap;    
