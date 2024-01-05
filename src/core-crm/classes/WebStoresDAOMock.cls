@@ -20,4 +20,13 @@ public inherited sharing class WebStoresDAOMock extends DmlBaseMock implements I
         super(new Map<Id, WebStore>(), Schema.WebStore.SObjectType);
         this.webStoresMap = (Map<Id, WebStore>) super.records;
     }
+
+    public WebStore getCCEWebStoreId() {
+        for(WebStore ws : webStoresMap.values()) {
+            if(ws.Name == 'CCE') {
+                return ws;
+            }
+        }
+        return null;
+    }
 }

@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | alexander.cadalin              | Jan 05 ,2024          | n/a                    | Added methods
  */
 @isTest
 public inherited sharing class WebCartsDAOMock extends DmlBaseMock implements IWebCartsDAO {
@@ -19,5 +20,14 @@ public inherited sharing class WebCartsDAOMock extends DmlBaseMock implements IW
     public WebCartsDAOMock() {
         super(new Map<Id, WebCart>(), Schema.WebCart.SObjectType);
         this.webCartsMap = (Map<Id, WebCart>) super.records;
+    }
+
+    public WebCart getActiveWebCartByOwnerId(Id ownerId) {
+        for(WebCart wc : webCartsMap.values()) {
+            if(wc.IsActive == true && wc.OwnerId == ownerId) {
+                return wc;
+            }
+        }
+        return null;
     }
 }

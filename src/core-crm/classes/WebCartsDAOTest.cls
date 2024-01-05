@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
  *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | alexander.cadalin              | Jan 05 ,2024          | n/a                    | Added methods
  */
 @isTest
 public with sharing class WebCartsDAOTest {
@@ -34,5 +35,18 @@ public with sharing class WebCartsDAOTest {
             );
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void getActiveWebCartByOwnerIdTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator mockUser = new MockIdGenerator(User.SOBjectType);
+            System.assert(
+                WebCartsDAO.newInstance().getActiveWebCartByOwnerId(mockUser.getMockId()) == null,
+                'webCarts is not empty.'
+            );
+            Test.stopTest();
+        }
     }
 }
