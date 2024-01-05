@@ -65,10 +65,7 @@ public without sharing class CorporateBundleAndSOAHelper {
      * @return WebCart
      */
     public static WebCart createCCEWebCart(User corporateUser){
-
-          Id studyWebStoreId;
-          List<WebStore> studyWebStoreList = WebStoresDAO.newInstance().getCCEWebStoreId();
-          for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
+          WebStore studyWebStore = WebStoresDAO.newInstance().getCCEWebStoreId();
 
           WebCart existingCart = WebCartsDAO.newInstance().getActiveWebCartByOwnerId(corporateUser.Id);
           
@@ -86,7 +83,7 @@ public without sharing class CorporateBundleAndSOAHelper {
           webCart.AccountId = corporateUser.Contact.hed__Primary_Organization__c !=null ? corporateUser.Contact.hed__Primary_Organization__c : corporateUser.AccountId;
           webCart.Status__c = 'Active';
           webCart.OwnerId = corporateUser.Id;
-          webCart.WebStoreId = studyWebStoreId;
+          webCart.WebStoreId = studyWebStore.Id;
           return webCart;
      }
 
