@@ -19,7 +19,7 @@ public inherited sharing class ProductRequestsDAO extends DmlBase implements IPr
         .getRecordTypeId();
     public static final String PR_SOA = System.Label.RT_ProductRequest_SOA;
     public static final Id PR_SOA_ID = Schema.SObjectType.Product_Request__c.getRecordTypeInfosByDeveloperName()
-        .get(PR_SOA_ID)
+        .get(PR_SOA)
         .getRecordTypeId();
     public static final String PR_COMPLETED = System.Label.PL_ProductRequest_Completed;
     public static final String PR_NOT_PROCEEDING = System.Label.PL_ProductRequest_Not_Proceeding;
