@@ -35,4 +35,33 @@ public with sharing class WebCartsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getWebCartByUserIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<WebCart> webCartList = WebCartsDAO.newInstance()
+                .getWebCartByUserId(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(webCartList.isEmpty(), 'webCartList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWebCartByUserIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForWebCart = new MockIdGenerator(WebCart.sObjectType);
+            List<WebCart> webCartList = WebCartsDAO.newInstance()
+                .getWebCartByUserId(
+                    new Set<Id>{builderForWebCart.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(webCartList.isEmpty(), 'webCartList is not empty');
+        }
+        Test.stopTest();
+    }
 }
