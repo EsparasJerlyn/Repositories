@@ -24,7 +24,7 @@ public inherited sharing class WebCartsDAOMock extends DmlBaseMock implements IW
 
     public WebCart getActiveWebCartByOwnerId(Id ownerId) {
         for(WebCart wc : webCartsMap.values()) {
-            if(wc.IsActive == true && wc.OwnerId == ownerId) {
+            if(wc.Status == true && wc.OwnerId == ownerId) {
                 return wc;
             }
         }
