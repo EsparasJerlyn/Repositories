@@ -127,9 +127,9 @@ public without sharing class CorporateBundleAndSOAHelper {
      */
      @AuraEnabled
      public static Map<String,Asset> getAsset(List<String> pbEntryIds){
-          Map<String,String> priceBookToEntryMap = new Map<String,String>();
-          Map<String,String> productRequestToPriceBookMap = new Map<String,String>();
-          Map<String,Asset> pbEntryToAssetMap = new Map<String,Asset>();
+          Map<Id,Id> priceBookToEntryMap = new Map<Id,Id>();
+          Map<Id,Id> productRequestToPriceBookMap = new Map<Id,Id>();
+          Map<Id,Asset> pbEntryToAssetMap = new Map<Id,Asset>();
 
           for(PricebookEntry pbEntry: PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
                new Set<Id>((List<Id>)pbEntryIds), AccessLevel.SYSTEM_MODE
@@ -222,7 +222,7 @@ public without sharing class CorporateBundleAndSOAHelper {
                     OR hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.RecordType.DeveloperName = 'CCE'
                     OR Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName = 'CCE')
                ]);
-               Set<String> potentialPartnerAccounts = new Set<String>();
+               Set<Id> potentialPartnerAccounts = new Set<Id>();
      
                initialCourseEnrollment = courseEnrollmentRecords.values();
      
