@@ -36,7 +36,7 @@ public with sharing class AccountsDAOTest {
             MockIdGenerator mockAccount = new MockIdGenerator(Account.SObjectType);
             List<Account> accounts = AccountsDAO.newInstance().getPartnerAccountsByIds(
                 new Set<Id>{mockAccount.getMockId()},
-                accessLevel
+                AccessLevel.SYSTEM_MODE
             );
             System.assert(accounts.isEmpty(), 'accounts is not empty');
             Test.stopTest();
@@ -49,7 +49,7 @@ public with sharing class AccountsDAOTest {
             Test.startTest();
             List<Account> accounts = AccountsDAO.newInstance().getPartnerAccountsByIds(
                 new Set<Id>(),
-                accessLevel
+                AccessLevel.SYSTEM_MODE
             );
             System.assert(accounts.isEmpty(), 'accounts is not empty');
             Test.stopTest();
