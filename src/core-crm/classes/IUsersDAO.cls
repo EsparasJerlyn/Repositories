@@ -15,4 +15,9 @@ public interface IUsersDAO extends DmlInterface{
         Set<String> usernames, 
         AccessLevel accessLevel
     );
+
+    List<User> getUsersById(
+        Set<Id> userIdSet, 
+        AccessLevel accessLevel
+    );
 }

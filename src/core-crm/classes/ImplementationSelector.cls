@@ -40,6 +40,7 @@
  *    | carl.alvin.cabiles             | December 13, 2023     | DEPP-7186              | Added Object mapping for List Contributor object              |
  *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                      |
  *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object            |
+ *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | Added Object mapping for Program_Offering__c obj              |
  *    | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added object mapping for BuyerGroups,                         |
  *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
@@ -96,6 +97,8 @@ public class ImplementationSelector {
             Lead.SObjectType => LeadsDAO.class,
             Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
+            LeadStatus.SObjectType => LeadStatusesDAO.class,
+            Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
             Marketing_Segmentation__c.SObjectType => MarketingSegmentationsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
@@ -111,9 +114,11 @@ public class ImplementationSelector {
             Pricebook2.SObjectType => PricebooksDAO.class,
             PricebookEntry.SObjectType => PricebookEntriesDAO.class,
             Product2.SObjectType => ProductsDAO.class,
+            Profile.SObjectType => ProfilesDAO.class,           
             ProductCategory.SObjectType => ProductCategoriesDAO.class,
             ProductCategoryProduct.SObjectType => ProductCategoryProductsDAO.class,
             Profile.SObjectType => ProfilesDAO.class,            
+            Program_Offering__c.SObjectType => ProgramOfferingsDAO.class,           
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,

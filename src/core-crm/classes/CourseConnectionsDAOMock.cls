@@ -5,15 +5,15 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
-      | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Created File                               |
-      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                         |
-      |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
-      | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                         |
-      |                                |                       |                        | getActiveCourseConnectionsBySetContactIds  |
-      | kenneth.f.alsay                | Sep 25, 2023          | DEPP-6629              | added getCourseConnectionByStatus method   |
-
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+      | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Created File                                   |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                             |
+      |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds      |
+      | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                             |
+      |                                |                       |                        | getActiveCourseConnectionsBySetContactIds      |
+      | kenneth.f.alsay                | Sep 25, 2023          | DEPP-6629              | added getCourseConnectionByStatus method       |
+      | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseConnectionByCartItem |
  */
 @isTest
 public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock implements ICourseConnectionsDAO { 
@@ -102,6 +102,21 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
 
         for (hed__Course_Enrollment__c record : courseConnectionMap.values()) {
             if (record.LMS_Integration_Status__c == lmsIntegrationStatus && record.hed__Status__c == status) {
+                courseConnectionList.add(record);
+            }
+        }
+
+        return courseConnectionList;
+    }
+
+    public List<hed__Course_Enrollment__c> getCourseConnectionByCartItem(
+        Set<Id> cartItemIdSet,
+        AccessLevel accessLevel
+    ) {
+        List<hed__Course_Enrollment__c> courseConnectionList = new List<hed__Course_Enrollment__c>();
+
+        for (hed__Course_Enrollment__c record : courseConnectionMap.values()) {
+            if (cartItemIdSet.contains(record.Cart_Item__c)) {
                 courseConnectionList.add(record);
             }
         }

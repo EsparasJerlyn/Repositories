@@ -26,13 +26,13 @@ public without sharing class EmailTemplatesDAO extends DmlBase implements IEmail
 
     public List<EmailTemplate> getEmailTemplatesByNameSet(
         Set<String> nameSet,
-		String accessLevel   
+		AccessLevel accessLevel   
     ) {
         return Database.query(
-            'SELECT Name, Subject, HtmlValue, Body ' +
+            'SELECT Id, Name, Subject, HtmlValue, Body ' +
               'FROM EmailTemplate ' +
-             'WHERE Name IN: nameSet WITH ' +
-             String.escapeSingleQuotes(accessLevel)
+             'WHERE Name IN: nameSet ',
+             accessLevel
         );
     }
 
