@@ -4,10 +4,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
-      |--------------------------------|-----------------------|------------------------|---------------------------------------|
-      | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                          |
-      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIdsTest|                                                      |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
+      | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                                              |
+      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIdsTest                    |
+      | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingIdTest |
+      |                                |                       |                        | getCourseOfferingByProgramOfferingIdNotEmptyTest          |                                                      |
  */
 @isTest
 public with sharing class CourseOfferingsDAOTest {
@@ -21,6 +23,35 @@ public with sharing class CourseOfferingsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             System.assert(CourseOfferingsDAO.newInstance() != null, 'CoureOfferingsDAO instance is null');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCourseOfferingByProgramOfferingIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
+                .getCourseOfferingByProgramOfferingId(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseOfferingList.isEmpty(), 'courseOfferingList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCourseOfferingByProgramOfferingIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForProgramOffering = new MockIdGenerator(Program_Offering__c.sObjectType);
+            List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
+                .getCourseOfferingByProgramOfferingId(
+                    new Set<Id>{builderForProgramOffering.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseOfferingList.isEmpty(), 'courseOfferingList is not empty');
         }
         Test.stopTest();
     }

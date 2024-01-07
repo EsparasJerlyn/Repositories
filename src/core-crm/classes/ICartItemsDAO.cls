@@ -9,6 +9,7 @@
  *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                            |
  *    | julie.jane.alegre              | January 03, 2024      | ApexCRUDViolationFix   | Add countCartItemsGroupByCourseOffering |
  *    |                                |                       |                        | Add countCartItemsGroupByProgramOffering|
+ *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCartItemsByWebCartId|
  */
 public interface ICartItemsDAO extends DmlInterface {
     List<CartItem> getCartItemsWithPricebookEntryByRecordIds(
@@ -18,6 +19,11 @@ public interface ICartItemsDAO extends DmlInterface {
 
     List<CartItem> getCartItemsByCartItemName(
         Set<String> cartItemNames,
+        AccessLevel accessLevel
+    );
+
+    List<CartItem> getCartItemsByWebCartId(
+        Set<Id> webCartId,
         AccessLevel accessLevel
     );
 
