@@ -16,4 +16,20 @@ public inherited sharing class WebCartsDAO extends DmlBase implements IWebCartsD
     public static IWebCartsDAO newInstance() {
         return (IWebCartsDAO) ImplementationSelector.DAO.newInstance(WebCart.sObjectType);
     }
+
+    public List<WebCart> getWebCartByUserId(
+        Set<Id> userId,
+        AccessLevel accessLevel
+    ) {
+        if(userId.isEmpty()){
+            return new List<WebCart>();
+        }
+        return Database.query(
+            'SELECT Id, (SELECT Id FROM CartItems) ' +
+                'FROM WebCart ' +
+                'WHERE OwnerId IN: userId ' +
+                'AND Status =\'Active\' ',
+            accessLevel
+        );
+    }
 }
