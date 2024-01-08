@@ -39,7 +39,7 @@ public inherited sharing class AssetsDAO extends DmlBase implements IAssetsDAO {
     ) {
         if(!productRequestIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Total_Value__c, Remaining_Value__c, Product_Request__c' +
+                'SELECT Id, Total_Value__c, Remaining_Value__c, Product_Request__c ' +
                 'FROM Asset ' +
                 'WHERE Product_Request__c IN :productRequestIds ' +
                 'AND Product_Request__c != null',
