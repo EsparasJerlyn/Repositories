@@ -20,12 +20,19 @@ public inherited sharing class WebCartsDAO extends DmlBase implements IWebCartsD
         return (IWebCartsDAO) ImplementationSelector.DAO.newInstance(WebCart.sObjectType);
     }
 
-    public WebCart getActiveWebCartByOwnerId(Id ownerId) {
-        try {
-            // Intentionally accessing on SYSTEM_MODE
-            return Database.query('SELECT Id, Status FROM WebCart WHERE Status= :STATUS_ACTIVE AND OwnerId = :ownerId LIMIT 1');
-        } catch (QueryException qe) {
-            return null;
+    public List<WebCart> getWebCartByUserId(
+        Set<Id> userId,
+        AccessLevel accessLevel
+    ) {
+        if(userId.isEmpty()){
+            return new List<WebCart>();
         }
+        return Database.query(
+            'SELECT Id, (SELECT Id FROM CartItems) ' +
+                'FROM WebCart ' +
+                'WHERE OwnerId IN: userId ' +
+                'AND Status =\'Active\' ',
+            accessLevel
+        );
     }
 }

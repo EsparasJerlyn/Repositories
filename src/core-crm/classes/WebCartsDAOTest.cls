@@ -38,15 +38,31 @@ public with sharing class WebCartsDAOTest {
     }
 
     @isTest
-    static void getActiveWebCartByOwnerIdTest() {
+    static void getWebCartByUserIdTest() {
+        Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
-            MockIdGenerator mockUser = new MockIdGenerator(User.SOBjectType);
-            System.assert(
-                WebCartsDAO.newInstance().getActiveWebCartByOwnerId(mockUser.getMockId()) == null,
-                'webCarts is not empty.'
-            );
-            Test.stopTest();
+            List<WebCart> webCartList = WebCartsDAO.newInstance()
+                .getWebCartByUserId(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(webCartList.isEmpty(), 'webCartList is not empty');
         }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWebCartByUserIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForWebCart = new MockIdGenerator(WebCart.sObjectType);
+            List<WebCart> webCartList = WebCartsDAO.newInstance()
+                .getWebCartByUserId(
+                    new Set<Id>{builderForWebCart.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(webCartList.isEmpty(), 'webCartList is not empty');
+        }
+        Test.stopTest();
     }
 }

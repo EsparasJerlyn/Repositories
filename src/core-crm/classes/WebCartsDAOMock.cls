@@ -22,12 +22,19 @@ public inherited sharing class WebCartsDAOMock extends DmlBaseMock implements IW
         this.webCartsMap = (Map<Id, WebCart>) super.records;
     }
 
-    public WebCart getActiveWebCartByOwnerId(Id ownerId) {
-        for(WebCart wc : webCartsMap.values()) {
-            if(wc.Status == 'Active' && wc.OwnerId == ownerId) {
-                return wc;
+    public List<WebCart> getWebCartByUserId(
+        Set<Id> userId,
+        AccessLevel accessLevel
+    ) {
+        List<WebCart> webCartList = new List<WebCart>();
+
+        for (WebCart record : webCartsMap.values()) {
+            if (userId.contains(record.OwnerId)) {
+                webCartList.add(record);
             }
         }
-        return null;
+
+        return webCartList;
     }
+
 }

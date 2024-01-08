@@ -10,5 +10,9 @@
  *    | alexander.cadalin              | Jan 05 ,2024          | n/a                    | Added methods
  */
 public interface IWebCartsDAO extends DmlInterface {
-    WebCart getActiveWebCartByOwnerId(Id ownerId);
+
+    List<WebCart> getWebCartByUserId(
+        Set<Id> userId,
+        AccessLevel accessLevel
+    );
 }
