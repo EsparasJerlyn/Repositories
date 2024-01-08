@@ -852,12 +852,7 @@
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>New</rightValue>
-                    </criteria>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>NE</operator>
@@ -872,6 +867,19 @@
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>NE</operator>
                         <rightValue>Distribute</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>customHeaderDatatable</componentName>
+                <identifier>c_customHeaderDatatable</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>In Progress</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
