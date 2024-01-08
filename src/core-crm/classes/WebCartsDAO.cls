@@ -28,7 +28,7 @@ public inherited sharing class WebCartsDAO extends DmlBase implements IWebCartsD
             return new List<WebCart>();
         }
         return Database.query(
-            'SELECT Id, (SELECT Id FROM CartItems) ' +
+            'SELECT Id, Status, (SELECT Id FROM CartItems) ' +
                 'FROM WebCart ' +
                 'WHERE OwnerId IN: userId ' +
                 'AND Status =\'Active\' ',
