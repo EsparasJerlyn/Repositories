@@ -24,8 +24,9 @@ public inherited sharing class BuyerGroupPriceBooksDAO extends DmlBase implement
 		AccessLevel accessLevel
 	) {
 		if(pricebookId != null && accessLevel != null) {
-			String productRequestSOADevName = ProductRequestsDAO.PR_SOA;
-			String productRequestCBDevName = ProductRequestsDAO.PR_CORP_BUNDLE;
+			// PMD bypass, variables are used in dynamic query.
+			String productRequestSOADevName = ProductRequestsDAO.PR_SOA; //NOPMD
+			String productRequestCBDevName = ProductRequestsDAO.PR_CORP_BUNDLE; //NOPMD
 			return Database.query(
 				'SELECT Id, BuyerGroupId, ' +
 				'BuyerGroup.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId ' +
