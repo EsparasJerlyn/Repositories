@@ -67,12 +67,15 @@ public without sharing class CorporateBundleAndSOAHelper {
     public static WebCart createCCEWebCart(User corporateUser){
           WebStore studyWebStore = WebStoresDAO.newInstance().getCCEWebStoreId();
 
-          WebCart existingCart = WebCartsDAO.newInstance().getWebCartByUserId(corporateUser.Id, AccessLevel.SYSTEM_MODE);
+          List<WebCart> existingCarts = WebCartsDAO.newInstance().getWebCartByUserId(
+               new Set<Id>{corporateUser.Id}, 
+               AccessLevel.SYSTEM_MODE
+          );
           
-          if(existingCart != null){
-               existingCart.Status = 'Closed';
+          if(!existingCarts.isEmpty()){
+               existingCarts[0].Status = 'Closed';
                WebCartsDAO.newInstance().updateRecords(
-                    new List<WebCart>{existingCart}, 
+                    new List<WebCart>{existingCarts}, 
                     true, 
                     AccessLevel.SYSTEM_MODE
                );
