@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | sebastianne.k.trias            | August 11, 2023       | DEPP-6240              | Created file                 |
+      | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variable      |
  */
 @isTest
 public with sharing class AssetToReleaseBatchTest {
@@ -112,7 +113,7 @@ public with sharing class AssetToReleaseBatchTest {
 
             Test.startTest();
                 AssetToReleaseBatch batch = new AssetToReleaseBatch();
-                Id batchId = Database.executeBatch(batch);
+                Database.executeBatch(batch);
             Test.stopTest();
             System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'AssetToReleaseBatch'].isEmpty() , 'AssetToReleaseBatch Job was not executed');
         }

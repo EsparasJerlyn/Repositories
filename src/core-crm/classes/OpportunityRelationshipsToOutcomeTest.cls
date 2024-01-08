@@ -266,6 +266,7 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
     @isTest
     static void testUpdateOpportunityOutcome() {
 
+        System.runAs(TestDataFactory.getOperationsManager()) {
         List<Opportunity> comOpportunityList = OpportunitiesDAO.newInstance()
             .getRecordsLikeName('Test Com Opportunity', false, '%');
         List<Opportunity_Outcome__c> testOpportunityOutcomes = TestDataFactory.createOpportunityOutcome(
@@ -283,5 +284,6 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
         // Verify that the Opportunity_Outcome__c records are updated
         List<Opportunity_Outcome__c> updatedOpportunityOutcomes = OpportunityOutcomesDAO.getRecordsSortByCodeAsc();
 		System.assertEquals(1, updatedOpportunityOutcomes.size(), 'Expected 1 Opportunity_Outcome__c record to be updated.');
+        }
     }
 }

@@ -50,11 +50,10 @@ public class CourseOfferingTriggerHelperTest {
     }
     
     @isTest
-    public static void CourseOfferingTriggerHelperTest(){
+    public static void CourseOfferingTriggerHelperTestMethod(){
         System.RunAs(TestDataFactory.getProgramAdminUser()){
  			Test.StartTest();
             List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance().getRecordsLikeName('CourseOffering');
- 			System.debug(courseOfferingList.size());
 			//test changing start date
             for(Integer i = 0 ; i<100 ; i++){
                 courseOfferingList[i].hed__Start_Date__c = System.today() + 1;

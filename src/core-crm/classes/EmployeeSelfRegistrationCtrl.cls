@@ -14,7 +14,7 @@
 
 public without sharing class EmployeeSelfRegistrationCtrl {
 	private static final String EMPLOYEE_SELF_REGISTRATION_EMAIL = 'Employee Self-Registration Email';
-
+	private static final String DISPLAY_NAME = 'QUTeX';
    /**
    * @description Sends email when Employee Self Registration is Selected in CCE Detail page
    * @param userId - Id of the logged user
@@ -25,42 +25,16 @@ public without sharing class EmployeeSelfRegistrationCtrl {
     public static String sendEmployeeRegistrationEmail(SelfRegistrationParams selfRegistrationParams, String accountSelected){
 		
 		// Query Contact based on the user Id
-		User u = [
-			SELECT
-				Id,
-				Contact.Work_Email__c,
-				Contact.Name
-			FROM User
-			WHERE Id =: selfRegistrationParams.userId
-			LIMIT 1
-		];
+		List<User> u = UsersDAO.newInstance().getUsersById(new Set<Id>{selfRegistrationParams.userId}, AccessLevel.SYSTEM_MODE);
 
 		//Query Product Details for the email detials
-		List<Product2> p = [
-			SELECT
-				Id,
-				Name,
-				Description, 
-				Overview__c, 
-				Evolve_with_QUTeX__c, 
-				Who_Should_Participate__c,
-				Core_Concepts__c, 
-				More_Details__c
-			FROM Product2
-			WHERE Id =: selfRegistrationParams.productId
-			LIMIT 1
-		];
+		List<Product2> p = ProductsDAO.newInstance().getProductById(new Set<Id>{selfRegistrationParams.productId}, AccessLevel.SYSTEM_MODE);
 
     	// Get Org Wide Email Address
-		List<OrgWideEmailAddress> owea = [
-			SELECT Id, Address, DisplayName
-			FROM OrgWideEmailAddress
-			WHERE DisplayName = 'QUTeX'
-			LIMIT 1
-		];
+		List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{DISPLAY_NAME}, AccessLevel.SYSTEM_MODE);
 
 		// Get Email Template
-		EmailTemplate emailTemplate = [Select Id,Name,Subject,HtmlValue,Body from EmailTemplate where name=:EMPLOYEE_SELF_REGISTRATION_EMAIL LIMIT 1];
+		List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{EMPLOYEE_SELF_REGISTRATION_EMAIL}, AccessLevel.SYSTEM_MODE);
 
 		//Get Form URL Custom Setting
 		EmployeeSelfRegistrationForm__c employeeSelfRegistrationSettings = EmployeeSelfRegistrationForm__c.getOrgDefaults();
@@ -68,12 +42,12 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 		String response;
 		// Process
 		if(
-			u != null && 
+			!u.isEmpty() && 
 			!p.isEmpty() &&
-			emailTemplate != null
+			!emailTemplate.isEmpty()
 		) {
 			String subject = p[0].Name;
-			String fullName = u.Contact.Name;
+			String fullName = u[0].Contact.Name;
 			String title = 'Title';
 			String titleValue = p[0].Name;
 			String description = 'Description';
@@ -115,9 +89,9 @@ public without sharing class EmployeeSelfRegistrationCtrl {
 	
 			// Build the Email
 			Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-			msg.setToAddresses(new String[]{u.Contact.Work_Email__c});
+			msg.setToAddresses(new String[]{u[0].Contact.Work_Email__c});
 			msg.setSubject(subject);
-			msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate.HtmlValue, emailParams, true));
+			msg.setHtmlBody(EmailHelper.setBodyValues(emailTemplate[0].HtmlValue, emailParams, true));
 			msg.setOrgWideEmailAddressId(owea[0]?.Id);
 			msg.setSaveAsActivity(true);
 			msg.setTreatTargetObjectAsRecipient(false);

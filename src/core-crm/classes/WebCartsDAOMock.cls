@@ -20,4 +20,20 @@ public inherited sharing class WebCartsDAOMock extends DmlBaseMock implements IW
         super(new Map<Id, WebCart>(), Schema.WebCart.SObjectType);
         this.webCartsMap = (Map<Id, WebCart>) super.records;
     }
+
+    public List<WebCart> getWebCartByUserId(
+        Set<Id> userId,
+        AccessLevel accessLevel
+    ) {
+        List<WebCart> webCartList = new List<WebCart>();
+
+        for (WebCart record : webCartsMap.values()) {
+            if (userId.contains(record.OwnerId)) {
+                webCartList.add(record);
+            }
+        }
+
+        return webCartList;
+    }
+
 }

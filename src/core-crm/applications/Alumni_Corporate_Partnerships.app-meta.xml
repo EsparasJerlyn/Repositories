@@ -118,6 +118,114 @@
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Alumni_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Alumni &amp; Corporate Partnerships</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Alumni_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Alumni &amp; Corporate Partnerships</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Alumni_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Alumni_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Alumni_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Alumni_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Alumni &amp; Corporate Partnerships</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Alumni &amp; Corporate Partnerships</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Corporate_Engagement_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Engagement_Opportunity__c</pageOrSobjectType>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>List__c</tabs>
