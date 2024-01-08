@@ -75,7 +75,7 @@ public without sharing class CorporateBundleAndSOAHelper {
           if(!existingCarts.isEmpty()){
                existingCarts[0].Status = 'Closed';
                WebCartsDAO.newInstance().updateRecords(
-                    new List<WebCart>{existingCarts}, 
+                    existingCarts, 
                     true, 
                     AccessLevel.SYSTEM_MODE
                );
