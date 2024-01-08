@@ -67,6 +67,7 @@
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
  *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
+ *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
  *
  **/
 
@@ -112,6 +113,7 @@ public class TestDataFactory {
         'QUT_Operations_Manager',
         'QUT_Domestic_Future_Student_Agent',
         'QUT_Corporate_Partnership_Manager',
+        'Alumni_Engagement_Manager',
         'QUT_International_Future_Student_Agent'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -1898,6 +1900,27 @@ public class TestDataFactory {
         }
         return listRecords;
     }
+    
+    /**
+     * @description Method for creating test List Contributor records
+     * @return listContributorRecords - Lists created
+     */
+    public static List<List_Contributor__c> createListContributorRecords(
+        Integer numOfList,
+        Id listParentId
+    ) {
+        List<List_Contributor__c> listContributors = new List<List_Contributor__c>();
+
+        for (Integer i = 0; i < numOfList; i++) {
+            listContributors.add(
+                new List_Contributor__c(
+                   List__c = listParentId,
+                   Task_Status__c = 'Assigned'
+                )
+            );
+        }
+        return listContributors;
+    }
     /**
      * @description Method for creating test List Member records
      * @return listMemberRecords - List Members created
@@ -2419,6 +2442,21 @@ public class TestDataFactory {
        ];
        return sysAdmin;
    }
+
+   /**
+    * @description Method for getting Corporate Partnerships Manager
+    * @param void
+    * @return Corporate Partnerships Manager
+    */
+    public static User getAlumniEngagementManager() {
+        User sysUser = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'Alumni_Engagement_Manager%'
+            LIMIT 1
+        ];
+        return sysUser;
+    }
 
     class TestUserGenerator {
         private Map<String, Id> groupMap;
@@ -3204,6 +3242,21 @@ public class TestDataFactory {
             }
             else if (name == 'QUT_Corporate_Partnership_Manager') {
                 userName = 'QUT_Corporate_Partnership_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Partnerships';
+                permSets = 'Alumni_Corporate_Partnership_Base';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            else if (name == 'Alumni_Engagement_Manager') {
+                userName = 'Alumni_Engagement_Manager';
                 profileName = 'Alumni & Corporate Partnerships';
                 roleName = 'Corporate Partnerships';
                 permSets = 'Alumni_Corporate_Partnership_Base';
@@ -4088,7 +4141,6 @@ public class TestDataFactory {
      */
     public static List<WorkType> createTestWorkTypeRecords() {
         List<WorkType> newWorkTypes = new List<WorkType>();
-        String workName;
         for (Integer i = 0; i < 2; i++) {
             newWorkTypes.add(
                 new WorkType(

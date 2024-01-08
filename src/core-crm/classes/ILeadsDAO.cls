@@ -59,5 +59,13 @@ public interface ILeadsDAO extends DmlInterface {
         Set<Id> recordIds,
         String leadType
     );
-    
+    List<Lead> getLearnerLeadsByEmailOrWorkEmail(
+        Set<String> emails,
+        AccessLevel accessLevel
+    );
+    List<Lead> getLearnerLeadsByEmailOrWorkEmail(
+        Set<String> emails,
+        Set<String> workEmails,
+        AccessLevel accessLevel
+    );
 } 

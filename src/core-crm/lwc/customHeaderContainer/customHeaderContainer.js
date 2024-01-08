@@ -6,9 +6,11 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 | 
-      |                           |                       |                      |                              | 
+      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 |
+      |                           |                       |                      |                              |
  */
-import { LightningElement } from 'lwc';
+import { LightningElement, api } from 'lwc';
 
-export default class CustomHeaderContainer extends LightningElement {}
+export default class CustomHeaderContainer extends LightningElement {
+     @api recordId;
+}

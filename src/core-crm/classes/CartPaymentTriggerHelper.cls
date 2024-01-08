@@ -11,6 +11,7 @@
       || roy.nino.s.regala             | June 24, 2022         | DEPP-3252              | Created file                 |
       | julie.jane.alegre              | July 12, 2022         | DEPP-3458              | Add logic on discounted item |
       | john.m.tambasenb               | August 11, 2022       | DEPP-3738              | negative amount showing      |
+      | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Removed PMD CrudViolation    |
  */
 
 public without sharing class CartPaymentTriggerHelper{
@@ -35,6 +36,7 @@ public without sharing class CartPaymentTriggerHelper{
         List<hed__Course_Offering__c> getChildCourseOffering = new List<hed__Course_Offering__c>();
         Map<Id,WebCart> webCartMap;
         Map<String,Set<String>> programToChild = new Map<String,Set<String>>();
+        Set<Id> cartItemIdSet = new Set<Id>();
 
         //get all related webcarts linked to the cartpayments updated to Approved or Invoiced
         webCartMap = new Map<Id,WebCart>([
@@ -45,29 +47,15 @@ public without sharing class CartPaymentTriggerHelper{
             IN: cartPaymentIds
         ]);
 
-        if(!webCartMap.keySet().isEmpty()){
             //get all cart items related to the webcarts
-            cartItemList = [
-                SELECT Id, Cart.Cart_Payment__c, Cart.External_Id__c, TotalPrice, 
-                Cart.TotalAmount, CartId, Contact__c, Pricebook_Entry_ID__c, 
-                Program_Offering__c,Course_Offering__c
-                FROM CartItem 
-                WHERE CartId IN: webCartMap.keySet()
-            ];
-        }
+            cartItemList = CartItemsDAO.newInstance().getCartItemsByWebCartId(webCartMap.keySet(), AccessLevel.SYSTEM_MODE);
 
         //get all existing courseconnections related to the cartitems
-        if(!cartItemList.isEmpty()){
-            courseConList = [   
-                SELECT Id, Cart_Item__c, Cart_ID__c,
-                Cart_ID__r.TotalAmount, Cart_Id__r.Cart_Payment__c,
-                Paid_in_Full__c, hed__Course_Offering__c, Program_Offering__c,
-                Paid_Amount__c, Cart_Item__r.TotalPrice, Cart_Item__r.Promotion_Price__c,
-                hed__Status__c
-                FROM hed__Course_Enrollment__c 
-                WHERE Cart_Item__c IN: cartItemList
-            ];
+        
+        for(CartItem cartItem : cartItemList){
+            cartItemIdSet.add(cartItem.Id);
         }
+        courseConList = CourseConnectionsDAO.newInstance().getCourseConnectionByCartItem(cartItemIdSet, AccessLevel.SYSTEM_MODE);
         
         Decimal promotionPrice = 0;
         Decimal totalPrice = 0;
@@ -110,14 +98,7 @@ public without sharing class CartPaymentTriggerHelper{
         }
         
         //get child course offering related to the program offerings
-        if(!programOfferingIds.isEmpty()){
-            getChildCourseOffering = [  
-                SELECT Id, 
-                Program_Offering__c 
-                FROM hed__Course_Offering__c 
-                WHERE Program_Offering__c IN: programOfferingIds
-            ];
-        }
+            getChildCourseOffering = CourseOfferingsDAO.newInstance().getCourseOfferingByProgramOfferingId(programOfferingIds, AccessLevel.SYSTEM_MODE);
         
         for(hed__Course_Offering__c co: getChildCourseOffering){
             if(!programToChild.containsKey(co.Program_Offering__c)){

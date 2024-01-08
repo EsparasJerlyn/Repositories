@@ -4133,17 +4133,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>List_Contributor__c.Contact__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>List_Contributor__c.Contributor_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>List_Contributor__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>List_Contributor__c.List_Contributor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -195,4 +195,57 @@ public with sharing class LeadsDAOTest {
         }
     }
     
+    @isTest
+    static void getLearnerLeadsByEmailOrWorkEmailTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
+                new Set<String>{'test@mail.test'},
+                AccessLevel.USER_MODE
+            );
+            System.assert(leadList.isEmpty(), 'leadList should be empty.');
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getLearnerLeadsByEmailOrWorkEmailEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
+                new Set<String>(),
+                AccessLevel.USER_MODE
+            );
+            System.assert(leadList.isEmpty(), 'leadList should be empty.');
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getLearnerLeadsByEmailOrWorkEmailBothEmailSetsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
+                new Set<String>{'test.email@mail.test'},
+                new Set<String>{'test.workm@mail.test'},
+                AccessLevel.USER_MODE
+            );
+            System.assert(leadList.isEmpty(), 'leadList should be empty.');
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getLearnerLeadsByEmailOrWorkEmailBothEmailSetsEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Lead> leadList = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
+                new Set<String>(),
+                new Set<String>(),
+                AccessLevel.USER_MODE
+            );
+            System.assert(leadList.isEmpty(), 'leadList should be empty.');
+            Test.stopTest();
+        }
+    }
 }

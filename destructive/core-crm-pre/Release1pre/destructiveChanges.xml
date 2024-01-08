@@ -36,6 +36,9 @@
         <!-- Start DEPP-6960-->
         <members>List__c.Requester_Name__c</members>
         <!-- End DEPP-6960-->
+        <!-- Start DEPP-7306-->
+        <members>List_Contributor__c.Contact__c</members>
+        <!-- End DEPP-7306-->
         <name>CustomField</name>
     </types>
     <types>

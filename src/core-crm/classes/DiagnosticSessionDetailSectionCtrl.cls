@@ -45,15 +45,13 @@ public with sharing class DiagnosticSessionDetailSectionCtrl {
                     for(Session__c session : [SELECT Id, Course_Connection__c, Session_Status__c, Completion_Date__c 
                                                   FROM Session__c
                                                   WHERE Course_Connection__c IN :courseConnectionMap.keySet()]){
-                         if(courseConnectionMap.containsKey(session.Course_Connection__c)){
-                              DiagnosticSessionSectionDetails learnerDetails = new DiagnosticSessionSectionDetails();
-                              learnerDetails.id = session.Id;
-                              learnerDetails.learnerName = courseConnectionMap.get(session.Course_Connection__c).hed__Contact__r.Name;
-                              learnerDetails.contactId = courseConnectionMap.get(session.Course_Connection__c).hed__Contact__c;
-                              learnerDetails.completionDate = session.Completion_Date__c;
-                              learnerDetails.sessionStatus = session.Session_Status__c;
-                              response.add(learnerDetails);
-                         }
+                         DiagnosticSessionSectionDetails learnerDetails = new DiagnosticSessionSectionDetails();
+                         learnerDetails.id = session.Id;
+                         learnerDetails.learnerName = courseConnectionMap.get(session.Course_Connection__c).hed__Contact__r.Name;
+                         learnerDetails.contactId = courseConnectionMap.get(session.Course_Connection__c).hed__Contact__c;
+                         learnerDetails.completionDate = session.Completion_Date__c;
+                         learnerDetails.sessionStatus = session.Session_Status__c;
+                         response.add(learnerDetails);     
                     }
                }
           }

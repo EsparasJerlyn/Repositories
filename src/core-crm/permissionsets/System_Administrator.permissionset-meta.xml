@@ -793,6 +793,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CustomHeaderDatatableCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomHeaderDatatableCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CustomLayoutCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -13140,11 +13148,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>List_Contributor__c.Contact__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>List_Contributor__c.Contributor_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -13161,6 +13164,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>List_Contributor__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>List_Contributor__c.List_Contributor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
