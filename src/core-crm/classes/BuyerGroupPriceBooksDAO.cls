@@ -48,7 +48,7 @@ public inherited sharing class BuyerGroupPriceBooksDAO extends DmlBase implement
 				'SELECT Id, BuyerGroup.Product_Request__c, Pricebook2Id ' +
 				'FROM BuyerGroupPriceBook ' +
 				'WHERE Pricebook2Id IN :pricebookIds ' +
-				'AND BuyerGroup.Product_Request__c != null' +
+				'AND BuyerGroup.Product_Request__c != null ' +
 				'AND Pricebook2Id != null',
 				accessLevel
 			);

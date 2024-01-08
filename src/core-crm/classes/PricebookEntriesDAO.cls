@@ -38,8 +38,8 @@ public inherited sharing class PricebookEntriesDAO extends DmlBase implements IP
     ) {
         if(!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Pricebook2Id' +
-                'FROM PricebookEntry' +
+                'SELECT Id, Pricebook2Id ' +
+                'FROM PricebookEntry ' +
                 'WHERE Id IN :recordIds',
                 accessLevel
             );
