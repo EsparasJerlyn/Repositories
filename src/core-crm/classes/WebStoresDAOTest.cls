@@ -35,4 +35,16 @@ public with sharing class WebStoresDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getCCEWebStoreIdTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                WebStoresDAO.newInstance().getCCEWebStoreId() == null, 
+                'webStores is not empty.'
+            );
+            Test.stopTest();
+        }
+    }
 }

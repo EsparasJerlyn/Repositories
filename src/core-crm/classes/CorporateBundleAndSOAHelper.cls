@@ -26,15 +26,9 @@ public without sharing class CorporateBundleAndSOAHelper {
           List<BuyerGroupPriceBook> buyerGroupPriceBookRecord = new List<BuyerGroupPriceBook>();
           Id accountId;
 
-          buyerGroupPriceBookRecord = [
-               SELECT Id, BuyerGroupId, 
-               BuyerGroup.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId
-               FROM BuyerGroupPriceBook
-               WHERE Pricebook2Id =: priceBookId 
-               AND (BuyerGroup.Product_Request__r.RecordType.DeveloperName = 'Standing_Offer_Arrangement' 
-               OR BuyerGroup.Product_Request__r.RecordType.DeveloperName = 'Corporate_Bundle')
-               AND BuyerGroup.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId != null
-          ];
+          buyerGroupPriceBookRecord = BuyerGroupPriceBooksDAO.newInstance().getBuyerGroupPriceBooksByPricebookId(
+               priceBookId, AccessLevel.SYSTEM_MODE
+          );
      
           accountId = buyerGroupPriceBookRecord[0].BuyerGroup.Product_Request__r.Product_Specification__r.Opportunity_Name__r.AccountId;
           
@@ -71,22 +65,20 @@ public without sharing class CorporateBundleAndSOAHelper {
      * @return WebCart
      */
     public static WebCart createCCEWebCart(User corporateUser){
+          WebStore studyWebStore = WebStoresDAO.newInstance().getCCEWebStoreId();
 
-          Id studyWebStoreId;
-          List<WebStore> studyWebStoreList = [SELECT Id FROM WebStore WHERE Name = 'CCE' LIMIT 1];
-          for(WebStore webStore : studyWebStoreList){ studyWebStoreId = webStore.Id; }
-
-          List<WebCart> existingCart = [     
-               SELECT Id, Status 
-               FROM WebCart 
-               WHERE Status='Active' 
-               AND OwnerId =: corporateUser.Id 
-               LIMIT 1
-          ];
+          List<WebCart> existingCarts = WebCartsDAO.newInstance().getWebCartByUserId(
+               new Set<Id>{corporateUser.Id}, 
+               AccessLevel.SYSTEM_MODE
+          );
           
-          if(existingCart.size()>0){
-               existingCart[0].Status = 'Closed';
-               update existingCart;
+          if(!existingCarts.isEmpty()){
+               existingCarts[0].Status = 'Closed';
+               WebCartsDAO.newInstance().updateRecords(
+                    existingCarts, 
+                    true, 
+                    AccessLevel.SYSTEM_MODE
+               );
           }
 
           WebCart webCart = new WebCart();
@@ -94,7 +86,7 @@ public without sharing class CorporateBundleAndSOAHelper {
           webCart.AccountId = corporateUser.Contact.hed__Primary_Organization__c !=null ? corporateUser.Contact.hed__Primary_Organization__c : corporateUser.AccountId;
           webCart.Status__c = 'Active';
           webCart.OwnerId = corporateUser.Id;
-          webCart.WebStoreId = studyWebStoreId;
+          webCart.WebStoreId = studyWebStore.Id;
           return webCart;
      }
 
@@ -138,43 +130,33 @@ public without sharing class CorporateBundleAndSOAHelper {
      */
      @AuraEnabled
      public static Map<String,Asset> getAsset(List<String> pbEntryIds){
-          Map<String,String> priceBookToEntryMap = new Map<String,String>();
-          Map<String,String> productRequestToPriceBookMap = new Map<String,String>();
+          Map<Id,Id> priceBookToEntryMap = new Map<Id,Id>();
+          Map<Id,Id> productRequestToPriceBookMap = new Map<Id,Id>();
           Map<String,Asset> pbEntryToAssetMap = new Map<String,Asset>();
 
-          for(PricebookEntry pbEntry: [
-               SELECT Id, Pricebook2Id
-               FROM PricebookEntry
-               WHERE Id IN: pbEntryIds
-               ]){    
-
+          for(PricebookEntry pbEntry: PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
+               new Set<Id>((List<Id>)pbEntryIds), AccessLevel.SYSTEM_MODE
+          )){    
                priceBookToEntryMap.put(pbEntry.Pricebook2Id,pbEntry.Id);
           }
 
-          for(BuyerGroupPriceBook buyerGroupPB: [
-               SELECT Id, BuyerGroup.Product_Request__c, Pricebook2Id
-               FROM BuyerGroupPriceBook
-               WHERE Pricebook2Id IN:priceBookToEntryMap.keySet()
-               AND BuyerGroup.Product_Request__c != null
-               AND Pricebook2Id != null
-          ]){
+          for(BuyerGroupPriceBook buyerGroupPB: BuyerGroupPriceBooksDAO.newInstance().getBuyerGroupPriceBooksByPricebookIds(
+               priceBookToEntryMap.keySet(),
+               AccessLevel.SYSTEM_MODE
+          )){
                productRequestToPriceBookMap.put(buyerGroupPB.BuyerGroup.Product_Request__c,buyerGroupPB.Pricebook2Id);
           }
 
-          for(Asset asset:[
-               SELECT Id, Total_Value__c, Remaining_Value__c, Product_Request__c
-               FROM Asset
-               WHERE Product_Request__c IN: productRequestToPriceBookMap.keySet()
-               AND Product_Request__c != null
-          ]){
+          for(Asset asset : AssetsDAO.newInstance().getAssetsByProductRequestIds(
+               productRequestToPriceBookMap.keySet(),
+               AccessLevel.SYSTEM_MODE
+          )){
                if(  productRequestToPriceBookMap.containsKey(asset.Product_Request__c) &&
                     priceBookToEntryMap.containsKey(productRequestToPriceBookMap.get(asset.Product_Request__c))){
                     asset.Total_Value__c = asset.Total_Value__c == null?0:asset.Total_Value__c;
                     pbEntryToAssetMap.put(priceBookToEntryMap.get(productRequestToPriceBookMap.get(asset.Product_Request__c)),asset);
                }
-               
           }
-
           return pbEntryToAssetMap;    
      }
 
@@ -200,7 +182,7 @@ public without sharing class CorporateBundleAndSOAHelper {
           }
           
           if(!productLedgerToInsert.isEmpty()){
-               insert productLedgerToInsert;
+               ProductLedgersDAO.newInstance().insertRecords(productLedgerToInsert, false, AccessLevel.SYSTEM_MODE);
           }
      }
 
@@ -241,7 +223,7 @@ public without sharing class CorporateBundleAndSOAHelper {
                     OR hed__Course_Offering__r.hed__Course__r.ProductRequestID__r.Product_Specification__r.RecordType.DeveloperName = 'CCE'
                     OR Program_Offering__r.hed_Program_Plan__r.Product_Request__r.Product_Specification__r.RecordType.DeveloperName = 'CCE')
                ]);
-               Set<String> potentialPartnerAccounts = new Set<String>();
+               Set<Id> potentialPartnerAccounts = new Set<Id>();
      
                initialCourseEnrollment = courseEnrollmentRecords.values();
      
@@ -259,12 +241,9 @@ public without sharing class CorporateBundleAndSOAHelper {
                }
                //get partner accounts
                //for some reaspon Cart_ID__r.Account.IsPartner is not working
-               partnerAccounts = [
-                    SELECT Id
-                    FROM Account
-                    WHERE IsPartner = true
-                    AND Id IN:potentialPartnerAccounts
-               ];
+               partnerAccounts = AccountsDAO.newInstance().getPartnerAccountsByIds(
+                    potentialPartnerAccounts, AccessLevel.SYSTEM_MODE
+               );
 
                for(Account acc: partnerAccounts){
                     partnerAccountIds.add(acc.Id);
