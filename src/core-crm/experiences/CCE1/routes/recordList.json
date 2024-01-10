@@ -2,6 +2,7 @@
   "activeViewId" : "a2a401fa-4304-46b5-841a-34cbc0acf08e",
   "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "configurationTags" : [ ],
+  "devName" : "Record_List",
   "id" : "24c53b9c-1475-457b-8d5c-d0b1bf4cb5f5",
   "label" : "Record List",
   "pageAccess" : "UseParent",
