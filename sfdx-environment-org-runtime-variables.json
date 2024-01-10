@@ -1,0 +1,18 @@
+{
+  "files":[
+    "src/core-crm/customMetadata/Auto_Priority_Assignment_Configuration.Case_Integration_User.md-meta.xml",
+    "src/core-crm/customMetadata/Auto_Priority_Assignment_Configuration.Website_Integration_User.md-meta.xml"
+  ],
+  "values": {
+    "SFDX_ORG_INSTANCE_NAME_LOWER": "{SFDX_ORG_INSTANCE_NAME_LOWER}",
+    "SFDX_ORG_SANDBOX_NAME": "{SFDX_ORG_SANDBOX_NAME}",
+    "SFDX_ORG_SANDBOX_NAME_LOWER": "{SFDX_ORG_SANDBOX_NAME_LOWER}",
+    "SFDX_ORG_MY_DOMAIN": "{SFDX_ORG_MY_DOMAIN}",
+    "SFDX_ORG_MY_DOMAIN_SANDBOX_NAME": "{SFDX_ORG_MY_DOMAIN_SANDBOX_NAME}",
+    "SFDX_ORG_SANDBOX_NAME_WITH_DOT": "{SFDX_ORG_SANDBOX_NAME_WITH_DOT}",
+    "SFDX_ORG_MY_DOMAIN_URL": "https://{SFDX_ORG_MY_DOMAIN}{SFDX_ORG_MY_DOMAIN_SANDBOX_NAME}.my.salesforce.com",
+    "SFDX_VLOCITY_CMT_VF_URL": "https://{SFDX_ORG_MY_DOMAIN}{SFDX_ORG_MY_DOMAIN_SANDBOX_NAME}--vlocity-cmt.{SFDX_ORG_INSTANCE_NAME_LOWER}.visual.force.com",
+    "SFDX_VLOCITY_INS_VF_URL": "https://{SFDX_ORG_MY_DOMAIN}{SFDX_ORG_MY_DOMAIN_SANDBOX_NAME}--vlocity-ins.sandbox.vf.force.com",
+    "SFDX_LIGHTNING_URL": "https://{SFDX_ORG_MY_DOMAIN}{SFDX_ORG_MY_DOMAIN_SANDBOX_NAME}.lightning.force.com"
+  }
+}

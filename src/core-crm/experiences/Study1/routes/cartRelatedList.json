@@ -2,6 +2,7 @@
   "activeViewId" : "2153e197-0433-4f16-85f4-90889cb7e23e",
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "configurationTags" : [ ],
+  "devName" : "Cart_Related_List__c",
   "id" : "53907de7-3510-4bde-b498-98e1abe4b70a",
   "label" : "Cart Related List",
   "routeType" : "relatedlist-0a6",

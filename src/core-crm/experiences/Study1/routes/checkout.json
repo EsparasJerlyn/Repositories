@@ -2,6 +2,7 @@
   "activeViewId" : "99aa8c8a-4439-4d5a-bb0c-d7d70e096c22",
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "configurationTags" : [ ],
+  "devName" : "Checkout",
   "id" : "7155eaa7-4bf7-4124-9a59-ef547c057574",
   "label" : "Checkout",
   "routeType" : "checkout",

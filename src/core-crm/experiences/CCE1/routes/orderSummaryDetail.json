@@ -2,6 +2,7 @@
   "activeViewId" : "dc5f155e-7cb5-4a4f-8d1a-ca81c867b9aa",
   "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "configurationTags" : [ ],
+  "devName" : "Order_Summary_Detail",
   "id" : "ce1e3662-98d4-4665-b892-6bbcf3ea4538",
   "label" : "Order Summary Detail",
   "routeType" : "detail-1Os",
