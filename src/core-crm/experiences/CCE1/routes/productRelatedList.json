@@ -2,6 +2,7 @@
   "activeViewId" : "c2767665-8872-4d09-b638-7dc7d4555f60",
   "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "configurationTags" : [ ],
+  "devName" : "Product_Related_List__c",
   "id" : "2935dadb-454e-4d98-8ec0-173434705b16",
   "label" : "Product Related List",
   "routeType" : "relatedlist-01t",

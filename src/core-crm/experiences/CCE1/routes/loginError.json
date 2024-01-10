@@ -2,6 +2,7 @@
   "activeViewId" : "6b267b43-37dd-4402-be87-40e5657e4b1a",
   "appPageId" : "a7e850a1-b49c-4c62-893b-c6af4cb1a3e8",
   "configurationTags" : [ ],
+  "devName" : "Login_Error",
   "id" : "b06b1608-9034-4154-a407-e180a688d4fb",
   "label" : "Login Error",
   "routeType" : "login-error",
