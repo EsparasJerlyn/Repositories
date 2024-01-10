@@ -78,6 +78,7 @@ public class ImplementationSelector {
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
+            Engagement_Opportunity__c.SObjectType => EngagementOpportunitiesDAO.class,
             et4ae5__IndividualEmailResult__c.SobjectType => IndividualEmailResultsDAO.class,
             Finance_Summary__c.SObjectType => FinanceSummariesDAO.class,
             Financial_Split__c.SObjectType => FinancialSplitsDAO.class,

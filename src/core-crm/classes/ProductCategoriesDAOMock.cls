@@ -15,7 +15,7 @@ public inherited sharing class ProductCategoriesDAOMock extends DmlBaseMock impl
 
     public Schema.SObjectType getSObjectType() {
         return ProductCategory.SObjectType;
-    }
+    } 
 
     public ProductCategoriesDAOMock() {
         super(new Map<Id, ProductCategory>(), Schema.ProductCategory.SObjectType);

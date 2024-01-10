@@ -19,4 +19,12 @@
         <layout>Opportunity-Industry Engagement Layout</layout>
         <recordType>Opportunity.Corporate_Partnership</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Engagement_Opportunity__c-Alumni %26 Corporate Engagement Layout</layout>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Engagement_Opportunity__c-Alumni %26 Corporate Engagement Layout</layout>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+    </layoutAssignments>
 </Profile>

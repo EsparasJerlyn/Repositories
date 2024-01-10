@@ -18,7 +18,7 @@ public inherited sharing class CommerceEntitlementBuyerGroupsDAO extends DmlBase
     public static ICommerceEntitlementBuyerGroupsDAO newInstance() {
         return (ICommerceEntitlementBuyerGroupsDAO) ImplementationSelector.DAO.newInstance(
             CommerceEntitlementBuyerGroup.SObjectType
-        );
+        ); 
     }
 
     public List<CommerceEntitlementBuyerGroup> getCommerceEntitlementBuyerGroupsByBuyerGroupId(

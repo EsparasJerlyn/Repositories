@@ -164,8 +164,10 @@
     <pluralLabel>Engagement Opportunities</pluralLabel>
     <searchLayouts>
         <searchResultsAdditionalFields>Engagement_Opportunity_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Engagement_Opportunity_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Score_Category__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>OWNER.FIRST_NAME</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Stage__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>

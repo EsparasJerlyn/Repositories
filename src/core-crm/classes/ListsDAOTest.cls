@@ -46,4 +46,15 @@ public with sharing class ListsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getListRecordsByRelatedEngagementOpportunitySetIdsTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            List<List__c> listRecList = ListsDAO.newInstance()
+                .getListRecordsByRelatedEngagementOpportunitySetIds(new Set<Id>(), AccessLevel.SYSTEM_MODE);
+            System.assert(listRecList.isEmpty(), 'listRecList is not empty');
+        }
+        Test.stopTest();
+    }
 }

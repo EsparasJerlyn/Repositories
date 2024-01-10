@@ -65,8 +65,10 @@
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
- *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
+ *    | nicole.genon              | November 23, 2023     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
+ *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,             |
+                                                                                  QUT_Corporate_Engagement_Manager users and Engagement Opportunity records
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
  *
  **/
@@ -114,6 +116,8 @@ public class TestDataFactory {
         'QUT_Domestic_Future_Student_Agent',
         'QUT_Corporate_Partnership_Manager',
         'Alumni_Engagement_Manager',
+        'QUT_Alumni_Engagement_Manager',
+        'QUT_Corporate_Engagement_Manager',
         'QUT_International_Future_Student_Agent'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2458,6 +2462,36 @@ public class TestDataFactory {
         return sysUser;
     }
 
+    /**
+    * @description Method for creating Alumni Engagement Manager
+    * @param void
+    * @return alumniEngagementManager - Alumni Engagement Manager
+    */
+   public static User getQUTAlumniEngagementManager() {
+       User alumniEngagementManager = [
+           SELECT Id
+           FROM User
+           WHERE Username LIKE 'QUT_Alumni_Engagement_Manager%'
+           LIMIT 1
+       ];
+       return alumniEngagementManager;
+   }
+
+   /**
+    * @description Method for creating Corporate Engagement Manager
+    * @param void
+    * @return corporateEngagementManager - Corporate Engagement Manager
+    */
+   public static User getCorporateEngagementManager() {
+       User corporateEngagementManager = [
+           SELECT Id
+           FROM User
+           WHERE Username LIKE 'QUT_Corporate_Engagement_Manager%'
+           LIMIT 1
+       ];
+       return corporateEngagementManager;
+   }
+
     class TestUserGenerator {
         private Map<String, Id> groupMap;
         private Map<String, Id> profileMap;
@@ -3129,6 +3163,34 @@ public class TestDataFactory {
                 roleName = 'Future Student Agent - International';
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User,Future_Student_International_Email_Access';
                 publicGroups = 'Future Students - International';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
+            /** START - Creation of  Alumni and Corporate Engagement Manager Users */
+            else if (name == 'QUT_Alumni_Engagement_Manager') {
+                userName = 'QUT_Alumni_Engagement_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Alumni Engagement';
+                permSets = 'Alumni_Corporate_Partnership_Base';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }else if (name == 'QUT_Corporate_Engagement_Manager') {
+                userName = 'QUT_Corporate_Engagement_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Engagement';
+                permSets = 'Alumni_Corporate_Partnership_Base';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
@@ -4152,5 +4214,20 @@ public class TestDataFactory {
         newWorkTypes.get(0).Name = 'International Phone Calls';
         newWorkTypes.get(1).Name = 'Domestic Phone Calls';
         return newWorkTypes;
+    }
+
+    /**
+     * @description Method for creating test Engagement Opportunity records
+     * @param numEngagementOpp - number of Engagement Opportunity to be created
+     * @return engagementOpp - list of Engagement Opportunity created
+     */
+    public static List<Engagement_Opportunity__c> createTestEngagementOpportunityRecords(Integer numEngagementOpp) {
+        List<Engagement_Opportunity__c> engagementOpp = new List<Engagement_Opportunity__c>();
+
+        for (Integer i = 0; i < numEngagementOpp; i++) {
+            engagementOpp.add(new Engagement_Opportunity__c(Engagement_Opportunity_Type__c = 'Event', Score_Category__c = 'Research', Engagement_Opportunity_Name__c = i + 'Test Engagement Opp', Score_Subcategory__c = 'Adjunct Professors', Stage__c = 'New'));
+        }
+
+        return engagementOpp;
     }
 }

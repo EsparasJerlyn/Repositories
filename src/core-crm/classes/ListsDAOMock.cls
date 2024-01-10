@@ -33,5 +33,16 @@ public inherited sharing class ListsDAOMock extends DmlBaseMock implements IList
         return listRecords;
     }
 
-    
+    public List<List__c> getListRecordsByRelatedEngagementOpportunitySetIds(Set<Id> recordIds,
+    AccessLevel accessLevel) {
+        List<List__c> listRecList = new List<List__c>();
+
+        for (List__c record : listsMap.values()) {
+            if (recordIds.contains(record.Engagement_Opportunity__c)) {
+                listRecList.add(record);
+            }
+        }
+
+        return listRecList;
+    }
 }

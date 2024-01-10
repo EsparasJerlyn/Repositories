@@ -275,7 +275,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         if (!String.isBlank(toQuery)) {
             contactList = Database.query(
-                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Birthdate, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c FROM Contact WHERE RecordTypeId =: PERSON_RECORDTYPE_ID AND (' +
+                'SELECT Id, Name, Email, MobilePhone, Mobile_No_Locale__c, Birthdate, Work_Email__c, QUT_Staff_Email__c, QUT_Learner_Email__c, RecordTypeId, QUT_Employee_ID__c FROM Contact WHERE RecordTypeId =: PERSON_RECORDTYPE_ID AND (' +
                 toQuery + ')',
                 AccessLevel
             );
