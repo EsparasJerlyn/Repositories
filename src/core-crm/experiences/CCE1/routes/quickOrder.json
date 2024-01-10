@@ -2,6 +2,7 @@
   "activeViewId" : "02aa2cd4-2078-4bb9-a087-da1006e330c8",
   "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "configurationTags" : [ ],
+  "devName" : "Quick_Order",
   "id" : "4d67d688-ba07-497f-b260-c13ebf02b6c5",
   "label" : "Quick Order",
   "routeType" : "quickorder",

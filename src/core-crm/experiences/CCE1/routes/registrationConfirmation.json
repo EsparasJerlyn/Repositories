@@ -2,6 +2,7 @@
   "activeViewId" : "a5d87b5b-2fed-4594-bd36-f88f52796952",
   "appPageId" : "e7a3f4f7-241b-44d0-9ebd-8a08684e8126",
   "configurationTags" : [ ],
+  "devName" : "Registration_Confirmation__c",
   "id" : "4ba1a3ef-c414-4654-a82e-51e9bda5d83e",
   "label" : "Registration Confirmation",
   "pageAccess" : "UseParent",
