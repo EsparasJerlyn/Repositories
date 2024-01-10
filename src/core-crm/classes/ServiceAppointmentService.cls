@@ -15,15 +15,15 @@
 
  */
 public inherited sharing class ServiceAppointmentService {
-    private static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'Bookable Appointment - International Confirmation',
         'Domestic Phone Calls' => 'Bookable Appointment - Domestic Confirmation'
     };
-    private static final Map<String, String> REMINDER_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> REMINDER_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'International Reminder',
         'Domestic Phone Calls' => 'Domestic Reminder'
     };
-    private static final Map<String, String> CANCELLED_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> CANCELLED_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'International Cancellation',
         'Domestic Phone Calls' => 'Domestic Cancellation'
     };
