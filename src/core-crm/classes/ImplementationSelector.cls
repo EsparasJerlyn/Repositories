@@ -38,6 +38,7 @@
  *    | arsenio.jr.dayrit              | November 22, 2023     | DEPP-7264              | Added Object mapping for Service Appointment object           |
  *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                      |
  *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object            |
+ *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | Added Object mapping for Program_Offering__c obj              |
  *    | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added object mapping for BuyerGroups,                         |
  *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
@@ -57,6 +58,7 @@ public class ImplementationSelector {
             Asset.SObjectType => AssetsDAO.class,
             Associated_Products__c.SObjectType => AssociatedProductsDAO.class,
             BuyerGroup.SObjectType => BuyerGroupsDAO.class,
+            BuyerGroupPriceBook.SObjectType => BuyerGroupPriceBooksDAO.class,
             CommerceEntitlementProduct.SObjectType => CommerceEntitlementProductsDAO.class,
             Communication_Queue__c.SObjectType => CommunicationQueuesDAO.class,
             CartDeliveryGroup.SObjectType => CartDeliveryGroupsDAO.class,
@@ -94,6 +96,8 @@ public class ImplementationSelector {
             Lead.SObjectType => LeadsDAO.class,
             Lead_Score_Detail__c.SObjectType => LeadScoreDetailsDAO.class, 
             Lead_Score_Configuration__c.SObjectType => LeadScoreConfigurationDAO.class,
+            LeadStatus.SObjectType => LeadStatusesDAO.class,
+            Marketing_Course_Application__c.SObjectType => MarketingCourseApplicationsDAO.class,
             Marketing_Interaction__c.SObjectType => MarketingInteractionsDAO.class,
             Marketing_Segmentation__c.SObjectType => MarketingSegmentationsDAO.class,
             Milestone__c.SObjectType => MilestonesDAO.class,
@@ -109,9 +113,12 @@ public class ImplementationSelector {
             Pricebook2.SObjectType => PricebooksDAO.class,
             PricebookEntry.SObjectType => PricebookEntriesDAO.class,
             Product2.SObjectType => ProductsDAO.class,
+            Profile.SObjectType => ProfilesDAO.class,           
             ProductCategory.SObjectType => ProductCategoriesDAO.class,
             ProductCategoryProduct.SObjectType => ProductCategoryProductsDAO.class,
+            Product_Ledger__c.SObjectType => ProductLedgersDAO.class,
             Profile.SObjectType => ProfilesDAO.class,            
+            Program_Offering__c.SObjectType => ProgramOfferingsDAO.class,           
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
             Risk__c.SObjectType => RisksDAO.class,

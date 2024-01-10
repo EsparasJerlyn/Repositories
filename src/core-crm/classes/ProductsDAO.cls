@@ -19,4 +19,20 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
 	{
 		return (IProductsDAO) ImplementationSelector.DAO.newInstance(Product2.SObjectType);
 	}
+
+	public List<Product2> getProductById(
+        Set<Id> productIdSet,
+        AccessLevel accessLevel
+    ){
+        if(productIdSet.isEmpty()){
+            return new List<Product2>();
+        }
+        return Database.query(
+            'SELECT Id, Name, Description, Overview__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c ' +
+            'FROM Product2 ' +
+            'WHERE Id IN :productIdSet ' +
+			'LIMIT 1 ',
+            accessLevel
+        );
+    }
 }

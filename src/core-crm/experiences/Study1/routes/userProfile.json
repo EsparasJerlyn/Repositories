@@ -2,6 +2,7 @@
   "activeViewId" : "5044ae54-fb54-4c19-a918-916aaa4d583b",
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "configurationTags" : [ ],
+  "devName" : "User_Profile",
   "id" : "52647e6f-c0f7-4870-a87d-32f04d7a785d",
   "label" : "User Profile",
   "routeType" : "detail-005",

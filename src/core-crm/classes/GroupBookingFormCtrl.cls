@@ -97,7 +97,7 @@ for(String key: details.participants.keySet()){
   }
 
   if (!cvListToInsertList.isEmpty()) {
-    insert cvListToInsertList;
+    ContentVersionsDAO.newInstance().insertRecords(cvListToInsertList, false, AccessLevel.SYSTEM_MODE);
   }
 
   List<ContentVersion> newContentVersionList = new List<ContentVersion>(
@@ -130,7 +130,7 @@ for(String key: details.participants.keySet()){
   }
 
   if (!contentDocLinkListToInsert.isEmpty()) {
-    insert contentDocLinkListToInsert;
+    ContentDocumentLinksDAO.newInstance().insertRecords(contentDocLinkListToInsert, false, AccessLevel.SYSTEM_MODE);
   }
 
   if (!answersToUpdate.keySet().isEmpty()) {
@@ -190,13 +190,13 @@ public static void addCartItems(CartItemDetails details) {
     }
 
     if(!cartItemsToInsert.isEmpty()){
-      insert cartItemsToInsert;
+      CartItemsDAO.newInstance().insertRecords(cartItemsToInsert, false, AccessLevel.SYSTEM_MODE);
     }
 }
 
   @AuraEnabled
   public static void removeCartItems(String userId){
-      List<WebCart> activeCarts = [SELECT Id, (SELECT Id FROM CartItems) FROM WebCart WHERE Status ='Active' AND OwnerId =: userId];
+      List<WebCart> activeCarts = WebCartsDAO.newInstance().getWebCartByUserId(new Set<Id>{userId}, AccessLevel.SYSTEM_MODE);
       List<CartItem> cartItemsToRemove = new List<CartItem>();
       for(WebCart currentActiveCart : activeCarts) {
         if(!currentActiveCart.CartItems.isEmpty()){
@@ -204,8 +204,8 @@ public static void addCartItems(CartItemDetails details) {
         }
       }
 
-      if(!cartITemsToRemove.isEmpty()){
-          delete cartItemsToRemove;
+      if(!cartItemsToRemove.isEmpty()){
+          CartItemsDAO.newInstance().deleteRecords(cartItemsToRemove, false, AccessLevel.SYSTEM_MODE);
       }
   }
 

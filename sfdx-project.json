@@ -1,13 +1,6 @@
 {
   "packageDirectories": [
     {
-      "path": "src/core-crm-onetime",
-      "package": "core-crm-onetime",
-      "type": "metadata",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
-    },
-    {
       "path": "src/core-crm-pre",
       "package": "core-crm-pre",
       "type": "metadata",
@@ -73,7 +66,7 @@
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "58.0",
+  "sourceApiVersion": "59.0",
   "packageAliases": {
     "DocuSign Apps Launcher": "04t3u00000349bDAAQ"
   },
