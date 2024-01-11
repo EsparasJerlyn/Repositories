@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is a channel which is used by customHeaderButtons to send data</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>This is an array of selected records from customHeaderDatatable</description>
+        <fieldName>selectedRecords</fieldName>
+    </lightningMessageFields>
+    <masterLabel>ListMemberData</masterLabel>
+</LightningMessageChannel>

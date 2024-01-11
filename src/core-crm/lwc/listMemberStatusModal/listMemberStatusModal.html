@@ -1,0 +1,19 @@
+<template>
+    <lightning-modal-header label="List Member Status"></lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-modal__content slds-p-around_small" id="modal-content-id-1">
+            <lightning-combobox
+                name="status"
+                placeholder="Choose Status"
+                value={value}
+                onchange={handleChange}
+                options={statusOptions}
+                >
+            </lightning-combobox>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Close" variant="neutral" onclick={handleClose}>Cancel</lightning-button>
+        <lightning-button label="Save" variant="brand"></lightning-button>
+    </lightning-modal-footer>
+</template>

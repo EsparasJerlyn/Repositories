@@ -36,6 +36,7 @@ const ROW_WIDTH = 180;
 export default class CustomHeaderDatatable extends LightningElement {
     @api recordId;
     @api objectApiName;
+    @api selectedRows = [];
     @track dataListRecord;
     @track dataRecord;
     @track dataRecordCopy;
@@ -65,7 +66,6 @@ export default class CustomHeaderDatatable extends LightningElement {
     sortedBy;
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
-    selectedRows =[];
 
     listMemberColumns = [LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
         LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
@@ -202,6 +202,9 @@ export default class CustomHeaderDatatable extends LightningElement {
         const selectedRows = event.detail.selectedRows;
 
         this.selectedRows = JSON.parse(JSON.stringify(selectedRows));
+        const itemsSelected = new CustomEvent("itemsSelected", {
+               detail: JSON.parse(JSON.stringify(selectedRows))
+        })
     }
 
     //updates data and drafts to edited values
