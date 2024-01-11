@@ -26,6 +26,11 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
+                <field>Country_of_Residency__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
                 <field>Lead_Score__c</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
@@ -49,6 +54,11 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>Citizenship_Country__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Applicant_Onshore__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>
