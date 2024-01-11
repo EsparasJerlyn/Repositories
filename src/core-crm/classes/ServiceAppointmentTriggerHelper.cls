@@ -263,7 +263,7 @@ public without sharing class ServiceAppointmentTriggerHelper {
         }
 
         if(!internationalServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(internationalServiceAppointments);
+            ServiceAppointmentService.sendConfirmationEmailToInternationalServiceAppointments(internationalServiceAppointments);
         }
         if(!domesticServiceAppointments.isEmpty()){
             ServiceAppointmentService.sendConfirmationEmailToDomesticServiceAppointments(domesticServiceAppointments);
@@ -339,7 +339,7 @@ public without sharing class ServiceAppointmentTriggerHelper {
         }
 
         if(!internationalServiceAppointments.isEmpty()){
-            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(internationalServiceAppointments);
+            ServiceAppointmentService.sendConfirmationEmailToInternationalServiceAppointments(internationalServiceAppointments);
         }
 
         if(!domesticServiceAppointments.isEmpty()){
