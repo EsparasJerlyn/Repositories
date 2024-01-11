@@ -26,6 +26,10 @@
                 <behavior>Edit</behavior>
                 <field>IsMinItemCountRequired</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>TargetOperator</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
@@ -71,6 +75,7 @@
     <miniLayout>
         <fields>RestrictionQuantity</fields>
         <fields>IsMinItemCountRequired</fields>
+        <fields>TargetOperator</fields>
     </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>
