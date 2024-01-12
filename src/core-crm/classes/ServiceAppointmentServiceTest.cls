@@ -8,7 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
  *    |--------------------------------|-----------------------|------------------------|-----------------------------------|
  *    | nicole.genon                   | December 12, 2023     | DEPP-7259              | Created file                      |
- *    | ryan.j.a.dela.cruz             | December 14, 2023     | DEPP-7259              | Improved test class coverage      |
+ *    | ryan.j.a.dela.cruz             | December 14, 2023     | DEPP-7259              | Created file                      |
  */
 @isTest
 public with sharing class ServiceAppointmentServiceTest {
