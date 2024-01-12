@@ -15,15 +15,15 @@
 
  */
 public inherited sharing class ServiceAppointmentService {
-    private static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'Bookable Appointment - International Confirmation',
         'Domestic Phone Calls' => 'Bookable Appointment - Domestic Confirmation'
     };
-    private static final Map<String, String> REMINDER_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> REMINDER_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'International Reminder',
         'Domestic Phone Calls' => 'Domestic Reminder'
     };
-    private static final Map<String, String> CANCELLED_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> CANCELLED_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'International Cancellation',
         'Domestic Phone Calls' => 'Domestic Cancellation'
     };
@@ -50,7 +50,7 @@ public inherited sharing class ServiceAppointmentService {
      * @param internationalServiceAppointments  List of new Service Appointment records 
      * @return void
      */
-    public static void sendConfrimationEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
+    public static void sendConfirmationEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
         sendConfirmationOrReminderEmail(
             internationalServiceAppointments,
             new Map<String, String>{
@@ -200,7 +200,7 @@ public inherited sharing class ServiceAppointmentService {
             if (!result.isSuccess()) {
                 errorResults = result.getErrors();
                 Logger.error('Exception caught in method execute in Apex class ServiceAppointmentService.').addTag(errorResults.toString());
-            } 
+            }
         }
         if(Logger.getBufferSize() > 0) {
             Logger.saveLog();

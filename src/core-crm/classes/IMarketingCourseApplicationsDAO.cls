@@ -12,5 +12,5 @@ public interface IMarketingCourseApplicationsDAO extends DmlInterface {
     List<Marketing_Course_Application__c> getMrktngCourseAppsByLeadIds(
         Set<Id> recordIds,
         AccessLevel accessLevel
-    );
+    ); 
 }

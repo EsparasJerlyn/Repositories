@@ -2,6 +2,7 @@
   "activeViewId" : "52ffa6e3-7f2e-47b6-9403-5f051f26d3a6",
   "appPageId" : "b28ff838-09a0-4bed-9c7e-7d9052f13951",
   "configurationTags" : [ ],
+  "devName" : "Action_Plan_List__c",
   "id" : "ba0ba45d-494f-468a-9a89-6b19b9acd14b",
   "label" : "Action Plan List",
   "routeType" : "list-07r",

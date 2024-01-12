@@ -28,6 +28,10 @@
         <object>Opportunity_Outcome__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <userPermissions>
         <enabled>true</enabled>
         <name>DebugApex</name>

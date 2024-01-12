@@ -14,7 +14,7 @@ public with sharing class ProductCategoriesDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
-    }
+    } 
 
     @isTest
     static void getProductCategoriesByProduct2CategoryTest() {

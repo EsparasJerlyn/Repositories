@@ -12565,6 +12565,14 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Engagement_Opportunity__c.Corporate_Engagement</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Finance_Summary__c.Dividend_Summary</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

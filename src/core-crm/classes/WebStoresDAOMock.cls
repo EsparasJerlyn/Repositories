@@ -5,8 +5,8 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    |--------------------------------|-----------------------|------------------------|------------------------------|
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                 |
  */
 @isTest
 public inherited sharing class WebStoresDAOMock extends DmlBaseMock implements IWebStoresDAO {
@@ -19,5 +19,14 @@ public inherited sharing class WebStoresDAOMock extends DmlBaseMock implements I
     public WebStoresDAOMock() {
         super(new Map<Id, WebStore>(), Schema.WebStore.SObjectType);
         this.webStoresMap = (Map<Id, WebStore>) super.records;
+    }
+
+    public WebStore getCCEWebStoreId() {
+        for(WebStore ws : webStoresMap.values()) {
+            if(ws.Name == 'CCE') {
+                return ws;
+            }
+        }
+        return null;
     }
 }

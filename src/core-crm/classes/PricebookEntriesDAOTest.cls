@@ -4,9 +4,9 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                     |
- *    |--------------------------------|-----------------------|------------------------|------------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                       |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------|
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                      |
  */
 @isTest
 private class PricebookEntriesDAOTest {
@@ -40,5 +40,32 @@ private class PricebookEntriesDAOTest {
             System.assert(pricebookEntryList.isEmpty(), 'pricebookEntryList is not empty');
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void getPricebookEntriesByIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator mockPbEntry = new MockIdGenerator(PricebookEntry.SObjectType);
+            List<PricebookEntry> pbEntries = PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
+                new Set<Id>{mockPbEntry.getMockId()},
+                AccessLevel.USER_MODE
+            );
+            System.assert(pbEntries.isEmpty(), 'pricebookEntries is not empty');
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getPricebookEntriesByIdsEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<PricebookEntry> pbEntries = PricebookEntriesDAO.newInstance().getPricebookEntriesByIds(
+                new Set<Id>(),
+                AccessLevel.USER_MODE
+            );
+            System.assert(pbEntries.isEmpty(), 'pricebookEntries is not empty');
+            Test.stopTest();
+        }
     }
 }

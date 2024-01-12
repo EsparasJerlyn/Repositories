@@ -14,7 +14,7 @@ public with sharing class BuyerGroupsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
-    }
+    } 
 
     @isTest
     static void getBuyerGroupsByProductRequestIdTest() {

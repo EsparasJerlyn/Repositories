@@ -47,6 +47,18 @@ public inherited sharing class AccountsDAO extends DmlBase implements IAccountsD
         ];
     }
 
+    public List<Account> getPartnerAccountsByIds(Set<Id> recordIds, AccessLevel accessLevel) {
+        if(!recordIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id ' +
+                'FROM Account ' +
+                'WHERE IsPartner = true ' +
+                'AND Id IN :recordIds',
+                accessLevel
+            );
+        } else { return new List<Account>(); }
+    }
+
     public List<Account> getAccountsBySetIds(Set<Id> accountIds, List<String> fields, AccessLevel accessLevel) {
 
         String fieldsToQuery = fields.size() > 0 ? 'Id, ' + String.join(fields, ',') : 'Id';

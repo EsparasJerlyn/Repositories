@@ -13,7 +13,7 @@ public with sharing class ProgramOfferingsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
-    }
+    } 
 
     @isTest
     static void newInstanceTest() {

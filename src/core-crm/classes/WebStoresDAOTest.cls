@@ -19,7 +19,7 @@ public with sharing class WebStoresDAOTest {
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            System.assert(WebStoresDAO.newInstance() != null, 'WebStoresdao instance is null');
+            System.assert(WebStoresDAO.newInstance() != null, 'WebStoresDAO instance is null');
         }
         Test.stopTest();
     }
@@ -34,5 +34,17 @@ public with sharing class WebStoresDAOTest {
             );
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void getCCEWebStoreIdTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                WebStoresDAO.newInstance().getCCEWebStoreId() == null, 
+                'WebStoreId is not empty.'
+            );
+            Test.stopTest();
+        }
     }
 }

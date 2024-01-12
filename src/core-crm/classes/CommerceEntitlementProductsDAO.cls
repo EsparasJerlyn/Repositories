@@ -13,7 +13,7 @@ public inherited sharing class CommerceEntitlementProductsDAO extends DmlBase im
 
     public Schema.SObjectType getSObjectType() {
         return CommerceEntitlementProduct.SObjectType;
-    }
+    } 
 
     public static ICommerceEntitlementProductsDAO newInstance() {
         return (ICommerceEntitlementProductsDAO) ImplementationSelector.DAO.newInstance(
