@@ -13,7 +13,9 @@ import { LightningElement, api, wire, track } from 'lwc';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getRecord  } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
+import { publish, MessageContext } from "lightning/messageService";
 
+import LIST_MEMBER_CHANNEL from "@salesforce/messageChannel/ListMember__c";
 import LIST_MEMBER from '@salesforce/schema/List_Member__c';
 import LIST_MEMBER_STATUS from '@salesforce/schema/List_Member__c.List_Member_Status__c';
 import LIST_COLUMN_1 from '@salesforce/schema/List__c.Column_1__c';
@@ -36,6 +38,7 @@ const ROW_WIDTH = 180;
 export default class CustomHeaderDatatable extends LightningElement {
     @api recordId;
     @api objectApiName;
+    @api selectedRows = [];
     @track dataListRecord;
     @track dataRecord;
     @track dataRecordCopy;
@@ -61,11 +64,13 @@ export default class CustomHeaderDatatable extends LightningElement {
 
     @track draftValues = [];
 
+    @wire(MessageContext)
+    messageContext;
+
     isLoading = true;
     sortedBy;
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
-    selectedRows =[];
 
     listMemberColumns = [LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
         LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
@@ -202,6 +207,13 @@ export default class CustomHeaderDatatable extends LightningElement {
         const selectedRows = event.detail.selectedRows;
 
         this.selectedRows = JSON.parse(JSON.stringify(selectedRows));
+        const messaage = {
+            selectedRecords: this.selectedRows
+          };
+      
+          //4. Publishing the message
+          publish(this.messageContext, LIST_MEMBER_CHANNEL, messaage);
+        
     }
 
     //updates data and drafts to edited values
