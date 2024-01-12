@@ -31,7 +31,8 @@
       |                                |                       |                        | to NurtureTrackConfigurationsDAO.                                             |
       | arsenio.jr.dayrit              | Oct. 19, 2023         | DEPP-6958              | Added Domestic Deffered Offer to Acceptance exit handling                     |
       | arsenio.jr.dayrit              | Nov. 20, 2023         | DEPP-7268              | Added Domestic First Offer to Acceptance entry and exit criteria              |
-      | roy.nino.s.regala              | Jan. 03, 2023         | Shutdown PMD Fix       | Fix cyclomatic complexity issues                                              |
+      | roy.nino.s.regala              | Jan. 03, 2024         | Shutdown PMD Fix       | Fix cyclomatic complexity issues                                              |
+      | arsenio.jr.dayrit              | Jan. 10, 2024         | DEPP-6958              | Added Domestic Accepted and Admitted exit handling                            |
 
  */
 public with sharing class NurturingTrackContactService { //NOPMD
@@ -54,6 +55,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static final String DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE = 'DomesticDeferredOfferToAcceptance';
     private static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     private static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
+    private static final String DOMESTIC_ACCEPTED_AND_ADMITTED = 'Domestic Accepted and Admitted';
     private static final Map<String, Date> CURRENT_INTAKE_PERIOD = NurturingTrackService.getCurrentIntakePeriod();
     private static final Set<String> ALL_CADENCES = new Set<String>{
         NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL,
@@ -129,6 +131,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         contactToUpdate.putAll(getExitInternationalOffertoAcceptance(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalAcceptanceDepositNotPaid(internationalExitContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForExit(domesticExitContactMap));
+        contactToUpdate.putAll(getExitDomesticAcceptedAndAdmitted(domesticExitContactMap));
         contactToUpdate.putAll(getDomesticEnrollmentToCensusForExit(domesticExitContactMap));
         contactToUpdate.putAll(getInternationalEnrollmentToCensusForExit(internationalExitContactMap));
         contactToUpdate.putAll(getExitDomesticOfferLapsed(domesticExitContactMap));
@@ -1714,6 +1717,48 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
         return contactToUpdateMap;
+    }
+
+    /**
+     * @description  Update contact with the “Domestic Accepted and Admitted” when the entry criteria is fulfilled.
+     * @param Map<Id, Contact> domesticExitContactMap
+     * @return Map<Id, Contact> map of id to contact for batch processing
+     */
+    private static Map<Id, Contact> getExitDomesticAcceptedAndAdmitted(
+        Map<Id, Contact> domesticExitContactMap
+    ) {
+        Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
+        Set<Id> contactIdWithAcceptedAndAdmittedCadence = checkContactsWithAcceptedAndAdmittedCadence(domesticExitContactMap.values());
+        Set<String> offerStatus = new Set<String>{'Deferred'};
+
+        for (hed__Application__c application : applicationList) {
+            boolean isSAMSLegacyRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+            boolean isSAMSCiRecType = application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            boolean isContactIdWithAcceptedAndAdmittedCadence = contactIdWithAcceptedAndAdmittedCadence.contains(application.hed__Applicant__c);
+            if (
+                domesticExitContactMap.containsKey(application.hed__Applicant__c) &&
+                (isSAMSLegacyRecType || isSAMSCiRecType) &&
+                isContactIdWithAcceptedAndAdmittedCadence &&
+                offerStatus.contains(application.Offer_Status__c)
+            ) {
+                contactsForUpdatingMap.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+        return contactsForUpdatingMap;
+    }
+
+    private static Set<Id> checkContactsWithAcceptedAndAdmittedCadence(List<Contact> contacts){
+        Set<Id> contactIdWithAcceptedAndAdmittedCadence = new Set<Id>();
+        for(Contact con : contacts){
+            if(con.Calculated_Cadence__c != null && con.Calculated_Cadence__c == DOMESTIC_ACCEPTED_AND_ADMITTED){
+                contactIdWithAcceptedAndAdmittedCadence.add(con.Id);
+            }
+        }
+
+        return contactIdWithAcceptedAndAdmittedCadence;
     }
 
     /**

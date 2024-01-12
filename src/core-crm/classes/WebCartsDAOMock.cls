@@ -6,8 +6,8 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
- *    | alexander.cadalin              | Jan 05 ,2024          | n/a                    | Added methods
+ *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file                 |
+ *    | alexander.cadalin              | Jan 05 ,2024          | PMD                    | Added methods                |
  */
 @isTest
 public inherited sharing class WebCartsDAOMock extends DmlBaseMock implements IWebCartsDAO {
