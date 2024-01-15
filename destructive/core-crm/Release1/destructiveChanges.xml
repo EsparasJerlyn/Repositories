@@ -385,7 +385,12 @@
         <!--(End) DEPP-6900 -->
         <name>PathAssistant</name>
     </types>
-
+    <types>
+        <!--Start DEPP-7487-->
+        <members>Lightning_Scheduler_User</members>
+        <!--End DEPP-7487-->
+        <name>PermissionSet</name>
+    </types>
     <types>
         <!--(Start) DEPP-7067-->
         <members>Future_Student_Advisor_Enquiries</members>
