@@ -5,8 +5,8 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | alexander.cadalin              | Jan 05, 2024          | PMD                    | Created file                 |
+      |--------------------------------|-----------------------|------------------------|------------------------------|
+      | alexander.cadalin              | Jan 05, 2024          | n/a                    | Created file
  */
 @isTest
 public inherited sharing class ProductLedgersDAOMock extends DmlBaseMock implements IProductLedgersDAO {
