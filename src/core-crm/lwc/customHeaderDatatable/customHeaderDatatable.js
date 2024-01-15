@@ -206,14 +206,13 @@ export default class CustomHeaderDatatable extends LightningElement {
     handleSelectedRows(event) {
         const selectedRows = event.detail.selectedRows;
 
-        this.selectedRows = JSON.parse(JSON.stringify(selectedRows));
-        const messaage = {
-            selectedRecords: this.selectedRows
-          };
-      
-          //4. Publishing the message
-          publish(this.messageContext, LIST_MEMBER_CHANNEL, messaage);
-        
+        this.selectedRows = JSON.stringify(selectedRows);
+
+        this.dispatchEvent(new CustomEvent('selectedrows', { 
+            detail: this.selectedRows
+                
+        }));
+        //console.log("in customHeaderDatatable_handleSelectedRows >>> ", this.selectedRows);      
     }
 
     //updates data and drafts to edited values

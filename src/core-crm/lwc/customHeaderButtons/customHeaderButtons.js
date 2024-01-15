@@ -9,44 +9,24 @@
       | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 | 
       |                           |                       |                      |                              | 
  */
-import { LightningElement, api, wire} from 'lwc';
-import ListMemberStatusModal from 'c/listMemberStatusModal';
-import {
-     subscribe,
-     unsubscribe,
-     MessageContext
-   } from "lightning/messageService";
+import { LightningElement, api, wire, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-import LIST_MEMBER_CHANNEL from "@salesforce/messageChannel/ListMember__c";
+import ListMemberStatusModal from 'c/listMemberStatusModal';
+import updateListMembers from '@salesforce/apex/CustomHeaderButtonsCtrl.updateListMemberStatus';
 
 export default class CustomHeaderButtons extends LightningElement {
+     @api selectedRows;
      result;
      showModal;
      showStatusPicklist;
      showSelectMembers;
-     itemsSelected;
-     @wire(MessageContext)
-     messageContext;
-   
-     receivedMessage;
-     subscription = null;
+     @api itemsSelected;
+     @track listMembers;
+     @track listMemberStatus;
+     error;
 
      handleStatusClick(){
-          console.log("in handle subscribe");
-          if (this.subscription) {
-               return;
-          }
-
-          //4. Subscribing to the message channel
-          this.subscription = subscribe(
-               this.messageContext,
-               LIST_MEMBER_CHANNEL,
-               (message) => {
-               this.handleMessage(message);
-               }
-          );
-          console.log('Subscription > ' + this.subscription);
-          
           ListMemberStatusModal
           .open({
                size: "small",
@@ -54,33 +34,35 @@ export default class CustomHeaderButtons extends LightningElement {
           })
           .then((result) => {
                this.result = result;
-          });    
+               this.handleStatusSave(this.result);
+          });         
      }
-     handleMessage(message) {
-          console.log('in handle message');
-          this.itemsSelected = message
-            ? message
-            : "no message";
-
-          console.log(message
-               ? message
-               : "no message");
-     }
-     handleUnsubscribe() {
-          console.log("in handle unsubscribe");
-      
-          unsubscribe(this.subscription);
-          this.subscription = null;
-          this.receivedMessage = null;
-     }
-
-     handleStatusSave(){
-          if(this.result != null){
-               //save new status to selected members
+     handleStatusSave(result){
+          const value = JSON.parse(result);
+          if(this.selectedRows.size === 0){
+                this.dispatchEvent(new ShowToastEvent({
+                    title: 'Toast Error',
+                    message: 'Please select a List Member to change the status.',
+                    variant: 'error',
+                    mode: 'dismissable'
+                }));   
+          }else if(value.action === 'Save' && value.data){
+               updateListMembers({listMembers: JSON.parse(this.selectedRows), status: value.data})
+               .then((result) => {
+                    console.log(result);
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title : 'Success',
+                            message : `Records saved succesfully!`,
+                            variant : 'success',
+                        }),
+                    )
+                    this.error = undefined;
+                })
+                .catch(error => {
+                    this.error = error;
+                    console.log("Error in Save call back:", this.error);
+                });
           }
-     }
-     handleRowSelect(event) {
-          //this.itemsSelected = selectedRows;
-     }
-     
+     }    
 }

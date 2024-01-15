@@ -8,6 +8,7 @@ import List_Member_Status_FIELD from '@salesforce/schema/List_Member__c.List_Mem
 
 export default class ListMemberStatusModal extends LightningModal {
     statusOptions;
+    value;
     @wire(getObjectInfo, { objectApiName: List_Member_OBJECT })
     listMemberMetadata;
 
@@ -25,7 +26,6 @@ export default class ListMemberStatusModal extends LightningModal {
     listMemberStatusPicklist({data, error}){
         if(data) {
             this.statusOptions = data.values;
-            console.log(this.statusOptions);
             this.error = undefined;
         }
         if(error) {
@@ -34,28 +34,15 @@ export default class ListMemberStatusModal extends LightningModal {
         }
     }
 
-    
-    
-    // = [
-    //     { value: 'new', label: 'New', description: 'A new item' },
-    //     {
-    //         value: 'in-progress',
-    //         label: 'In Progress',
-    //         description: 'Currently working on this item',
-    //     },
-    //     {
-    //         value: 'finished',
-    //         label: 'Finished',
-    //         description: 'Done working on this item',
-    //     },
-    // ];
-
-    value = 'new';
     handleClose(){
-        this.close('Close');
+        this.close(JSON.stringify({action: 'Close'}));
     }
     handleChange(event) {
         // Get the string of the "value" attribute on the selected option
         this.value = event.detail.value;
+    }
+
+    handleSave(){
+        this.close(JSON.stringify({action: 'Save', data: this.value}));
     }
 }
