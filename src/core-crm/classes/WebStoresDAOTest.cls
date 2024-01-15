@@ -42,7 +42,7 @@ public with sharing class WebStoresDAOTest {
             Test.startTest();
             System.assert(
                 WebStoresDAO.newInstance().getCCEWebStoreId() == null, 
-                'WebStoreId is not empty.'
+                'webStores is not empty.'
             );
             Test.stopTest();
         }
