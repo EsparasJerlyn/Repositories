@@ -74,7 +74,7 @@ stages:
 
         steps:
           - checkout: SELF
-          - checkout: SFDX
+          - checkout: SFDX-PIPELINES
             clean: true  # whether to fetch clean each time
             persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
           - task: DownloadSecureFile@1
