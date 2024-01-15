@@ -84,8 +84,6 @@ stages:
           - template: yml/templates/sfdx-init.yml@SFDX-PIPELINES
           - template: yml/templates/sfdx-login.yml@SFDX-PIPELINES
           - template: yml/templates/sfdx-checkout-branch.yml@SFDX-PIPELINES
-            parameters:
-              BRANCH_NAME: "${{ parameters.BRANCH_NAME }}"
           - template: yml/templates/sfdx-build-package.yml@SFDX-PIPELINES
             parameters:
               DEPLOY_FROM_BRANCH_NAME: "${{ parameters.DEPLOY_FROM_BRANCH_NAME }}"
