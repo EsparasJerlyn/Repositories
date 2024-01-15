@@ -73,8 +73,8 @@ stages:
 
         steps:
           - checkout: SELF
+            persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
           - checkout: SFDX-PIPELINES
-            clean: true  # whether to fetch clean each time
             persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
           - task: DownloadSecureFile@1
             name: jwtKeyfile
