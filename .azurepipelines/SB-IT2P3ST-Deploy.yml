@@ -40,7 +40,7 @@ parameters:
 - name: DEPLOY_FROM_BRANCH_NAME
   displayName: Build Package From
   type: string
-  default: Diff from target branch
+  default: Diff from main
   values:
   - "Diff from main"
   - "Diff from target branch"
