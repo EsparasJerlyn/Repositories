@@ -4,10 +4,11 @@
  * @author Accenture
  * 
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 | 
-      |                           |                       |                      |                              | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                            |
+      |---------------------------|-----------------------|----------------------|-------------------------------------------|
+      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                              | 
+      | kenneth.f.alsay           | January 15, 2024      | DEPP-6964            | Added handleStatusClick, handlerShowModal |  
+      |                           |                       |                      |                                           | 
  */
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -21,48 +22,33 @@ export default class CustomHeaderButtons extends LightningElement {
      showModal;
      showStatusPicklist;
      showSelectMembers;
-     @api itemsSelected;
+     itemsSelected;
      @track listMembers;
      @track listMemberStatus;
+     isShowModal = false;
+     @api isRefresh;
      error;
 
      handleStatusClick(){
-          ListMemberStatusModal
-          .open({
-               size: "small",
-               modalTitle: "List Member Status"
-          })
-          .then((result) => {
-               this.result = result;
-               this.handleStatusSave(this.result);
-          });         
+          if((JSON.parse(this.selectedRows)).length === 0){
+               this.dispatchEvent(new ShowToastEvent({
+                   title: 'Toast Error',
+                   message: 'Please select a List Member to change the status.',
+                   variant: 'error',
+                   mode: 'dismissable'
+               })); 
+          }else{
+               this.itemsSelected = JSON.parse(this.selectedRows);
+               this.isShowModal = true;
+          }       
      }
-     handleStatusSave(result){
-          const value = JSON.parse(result);
-          if(this.selectedRows.size === 0){
-                this.dispatchEvent(new ShowToastEvent({
-                    title: 'Toast Error',
-                    message: 'Please select a List Member to change the status.',
-                    variant: 'error',
-                    mode: 'dismissable'
-                }));   
-          }else if(value.action === 'Save' && value.data){
-               updateListMembers({listMembers: JSON.parse(this.selectedRows), status: value.data})
-               .then((result) => {
-                    console.log(result);
-                    this.dispatchEvent(
-                        new ShowToastEvent({
-                            title : 'Success',
-                            message : `Records saved succesfully!`,
-                            variant : 'success',
-                        }),
-                    )
-                    this.error = undefined;
-                })
-                .catch(error => {
-                    this.error = error;
-                    console.log("Error in Save call back:", this.error);
-                });
-          }
-     }    
+     handleRefresh(){
+          this.dispatchEvent(new CustomEvent('handlerefresh', { 
+               detail: true                            
+          }));
+     }
+
+     handlerShowModal(event){
+          this.isShowModal = event.detail;
+     }
 }

@@ -4,20 +4,17 @@
  * @author Accenture
  * 
  * @history
- *    | Developer                           | Date                  | JIRA                 | Change Summary               |
-      |-------------------------------------|-----------------------|----------------------|------------------------------|
-      | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                 |
-      |                                     |                       |                      |                              |
+ *    | Developer                           | Date                  | JIRA                 | Change Summary                                         |
+      |-------------------------------------|-----------------------|----------------------|--------------------------------------------------------|
+      | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                                           |
+      | kenneth.f.alsay                     | January 15, 2024      | DEPP-6964            | Updated handleSave for saving status on datatable edit |
+      |                                     |                       |                      | Added get/set for refreshing table from other cmp      |
+      |                                     |                       |                      |                                                        |
  */
 import { LightningElement, api, wire, track } from 'lwc';
-import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getRecord  } from 'lightning/uiRecordApi';
-import { refreshApex } from '@salesforce/apex';
-import { publish, MessageContext } from "lightning/messageService";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-import LIST_MEMBER_CHANNEL from "@salesforce/messageChannel/ListMember__c";
-import LIST_MEMBER from '@salesforce/schema/List_Member__c';
-import LIST_MEMBER_STATUS from '@salesforce/schema/List_Member__c.List_Member_Status__c';
 import LIST_COLUMN_1 from '@salesforce/schema/List__c.Column_1__c';
 import LIST_COLUMN_2 from '@salesforce/schema/List__c.Column_2__c';
 import LIST_COLUMN_3 from '@salesforce/schema/List__c.Column_3__c';
@@ -30,6 +27,7 @@ import LIST_COLUMN_9 from '@salesforce/schema/List__c.Column_9__c';
 import LIST_COLUMN_10 from '@salesforce/schema/List__c.Column_10__c';
 
 import getListMembers from '@salesforce/apex/CustomHeaderDatatableCtrl.getListMembers';
+import updateListMemberStatus from '@salesforce/apex/CustomHeaderDatatableCtrl.updateListMemberStatus';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import { loadStyle } from "lightning/platformResourceLoader";
 
@@ -63,9 +61,6 @@ export default class CustomHeaderDatatable extends LightningElement {
     ];
 
     @track draftValues = [];
-
-    @wire(MessageContext)
-    messageContext;
 
     isLoading = true;
     sortedBy;
@@ -128,7 +123,27 @@ export default class CustomHeaderDatatable extends LightningElement {
 
             this.columns = newColumns;
 
-            getListMembers({ listId: this.recordId })
+            this.getMemberList();
+        }
+    }
+    
+    @api
+    get isRefresh(){
+        return true;    
+    }
+    set isRefresh(value){
+        this.getMemberList();
+    }
+
+    connectedCallback(){
+        Promise.all([
+            loadStyle(this, customDataTableStyle)
+        ]).then(() => {
+        });
+    }
+
+    getMemberList(){
+        getListMembers({ listId: this.recordId })
                 .then((response) => {
                     response.forEach(obj => {
                         if (obj.List_Member__r && obj.List_Member__r.Name) {
@@ -141,20 +156,25 @@ export default class CustomHeaderDatatable extends LightningElement {
 
                     this.isLoading = false;
                 })
-        }
     }
-
-    connectedCallback(){
-        Promise.all([
-            loadStyle(this, customDataTableStyle)
-        ]).then(() => {
-        });
-    }
-
-    handleSave(e) {
-        this.dispatchEvent(new CustomEvent('tablesave'));
-        refreshApex(this.dataListRecord);
-        this.draftValues = [];
+                
+    handleSave() {
+        updateListMemberStatus({listMembers: JSON.parse(JSON.stringify(this.draftValues))})
+            .then((result) => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title : 'Success',
+                        message : `List Members updated succesfully!`,
+                        variant : 'success',
+                    }),
+                );
+                this.draftValues = [];
+                this.getMemberList();
+            })
+            .catch(error => {
+                    this.error = error;
+                    console.log("Error in Save call back:", this.error);
+            });                        
     }
 
     //cancels datatabel edits
@@ -209,10 +229,8 @@ export default class CustomHeaderDatatable extends LightningElement {
         this.selectedRows = JSON.stringify(selectedRows);
 
         this.dispatchEvent(new CustomEvent('selectedrows', { 
-            detail: this.selectedRows
-                
-        }));
-        //console.log("in customHeaderDatatable_handleSelectedRows >>> ", this.selectedRows);      
+            detail: this.selectedRows               
+        }));     
     }
 
     //updates data and drafts to edited values
