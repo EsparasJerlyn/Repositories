@@ -285,7 +285,7 @@
         <!--(Start) DEPP-6714-->
         <members>Course_Connection_Pricing_Validation</members>
         <!--(End) DEPP-6714-->
-        
+
         <name>Flow</name>
     </types>
     <types>
@@ -490,5 +490,5 @@
         <!--(End) DEPP-7078-->
         <name>Queue</name>
     </types>
-    <version>52.0</version> 
+    <version>59.0</version> 
 </Package>
