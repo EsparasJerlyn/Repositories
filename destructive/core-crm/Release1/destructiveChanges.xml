@@ -355,6 +355,9 @@
         <members>NewContacts_Leads_Per_Nurture_Track_Dom</members>
         <members>NewContacts_Leads_Per_Nurture_Track_Int</members>
         <!--(End) DEPP-6889 -->
+        <!--(Start) DEPP-7596 -->
+        <members>Number_of_Calls_by_Type_This_Month_Dom</members>
+        <!--(End) DEPP-7596 -->
         <name>Report</name>
     </types>
     <types>
