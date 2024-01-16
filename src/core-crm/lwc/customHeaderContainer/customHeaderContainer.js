@@ -21,7 +21,7 @@ export default class CustomHeaderContainer extends LightningElement {
           this.selectedRecords = event.detail;
      }
 
-     handleRefresh(){
-          this.isRefresh = true;
+     handleRefresh(e){
+          this.isRefresh = e.detail;
      }
 }

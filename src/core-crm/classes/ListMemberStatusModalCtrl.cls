@@ -22,6 +22,6 @@ public class ListMemberStatusModalCtrl {
         for(List_Member__c listMember : listMembers){
             listMember.List_Member_Status__c = status;
         }
-        ListMembersDAO.newInstance().updateRecords(listMembers, false, AccessLevel.USER_MODE);       
+        ListMembersDAO.newInstance().updateRecords(listMembers, false, AccessLevel.SYSTEM_MODE);       
     }
 }

@@ -132,7 +132,9 @@ export default class CustomHeaderDatatable extends LightningElement {
         return true;    
     }
     set isRefresh(value){
-        this.getMemberList();
+        if(value===true){
+            this.getMemberList();
+        }
     }
 
     connectedCallback(){
@@ -155,6 +157,9 @@ export default class CustomHeaderDatatable extends LightningElement {
                     this.dataRecordCopy = response;
 
                     this.isLoading = false;
+                    this.dispatchEvent(new CustomEvent('handlerefresh', { 
+                        detail: false               
+                    })); 
                 })
     }
                 

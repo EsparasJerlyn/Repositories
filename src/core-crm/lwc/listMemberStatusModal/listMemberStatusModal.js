@@ -56,7 +56,7 @@ export default class ListMemberStatusModal extends LightningElement {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title : 'Success',
-                    message : `Records saved succesfully!`,
+                    message : `List Member(s) updated succesfully!`,
                     variant : 'success',
                 }),
              );
