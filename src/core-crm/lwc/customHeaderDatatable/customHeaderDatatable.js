@@ -15,6 +15,9 @@ import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord  } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+import LIST_MEMBER from '@salesforce/schema/List_Member__c';
+import LIST_MEMBER_STATUS from '@salesforce/schema/List_Member__c.List_Member_Status__c';
+import LIST_STAGE from '@salesforce/schema/List__c.Stage__c';
 import LIST_COLUMN_1 from '@salesforce/schema/List__c.Column_1__c';
 import LIST_COLUMN_2 from '@salesforce/schema/List__c.Column_2__c';
 import LIST_COLUMN_3 from '@salesforce/schema/List__c.Column_3__c';
@@ -67,7 +70,7 @@ export default class CustomHeaderDatatable extends LightningElement {
     defaultSortDirection = 'asc';
     sortDirection = 'asc';
 
-    listMemberColumns = [LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
+    listMemberColumns = [LIST_STAGE,LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
         LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
 
 
@@ -120,6 +123,16 @@ export default class CustomHeaderDatatable extends LightningElement {
                 ...toAddColumns,
                 ...columns.slice(1)
             ];
+
+            newColumns.forEach((key, index) => {
+                if (key.fieldName === 'List_Member_Status__c' &&
+                    fields.Stage__c &&
+                    fields.Stage__c.value &&
+                    fields.Stage__c.value === 'Closed')
+                {
+                    key.type = 'text';
+                }
+            });
 
             this.columns = newColumns;
 

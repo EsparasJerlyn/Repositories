@@ -157,7 +157,7 @@
     <label>List Contributor</label>
     <nameField>
         <displayFormat>LC-{000000}</displayFormat>
-        <label>List Contributor Number</label>
+        <label>List Contributor Reference</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>List Contributors</pluralLabel>

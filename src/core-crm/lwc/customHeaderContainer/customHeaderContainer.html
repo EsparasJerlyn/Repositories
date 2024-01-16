@@ -1,6 +1,6 @@
 <template>
     <div class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
-        <c-custom-header-buttons selected-rows={selectedRecords} onhandlerefresh={handleRefresh}></c-custom-header-buttons>
+        <c-custom-header-buttons record-id={recordId} selected-rows={selectedRecords} onhandlerefresh={handleRefresh}></c-custom-header-buttons>
     </div>
     <c-custom-header-datatable record-id={recordId} onselectedrows={handleSelectedRows} is-refresh={isRefresh} onhandlerefresh={handleRefresh}></c-custom-header-datatable>
 </template>
