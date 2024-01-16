@@ -6,7 +6,6 @@
       "pathRelative": "src/core-crm-pre",
       "package": "src/core-crm-pre",
       "type": "metadata",
-      "destructiveChangePath": "destructive/core-crm-pre/Release1pre/destructiveChanges.xml",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     },{
@@ -25,7 +24,7 @@
       "default": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "destructive/core-crm/2023Jan/destructiveChanges.xml",
+      "destructiveChangePath": "destructive/core-crm/2024Jan/destructiveChanges.xml",
       "destructiveChangePathPreviousRelease": "destructive/core-crm/Release1/destructiveChanges.xml"
     },{
       "path": "src",
