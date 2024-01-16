@@ -38,4 +38,4 @@
     <description>This picklist is used for the call result feature</description>
     <masterLabel>CallDispositionPicklist_{OrgID}</masterLabel>
     <sorted>false</sorted>
-</GlobalValueSet>
+</GlobalValueSet> 
