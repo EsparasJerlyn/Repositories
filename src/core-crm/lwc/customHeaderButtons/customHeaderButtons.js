@@ -9,7 +9,7 @@
       | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                              |
       | nicole.genon@qut.edu.au   | January 15, 2024      | DEPP-6966            | Added wiredList and isDisabledButton      | 
       | kenneth.f.alsay           | January 15, 2024      | DEPP-6964            | Added handleStatusClick, handlerShowModal |  
-      |                           |                       |                      |                                           | 
+      |                           |                       |                      | Added isDownloadCSVDisabled               | 
  */
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -47,6 +47,10 @@ export default class CustomHeaderButtons extends LightningElement {
 
      get isDisabledButton() {
           return this.stageValue === "Distribute" || this.stageValue === 'Closed' ? true : false;
+     }
+
+     get isDownloadCSVDisabled(){
+          return this.stageValue === "Distribute" ? false : true;
      }
 
      handleStatusClick(){

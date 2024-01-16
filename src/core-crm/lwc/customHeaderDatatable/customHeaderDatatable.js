@@ -9,7 +9,7 @@
       | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                                           |
       | kenneth.f.alsay                     | January 15, 2024      | DEPP-6964            | Updated handleSave for saving status on datatable edit |
       |                                     |                       |                      | Added get/set for refreshing table from other cmp      |
-      |                                     |                       |                      |                                                        |
+      |                                     |                       |                      | Added 'Distribute' stage as criteria for column locking|
  */
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord  } from 'lightning/uiRecordApi';
@@ -128,7 +128,7 @@ export default class CustomHeaderDatatable extends LightningElement {
                 if (key.fieldName === 'List_Member_Status__c' &&
                     fields.Stage__c &&
                     fields.Stage__c.value &&
-                    fields.Stage__c.value === 'Closed')
+                    (fields.Stage__c.value === 'Closed' || fields.Stage__c.value === 'Distribute'))
                 {
                     key.type = 'text';
                 }

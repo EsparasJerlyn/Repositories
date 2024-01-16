@@ -27,6 +27,6 @@ public with sharing class CustomHeaderDatatableCtrl {
 
     @AuraEnabled
     public static void updateListMemberStatus(List<List_Member__c> listMembers){         
-        ListMembersDAO.newInstance().updateRecords(listMembers, false, AccessLevel.USER_MODE);       
+        ListMembersDAO.newInstance().updateRecords(listMembers, false, AccessLevel.SYSTEM_MODE);       
     }
 }
