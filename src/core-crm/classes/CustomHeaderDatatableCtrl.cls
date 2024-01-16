@@ -24,7 +24,10 @@ public with sharing class CustomHeaderDatatableCtrl {
 
         return listMembers;
     }
-
+    /**
+     * @description Updates the List_Member__c records
+     * @param listMembers List of List Member records to update
+     */
     @AuraEnabled
     public static void updateListMemberStatus(List<List_Member__c> listMembers){         
         ListMembersDAO.newInstance().updateRecords(listMembers, false, AccessLevel.SYSTEM_MODE);       
