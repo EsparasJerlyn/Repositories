@@ -15,7 +15,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import List_Member_OBJECT from '@salesforce/schema/List_Member__c';
 import List_Member_Status_FIELD from '@salesforce/schema/List_Member__c.List_Member_Status__c';
-import updateListMembers from '@salesforce/apex/ListMemberStatusModalCtrl.updateListMemberStatus';
+import updateListMembers from '@salesforce/apex/ListMemberCtrl.updateListMemberStatus';
 export default class ListMemberStatusModal extends LightningElement {
     statusOptions;
     value;

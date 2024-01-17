@@ -1,6 +1,6 @@
 /**
- * @description Tests Controller Class for ListMemberStatusModalCtrl
- * @see ListMemberStatusModalCtrl
+ * @description Tests Controller Class for ListMemberCtrl
+ * @see ListMemberCtrl
  *
  * @author Accenture
  *
@@ -11,8 +11,8 @@
  *    | kenneth.f.alsay                | January 12, 2024      | DEPP-6964              | Created file                                      |
  */
 @isTest
-public class ListMemberStatusModalCtrlTest {
-    @testSetup
+public class ListMemberCtrlTest {
+@testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Alumni_Engagement_Manager' });
         List<List__c> newListRecords = TestDataFactory.createListRecords(1);
@@ -35,6 +35,5 @@ public class ListMemberStatusModalCtrlTest {
             Test.stopTest();
         }
     }
-
 
 }
