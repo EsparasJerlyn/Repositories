@@ -24,6 +24,8 @@
  *    | roy.nino.s.regala              | Nov 1, 2023           | DEPP-7064              | updated logic to get the latest application                          |
  *    | johanna.a.gibas                | Nov 16, 2023          | DEPP-7118              | Replaced Closed - Contacted with Closed - No Further Action Required |
  *    | roy.nino.s.regala              | Jan 3, 2024           | Shutdown PMD Fix       | Fixed method complexity pmd issues                                   |
+ *    | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Changed getCompletedCadenceStatusMap datatype to Completed_Cadence,  |
+ *    |                                |                       |                        |   and added QTAC Offer Round in updateTasks                          | 
  */
 public with sharing class SalesCadenceCalloutService {//NOPMD this is a service class. high number of public methods and overall complexity are expected.
     
@@ -155,7 +157,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         List<Task> tasksToUpdateList = new List<Task>();
 		
         //get the unsuccessfull completed cadence of the targetIds and cadence name
-        Map<String, String> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);
+        Map<String, Completed_Cadence__c> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);
             
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
         
@@ -189,7 +191,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                         Nurture_Track_Configuration__c = nurtureId,
                         Contact__c = recId,
                         Completed_Cadence_Status__c = calculatedStatus,
-                        Id = completedCadenceStatusMap.get(recId)              
+                        Id = completedCadenceStatusMap.get(recId).Id              
                     )
                 );   
             }else{
@@ -198,7 +200,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                         Nurture_Track_Configuration__c = nurtureId,
                         Lead__c = recId,
                         Completed_Cadence_Status__c = calculatedStatus,
-                        Id = completedCadenceStatusMap.get(recId)
+                        Id = completedCadenceStatusMap.get(recId).Id
                     )
                 );
             }
@@ -208,7 +210,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }
         
-        updateTasks(tasksToUpdateList);
+        updateTasks(tasksToUpdateList, completedCadenceStatusMap);
     }
 
     private static String setCacluatedStatus(String taskStatus){
@@ -225,7 +227,10 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
      *
      * @param List<Task> tasksToUpdateList
      */ 
-    private static void updateTasks(List<Task> tasksToUpdateList) {
+    private static void updateTasks(
+        List<Task> tasksToUpdateList, 
+        Map<String, Completed_Cadence__c> completedCadenceStatusMap
+    ) {
         for (Task task : tasksToUpdateList) {
 
             Decimal completionDateInMs = task.ActionCadenceStepTracker.CompletionDate.getTime();
@@ -234,6 +239,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
 
             task.Time_to_Complete__c = diffInHours.setScale(1, RoundingMode.HALF_UP);
             task.Action_Cadence_Name__c = task.ActionCadenceStepTracker.ActionCadenceName;
+            task.QTAC_Offer_Round__c = completedCadenceStatusMap.get(task.WhoId).Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c;
         }
 
         if (!tasksToUpdateList.isEmpty()) {
@@ -408,11 +414,11 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
     * @description: Get the Completed Cadence record associated with the targetIds
     *
     * @param Map<String,String> targetCadenceMap
-    * @return Map<String, String> completedCadenceStatusMap
+    * @return Map<String, Completed_Cadence__c> completedCadenceStatusMap
     */
-    public static Map<String, String> getCompletedCadenceStatusMap(Map<String,String> targetCadenceMap){
+    public static Map<String, Completed_Cadence__c> getCompletedCadenceStatusMap(Map<String,String> targetCadenceMap){
         
-        Map<String, String> completedCadenceStatusMap = new Map<String, String>();
+        Map<String, Completed_Cadence__c> completedCadenceStatusMap = new Map<String, Completed_Cadence__c>();
         
         for (
             Completed_Cadence__c completedCadence : CompletedCadencesDAO.newInstance()
@@ -426,7 +432,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                 completedCadence.Contact__c != null
                 ? completedCadence.Contact__c
                 : completedCadence.Lead__c,
-                completedCadence.Id
+                completedCadence
             );
         }
         
@@ -508,7 +514,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         
         //get the related nurture track config record of the targetIds
         Map<String,String> nurtureMap = getNurtureTrackConfigMap(new Set<String>(targetCadenceMap.values()));        
-        Map<String, String> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);       
+        Map<String, Completed_Cadence__c> completedCadenceStatusMap = getCompletedCadenceStatusMap(targetCadenceMap);       
         List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
         
         Map<String,String> appMap = getContactOrLeadApplicationMap(targetCadenceMap.keySet());
