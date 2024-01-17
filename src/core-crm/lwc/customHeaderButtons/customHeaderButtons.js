@@ -56,7 +56,7 @@ export default class CustomHeaderButtons extends LightningElement {
      handleStatusClick(){
           if((JSON.parse(this.selectedRows)).length === 0){
                this.dispatchEvent(new ShowToastEvent({
-                   title: 'Toast Error',
+                   title: 'Error',
                    message: 'Please select a List Member to change the status.',
                    variant: 'error',
                    mode: 'dismissable'
