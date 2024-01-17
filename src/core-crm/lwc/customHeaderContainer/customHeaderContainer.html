@@ -1,6 +1,16 @@
 <template>
-    <div class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
-        <c-custom-header-buttons record-id={recordId} selected-rows={selectedRows}></c-custom-header-buttons>
-    </div>
-    <c-custom-header-datatable record-id={recordId}></c-custom-header-datatable>
+  <div
+    class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
+    <c-custom-header-buttons
+      record-id={recordId}
+      selected-rows={selectedRows}
+      columns-data={columnsData}
+      columns-name={columnsName}>
+    </c-custom-header-buttons>
+  </div>
+  <c-custom-header-datatable
+    record-id={recordId}
+    onlistdatahandler={listDataHandler}
+    onlistdatacolumns={newColumnsList}>
+  </c-custom-header-datatable>
 </template>
