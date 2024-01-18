@@ -17,31 +17,35 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord  } from 'lightning/uiRecordApi';
 import LIST_STAGE from '@salesforce/schema/List__c.Stage__c';
 
-export default class CustomHeaderButtons extends LightningElement {
-     @api selectedRows;
-     result;
-     showModal;
-     showStatusPicklist;
-     showSelectMembers;
-     itemsSelected;
-     @track listMembers;
-     @track listMemberStatus;
-     isShowModal = false;
-     @api isRefresh;
-     error;
-     @api recordId;
-     statusSelected = 'Close';
-     stageValue;
-     @api columnsName;
-     @api columnsData;
-     csvtemp;
-     listMemberColumns = [LIST_STAGE];
-     stageValue;
+const CVS_DOWNLOAD_NAME = "lisData";
 
+export default class CustomHeaderButtons extends LightningElement {
+  @api recordId;
+  @api selectedRows;
+  statusSelected = 'Close';
+  @api columnsName;
+  @api columnsData;
+  csvtemp;
+  listMemberColumns = [LIST_STAGE];
+  stageValue;
+  result;
+  showModal;
+  showStatusPicklist;
+  showSelectMembers;
+  itemsSelected;
+  @track listMembers;
+  @track listMemberStatus;
+  isShowModal = false;
+  @api isRefresh;
+  error;
 
   // getter setter for isDisabledButton
   get isDisabledButton() {
      return this.stageValue === "Distribute" || this.stageValue === 'Closed' ? true : false;
+  }
+
+  get isDownloadCSVDisabled(){
+    return this.stageValue === "Distribute" ? false : true;
   }
 
   @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
@@ -52,14 +56,6 @@ export default class CustomHeaderButtons extends LightningElement {
             const fields = data.fields;
             this.stageValue = fields.Stage__c.value;
       }
-  }
-
-  get isDisabledButton() {
-    return this.stageValue === "Distribute" || this.stageValue === 'Closed' ? true : false;
-  }
-
-  get isDownloadCSVDisabled(){
-    return this.stageValue === "Distribute" ? false : true;
   }
 
   handleStatusClick(){
@@ -85,7 +81,7 @@ export default class CustomHeaderButtons extends LightningElement {
   handlerShowModal(event){
     this.isShowModal = event.detail;
   }
-  
+
   // Method to download CSV
   handleDownloadCSV() {
     const columnsData = JSON.parse(JSON.stringify(this.columnsData));
