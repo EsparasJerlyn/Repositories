@@ -1,28 +1,54 @@
 <template>
-    <div class="slds-m-top_small slds-m-bottom_medium">
-        <lightning-button label="Add List Member" title="Add List Member" icon-name="utility:add"
-            variant="brand-outline" disabled={isDisabledButton} class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
-        </lightning-button>
+  <div class="slds-m-top_small slds-m-bottom_medium">
+    <lightning-button
+      label="Add List Member"
+      title="Add List Member"
+      icon-name="utility:add"
+      variant="brand-outline"
+      disabled={isDisabledButton}
+      class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+    </lightning-button>
 
-        <lightning-button label="Add From Existing List" title="Add From Existing List" variant="brand-outline" disabled={isDisabledButton}
-            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
-        </lightning-button>
+    <lightning-button
+      label="Add From Existing List"
+      title="Add From Existing List"
+      variant="brand-outline"
+      disabled={isDisabledButton}
+      class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+    </lightning-button>
 
-        <lightning-button label="Import from CSV" title="Import from CSV" variant="brand-outline" disabled={isDisabledButton}
-            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
-        </lightning-button>
+    <lightning-button
+      label="Import from CSV"
+      title="Import from CSV"
+      variant="brand-outline"
+      disabled={isDisabledButton}
+      class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+    </lightning-button>
 
-        <lightning-button label="Download CSV" title="Download CSV" variant="brand-outline"
-            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small"
-            disabled={isDownloadCSVDisabled}>
-        </lightning-button>
+    <lightning-button 
+      label="Download CSV"
+      title="Download CSV"
+      variant="brand-outline"
+      onclick={handleDownloadCSV}
+      disabled={isDownloadCSVDisabled}
+      class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+    </lightning-button>
 
-        <lightning-button label="Bulk Change Status" title="Bulk Change Status" variant="brand-outline"
-            class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small"           
-            onclick={handleStatusClick}
-            disabled={isDisabledButton}>
-        </lightning-button>
+    <lightning-button
+      label="Bulk Change Status"
+      title="Bulk Change Status"
+      variant="brand-outline"
+      class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small"           
+      onclick={handleStatusClick}
+      disabled={isDisabledButton}>
+    </lightning-button>
 
-        <c-list-member-status-modal is-show-modal={isShowModal} onsetshowmodal={handlerShowModal} items-selected={itemsSelected} onhandlerefresh={handleRefresh}></c-list-member-status-modal>
-    </div>   
+    <c-list-member-status-modal
+      is-show-modal={isShowModal}
+      onsetshowmodal={handlerShowModal}
+      items-selected={itemsSelected}
+      onhandlerefresh={handleRefresh}>
+    </c-list-member-status-modal>
+  
+  </div>   
 </template>

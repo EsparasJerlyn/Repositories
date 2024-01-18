@@ -7,10 +7,11 @@
  *    | Developer                           | Date                  | JIRA                 | Change Summary                                         |
       |-------------------------------------|-----------------------|----------------------|--------------------------------------------------------|
       | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                                           |
+      | jerlyn.esparas                      | January 10, 2024      | DEPP-6965            |                                                        |
       | kenneth.f.alsay                     | January 15, 2024      | DEPP-6964            | Updated handleSave for saving status on datatable edit |
       |                                     |                       |                      | Added get/set for refreshing table from other cmp      |
       |                                     |                       |                      | Added 'Distribute' stage as criteria for column locking|
- */
+*/
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord  } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -28,14 +29,14 @@ import LIST_COLUMN_7 from '@salesforce/schema/List__c.Column_7__c';
 import LIST_COLUMN_8 from '@salesforce/schema/List__c.Column_8__c';
 import LIST_COLUMN_9 from '@salesforce/schema/List__c.Column_9__c';
 import LIST_COLUMN_10 from '@salesforce/schema/List__c.Column_10__c';
-
+      
 import getListMembers from '@salesforce/apex/CustomHeaderDatatableCtrl.getListMembers';
 import updateListMemberStatus from '@salesforce/apex/CustomHeaderDatatableCtrl.updateListMemberStatus';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import { loadStyle } from "lightning/platformResourceLoader";
-
+      
 const ROW_WIDTH = 180;
-
+      
 export default class CustomHeaderDatatable extends LightningElement {
     @api recordId;
     @api objectApiName;
@@ -72,13 +73,13 @@ export default class CustomHeaderDatatable extends LightningElement {
 
     listMemberColumns = [LIST_STAGE,LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
         LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
-
-
+      
+      
     @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
     wiredList(responseData) {
-        const { data, error } = responseData;
+    const { data, error } = responseData;
 
-        this.dataListRecord = responseData;
+    this.dataListRecord = responseData;
         if (data) {
             const fields = data.fields;
             const listColumns = [
@@ -160,20 +161,31 @@ export default class CustomHeaderDatatable extends LightningElement {
     getMemberList(){
         getListMembers({ listId: this.recordId })
                 .then((response) => {
-                    response.forEach(obj => {
-                        if (obj.List_Member__r && obj.List_Member__r.Name) {
-                            obj.listMemberName = obj.List_Member__r.Name;
-                        }
-                    });
+            response.forEach(obj => {
+                if (obj.List_Member__r && obj.List_Member__r.Name) {
+                    obj.listMemberName = obj.List_Member__r.Name;
+                }
+            });
 
-                    this.dataRecord = response;
-                    this.dataRecordCopy = response;
+            this.dataRecord = response;
+            this.dataRecordCopy = response;
 
-                    this.isLoading = false;
-                    this.dispatchEvent(new CustomEvent('handlerefresh', { 
-                        detail: false               
-                    })); 
-                })
+            this.isLoading = false;
+            this.dispatchEvent(new CustomEvent('handlerefresh', { 
+                detail: false               
+            })); 
+
+            const eventlistdatahandler = new CustomEvent("listdatahandler", {
+            detail: response
+            });
+            this.dispatchEvent(eventlistdatahandler);
+
+            
+            const columnsList = new CustomEvent("listdatacolumns", {
+            detail: newColumns
+            });
+            this.dispatchEvent(columnsList);
+        })
     }
                 
     handleSave() {
@@ -195,12 +207,10 @@ export default class CustomHeaderDatatable extends LightningElement {
             });                        
     }
 
-    //cancels datatabel edits
     handleCancel(){
         this.dataRecordCopy = this.dataRecordCopy.map(data =>{
             return this.dataRecord.find(orig => orig.Id == data.Id);
         });
-
         this.draftValues = [];
     }
 
@@ -243,14 +253,11 @@ export default class CustomHeaderDatatable extends LightningElement {
     // handle rows selected and stored in selectedRows
     handleSelectedRows(event) {
         const selectedRows = event.detail.selectedRows;
-
-        this.selectedRows = JSON.stringify(selectedRows);
-
         this.dispatchEvent(new CustomEvent('selectedrows', { 
             detail: this.selectedRows               
         }));     
     }
-
+    
     //updates data and drafts to edited values
     handleCustomColumnEdit(rowId, prop, value, classProp){
         const dataRecordCopy = JSON.parse(JSON.stringify(this.dataRecordCopy));
