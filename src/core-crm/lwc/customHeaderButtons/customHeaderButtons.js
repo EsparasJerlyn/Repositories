@@ -49,13 +49,13 @@ export default class CustomHeaderButtons extends LightningElement {
   }
 
   @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
-    wiredList(responseData) {
-      const { data, error } = responseData;
+     wiredList(responseData) {
+          const { data, error } = responseData;
 
-      if (data) {
-            const fields = data.fields;
-            this.stageValue = fields.Stage__c.value;
-      }
+          if (data) {
+               const fields = data.fields;
+               this.stageValue = fields.Stage__c.value;
+          }
   }
 
   handleStatusClick(){
