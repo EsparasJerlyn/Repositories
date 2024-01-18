@@ -372,6 +372,9 @@
         <members>NewContacts_Leads_Per_Nurture_Track_Dom</members>
         <members>NewContacts_Leads_Per_Nurture_Track_Int</members>
         <!--(End) DEPP-6889 -->
+        <!--(Start) DEPP-7596 -->
+        <members>Number_of_Calls_by_Type_This_Month_Dom</members>
+        <!--(End) DEPP-7596 -->
         <name>Report</name>
     </types>
     <types>
@@ -402,7 +405,12 @@
         <!--(End) DEPP-6900 -->
         <name>PathAssistant</name>
     </types>
-
+    <types>
+        <!--Start DEPP-7487-->
+        <members>Lightning_Scheduler_User</members>
+        <!--End DEPP-7487-->
+        <name>PermissionSet</name>
+    </types>
     <types>
         <!--(Start) DEPP-7067-->
         <members>Future_Student_Advisor_Enquiries</members>
