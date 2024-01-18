@@ -1137,7 +1137,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ListMemberStatusModalCtrl</apexClass>
+        <apexClass>ListMemberCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -19484,11 +19484,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Message_Content__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Task.QTAC_Offer_Round__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
