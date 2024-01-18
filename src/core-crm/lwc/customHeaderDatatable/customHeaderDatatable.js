@@ -8,6 +8,7 @@
       |-------------------------------------|-----------------------|----------------------|------------------------------|
       | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                 |
       | jerlyn.esparas                      | January 10, 2024      | DEPP-6965            |                              |
+      | nicole.genon                        | January 18, 2024      | DEPP-6953            | Added wiredEngageList
  */
 import { LightningElement, api, wire, track } from 'lwc';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
@@ -16,6 +17,11 @@ import { refreshApex } from '@salesforce/apex';
       
 import LIST_MEMBER from '@salesforce/schema/List_Member__c';
 import LIST_MEMBER_STATUS from '@salesforce/schema/List_Member__c.List_Member_Status__c';
+import LIST_MEMBER_CONTACT from '@salesforce/schema/List_Member__c.List_Member__c';
+import LIST_MEMBER_ACTIVITY_NAME from '@salesforce/schema/List_Member__c.Activity_Name__c';
+import LIST_MEMBER_ACTIVITY_START_DATE from '@salesforce/schema/List_Member__c.Activity_Start_Date__c';
+import LIST_MEMBER_ACTIVITY_END_DATE from '@salesforce/schema/List_Member__c.Activity_End_Date__c';
+import LIST_MEMBER_ACTIVITY_STATUS from '@salesforce/schema/List_Member__c.Activity_Status__c';
 import LIST_STAGE from '@salesforce/schema/List__c.Stage__c';
 import LIST_COLUMN_1 from '@salesforce/schema/List__c.Column_1__c';
 import LIST_COLUMN_2 from '@salesforce/schema/List__c.Column_2__c';
@@ -27,8 +33,10 @@ import LIST_COLUMN_7 from '@salesforce/schema/List__c.Column_7__c';
 import LIST_COLUMN_8 from '@salesforce/schema/List__c.Column_8__c';
 import LIST_COLUMN_9 from '@salesforce/schema/List__c.Column_9__c';
 import LIST_COLUMN_10 from '@salesforce/schema/List__c.Column_10__c';
+import ENGAGE_STAGE from '@salesforce/schema/Engagement_Opportunity__c.Stage__c';
       
 import getListMembers from '@salesforce/apex/CustomHeaderDatatableCtrl.getListMembers';
+import getEngagementOpportunityListId from '@salesforce/apex/CustomHeaderDatatableCtrl.getEngagementOpportunityListId';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import { loadStyle } from "lightning/platformResourceLoader";
       
@@ -59,8 +67,16 @@ export default class CustomHeaderDatatable extends LightningElement {
             }, "initialWidth": ROW_WIDTH
         }
     ];
+    @track engagementOpportunityColumns = [
+        { label: 'Contact', fieldName: 'List_Member__c', type: 'url', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
+        { label: 'Activity Name', fieldName: 'Activity_Name__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
+        { label: 'Activity Start Date', fieldName: 'Activity_Start_Date__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
+        { label: 'Activity End Date', fieldName: 'Activity_End_Date__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
+        { label: 'Activity Status', fieldName: 'Activity_Status__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
+    ];
 
   @track draftValues = [];
+  @track engagementOpportunityListId = this.recordId;
 
   isLoading = true;
   sortedBy;
@@ -70,7 +86,49 @@ export default class CustomHeaderDatatable extends LightningElement {
 
   listMemberColumns = [LIST_STAGE,LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
       LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
+  fields = [ENGAGE_STAGE]
       
+      @wire(getRecord, { recordId: "$recordId", fields: "$fields" })
+      wiredEngageList(responseData) {
+          const { data, error } = responseData;
+    
+          this.dataListRecord = responseData;
+          if (data) {
+            if(this.objectApiName == 'Engagement_Opportunity__c'){
+                let columns = JSON.parse(JSON.stringify(this.columnsCopy));
+    
+                if (!columns.length) {
+                    columns = JSON.parse(JSON.stringify(this.engagementOpportunityColumns));
+                    this.columnsCopy = this.engagementOpportunityColumns;
+                }
+    
+                this.columns = columns;
+    
+                getEngagementOpportunityListId({ engagementOpportunityId: this.recordId })
+                .then((response) => {
+                    
+                    this.engagementOpportunityListId = response;
+                    this.isLoading = false;
+
+                    getListMembers({ listId: response })
+                    .then((response) => {
+                        response.forEach(obj => {
+                            if (obj.List_Member__r && obj.List_Member__r.Name && obj.List_Member__r.List_Member_Status__c == 'Qualified') {
+                                obj.listMemberName = obj.List_Member__r.Name;
+                            }
+                        });
+        
+                        this.dataRecord = response;
+                        this.dataRecordCopy = response;
+        
+                        this.isLoading = false;
+                    })
+                })
+    
+            }
+          }
+
+      }
       
   @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
   wiredList(responseData) {
@@ -78,86 +136,88 @@ export default class CustomHeaderDatatable extends LightningElement {
 
       this.dataListRecord = responseData;
       if (data) {
-          const fields = data.fields;
-          const listColumns = [
-              {column: 'Column_1__c', fieldName: 'listMemberName'},
-              {column: 'Column_2__c', fieldName: 'Email__c'},
-              {column: 'Column_3__c', fieldName: 'Mobile__c'},
-              {column: 'Column_4__c', fieldName: 'Column_1_Value__c'},
-              {column: 'Column_5__c', fieldName: 'Column_2_Value__c'},
-              {column: 'Column_6__c', fieldName: 'Column_3_Value__c'},
-              {column: 'Column_7__c', fieldName: 'Column_4_Value__c'},
-              {column: 'Column_8__c', fieldName: 'Column_5_Value__c'},
-              {column: 'Column_9__c', fieldName: 'Column_6_Value__c'},
-              {column: 'Column_10__c', fieldName: 'Column_7_Value__c'}
-          ];
+        if(this.objectApiName == 'List__c'){
+            const fields = data.fields;
+            const listColumns = [
+                {column: 'Column_1__c', fieldName: 'listMemberName'},
+                {column: 'Column_2__c', fieldName: 'Email__c'},
+                {column: 'Column_3__c', fieldName: 'Mobile__c'},
+                {column: 'Column_4__c', fieldName: 'Column_1_Value__c'},
+                {column: 'Column_5__c', fieldName: 'Column_2_Value__c'},
+                {column: 'Column_6__c', fieldName: 'Column_3_Value__c'},
+                {column: 'Column_7__c', fieldName: 'Column_4_Value__c'},
+                {column: 'Column_8__c', fieldName: 'Column_5_Value__c'},
+                {column: 'Column_9__c', fieldName: 'Column_6_Value__c'},
+                {column: 'Column_10__c', fieldName: 'Column_7_Value__c'}
+            ];
 
-          const toAddColumns = [];
-          listColumns.forEach((key, index) => {
-              let toShowColumn = false;
+            const toAddColumns = [];
+            listColumns.forEach((key, index) => {
+                let toShowColumn = false;
 
-              if (index > 2 && fields[key.column] && fields[key.column].value) {
-                  toShowColumn = true;
-              } else {
-                  toShowColumn = true;
-              }
+                if (index > 2 && fields[key.column] && fields[key.column].value) {
+                    toShowColumn = true;
+                } else {
+                    toShowColumn = true;
+                }
 
-              if (toShowColumn) {
-                  toAddColumns.push(
-                      { label: fields[key.column].value, fieldName: key.fieldName, type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
-                  );
-              }
-          });
+                if (toShowColumn) {
+                    toAddColumns.push(
+                        { label: fields[key.column].value, fieldName: key.fieldName, type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
+                    );
+                }
+            });
 
-          let columns = JSON.parse(JSON.stringify(this.columnsCopy));
+            let columns = JSON.parse(JSON.stringify(this.columnsCopy));
 
-          if (!columns.length) {
-              columns = JSON.parse(JSON.stringify(this.columns));
-              this.columnsCopy = this.columns;
-          }
+            if (!columns.length) {
+                columns = JSON.parse(JSON.stringify(this.columns));
+                this.columnsCopy = this.columns;
+            }
 
-          const newColumns = [
-              ...columns.slice(0, 1),
-              ...toAddColumns,
-              ...columns.slice(1)
-          ];
+            const newColumns = [
+                ...columns.slice(0, 1),
+                ...toAddColumns,
+                ...columns.slice(1)
+            ];
 
-          newColumns.forEach((key, index) => {
-              if (key.fieldName === 'List_Member_Status__c' &&
-                  fields.Stage__c &&
-                  fields.Stage__c.value &&
-                  fields.Stage__c.value === 'Closed')
-              {
-                  key.type = 'text';
-              }
-          });
+            newColumns.forEach((key, index) => {
+                if (key.fieldName === 'List_Member_Status__c' &&
+                    fields.Stage__c &&
+                    fields.Stage__c.value &&
+                    fields.Stage__c.value === 'Closed')
+                {
+                    key.type = 'text';
+                }
+            });
 
-          this.columns = newColumns;
+            this.columns = newColumns;
 
-          getListMembers({ listId: this.recordId })
-              .then((response) => {
-                  response.forEach(obj => {
-                      if (obj.List_Member__r && obj.List_Member__r.Name) {
-                          obj.listMemberName = obj.List_Member__r.Name;
-                      }
-                  });
+            getListMembers({ listId: this.recordId })
+                .then((response) => {
+                    response.forEach(obj => {
+                        if (obj.List_Member__r && obj.List_Member__r.Name) {
+                            obj.listMemberName = obj.List_Member__r.Name;
+                        }
+                    });
 
-                  this.dataRecord = response;
-                  this.dataRecordCopy = response;
+                    this.dataRecord = response;
+                    this.dataRecordCopy = response;
 
-                  const eventlistdatahandler = new CustomEvent("listdatahandler", {
-                    detail: response
-                  });
-                  this.dispatchEvent(eventlistdatahandler);
+                    const eventlistdatahandler = new CustomEvent("listdatahandler", {
+                        detail: response
+                    });
+                    this.dispatchEvent(eventlistdatahandler);
 
-                  
-                  const columnsList = new CustomEvent("listdatacolumns", {
-                    detail: newColumns
-                  });
-                  this.dispatchEvent(columnsList);
+                    
+                    const columnsList = new CustomEvent("listdatacolumns", {
+                        detail: newColumns
+                    });
+                    this.dispatchEvent(columnsList);
 
-                  this.isLoading = false;
-              })
+                    this.isLoading = false;
+                })
+        }
       }
   }
       
@@ -166,6 +226,11 @@ export default class CustomHeaderDatatable extends LightningElement {
           loadStyle(this, customDataTableStyle)
       ]).then(() => {
       });
+      // if(this.objectApiName == 'List__c'){
+        //     this.listMemberColumns = this.listColumns;
+        // }else if(this.objectApiName == 'Engagement_Opportunity__c'){
+        //     this.listMemberColumns = this.engagementOpportunityColumns;
+        // }
   }
 
   handleSave(e) {

@@ -3,6 +3,8 @@
     class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
     <c-custom-header-buttons
       record-id={recordId}
+      object-api-name={objectApiName}
+      is-engage-tab={isEngageTab}
       selected-rows={selectedRows}
       columns-data={columnsData}
       columns-name={columnsName}>
@@ -10,6 +12,8 @@
   </div>
   <c-custom-header-datatable
     record-id={recordId}
+    object-api-name={objectApiName}
+    is-engage-tab={isEngageTab}
     onlistdatahandler={listDataHandler}
     onlistdatacolumns={newColumnsList}>
   </c-custom-header-datatable>

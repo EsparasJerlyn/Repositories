@@ -20,7 +20,7 @@ public inherited sharing class ListMembersDAO extends DmlBase implements IListMe
             'SELECT Id, List_Member__c, List__c, Name, List_Member__r.Name, ' +
                 'Email__c, Mobile__c, Column_1_Value__c, Column_2_Value__c, ' +
                 'Column_3_Value__c, Column_4_Value__c, Column_5_Value__c, Column_6_Value__c, Column_7_Value__c, ' +
-                'List_Contributor__c, List_Member_Status__c ' +
+                'List_Contributor__c, List_Member_Status__c, Activity_Name__c, Activity_Start_Date__c, Activity_End_Date__c, Activity_Status__c ' +
                 'FROM List_Member__c ' +
                 'WHERE List_Member__c != null ' +
                 'AND List__c != null ' +

@@ -8,11 +8,14 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 |
       | jerlyn.esparas@qut.edu.au | January  10, 2024     | DEPP-6965            |                              |
+      | nicole.genon@qut.edu.au   | January  18, 2024     | DEPP-6953            |                              |
  */
 import { LightningElement, api, track } from 'lwc';
 
 export default class CustomHeaderContainer extends LightningElement {
      @api recordId;
+     @api objectApiName;
+     @api isEngageTab = false;
 
      @track columnsName;
      @track columnsData;

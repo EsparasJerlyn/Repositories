@@ -4,31 +4,50 @@
  * @author Accenture
  * 
  * @history
- *    | Developer                 | Date                  | JIRA                 | Change Summary               |
-      |---------------------------|-----------------------|----------------------|------------------------------|
-      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 | 
-      | jerlyn.esparas            | January 10, 2024      | DEPP-6965            |                              | 
+ *    | Developer                 | Date                  | JIRA                 | Change Summary                       |
+      |---------------------------|-----------------------|----------------------|--------------------------------------|
+      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                         | 
+      | jerlyn.esparas            | January 10, 2024      | DEPP-6965            |                                      | 
+      | nicole.genon              | January 18, 2024      | DEPP-6953            | Added wiredEngagementOpportunityList |
  */
-import { LightningElement, wire, api } from "lwc";
+import { LightningElement, wire, api, track } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
 import LIST_STAGE from "@salesforce/schema/List__c.Stage__c";
+import ENGAGEMENT_OPPORTUNITY_CREATED_BY_ID from "@salesforce/schema/Engagement_Opportunity__c.CreatedById";
+import CURRENT_USER_ID from "@salesforce/user/Id";
 
 const CVS_DOWNLOAD_NAME = "lisData";
 
 export default class CustomHeaderButtons extends LightningElement {
   @api recordId;
   @api selectedRows;
+  @api objectApiName;
+  @api isEngageTab;
   statusSelected = 'Close';
   @api columnsName;
   @api columnsData;
+  @track dataListRecord;
+  @track createdByUserId;
   csvtemp;
   listMemberColumns = [LIST_STAGE];
+  engagementOpportunityfields = [ENGAGEMENT_OPPORTUNITY_CREATED_BY_ID];
   stageValue;
 
   // getter setter for isDisabledButton
   get isDisabledButton() {
-     return this.stageValue === "Distribute" || this.stageValue === 'Closed' ? true : false;
-}
+     return (this.objectApiName == "Engagement_Opportunity__c" && this.createdByUserId != CURRENT_USER_ID) || this.stageValue === "Distribute" || this.stageValue === 'Closed' ? true : false;
+  }
+
+  @wire(getRecord, { recordId: "$recordId", fields: "$engagementOpportunityfields" })
+     wiredEngagementOpportunityList(responseData) {
+          const { data, error } = responseData;
+          this.dataListRecord = responseData;
+
+          if (data) {
+               const fields = data.fields;
+               this.createdByUserId = fields.CreatedById.value;
+          }
+     }
 
   @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
      wiredList(responseData) {
