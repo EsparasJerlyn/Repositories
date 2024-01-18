@@ -29,7 +29,7 @@ public class ListMemberCtrlTest {
         System.runAs(TestDataFactory.getQUTAlumniEngagementManager()){
             List<List_Member__c> listMemberRecords = [SELECT Id, List_Member_Status__c FROM List_Member__c LIMIT 100];
             Test.startTest();
-            ListMemberStatusModalCtrl.updateListMemberStatus(listMemberRecords, 'Qualified');
+            ListMemberCtrlTest.updateListMemberStatus(listMemberRecords, 'Qualified');
             List<List_Member__c> updatedListMemberRecords = [SELECT Id FROM List_Member__c WHERE List_Member_Status__c = 'Qualified'];
             System.assert(!updatedListMemberRecords.isEmpty(), 'No List Member found');
             Test.stopTest();

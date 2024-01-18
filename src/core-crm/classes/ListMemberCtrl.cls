@@ -1,6 +1,6 @@
 /**
- * @description Controller Class for listMemberStatusModal LWC
- * @see ../lwc/listMemberStatusModal
+ * @description Controller Class for ListMemberCtrlTest LWC
+ * @see ../lwc/ListMemberCtrlTest
  *
  * @author Accenture
  *
