@@ -39,16 +39,14 @@ parameters:
   - RunSpecifiedTests
   - NoTestRun
 
-- name: DEPLOY_FROM_BRANCH_NAME
+- name: BUILD_PACKAGE_FROM
   displayName: Build Package From
   type: string
-  default: Diff from target branch
+  default: Default Behaviour
   values:
-  - "Diff from main"
-  - "Diff from target branch"
-  #- "Last 5 days"
-  #- "Last 10 days"
-  #- "Full Deployment"
+  - Default Behaviour
+  - Diff from main
+  - Full Deployment
 
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
   displayName: Create or Update Test Users
@@ -86,7 +84,7 @@ stages:
           - template: yml/templates/sfdx-checkout-branch.yml@SFDX-PIPELINES
           - template: yml/templates/sfdx-build-package.yml@SFDX-PIPELINES
             parameters:
-              DEPLOY_FROM_BRANCH_NAME: "${{ parameters.DEPLOY_FROM_BRANCH_NAME }}"
+              BUILD_PACKAGE_FROM: "${{ parameters.BUILD_PACKAGE_FROM }}"
           - template: yml/templates/sfdx-scan-code.yml@SFDX-PIPELINES
           - template: yml/templates/sfdx-pre-deploy-steps.yml@SFDX-PIPELINES
           - template: yml/templates/ado-check-build-queue.yml@SFDX-PIPELINES
