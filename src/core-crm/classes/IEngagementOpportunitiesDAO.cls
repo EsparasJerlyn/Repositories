@@ -12,4 +12,7 @@ public interface IEngagementOpportunitiesDAO extends DmlInterface{
      List<Engagement_Opportunity__c> getEngagementOpportunitiesBySetIds(
                Set<Id> engagementOpportunityIds,
                AccessLevel accessLevel);
+     List<Engagement_Opportunity__c> getEngagementOpportunityRecords(
+               Integer recordsCount, 
+               AccessLevel accessLevel);
 }

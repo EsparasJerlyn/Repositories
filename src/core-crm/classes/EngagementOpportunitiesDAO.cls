@@ -29,4 +29,13 @@ public inherited sharing class EngagementOpportunitiesDAO extends DmlBase implem
                 accessLevel
         );
     }
+
+    public List<Engagement_Opportunity__c> getEngagementOpportunityRecords(Integer recordsCount, AccessLevel accessLevel) {
+        return Database.query(
+            'SELECT Id, Engagement_Opportunity_Name__c, Summary__c, Requestor_Name__c ' +
+                'FROM Engagement_Opportunity__c ' +
+                'LIMIT :recordsCount',
+                accessLevel
+        );
+    }
 }

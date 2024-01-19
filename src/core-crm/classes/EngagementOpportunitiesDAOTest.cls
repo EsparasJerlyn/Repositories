@@ -47,4 +47,15 @@ public with sharing class EngagementOpportunitiesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getEngagementOpportunityRecords() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Engagement_Opportunity__c> engagementOpportunityList = EngagementOpportunitiesDAO.newInstance()
+                .getEngagementOpportunityRecords(1,AccessLevel.SYSTEM_MODE);
+            System.assert(engagementOpportunityList.isEmpty(), 'EngagementOpportunityList is not empty');
+        }
+        Test.stopTest();
+    }
 }

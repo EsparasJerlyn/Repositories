@@ -33,4 +33,16 @@ public inherited sharing class EngagementOpportunitiesDAOMock  extends DmlBaseMo
 
         return engagementOpportunityList;
     }
+
+    public List<Engagement_Opportunity__c> getEngagementOpportunityRecords(Integer recordsCount, AccessLevel accessLevel) {
+        List<Engagement_Opportunity__c> engagementOpportunityList = new List<Engagement_Opportunity__c>();
+        Integer count = 0;
+        for (Engagement_Opportunity__c record : engagementOpportunityMap.values()) {
+            if(count < recordscount){
+                engagementOpportunityList.add(record);
+                count+=1;
+            }
+        }
+        return engagementOpportunityList;
+    }
 }
