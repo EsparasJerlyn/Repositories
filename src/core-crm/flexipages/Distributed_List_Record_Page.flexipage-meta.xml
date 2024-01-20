@@ -829,10 +829,184 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>defaultValues</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionTypeLabel</name>
+                    <value>New</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>List__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>List__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;List Contributor Reference&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;List Contributor&quot;,&quot;fieldName&quot;:&quot;List_Contributor__r.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;List Contributor Team&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Task Due Date&quot;,&quot;fieldName&quot;:&quot;Task_Due_Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;Task Status&quot;,&quot;fieldName&quot;:&quot;Task_Status__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Contributor Criteria&quot;,&quot;fieldName&quot;:&quot;Contributor_Criteria__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>List Contributors</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>List_Contributor__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Closed</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>defaultValues</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionTypeLabel</name>
+                    <value>New</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>List__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>List__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;List Contributor Reference&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;List Contributor&quot;,&quot;fieldName&quot;:&quot;List_Contributor__r.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;List Contributor Team&quot;,&quot;fieldName&quot;:&quot;Account__r.Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Task Due Date&quot;,&quot;fieldName&quot;:&quot;Task_Due_Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;Task Status&quot;,&quot;fieldName&quot;:&quot;Task_Status__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Contributor Criteria&quot;,&quot;fieldName&quot;:&quot;Contributor_Criteria__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Is Active&quot;,&quot;fieldName&quot;:&quot;Is_Active__c&quot;,&quot;type&quot;:&quot;boolean&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>List Contributors</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>List_Contributor__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Closed</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-38efae9a-036c-4e4d-89a6-0beeb29efcf4</name>
@@ -852,7 +1026,7 @@
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>NE</operator>
@@ -868,18 +1042,36 @@
                         <operator>NE</operator>
                         <rightValue>Distribute</rightValue>
                     </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Closed</rightValue>
+                    </criteria>
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>customHeaderDatatable</componentName>
-                <identifier>c_customHeaderDatatable</identifier>
+                <componentName>customHeaderContainer</componentName>
+                <identifier>c_customHeaderContainer</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>In Progress</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>customHeaderContainer</componentName>
+                <identifier>c_customHeaderContainer2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Closed</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

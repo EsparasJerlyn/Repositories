@@ -140,10 +140,10 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Number of Calls by Type (This Month)</header>
+                <header>Number of Completed Calls by Type (This Month)</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>DomesticFutureStudentTeamLeaderReports/Number_of_Calls_by_Type_This_Month_Dom</report>
+                <report>DomesticFutureStudentTeamLeaderReports/Completed_Calls_by_Type_This_Month_Dom</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>

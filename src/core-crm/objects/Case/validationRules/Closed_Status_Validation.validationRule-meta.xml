@@ -3,7 +3,7 @@
     <fullName>Closed_Status_Validation</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
- RecordType.DeveloperName = &apos;International_Enquiry&apos;,
+ RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,
  ISCHANGED( Status ),
  ISPICKVAL( PRIORVALUE( Status ) , &apos;Closed&apos;) 
 )</errorConditionFormula>
