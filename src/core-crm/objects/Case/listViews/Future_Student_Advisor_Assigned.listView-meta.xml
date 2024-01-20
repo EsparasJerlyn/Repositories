@@ -7,7 +7,6 @@
     <columns>Lead__c</columns>
     <columns>CASES.STATUS</columns>
     <columns>CASES.PRIORITY</columns>
-    <columns>Student_LifeCycle_Status__c</columns>
     <columns>Category__c</columns>
     <columns>CASES.CREATED_DATE</columns>
     <columns>CASES.ORIGIN</columns>
@@ -24,18 +23,9 @@
         <value>Pending Closure</value>
     </filters>
     <filters>
-        <field>Latest_Queue_Name__c</field>
-        <operation>equals</operation>
-        <value>Future Student Advisor Enquiries</value>
-    </filters>
-    <filters>
         <field>CORE.USERS.ALIAS</field>
         <operation>notEqual</operation>
         <value>Future Student Advisor Enquiries</value>
     </filters>
     <label>Future Student Advisor - Assigned</label>
-    <sharedTo>
-        <group>International_Recruitment</group>
-        <role>International_Super_User</role>
-    </sharedTo>
 </ListView>
