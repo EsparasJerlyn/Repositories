@@ -341,3 +341,4 @@ public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a ser
     }
 
 }
+
