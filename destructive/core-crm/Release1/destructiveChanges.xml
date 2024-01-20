@@ -539,7 +539,7 @@
         <members>Future_Student_Team_Leader</members>
         <members>Future_Student_Super_User</members>
          <!--(End) DEPP-6570 -->
-        <name>UserRole</name>
+        <name>Role</name>
     </types>
     <types>
         <!--(Start) DEPP-6900 -->

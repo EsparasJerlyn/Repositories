@@ -380,3 +380,4 @@ public inherited sharing class LeadScoreCalculatorService {
     }
 
 }
+
