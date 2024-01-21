@@ -246,3 +246,4 @@
     /*** Methods for checking if for lead score calculation : End ***/
 
 }
+

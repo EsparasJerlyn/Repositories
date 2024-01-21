@@ -108,9 +108,6 @@ public class TestDataFactory {
         'QUT_Quality_Assurance',
         'QUT_Digital_Marketing_Officer',
         'QUT_Digital_Communication_Officer',
-        'QUT_ISR_Communications_Manager',
-        'QUT_ISR_Student_Enquiries_Communications_Officer',
-        'QUT_ISR_Student_Adviser',
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
         'QUT_Domestic_Future_Student_Agent',
@@ -2357,51 +2354,6 @@ public class TestDataFactory {
             LIMIT 1
         ];
         return integWebSiteUser;
-    }
-
-    /**
-     * @description Method for ISR Communications Manager
-     * @param void
-     * @return ISR Communications Manager
-     */
-    public static User getISRCommunicationsManager() {
-        User communicationMgr = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_ISR_Communications_Manager%'
-            LIMIT 1
-        ];
-        return communicationMgr;
-    }
-
-    /**
-     * @description Method for ISR Student Enquiries Communications Officer
-     * @param void
-     * @return ISR Student Enquiries Communications Officer
-     */
-    public static User getISRStudentEnquiriesCommunicationOfficer() {
-        User secoUser = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_ISR_Student_Enquiries_Communications_Officer%'
-            LIMIT 1
-        ];
-        return secoUser;
-    }
-
-    /**
-     * @description Method for ISR Student Adviser
-     * @param void
-     * @return ISR Student Adviser
-     */
-    public static User getISRStudentAdviser() {
-        User studentAdviser = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_ISR_Student_Adviser%'
-            LIMIT 1
-        ];
-        return studentAdviser;
     }
 
     /**
