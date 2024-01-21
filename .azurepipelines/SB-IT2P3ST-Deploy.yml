@@ -33,7 +33,7 @@ parameters:
   type: string
   default: RunSpecifiedTests
   values:
-  - RunLocalTests
+  #- RunLocalTests
   - RunSpecifiedTests
   - NoTestRun
 
@@ -44,6 +44,10 @@ parameters:
   values:
   - Default Behaviour
   - Diff from main
+  - Main-2023-12
+  - Main-2023-11
+  - Main-2023-10
+  - Full Deployment
 
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
   displayName: Create or Update Test Users
