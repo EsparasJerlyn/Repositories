@@ -552,11 +552,13 @@
 
     <types>
         <!--(Start) DEPP-6570 -->
+        <!-- 
+        Uncomment these when all sandboxes do not have users assigned to roles    
         <members>Future_Student_Agent</members>
         <members>Future_Student_Team_Leader</members>
         <members>Future_Student_Super_User</members>
-         <!--(End) DEPP-6570 -->
-        <name>Role</name>
+        <name>Role</name> -->
+        <!--(Start) DEPP-6570 -->
     </types>
     <types>
         <!--(Start) DEPP-6900 -->
