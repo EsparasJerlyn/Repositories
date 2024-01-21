@@ -338,8 +338,11 @@
         <!--(End) DEPP-6714-->
 
         <!--(Start) DEPP-5906-->
+
+        <!-- 
+        DOES NOT destroy successfully. Might neeed a pre deploy manual step. Please uncomment, create a PR and test on CI.
         <members>Case_Clear_Closure_Fields</members>
-        <members>Case_Pending_Closure_to_Closed</members>
+        <members>Case_Pending_Closure_to_Closed</members> -->
         <!--(End) DEPP-5906-->
         <name>Flow</name>
     </types>
@@ -556,8 +559,8 @@
         Uncomment these when all sandboxes do not have users assigned to roles    
         <members>Future_Student_Agent</members>
         <members>Future_Student_Team_Leader</members>
-        <members>Future_Student_Super_User</members>
-        <name>Role</name> -->
+        <members>Future_Student_Super_User</members>-->
+        <name>Role</name> 
         <!--(Start) DEPP-6570 -->
     </types>
     <types>
