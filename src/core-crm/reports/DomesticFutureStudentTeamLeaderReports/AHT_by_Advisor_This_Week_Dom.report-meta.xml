@@ -69,6 +69,11 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
+        <field>Activity$QTAC_Offer_Round__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
         <field>Activity$Owner</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
