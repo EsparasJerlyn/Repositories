@@ -6,8 +6,8 @@ resources:
       type: bitbucket
       endpoint: Bitbucket_QUT
       name: qutdev/sfdx-pipelines
-      #ref: main ## PRODUCTION pipeline branch
-      ref: feature/DEPP-7471-sfpipelines ## DEV pipeline branch (used for pipeline development)
+      ref: main ## PRODUCTION pipeline branch
+      # ref: feature/DEPP-7471-sfpipelines ## DEV pipeline branch (used for pipeline development)
 
     - repository: SFDX
       type: bitbucket
@@ -35,7 +35,7 @@ parameters:
   type: string
   default: RunSpecifiedTests
   values:
-  - RunLocalTests
+  #- RunLocalTests
   - RunSpecifiedTests
   - NoTestRun
 
@@ -46,6 +46,10 @@ parameters:
   values:
   - Default Behaviour
   - Diff from main
+  - Main-2023-12
+  - Main-2023-11
+  - Main-2023-10
+  - Full Deployment
 
 - name: INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers
   displayName: Create or Update Test Users
