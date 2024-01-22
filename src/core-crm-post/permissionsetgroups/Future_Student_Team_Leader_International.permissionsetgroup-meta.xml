@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group to be added to users that are Team Leaders within the teams</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Future Student Team Leader - International</label>
+    <mutingPermissionSets>Future_Student_Team_Leader_International_Muted</mutingPermissionSets>
+    <permissionSets>Future_Student_Engagement</permissionSets>
+    <permissionSets>Google_Integration_User</permissionSets>
+    <permissionSets>Knowledge_User</permissionSets>
+    <permissionSets>Run_Reports_and_Dashboards</permissionSets>
+    <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
+    <permissionSets>spr_sf__Sprinklr_User</permissionSets>
+    <permissionSets>Future_Student_International_Email_Access</permissionSets>
+
+
+    <status>Updated</status>
+</PermissionSetGroup>
