@@ -3,6 +3,7 @@
     <fullName>Engage_Stage_Validation</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
+RecordType.DeveloperName = &quot;Corporate Engagement&quot;,
 ISCHANGED( Stage__c ),
 ISPICKVAL( PRIORVALUE(Stage__c ) ,&quot;Engage&quot;),
 AND(NOT(ISPICKVAL( Stage__c , &apos;Closed&apos;)))

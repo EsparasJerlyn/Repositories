@@ -49,6 +49,7 @@ export default class CustomHeaderDatatable extends LightningElement {
   @track dataRecord;
   @track dataRecordCopy;
   @track columnsCopy = [];
+  @track qualifiedEngageRecords = [];
   @track columns = [
       { label: 'List Member Reference', fieldName: 'Name', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
       { label: 'List Contributor', fieldName: 'List_Contributor__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
@@ -68,12 +69,12 @@ export default class CustomHeaderDatatable extends LightningElement {
         }
     ];
     @track engagementOpportunityColumns = [
-        { label: 'Contact', fieldName: 'List_Member__c', type: 'url', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
         { label: 'Activity Name', fieldName: 'Activity_Name__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
         { label: 'Activity Start Date', fieldName: 'Activity_Start_Date__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
         { label: 'Activity End Date', fieldName: 'Activity_End_Date__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH },
         { label: 'Activity Status', fieldName: 'Activity_Status__c', type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
     ];
+
 
   @track draftValues = [];
   @track engagementOpportunityListId = this.recordId;
@@ -86,49 +87,67 @@ export default class CustomHeaderDatatable extends LightningElement {
 
   listMemberColumns = [LIST_STAGE,LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
       LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
-  fields = [ENGAGE_STAGE]
+  engageOppfields = [ENGAGE_STAGE];
       
-      @wire(getRecord, { recordId: "$recordId", fields: "$fields" })
-      wiredEngageList(responseData) {
-          const { data, error } = responseData;
-    
-          this.dataListRecord = responseData;
-          if (data) {
-            if(this.objectApiName == 'Engagement_Opportunity__c'){
-                let columns = JSON.parse(JSON.stringify(this.columnsCopy));
-    
-                if (!columns.length) {
-                    columns = JSON.parse(JSON.stringify(this.engagementOpportunityColumns));
-                    this.columnsCopy = this.engagementOpportunityColumns;
-                }
-    
-                this.columns = columns;
-    
-                getEngagementOpportunityListId({ engagementOpportunityId: this.recordId })
-                .then((response) => {
-                    
-                    this.engagementOpportunityListId = response;
-                    this.isLoading = false;
+  @wire(getRecord, { recordId: "$recordId", fields: "$engageOppfields" })
+  wiredEngageList(responseData) {
+      const { data, error } = responseData;
 
-                    getListMembers({ listId: response })
-                    .then((response) => {
-                        response.forEach(obj => {
-                            if (obj.List_Member__r && obj.List_Member__r.Name && obj.List_Member__r.List_Member_Status__c == 'Qualified') {
-                                obj.listMemberName = obj.List_Member__r.Name;
-                            }
-                        });
-        
-                        this.dataRecord = response;
-                        this.dataRecordCopy = response;
-        
-                        this.isLoading = false;
-                    })
-                })
-    
+      this.dataListRecord = responseData;
+      if (data) {
+        if(this.objectApiName == 'Engagement_Opportunity__c'){
+            const engageFields = data.fields;
+            const engageListColumns = [
+                {column: 'Contact', fieldName: 'ContactName'}
+            ];
+
+            const toAddEngageColumns = [];
+            engageListColumns.forEach((key, index) => {
+                toAddEngageColumns.push(
+                    { label: key.column, fieldName: key.fieldName, type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
+                );
+            });
+
+            let columns = JSON.parse(JSON.stringify(this.columnsCopy));
+
+            if (!columns.length) {
+                columns = JSON.parse(JSON.stringify(this.engagementOpportunityColumns));
+                this.columnsCopy = this.engagementOpportunityColumns;
             }
-          }
 
+            const newEngageColumns = [
+                ...toAddEngageColumns,
+                ...columns.slice(0)
+            ];
+
+            this.columns = newEngageColumns;
+
+            getEngagementOpportunityListId({ engagementOpportunityId: this.recordId })
+            .then((response) => {
+                
+                this.engagementOpportunityListId = response;
+                this.isLoading = false;
+
+                getListMembers({ listId: response })
+                .then((response) => {
+                    response.forEach(obj => {
+                        if (obj.List_Member__r && obj.List_Member__r.Name && obj.List_Member_Status__c == 'Qualified') {
+                            this.qualifiedEngageRecords.push(obj);
+                            obj.ContactName = obj.List_Member__r.Name;
+                        }
+                    });
+
+                    this.dataRecord = this.qualifiedEngageRecords;
+                    this.dataRecordCopy = this.qualifiedEngageRecords;
+    
+                    this.isLoading = false;
+                })
+            })
+
+        }
       }
+
+    }
       
   @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
   wiredList(responseData) {
