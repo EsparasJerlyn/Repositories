@@ -9,11 +9,6 @@ resources:
       ref: main ## PRODUCTION pipeline branch
       # ref: feature/DEPP-7471-sfpipelines ## DEV pipeline branch (used for pipeline development)
 
-    - repository: SFDX
-      type: bitbucket
-      endpoint: Bitbucket_QUT
-      name: qutdev/sfdx
-
 #Custom Variables
 variables:
   - group: SALESFORCE_CICD #ALWAYS LEAVE THIS IN
