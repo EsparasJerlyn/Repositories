@@ -10,7 +10,7 @@
       | eccarius.munoz                 | September 23, 2023    | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a service class, high number of public methods and overall complexity are expected
+public inherited sharing class LeadScoreCalculatorService {
 
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_UG = 'Domestic Undergrad';
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_PG = 'Domestic Postgrad';
@@ -257,6 +257,45 @@ public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a ser
     }
 
     /**
+     * Process recalculation for Contact
+     */
+    public static void processContact(Set<Id> contactIdSet, Boolean isForContactAndLead){
+        if(isForContactAndLead){
+            Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
+            LeadScoreCalculatorService.ObjectMap objMap = ContactLeadScoreHelper.setObjectMap(contactMap);
+            if(!contactMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, contactMap.keySet(), Contact.getSObjectType());
+            }   
+        }
+    }
+
+    /**
+     * Process recalculation for Lead
+     */
+    public static void processLead(Set<Id> leadIdSet, Boolean isForContactAndLead){
+        if(isForContactAndLead){
+            Map<Id,Lead> leadMap = new Map<Id,Lead>(LeadsDAO.newInstance().getLeadsByIdSetAndType(leadIdSet, LeadsDAO.LEARNER_LEAD_TYPE, AccessLevel.SYSTEM_MODE));
+            LeadScoreCalculatorService.ObjectMap objMap = LeadLeadScoreHelper.setObjectMap(leadMap);
+            if(!leadMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, leadMap.keySet(), Lead.getSObjectType());
+            }    
+        }
+    }
+
+    /**
+     * Process recalculation for Program Enrollment
+     */
+    public static void processProgramEngagement(Set<Id> contactIdSet, Boolean isForProgEnrollment){    
+        if(isForProgEnrollment){
+            Map<Id,hed__Program_Enrollment__c> progEngMap = ProgEnrollLeadScoreHelper.setProgramEnrollmentMap(contactIdSet);
+            LeadScoreCalculatorService.ObjectMap objMap = ProgEnrollLeadScoreHelper.setObjectMap(contactIdSet, progEngMap);
+            if(!progEngMap.isEmpty()){
+                LeadScoreCalculatorService.calculateLeadScore(objMap, contactIdSet, hed__Program_Enrollment__c.getSObjectType());
+            } 
+        }
+    }
+
+    /**
      * Process recalculation for Case
      */
     public static void processCase(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForCase){    
@@ -341,3 +380,4 @@ public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a ser
     }
 
 }
+

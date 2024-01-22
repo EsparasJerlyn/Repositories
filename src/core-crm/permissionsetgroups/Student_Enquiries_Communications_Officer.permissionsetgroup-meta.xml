@@ -2,7 +2,6 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>Student Enquiries Communications Officer</label>
-    <permissionSets>Direct_Nurture_Base</permissionSets>
     <permissionSets>Email_Template_Management</permissionSets>
     <permissionSets>Enquiry_Management_Base</permissionSets>
     <permissionSets>Live_Chat_Agent</permissionSets>

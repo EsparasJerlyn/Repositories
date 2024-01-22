@@ -1,65 +1,67 @@
+
 {
   "packageDirectories": [
     {
-      "path": "src/core-crm-pre",
-      "package": "core-crm-pre",
+      "path": "src",
+      "pathRelative": "src/core-crm-pre",
+      "package": "src/core-crm-pre",
       "type": "metadata",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "destructive/core-crm-pre/Release1pre/destructiveChanges.xml"
-    },
-    {
-      "path": "src/src-env-specific-alias",
-      "package": "src-env-specific-alias",
+      "destructiveChangePath": "destructive/2024Jan/core-crm-pre/destructiveChanges.xml"
+    },{
+      "path": "src",
+      "pathRelative": "src/src-env-specific-alias",
+      "package": "src/src-env-specific-alias",
       "type": "metadata",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
       "aliasfy": true
-    },
-    {
-      "path": "src/core-crm",
-      "package": "core-crm",
+    },{
+      "path": "src",
+      "pathRelative": "src/core-crm",
+      "package": "src/core-crm",
       "type": "metadata",
       "default": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "destructive/core-crm/Release1/destructiveChanges.xml",
-      "destructiveChangePathPreviousRelease": "destructive/core-crm/Pilot1/destructiveChanges.xml"
-    },
-    {
-      "path": "src/core-crm-post",
-      "package": "core-crm-post",
+      "destructiveChangePath": "destructive/2024Jan/core-crm/destructiveChanges.xml",
+      "destructiveChangePathPreviousRelease": "destructive/core-crm/Release1/destructiveChanges.xml"
+    },{
+      "path": "src",
+      "pathRelative": "src/core-crm-post",
+      "package": "src/core-crm-post",
       "type": "metadata",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
-    },
-    {
+    },{
       "path": "src/core-crm-data-pre",
-      "package": "core-crm-data-pre",
+      "pathRelative": "src/core-crm-data-pre",
+      "package": "src/core-crm-data-pre",
       "type": "data",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
-    },
-    {
+    },{
       "path": "src/core-crm-data-alias",
-      "package": "core-crm-data-alias",
+      "pathRelative": "src/core-crm-data-alias",
+      "package": "src/core-crm-data-alias",
       "type": "data",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
       "aliasfy": true
-    },
-    {
-      "path": "src/core-crm-data-onetime",
-      "package": "core-crm-data-onetime",
-      "type": "data-onetime",
-      "versionName": "Version 1.0.0.0",
-      "versionNumber": "1.0.0.0"
-    },
-    {
+    },{
       "path": "src/core-crm-data",
-      "package": "core-crm-data",
+      "pathRelative": "src/core-crm-data",
+      "package": "src/core-crm-data",
       "type": "data",
       "defaultData": true,
+      "versionName": "Version 1.0.0.0",
+      "versionNumber": "1.0.0.0"
+    },{
+      "path": "src/core-crm-data-onetime",
+      "pathRelative": "src/core-crm-data-onetime",
+      "package": "src/core-crm-data-onetime",
+      "type": "data-onetime",
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0"
     }
@@ -67,16 +69,8 @@
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "59.0",
-  "packageAliases": {
-    "DocuSign Apps Launcher": "04t3u00000349bDAAQ"
-  },
+  "buildPackageFromTag":"",
   "plugins": {
-    "sfpowerscripts": {
-      "ignoreFiles": {
-        "validate": ".forceignores/.buildignore",
-        "build": ".forceignores/.validationignore"
-      }
-    },
     "sfdx-plugin-prettier": {
       "enabled": true
     }
