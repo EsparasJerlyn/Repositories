@@ -2,7 +2,7 @@
 /**
   * @description Chained Batch job from LeadScoreConfigRecalculationBatch to recalculate lead score for Marketing Segmentation related records.
   *
-  * @author Accenture 
+  * @author Accenture
   *
   * @history
   *
