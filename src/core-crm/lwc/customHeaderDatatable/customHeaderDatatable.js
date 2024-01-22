@@ -104,7 +104,8 @@ export default class CustomHeaderDatatable extends LightningElement {
             const toAddEngageColumns = [];
             engageListColumns.forEach((key, index) => {
                 toAddEngageColumns.push(
-                    { label: key.column, fieldName: key.fieldName, type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
+                    { label: key.column, fieldName: key.fieldName, type: 'url', editable: false, typeAttributes: {label: { fieldName: 'List_Member__r.Name' }, 
+                    target: '_blank'}, sortable: true, "initialWidth": ROW_WIDTH }
                 );
             });
 
@@ -133,7 +134,10 @@ export default class CustomHeaderDatatable extends LightningElement {
                     response.forEach(obj => {
                         if (obj.List_Member__r && obj.List_Member__r.Name && obj.List_Member_Status__c == 'Qualified') {
                             this.qualifiedEngageRecords.push(obj);
-                            obj.ContactName = obj.List_Member__r.Name;
+                            //obj.ContactName = obj.List_Member__r.Name;
+                            obj.ContactName = '/' + obj.Id;
+                            //obj.ContactName.typeAttributes.label = obj.List_Member__r.Name;
+                            //res.accLink = '/' + res.Id;
                         }
                     });
 
