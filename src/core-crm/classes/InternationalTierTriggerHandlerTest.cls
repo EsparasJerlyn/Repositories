@@ -20,9 +20,9 @@ public with sharing class InternationalTierTriggerHandlerTest {
     }
 
     @isTest
-    public static void addingCountryTierTest(){
+    public static void addingCountryTierTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()) {
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
                                                             new List<String>{'Wales','Australia'}, 'Tier 1',true);
             tierList.addAll(TestDataFactory.createInternationalTierRecords(
@@ -35,7 +35,7 @@ public with sharing class InternationalTierTriggerHandlerTest {
     }
 
     @isTest
-    public static void addingTierWithExistingActive(){
+    public static void addingTierWithExistingActive() {
         Test.startTest();
         System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
             Boolean hasException = false;

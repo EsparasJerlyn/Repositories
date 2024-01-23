@@ -18,9 +18,8 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
     static void setupMethod() {
         Test.startTest();
         TestDataFactory.generateTestUsers();
-        
 
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()) {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(50);
             List<Lead> leadList =  TestDataFactory.createTestLeadRecords(50);
             insert contactList;
@@ -34,8 +33,8 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
     }
 
     @isTest
-    public static void updateMarketingSegmentationLeadTest(){
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+    public static void updateMarketingSegmentationLeadTest() {
+        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()) {
             List<Marketing_Segmentation__c> marSegmentationWithoutLead = [
                 SELECT Id, Lead__c 
                 FROM Marketing_Segmentation__c
