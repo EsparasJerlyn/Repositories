@@ -194,7 +194,7 @@ public with sharing class LeadsDAOTest {
             Test.stopTest();
         }
     }
-    
+
     @isTest
     static void getLearnerLeadsByEmailOrWorkEmailTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {

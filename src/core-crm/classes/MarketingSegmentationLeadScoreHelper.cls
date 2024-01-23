@@ -11,7 +11,7 @@
   *    | eccarius.munoz                 | September 25, 2023    | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for marketing segmentation                     |
   */
-  public with sharing class MarketingSegmentationLeadScoreHelper{    
+  public with sharing class MarketingSegmentationLeadScoreHelper {    
 
     private static Map<Id,Marketing_Segmentation__c> domesticUnderGradMap = new Map<Id,Marketing_Segmentation__c>();
     private static Map<Id,Marketing_Segmentation__c> domesticPostGradMap = new Map<Id,Marketing_Segmentation__c>();
@@ -24,16 +24,16 @@
     /**
      * Filter records to be processed
      */
-    public static void processLeadScoreCalculation(List<Marketing_Segmentation__c> newItems, Map<Id, Marketing_Segmentation__c> oldItems){
+    public static void processLeadScoreCalculation(List<Marketing_Segmentation__c> newItems, Map<Id, Marketing_Segmentation__c> oldItems) {
 
         Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = new Map<Id,Marketing_Segmentation__c>();
         Set<Id> contactIdSet = new Set<Id>();
-        for(Marketing_Segmentation__c mktgSeg : newItems){
+        for(Marketing_Segmentation__c mktgSeg : newItems) {
             if(
                 checkIfForUpdate(oldItems, mktgSeg) || 
                 checkIfForUpdatedToUndetermined(oldItems, mktgSeg) || 
                 checkUndeterminedUndetermined(mktgSeg)
-            ){
+            ) {
                 if(mktgSeg.Contact__c != null){
                     contactIdSet.add(mktgSeg.Contact__c);
                     marketingSegmentationMap.put(mktgSeg.Contact__c, mktgSeg);

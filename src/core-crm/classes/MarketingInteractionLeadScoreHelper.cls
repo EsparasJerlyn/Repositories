@@ -12,7 +12,7 @@
   *    |                                |                       |                        | for marketing interactions                     |
   */
 //public with sharing class MarketingInteractionLeadScoreHelper implements ILeadScoreCommand{
-public with sharing class MarketingInteractionLeadScoreHelper{
+public with sharing class MarketingInteractionLeadScoreHelper {
 
     private static Map<Id,Marketing_Interaction__c> domesticUnderGradMap = new Map<Id,Marketing_Interaction__c>();
     private static Map<Id,Marketing_Interaction__c> domesticPostGradMap = new Map<Id,Marketing_Interaction__c>();
@@ -38,7 +38,7 @@ public with sharing class MarketingInteractionLeadScoreHelper{
                 !mktgInteraction.Lead_Score_Reset__c && 
                 (checkIfForInsert(mktgInteraction, oldItems) || 
                 checkIfForUpdate(mktgInteraction, oldItems))
-            ){
+            ) {
                 setContactIds(mktgInteraction, oldItems, contactIdSet);    
                 setLeadIds(mktgInteraction, oldItems, leadIdSet);
             }
@@ -47,10 +47,10 @@ public with sharing class MarketingInteractionLeadScoreHelper{
         /**
          * Determines wether to run async or sync
          */
-        if(!contactIdSet.isEmpty() || !leadIdSet.isEmpty()){
+        if(!contactIdSet.isEmpty() || !leadIdSet.isEmpty()) {
             if(System.isQueueable()){
                 executeCalculation(contactIdSet, leadIdSet);
-            }else{      
+            } else {      
                 //Will update to use LeadScoreQueueableCall after updating all the Lead Score helper classes.          
                 //LeadScoreQueueableCall executeQueueable = new LeadScoreQueueableCall(new MarketingInteractionLeadScoreHelper(), contactIdSet, leadIdSet);
                 QueueableCall executeQueueable = new QueueableCall(contactIdSet, leadIdSet);

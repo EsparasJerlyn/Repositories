@@ -126,7 +126,7 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
         LeadsDAO.QueryParamWrapperEmailOrName queryParam,
         Boolean excludeConverted,
         AccessLevel accessLevel
-    ){
+    ) {
 
         String email = queryParam.email;
         List<Lead> leadList = new List<Lead>();
