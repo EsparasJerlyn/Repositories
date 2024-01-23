@@ -1,6 +1,5 @@
 /**
  * @description Test Class for ActionCadenceTrackerCETriggerHandler
- *
  * @see ActionCadenceTrackerCETriggerHandler
  *
  * @author Accenture
