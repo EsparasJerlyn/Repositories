@@ -45,11 +45,14 @@ public inherited sharing class LeadScoreDetailsDAO extends DmlBase implements IL
         );
     }
 
+    @SuppressWarnings('PMD.UnusedLocalVariable')//variable not detected in string query
     public Database.QueryLocator getLeadScoreDetailsWithContactOrLead(){
+        String personRecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID; 
+
         String query =
             'SELECT Id, Contact__c, Lead__c ' + 
               'FROM Lead_Score_Detail__c ' + 
-             'WHERE Contact__c != null OR Lead__c != null ';
+             'WHERE (Contact__c != null  AND Contact__r.RecordTypeId =: personRecordTypeId) OR (Lead__c != null AND Lead__r.IsConverted = FALSE)';
         return Database.getQueryLocator(query);
     }
 
@@ -67,15 +70,18 @@ public inherited sharing class LeadScoreDetailsDAO extends DmlBase implements IL
         );
     }
 
+    @SuppressWarnings('PMD.UnusedLocalVariable')//variable not detected in string query
     public Database.QueryLocator queryLocatorLeadScoreDetailsByCitizenshipAndStudyLevel(
         Set<String> citizenshipStatusSet,
         Set<String> primaryStudyLevelSet
     ){
+        String personRecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID; 
         String query =
             'SELECT Id, Contact__c, Lead__c, Domestic_International__c, Study_Level__c ' + 
               'FROM Lead_Score_Detail__c ' + 
              'WHERE Domestic_International__c IN :citizenshipStatusSet ' + 
-               'AND Study_Level__c IN : primaryStudyLevelSet';
+               'AND Study_Level__c IN : primaryStudyLevelSet AND ((Contact__c != null  AND Contact__r.RecordTypeId =: personRecordTypeId) ' +
+               'OR (Lead__c != null AND Lead__r.IsConverted = FALSE))';
         return Database.getQueryLocator(query);
     }
     

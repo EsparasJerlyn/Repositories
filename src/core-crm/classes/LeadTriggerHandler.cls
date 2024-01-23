@@ -22,7 +22,6 @@
  */
 
 public without sharing class LeadTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
-    public static Boolean isRunning = false;
     /**
      * @description performs beforeInsert event for Lead object
      * @param newItems - List of Lead.Trigger.new
@@ -43,7 +42,6 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLeadStatus((List<Lead>) newItems.values());
-        LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
     }
 
     /**
@@ -51,13 +49,9 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
      * @param newItems - List of Lead.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems) {
-        if(!isRunning ){
-            isRunning = true;
-            LeadService.createLeadScoreDetailRecord(newItems.keySet());
-            LeadService.createMarketingSegmentationForLeads(newItems.keySet());
-            LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), null);
-            isRunning = false;
-        }
+        LeadService.createLeadScoreDetailRecord((List<Lead>) newItems.values());
+        LeadService.createMarketingSegmentationForLeads(newItems.keySet());
+        LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), null);
     }
 
   /**
@@ -69,10 +63,8 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ) {
-        if(!isRunning ){
-            isRunning = true;
-            LeadService.getLeadCalculatedCadence((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
-        }
+        LeadService.getLeadCalculatedCadence((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+        LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
     }
 
     /**

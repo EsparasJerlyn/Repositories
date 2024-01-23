@@ -79,4 +79,14 @@ public interface IContactsDAO extends DmlInterface {
         Set<Id> recordIds,
         AccessLevel accessLevel
     ); 
+
+    List<Contact> getMCPersonaContactsByParentPersonContactIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
+
+    List<Contact> getMCPersonaContactsByParentPersonLeadIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Appointment_Operating_Hours</fullName>
+    <columns>Name</columns>
+    <columns>Description</columns>
+    <columns>TimeZone</columns>
+    <columns>CreatedDate</columns>
+    <columns>LastModifiedDate</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Name</field>
+        <operation>notContain</operation>
+        <value>Sales</value>
+    </filters>
+    <label>All Appointment Operating Hours</label>
+    <sharedTo>
+        <role>Future_Student_Super_User_Domestic</role>
+        <role>Future_Student_Super_User_International</role>
+    </sharedTo>
+</ListView>

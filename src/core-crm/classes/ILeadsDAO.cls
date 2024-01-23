@@ -59,5 +59,10 @@ public interface ILeadsDAO extends DmlInterface {
         Set<Id> recordIds,
         String leadType
     );
+    List<Lead> getUnconvertedLeadsByIdSet(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    );
+
     
 } 

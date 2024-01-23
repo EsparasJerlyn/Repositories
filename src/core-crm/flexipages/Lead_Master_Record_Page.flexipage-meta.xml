@@ -12,7 +12,7 @@
                         <valueListItems>
                             <value>Convert</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Can_Be_Converted__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -22,6 +22,11 @@
                                     <leftValue>{!Record.Lead_Type__c}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>Learner</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Future Student Engagement</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

@@ -11,9 +11,7 @@
       | mark.j.mahilum                 | Sept 09, 2023         | DEPP-6421              | Created file                                     |
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added method for before insert                   |
  */
-public with sharing class CaseTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert {
-    
-    public static Boolean isRunning = false;
+public with sharing class CaseTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
     /**
     * @description beforeInsert trigger event
@@ -29,14 +27,10 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
     * @param newItems - Map<Id, SObject> of Case.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-
-        if(!isRunning ){
-            isRunning = true;
-            CaseTriggerHelper.matchExistingContactOrLeadToCase((List<Case>) newItems.values());
-            CaseTriggerHelper.handleAutoPriorityAssignedCase((List<Case>) newItems.values());
-            CaseLeadScoreHelper.processLeadScoreCalculation((List<Case>) newItems.values(), null);
-        }
+        CaseTriggerHelper.matchExistingContactOrLeadToCase((List<Case>) newItems.values());
+        CaseTriggerHelper.handleAutoPriorityAssignedCase((List<Case>) newItems.values());
         CaseMarketingHelper.mapMarketingFieldsFromCase((List<Case>) newItems.values(),null);
+        CaseLeadScoreHelper.processLeadScoreCalculation((List<Case>) newItems.values(), null);
     }
 
     /**
@@ -48,14 +42,18 @@ public with sharing class CaseTriggerHandler implements Disableable, BeforeInser
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ) {
-        if(!isRunning){
-            isRunning = true;
-            CaseLeadScoreHelper.processLeadScoreCalculation(
-                (List<Case>) newItems.values(), 
-                (Map<Id, Case>) oldItems
-            );
-        }
         CaseMarketingHelper.mapMarketingFieldsFromCase((List<Case>) newItems.values(),(Map<Id, Case>) oldItems);
+        
+    }
+
+    public void afterUpdate(
+        Map<Id, SObject> newItems,
+        Map<Id, SObject> oldItems
+    ) {
+        CaseLeadScoreHelper.processLeadScoreCalculation(
+            (List<Case>) newItems.values(), 
+            (Map<Id, Case>) oldItems
+        );
     }
        
    /**
