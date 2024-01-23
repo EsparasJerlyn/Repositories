@@ -33,7 +33,7 @@ parameters:
   type: string
   default: RunSpecifiedTests
   values:
-  - RunLocalTests
+  #- RunLocalTests # DO NOT UNCOMMENT - THIS WILL NOT WORK
   - RunSpecifiedTests
   - NoTestRun
 
