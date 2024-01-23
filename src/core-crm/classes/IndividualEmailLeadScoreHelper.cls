@@ -26,7 +26,7 @@
         Set<Id> contactIdSet = new Set<Id>();
         Set<Id> leadIdSet = new Set<Id>();
 
-        for(et4ae5__IndividualEmailResult__c indivEmail : newItems){            
+        for(et4ae5__IndividualEmailResult__c indivEmail : newItems) {            
             if(
                 !indivEmail.Lead_Score_Reset__c && 
                 (validateIfForInsert(indivEmail, oldItems) || 
@@ -44,7 +44,7 @@
         /**
          * Determines wether to run async or sync
          */
-        if(!contactIdSet.isEmpty() || !leadIdSet.isEmpty()){
+        if(!contactIdSet.isEmpty() || !leadIdSet.isEmpty()) {
             if(System.isQueueable()){
                 executeCalculation(contactIdSet, leadIdSet);
             }else{      
