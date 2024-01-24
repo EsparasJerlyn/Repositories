@@ -75,8 +75,6 @@ public with sharing class LeadScoreConfigFundingService {//NOPMD this is a servi
                 else if(marketingSeg.My_Funding_Source__c == MarketingSegmentationsDAO.CONFIG_SUB_CATEGORY_I_NEED_A_FULL_SCHOLARSHIP){ 
                     fundingCategoryScore = fundingCategoryScore + leadScoreConfigFunding.getINeedFullScholarship();
                 }
-            }else if(isDomestic && String.isBlank(marketingSeg.My_Funding_Source__c)){ 
-                fundingCategoryScore = fundingCategoryScore + leadScoreConfigFunding.getCompanyFunded();
             }
             
             Integer score = LeadScoreCalculatorService.validateScore(fundingCategoryScore, leadScoreConfigFunding.getMaxScore());

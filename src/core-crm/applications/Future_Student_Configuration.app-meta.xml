@@ -51,6 +51,8 @@
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>Knowledge__kav</tabs>
+    <tabs>standard-ServiceResource</tabs>
+    <tabs>standard-OperatingHours</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
@@ -82,6 +84,12 @@
         </mappings>
         <mappings>
             <tab>standard-EmailTemplate</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-OperatingHours</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-ServiceResource</tab>
         </mappings>
         <mappings>
             <tab>standard-home</tab>

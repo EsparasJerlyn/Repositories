@@ -197,6 +197,21 @@ private class ContactsDAOTest {
     }
 
     @isTest
+    static void getPersonContactsBySetIdsTestWithId() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            MockIdGenerator contactMock = new MockIdGenerator(Contact.sObjectType);
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getPersonContactsBySetIds(
+                    new Set<Id>{contactMock.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            System.assert(contactList.isEmpty(), 'leadList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getContactByCaseMobileTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -347,5 +362,32 @@ private class ContactsDAOTest {
             Test.stopTest();
             System.assert(contactList.isEmpty(), 'contactList should be empty.');
         }
+    }
+
+    static void getMCPersonaContactsByParentPersonContactIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getMCPersonaContactsByParentPersonContactIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getMCPersonaContactsByParentPersonLeadIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getMCPersonaContactsByParentPersonLeadIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
+        }
+        Test.stopTest();
     }
 }
