@@ -1,27 +1,23 @@
 <template>
-  <lightning-card>
-    <c-custom-datatable-columned
-      key-field="id"
-      data={dataRecordCopy}
-      columns={columns}
-      onsave={handleSave}
-      oncancel={handleCancel}
-      oncellchange={handleCellChange}
-      onpicklistselect={handlePicklistSelect}
-      draft-values={draftValues}
-      default-sort-direction={defaultSortDirection}
-      sorted-direction={sortDirection}
-      sorted-by={sortedBy}
-      onsort={handleSort}
-      onrowselection={handleSelectedRows}
-      show-row-number-column></c-custom-datatable-columned>
-    <div
-      if:true={isLoading}
-      class="box-loading slds-show_inline-block slds-spinner_inline spinner-padding">
-      <lightning-spinner
-        variant="brand"
-        alternative-text="Loading"
-        size="small"></lightning-spinner>
-    </div>
-  </lightning-card>
+    <lightning-card>
+        <c-custom-datatable-columned
+            key-field="id"
+            data={recordDataCopy}
+            columns={columns}
+            onsave={handleSave}
+            oncancel={handleCancel}
+            oncellchange={handleCellChange}
+            onpicklistselect={handlePicklistSelect}
+            draft-values={draftValues}
+            default-sort-direction={defaultSortDirection}
+            sorted-direction={sortDirection}
+            sorted-by={sortedBy}
+            onsort={handleSort}
+            onrowselection={handleSelectedRows}
+            show-row-number-column
+        ></c-custom-datatable-columned>
+        <div if:true={isLoading} class="box-loading slds-show_inline-block slds-spinner_inline spinner-padding">
+            <lightning-spinner variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
+        </div>
+    </lightning-card>
 </template>

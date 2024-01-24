@@ -1,0 +1,5 @@
+.box-input {
+    display: inline-flex!important;
+    text-align: left;
+    padding: 0 20px;
+}

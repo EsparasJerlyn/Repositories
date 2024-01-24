@@ -1,6 +1,6 @@
 /**
  * @description Controller Class for List Members in List
- * @see ../lwc/customHeaderDatatable
+ * @see ../lwc/customHeaderContainer
  *
  * @author Accenture
  *
@@ -10,7 +10,7 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
       | neil.s.h.lesidan               | December 20, 2023     | DEPP-6963              | Created file                                      |
  */
-public with sharing class CustomHeaderDatatableCtrl {
+public with sharing class CustomHeaderContainerCtrl {
 
     /**
      * @description Fetches the List Members Object that are connected to Lists

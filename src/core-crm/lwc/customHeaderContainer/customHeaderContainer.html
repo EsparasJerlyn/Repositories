@@ -1,16 +1,25 @@
 <template>
-  <div
-    class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
-    <c-custom-header-buttons
-      record-id={recordId}
-      selected-rows={selectedRows}
-      columns-data={columnsData}
-      columns-name={columnsName}>
-    </c-custom-header-buttons>
-  </div>
-  <c-custom-header-datatable
-    record-id={recordId}
-    onlistdatahandler={listDataHandler}
-    onlistdatacolumns={newColumnsList}>
-  </c-custom-header-datatable>
+    <div class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
+        <c-custom-header-buttons
+            record-id={recordId}
+            list-id={listId}
+            selected-rows={selectedRows}
+            columns={tableColumns}
+            list-stage-value={listStageValue}
+            table-columns={tableColumns}
+            record-data={recordData}
+            onreloadlistmemberstable={reloadListMembersTable}
+            columns-name={columnsName}>
+        ></c-custom-header-buttons>
+    </div>
+    <c-custom-header-datatable
+        record-id={recordId}
+        object-api-name={objectApiName}
+        record-data={recordData}
+        is-loading={isTableLoading}
+        fields-to-columns={fieldsToColumns}
+        columns={tableColumns}
+        onlistdatahandler={listDataHandler}
+        onlistdatacolumns={newColumnsList}
+    ></c-custom-header-datatable>
 </template>
