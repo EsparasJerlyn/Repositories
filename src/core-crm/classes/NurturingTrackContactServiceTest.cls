@@ -751,6 +751,22 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     private static void getDomesticDeferredOfferToAcceptanceForEntryTest(){
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
+            
+            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
+                nurtureList.add(
+                    new Nurture_Track_Configuration__c(
+                        Id = nurtureTrackConfig.Id,
+                        Cadence_Name__c = 'Domestic Deferred Offer to Acceptance',
+                        Key_Date_Offset_Days__c = 35,
+                        Status__c = 'Active',
+                        Criteria_Type__c = 'Entry'
+                    )
+                );
+            }
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE); 
+
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = '';
