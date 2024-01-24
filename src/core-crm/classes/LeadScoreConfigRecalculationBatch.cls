@@ -40,13 +40,13 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
         Set<String> citizenshipStatusSet = new Set<String>();
         Set<String> primaryStudyLevelSet = new Set<String>();
 
-        List<String> fields = new List<String>{'Name', 'Domestic_International__c', 'Study_Level__c'};
-        List<Lead_Score_Configuration__c> leadScoreConfigList = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigsById(leadScoreConfigIds, fields, AccessLevel.SYSTEM_MODE);
+        List<String> fields = new List<String>{'Name', 'Domestic_International__c', 'Study_Level__c', 'Parent_Category__r.Name'};
+        List<Lead_Score_Configuration__c> leadScoreConfigList = LeadScoreConfigurationDAO.newInstance().getCategoryLeadScoreConfigsById(leadScoreConfigIds, fields, AccessLevel.SYSTEM_MODE);
         Map<String, Lead_Score_Configuration__c> leadScoreConfigMap = new Map<String, Lead_Score_Configuration__c>();
         for(Lead_Score_Configuration__c leadScoreConfig : leadScoreConfigList){
             citizenshipStatusSet.add(leadScoreConfig.Domestic_International__c);
             primaryStudyLevelSet.add(leadScoreConfig.Study_Level__c);
-            leadScoreConfigMap.put(leadScoreConfig.Name, leadScoreConfig);
+            leadScoreConfigMap.put(getUniqueKey(leadScoreConfig), leadScoreConfig);
         }        
         
         isForCase = validateCaseRecords(leadScoreConfigMap);
@@ -85,39 +85,54 @@ public with sharing class LeadScoreConfigRecalculationBatch implements Database.
     }  
     
     private Boolean validateContactAndLeadRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
-        return leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_MKT_CONSENT);        
+        return validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_MKT_CONSENT);
     }
 
     private Boolean validateCaseRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
-        return  leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_ENQUIRIES);
+        return validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_ENQUIRIES);
     }
 
     private Boolean validateIndivEmailRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
-        return leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_EMAIL_INTERACTION);        
+        return validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_EMAIL_INTERACTION);     
     }
 
     private Boolean validateProgramEnrollmentRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
-        return leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PROGRAM_ENGAGEMENT);        
+        return validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_PROGRAM_ENGAGEMENT); 
     }
 
     private Boolean validateMarketingInteractionRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return 
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_DOWNLOADED_PDF) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_MATCH_MY_SKILLS) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_EVENT_REG_ATTD);
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_DOWNLOADED_PDF) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_MATCH_MY_SKILLS) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_EVENT_REG_ATTD) ; 
     }
 
     private Boolean validateMarketingSegmentationRecords(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap){
         return 
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_FUNDING) ||            
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_COUNTRY_TIER) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_RESIDENCE) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_DOUBLE_DEG) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_ENG_PATH) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PREF_INTAKE) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_COURSE_LEVEL) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_BSA) ||
-            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_NSA);
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_FUNDING) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_COUNTRY_TIER) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_RESIDENCE) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_DOUBLE_DEG) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_INT_ENG_PATH) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_PREF_INTAKE) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_COURSE_LEVEL) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_BSA) ||
+            validateRecord(leadScoreConfigMap, LeadScoreConfigurationDAO.CONFIG_CATEGORY_PRIMARY_NSA) ; 
+    }
+
+    private static String getUniqueKey(Lead_Score_Configuration__c leadScoreConfig){
+        return leadScoreConfig.Domestic_International__c + leadScoreConfig.Study_Level__c + leadScoreConfig.Parent_Category__r.Name + leadScoreConfig.Name;
+    }
+
+    private Boolean validateRecord(Map<String, Lead_Score_Configuration__c> leadScoreConfigMap, String categoryName){
+        return 
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.DOMESTIC + LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD + LeadScoreConfigurationDAO.CONFIG_DOMESTIC_UNDERGRAD + categoryName) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.DOMESTIC + LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD + LeadScoreConfigurationDAO.CONFIG_DOMESTIC_POSTGRAD + categoryName) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.INTERNATIONAL + LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD + LeadScoreConfigurationDAO.CONFIG_INTERNATIONAL_POSTGRAD + categoryName) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.INTERNATIONAL + LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD + LeadScoreConfigurationDAO.CONFIG_INTERNATIONAL_UNDERGRAD + categoryName) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.UNDETERMINED + LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED + LeadScoreConfigurationDAO.CONFIG_UNDETERMINED_UNDETERMINED + categoryName) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.DOMESTIC + LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED + LeadScoreConfigurationDAO.CONFIG_DOMESTIC_UNDETERMINED + categoryName) ||
+            leadScoreConfigMap.containsKey(LeadScoreConfigurationDAO.INTERNATIONAL + LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED + LeadScoreConfigurationDAO.CONFIG_INTERNATIONAL_UNDETERMINED + categoryName);
     }
 
     public void finish(Database.BatchableContext bc) {

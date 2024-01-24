@@ -189,11 +189,10 @@ public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a ser
 
         Map<Id,Marketing_Segmentation__c> marketingSegMap = new Map<Id,Marketing_Segmentation__c>();
         for(Marketing_Segmentation__c mktSeg : marketingSegList){
-            if(mktSeg.Lead__c!=null){
-                marketingSegMap.put(mktSeg.Lead__c, mktSeg);
-            }
             if(mktSeg.Contact__c!=null){
                 marketingSegMap.put(mktSeg.Contact__c, mktSeg);
+            }else if(mktSeg.Lead__c!=null){
+                marketingSegMap.put(mktSeg.Lead__c, mktSeg);
             }
         }
         return marketingSegMap;
@@ -241,19 +240,6 @@ public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a ser
         contactLeadIds.addAll(contactIdSet);
         contactLeadIds.addAll(leadIdSet);
         return contactLeadIds;
-    }
-
-    /**
-     * Process recalculation for Marketing Segmentation
-     */
-    public static void processMarketingSegmentation(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForMktgSegmentation){
-        if(isForMktgSegmentation){
-            Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, leadIdSet);
-            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, marketingSegmentationMap);
-            if(!marketingSegmentationMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, marketingSegmentationMap.keySet(), Marketing_Segmentation__c.getSObjectType());
-            }
-        }
     }
 
     /**

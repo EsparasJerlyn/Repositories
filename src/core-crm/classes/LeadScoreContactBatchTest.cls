@@ -63,7 +63,7 @@ public with sharing class LeadScoreContactBatchTest {
         List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
         leadScoreParentConfigList.add(
             new Lead_Score_Configuration__c(
-                Name = 'Total Max Score UDUD',
+                Name = 'Total Max Score UU',
                 RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
                 Domestic_International__c = citizenship,
                 Study_Level__c = studyLevel

@@ -322,15 +322,22 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         Set<Id> recordIds,
         AccessLevel accessLevel
     ){
+
+        if(recordIds.isEmpty()){
+            return new List<Contact>();
+        }
+
         return Database.query(
             'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, ' +
             'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, ' +
             'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
+            'Learner_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Work_SMS_Opt_In_DateTime__c, ' +
+            'SMS_Opt_In_DateTime__c, '+ 
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
             'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c, ' +
-            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c ' +
+            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
@@ -379,7 +386,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         );
     }
     
-    public static List<Contact> getExistingMCPersonaContactsBySetIds(
+    public List<Contact> getExistingMCPersonaContactsBySetIds(
         Set<Id> recordIds,
         AccessLevel accessLevel
     ) {
@@ -441,6 +448,34 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 accessLevel
             );
         }  else { return new List<Contact>(); }
+    }
+
+    public List<Contact> getMCPersonaContactsByParentPersonContactIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'Select Id, Email, HasOptedOutOfEmail,Email_Opt_Out_DateTime__c,Email_Opt_In_DateTime__c, ' + 
+            'Persona_Type__c,Parent_Person_Contact__c '+
+            'FROM Contact '+
+            'WHERE Parent_Person_Contact__c IN: recordIds ' +
+            'AND RecordTypeId =: MC_PERSONA_RECORDTYPE_ID',
+            accessLevel
+        );
+    }
+
+    public List<Contact> getMCPersonaContactsByParentPersonLeadIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'Select Id, Email, HasOptedOutOfEmail,Email_Opt_Out_DateTime__c,Email_Opt_In_DateTime__c, ' + 
+            'Persona_Type__c,Parent_Person_Lead__c, Parent_Person_Lead__r.Work_Email__c '+
+            'FROM Contact '+
+            'WHERE Parent_Person_Lead__c IN: recordIds ' +
+            'AND RecordTypeId =: MC_PERSONA_RECORDTYPE_ID',
+            accessLevel
+        );
     }
 
     /**
