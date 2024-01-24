@@ -7,6 +7,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 |
+      | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            |                              |
       |                           |                       |                      |                              |
  */
 import { LightningElement, api, wire, track } from 'lwc';
@@ -142,7 +143,6 @@ export default class CustomHeaderContainer extends LightningElement {
                     });
 
                     this.tableColumns = newColumns;
-                    console.log('newColumns', newColumns);
                } else if (this.objectApiName === 'Engagement_Opportunity__c') {
 
                }
@@ -186,7 +186,6 @@ export default class CustomHeaderContainer extends LightningElement {
      selectedRowsHandler(event) {
           this.selectedRows = event.detail;
      }
-
 
      // sets the list member column data
      listDataHandler(event){

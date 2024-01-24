@@ -6,9 +6,9 @@
  * @history
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
-      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 | 
-      | jerlyn.esparas            | January 10, 2024      | DEPP-6965            |                              | 
-      | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            |                              | 
+      | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 |
+      | jerlyn.esparas            | January 10, 2024      | DEPP-6965            |                              |
+      | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            |                              |
  */
 import { LightningElement, wire, api } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
@@ -74,21 +74,20 @@ export default class CustomHeaderButtons extends LightningElement {
           columnsData.forEach((obj) => {
                let newObj = {};
                for (var key in obj) {
-               console.log(key);
-               for (var index in headers) {
-                    if (key === index) {
-                    newObj[key] = obj[key];
+                    for (var index in headers) {
+                         if (key === index) {
+                         newObj[key] = obj[key];
+                         }
                     }
-               }
                }
                csvData.push(newObj);
           });
 
           csvData.forEach((obj) => {
                for (var index in headers) {
-               if (!obj[index]) {
-                    obj[index] = "";
-               }
+                    if (!obj[index]) {
+                         obj[index] = "";
+                    }
                }
           });
 
@@ -109,11 +108,12 @@ export default class CustomHeaderButtons extends LightningElement {
           data.forEach((obj) => {
                let line = "";
                actualHeaderKey.forEach((key) => {
-               if (line != "") {
-                    line += columnDelimiter;
-               }
-               let strItem = obj[key] + "";
-               line += strItem ? strItem.replace(/,/g, "") : strItem;
+                    if (line != "") {
+                         line += columnDelimiter;
+                    }
+
+                    let strItem = obj[key] + "";
+                    line += strItem ? strItem.replace(/,/g, "") : strItem;
                });
                str += line + lineDelimiter;
           });

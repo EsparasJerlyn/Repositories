@@ -7,6 +7,7 @@
  *    | Developer                           | Date                  | JIRA                 | Change Summary               |
       |-------------------------------------|-----------------------|----------------------|------------------------------|
       | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                 |
+      | neil.s.h.lesidan                    | January 24, 2024      | DEPP-7005            |                              |
       |                                     |                       |                      |                              |
  */
 import { LightningElement, api, wire, track } from 'lwc';

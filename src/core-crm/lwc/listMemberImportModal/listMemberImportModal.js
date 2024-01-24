@@ -1,3 +1,14 @@
+/**
+ * @description Lightning Web Component for custom buttons.
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Created file                 |
+      |                           |                       |                      |                              |
+ */
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -5,8 +16,6 @@ import LIST_MEMBER_SCHEMA from '@salesforce/schema/List_Member__c';
 
 import getContactById from '@salesforce/apex/ListMemberImportModalCtrl.getContactById';
 import bulkSaveListMember from '@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember';
-
-// import readCSV from '@salesforce/apex/CsvBulkRegistrationCtrl.readCSVFile';
 
 const ROW_WIDTH = 180;
 
@@ -46,7 +55,6 @@ export default class ListMemberImportModal extends LightningElement {
         })
 
         newColumns.push({ type: "action", typeAttributes: { rowActions: this.actions } });
-        console.log(JSON.parse(JSON.stringify(newColumns)));
         this.columns = newColumns;
     }
 

@@ -1,3 +1,14 @@
+/**
+ * @description Lightning Web Component for custom buttons.
+ *
+ * @author Accenture
+ *
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Created file                 |
+      |                           |                       |                      |                              |
+ */
 import { LightningElement, api, track, wire } from 'lwc';
 
 export default class CustomEditListMember extends LightningElement {
@@ -8,10 +19,6 @@ export default class CustomEditListMember extends LightningElement {
     @api rowId;
 
     formFields = [];
-
-    connectedCallback() {
-        console.log(JSON.parse(JSON.stringify(this.prePopulatedFields)))
-    }
 
     onHandleChange(e) {
         let formFields = this.formFields;
