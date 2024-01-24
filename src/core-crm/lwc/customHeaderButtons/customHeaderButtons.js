@@ -23,7 +23,6 @@ export default class CustomHeaderButtons extends LightningElement {
      @api columnsName;
      @api columnsData;
 
-     @api columns;
      @api listStageValue;
      @api tableColumns;
      @api recordData;
@@ -60,8 +59,8 @@ export default class CustomHeaderButtons extends LightningElement {
 
      // Method to download CSV
      handleDownloadCSV() {
-          const columnsData = JSON.parse(JSON.stringify(this.columnsData));
-          const columnsName = JSON.parse(JSON.stringify(this.columnsName));
+          const columnsData = JSON.parse(JSON.stringify(this.recordData));
+          const columnsName = JSON.parse(JSON.stringify(this.tableColumns));
 
           let headers = {};
 

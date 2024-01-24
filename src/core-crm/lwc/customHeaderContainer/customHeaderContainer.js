@@ -190,10 +190,10 @@ export default class CustomHeaderContainer extends LightningElement {
      // sets the list member column data
      listDataHandler(event){
           this.columnsData = event.detail;
+          this.columnsName = event.detail;
      }
 
      // sets the list header
      newColumnsList(event){
-          this.columnsName = event.detail;
      }
 }
