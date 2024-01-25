@@ -1055,19 +1055,12 @@
                 <componentName>customHeaderContainer</componentName>
                 <identifier>c_customHeaderContainer</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>In Progress</rightValue>
                     </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>customHeaderContainer</componentName>
-                <identifier>c_customHeaderContainer2</identifier>
-                <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>EQUAL</operator>
