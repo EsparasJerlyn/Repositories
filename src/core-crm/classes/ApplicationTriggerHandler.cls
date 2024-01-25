@@ -47,7 +47,6 @@ public with sharing class ApplicationTriggerHandler implements Disableable, Befo
         ApplicationService.executeMatchingRule((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         ApplicationTriggerHelper.createAddressesForMatchingQTACApplicant(newItems, oldItems);
         ApplicationTriggerHelper.updateRelatedRecords(newItems, oldItems);
-        ApplicationTriggerHelper.updateContactWhenQTACAppIsInactive((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         ApplicationTriggerHelper.resetLeadScore((List<hed__Application__c>) newItems.values(), (Map<Id, hed__Application__c>) oldItems);
         ApplicationTriggerHelper.getContactOnApplication((List<hed__Application__c>) newItems.values(),(Map<Id, hed__Application__c>) oldItems);    
     }

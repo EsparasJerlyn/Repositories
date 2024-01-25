@@ -91,4 +91,19 @@ public inherited sharing class LeadScoreConfigurationDAOMock extends DmlBaseMock
     public Database.QueryLocator queryLocatorLeadScoreConfigByIds(Set<Id> leadScoreConfigIds) {
         return null;
     }
+
+    public List<Lead_Score_Configuration__c> getCategoryLeadScoreConfigsById(
+        Set<Id> leadScoreConfigIds, 
+        List<String> fields, 
+        AccessLevel accessLevel
+    ) {
+        List<Lead_Score_Configuration__c> leadScoreConfigList = new List<Lead_Score_Configuration__c>();
+        for (Lead_Score_Configuration__c record : leadScoreConfiguration.values()) {
+            if (leadScoreConfigIds.contains(record.Id)) {
+                leadScoreConfigList.add(record);
+            }
+        }
+        return leadScoreConfigList;
+    }
+
 } 

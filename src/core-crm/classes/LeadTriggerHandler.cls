@@ -42,7 +42,6 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLeadStatus((List<Lead>) newItems.values());
-        LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
     }
 
     /**
@@ -50,7 +49,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
      * @param newItems - List of Lead.Trigger.new
      */
     public void afterInsert(Map<Id, SObject> newItems) {
-        LeadService.createLeadScoreDetailRecord(newItems.keySet());
+        LeadService.createLeadScoreDetailRecord((List<Lead>) newItems.values());
         LeadService.createMarketingSegmentationForLeads(newItems.keySet());
         LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), null);
     }
@@ -65,6 +64,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         Map<Id, SObject> oldItems
     ) {
         LeadService.getLeadCalculatedCadence((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+        LeadLeadScoreHelper.processLeadScoreCalculation((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
     }
 
     /**

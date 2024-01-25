@@ -262,6 +262,22 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             accessLevel
         );
     }
+
+    public List<Lead> getUnconvertedLeadsByIdSet(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    ){
+        if(recordIdSet.isEmpty()){
+            return new List<Lead>();
+        }
+        return Database.query(
+            'SELECT Id ' +
+              'FROM Lead ' +
+             'WHERE Id IN: recordIdSet AND IsConverted = FALSE',
+            accessLevel
+        );
+    }
+
     
     public List<Lead> getLearnerLeadsByEmailOrWorkEmail(
         Set<String> emails,

@@ -68,4 +68,8 @@ public interface ILeadsDAO extends DmlInterface {
         Set<String> workEmails,
         AccessLevel accessLevel
     );
+    List<Lead> getUnconvertedLeadsByIdSet(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    );
 } 
