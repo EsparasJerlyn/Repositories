@@ -27,7 +27,20 @@ import LIST_COLUMN_8 from '@salesforce/schema/List__c.Column_8__c';
 import LIST_COLUMN_9 from '@salesforce/schema/List__c.Column_9__c';
 import LIST_COLUMN_10 from '@salesforce/schema/List__c.Column_10__c';
 
+import ENGAGEMENT_OPPORTUNITY_STAGE from '@salesforce/schema/Engagement_Opportunity__c.Stage__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_1 from '@salesforce/schema/Engagement_Opportunity__c.Column_1__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_2 from '@salesforce/schema/Engagement_Opportunity__c.Column_2__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_3 from '@salesforce/schema/Engagement_Opportunity__c.Column_3__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_4 from '@salesforce/schema/Engagement_Opportunity__c.Column_4__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_5 from '@salesforce/schema/Engagement_Opportunity__c.Column_5__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_6 from '@salesforce/schema/Engagement_Opportunity__c.Column_6__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_7 from '@salesforce/schema/Engagement_Opportunity__c.Column_7__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_8 from '@salesforce/schema/Engagement_Opportunity__c.Column_8__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_9 from '@salesforce/schema/Engagement_Opportunity__c.Column_9__c';
+// import ENGAGEMENT_OPPORTUNITY_COLUMN_10 from '@salesforce/schema/Engagement_Opportunity__c.Column_10__c';
+
 import getListMembers from '@salesforce/apex/CustomHeaderContainerCtrl.getListMembers';
+import getListIdEngOpp from '@salesforce/apex/CustomHeaderContainerCtrl.getListIdEngOpp';
 
 const ROW_WIDTH = 180;
 
@@ -61,11 +74,33 @@ export default class CustomHeaderContainer extends LightningElement {
           }
      ];
 
-     listFields = [LIST_STAGE,LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
-          LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
+     listFields = [
+          LIST_STAGE,
+          LIST_COLUMN_1,
+          LIST_COLUMN_2,
+          LIST_COLUMN_3,
+          LIST_COLUMN_4,
+          LIST_COLUMN_5,
+          LIST_COLUMN_6,
+          LIST_COLUMN_7,
+          LIST_COLUMN_8,
+          LIST_COLUMN_9,
+          LIST_COLUMN_10
+     ];
 
-     engagementOpportunityFields = [LIST_STAGE,LIST_COLUMN_1, LIST_COLUMN_2, LIST_COLUMN_3, LIST_COLUMN_4, LIST_COLUMN_5, LIST_COLUMN_6,
-          LIST_COLUMN_7, LIST_COLUMN_8, LIST_COLUMN_9, LIST_COLUMN_10];
+     engagementOpportunityFields = [
+          ENGAGEMENT_OPPORTUNITY_STAGE,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_1,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_2,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_3,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_4,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_5,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_6,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_7,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_8,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_9,
+          // ENGAGEMENT_OPPORTUNITY_COLUMN_10
+     ];
 
      fieldsToColumns = [];
      isTableLoading = true;
@@ -77,77 +112,15 @@ export default class CustomHeaderContainer extends LightningElement {
 
           this.dataListRecord = responseData;
           if (data) {
+               const fields = data.fields;
+
                if (this.objectApiName === 'List__c') {
-                    const fields = data.fields;
-                    this.listStageValue = fields.Stage__c.value;
-
-                    const listColumns = [
-                         {column: 'Column_1__c', fieldName: 'ListMemberName'},
-                         {column: 'Column_2__c', fieldName: 'Email__c'},
-                         {column: 'Column_3__c', fieldName: 'Mobile__c'},
-                         {column: 'Column_4__c', fieldName: 'Column_1_Value__c'},
-                         {column: 'Column_5__c', fieldName: 'Column_2_Value__c'},
-                         {column: 'Column_6__c', fieldName: 'Column_3_Value__c'},
-                         {column: 'Column_7__c', fieldName: 'Column_4_Value__c'},
-                         {column: 'Column_8__c', fieldName: 'Column_5_Value__c'},
-                         {column: 'Column_9__c', fieldName: 'Column_6_Value__c'},
-                         {column: 'Column_10__c', fieldName: 'Column_7_Value__c'}
-                    ];
-
-                    const toAddColumns = [];
-                    listColumns.forEach((key, index) => {
-                         let toShowColumn = false;
-
-                         if (fields[key.column] && fields[key.column].value) {
-                              let fieldName = fields[key.column].value;
-
-                              if (fieldName) {
-                                   fieldName = fieldName.replace(/\s/g, '').toLowerCase();
-
-                                   if (fieldName === 'contactid') {
-                                        key.fieldName = 'List_Member__c';
-                                   }
-                              }
-
-                              toShowColumn = true;
-                         }
-
-                         if (toShowColumn) {
-                              toAddColumns.push(
-                                   { label: fields[key.column].value, fieldName: key.fieldName, apiFieldName: key.column, type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
-                              );
-                         }
-                    });
-
-                    let columns = JSON.parse(JSON.stringify(this.tableColumnsCopy));
-
-                    if (!columns.length) {
-                         columns = JSON.parse(JSON.stringify(this.tableColumns));
-                         this.tableColumnsCopy = this.tableColumns;
-                    }
-
-                    const newColumns = [
-                         ...columns.slice(0, 1),
-                         ...toAddColumns,
-                         ...columns.slice(1)
-                    ];
-
-                    newColumns.forEach((key, index) => {
-                         if (key.fieldName === 'List_Member_Status__c' &&
-                              fields.Stage__c &&
-                              fields.Stage__c.value &&
-                              fields.Stage__c.value === 'Closed')
-                         {
-                              key.type = 'text';
-                         }
-                    });
-
-                    this.tableColumns = newColumns;
+                    this.createColumn(fields);
+                    this.fetchListMembers();
                } else if (this.objectApiName === 'Engagement_Opportunity__c') {
-
+                    this.createColumn(fields);
+                    this.fetchList();
                }
-
-               this.fetchListMembers();
           }
      }
 
@@ -158,8 +131,8 @@ export default class CustomHeaderContainer extends LightningElement {
                this.listId = this.recordId;
           } else if (this.objectApiName === 'Engagement_Opportunity__c') {
                this.fieldsToColumns = this.engagementOpportunityFields;
+               this.tableColumns = this.listColumns;
           }
-
      }
 
      reloadListMembersTable(event) {
@@ -169,7 +142,7 @@ export default class CustomHeaderContainer extends LightningElement {
      }
 
      fetchListMembers() {
-          getListMembers({ listId: this.recordId })
+          getListMembers({ recordId: this.listId })
           .then((response) => {
                response.forEach(obj => {
                     if (obj.List_Member__r) {
@@ -181,6 +154,83 @@ export default class CustomHeaderContainer extends LightningElement {
                this.recordData = response;
                this.isTableLoading = false;
           })
+     }
+
+     fetchList() {
+          getListIdEngOpp({ recordId: this.recordId })
+          .then((response) => {
+               if (response && response.length) {
+                    this.listId = response[0].Id;
+                    this.fetchListMembers();
+               }
+          })
+     }
+
+     createColumn(fields) {
+          this.listStageValue = fields.Stage__c.value;
+
+          const listColumns = [
+               {column: 'Column_1__c', fieldName: 'ListMemberName'},
+               {column: 'Column_2__c', fieldName: 'Email__c'},
+               {column: 'Column_3__c', fieldName: 'Mobile__c'},
+               {column: 'Column_4__c', fieldName: 'Column_1_Value__c'},
+               {column: 'Column_5__c', fieldName: 'Column_2_Value__c'},
+               {column: 'Column_6__c', fieldName: 'Column_3_Value__c'},
+               {column: 'Column_7__c', fieldName: 'Column_4_Value__c'},
+               {column: 'Column_8__c', fieldName: 'Column_5_Value__c'},
+               {column: 'Column_9__c', fieldName: 'Column_6_Value__c'},
+               {column: 'Column_10__c', fieldName: 'Column_7_Value__c'}
+          ];
+
+          const toAddColumns = [];
+          listColumns.forEach((key, index) => {
+               let toShowColumn = false;
+
+               if (fields[key.column] && fields[key.column].value) {
+                    let fieldName = fields[key.column].value;
+
+                    if (fieldName) {
+                         fieldName = fieldName.replace(/\s/g, '').toLowerCase();
+
+                         if (fieldName === 'contactid') {
+                              key.fieldName = 'List_Member__c';
+                         }
+                    }
+
+                    toShowColumn = true;
+               }
+
+               if (toShowColumn) {
+                    toAddColumns.push(
+                         { label: fields[key.column].value, fieldName: key.fieldName, apiFieldName: key.column, type: 'text', editable: false, sortable: true, "initialWidth": ROW_WIDTH }
+                    );
+               }
+          });
+
+          let columns = JSON.parse(JSON.stringify(this.tableColumnsCopy));
+
+          if (!columns.length) {
+               columns = JSON.parse(JSON.stringify(this.tableColumns));
+               this.tableColumnsCopy = this.tableColumns;
+          }
+
+          const newColumns = [
+               ...columns.slice(0, 1),
+               ...toAddColumns,
+               ...columns.slice(1)
+          ];
+
+          newColumns.forEach((key, index) => {
+               if (key.fieldName === 'List_Member_Status__c' &&
+                    fields.Stage__c &&
+                    fields.Stage__c.value &&
+                    fields.Stage__c.value === 'Closed')
+               {
+                    key.type = 'text';
+               }
+          });
+
+          this.tableColumns = newColumns;
      }
 
      selectedRowsHandler(event) {

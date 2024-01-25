@@ -14,13 +14,25 @@ public with sharing class CustomHeaderContainerCtrl {
 
     /**
      * @description Fetches the List Members Object that are connected to Lists
-     * @param ListId Record Id of Lists Object
+     * @param recordId Record Id of Lists Object
      * @return Records of List<List_Member__c>
      */
     @AuraEnabled
-    public static List<List_Member__c> getListMembers(Id listId) {
-        List<List_Member__c> listMembers = ListMembersDAO.newInstance().getexistingListMembersWithMatchingList(new Set<Id>{listId}, new Set<Id>{}, 'USER_MODE');
+    public static List<List_Member__c> getListMembers(Id recordId) {
+        List<List_Member__c> listMembers = ListMembersDAO.newInstance().getexistingListMembersWithMatchingList(new Set<Id>{recordId}, new Set<Id>{}, 'USER_MODE');
 
         return listMembers;
+    }
+
+    /**
+     * @description Fetches the List Members Object that are connected to Lists
+     * @param engOppIds Record Id of Lists Engagement Opportunity
+     * @return Records of List<List__c>
+     */
+    @AuraEnabled
+    public static List<List__c> getListIdEngOpp(Id recordId) {
+        List<List__c> listRecord = ListsDAO.newInstance().getListRecordsByRelatedEngagementOpportunitySetIds(new Set<Id>{recordId}, AccessLevel.USER_MODE);
+
+        return listRecord;
     }
 }
