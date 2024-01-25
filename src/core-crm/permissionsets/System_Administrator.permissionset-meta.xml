@@ -785,11 +785,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CustomHeaderDatatableCtrl</apexClass>
+        <apexClass>CustomHeaderContainerCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CustomHeaderDatatableCtrlTest</apexClass>
+        <apexClass>CustomHeaderContainerCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1226,6 +1226,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Lead_to_Opp_Conversion_std_MappingTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ListMemberImportModalCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ListMemberImportModalCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
