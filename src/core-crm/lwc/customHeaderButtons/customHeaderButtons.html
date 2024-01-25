@@ -14,6 +14,7 @@
       title="Add From Existing List"
       variant="brand-outline"
       disabled={isDisabledButton}
+      onclick={handleAddFromExistingListModal}
       class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
     </lightning-button>
 
@@ -40,5 +41,13 @@
       disabled={isDisabledButton}
       class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
     </lightning-button>
+
+    <template if:true={isAddFromExistingListModal}>
+      <c-add-from-existing-list 
+      record-id={recordId} 
+      onhandleshowmodalexistinglist={handleShowModalExistingList}
+      onhandlesavelistmember={handleSelectListMember}>
+    </c-add-from-existing-list>
+    </template>
   </div>
 </template>

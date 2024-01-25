@@ -13,9 +13,12 @@ import { LightningElement, api, track } from 'lwc';
 
 export default class CustomHeaderContainer extends LightningElement {
      @api recordId;
-
      @track columnsName;
      @track columnsData;
+     receivedListData;
+     receivedListMemberData;
+     receivedRecordId;
+     @track selectedListMemberData;
 
      // sets the list member column data
      listDataHandler(event){
@@ -26,5 +29,17 @@ export default class CustomHeaderContainer extends LightningElement {
      newColumnsList(event){
           this.columnsName = event.detail;
      }
+
+      // Event handler for the custom event fired by the child
+    handleChildLoaded(event) {
+     this.receivedListData = JSON.stringify(event.detail.listData);
+     this.receivedListMemberData = JSON.stringify(event.detail.listMemberData);
+     this.receivedRecordId =  JSON.stringify(event.detail.passRecordId);
+     console.log('this.receivedListMemberData '+ this.receivedListMemberData);
+    }
+    // event handler for selected list member 
+    handleSelectListMember(event){
+     this.selectedListMemberData = event.detail;
+    }
 
 }

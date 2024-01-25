@@ -31,7 +31,7 @@ import LIST_COLUMN_10 from '@salesforce/schema/List__c.Column_10__c';
 import getListMembers from '@salesforce/apex/CustomHeaderDatatableCtrl.getListMembers';
 import customDataTableStyle from '@salesforce/resourceUrl/CustomDataTable';
 import { loadStyle } from "lightning/platformResourceLoader";
-      
+
 const ROW_WIDTH = 180;
       
 export default class CustomHeaderDatatable extends LightningElement {
@@ -57,7 +57,12 @@ export default class CustomHeaderDatatable extends LightningElement {
             cellAttributes: {
                 class: { fieldName: 'customPicklistClass' }
             }, "initialWidth": ROW_WIDTH
-        }
+        },
+
+        { type: "action", typeAttributes: { rowActions: [
+            { label: 'Delete', name: 'delete' },
+            { label: 'Edit', name: 'edit' },
+        ] } }
     ];
 
   @track draftValues = [];
@@ -134,32 +139,51 @@ export default class CustomHeaderDatatable extends LightningElement {
 
           this.columns = newColumns;
 
-          getListMembers({ listId: this.recordId })
-              .then((response) => {
-                  response.forEach(obj => {
-                      if (obj.List_Member__r && obj.List_Member__r.Name) {
-                          obj.listMemberName = obj.List_Member__r.Name;
-                      }
-                  });
-
-                  this.dataRecord = response;
-                  this.dataRecordCopy = response;
-
-                  const eventlistdatahandler = new CustomEvent("listdatahandler", {
-                    detail: response
-                  });
-                  this.dispatchEvent(eventlistdatahandler);
-
-                  
-                  const columnsList = new CustomEvent("listdatacolumns", {
-                    detail: newColumns
-                  });
-                  this.dispatchEvent(columnsList);
-
-                  this.isLoading = false;
-              })
+          this.fetchListMember();
       }
   }
+  // Fetch the list member data
+  fetchListMember(isMerge=false){
+    getListMembers({ listId: this.recordId })
+    .then((response) => {
+        response.forEach(obj => {
+            if (obj.List_Member__r && obj.List_Member__r.Name) {
+                obj.listMemberName = obj.List_Member__r.Name;
+            }
+        });
+        let record = response;
+            if(isMerge===true){
+            const dataRecord = JSON.parse(JSON.stringify(this.dataRecord));
+            record = [...dataRecord,...response];
+        }
+          this.dataRecord = record;
+          this.dataRecordCopy = record;
+
+        const eventlistdatahandler = new CustomEvent("listdatahandler", {
+          detail: response
+        });
+        this.dispatchEvent(eventlistdatahandler);
+
+        
+        const columnsList = new CustomEvent("listdatacolumns", {
+          detail: newColumns
+        });
+        this.dispatchEvent(columnsList);
+
+        this.isLoading = false;
+    });
+  }
+ // get setter for selected List member
+  @api 
+  get selectedListMemberData(){
+    return true;
+  }
+  set selectedListMemberData(value){
+    if(value){
+        this.fetchListMember(true)
+    };
+  }
+
       
   connectedCallback(){
       Promise.all([
@@ -267,4 +291,22 @@ export default class CustomHeaderDatatable extends LightningElement {
 
       this.dataRecordCopy = parseData;
   }
+ // Handle for edit anf delete button
+  handleRowAction(event){
+
+    if(event.detail.action.name == "edit"){
+    }
+    if(event.detail.action.name == "delete"){
+          const recordId = event.detail.row.Id;
+          const recordData = JSON.parse(JSON.stringify(this.dataRecordCopy));
+          const newListData = recordData.filter(record => {
+            return record.Id != recordId;
+          });
+          newListData.forEach((element, index) => {
+            element.Id = index + 1;
+          });
+          this.dataRecordCopy = newListData;      
+        }   
+    }
+
 }

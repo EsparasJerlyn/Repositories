@@ -24,6 +24,8 @@ export default class CustomHeaderButtons extends LightningElement {
   csvtemp;
   listMemberColumns = [LIST_STAGE];
   stageValue;
+  receivedRecordId;
+  isAddFromExistingListModal = false;
 
   // getter setter for isDisabledButton
   get isDisabledButton() {
@@ -134,5 +136,24 @@ export default class CustomHeaderButtons extends LightningElement {
         document.body.removeChild(link);
       }
     }
+  }
+
+  handleAddFromExistingListModal() {
+    //this.template.querySelector('c-add-from-existing-list').handleShowExistingListModal();
+    this.isAddFromExistingListModal = true;
+  }
+
+  // Event handler for the custom event fired by the child
+  handleChildLoaded(event) {
+    this.receivedRecordId =  JSON.stringify(event.detail.passRecordId);
+    console.log('this.receivedListMemberData '+ this.receivedRecordId);
+  }
+
+  handleShowModalExistingList(event){
+    this.isAddFromExistingListModal = event.detail;
+  }
+
+  handleSelectListMember(event){
+    this.dispatchEvent(new CustomEvent('handlesavelistmember', {detail:event.detail}));
   }
 }

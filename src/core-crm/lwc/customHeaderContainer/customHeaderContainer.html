@@ -5,12 +5,16 @@
       record-id={recordId}
       selected-rows={selectedRows}
       columns-data={columnsData}
-      columns-name={columnsName}>
+      columns-name={columnsName}
+      onchildloaded={handleChildLoaded}
+      onhandlesavelistmember={handleSelectListMember}>
     </c-custom-header-buttons>
   </div>
   <c-custom-header-datatable
     record-id={recordId}
     onlistdatahandler={listDataHandler}
-    onlistdatacolumns={newColumnsList}>
+    onlistdatacolumns={newColumnsList}
+    onchildloaded={handleChildLoaded}
+    selected-list-member-data={selectedListMemberData}>
   </c-custom-header-datatable>
 </template>
