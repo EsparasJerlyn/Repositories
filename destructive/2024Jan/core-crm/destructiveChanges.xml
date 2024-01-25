@@ -4,5 +4,9 @@
         <members>DummyClassAsINeedSomethingInThisFile</members>
         <name>ApexClass</name>
     </types>
+    <types>
+        <members>Closed_Status_Validation</members><!--DEPP-5906-->
+        <name>ValidationRule</name>
+    </types>
     <version>59.0</version> 
 </Package>
