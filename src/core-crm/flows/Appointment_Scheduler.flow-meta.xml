@@ -688,6 +688,11 @@
                 <name>engagementChannelType</name>
             </outputParameters>
         </fields>
+        <fields>
+            <name>Appointment_Scheduler_Note</name>
+            <fieldText>&lt;p&gt;Please note: The next available appointments are shown. Adviser appointments are only available to future students interested in undergraduate study.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>

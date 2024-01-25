@@ -63,8 +63,8 @@ private class LeadScoreDetailTriggerHelperTest {
         List<Nurture_Track_Configuration__c> configsList = new List<Nurture_Track_Configuration__c>();
         // Alex-offshore: This was in the setup already... o- o?
         configsList.add(new Nurture_Track_Configuration__c(
-            Cadence_Name__c = 'TEST 1',
-            Lead_Score_Threshold__c = 3,
+            Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+            Lead_Score_Threshold__c = -1,
             Status__c = 'Active'
         ));
 
@@ -150,6 +150,7 @@ private class LeadScoreDetailTriggerHelperTest {
             for (Contact record : contactList) { 
                 if(record.FirstName == 'Test Contact Flag') {
                     record.Email_Opt_In_DateTime__c = Date.today();
+                    record.hed__Citizenship_Status__c = 'International';
                     contactListToUpdate.add(record);
                 }
             }
@@ -157,7 +158,7 @@ private class LeadScoreDetailTriggerHelperTest {
             Test.stopTest();
 
             for(Contact con: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactListToUpdate[0].Id}, AccessLevel.SYSTEM_MODE)){
-                System.assertEquals(true, con.QUT_Lead__c, 'QUT Lead should match');
+                System.assertEquals(false, con.QUT_Lead__c, 'QUT Lead should match');
                 System.assertEquals(true, con.Can_Nurture__c, 'Can_Nurture__c should match');
             }
         }

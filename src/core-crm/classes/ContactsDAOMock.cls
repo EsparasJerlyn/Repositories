@@ -270,4 +270,30 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         }
         return contactList;
     }
+
+    public List<Contact> getMCPersonaContactsByParentPersonContactIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if (recordIds.contains(record.Parent_Person_Contact__c)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getMCPersonaContactsByParentPersonLeadIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if (recordIds.contains(record.Parent_Person_Lead__c)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
 }

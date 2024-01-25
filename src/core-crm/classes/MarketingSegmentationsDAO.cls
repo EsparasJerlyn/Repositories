@@ -9,6 +9,7 @@
       | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Created file                                              |
       | arsenio.jr.dayrit              | October 23, 2023      | DEPP-6929              | Added constant for Lead Score Calculation                 |
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7060              | Added field for getMarketingSegmentationByContactOrLead   |
+      | roy.nino.s.regala              | Jan 11, 2024          | DEPP-7142              | Added fields used for marketing segmentation calculation  |
  */
 public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO{
 
@@ -36,6 +37,12 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
     public static final String STUDY_LEVEL_SHORT_COURSES = 'Short courses and Professional Development';
     public static final String STUDY_LEVEL_EXCHANGE_AND_STUDY = 'Exchange and Study Abroad (1 or 2 Semesters Only)';
     public static final String STUDY_LEVEL_UNDERGRAD = 'Undergraduate';
+
+    public static final Set<String> LEAD_SCORE_CALCULATION_FIELDS = new Set<String>{
+        'My_Citizenship_Status__c','My_Country_Of_Residency__c','My_Country_Of_Citizenship__c',
+        'My_Funding_Source__c','My_Primary_BSA__c','My_Primary_NSA__c','My_Double_Degree__c',
+        'My_Interested_English_Pathways__c','My_Expected_Admission_Year__c','My_Primary_Study_Level__c'
+    };
 
     public Schema.SObjectType getSObjectType(){
         return Marketing_Segmentation__c.SObjectType;
@@ -83,7 +90,7 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         return Database.query(
             'SELECT Lead__c, Contact__c, My_Primary_Study_Level__c, My_Citizenship_Status__c, Contact__r.hed__Citizenship_Status__c, ' +
             'My_Funding_Source__c, My_Primary_BSA__c, My_Primary_NSA__c, My_Expected_Admission_Year__c, My_Country_Of_Citizenship__c, ' +
-            'My_Country_Of_Residency__c, My_Double_Degree__c, My_Interested_English_Pathways__c, My_Education_Level__c ' +
+            'My_Country_Of_Residency__c, My_Double_Degree__c, My_Interested_English_Pathways__c, My_Education_Level__c, Contact__r.RecordTypeId, Lead__r.Lead_Type__c, Lead__r.IsConverted ' +
             'FROM Marketing_Segmentation__c ' +
             'WHERE Contact__c IN : contactIdSet OR Lead__c IN : leadIdSet ',
             accessLevel
