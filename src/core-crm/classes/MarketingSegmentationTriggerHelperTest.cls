@@ -20,7 +20,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
         TestDataFactory.generateTestUsers();
         
 
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             List<Contact> contactList = TestDataFactory.createTestContactRecords(50);
             List<Lead> leadList =  TestDataFactory.createTestLeadRecords(50);
             insert contactList;
@@ -35,7 +35,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
 
     @isTest
     public static void updateMarketingSegmentationLeadTest(){
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             List<Marketing_Segmentation__c> marSegmentationWithoutLead = [
                 SELECT Id, Lead__c 
                 FROM Marketing_Segmentation__c
@@ -62,7 +62,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
 
     @isTest
     public static void updateMarketingSegmentationContactTest(){
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             List<Marketing_Segmentation__c> marSegmentationWithoutContact = [
                 SELECT Id, Contact__C 
                 FROM Marketing_Segmentation__c
@@ -90,7 +90,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
     
     @isTest
     public static void testSetMovingToBrisbaneOnContactNewSegmentation() {
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()) {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
             Id contactId = [SELECT Id FROM Contact LIMIT 1].Id;
             Marketing_Segmentation__c marSeg = new Marketing_Segmentation__c(
@@ -106,7 +106,7 @@ public without sharing class MarketingSegmentationTriggerHelperTest {
     
     @isTest
     public static void testSetMovingToBrisaneOnContactUpdateSegmentation() {
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()) {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
             Test.startTest();
             Marketing_Segmentation__c marSeg = [SELECT Id, Contact__c, My_Moving_To_Brisbane__c FROM Marketing_Segmentation__c WHERE Contact__c != null LIMIT 1];
             Id contactId = [SELECT Id FROM Contact WHERE Id != :marSeg.Contact__c LIMIT 1].Id;
