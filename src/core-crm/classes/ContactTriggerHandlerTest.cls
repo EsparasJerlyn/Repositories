@@ -455,7 +455,7 @@ public with sharing class ContactTriggerHandlerTest {
     private static void shouldSetStatustoExplore() {
    
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
-            
+
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
             List<Contact> contactListToUpdate = new List<Contact>();

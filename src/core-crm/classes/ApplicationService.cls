@@ -360,6 +360,58 @@ public with sharing class ApplicationService { //NOPMD
         return leadMapToUpdate.get(leadId);
     }
     
+     /**
+     * @description used to map the marketing fields to the contact record related to the application
+     * @param Contact applicantToUpdate - contact record update
+     * @param RecordsToReferenceWrapper recordsToReference - application trigger records 
+     * @param boolean isForDisableMarketing - tells the method if marketing is for email opt out
+     */
+    public static void mapMarketingFields(Contact applicantToUpdate, RecordsToReferenceWrapper recordsToReference, Boolean isForDisableMarketing){
+        Boolean isQTACApp = recordsToReference.application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+        Boolean isUpdate = recordsToReference.oldApplication != null;
+        Boolean isContactUpdated = isUpdate && recordsToReference.application.hed__Applicant__c != recordsToReference.oldApplication.hed__Applicant__c;
+        Boolean isActiveUpdated = isUpdate && recordsToReference.oldApplication.Is_Active__c != recordsToReference.application.Is_Active__c;
+        Boolean isQTACRelevantFieldsUpdated = isContactUpdated || isActiveUpdated;
+        Boolean isProcessingQTAC = isQTACApp && recordsToReference.application.Is_Active__c && (!isUpdate || isQTACRelevantFieldsUpdated);
+        Boolean isProcessingNonQTAC = !isQTACApp && (!isUpdate || isContactUpdated);
+
+        //opt in marketing if New Record is created for All recrod types expcept QTAC
+        Boolean isOptInMarketing = isProcessingQTAC || isProcessingNonQTAC;
+        //opt out marketing if QTAC is set is active to false  
+        //And isForDisableMarketing is true (Contact has no cases, no interaction and no other application)
+        Boolean isOptOutMarketing = isQTACApp && isForDisableMarketing && !recordsToReference.application.Is_Active__c && (!isUpdate || isQTACRelevantFieldsUpdated);
+
+        if(isOptInMarketing){
+            MarketingService.optInOrOutMarketing(applicantToUpdate,true);
+        }else if(isOptOutMarketing){
+            MarketingService.optInOrOutMarketing(applicantToUpdate,false);
+        }
+    }
+
+     /**
+     * @description used to map the marketing fields to the contact record related to the application
+     * @param List<hed__Application__c> newApps - trigger.new applications
+     * @param Map<Id,hed_-Application__c> oldItems - trigger.old applications
+     * @param set<Id> applicantIdsForMarketingOptOut - contact id for opt out
+     */
+    public static void collectApplicantIdsForMarketingOptOut(List<hed__Application__c> newApps, Map<Id, SObject> oldItems, Set<Id> applicantIdsForMarketingOptOut){
+
+        for(hed__Application__c application : newApps){
+            hed__Application__c oldApp = oldItems != null?(hed__Application__c)oldItems.get(application.Id):null;
+
+            Boolean isUpdate = oldApp != null;
+            Boolean isQTACApp = application.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
+            Boolean isActivedToFalse = application.Is_Active__c == false && (!isUpdate|| oldApp.Is_Active__c != application.Is_Active__c);
+            Boolean hasApplicant = application.hed__Applicant__c != null;
+            Boolean isContactUpdated = hasApplicant && (!isUpdate || application.hed__Applicant__c != oldApp.hed__Applicant__c);
+            Boolean contactIsForMarketingOptOut = application.Is_Active__c == false && hasApplicant && isQTACApp && (isActivedToFalse || isContactUpdated);
+
+            if(contactIsForMarketingOptOut){
+                applicantIdsForMarketingOptOut.add(application.hed__Applicant__c);
+            }
+        }
+    }
+    
     /**
      * @description Set fields on a contact record. This method contains field settings that are not bound by complex conditions.
      * If the field/s needs to follow certain rules, especially if it's complex, use a different method instead.
@@ -555,55 +607,5 @@ public with sharing class ApplicationService { //NOPMD
         public Contact existingContact { get; set; }
         public hed__Application__c application { get; set; }
         public hed__Application__c oldApplication { get; set; }
-    }
-
-    /**
-     * @description Map related Contacts Marketing Preference 
-     * @param applicantIds
-     */
-    public static List<Contact> mapContactToUpdate(Set<Id> applicantIds) {
-        List<Contact> contactsToUpdate = new List<Contact>();
-        List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsBySetIds(applicantIds, AccessLevel.SYSTEM_MODE);
-        Map<Id,List<Case>> caseMap = ContactService.mapExistingCasesToContact(applicantIds, AccessLevel.SYSTEM_MODE);
-        Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = ContactService.mapExistingMarketingInteractionToContact(applicantIds, AccessLevel.SYSTEM_MODE);
-        Map<Id,List<hed__Application__c>> applicationMap = ContactService.mapExisitngApplicationsToContact(applicantIds, AccessLevel.SYSTEM_MODE);
-        
-        for(Contact contacts: contactList){
-            Boolean noCaseandInteractiinRecord = !caseMap.containsKey(contacts.Id) && !marketingInteractionMap.containsKey(contacts.Id);
-            Boolean hasOneApp = applicationMap.containsKey(contacts.Id) && applicationMap.get(contacts.Id).size() == 1;
-            Boolean isForUpdate = noCaseandInteractiinRecord && hasOneApp;
-            if(isForUpdate){
-                contacts.HasOptedOutOfEmail = true;
-                contacts.Email_Opt_Out_DateTime__c = System.today();
-                contacts.Learner_Email_Opt_Out__c = true;
-                contacts.Learner_Email_Opt_Out_DateTime__c = System.today(); 
-                contacts.Staff_Email_Opt_Out__c = true;
-                contacts.Staff_Email_Opt_Out_DateTime__c = System.today();
-                contacts.Work_Email_Opt_Out__c = true;
-                contacts.Work_Email_Opt_Out_DateTime__c = System.today();
-                contacts.Work_SMS_Opt_Out__c = true;
-                contacts.Work_SMS_Opt_Out_DateTime__c = System.today();
-                contacts.hed__SMS_Opt_Out__c = true;
-                contacts.SMS_Opt_Out_DateTime__c = System.today(); 
-                contacts.DoNotCall = true;
-                contacts.Sync_to_MC__c = false;
-                contacts.Do_Not_Sync_To_MC_Override__c = false;
-                contacts.Dont_Market_Reason__c = 'QTAC Application QUT preferences withdrawn';
-                contactsToUpdate.add(contacts);
-            }
-        }
-        return contactsToUpdate;
-    }
-
-    public static Boolean isInactiveQTACApp(hed__Application__c app, Map<Id, SObject> oldItems) {
-        Boolean isForUpdate = 
-            oldItems != null && 
-            (Boolean) oldItems.get(app.Id).get('Is_Active__c') != app.Is_Active__c;
-        Boolean isQTAC = app.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID;
-        return 
-            isForUpdate && 
-            isQTAC &&
-            app.Is_Active__c == false &&
-            app.hed__Applicant__c != null;
     }
 }

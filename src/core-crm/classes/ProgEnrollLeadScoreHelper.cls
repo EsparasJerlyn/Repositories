@@ -39,15 +39,17 @@ public with sharing class ProgEnrollLeadScoreHelper {
                 contactIdSet.add(programEnrollment.hed__Contact__c);
             }
         }
+
+        Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
         
         /**
          * Determines wether to run async or sync
          */
-        if(!contactIdSet.isEmpty()) {           
-            if(System.isQueueable()) {
-                executeCalculation(contactIdSet);
+        if(!contactMap.isEmpty()){           
+            if(System.isQueueable()){
+                executeCalculation(contactMap.keySet());
             }else{      
-                QueueableCall executeQueueable = new QueueableCall(contactIdSet);
+                QueueableCall executeQueueable = new QueueableCall(contactMap.keySet());
                 System.enqueueJob(executeQueueable);   
             }
         }
@@ -58,7 +60,9 @@ public with sharing class ProgEnrollLeadScoreHelper {
      */
     private static void mapUnderGradStudyLevel(hed__Program_Enrollment__c progEnrollment, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
 
-        Boolean isUnderGrad = marketingSegMap.containsKey(progEnrollment.hed__Contact__c) && marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
+        Boolean isUnderGrad = 
+            marketingSegMap.containsKey(progEnrollment.hed__Contact__c) && marketingSegMap.get(progEnrollment.hed__Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
+            marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
         Boolean isDomestic = isUnderGrad && validateDomesticContact(progEnrollment, marketingSegMap);
         Boolean isInternational = isUnderGrad && validateInternationalContact(progEnrollment, marketingSegMap);
 
@@ -75,7 +79,9 @@ public with sharing class ProgEnrollLeadScoreHelper {
      */
     private static void mapPostGradStudyLevel(hed__Program_Enrollment__c progEnrollment, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
 
-        Boolean isPostGrad = marketingSegMap.containsKey(progEnrollment.hed__Contact__c) && marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
+        Boolean isPostGrad = 
+            marketingSegMap.containsKey(progEnrollment.hed__Contact__c) && marketingSegMap.get(progEnrollment.hed__Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
+            marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c!=null && marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
         Boolean isDomestic = isPostGrad && validateDomesticContact(progEnrollment, marketingSegMap);
         Boolean isInternational = isPostGrad && validateInternationalContact(progEnrollment, marketingSegMap);
 
@@ -92,7 +98,11 @@ public with sharing class ProgEnrollLeadScoreHelper {
      */
     private static void mapUndeterminedStudyLevel(hed__Program_Enrollment__c progEnrollment, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
 
-        Boolean isUndetermined = marketingSegMap.containsKey(progEnrollment.hed__Contact__c) && marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == null;
+        Boolean isUndetermined = 
+            marketingSegMap.containsKey(progEnrollment.hed__Contact__c) && marketingSegMap.get(progEnrollment.hed__Contact__c).Contact__r.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID &&
+            (marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == null ||
+            (marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD &&
+            marketingSegMap.get(progEnrollment.hed__Contact__c).My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD));
         Boolean isDomestic = isUndetermined && validateDomesticContact(progEnrollment, marketingSegMap);
         Boolean isInternational = isUndetermined && validateInternationalContact(progEnrollment, marketingSegMap);
         Boolean isConCitizenshipUD = isUndetermined && validateUndeterminedContact(progEnrollment, marketingSegMap);

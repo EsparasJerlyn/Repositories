@@ -29,6 +29,10 @@
         <recordType>Contextual_Role__c.Engagement_Role</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contextual_Role__c-Contextual Role - IP Management Role Page Layout</layout>
+        <recordType>Contextual_Role__c.IP_Management_Role</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contextual_Role__c-Contextual Role - Opportunity Outcome Role Page Layout</layout>
         <recordType>Contextual_Role__c.Opportunity_Outcome_Role</recordType>
     </layoutAssignments>
