@@ -12,7 +12,7 @@
       | roy.nino.s.regala         | Oct 10,2023           | DEPP-5866    | Updated lead score logic                    |
 */
 @isTest
-private class FutureStudentJourneyStatusHelperTest {
+private class FutureStudentJourneyStatusHelperTest { 
      
     @testSetup
     static void testSetup() {
@@ -139,14 +139,16 @@ private class FutureStudentJourneyStatusHelperTest {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(0, 1);  
             newContacts[0].HasOptedOutOfEmail = true;          
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
             
             //create 2 application to pass thre logic where status is not overwritten when same status would be set
-            List<hed__Application__c> newApplications = TestDataFactory.createTestApplicationRecordsWithContact(newContacts,ApplicationsDAO.STUDYLINK_RECTYPE_ID);
-            newApplications.addAll(TestDataFactory.createTestApplicationRecordsWithContact(newContacts,ApplicationsDAO.STUDYLINK_RECTYPE_ID));
+            List<hed__Application__c> newApplications = TestDataFactory.createTestApplicationRecordsWithContact(newContacts,ApplicationsDAO.QTAC_RECTYPE_ID);
+            newApplications.addAll(TestDataFactory.createTestApplicationRecordsWithContact(newContacts,ApplicationsDAO.QTAC_RECTYPE_ID));
             
             for(hed__Application__c app: newApplications){
                 app.Calculated_Intake_Date__c = null;
+                app.Is_Active__c = false;
             }
 
             Test.startTest();

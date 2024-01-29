@@ -2,7 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
          <!--(Start) DEPP-6979-->
-         <!-- <members>Contact_Parent_Child_Syncing</members> -->
+         <members>Contact_Parent_Child_Syncing</members>
          <!--(End) DEPP-6979-->
         <name>Flow</name>
     </types>

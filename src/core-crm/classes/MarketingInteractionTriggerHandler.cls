@@ -11,7 +11,15 @@
       | eccaius.munoz                  | October 03, 2023      | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, BeforeUpdate{
+public with sharing class MarketingInteractionTriggerHandler implements Disableable, AfterInsert, AfterUpdate, BeforeInsert{
+
+     /**
+   * @description call method to display error when Image count on Contact.Contact_Image__c is > 1
+   * @param newItems - List of Contact.Trigger.new
+   */
+    public void beforeInsert(List<SObject> newItems) {
+        MarketingInteractionTriggerHelper.mapMarketingFields((List<Marketing_Interaction__c>)newItems);
+    }
 
     /**
     * @description after insert
@@ -22,13 +30,13 @@ public with sharing class MarketingInteractionTriggerHandler implements Disablea
     }
 
     /**
-     * @description before update
+     * @description after update
      * @param newItems - List of MarketingInteraction.Trigger.new
      * @param oldItems - List of MarketingInteraction.Trigger.old
      */
-    public void beforeUpdate(
-        Map<Id, SObject> newItems,
-        Map<Id, SObject> oldItems
+    public void afterUpdate(
+    Map<Id, SObject> newItems,
+    Map<Id, SObject> oldItems
     ) {
         MarketingInteractionLeadScoreHelper.processLeadScoreCalculation(
             (List<Marketing_Interaction__c>) newItems.values(), 

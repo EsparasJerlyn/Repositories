@@ -85,7 +85,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
     ContactTriggerHelper.fastFieldUpdateAndValidation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
-    ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
   }
 
@@ -96,13 +95,13 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   public void afterInsert(Map<Id, SObject> newItems) {
     Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
-    processLeadOnInsert(newMap);
-    createChildMCPersona(newMap.values());
-    ContactTriggerHelper.createLeadScoreDetailRecord(newMap.keySet());
+    processLeadOnInsert(newMap);    
+    ContactTriggerHelper.createLeadScoreDetailRecord(newMap.values());
     ContactTriggerHelper.createMarketingSegmentation(newMap.keySet());
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());
+    ContactTriggerHelper.mapMarketingFields((List<Contact>)newMap.values(),null);
     ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), null);
   }
 
@@ -123,6 +122,8 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     ContactTriggerHelper.getContactCalculatedCadence((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
+    ContactTriggerHelper.mapMarketingFields((List<Contact>)newItems.values(),(Map<Id, Contact>) oldItems);
+    ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
   }
 
   /**
@@ -225,65 +226,6 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
       }
     }
   }
-
-  private void createChildMCPersona(List<Contact> newContacts){
-        List<Contact> childContacts = new List<Contact>();
-
-        for(Contact con: newContacts){
-            if(con.RecordTypeId == PERSON){
-                if(!String.isBlank(con.Work_Email__c)){
-                    Contact conWork = new Contact(FirstName = con.FirstName,
-                                                  LastName = con.LastName,
-                                                  RecordtypeId = MC_PERSONA,
-                                                  Email = con.Work_Email__c,
-                                                  HasOptedOutOfEmail= con.Work_Email_Opt_Out__c,
-                                                  Email_Opt_Out_DateTime__c = con.Work_Email_Opt_Out_DateTime__c,
-                                                  Email_Opt_In_DateTime__c = con.Work_Email_Opt_In_DateTime__c,
-                                                  Parent_Person_Contact__c = con.Id,
-                                                  Persona_Type__c = 'Work');
-                    childContacts.add(conWork);
-                }
-                if(!String.isBlank(con.QUT_Learner_Email__c)){
-                    Contact conLearner = new Contact(FirstName = con.FirstName,
-                                                     LastName = con.LastName,
-                                                     RecordtypeId = MC_PERSONA,
-                                                     Email = con.QUT_Learner_Email__c,
-                                                     HasOptedOutOfEmail= con.Learner_Email_Opt_Out__c,
-                                                     Email_Opt_Out_DateTime__c = con.Learner_Email_Opt_Out_DateTime__c,
-                                                     Email_Opt_In_DateTime__c = con.Learner_Email_Opt_In_DateTime__c,
-                                                     Parent_Person_Contact__c = con.Id,
-                                                     Persona_Type__c = 'QUT Learner');
-                    childContacts.add(conLearner);
-                }
-
-                if(!String.isBlank(con.QUT_Staff_Email__c)){
-                    Contact conStaff = new Contact(FirstName = con.FirstName,
-                                                   LastName = con.LastName,
-                                                   RecordtypeId = MC_PERSONA,
-                                                   Email = con.QUT_Staff_Email__c,
-                                                   HasOptedOutOfEmail= con.Staff_Email_Opt_Out__c,
-                                                   Email_Opt_Out_DateTime__c = con.Staff_Email_Opt_Out_DateTime__c,
-                                                   Email_Opt_In_DateTime__c = con.Staff_Email_Opt_In_DateTime__c,
-                                                   Parent_Person_Contact__c = con.Id,
-                                                   Persona_Type__c = 'QUT Staff');
-                    childContacts.add(conStaff);
-                }
-            }
-        }
-
-        List<Database.SaveResult> insertResults = new List<Database.SaveResult>();
-        if(Schema.sObjectType.Contact.isCreateable() && !childContacts.isEmpty() ){
-          insertResults = Database.insert(childContacts, false);
-        }
-        for (Database.SaveResult result : insertResults){
-          if (!result.isSuccess()){
-            Logger.error('Error in Inserting Contact').setDatabaseResult(result);
-          }            
-        }
-        if(Logger.getBufferSize() > 0){
-          Logger.saveLog();                
-        }
-      }
 
   /**
    * @description indicates it the trigger is disabled
