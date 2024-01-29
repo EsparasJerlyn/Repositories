@@ -10,7 +10,7 @@
       | eccarius.munoz                 | September 23, 2023    | DEPP-5866              | Created file                 |
       |                                |                       |                        |                              |
  */
-public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a service class, high number of public methods and overall complexity are expected
+public inherited sharing class LeadScoreCalculatorService {
 
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_UG = 'Domestic Undergrad';
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_PG = 'Domestic Postgrad';
@@ -25,10 +25,9 @@ public inherited sharing class LeadScoreCalculatorService {//NOPMD this is a ser
      * 1. Sets the parameters needed for calculation per study level and citizenship
      * 2. Update/Insert Lead Score Details
      */
-    public static void calculateLeadScore(ObjectMap objectMap, Set<Id> contactLeadIds, SObjectType sObjectType){
+    public static void calculateLeadScore(ObjectMap objectMap, Set<Id> contactLeadIds, SObjectType sObjectType) {
 
-        try{
-
+        try {
             List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
 
             LeadScoreConfigService.LeadScoreConfigStudyLevelParam leadScoreConfig = LeadScoreConfigService.getLeadScoreConfig();

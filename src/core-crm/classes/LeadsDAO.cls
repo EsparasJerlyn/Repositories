@@ -86,7 +86,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     }
 
     public static List<Lead> getLearnerLeadsByCalculatedCadences(Set<String> calculatedCadences) {
-        return [//NOPMD
+        return [ //NOPMD
             SELECT
                 Id,
                 Name,

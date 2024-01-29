@@ -12,7 +12,7 @@
       | johanna.a.gibas                | Jan 04, 2024          | ApexCRUDViolationFix   | Added method for getExistingMarketingSegmentations        |
       | roy.nino.s.regala              | Jan 11, 2024          | DEPP-7142              | Added fields used for marketing segmentation calculation  |
  */
-public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO{
+public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO {
 
     public static final String PRIMARY_STUDY_LEVEL_UNDERGRAD = 'Undergraduate';
     public static final String PRIMARY_STUDY_LEVEL_POSTGRAD = 'Postgraduate';
@@ -47,11 +47,11 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
 
     public Schema.SObjectType getSObjectType(){
         return Marketing_Segmentation__c.SObjectType;
-	  }
+	}
 
     public static IMarketingSegmentationsDAO newInstance(){
-		    return (IMarketingSegmentationsDAO) ImplementationSelector.DAO.newInstance(Marketing_Segmentation__c.SObjectType);
-	  }
+        return (IMarketingSegmentationsDAO) ImplementationSelector.DAO.newInstance(Marketing_Segmentation__c.SObjectType);
+	}
 
     public List<Marketing_Segmentation__c> getMarketingSegmentationByContactIds(
         Set<Id> contactIds,

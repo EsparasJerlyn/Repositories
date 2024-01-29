@@ -135,7 +135,6 @@ private class LeadScoreCalculatorServiceTest {
         Test.startTest();
         LeadScoreCalculatorService.calculateLeadScore(objectMap, contactAndLeadIds, Case.sObjectType);
         System.assert(!LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(contactAndLeadIds,AccessLevel.USER_MODE).isEmpty(),'lead score detail is not created');
-        LeadScoreCalculatorService.processMarketingSegmentation(contactSet, leadSet, true);
         LeadScoreCalculatorService.processCase(contactSet, leadSet, true);
         LeadScoreCalculatorService.processIndivEmailResults(contactSet, leadSet, true);
         LeadScoreCalculatorService.processMarketingInterActions(contactSet, leadSet, true);

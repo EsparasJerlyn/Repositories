@@ -37,7 +37,7 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Contact.Schedule_Appointment</value>
-                            <visibilityRule>
+                              <visibilityRule>
                                 <booleanFilter>1 OR 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>

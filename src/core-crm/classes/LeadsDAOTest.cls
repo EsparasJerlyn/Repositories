@@ -194,7 +194,7 @@ public with sharing class LeadsDAOTest {
             Test.stopTest();
         }
     }
-    
+
     @isTest
     static void getLearnerLeadsByEmailOrWorkEmailTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -248,7 +248,8 @@ public with sharing class LeadsDAOTest {
             Test.stopTest();
         }
     }
-
+    
+    @isTest
     static void getUnconvertedLeadsByIdSetTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
@@ -262,6 +263,7 @@ public with sharing class LeadsDAOTest {
         }
         Test.stopTest();
     }
+
     @isTest
     static void getUnconvertedLeadsByIdSetEmptyTest() {
         Test.startTest();

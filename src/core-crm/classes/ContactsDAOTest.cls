@@ -363,6 +363,7 @@ private class ContactsDAOTest {
             System.assert(contactList.isEmpty(), 'contactList should be empty.');
         }
     }
+
     static void getMCPersonaContactsByParentPersonContactIds() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -388,5 +389,5 @@ private class ContactsDAOTest {
             System.assert(contactList.isEmpty(), 'contactList should be empty');
         }
         Test.stopTest();
-    }    
+    }
 }

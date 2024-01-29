@@ -1,6 +1,5 @@
 /**
  * @description Test Class for ActionCadenceTrackerCETriggerHandler
- *
  * @see ActionCadenceTrackerCETriggerHandler
  *
  * @author Accenture
@@ -53,4 +52,41 @@ private  class ActionCadenceTrackerCETriggerHandlerTest {
         EventBus.publish(createEvent);
         Test.getEventBus().deliver();
     }   
+
+    // Ideally we should mock the SalesCadenceCalloutService and assert that we have called the method processCompletedCadenceTracker of the mock.
+    // Hoever as the method processCompletedCadenceTracker is a static method, it is not doable unless we refactor the code.
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
+    @IsTest
+    static void testAfterInsert() {
+        // prepare data
+        List<ActionCadenceTrackerChangeEvent> events = new List<ActionCadenceTrackerChangeEvent>();
+
+        EventBus.ChangeEventHeader eventHeader = new EventBus.ChangeEventHeader();
+        eventHeader.recordIds = new List<String>{ ActionCadenceTracker.getSObjectType().getDescribe().getKeyPrefix() + '000000000001'};
+        eventHeader.changeType='CREATE';
+        eventHeader.entityName='ActionCadenceTracker';
+        eventHeader.changeOrigin='user1-wsl';
+        eventHeader.transactionKey = 'key';
+        eventHeader.commitUser = 'user1';
+
+        ActionCadenceTrackerChangeEvent event = new ActionCadenceTrackerChangeEvent();
+        event.changeEventHeader = eventHeader;
+        event.put('State', 'Complete');
+        event.put('CompletionReason', 'AutomaticallyExited');
+
+        events.add(event);
+
+        // test
+        Map<Id, SObject> m = new Map<Id, SObject>();
+        Id eventId = ActionCadenceTracker.getSObjectType().getDescribe().getKeyPrefix() + '000000000001'; // This is not a valid id of ActionCadenceTrackerChangeEvent, but our logic don't really use the id
+        m.put(eventId, event);
+        (new ActionCadenceTrackerCETriggerHandler()).afterInsert(m);
+
+        ActionCadenceTrackerCETriggerHandler.processCompletedCadenceTracker(events);
+    }
+
+    @IsTest
+    static void testIsDisabled() {
+        Assert.areEqual(false, (new ActionCadenceTrackerCETriggerHandler()).isDisabled(), 'Trigger should not be disabled');
+    }
 }
