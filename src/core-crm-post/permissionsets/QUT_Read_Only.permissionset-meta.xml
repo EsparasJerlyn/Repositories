@@ -2751,6 +2751,11 @@
         <field>Contextual_Role__c.Is_QUT_Internal_Participant__c</field>
         <readable>true</readable>
     </fieldPermissions>
+        <fieldPermissions>
+        <editable>false</editable>
+        <field>Contextual_Role__c.IP_Management__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contextual_Role__c.Opportunity_Outcome__c</field>

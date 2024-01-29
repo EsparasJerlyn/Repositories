@@ -11,6 +11,5 @@
   NOT(ISPICKVAL( Memo_Status__c, &apos;Approved&apos;))
  )
 )</errorConditionFormula>
-    <errorDisplayField>StageName</errorDisplayField>
     <errorMessage>Please ensure relevant approval(s) have been granted before submitting the proposal.</errorMessage>
 </ValidationRule>

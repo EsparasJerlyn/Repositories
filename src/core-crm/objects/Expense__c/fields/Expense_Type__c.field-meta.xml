@@ -13,14 +13,39 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Accommodation</fullName>
+                <default>false</default>
+                <label>Accommodation</label>
+            </value>
+            <value>
                 <fullName>Airfare</fullName>
                 <default>false</default>
                 <label>Airfare</label>
             </value>
             <value>
-                <fullName>Transport (exc. Airfare)</fullName>
+                <fullName>External Staff</fullName>
                 <default>false</default>
-                <label>Transport (exc. Airfare)</label>
+                <label>External Staff</label>
+            </value>
+            <value>
+                <fullName>Industry Engagement Fund</fullName>
+                <default>false</default>
+                <label>Industry Engagement Fund</label>
+            </value>
+            <value>
+                <fullName>Intellectual Property</fullName>
+                <default>false</default>
+                <label>Intellectual Property</label>
+            </value>
+            <value>
+                <fullName>Internal Staff</fullName>
+                <default>false</default>
+                <label>Internal Staff</label>
+            </value>
+            <value>
+                <fullName>Legal</fullName>
+                <default>false</default>
+                <label>Legal</label>
             </value>
             <value>
                 <fullName>Meals</fullName>
@@ -28,19 +53,9 @@
                 <label>Meals</label>
             </value>
             <value>
-                <fullName>Accommodation</fullName>
+                <fullName>Other</fullName>
                 <default>false</default>
-                <label>Accommodation</label>
-            </value>
-            <value>
-                <fullName>Stationery</fullName>
-                <default>false</default>
-                <label>Stationery</label>
-            </value>
-            <value>
-                <fullName>Workshop Facilitation</fullName>
-                <default>false</default>
-                <label>Workshop Facilitation</label>
+                <label>Other</label>
             </value>
             <value>
                 <fullName>Procurement</fullName>
@@ -48,9 +63,19 @@
                 <label>Procurement</label>
             </value>
             <value>
-                <fullName>Other</fullName>
+                <fullName>Stationery</fullName>
                 <default>false</default>
-                <label>Other</label>
+                <label>Stationery</label>
+            </value>
+            <value>
+                <fullName>Transport (exc. Airfare)</fullName>
+                <default>false</default>
+                <label>Transport (exc. Airfare)</label>
+            </value>
+            <value>
+                <fullName>Workshop Facilitation</fullName>
+                <default>false</default>
+                <label>Workshop Facilitation</label>
             </value>
         </valueSetDefinition>
     </valueSet>

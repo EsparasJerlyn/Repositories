@@ -552,17 +552,16 @@
          <!--(End) DEPP-5906 -->
         <name>Role</name>
     </types>
-
-    <types>
-        <!--(Start) DEPP-6570 -->
-        <!-- 
+    <!-- <types>
+        (Start) DEPP-6570
+        
         Uncomment these when all sandboxes do not have users assigned to roles    
         <members>Future_Student_Agent</members>
         <members>Future_Student_Team_Leader</members>
-        <members>Future_Student_Super_User</members>-->
-        <name>Role</name> 
-        <!--(Start) DEPP-6570 -->
-    </types>
+        <members>Future_Student_Super_User</members>
+        <name>Role</name>
+        (Start) DEPP-6570
+    </types> -->
     <types>
         <!--(Start) DEPP-6900 -->
         <members>Case_Domestic_Path</members>

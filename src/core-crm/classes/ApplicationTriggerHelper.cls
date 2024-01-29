@@ -90,14 +90,37 @@ public with sharing class ApplicationTriggerHelper {
      * @param Map<Id, SObject> oldItems - An application id to replaced application record map
      */
     public static void updateRelatedRecords(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        // related cases by contact
+        Map<Id,List<Case>> caseMap = new Map<Id,List<Case>>();
+        // related interactions by contact
+        Map<Id,List<Marketing_Interaction__c>> marketingInteractionMap = new Map<Id,List<Marketing_Interaction__c>>();
+        // related applications by contact
+        Map<Id,List<hed__Application__c>> applicationMap = new Map<Id, List<hed__Application__c>>();
         // update/upsert maps/list
         Map<Id, Contact> contactMapToUpdate = new Map<Id, Contact>();
         // related maps
         Map<Id, Contact> relatedContactMap = new Map<Id, Contact>(ApplicationService.getApplicantsFromApplications((List<hed__Application__c>) newItems.values()));
+        //collect contact ids
+        Set<Id> applicantIdsForMarketingOptOut = new Set<Id>();
+        
+        ApplicationService.collectApplicantIdsForMarketingOptOut((List<hed__Application__c>) newItems.values(),oldItems, applicantIdsForMarketingOptOut);
+
+        if(!applicantIdsForMarketingOptOut.isEmpty()){
+            caseMap = ContactService.mapExistingCasesToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
+            marketingInteractionMap = ContactService.mapExistingMarketingInteractionToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
+            applicationMap = ContactService.mapExisitngApplicationsToContact(applicantIdsForMarketingOptOut, AccessLevel.SYSTEM_MODE);
+        }
+        
         // process
         for(hed__Application__c application : (List<hed__Application__c>) newItems.values()) {
             if(application.hed__Applicant__c != null){
                 // initial steps...
+                Id contactId = application.hed__Applicant__c;
+
+                Boolean noCaseandInteractionRecord = !caseMap.containsKey(contactId) && !marketingInteractionMap.containsKey(contactId);
+                Boolean hasOneORZeroApp = !applicationMap.containsKey(contactId) || applicationMap.get(contactId).size() == 1;
+                Boolean isForDisableMarketing = noCaseandInteractionRecord && hasOneORZeroApp;
+
                 Contact applicant = ApplicationService.getContactFromUpdateMap(contactMapToUpdate, application.hed__Applicant__c);
                 ApplicationService.RecordsToReferenceWrapper recordsToReference = new ApplicationService.RecordsToReferenceWrapper();
                 recordsToReference.existingContact = relatedContactMap.get(application.hed__Applicant__c);
@@ -105,6 +128,7 @@ public with sharing class ApplicationTriggerHelper {
                 recordsToReference.oldApplication = oldItems == null ? null : (hed__Application__c) oldItems.get(application.Id);
                 // field updates...
                 ApplicationService.mappedApplicationToContact(applicant, recordsToReference);
+                ApplicationService.mapMarketingFields(applicant, recordsToReference, isForDisableMarketing);
             }
         }
         // update
@@ -263,23 +287,6 @@ public with sharing class ApplicationTriggerHelper {
             if(Logger.getBufferSize() > 0) {
                 Logger.saveLog();
             }
-        }
-    }
-
-    /**
-     * @description Update related Contacts Marketing Preference when QTAC application is inactive 
-     * @param newItems
-     */
-    public static void updateContactWhenQTACAppIsInactive(List<hed__Application__c> newItems, Map<Id, hed__Application__c> oldItems) {
-        Set<Id> applicantIds = new Set<Id>();
-        for(hed__Application__c app : newItems){
-            if(ApplicationService.isInactiveQTACApp(app, oldItems)){
-                applicantIds.add(app.hed__Applicant__c);
-            }
-        }
-        List<Contact> contactsToUpdate = ApplicationService.mapContactToUpdate(applicantIds);
-        if(!contactsToUpdate.isEmpty()){
-            ContactsDAO.newInstance().updateRecords(contactsToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
     }
     

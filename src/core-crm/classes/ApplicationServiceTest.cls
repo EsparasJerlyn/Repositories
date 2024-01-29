@@ -74,6 +74,24 @@ private class ApplicationServiceTest {
             for (Database.SaveResult sr : srList) {
                 System.assert(sr.isSuccess(), 'A record should not be saved.');
             }
+
+            Contact con =  ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{newContacts[0].Id}, AccessLevel.SYSTEM_MODE)[0];
+            System.assertEquals(false, con.HasOptedOutOfEmail, 'Marketing field should be false');
+            System.assertEquals(false, con.Learner_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.Staff_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.Work_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.Work_SMS_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.hed__SMS_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.DoNotCall, 'Marketing field should be false');
+            System.assertEquals(true, con.Sync_to_MC__c, 'Marketing field should be true');
+            System.assertEquals(false, con.Do_Not_Sync_To_MC_Override__c, 'Marketing field should be false');
+            System.assert(con.Dont_Market_Reason__c == null, 'Marketing field Dont_Market_Reason__c should be empty');
+            System.assert(con.Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Learner_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Staff_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Work_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Work_SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
         }
     }
     
