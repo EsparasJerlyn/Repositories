@@ -52,12 +52,23 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
   @api get fieldsToSearch() {
     return this._fieldsToSearch;
   }
+
   set fieldsToSearch(value) {
-    this._fieldsToSearch = value;
-    this.visibleFields_ToSearchNames = value;
-    this.fieldCollection_toSearch = JSON.parse(value).map(
-      (field) => field.name
-    );
+    try {
+      const parsedValue = JSON.parse(value);
+      this._fieldsToSearch = parsedValue;
+      this.visibleFields_ToSearchNames = parsedValue;
+      this.fieldCollection_toSearch = parsedValue.map((field) => field.name);
+    } catch (error) {
+      const logger = this.template.querySelector("c-logger");
+      if (logger) {
+        logger.error(
+          "Exception caught in method fieldsToSearch in LWC flowLookup: ",
+          JSON.stringify(error)
+        );
+        logger.saveLog();
+      }
+    }
   }
 
   @track _fieldsToSearch;
