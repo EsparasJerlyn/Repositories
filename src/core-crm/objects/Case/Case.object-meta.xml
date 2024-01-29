@@ -226,7 +226,6 @@
         <searchResultsAdditionalFields>CASES.SUBJECT</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CASES.STATUS</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CASES.PRIORITY</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Student_LifeCycle_Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>hed__Category__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CASES.CREATED_DATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CASES.ORIGIN</searchResultsAdditionalFields>

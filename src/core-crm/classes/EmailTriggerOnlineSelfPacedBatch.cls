@@ -71,24 +71,27 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
                                                             FROM Communication_Schedule__c
                                                             WHERE Email_on_final_confirmation__c = TRUE
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
-                    if(commSched.Days_before_Start_Date__c != null){
-                        if(String.isNotBlank(commSched.Course__c)){
-                            courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
-                        }
-                        if(String.isNotBlank(commSched.Program_Plan__c)){
-                            courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
-                        }
-                    }
+                    Boolean isCourseBeforeStartDateNotNull = String.isNotBlank(commSched.Course__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isProgramPlanBeforeStartDateNotNull = String.isNotBlank(commSched.Program_Plan__c) && commSched.Days_before_Start_Date__c != null;
+                    Boolean isCourseFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Course__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
+                    Boolean isProgramPlanFinalConfirmationTemplateNotBlank =  String.isNotBlank(commSched.Program_Plan__c) && String.isNotBlank(commSched.On_Final_Confirmation_Template__c);
 
-                    // Get email template
-                    if(String.isNotBlank(commSched.On_Final_Confirmation_Template__c)){
-                        if(String.isNotBlank(commSched.Course__c)){
-                            productEmailTemplateMap.put(commSched.Course__c, String.valueOf(commSched.On_Final_Confirmation_Template__c));
-                        }
-                        if(String.isNotBlank(commSched.Program_Plan__c)){
-                            productEmailTemplateMap.put(commSched.Program_Plan__c, String.valueOf(commSched.On_Final_Confirmation_Template__c));
-                        }
+                    if(isCourseBeforeStartDateNotNull){
+                        courseDaysBeforeMap.put(commSched.Course__c, commSched.Days_before_Start_Date__c);
                     }
+                    if(isProgramPlanBeforeStartDateNotNull){
+                        courseDaysBeforeMap.put(commSched.Program_Plan__c, commSched.Days_before_Start_Date__c);
+                    }
+                    
+
+                    if(isCourseFinalConfirmationTemplateNotBlank){
+                        productEmailTemplateMap.put(commSched.Course__c, String.valueOf(commSched.On_Final_Confirmation_Template__c));
+                    }
+                    if(isProgramPlanFinalConfirmationTemplateNotBlank){
+                        productEmailTemplateMap.put(commSched.Course__c, String.valueOf(commSched.On_Final_Confirmation_Template__c));
+                    }
+                    
+
                 }
             }
 
@@ -126,31 +129,32 @@ public with sharing class EmailTriggerOnlineSelfPacedBatch implements Database.B
 
                     // Get Study Store URL Custom Setting
                     Study_Store_URL_Settings__c storeLinkSettings = Study_Store_URL_Settings__c.getOrgDefaults();
-
-                    if(allowedEmailReminder && String.isNotBlank(emailTemplateIdStr)){
+                    Boolean isAllowedEmailReminderAndDateisToday = allowedEmailReminder && String.isNotBlank(emailTemplateIdStr) && 
+                                                                (courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today();
+                    if(isAllowedEmailReminderAndDateisToday){
                         // Email reminder allowed
-                        if((courseConnection.Course_Offering_Start_Date__c - daysBeforeStartDate) == Date.today()){
-                            //Send email to this student
-                            EmailTriggerBatchHelper.EmailWrapper wrapper = new EmailTriggerBatchHelper.EmailWrapper();
-                            wrapper.recordId = courseConnection.Id;
-                            wrapper.contactId = courseConnection.hed__Contact__c;
-                            wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
-                            wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
-                            wrapper.lastName = courseConnection.hed__Contact__r.LastName;
-                            wrapper.toAddress = courseConnection.hed__Contact__r.Registered_Email__c;
-                            wrapper.emailTemplateIdStr = emailTemplateIdStr;
-                            wrapper.startDate = courseConnection.Course_Offering_Start_Date__c;
-                            wrapper.endDate = courseConnection.Offering_End_Date__c;
-                            wrapper.amount = amount;
-                            wrapper.paidInFull = paidInFull;
-                            wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
-                                                                ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
-                                                                : '';
-                            wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
-                                                                ? courseConnection.hed__Contact__r.QUT_Student_Username__c
-                                                                : '';
-                            wrapperList.add(wrapper);
-                        }
+                        //Send email to this student
+                        EmailTriggerBatchHelper.EmailWrapper wrapper = new EmailTriggerBatchHelper.EmailWrapper();
+                        wrapper.recordId = courseConnection.Id;
+                        wrapper.contactId = courseConnection.hed__Contact__c;
+                        wrapper.name = courseConnection.hed__Course_Offering__r.hed__Course__r.Name;
+                        wrapper.firstName = courseConnection.hed__Contact__r.FirstName;
+                        wrapper.lastName = courseConnection.hed__Contact__r.LastName;
+                        wrapper.toAddress = courseConnection.hed__Contact__r.Registered_Email__c;
+                        wrapper.emailTemplateIdStr = emailTemplateIdStr;
+                        wrapper.startDate = courseConnection.Course_Offering_Start_Date__c;
+                        wrapper.endDate = courseConnection.Offering_End_Date__c;
+                        wrapper.amount = amount;
+                        wrapper.paidInFull = paidInFull;
+                        wrapper.storeLink = storeLinkSettings.Study_Store_Link__c != null
+                                                            ? String.valueOf(storeLinkSettings.Study_Store_Link__c)
+                                                            : '';
+                        wrapper.userName = courseConnection.hed__Contact__r.QUT_Student_Username__c!=null
+                                                            ? courseConnection.hed__Contact__r.QUT_Student_Username__c
+                                                            : '';
+                        wrapperList.add(wrapper);      
+                            
+                        
                     }
                 }
             }

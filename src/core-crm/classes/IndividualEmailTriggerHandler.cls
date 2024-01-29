@@ -13,7 +13,6 @@
  */
 public with sharing class IndividualEmailTriggerHandler implements Disableable, AfterInsert, AfterUpdate {
 
-
     /**
      * @description beforeInsert trigger event
      * @param newItems - List of et4ae5__IndividualEmailResult__c.Trigger.new

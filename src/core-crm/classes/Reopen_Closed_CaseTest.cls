@@ -29,7 +29,6 @@ public with sharing class Reopen_Closed_CaseTest {
             c.ContactId = relatedContacts[0].Id;
             c.Origin = 'Email';
             c.Priority = 'Low';
-            c.Student_LifeCycle_Status__c = 'Prospect';
             c.Category__c = 'Student life';
             c.Status = 'Closed';
             c.Closure_Code__c = 'Response Given';

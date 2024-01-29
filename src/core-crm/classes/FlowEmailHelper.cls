@@ -18,7 +18,7 @@ public without sharing class FlowEmailHelper {
     @InvocableMethod(Label='Send Email (Custom)' Description='Email Helper for Flows')
     public static void sendCustomEmail(List<EmailParameters> emailParams){
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-        List<String> emailTemplateNames = new List<String>();
+        Set<String> emailTemplateNames = new Set<String>();
         Map<String,EmailTemplate> emailTemplates = new Map<String,EmailTemplate>();
 
         //get all email template names
@@ -27,11 +27,7 @@ public without sharing class FlowEmailHelper {
         }
 
         //map email templates with name as key
-        for(EmailTemplate template : [
-            SELECT Name, Subject, HtmlValue
-            FROM EmailTemplate
-            WHERE Name IN :emailTemplateNames
-        ]){ 
+        for(EmailTemplate template : EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(emailTemplateNames, AccessLevel.SYSTEM_MODE)){ 
             if(!emailTemplates.containsKey(template.Name)){
                 emailTemplates.put(template.Name,template);
             }

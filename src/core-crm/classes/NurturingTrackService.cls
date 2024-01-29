@@ -12,7 +12,7 @@
       | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6479              | Revert methods getCurrentIntakePeriod and isDateWithinRange                         |
       | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                        |
  */
-public with sharing class NurturingTrackService {
+public with sharing class NurturingTrackService { //NOPMD This is a service class, abundance of public methods and high overall complexity is expected 
 
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_FIELD_MAP = new Map<SObjectType, Map<String, String>>{
         Contact.SObjectType => new Map<String, String>{

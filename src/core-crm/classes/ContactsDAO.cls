@@ -410,6 +410,46 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return Database.getQueryLocator(query);
     }
 
+    public List<Contact> getContactsByParentPersonLeadIds(
+        Set<Id> leadIds,
+        AccessLevel accessLevel
+    ) {
+        if(!leadIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id, Parent_Person_Contact__c, Parent_Person_Lead__c ' +
+                'FROM Contact WHERE Parent_Person_Lead__c IN :leadIds',
+                accessLevel
+            );
+        } else { return new List<Contact>(); }
+    }
+
+    public List<Contact> getContactsNoParentPersonContactByIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ) {
+        if(!recordIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id, Email, Work_Email__c, AccountId ' +
+                'FROM Contact WHERE Id IN :recordIds AND Parent_Person_Contact__c = null',
+                accessLevel
+            );
+        }  else { return new List<Contact>(); }
+    }
+
+    public List<Contact> getContactsWithParentPersonContactByIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ) {
+        if(!recordIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Parent_Person_Contact__r.Id, Parent_Person_Contact__r.Email, ' +
+                'Parent_Person_Contact__r.Work_Email__c, Parent_Person_Contact__r.AccountId ' +
+                'FROM Contact WHERE Id IN :recordIds',
+                accessLevel
+            );
+        }  else { return new List<Contact>(); }
+    }
+
     public List<Contact> getMCPersonaContactsByParentPersonContactIds(
         Set<Id> recordIds,
         AccessLevel accessLevel

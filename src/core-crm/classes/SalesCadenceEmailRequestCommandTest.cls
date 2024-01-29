@@ -86,7 +86,7 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
                 .insertRecords(leadScoreConfigChildList, true, AccessLevel.USER_MODE);
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1,3);
-            contactList[0].Calculated_Cadence__c = 'International Application Submission - Direct Applicant (Automated)';
+            contactList[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED;
             contactList[0].hed__Citizenship_Status__c = 'International';
             contactList[1].Calculated_Cadence__c = 'Domestic Offer Lapsed (Automated)';
             contactList[1].hed__Citizenship_Status__c = 'Domestic';
@@ -99,7 +99,7 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
                 nurtureList.add(
                     new Nurture_Track_Configuration__c(
                         Id = nurtureTrackConfig.Id,
-                        Cadence_Name__c = 'International Application Submission - Direct Applicant (Automated)',
+                        Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
                         Lead_Score_Threshold__c = 3,
                         Status__c = 'Active'
                     )
@@ -137,7 +137,7 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
-            List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, 'USER_MODE');
+            List<EmailTemplate> emailTemplates = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{'Test Email Temp'}, AccessLevel.USER_MODE);
 
             Set<Id> resultIds = (new Map<Id,SObject>(contactList)).keySet();
             List<Communication_Queue__c> commsQueueList = TestDataFactory.createCommunicationQueuePerContactOrLead(
@@ -154,6 +154,8 @@ public with sharing class SalesCadenceEmailRequestCommandTest {
             Test.startTest();
             contactList[0].Email_Opt_In_DateTime__c = Date.today();
             contactList[1].Email_Opt_In_DateTime__c = Date.today();
+            contactList[0].QUT_Applicant__c = true;
+            contactList[1].QUT_Applicant__c = true;
             ContactsDAO.newInstance().updateRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 

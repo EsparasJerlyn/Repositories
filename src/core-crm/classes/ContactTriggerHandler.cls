@@ -35,6 +35,7 @@
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | updated creation of marketing   |
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | segmentation to future          |
       | kenneth.f.alsay                | December 06, 2023     | DEPP-7339              | updated query in sendWelcomeEmail|
+      | kenneth.f.alsay                | December 27, 2023     |                        | removed unused variable         |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -240,15 +241,11 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    * @param contacts the list of contacts to set owner for
    */
   private void setContactOwner(List<Contact> contacts) {
-
-
       List<Contact> contactsToUpdate = new List<Contact>();
 
       Id sysAdIntegUserId;
       User currentUser;
       Id currentUserId = UserInfo.getUserId();
-
-      List<User> listOfOwners = new List<User>();
 
       if(Schema.sObjectType.User.isAccessible()){
         //query once, get current user and syss admin integration user id

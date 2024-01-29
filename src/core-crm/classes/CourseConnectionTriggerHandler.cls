@@ -21,6 +21,7 @@
 | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6417              | Added before update method, processEnrolmentPricingValidation                 |
 | kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | Added before update method, setLMSIntegrationStatusToNull                 	  |
 | kenneth.f.alsay                | December 6, 2023      | DEPP-7339              | Updated query in sendWelcomeEmail method as per AC2                           |
+| kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variable                                                       |
 */
 public without sharing class CourseConnectionTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate, AfterDelete {
   public static final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
@@ -104,7 +105,6 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
     );
 
     List<hed__Course_Enrollment__c> courseConNewStatusList = new List<hed__Course_Enrollment__c>();
-    List<hed__Course_Enrollment__c> cancelledCourseConnectionList = new List<hed__Course_Enrollment__c>();
 
     Map<Id,hed__Course_Enrollment__c> newMap = (Map<Id, hed__Course_Enrollment__c>) newItems;
     Map<Id,hed__Course_Enrollment__c> oldMap = (Map<Id, hed__Course_Enrollment__c>) oldItems;
@@ -357,33 +357,37 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
 
     if(!ccCourseSet.isEmpty() || !ccProgPlanSet.isEmpty()){
         for (Communication_Schedule__c courseCommSched : [
-          SELECT Id, Course__c, Email_on_Registration__c,On_Registration_Template__c
+          SELECT Id, Course__c, Email_on_Registration__c,On_Registration_Template__c, Program_Plan__c
           FROM Communication_Schedule__c
           WHERE ( Course__c IN :ccCourseSet 
           OR Program_Plan__c IN :ccProgPlanSet)
         ]) {
-          if (courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null) {
+          Boolean isEmailOnRegistrationAndCourseNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null;
+          Boolean isCourseOnRegistrationTemplateNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Course__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c);
+          Boolean isProgramPlanNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null && courseCommSched.Course__c == null;
+          Boolean isProgramPlanOnRegistrationTemplateNotNull = courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null && String.isNotBlank(courseCommSched.On_Registration_Template__c) && courseCommSched.Course__c == null;
+          if (isEmailOnRegistrationAndCourseNotNull) {
               courseSendRegEmailMap.put(
               courseCommSched.Course__c,
               courseCommSched.Email_on_Registration__c
             );
-    
-            if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
-              // use custom email template
-              emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
-              productEmailTemplateMap.put(courseCommSched.Course__c, String.valueOf(courseCommSched.On_Registration_Template__c));
-            }
-          } else if(courseCommSched.Email_on_Registration__c == true && courseCommSched.Program_Plan__c != null){
-                    progPlanSendRegEmailMap.put(
-                    courseCommSched.Program_Plan__c,
-                    courseCommSched.Email_on_Registration__c
-                  );
-
-                  if(String.isNotBlank(courseCommSched.On_Registration_Template__c)){
-                    // use custom email template
-                    emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
-                    productEmailTemplateMap.put(courseCommSched.Program_Plan__c, courseCommSched.On_Registration_Template__c);
-                  }
+           
+          }
+          if (isCourseOnRegistrationTemplateNotNull) {
+            emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
+            productEmailTemplateMap.put(courseCommSched.Course__c, String.valueOf(courseCommSched.On_Registration_Template__c));
+          }
+        
+          if(isProgramPlanNotNull){
+            progPlanSendRegEmailMap.put(
+              courseCommSched.Program_Plan__c,
+              courseCommSched.Email_on_Registration__c
+            );
+          }
+          if(isProgramPlanOnRegistrationTemplateNotNull){
+            // use custom email template
+             emailTemplateIdSet.add(String.valueOf(courseCommSched.On_Registration_Template__c));
+             productEmailTemplateMap.put(courseCommSched.Program_Plan__c, courseCommSched.On_Registration_Template__c);
           }
         }
     }
@@ -414,58 +418,43 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
         String productName;
         Boolean sendEmail = false;
         Id emailTemplateIdStr;
-
+        Boolean isCourse = String.isNotBlank(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
+        Boolean isCourseAndEmailMapContainsCourse = isCourse && courseSendRegEmailMap.containsKey(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
+        Boolean isCourseAndProductEmailTemplateContainsCourse = isCourse && productEmailTemplateMap.containsKey(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
         /**Check Course */
-        if (
-          String.isNotBlank(
-            procCrsEnroll.hed__Course_Offering__r.hed__Course__c
-          )
-        ) {
-          // Set Product Name
-          productName = procCrsEnroll.hed__Course_Offering__r.hed__Course__r.Name;
-
-          // Check if Send Registration Email is True for Course
-          if (
-            courseSendRegEmailMap.containsKey(
-              procCrsEnroll.hed__Course_Offering__r.hed__Course__c
-            )
-          ) {
-            sendEmail = (Boolean) courseSendRegEmailMap.get(
+        if (isCourse){
+            // Set Product Name
+            productName = procCrsEnroll.hed__Course_Offering__r.hed__Course__r.Name;
+        }
+        /**Check Course  &&  Check if Send Registration Email is True for Course */
+        if (isCourseAndEmailMapContainsCourse) {
+              sendEmail = (Boolean) courseSendRegEmailMap.get(
               procCrsEnroll.hed__Course_Offering__r.hed__Course__c
             );
-          }
-
-          // Resolve email template to use for this course
-          if(productEmailTemplateMap.containsKey(procCrsEnroll.hed__Course_Offering__r.hed__Course__c)){
+          } 
+        /**Check Course && Resolve email template to use for this course */
+        if (isCourseAndProductEmailTemplateContainsCourse){
             emailTemplateIdStr = productEmailTemplateMap.get(procCrsEnroll.hed__Course_Offering__r.hed__Course__c);
-          }
-        }
-
+        } 
+        
+        Boolean isProgram = String.isNotBlank(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
+        Boolean isProgramAndSendRegistrationEmail = isProgram && progPlanSendRegEmailMap.containsKey(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
+        Boolean isProgramAndProductEmailTemplateContainsProgram = isProgram && productEmailTemplateMap.containsKey(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
         /** Check Program */
-        if (
-          String.isNotBlank(
-            procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-          )
-        ) {
+        if (isProgram){
           // Set Product Name
           productName = procCrsEnroll.Program_Offering__r.hed_Program_Plan__r.Name;
-
-          // Check if Send Registration Email is True for Program Plan
-          if (
-            progPlanSendRegEmailMap.containsKey(
-              procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
-            )
-          ) {
-            sendEmail = (Boolean) progPlanSendRegEmailMap.get(
+        }
+        // Check if Send Registration Email is True for Program Plan
+        if (isProgramAndSendRegistrationEmail){
+          sendEmail = (Boolean) progPlanSendRegEmailMap.get(
               procCrsEnroll.Program_Offering__r.hed_Program_Plan__c
             );
-          }
-
-          // Resolve email template to use for this program
-          if(productEmailTemplateMap.containsKey(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c)){
-            emailTemplateIdStr = productEmailTemplateMap.get(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
-          }
         }
+        if(isProgramAndProductEmailTemplateContainsProgram ){
+          emailTemplateIdStr = productEmailTemplateMap.get(procCrsEnroll.Program_Offering__r.hed_Program_Plan__c);
+        }
+        
 
         // If Send Email True, Process Single Email
         if (sendEmail == true && String.isNotBlank(emailTemplateIdStr)) {
@@ -477,25 +466,17 @@ public without sharing class CourseConnectionTriggerHandler implements Disableab
             ' ' +
             procCrsEnroll.hed__Contact__r.LastName;
 
-          String paidInFull = 'No';
-          if (String.isNotBlank(procCrsEnroll.Paid_in_Full__c)) {
-            paidInFull = procCrsEnroll.Paid_in_Full__c;
-          }
+          String paidInFull = String.isNotBlank(procCrsEnroll.Paid_in_Full__c) ? 
+            procCrsEnroll.Paid_in_Full__c:'No';
 
-          String amount = '0.00';
-          if (String.isNotBlank(String.valueof(procCrsEnroll.Amount__c))) {
-            amount = String.valueof(procCrsEnroll.Amount__c);
-          }
+          String amount = String.isNotBlank(String.valueof(procCrsEnroll.Amount__c))?
+            String.valueof(procCrsEnroll.Amount__c) : '0.00';
 
-          String startDate = '';
-          if(procCrsEnroll.Course_Offering_Start_Date__c != null){
-              startDate = procCrsEnroll.Course_Offering_Start_Date__c.format();
-          }
+          String startDate = procCrsEnroll.Course_Offering_Start_Date__c != null? 
+            procCrsEnroll.Course_Offering_Start_Date__c.format():'';
 
-          String endDate = '';
-          if(procCrsEnroll.Offering_End_Date__c != null){
-              endDate = procCrsEnroll.Offering_End_Date__c.format();
-          }
+          String endDate = procCrsEnroll.Offering_End_Date__c != null? 
+            procCrsEnroll.Offering_End_Date__c.format() : '';
 
           // Set Email Params
           Map<String, String> emailParams = new Map<String, String>{

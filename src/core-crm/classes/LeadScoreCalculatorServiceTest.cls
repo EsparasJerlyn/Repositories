@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | October 06, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                      |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------------|
+      | roy.nino.s.regala              | October 06, 2023      | DEPP-5866              | Created file                                        |
+      | kenneth.f.alsay                | January 2, 2024       |                        | Removed unused variables, increased code coverage   |
+      |                                |                       |                        |                                                     |
  */
 @isTest
 private class LeadScoreCalculatorServiceTest {
@@ -121,12 +122,23 @@ private class LeadScoreCalculatorServiceTest {
         objectMap.internationalUnderGradMap = new Map<Id, Case>(new List<Case>());
         objectMap.internationalUndeterminedMap = new Map<Id, Case>(new List<Case>());
         objectMap.undeterminedUndeterminedMap = new Map<Id, Case>(new List<Case>());
+        
+        Set<Id> contactSet = new Set<Id>();
+        for(Contact contact : contactList){
+            contactSet.add(contact.Id);
+        }
+        Set<Id> leadSet = new Set<Id>();
+                for(Lead lead : leadList){
+            leadSet.add(lead.Id);
+        }
 
         Test.startTest();
         LeadScoreCalculatorService.calculateLeadScore(objectMap, contactAndLeadIds, Case.sObjectType);
-        Test.stopTest();
-        List<Lead_Score_Detail__c> lsdsasdf = LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(contactAndLeadIds,AccessLevel.USER_MODE);
         System.assert(!LeadScoreDetailsDAO.newInstance().getLeadScoreDetailsByContactOrLeadId(contactAndLeadIds,AccessLevel.USER_MODE).isEmpty(),'lead score detail is not created');
+        LeadScoreCalculatorService.processCase(contactSet, leadSet, true);
+        LeadScoreCalculatorService.processIndivEmailResults(contactSet, leadSet, true);
+        LeadScoreCalculatorService.processMarketingInterActions(contactSet, leadSet, true);
+        Test.stopTest();
             
     }
 

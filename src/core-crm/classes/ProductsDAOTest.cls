@@ -35,4 +35,38 @@ public with sharing class ProductsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getProductByIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductById(
+                        new Set<Id>(),
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getProductByIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForProduct = new MockIdGenerator(Product2.sObjectType);
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductById(
+                        new Set<Id>{builderForProduct.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
 }

@@ -837,6 +837,34 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     }
 
     @isTest
+    private static void getDomesticAcceptedAndAdmittedExitTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            // create contact
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'Domestic';
+            newContacts[0].Calculated_Cadence__c = 'Domestic Accepted and Admitted';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+
+            // create application
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
+            newApplications[0].Offer_Status__c = 'Deferred';
+            newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+            // assert
+            System.assertEquals(
+                '',
+                processContacts[0].Calculated_Cadence__c,
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
     private static void testAutomatedInternationalOffertoAcceptanceExit() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
