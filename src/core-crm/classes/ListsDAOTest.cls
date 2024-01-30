@@ -14,7 +14,7 @@ public with sharing class ListsDAOTest {
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
     }
-
+ 
     @isTest
     static void newInstanceTest() {
         Test.startTest();

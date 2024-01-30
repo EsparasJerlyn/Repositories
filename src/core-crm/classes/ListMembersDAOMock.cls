@@ -11,7 +11,7 @@
 @isTest
 public inherited sharing class ListMembersDAOMock extends DmlBaseMock implements IListMembersDAO {
     public Map<Id, List_Member__c> listMembersMap;
-
+ 
     public Schema.SObjectType getSObjectType() {
         return List_Member__c.SObjectType;
     }
