@@ -12,7 +12,7 @@
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted> 
-        <valueSetDefinition>
+        <valueSetDefinition> 
             <sorted>false</sorted>
             <value>
                 <fullName>Inward</fullName>
