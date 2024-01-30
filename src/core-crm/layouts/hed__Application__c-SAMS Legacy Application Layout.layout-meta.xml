@@ -42,7 +42,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Applied_Program__c</field>
+                <field>Applied_ProgramV2__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
