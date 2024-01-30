@@ -31,8 +31,8 @@
             <caseOwnerType>Queue</caseOwnerType>
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
-            <emailAddress>{}</emailAddress>
-            <routingName>{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}</routingName>
+            <emailAddress>{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}</emailAddress>
+            <routingName>Domestic Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
         <routingAddresses>
@@ -42,7 +42,7 @@
             <caseOwnerType>Queue</caseOwnerType>
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
-            <emailAddress>{CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE}</emailAddress>
+            <emailAddress>{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}</emailAddress>
             <routingName>International Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
