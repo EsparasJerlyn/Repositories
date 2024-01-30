@@ -11,7 +11,7 @@
     <masterLabel>Alumni &amp; Corporate Partnerships UtilityBar</masterLabel>
     <template>
         <name>one:utilityBarTemplateDesktop</name>
-        <properties>
+        <properties> 
             <name>isLeftAligned</name>
             <value>true</value>
         </properties>
