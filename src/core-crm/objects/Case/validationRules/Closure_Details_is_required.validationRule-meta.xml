@@ -17,5 +17,5 @@
  LEN ( Closure_Details__c ) &lt;= 20
 )</errorConditionFormula>
     <errorDisplayField>Closure_Details__c</errorDisplayField>
-    <errorMessage>Closure Details is required to update Status</errorMessage>
+    <errorMessage>Closure Details of at least 20 characters are required when Status is set to Closed</errorMessage>
 </ValidationRule>
