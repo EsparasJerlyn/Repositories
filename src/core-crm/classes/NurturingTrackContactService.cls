@@ -33,6 +33,7 @@
       | arsenio.jr.dayrit              | Nov. 20, 2023         | DEPP-7268              | Added Domestic First Offer to Acceptance entry and exit criteria              |
       | roy.nino.s.regala              | Jan. 03, 2024         | Shutdown PMD Fix       | Fix cyclomatic complexity issues                                              |
       | arsenio.jr.dayrit              | Jan. 10, 2024         | DEPP-6958              | Added Domestic Accepted and Admitted exit handling                            |
+      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Updated application list used in International Strong Interest exit criteria  | 
 
  */
 public with sharing class NurturingTrackContactService { //NOPMD
@@ -2223,14 +2224,18 @@ public with sharing class NurturingTrackContactService { //NOPMD
             NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL
         };
         Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
-        for(hed__Application__c application : applicationList) {
+        for(hed__Application__c application : applicationListForStrongInterest) {
             Contact relatedContact = internationalExitContactMap.get(application.hed__Applicant__c);
+
+            Boolean isActiveApplication = 
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                application.Application_Status__c != null && 
+                !ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c);
+
             if(
                 relatedContact != null &&
                 cadenceNames.contains(relatedContact.Calculated_Cadence__c) && 
-                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
-                (!ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c) ||
-                relatedContact.HasOptedOutOfEmail)
+                (isActiveApplication || relatedContact.HasOptedOutOfEmail)
             ) {
                 contactsToUpdate.put(
                     relatedContact.Id,
