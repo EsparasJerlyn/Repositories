@@ -12,7 +12,7 @@
             <field>Contact.RecordType.DeveloperName</field>
             <operation>equals</operation>
             <value>Person</value>
-        </filterItems>
+        </filterItems> 
         <filterItems>
             <field>Contact.QUT_Employee_ID__c</field>
             <operation>notEqual</operation>

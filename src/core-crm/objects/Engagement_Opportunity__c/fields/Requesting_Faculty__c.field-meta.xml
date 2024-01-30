@@ -16,7 +16,7 @@
             <field>Account.Organization_Unit_Level__c</field>
             <operation>equals</operation>
             <value>2</value>
-        </filterItems>
+        </filterItems> 
         <filterItems>
             <field>Account.End_Date__c</field>
             <operation>equals</operation>

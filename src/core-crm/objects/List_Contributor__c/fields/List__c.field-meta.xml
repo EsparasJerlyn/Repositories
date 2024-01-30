@@ -12,5 +12,5 @@
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Lookup</type>
+    <type>Lookup</type> 
 </CustomField>

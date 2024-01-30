@@ -16,7 +16,7 @@
         <filterItems>
             <field>Contact.QUT_Employee_ID__c</field>
             <operation>notEqual</operation>
-            <value></value>
+            <value></value> 
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>

@@ -13,7 +13,7 @@
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
-            <value>
+            <value> 
                 <fullName>Adjunct Professors</fullName>
                 <default>false</default>
                 <label>Adjunct Professors</label>
