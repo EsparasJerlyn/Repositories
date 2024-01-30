@@ -21,7 +21,7 @@ public inherited sharing class ListContributorsDAO extends DmlBase implements IL
           );
   
      }
-
+ 
      public static IListContributorsDAO newInstance() {
           return (IListContributorsDAO) ImplementationSelector.DAO.newInstance(List_Contributor__c.SObjectType);
      }

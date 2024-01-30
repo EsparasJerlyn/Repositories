@@ -10,4 +10,4 @@
  */
 public interface IListContributorsDAO extends DmlInterface {
      List<List_Contributor__c> getListContributorByListID(Set<Id> listID, AccessLevel accessLevel);
-}
+} 
