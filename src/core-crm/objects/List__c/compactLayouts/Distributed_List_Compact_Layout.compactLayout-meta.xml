@@ -5,4 +5,4 @@
     <fields>Requestor_Name__c</fields>
     <fields>OwnerId</fields>
     <label>Distributed List Compact Layout</label>
-</CompactLayout>
+</CompactLayout> 
