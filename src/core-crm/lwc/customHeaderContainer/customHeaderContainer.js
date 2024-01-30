@@ -11,7 +11,7 @@
  */
 import { LightningElement, api, track } from 'lwc';
 
-export default class CustomHeaderContainer extends LightningElement {
+export default class CustomHeaderContainer extends LightningElement { 
      @api recordId;
 
      @track columnsName;
