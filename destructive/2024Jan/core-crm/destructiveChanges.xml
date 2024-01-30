@@ -5,6 +5,14 @@
         <name>CustomField</name>
     </types>
     <types>
+        <!--Start DEPP-6659-->
+        <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
+        <members>Applicatioon_SAMS_Legacy_Record_Page</members>
+        <!--End DEPP-6659-->
+        <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
+        <name>FlexiPage</name>
+    </types>
+    <types>
         <!-- (Start) DEPP-7673 -->
         <members>Case.Case_Origin_is_required</members>
         <members>Case.Category_is_required</members>
