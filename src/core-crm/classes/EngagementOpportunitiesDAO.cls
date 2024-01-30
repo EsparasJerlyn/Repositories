@@ -12,7 +12,7 @@
 public inherited sharing class EngagementOpportunitiesDAO extends DmlBase implements IEngagementOpportunitiesDAO{
     public static final Id ALUMNI_ENGAGEMENT_RECTYPE_ID = Schema.SObjectType.Engagement_Opportunity__c.getRecordTypeInfosByDeveloperName().get('Alumni_Engagement').getRecordTypeId();
     public static final Id CORPORATE_ENGAGEMENT_RECTYPE_ID = Schema.SObjectType.Engagement_Opportunity__c.getRecordTypeInfosByDeveloperName().get('Corporate_Engagement').getRecordTypeId();
-    
+     
     public Schema.SObjectType getSObjectType(){
 		return Engagement_Opportunity__c.SObjectType;
 	}

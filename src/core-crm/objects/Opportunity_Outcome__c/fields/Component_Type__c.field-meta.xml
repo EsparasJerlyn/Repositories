@@ -42,7 +42,7 @@
             <value>
                 <fullName>WIL (Non-Scholarship)</fullName>
                 <default>false</default>
-                <label>WIL (Non-Scholarship)</label>
+                <label>WIL (Non-Scholarship)</label> 
             </value>
             <value>
                 <fullName>Venue</fullName>

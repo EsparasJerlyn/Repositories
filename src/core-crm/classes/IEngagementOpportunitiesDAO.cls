@@ -12,4 +12,4 @@ public interface IEngagementOpportunitiesDAO extends DmlInterface{
      List<Engagement_Opportunity__c> getEngagementOpportunitiesBySetIds(
                Set<Id> engagementOpportunityIds,
                AccessLevel accessLevel);
-}
+} 
