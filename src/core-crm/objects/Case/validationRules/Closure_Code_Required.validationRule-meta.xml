@@ -11,7 +11,8 @@
     ),
     AND (
         TEXT(Closure_Code__c)!= &apos;Invalid Enquiry&apos;,
-        TEXT(Closure_Code__c)!= &apos;Redirected Agent Enquiry&apos;
+        TEXT(Closure_Code__c)!= &apos;Redirected Agent Enquiry&apos;,
+        TEXT(Closure_Code__c)!= &apos;Public - No Further Action&apos;
     )
     
 )</errorConditionFormula>
