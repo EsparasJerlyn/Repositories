@@ -20,7 +20,7 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <userPermissions>
-        <enabled>true</enabled>
+        <enabled>true</enabled> 
         <name>DebugApex</name>
     </userPermissions>
     <userPermissions>
