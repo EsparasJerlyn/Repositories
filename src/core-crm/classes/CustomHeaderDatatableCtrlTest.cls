@@ -11,7 +11,7 @@
       | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                                           |
 */
 @isTest
-public with sharing class CustomHeaderDatatableCtrlTest {
+public with sharing class CustomHeaderDatatableCtrlTest { 
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });

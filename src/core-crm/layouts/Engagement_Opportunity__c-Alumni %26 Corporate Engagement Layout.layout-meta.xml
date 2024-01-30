@@ -11,7 +11,7 @@
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>true</customLabel>
+        <customLabel>true</customLabel> 
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>Engagement  Opportunity Summary</label>

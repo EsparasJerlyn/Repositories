@@ -8,7 +8,7 @@
         <visible>true</visible>
     </applicationVisibilities>
     <layoutAssignments>
-        <layout>Document__c-Document Page Layout</layout>
+        <layout>Document__c-Document Page Layout</layout> 
         <recordType>Document__c.Standard</recordType>
     </layoutAssignments>
     <layoutAssignments>
