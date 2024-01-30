@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Case
+  * @description helper class to compute Lead Score for Case 
   * @see ..CaseTriggerHandler
   *
   * @author Accenture 

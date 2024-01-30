@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>DummyClassAsINeedSomethingInThisFile</members>
-        <name>ApexClass</name>
+        <members>hed__Application__c.Applied_Program__c</members><!--DEPP-7607-->
+        <name>CustomField</name>
+    </types>
+    <types>
+        <!--Start DEPP-6659-->
+        <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
+        <members>Applicatioon_SAMS_Legacy_Record_Page</members>
+        <!--End DEPP-6659-->
+        <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <!-- (Start) DEPP-7673 -->
+        <members>Case.Case_Origin_is_required</members>
+        <members>Case.Category_is_required</members>
+        <members>Case.Closed_Status_Validation</members>
+        <members>Case.Closure_Details_min_length</members>
+        <members>Case.Priority_is_required</members>
+        <!-- (End) DEPP-7673 -->
+        <name>ValidationRule</name>
     </types>
     <version>59.0</version> 
 </Package>

@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for hed__Program_Enrollment__c
+  * @description helper class to compute Lead Score for hed__Program_Enrollment__c 
   * @see ..ProgramEnrollmentTriggerHandler
   *
   * @author Accenture 

@@ -12,6 +12,8 @@
       |                                |                       |                        | International Enrolment to Census                    |
       | mark.j.mahilum                 | Sept 07,2023          | DEPP-6479              | Updated test class to include Calculated Intake Date |
       | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added test class coverage for getDomesticAccepted    | 
+      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Added new test method                                |
+      |                                |                       |                        | getExitInternationalStrongInterestPreApplicationTest |
  */
 @isTest
 public with sharing class NurturingTrackContactServiceTest { //NOPMD
@@ -1608,6 +1610,34 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
             Test.stopTest();
             // assert
+            System.assertEquals(
+                '',
+                processContacts[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
+    private static void getExitInternationalStrongInterestPreApplicationTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+
+            Test.startTest();
+
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            newContacts[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED;
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+        
+            List<hed__Application__c> newApplications = TestDataFactory.createApplicationRecords(newContacts[0].Id, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 1);
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(-5);
+            newApplications[0].Application_Status__c = 'Active';
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            
+            Test.stopTest();
+
             System.assertEquals(
                 '',
                 processContacts[0].Calculated_Cadence__c, 

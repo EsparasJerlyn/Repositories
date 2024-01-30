@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Individual Email
+  * @description helper class to compute Lead Score for Individual Email 
   * @see ..IndividualEmailTriggerHandler
   *
   * @author Accenture 
