@@ -8,7 +8,10 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 | 
       | jerlyn.esparas            | January 10, 2024      | DEPP-6965            |                              | 
- */
+      |                           | January 22, 2024      | DEPP-7004            |                              |
+      */
+
+
 import { LightningElement, wire, api } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
 import LIST_STAGE from "@salesforce/schema/List__c.Stage__c";

@@ -8,7 +8,9 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | marygrace.li@qut.edu.au   | December 19, 2023     | DEPP-7489            | Created file                 |
       | jerlyn.esparas@qut.edu.au | January  10, 2024     | DEPP-6965            |                              |
- */
+      |                           | January 22, 2024      | DEPP-7004            |                              |
+
+*/
 import { LightningElement, api, track } from 'lwc';
 
 export default class CustomHeaderContainer extends LightningElement {
@@ -35,7 +37,6 @@ export default class CustomHeaderContainer extends LightningElement {
      this.receivedListData = JSON.stringify(event.detail.listData);
      this.receivedListMemberData = JSON.stringify(event.detail.listMemberData);
      this.receivedRecordId =  JSON.stringify(event.detail.passRecordId);
-     console.log('this.receivedListMemberData '+ this.receivedListMemberData);
     }
     // event handler for selected list member 
     handleSelectListMember(event){

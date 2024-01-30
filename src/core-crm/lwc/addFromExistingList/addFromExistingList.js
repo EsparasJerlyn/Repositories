@@ -1,3 +1,14 @@
+/**
+ * @description Lightning Web Component for add from existing list buttons.
+ *  
+ * @author Accenture
+ * 
+ * @history
+ *    | Developer                 | Date                  | JIRA                 | Change Summary               |
+      |---------------------------|-----------------------|----------------------|------------------------------|
+      | jerlyn.esparas            | January 22, 2024      | DEPP-7004            | Created file                 | 
+ */
+
 import { LightningElement, wire, track,api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getSearchedLists from '@salesforce/apex/ListCtrl.getSearchedLists';
@@ -63,36 +74,6 @@ export default class AddFromExistingList extends LightningElement {
         this.selectedListId = undefined;
         this.listSearchItems = [];
     }
-
-    // handleStatusChange(event) {
-    //     console.log("event detail",event.detail.status);
-     
-    //     if(event.detail.status === "FINISHED") {
-        
-    //         //Get the flow output variable and store it.
-    //         const outputVariables = event.detail.outputVariables;
-    //             for(let i= 0; i < outputVariables.length; i++) {
-    //                 const outputVar = outputVariables[i];
-    //                 //contactId is a variable created in flow.
-    //                 if(outputVar.name === 'Id') {
-    //                     console.log(outputVar.value);
-    //                     if(outputVar.value != null){
-    //                     //Call ShowToast Function
-    //                     this.showToast("Success","List Created Sucessfully","success");
-    //                     //Pass the contactId variable value to navigateToRecord.
-    //                     this.navigateToRecord(outputVar.value);
-
-    //                     }else{
-    //                         console.log('list is not created');
-    //                     }
-                        
-    //                 }
-    //             }
-    //     }
-    //     if(event.detail.status === "ERROR") {
-    //         this.showToast("error","Error occurred while creation of list","error");
-    //     }
-    // }
 
     //Toast Message
     showToast(title,message,variant) {

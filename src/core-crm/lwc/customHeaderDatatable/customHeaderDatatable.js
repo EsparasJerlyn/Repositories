@@ -8,7 +8,8 @@
       |-------------------------------------|-----------------------|----------------------|------------------------------|
       | neil.s.h.lesidan@accenture.com      | December 20, 2023     | DEPP-6963            | Created file                 |
       | jerlyn.esparas                      | January 10, 2024      | DEPP-6965            |                              |
- */
+      |                                     | January 22, 2024      | DEPP-7004            |                              |
+*/
 import { LightningElement, api, wire, track } from 'lwc';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getRecord  } from 'lightning/uiRecordApi';
