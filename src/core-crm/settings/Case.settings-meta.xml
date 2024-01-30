@@ -31,7 +31,7 @@
             <caseOwnerType>Queue</caseOwnerType>
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
-            <emailAddress>testdomestic@qut.edu.au</emailAddress>
+            <emailAddress>{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}</emailAddress>
             <routingName>Domestic Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
@@ -42,7 +42,7 @@
             <caseOwnerType>Queue</caseOwnerType>
             <casePriority>Low</casePriority>
             <createTask>false</createTask>
-            <emailAddress>testinternational@qut.edu.au</emailAddress>
+            <emailAddress>{CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE}</emailAddress>
             <routingName>International Future Student Enquiries</routingName>
             <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
