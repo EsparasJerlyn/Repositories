@@ -40,6 +40,21 @@
                 <default>false</default>
                 <label>Redirected Agent Enquiry</label>
             </value>
+            <value>
+                <fullName>Tier 3 Referred</fullName>
+                <default>false</default>
+                <label>Tier 3 Referred</label>
+            </value>
+            <value>
+                <fullName>Agent Referred</fullName>
+                <default>false</default>
+                <label>Agent Referred</label>
+            </value>
+            <value>
+                <fullName>Public - No Further Action</fullName>
+                <default>false</default>
+                <label>Public - No Further Action</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Closed</controllingFieldValue>
@@ -65,6 +80,21 @@
             <controllingFieldValue>Closed</controllingFieldValue>
             <controllingFieldValue>Pending Closure</controllingFieldValue>
             <valueName>Redirected Agent Enquiry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Tier 3 Referred</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Agent Referred</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed</controllingFieldValue>
+            <controllingFieldValue>Pending Closure</controllingFieldValue>
+            <valueName>Public - No Further Action</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

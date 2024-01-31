@@ -17,7 +17,9 @@
    ISPICKVAL( Status , &apos;Closed&apos;),
    OR(
     ISPICKVAL( Closure_Code__c, &apos;Response Given&apos;),
-    ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;)
+    ISPICKVAL( Closure_Code__c, &apos;Redirected&apos;),
+    ISPICKVAL( Closure_Code__c, &apos;Tier 3 Referred&apos;),
+    ISPICKVAL( Closure_Code__c, &apos;Agent Referred&apos;)
    )
   )
  ),
