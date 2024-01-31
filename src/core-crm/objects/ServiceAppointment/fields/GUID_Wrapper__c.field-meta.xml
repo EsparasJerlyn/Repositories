@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Alteration_URL__c</fullName>
-    <description>URL for editing/canceling the service appointment.</description>
+    <fullName>GUID_Wrapper__c</fullName>
+    <description>To accommodate existing data where GUID had not been created</description>
     <externalId>false</externalId>
-    <formula>$CustomMetadata.Scheduler_Configuration__mdt.Default.Appointment_Base_URL__c  + &quot;?recordId=&quot; +  GUID_Wrapper__c</formula>
+    <formula>BLANKVALUE( GUID__c ,   Service_Appointment_ID__c  )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>Alteration URL</label>
+    <label>GUID Wrapper</label>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>

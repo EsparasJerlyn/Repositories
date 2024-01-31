@@ -233,6 +233,18 @@ public without sharing class ServiceAppointmentTriggerHelper {
     }
 
     /**
+     * @description Generate GUID
+     * @param newItems List of new ServiceAppointment records
+     */
+    public static void generateGUID(List<ServiceAppointment> newItems) {
+        for(ServiceAppointment appointment : newItems) {
+            if(appointment.GUID__c == null) {
+                appointment.GUID__c = GenerateUniqueId.getUUID();
+            }
+        }
+    }
+
+    /**
      * @description Send email on Service Appointment record creation 
      * if work Type is either International Phone Calls or Domestic Phone Calls
      *

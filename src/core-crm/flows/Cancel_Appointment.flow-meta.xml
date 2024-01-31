@@ -4,8 +4,8 @@
         <description>Logs an Error to the Nebula Logger</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>842</locationX>
-        <locationY>782</locationY>
+        <locationX>1106</locationX>
+        <locationY>890</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -44,8 +44,8 @@
         <description>Saves the Error Action of the Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>842</locationX>
-        <locationY>890</locationY>
+        <locationX>1106</locationX>
+        <locationY>998</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -59,8 +59,8 @@
     <assignments>
         <name>Service_Appointment_Preparation</name>
         <label>Service Appointment Preparation</label>
-        <locationX>578</locationX>
-        <locationY>566</locationY>
+        <locationX>842</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>ServiceAppointment.Status</assignToReference>
             <operator>Assign</operator>
@@ -89,8 +89,8 @@
     <assignments>
         <name>Set_The_Flag_To_True</name>
         <label>Set The Flag To True</label>
-        <locationX>314</locationX>
-        <locationY>566</locationY>
+        <locationX>578</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>ValidationField</assignToReference>
             <operator>Assign</operator>
@@ -114,8 +114,8 @@
     <decisions>
         <name>Check_Appointment_Status_Category_If_Canceled</name>
         <label>Check Appointment Status Category If Canceled?</label>
-        <locationX>248</locationX>
-        <locationY>242</locationY>
+        <locationX>512</locationX>
+        <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Cancellation_Screen</targetReference>
         </defaultConnector>
@@ -137,10 +137,36 @@
         </rules>
     </decisions>
     <decisions>
+        <description>Check if the ServiceAppointment record variable contains data.</description>
+        <name>Check_ServiceAppointment_Populated</name>
+        <label>Check ServiceAppointment Populated</label>
+        <locationX>281</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Check_Appointment_Status_Category_If_Canceled</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Has_No_Data</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ServiceAppointment.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>No_Record_Screen</targetReference>
+            </connector>
+            <label>Has No Data</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>More_Than_The_Maximum_Limit</name>
         <label>More Than The Maximum Limit?</label>
-        <locationX>446</locationX>
-        <locationY>458</locationY>
+        <locationX>710</locationX>
+        <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Service_Appointment_Preparation</targetReference>
         </defaultConnector>
@@ -193,11 +219,11 @@
     <recordLookups>
         <name>Service_Appointment</name>
         <label>Service Appointment</label>
-        <locationX>248</locationX>
+        <locationX>281</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Appointment_Status_Category_If_Canceled</targetReference>
+            <targetReference>Check_ServiceAppointment_Populated</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -205,7 +231,7 @@
         </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>GUID_Wrapper__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>ServiceAppointmentId</elementReference>
@@ -224,8 +250,8 @@
     <recordUpdates>
         <name>Update_Appointment</name>
         <label>Update Appointment</label>
-        <locationX>578</locationX>
-        <locationY>674</locationY>
+        <locationX>842</locationX>
+        <locationY>782</locationY>
         <connector>
             <targetReference>Confirmation_Screen</targetReference>
         </connector>
@@ -238,8 +264,8 @@
     <screens>
         <name>Cancellation_Screen</name>
         <label>Cancellation Screen</label>
-        <locationX>446</locationX>
-        <locationY>350</locationY>
+        <locationX>710</locationX>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -306,6 +332,7 @@
             </defaultValue>
             <fieldText>Reason for Cancellation</fieldText>
             <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
         </fields>
         <fields>
@@ -329,8 +356,8 @@
     <screens>
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
-        <locationX>578</locationX>
-        <locationY>782</locationY>
+        <locationX>842</locationX>
+        <locationY>890</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -350,8 +377,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>842</locationX>
-        <locationY>998</locationY>
+        <locationX>1106</locationX>
+        <locationY>1106</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -364,10 +391,26 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Validation_Error_Screen</name>
-        <label>Validation Error Screen</label>
+        <name>No_Record_Screen</name>
+        <label>No Record Screen</label>
         <locationX>50</locationX>
         <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>No_Record_Found_Display_Text</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Oops, we don’t seem to have an appointment for you.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;For further assistance, Domestic students can contact +61 7 3138 2000. International students can contact +61 7 3138 8339.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Validation_Error_Screen</name>
+        <label>Validation Error Screen</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -380,7 +423,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>122</locationX>
+        <locationX>155</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Service_Appointment</targetReference>

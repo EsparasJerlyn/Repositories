@@ -13,7 +13,7 @@
  *    | ryan.j.a.dela.cruz        | December 6, 2023      | DEPP-7369    | Confirmation email sending fix                                        								|
  *    | arsenio.jr.dayrit         | December 12, 2023     | DEPP-7357    | Added ServiceAppointmentTriggerHelper.updateContactLeadLinkedtoServiceAppointment on afterUpdate                                        |
  */
-public with sharing class ServiceAppointmentTriggerHandler implements Disableable, BeforeInsert, AfterUpdate{
+public with sharing class ServiceAppointmentTriggerHandler implements Disableable, BeforeInsert,BeforeUpdate,AfterUpdate{
 
     /**
      * @description beforeInsert trigger event
@@ -21,6 +21,16 @@ public with sharing class ServiceAppointmentTriggerHandler implements Disableabl
      */
     public void beforeInsert(List<SObject> newItems) {
         ServiceAppointmentTriggerHelper.matchExistingContactOrLeadToAppointment((List<ServiceAppointment>) newItems);
+        ServiceAppointmentTriggerHelper.generateGUID((List<ServiceAppointment>) newItems);
+    }
+
+    /**
+     * @description beforeUpdate trigger event
+     * @param newItems - Map of ServiceAppointment.Trigger.newMap
+     * @param oldItems - Map of ServiceAppointment.Trigger.oldMap
+     */
+    public void beforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        ServiceAppointmentTriggerHelper.generateGUID((List<ServiceAppointment>) newItems.values());
     }
 
     /**

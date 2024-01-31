@@ -7213,6 +7213,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ServiceAppointment.GUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ServiceAppointment.GUID_Wrapper__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ServiceAppointment.Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>

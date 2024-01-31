@@ -4,8 +4,8 @@
         <description>Logs an Error to the Nebula Logger</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>578</locationX>
-        <locationY>998</locationY>
+        <locationX>842</locationX>
+        <locationY>1106</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,8 +43,8 @@
     <actionCalls>
         <name>Save_Appointment</name>
         <label>Save Appointment</label>
-        <locationX>314</locationX>
-        <locationY>890</locationY>
+        <locationX>578</locationX>
+        <locationY>998</locationY>
         <actionName>saveAppointment</actionName>
         <actionType>saveAppointment</actionType>
         <connector>
@@ -77,8 +77,8 @@
         <description>Saves the Error Action of the Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>578</locationX>
-        <locationY>1106</locationY>
+        <locationX>842</locationX>
+        <locationY>1214</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -92,8 +92,8 @@
     <assignments>
         <name>Set_Appointment_Fields</name>
         <label>Set Appointment Fields</label>
-        <locationX>314</locationX>
-        <locationY>782</locationY>
+        <locationX>578</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>serviceAppointmentFields</assignToReference>
             <operator>Assign</operator>
@@ -108,8 +108,8 @@
     <assignments>
         <name>Set_Initial_Values</name>
         <label>Set Initial Values</label>
-        <locationX>314</locationX>
-        <locationY>458</locationY>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>serviceResourceId</assignToReference>
             <operator>Assign</operator>
@@ -146,8 +146,8 @@
     <decisions>
         <name>Check_Appointment_Status_Category_If_Canceled</name>
         <label>Check Appointment Status Category If Canceled?</label>
-        <locationX>182</locationX>
-        <locationY>242</locationY>
+        <locationX>446</locationX>
+        <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Assigned_Resource</targetReference>
         </defaultConnector>
@@ -166,6 +166,32 @@
                 <targetReference>Validation_Error_Screen</targetReference>
             </connector>
             <label>Canceled Appointment</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the ServiceAppointment record variable contains data.</description>
+        <name>Check_ServiceAppointment_Populated</name>
+        <label>Check ServiceAppointment Populated</label>
+        <locationX>248</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Check_Appointment_Status_Category_If_Canceled</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Has_No_Data</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ServiceAppointment.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>No_Record_Screen</targetReference>
+            </connector>
+            <label>Has No Data</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -209,8 +235,8 @@
     <recordLookups>
         <name>Assigned_Resource</name>
         <label>Assigned Resource</label>
-        <locationX>314</locationX>
-        <locationY>350</locationY>
+        <locationX>578</locationX>
+        <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Set_Initial_Values</targetReference>
@@ -224,7 +250,7 @@
             <field>ServiceAppointmentId</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ServiceAppointmentId</elementReference>
+                <elementReference>ServiceAppointment.Id</elementReference>
             </value>
         </filters>
         <object>AssignedResource</object>
@@ -235,8 +261,8 @@
     <recordLookups>
         <name>getWorkTypeRecord</name>
         <label>getWorkTypeRecord</label>
-        <locationX>314</locationX>
-        <locationY>566</locationY>
+        <locationX>578</locationX>
+        <locationY>674</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>TimeSlotScreen</targetReference>
@@ -262,11 +288,11 @@
     <recordLookups>
         <name>Service_Appointment</name>
         <label>Service Appointment</label>
-        <locationX>182</locationX>
+        <locationX>248</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Appointment_Status_Category_If_Canceled</targetReference>
+            <targetReference>Check_ServiceAppointment_Populated</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -274,7 +300,7 @@
         </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>GUID_Wrapper__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>ServiceAppointmentId</elementReference>
@@ -306,8 +332,8 @@
     <screens>
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
-        <locationX>314</locationX>
-        <locationY>998</locationY>
+        <locationX>578</locationX>
+        <locationY>1106</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -327,8 +353,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>578</locationX>
-        <locationY>1214</locationY>
+        <locationX>842</locationX>
+        <locationY>1322</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -341,10 +367,26 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
+        <name>No_Record_Screen</name>
+        <label>No Record Screen</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>No_Record_Found_Display_Text</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Oops, we don’t seem to have an appointment for you.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;For further assistance, Domestic students can contact +61 7 3138 2000. International students can contact +61 7 3138 8339.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>TimeSlotScreen</name>
         <label>Time Slot Screen</label>
-        <locationX>314</locationX>
-        <locationY>674</locationY>
+        <locationX>578</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -448,7 +490,7 @@
             <inputParameters>
                 <name>serviceAppointmentId</name>
                 <value>
-                    <elementReference>ServiceAppointmentId</elementReference>
+                    <elementReference>ServiceAppointment.Id</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -528,8 +570,8 @@
     <screens>
         <name>Validation_Error_Screen</name>
         <label>Validation Error Screen</label>
-        <locationX>50</locationX>
-        <locationY>350</locationY>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -543,7 +585,7 @@
     </screens>
     <sourceTemplate>runtime_appointmentbooking__In_Modify</sourceTemplate>
     <start>
-        <locationX>56</locationX>
+        <locationX>122</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Service_Appointment</targetReference>
