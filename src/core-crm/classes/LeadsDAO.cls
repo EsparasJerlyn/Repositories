@@ -1,5 +1,5 @@
 /**
- * @description DAO Class for Lead Object. Contains soql and constants related to the Lead object.
+ * @description DAO Class for Lead Object. Contains soql and constants related to the Lead object. 
  * @author Accenture
  *
  * @history

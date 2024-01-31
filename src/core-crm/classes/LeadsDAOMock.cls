@@ -1,5 +1,5 @@
 /**
- * @description Mock DAO Class for Lead Object. 
+ * @description Mock DAO Class for Lead Object.  
  * @author Accenture
  *
  * @history

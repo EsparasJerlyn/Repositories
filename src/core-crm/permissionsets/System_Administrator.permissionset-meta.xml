@@ -18595,6 +18595,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ServiceAppointment.Owner_Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ServiceAppointment.Service_Appointment_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -22440,7 +22445,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>hed__Application__c.Applied_Program__c</field>
+        <field>hed__Application__c.Applied_ProgramV2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
