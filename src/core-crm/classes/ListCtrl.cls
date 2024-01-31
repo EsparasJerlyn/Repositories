@@ -9,20 +9,6 @@ public with sharing class ListCtrl {
         filterString = '%' + filterString + '%';
         List<Map<String,String>> listMap = new List<Map<String,String>>();
         
-        // List<List<List__c>> lists = [Find :filterString 
-        //                                 In List_Name__c Fields 
-        //                                 Returning List__c (Id, Name, List_Name__c)];
-
-        // for(List__c varList :lists[0]){
-        //     String meta = '';
-    
-        //     listMap.add(new Map<String,String>{
-        //             'id' => varList.Id,
-        //             'label' => varList.List_Name__c,
-        //             'meta' => meta
-        //         });
-        //     }
-        //     return listMap;
         String meta = '';
         for(List__c varList: [
             SELECT Id, Name, List_Name__c, Column_1__c, Column_2__c, Column_3__c, Column_4__c, Column_5__c,
