@@ -425,7 +425,7 @@
     <assignments>
         <name>Assign_Variables_for_Partners_of_CP_Opportunity</name>
         <label>Assign Variables for Partners of CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -442,7 +442,6 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
@@ -2290,7 +2289,7 @@
     <screens>
         <name>Partner_Screen_for_CP_Opportunity</name>
         <label>Partner Screen for CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2307,6 +2306,7 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -2395,10 +2395,12 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
