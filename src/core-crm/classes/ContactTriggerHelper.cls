@@ -19,7 +19,10 @@
       | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Updated getContactCalculatedCadence to include   |
       |                                |                       |                        |     updateCompletedCadences                      |
       | julie.jane.alegre              | Oct 27, 2023          | DEPP-6955              | Added new method updateRegisteredEmail           |
-      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | updated createMarketingSegmentation to future    |    
+      | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | updated createMarketingSegmentation to future    |
+      | roy.nino.s.regala              | Dec 02, 2023          | DEPP-6979              | updated contact parent child syncing flow to trigger      |
+      | sebastianne.k.trias            | Dec 21, 2023          | DEPP-7182              | Add method updateSyncToMCField method from       |
+      |                                |                       |                        | ContactSyncFlow                                  |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -53,6 +56,9 @@ public without sharing class ContactTriggerHelper {
             setCanNurtureFlag(con, contactsToRecalculate, oldItems); //sets can nurture flag
             setQUTPersonaFlag(con); //sets QUT_Staff__c(Persona Flags) of Contact
             updateRegisteredEmail(con, oldItems); // updates Registered email when match with Primary Email or Work Email
+            updateSyncToMCField(con, oldItems);
+            //if contact is person on insert/update Persona Type is Personal
+            con.Persona_Type__c = 'Personal';
         }
 
         //processes with soql and dml start
@@ -92,6 +98,336 @@ public without sharing class ContactTriggerHelper {
                 con.AccountId = null;
             }
         }
+    }
+
+    /**
+     * @description map marketing fields from MC Persona to Parent Lead/Contact
+     * or Parent Contact to Chilc MC Persona
+     *
+     * @param newItems  List of new Contact records
+     * @param oldItems  Map of old Contact records
+     */
+    public static void mapMarketingFields(List<Contact> newItems, Map<Id, Contact> oldItems) {
+        //contact records to upsert
+        List<Contact> contactsToUpsert = new List<Contact>();
+        //map of person contacts to update - used a map to ensure uniqueness
+        Map<Id, Contact> personContactsToUpdate = new Map<Id, Contact>();
+        //lead records to update - used a map to ensure uniqueness
+        Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
+        //exsiting child mc persona contacts
+        List<Contact> existingChildMCContacts = new List<Contact>();
+        //person contact ids
+        Set<Id> personContactIds = new Set<Id>();
+
+        //child MC contacts grouped by Parent Contact + Persona Type
+        //key (Persona Id)-> 003xxxxxxQUT Learner
+        //value -> MC Contact Record
+        Map<String, Contact> childMCToParentMap = new Map<String, Contact>();
+
+        //collect person contact ids
+        for (Contact con : newItems) {
+
+            if (con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID) {
+                personContactIds.add(con.Id);
+            }
+        }
+
+        //get exsiting MC child personas if there are person contacts inserted or updated
+        if (!personContactIds.isEmpty()) {
+            existingChildMCContacts = ContactsDAO.newInstance()
+                .getMCPersonaContactsByParentPersonContactIds(
+                    personContactIds,
+                    AccessLevel.SYSTEM_MODE
+                );
+        }
+
+        //group parent contacts by child MC Persona
+        //this tells us if a Person contact has a work/staff/learner child mc persona
+        for (Contact mcContact : existingChildMCContacts) {
+            //checks if persona type is work,qut staff, or qut learner
+            boolean isValidPersonaType =
+                MarketingService.PERSONA_TYPES_TO_EMAIL_MAP.keySet().contains(mcContact.Persona_Type__c) &&
+                mcContact.Parent_Person_Contact__c != null;
+
+            //group parent contact by persona type
+            if (isValidPersonaType) {
+                childMCToParentMap.put(
+                    mcContact.Parent_Person_Contact__c + mcContact.Persona_Type__c,
+                    mcContact
+                );
+            }
+        }
+
+        //loop through the contacts triggered
+        for (Contact con : newItems) {
+            //collect MC Persona records to be inserted or updated
+            contactsToUpsert.addAll(
+                mapMarketingFieldsToChildMCContact(con, oldItems, childMCToParentMap)
+            );
+            //collect Parent Person records to be updated
+            mapMarketingFieldsToParentPersonContact(con, oldItems, personContactsToUpdate);
+            //collect Parent Lead records to be updated
+            mapMarketingFieldsToParentLead(con, oldItems, leadsToUpdate);
+        }
+
+        contactsToUpsert.addAll(personContactsToUpdate.values());
+
+        if (!contactsToUpsert.isEmpty()) {
+            ContactsDAO.newInstance()
+                .upsertRecords(contactsToUpsert, false, AccessLevel.SYSTEM_MODE);
+        }
+
+        if (!leadsToUpdate.isEmpty()) {
+            LeadsDAO.newInstance()
+                .updateRecords(leadsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    /**
+     * @description map marketing fields from MC Persona to Parent Lead
+     * when marketing fields are updated
+     *
+     * @param con  Contact record
+     * @param oldItems  Map of old Contact records
+     * @param leadsToUpdate parent lead records to be updated
+     */
+    private static void mapMarketingFieldsToParentLead(
+        Contact con,
+        Map<Id, Contact> oldItems,
+        Map<Id, Lead> leadsToUpdate
+    ) {
+        boolean isUpdate = oldItems != null;
+        Lead tempLead;
+
+        //make sure MC Persona with persona type work is updated
+        //make sure specific marketing fields are updated see MarketingService static variables
+        boolean isMCWorkPersonaUpdated =
+            con.Parent_Person_Lead__c != null &&
+            con.Persona_Type__c == 'Work' &&
+            con.RecordTypeId == ContactsDAO.MC_PERSONA_RECORDTYPE_ID &&
+            isUpdate &&
+            isMarketingFieldsUpdated(
+                MarketingService.PERSONAL_MARKETING_FIELDS,
+                con,
+                oldItems.get(con.Id)
+            );
+
+        //construct the lead record to be updated
+        if (isMCWorkPersonaUpdated) {
+            tempLead = new Lead(
+                Id = con.Parent_Person_Lead__c,
+                Work_Email__c = con.Email,
+                Work_Email_Opt_Out__c = con.HasOptedOutOfEmail,
+                Work_Email_Opt_Out_DateTime__c = con.Email_Opt_Out_DateTime__c,
+                Work_Email_Opt_In_DateTime__c = con.Email_Opt_In_DateTime__c
+            );
+            leadsToUpdate.put(con.Parent_Person_Lead__c, tempLead);
+        }
+    }
+
+    /**
+     * @description map marketing fields from MC Persona to Parent Contact
+     * when marketing fields are updated
+     *
+     * @param con  Contact record
+     * @param oldItems  Map of old Contact records
+     * @param personContactsToUpdate parent contact records to be updated
+     */
+    private static void mapMarketingFieldsToParentPersonContact(
+        Contact con,
+        Map<Id, Contact> oldItems,
+        Map<Id, Contact> personContactsToUpdate
+    ) {
+        boolean isUpdate = oldItems != null;
+        //make sure MC Persona is updated
+        //make sure specific marketing fields are updated see MarketingService static variables
+        //make sure Persona Type is valid
+        boolean isMCPersonaUpdated =
+            isUpdate &&
+            con.Parent_Person_Contact__c != null &&
+            con.RecordTypeId == ContactsDAO.MC_PERSONA_RECORDTYPE_ID &&
+            isMarketingFieldsUpdated(
+                MarketingService.PERSONAL_MARKETING_FIELDS,
+                con,
+                oldItems.get(con.Id)
+            ) &&
+            MarketingService.PERSONA_TYPE_TO_MARKETING_FIELDS.containsKey(con.Persona_Type__c);
+        //do not proceed if above is not satisfied
+        if (!isMCPersonaUpdated) {
+            return;
+        }
+
+        //if person contact already exists in the contact map to update
+        //only add additional field updates to the contact record and not overwrite it
+        //this scenario happens when 2 or more MC child with the same Parent Person Contact is updated
+        if (!personContactsToUpdate.containsKey(con.Parent_Person_Contact__c)) {
+            personContactsToUpdate.put(con.Parent_Person_Contact__c, new Contact());
+        }
+
+        //set the contact record id
+        personContactsToUpdate.get(con.Parent_Person_Contact__c)
+            .put('Id', con.Parent_Person_Contact__c);
+
+        //only map the updated field
+        for (String field : MarketingService.PERSONAL_MARKETING_FIELDS) {
+            if (con.get(field) != oldItems.get(con.Id).get(field)) {
+                //get the marketing field mapping using the current persona type
+                //see MarketingService static variables
+                Map<String, String> marketingFieldMap = MarketingService.PERSONA_TYPE_TO_MARKETING_FIELDS.get(
+                    con.Persona_Type__c
+                );
+                //add the new field to be updated
+                personContactsToUpdate.get(con.Parent_Person_Contact__c)
+                    .put(marketingFieldMap.get(field), con.get(field));
+            }
+        }
+    }
+
+    /**
+     * @description map marketing fields from Parent Person to child MC Persona
+     * when marketing fields are updated
+     *
+     * @param con  Contact record
+     * @param oldItems  Map of old Contact records
+     * @param childMCToParentMap child MC persona contact records to be upserted
+     * @return contactsToUpsert - MC Contacts to be upserted
+     */
+    private static List<Contact> mapMarketingFieldsToChildMCContact(
+        Contact con,
+        Map<Id, Contact> oldItems,
+        Map<String, Contact> childMCToParentMap
+    ) {
+        List<Contact> contactsToUpsert = new List<Contact>();
+        boolean isInsert = oldItems == null;
+        boolean isRecordTypeUpdated =
+            !isInsert && con.RecordTypeId != oldItems.get(con.Id).RecordTypeId;
+
+        //construct a map that contains the trigger.new and trigger.old contact
+        Map<String, Contact> triggerContactMap = new Map<String, Contact>{
+            'New' => con,
+            'Old' => oldItems != null ? oldItems.get(con.Id) : null
+        };
+
+        //do not proceed if current contact is not a person contact
+        if (con.RecordTypeId != ContactsDAO.PERSON_RECORDTYPE_ID) {
+            return contactsToUpsert;
+        }
+
+        //loop through the persona types - work,qut learner, qut staff
+        for (String personaType : MarketingService.PERSONA_TYPES_TO_EMAIL_MAP.keySet()) {
+            //get the marketing field map
+            //see MarketingService static variables
+            Map<String, String> marketingFieldMap = MarketingService.PERSONA_TYPE_TO_MARKETING_FIELDS.get(
+                personaType
+            );
+
+            //only upsert MC Persona if Person Work Email/QUT Learner Email/QUT Staff Email is populated
+            //Person is newly inserted or
+            //Contact is updated to Person or
+            //Any of the Marketing fields is updated
+            boolean isMCEmailNotBlank = String.isNotBlank(
+                (String) con.get(MarketingService.PERSONA_TYPES_TO_EMAIL_MAP.get(personaType))
+            );
+            boolean isUpsertMCPersona =
+                isInsert ||
+                isRecordTypeUpdated ||
+                isMarketingFieldsUpdated(
+                    new Set<String>(marketingFieldMap.values()),
+                    con,
+                    oldItems.get(con.Id)
+                );
+
+            if (isMCEmailNotBlank && isUpsertMCPersona) {
+                contactsToUpsert.addAll(
+                    //map the marketing fields to the MC Record
+                    buildMCPersonaRecords(personaType, triggerContactMap, childMCToParentMap)
+                );
+            }
+        }
+
+        return contactsToUpsert;
+    }
+
+    /**
+     * @description compares contact old and new record
+     * returns true if a field does not match
+     *
+     * @param fields - fields to be compared
+     * @param newRecord -  Contact trigger.new
+     * @param oldRecord -  Contact trigger.old
+     */
+    private static boolean isMarketingFieldsUpdated(
+        Set<String> fields,
+        Contact newRecord,
+        Contact oldRecord
+    ) {
+        for (String field : fields) {
+            if (newRecord.get(field) != oldRecord.get(field)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @description builds the MC Persona Contact record to be upserted
+     *
+     * @param personaType - current persona type of MC to create
+     * @param triggerContactMap -  map of  Contact trigger.new and trigger.old
+     * @param childMCToParentMap -  existing mc records grouped by person parent id + persona type
+     * @return contactsToUpsert - MC Persona contacts to be upserted
+     */
+    private static List<Contact> buildMCPersonaRecords(
+        String personaType,
+        Map<String, Contact> triggerContactMap,
+        Map<String, Contact> childMCToParentMap
+    ) {
+        Contact con = triggerContactMap.get('New');
+        Contact oldCon = triggerContactMap.get('Old');
+
+        Map<String, String> marketingFieldsMap = MarketingService.PERSONA_TYPE_TO_MARKETING_FIELDS.get(
+            personaType
+        );
+
+        List<Contact> contactsToUpsert = new List<Contact>();
+        //create initial new MC Persona Record
+        Contact tempContact = new Contact(
+            FirstName = con.FirstName,
+            LastName = con.LastName,
+            RecordtypeId = ContactsDAO.MC_PERSONA_RECORDTYPE_ID,
+            Parent_Person_Contact__c = con.Id,
+            Persona_Type__c = personaType
+        );
+
+        //map marketing fields
+        //e.g Work_Email__c => Email or QUT_Staff_Email__c => Email depending of persona type
+        //see MarketingService static variables
+        for (String field : MarketingService.PERSONAL_MARKETING_FIELDS) {
+            tempContact.put(field, con.get(marketingFieldsMap.get(field)));
+        }
+
+        //if there is an existing MC Persona and Person Contact's MC field is updated
+        //update the existing MC Persona
+        if (childMCToParentMap.containsKey(con.Id + personaType)) {
+            //create new instance override initial tempContact
+            tempContact = new Contact();
+            //build contact record to update
+            tempContact.put('Id', childMCToParentMap.get(con.Id + personaType).Id);
+
+            //map the updated fields
+            for (String field : MarketingService.PERSONAL_MARKETING_FIELDS) {
+                String marketingField = MarketingService.PERSONA_TYPE_TO_MARKETING_FIELDS.get(
+                        personaType
+                    )
+                    .get(field);
+                if (con.get(marketingField) != oldCon.get(marketingField)) {
+                    tempContact.put(field, con.get(marketingField));
+                }
+            }
+        }
+        contactsToUpsert.add(tempContact);
+
+        return contactsToUpsert;
     }
 
     /***
@@ -521,11 +857,39 @@ public without sharing class ContactTriggerHelper {
         }
     }
 
-    public static void createLeadScoreDetailRecord(Set<Id> contactIds) { 
+    public static void createLeadScoreDetailRecord(List<Contact> contactList) {
         List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
-        for (Id contactId : contactIds) {
-            leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Contact__c = contactId));
+        for(Contact contact : contactList){
+            if(contact.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID){
+                leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Contact__c = contact.Id));
+            }
         }
-        LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        if(!contactList.isEmpty()){
+            LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    /***
+     * @description update Sync_To_MC__c field and Do_Not_Sync_To_MC_Override__c based from condition
+     * @param newItems - trigger.new contact
+     * @param oldItems - trigger.old contacts
+     */
+    private static void updateSyncToMCField(Contact newItems, Map<Id, Contact> oldItems){
+        Boolean isUpdate = oldItems != null;
+        Boolean isDoNotSyncToMCOverrideChanged = false;
+        Boolean isPrimaryEmailChanged = false;
+        Boolean isMobilePhoneChanged = false;
+
+        if(isUpdate){
+            isDoNotSyncToMCOverrideChanged = oldItems.get(newItems.Id).Do_Not_Sync_To_MC_Override__c != newItems.Do_Not_Sync_To_MC_Override__c;
+            isPrimaryEmailChanged = oldItems.get(newItems.Id).Email != newItems.Email;
+            isMobilePhoneChanged = oldItems.get(newItems.Id).MobilePhone != newItems.MobilePhone;
+        }
+        if( ( !isUpdate || isDoNotSyncToMCOverrideChanged ) && newItems.Do_Not_Sync_To_MC_Override__c == true ){
+            newItems.Sync_to_MC__c = false;
+        }
+        if( ( !isUpdate || isPrimaryEmailChanged || isMobilePhoneChanged ) && ( newItems.Email != null || newItems.MobilePhone != null) ){
+            newItems.Sync_To_MC__c = true;
+        }
     }
 }

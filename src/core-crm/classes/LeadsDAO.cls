@@ -1,5 +1,5 @@
 /**
- * @description DAO Class for Lead Object. Contains soql and constants related to the Lead object.
+ * @description DAO Class for Lead Object. Contains soql and constants related to the Lead object. 
  * @author Accenture
  *
  * @history
@@ -86,7 +86,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     }
 
     public static List<Lead> getLearnerLeadsByCalculatedCadences(Set<String> calculatedCadences) {
-        return [//NOPMD
+        return [ //NOPMD
             SELECT
                 Id,
                 Name,
@@ -262,6 +262,22 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
             accessLevel
         );
     }
+
+    public List<Lead> getUnconvertedLeadsByIdSet(
+        Set<Id> recordIdSet,
+        AccessLevel accessLevel
+    ){
+        if(recordIdSet.isEmpty()){
+            return new List<Lead>();
+        }
+        return Database.query(
+            'SELECT Id ' +
+              'FROM Lead ' +
+             'WHERE Id IN: recordIdSet AND IsConverted = FALSE',
+            accessLevel
+        );
+    }
+
     
     public List<Lead> getLearnerLeadsByEmailOrWorkEmail(
         Set<String> emails,

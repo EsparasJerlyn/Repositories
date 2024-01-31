@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>SMS_Template_Domestic_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>SMS Template Domestic Sharing Rule</label>
+        <sharedTo>
+            <role>Future_Student_Super_User_Domestic</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Process__c</field>
+            <operation>equals</operation>
+            <value>Domestic Automated Cadence SMS</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SMS_Template_International_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>SMS Template International Sharing Rule</label>
+        <sharedTo>
+            <role>Future_Student_Super_User_International</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Process__c</field>
+            <operation>equals</operation>
+            <value>International Automated Cadence SMS</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

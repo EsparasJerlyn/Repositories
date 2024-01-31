@@ -37,6 +37,15 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String PRIMARY_STUDY_LEVEL_POSTGRAD = 'Postgraduate';
     public static final String PRIMARY_STUDY_LEVEL_UNDETERMINED = 'Undetermined';
 
+    //CONFIGURATION CONSTANTS 
+    public static final String CONFIG_DOMESTIC_UNDERGRAD = 'Total Max Score DUG';
+    public static final String CONFIG_DOMESTIC_POSTGRAD = 'Total Max Score DPG';
+    public static final String CONFIG_INTERNATIONAL_POSTGRAD = 'Total Max Score IPG';
+    public static final String CONFIG_INTERNATIONAL_UNDERGRAD = 'Total Max Score IUG';
+    public static final String CONFIG_UNDETERMINED_UNDETERMINED = 'Total Max Score UU';
+    public static final String CONFIG_DOMESTIC_UNDETERMINED = 'Total Max Score DU';
+    public static final String CONFIG_INTERNATIONAL_UNDETERMINED = 'Total Max Score IU';
+
     //CATEGORY CONSTANTS START
     public static final String CONFIG_CATEGORY_COUNTRY_TIER = 'Country Tier';
     public static final String CONFIG_CATEGORY_FUNDING = 'Funding';
@@ -184,4 +193,18 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
              'WHERE Id IN: leadScoreConfigIds';
         return Database.getQueryLocator(query);
     }
+
+    public List<Lead_Score_Configuration__c> getCategoryLeadScoreConfigsById(Set<Id> leadScoreConfigIds, List<String> fields, AccessLevel accessLevel) {
+        List<Lead_Score_Configuration__c> configList = new List<Lead_Score_Configuration__c>();
+        if(!leadScoreConfigIds.isEmpty()){
+            String fieldsToQuery = fields.size() > 0 ? 'Id, ' + String.join(fields, ',') : 'Id';
+            configList = Database.query(
+                'SELECT ' + String.escapeSingleQuotes(fieldsToQuery) + ' ' +
+                  'FROM Lead_Score_Configuration__c ' +
+                 'WHERE Id IN: leadScoreConfigIds AND RecordTypeId =: RECTYPE_ID_CATEGORY ', accessLevel
+            );
+        }
+        return configList;
+    }
+
 } 

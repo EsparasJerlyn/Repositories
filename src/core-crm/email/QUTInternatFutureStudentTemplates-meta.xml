@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EmailTemplateFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
-        <accessLevel>Manage</accessLevel>
+        <accessLevel>EditAllContents</accessLevel>
         <sharedTo>Future_Student_Super_User_International</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>System_Administrator</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
     <folderShares>

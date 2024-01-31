@@ -32,7 +32,8 @@ public inherited sharing class ContactLeadScoreHelper{
             Boolean isRecTypeValid = con.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID;
             Boolean isForUpdate = oldItems != null &&
                 (oldItems.get(con.Id).Email_Opt_In_DateTime__c != con.Email_Opt_In_DateTime__c ||
-                oldItems.get(con.Id).hed__Citizenship_Status__c != con.hed__Citizenship_Status__c);
+                oldItems.get(con.Id).hed__Citizenship_Status__c != con.hed__Citizenship_Status__c ||
+                (oldItems.get(con.Id).Marketing_Segmentation__c != con.Marketing_Segmentation__c && con.Email_Opt_In_DateTime__c != null));
             if(isRecTypeValid && ((isForInsert && con.Email_Opt_In_DateTime__c != null) || isForUpdate)){
                 contactMap.put(con.Id, con);
             }
@@ -84,7 +85,12 @@ public inherited sharing class ContactLeadScoreHelper{
      * Maps Undergrad studylevel records to domesticUndeterminedMap, internationalUndeterminedMap, and undeterminedUndeterminedMap
      */
     private static void mapUndeterminedStudyLevel(Contact contact, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
-        Boolean isUndetermined = marketingSegMap.containsKey(contact.Id) && String.isBlank(marketingSegMap.get(contact.Id).My_Primary_Study_Level__c);
+        Boolean isUndetermined = 
+            marketingSegMap.containsKey(contact.Id) && (String.isBlank(marketingSegMap.get(contact.Id).My_Primary_Study_Level__c) || 
+            (
+                marketingSegMap.get(contact.Id).My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD &&
+                marketingSegMap.get(contact.Id).My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+            ));
         Boolean isDomesticContact = isUndetermined && contact.hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
         Boolean isInternationalContact = isUndetermined && contact.hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
         Boolean hasNoCitizenship = isUndetermined && String.isBlank(contact.hed__Citizenship_Status__c);

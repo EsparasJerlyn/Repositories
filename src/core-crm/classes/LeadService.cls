@@ -95,7 +95,6 @@ public with sharing class LeadService {
                     My_Country_Of_Citizenship__c = hasServiceAppointment?serviceAppointmentMap.get(lead.Id).My_Country_Of_Citizenship__c:null,
                     My_Country_Of_Residency__c = hasServiceAppointment?serviceAppointmentMap.get(lead.Id).My_Country_Of_Residency__c:null
                 ));
-
             }
         }
         if (!marketingSegToInsert.IsEmpty()) {
@@ -104,11 +103,15 @@ public with sharing class LeadService {
         }
     }
 
-    public static void createLeadScoreDetailRecord(Set<Id> leadIds) { 
+    public static void createLeadScoreDetailRecord(List<Lead> leadList) {
         List<Lead_Score_Detail__c> leadScoreDetailsToInsert = new List<Lead_Score_Detail__c>();
-        for (Id leadId : leadIds) {
-            leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Lead__c = leadId));
+        for (Lead lead : leadList) {
+            if(!lead.IsConverted){
+                leadScoreDetailsToInsert.add(new Lead_Score_Detail__c(Lead__c = lead.Id));
+            }
         }
-        LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        if(!leadScoreDetailsToInsert.isEmpty()){
+            LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
     }
 }

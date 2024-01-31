@@ -1,5 +1,5 @@
 /**
- * @description Helper class for Lead Score Calculation
+ * @description Helper class for Lead Score Calculation 
  * 
  * @author Accenture
  *
@@ -25,10 +25,9 @@ public inherited sharing class LeadScoreCalculatorService {
      * 1. Sets the parameters needed for calculation per study level and citizenship
      * 2. Update/Insert Lead Score Details
      */
-    public static void calculateLeadScore(ObjectMap objectMap, Set<Id> contactLeadIds, SObjectType sObjectType){
+    public static void calculateLeadScore(ObjectMap objectMap, Set<Id> contactLeadIds, SObjectType sObjectType) {
 
-        try{
-
+        try {
             List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
 
             LeadScoreConfigService.LeadScoreConfigStudyLevelParam leadScoreConfig = LeadScoreConfigService.getLeadScoreConfig();
@@ -189,11 +188,10 @@ public inherited sharing class LeadScoreCalculatorService {
 
         Map<Id,Marketing_Segmentation__c> marketingSegMap = new Map<Id,Marketing_Segmentation__c>();
         for(Marketing_Segmentation__c mktSeg : marketingSegList){
-            if(mktSeg.Lead__c!=null){
-                marketingSegMap.put(mktSeg.Lead__c, mktSeg);
-            }
             if(mktSeg.Contact__c!=null){
                 marketingSegMap.put(mktSeg.Contact__c, mktSeg);
+            }else if(mktSeg.Lead__c!=null){
+                marketingSegMap.put(mktSeg.Lead__c, mktSeg);
             }
         }
         return marketingSegMap;
@@ -241,58 +239,6 @@ public inherited sharing class LeadScoreCalculatorService {
         contactLeadIds.addAll(contactIdSet);
         contactLeadIds.addAll(leadIdSet);
         return contactLeadIds;
-    }
-
-    /**
-     * Process recalculation for Marketing Segmentation
-     */
-    public static void processMarketingSegmentation(Set<Id> contactIdSet, Set<Id> leadIdSet, Boolean isForMktgSegmentation){
-        if(isForMktgSegmentation){
-            Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = LeadScoreCalculatorService.getMarketingSegmentation(contactIdSet, leadIdSet);
-            LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, marketingSegmentationMap);
-            if(!marketingSegmentationMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, marketingSegmentationMap.keySet(), Marketing_Segmentation__c.getSObjectType());
-            }
-        }
-    }
-
-    /**
-     * Process recalculation for Contact
-     */
-    public static void processContact(Set<Id> contactIdSet, Boolean isForContactAndLead){
-        if(isForContactAndLead){
-            Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
-            LeadScoreCalculatorService.ObjectMap objMap = ContactLeadScoreHelper.setObjectMap(contactMap);
-            if(!contactMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, contactMap.keySet(), Contact.getSObjectType());
-            }   
-        }
-    }
-
-    /**
-     * Process recalculation for Lead
-     */
-    public static void processLead(Set<Id> leadIdSet, Boolean isForContactAndLead){
-        if(isForContactAndLead){
-            Map<Id,Lead> leadMap = new Map<Id,Lead>(LeadsDAO.newInstance().getLeadsByIdSetAndType(leadIdSet, LeadsDAO.LEARNER_LEAD_TYPE, AccessLevel.SYSTEM_MODE));
-            LeadScoreCalculatorService.ObjectMap objMap = LeadLeadScoreHelper.setObjectMap(leadMap);
-            if(!leadMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, leadMap.keySet(), Lead.getSObjectType());
-            }    
-        }
-    }
-
-    /**
-     * Process recalculation for Program Enrollment
-     */
-    public static void processProgramEngagement(Set<Id> contactIdSet, Boolean isForProgEnrollment){    
-        if(isForProgEnrollment){
-            Map<Id,hed__Program_Enrollment__c> progEngMap = ProgEnrollLeadScoreHelper.setProgramEnrollmentMap(contactIdSet);
-            LeadScoreCalculatorService.ObjectMap objMap = ProgEnrollLeadScoreHelper.setObjectMap(contactIdSet, progEngMap);
-            if(!progEngMap.isEmpty()){
-                LeadScoreCalculatorService.calculateLeadScore(objMap, contactIdSet, hed__Program_Enrollment__c.getSObjectType());
-            } 
-        }
     }
 
     /**

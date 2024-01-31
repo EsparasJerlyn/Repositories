@@ -24,7 +24,7 @@ public with sharing class DynamicDatatableEventService {
      */
     private static final Map<SObjectType, Map<String, String>> OBJECT_TO_EVENT_MAP = new Map<SObjectType, Map<String, String>>{
         Contextual_Role__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c,Opportunity__c,Opportunity_Outcome__c',
+            'ParentFields' => 'Engagement__c,IP_Management__c,Opportunity__c,Opportunity_Outcome__c',
             'ObjectLabel' => 'Contextual Role'
         },
         Document__c.SObjectType => new Map<String, String>{

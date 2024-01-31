@@ -23,7 +23,7 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
     }
 
     @isTest
-    private static void getAllApplicationPreferenceIdInPackageComponentBeforeInsert(){
+    private static void getAllApplicationPreferenceIdInPackageComponentBeforeInsert() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             
             List<Contact> newContacts = createTestContactRecords(0, 1);
@@ -57,7 +57,7 @@ public with sharing class PackageComponentTriggerHandlerTest { //NOPMD
     }
 
     @isTest
-    private static void getAllApplicationPreferenceIdInPackageComponentBeforeUpdate(){
+    private static void getAllApplicationPreferenceIdInPackageComponentBeforeUpdate() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             
             List<Contact> newContacts = createTestContactRecords(0, 1);
