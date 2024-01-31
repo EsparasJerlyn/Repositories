@@ -1028,6 +1028,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         boolean isValidAdmissionProcess =   app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
                                             app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC;
         boolean isValidStartDateForProgram =    app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
+                                                nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL) &&
                                                 app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
                                                     -(Integer) nurturingTrackWithOffSetDaysMap.get(
                                                     NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL
