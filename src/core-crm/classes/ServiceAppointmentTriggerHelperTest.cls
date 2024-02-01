@@ -204,7 +204,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
                 ap.SchedEndTime = DateTime.Now().AddDays(3);
                 ap.WorkTypeId = workTypeIds.get(0).Id;
                 ap.description = 'This is an inquiry on QUT student enrolment.';
-                ap.Status = 'Scheduled';
                 ap.Appointment_Topic__c = 'My enrolment';
             }
 
