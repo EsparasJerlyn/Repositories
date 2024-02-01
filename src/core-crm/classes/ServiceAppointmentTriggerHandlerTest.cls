@@ -420,4 +420,39 @@ public with sharing class ServiceAppointmentTriggerHandlerTest {
             System.assert(msg != null,'Single Email Message is not empty');
         }
     }
+
+    private static void generateGUIDTest() {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
+            List<ServiceAppointment> newItems = TestDataFactory.createTestServiceAppointmentRecords(200, accList.get(0).Id);
+            Test.startTest();
+            ServiceAppointmentsDAO.newInstance().insertRecords(newItems, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+            for(ServiceAppointment newItem : newItems) {
+                System.assert(newItem.GUID__c != null, 'Failed to generate GUID for a record.');
+            }
+        }
+    }
+
+    private static void generateGUIDBeforeUpdateTest() {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
+            List<ServiceAppointment> newItems = TestDataFactory.createTestServiceAppointmentRecords(200, accList.get(0).Id);
+            for(ServiceAppointment serviceApp : newItems ){
+                serviceApp.GUID__c = 'Test';
+            }
+            ServiceAppointmentsDAO.newInstance().insertRecords(newItems, true, AccessLevel.USER_MODE);
+            Test.startTest();
+            List<ServiceAppointment> serviceAppToUpdateList = new List<ServiceAppointment>(); 
+            for(ServiceAppointment serviceAppToUpdate : newItems ){
+                serviceAppToUpdate.GUID__c = null;
+                serviceAppToUpdateList.add(serviceAppToUpdate);
+            }
+            ServiceAppointmentsDAO.newInstance().updateRecords(serviceAppToUpdateList, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+            for(ServiceAppointment newItem : newItems) {
+                System.assert(newItem.GUID__c != null, 'Failed to generate GUID for a record.');
+            }
+        }
+    }
 }

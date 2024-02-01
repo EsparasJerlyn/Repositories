@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for MarketingSegmentation
+  * @description helper class to compute Lead Score for MarketingSegmentation 
   * @see ..MarketingSegmentationTriggerHelper
   *
   * @author Accenture 

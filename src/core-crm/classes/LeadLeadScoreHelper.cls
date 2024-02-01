@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Lead
+  * @description helper class to compute Lead Score for Lead 
   * @see ..LeadTriggerHandler
   *
   * @author Accenture 

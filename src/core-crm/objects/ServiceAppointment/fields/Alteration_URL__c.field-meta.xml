@@ -3,7 +3,7 @@
     <fullName>Alteration_URL__c</fullName>
     <description>URL for editing/canceling the service appointment.</description>
     <externalId>false</externalId>
-    <formula>$CustomMetadata.Scheduler_Configuration__mdt.Default.Appointment_Base_URL__c  + &quot;?recordId=&quot; +  Service_Appointment_ID__c</formula>
+    <formula>$CustomMetadata.Scheduler_Configuration__mdt.Default.Appointment_Base_URL__c  + &quot;?recordId=&quot; +  GUID_Wrapper__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Alteration URL</label>
     <required>false</required>
