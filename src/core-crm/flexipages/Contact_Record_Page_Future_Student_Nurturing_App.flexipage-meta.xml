@@ -895,7 +895,7 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Applied_Program__c</value>
+                            <value>Applied_ProgramV2__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Intake_Year__c</value>
@@ -966,7 +966,7 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Applied_Program__c</value>
+                            <value>Applied_ProgramV2__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Intake_Year__c</value>

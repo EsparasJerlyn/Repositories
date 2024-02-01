@@ -1,5 +1,5 @@
 /**
- * @description Interface for Marketing Segmentation DAO
+ * @description Interface for Marketing Segmentation DAO 
  * @author Accenture
  *
  * @history

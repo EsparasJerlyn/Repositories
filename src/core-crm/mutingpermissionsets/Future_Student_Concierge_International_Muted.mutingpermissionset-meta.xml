@@ -5,7 +5,7 @@
         <field>hed__Program_Enrollment__c.hed__GPA__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <label>Future Student Concierge Muted</label>
+    <label>Future Student Concierge - International Muted</label>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>true</allowDelete>

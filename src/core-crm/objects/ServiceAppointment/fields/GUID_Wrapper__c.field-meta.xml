@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GUID_Wrapper__c</fullName>
+    <description>To accommodate existing data where GUID had not been created</description>
+    <externalId>false</externalId>
+    <formula>BLANKVALUE( GUID__c ,   Service_Appointment_ID__c  )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>GUID Wrapper</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

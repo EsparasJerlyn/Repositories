@@ -1,5 +1,5 @@
 /**
- * @description Helper class for Lead Score Calculation
+ * @description Helper class for Lead Score Calculation 
  * 
  * @author Accenture
  *

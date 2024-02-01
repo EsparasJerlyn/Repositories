@@ -29,7 +29,7 @@
             }*/
             .divtext {
                 display: table;
-                font-family: "Arial Unicode MS";
+                font-family: "sans-serif";
                 font-weight: bold;
             }
 
@@ -72,7 +72,7 @@
 <table style="margin-left: auto;
 margin-right: auto;
 text-align:center;
-font-family: Arial Unicode MS;">
+font-family: sans-serif;">
     <apex:pageBlock rendered="{!partnerLogo != NULL}">
         <div style="text-align: center; max-height: 100px;" >
                     <img src="{!partnerLogo}"  style="max-width: 500px; width: auto; height: 100px;" />
@@ -87,12 +87,12 @@ font-family: Arial Unicode MS;">
         <br/>
     </apex:pageBlock>
 </table>
-<span style="font-size:38px; font-family: Arial Unicode MS;" class="mb1"><b>Certificate of Achievement</b></span></div>
+<span style="font-size:38px; font-family: sans-serif;" class="mb1"><b>Certificate of Achievement</b></span></div>
 
-<div style="text-align: center; width:70%; margin:auto; font-family: Arial Unicode MS;">
+<div style="text-align: center; width:70%; margin:auto; font-family: sans-serif;">
     <span style="font-size:16px; " class="mb1">This is to certify that</span><br />
     <br />
-    <span style="font-size:34px; "><b>{!student.First_Name__c} {!student.Last_Name__c}</b><br/></span>
+    <apex:outputText value="{!studentName}" styleClass="{!studentNameFontSize}"/><br/><br/>
     <span style="font-size:16px;"> has successfully completed all requirements</span><br />
     <span style="font-size:16px;"> for the QUTeX {!product}:</span><br />
     <br />
@@ -112,12 +112,14 @@ font-family: Arial Unicode MS;">
     <br />
     <span style="font-size:16px; " class="mb1">and in evidence whereof this certificate is awarded&nbsp;<br />
     <br />{!dateToday}</span><br />
+    <br/>
+    <br/>
 </div>
     <table style="margin-left: auto;
     width : 60%;
     margin-right: auto;
     text-align:left;
-    font-family: Arial Unicode MS;
+    font-family: sans-serif;
     border-collapse: collapse;">
 	<tbody>
 		<tr >

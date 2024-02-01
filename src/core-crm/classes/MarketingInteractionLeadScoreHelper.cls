@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Marketing_Interaction__c
+  * @description helper class to compute Lead Score for Marketing_Interaction__c 
   * @see ..MarketingInteractionTriggerHandler
   *
   * @author Accenture 
