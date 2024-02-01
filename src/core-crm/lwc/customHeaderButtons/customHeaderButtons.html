@@ -25,11 +25,12 @@
       class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
     </lightning-button>
 
-    <lightning-button
+    <lightning-button 
       label="Download CSV"
       title="Download CSV"
       variant="brand-outline"
       onclick={handleDownloadCSV}
+      disabled={isDownloadCSVDisabled}
       class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
     </lightning-button>
 
@@ -37,8 +38,17 @@
       label="Bulk Change Status"
       title="Bulk Change Status"
       variant="brand-outline"
-      disabled={isDisabledButton}
-      class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
+      class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small"           
+      onclick={handleStatusClick}
+      disabled={isDisabledButton}>
     </lightning-button>
-  </div>
+
+    <c-list-member-status-modal
+      is-show-modal={isShowModal}
+      onsetshowmodal={handlerShowModal}
+      items-selected={itemsSelected}
+      onhandlerefresh={handleRefresh}>
+    </c-list-member-status-modal>
+  
+  </div>   
 </template>

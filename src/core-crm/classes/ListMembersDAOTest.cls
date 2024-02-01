@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | carl.alvin.cabiles             | September 14, 2023    | DEPP-6510              | Created file                 |
+      | kenneth.f.alsay                | January 26, 2024      | DEPP-6964              | Added getListMembersByStatus |
  */
 @isTest
 public with sharing class ListMembersDAOTest {
@@ -32,6 +33,17 @@ public with sharing class ListMembersDAOTest {
             System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty');
         Test.stopTest();
     }
+    
+    @isTest
+    static void getListMembersByStatus() {
+        Test.startTest();
+            List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance()
+                .getListMembersByStatus(100, AccessLevel.SYSTEM_MODE, '');
+            System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty');
+        Test.stopTest();     
+    }
+    
+    
 
     @isTest
     static void getSObjectTypeTest() {

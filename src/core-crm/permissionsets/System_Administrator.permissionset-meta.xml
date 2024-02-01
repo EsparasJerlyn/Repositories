@@ -1129,6 +1129,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ListMemberCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LMSCourseEnrollmentBatchHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -29377,6 +29381,22 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Lead_Score_Configuration__c.Sub_Category</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>List_Member__c.List_Member_Distributed_List</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>List_Member__c.List_Member_Engagement_Opportunity</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>List__c.Distributed_List</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>List__c.Engagement_Opportunity</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
