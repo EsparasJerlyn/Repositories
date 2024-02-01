@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IP_Management_Role</fullName>
+    <active>true</active>
+    <description>Create a participant’s role in an IP Management process.</description>
+    <label>IP Management Role</label>
+    <picklistValues>
+        <picklist>Contextual_Role_Group__c</picklist>
+        <values>
+            <fullName>Contributors</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Contextual_Role__c</picklist>
+        <values>
+            <fullName>Chief Investigator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Co-Investigator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finance Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inventor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lead Researcher</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ORS Contact</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relationship Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Researcher</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secondary Investigator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Support</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

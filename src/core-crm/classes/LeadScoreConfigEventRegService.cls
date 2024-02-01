@@ -62,7 +62,7 @@ public with sharing class LeadScoreConfigEventRegService {//NOPMD this is a serv
             if(marketingInteraction.Contact__c != null){
                 eventRegMap.put(marketingInteraction.Contact__c, score);
             }
-            if(marketingInteraction.Lead__c != null){
+            else if(marketingInteraction.Lead__c != null){
                 eventRegMap.put(marketingInteraction.Lead__c, score);
             }
         }

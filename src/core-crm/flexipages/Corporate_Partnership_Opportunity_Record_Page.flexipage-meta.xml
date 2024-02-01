@@ -11,7 +11,7 @@
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
+                <componentInstanceProperties> 
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>

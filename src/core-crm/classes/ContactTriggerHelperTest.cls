@@ -25,6 +25,7 @@ private class ContactTriggerHelperTest {
     static void setupMethod() {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_ESB'});
+        TestDataFactory.loadEDATriggers();
         Test.stopTest();
 
         List<Account> accountList = new List<Account>();
@@ -80,8 +81,9 @@ private class ContactTriggerHelperTest {
 
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
             Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
-            nurtureConfig.Lead_Score_Threshold__c = 1;
+            nurtureConfig.Lead_Score_Threshold__c = -1;
             nurtureConfig.Status__c = 'Active';
+            nurtureConfig.Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
             nurtureList.add(nurtureConfig);
 
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
@@ -164,15 +166,15 @@ private class ContactTriggerHelperTest {
             for (Contact record : contactList) { 
                 if(record.FirstName == 'Test Contact For Nurture') {
                     record.Email_Opt_In_DateTime__c = Date.today();
+                    record.hed__Citizenship_Status__c = 'International';
                     contactListToUpdate.add(record);
                 }
             }
             ContactsDAO.newInstance().updateRecords(contactListToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
-            for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactList[0].Id},AccessLevel.SYSTEM_MODE)) {  
-                System.assertEquals(true,record.Can_Nurture__c,'Contact Can_Nurture__c did not match');
-            }
+            Contact record = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactList[0].Id},AccessLevel.SYSTEM_MODE)[0];
+            System.assertEquals(true,record.Can_Nurture__c,'Contact Can_Nurture__c did not match');
         }
     } 
     
@@ -285,6 +287,200 @@ private class ContactTriggerHelperTest {
 
             for (Contact record : ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds, AccessLevel.SYSTEM_MODE)) {  
                 System.assertEquals(record.Email, record.Registered_Email__c,'Contact Registered_Email__c did not match.');
+            }
+        }
+    }
+
+    @isTest
+    private static void createMCPersonaRecordsTest(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+            Set<Id> personContactIds = new Set<Id>();
+            Test.startTest();
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].Email = i + 'test@email.com';
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+                contacts[i].QUT_Staff_Email__c =  i + 'test@staffemail.com';
+                contacts[i].QUT_Learner_Email__c =  i + 'test@learneremail.com';
+                contacts[i].hed__Preferred_Email__c = 'Alternate Email';
+                contacts[i].hed__AlternateEmail__c = i + 'test@email.com';
+            }
+
+            ContactsDAO.newInstance().insertRecords(contacts,true, AccessLevel.USER_MODE);
+            Test.stopTest();
+            for(Contact con: contacts){
+                personContactIds.add(con.Id);
+            }
+
+            System.assertEquals(30, ContactsDAO.newInstance().getMCPersonaContactsByParentPersonContactIds(personContactIds,AccessLevel.SYSTEM_MODE).size(), 'MC Persona Records must be created');
+
+        }
+    }
+
+    @isTest
+    private static void createMCPersonaByUpdatingPersonContact(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+            Set<Id> personContactIds = new Set<Id>();
+            Test.startTest();
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].Email = i + 'test@email.com';
+                contacts[i].hed__Preferred_Email__c = 'Alternate Email';
+                contacts[i].hed__AlternateEmail__c = i + 'test@email.com';
+            }
+
+            ContactsDAO.newInstance().insertRecords(contacts,true, AccessLevel.USER_MODE);
+            Test.stopTest();
+            for(Contact con: contacts){
+                personContactIds.add(con.Id);
+            }
+
+            System.assertEquals(0, ContactsDAO.newInstance().getMCPersonaContactsByParentPersonContactIds(personContactIds,AccessLevel.SYSTEM_MODE).size(), 'MC Persona Records must not be created');
+
+            for(Integer i=0; i < 10; i++){
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+                contacts[i].QUT_Staff_Email__c =  i + 'test@staffemail.com';
+                contacts[i].QUT_Learner_Email__c =  i + 'test@learneremail.com';
+            }
+
+            ContactsDAO.newInstance().updateRecords(contacts,true, AccessLevel.USER_MODE);
+
+            System.assertEquals(30, ContactsDAO.newInstance().getMCPersonaContactsByParentPersonContactIds(personContactIds,AccessLevel.SYSTEM_MODE).size(), 'MC Persona Records must be created');
+
+        }
+    }
+
+    @isTest
+    private static void updateMCPersonaByUpdatingPersonContact(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+
+            Set<Id> personContactIds = new Set<Id>();
+            Test.startTest();
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].Email = i + 'test@email.com';
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+                contacts[i].QUT_Staff_Email__c =  i + 'test@staffemail.com';
+                contacts[i].QUT_Learner_Email__c =  i + 'test@learneremail.com';
+                contacts[i].hed__Preferred_Email__c = 'Alternate Email';
+                contacts[i].hed__AlternateEmail__c = i + 'test@email.com';
+                contacts[i].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            }
+
+            ContactsDAO.newInstance().insertRecords(contacts,true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            for(Contact con: contacts){
+                personContactIds.add(con.Id);
+            }
+
+            System.assertEquals(30, ContactsDAO.newInstance().getMCPersonaContactsByParentPersonContactIds(personContactIds,AccessLevel.SYSTEM_MODE).size(), 'MC Persona Records must be created');
+            List<Contact> contactsToUpdate = new List<Contact>();
+
+            for(Integer i=0; i < 10; i++){
+                contactsToUpdate.add(new Contact(
+                    Id = contacts[i].Id,
+                    Work_Email__c = i + 'test@workemailupdated.com',
+                    QUT_Staff_Email__c =  i + 'test@staffemailupdated.com',
+                    QUT_Learner_Email__c =  i + 'test@learneremailupdated.com',
+                    Work_Email_Opt_Out__c = false,
+                    Work_Email_Opt_In_DateTime__c = System.now(),
+                    Learner_Email_Opt_Out__c = false,
+                    Learner_Email_Opt_In_DateTime__c = System.now(),
+                    Staff_Email_Opt_Out__c = false,
+                    Staff_Email_Opt_In_DateTime__c = System.now())
+                );
+            }
+
+            ContactsDAO.newInstance().updateRecords(contactsToUpdate,true, AccessLevel.SYSTEM_MODE);
+            List<Contact> mcContacts = ContactsDAO.newInstance().getMCPersonaContactsByParentPersonContactIds(personContactIds,AccessLevel.SYSTEM_MODE);
+            System.assertEquals(30, mcContacts.size(),'MC Persona Records where newly created');
+
+            for(Contact con: mcContacts){
+                System.assert(con.email.contains('updated'),'Email should be updated');
+                System.assert(con.Email_Opt_In_Datetime__c != null, 'Email opt in date time must be updated');
+            }
+        }
+    }
+
+    @isTest
+    private static void updateParentByUpdatingChildMCPersona(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
+
+            Set<Id> personContactIds = new Set<Id>();
+            Test.startTest();
+            for(Integer i=0; i < 10; i++){
+                contacts[i].FirstName = 'Test Fname' + i;
+                contacts[i].LastName = 'Test Lname' + i;
+                contacts[i].Email = i + 'test@email.com';
+                contacts[i].Work_Email__c =  i + 'test@workemail.com';
+                contacts[i].QUT_Staff_Email__c =  i + 'test@staffemail.com';
+                contacts[i].QUT_Learner_Email__c =  i + 'test@learneremail.com';
+                contacts[i].hed__Preferred_Email__c = 'Alternate Email';
+                contacts[i].hed__AlternateEmail__c = i + 'test@email.com';
+                contacts[i].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            }
+
+            ContactsDAO.newInstance().insertRecords(contacts,true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            for(Contact con: contacts){
+                personContactIds.add(con.Id);
+            }
+
+            System.assertEquals(30, ContactsDAO.newInstance().getMCPersonaContactsByParentPersonContactIds(personContactIds,AccessLevel.SYSTEM_MODE).size(), 'MC Persona Records must be created');
+
+            List<Contact> contactsToUpdate = new List<Contact>();
+
+            for(Contact con: ContactsDAO.newInstance().getMCPersonaContactsByParentPersonContactIds(personContactIds,AccessLevel.SYSTEM_MODE)){
+                con.Email = 'updated'+con.Email;
+                contactsToUpdate.add(con);
+            }
+
+            ContactsDAO.newInstance().updateRecords(contactsToUpdate,true, AccessLevel.SYSTEM_MODE);
+
+            for(Contact con: ContactsDAO.newInstance().getPersonContactsBySetIds(personContactIds, AccessLevel.SYSTEM_MODE)){
+                System.assert(con.Work_Email__c.contains('updated'),'Email should be updated');
+                System.assert(con.QUT_Staff_Email__c.contains('updated'),'QUT Staff Email should be updated');
+                System.assert(con.QUT_Learner_Email__c.contains('updated'),'QUT Learner Email should be updated');
+            }
+        }
+    }
+
+    @isTest
+    private static void updateParentLeadByUpdatingMCPersona(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            List<Lead> leads = TestDataFactory.createTestLeadRecords(10);
+            Set<Id> leadIds = new Set<Id>();
+
+            Test.startTest();
+
+            for(Integer i=0; i < 10; i++){
+                leads[i].Work_Email__c =  i + 'test@workemail.com';
+            }
+
+            LeadsDAO.newInstance().insertRecords(leads,true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            for(Lead lead: leads){
+                leadIds.add(lead.Id);
+            }
+
+            List<Contact> contactsToUpdate = new List<Contact>();
+
+            for(Contact con: ContactsDAO.newInstance().getMCPersonaContactsByParentPersonLeadIds(leadIds,AccessLevel.SYSTEM_MODE)){
+                con.Email = 'updated'+con.Email;
+                contactsToUpdate.add(con);
+            }
+
+            ContactsDAO.newInstance().updateRecords(contactsToUpdate,true, AccessLevel.SYSTEM_MODE);
+
+            for(Contact con: ContactsDAO.newInstance().getMCPersonaContactsByParentPersonLeadIds(leadIds,AccessLevel.SYSTEM_MODE)){
+                System.assert(con.Parent_Person_Lead__r.Work_Email__c.contains('updated'),'Work Email should be updated');
             }
         }
     }

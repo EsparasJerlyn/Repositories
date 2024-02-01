@@ -248,4 +248,33 @@ public with sharing class LeadsDAOTest {
             Test.stopTest();
         }
     }
+    
+    @isTest
+    static void getUnconvertedLeadsByIdSetTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            MockIdGenerator leadMock = new MockIdGenerator(Lead.sObjectType);
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getUnconvertedLeadsByIdSet(
+                    new Set<Id>{leadMock.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getUnconvertedLeadsByIdSetEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Lead> leadList = LeadsDAO.newInstance()
+                .getUnconvertedLeadsByIdSet(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            System.assert(leadList.isEmpty(), 'leadList should be empty');
+        }
+        Test.stopTest();
+    }
 }

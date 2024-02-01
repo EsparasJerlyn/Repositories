@@ -13,7 +13,7 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>enableActionsInNative</name>
+                    <name>enableActionsInNative</name> 
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

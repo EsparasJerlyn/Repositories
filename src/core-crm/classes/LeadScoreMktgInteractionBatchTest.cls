@@ -72,7 +72,7 @@ public with sharing class LeadScoreMktgInteractionBatchTest {
         List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
         leadScoreParentConfigList.add(
             new Lead_Score_Configuration__c(
-                Name = 'Total Max Score DUD',
+                Name = 'Total Max Score DU',
                 RecordTypeId = LeadScoreConfigurationDAO.RECTYPE_ID_CONFIG,
                 Domestic_International__c = citizenship,
                 Study_Level__c = studyLevel

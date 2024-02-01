@@ -7,7 +7,7 @@
     <picklistValues>
         <picklist>Engagement_Opportunity_Type__c</picklist>
         <values>
-            <fullName>Event</fullName>
+            <fullName>Event</fullName> 
             <default>false</default>
         </values>
         <values>

@@ -10,6 +10,7 @@
   *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
   *    | eccarius.munoz                 | September 25, 2023    | DEPP-5866              | Created file to handle lead score calculation  |
   *    |                                |                       |                        | for marketing segmentation                     |
+  *    | roy.nino.s.regala              | Jan 11, 2024          | DEPP-7142              | Updated checker on what segmentation to process|
   */
   public with sharing class MarketingSegmentationLeadScoreHelper {    
 
@@ -28,45 +29,48 @@
 
         Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = new Map<Id,Marketing_Segmentation__c>();
         Set<Id> contactIdSet = new Set<Id>();
-        for(Marketing_Segmentation__c mktgSeg : newItems) {
-            if(
-                checkIfForUpdate(oldItems, mktgSeg) || 
-                checkIfForUpdatedToUndetermined(oldItems, mktgSeg) || 
-                checkUndeterminedUndetermined(mktgSeg)
-            ) {
-                if(mktgSeg.Contact__c != null){
-                    contactIdSet.add(mktgSeg.Contact__c);
-                    marketingSegmentationMap.put(mktgSeg.Contact__c, mktgSeg);
-                }else if(mktgSeg.Lead__c != null){
-                    marketingSegmentationMap.put(mktgSeg.Lead__c, mktgSeg);
-                }
+        Set<Id> leadIdSet = new Set<Id>();
+        for(Marketing_Segmentation__c mktgSeg : newItems){
+
+            boolean isInserted =  oldItems == null && ObjectFieldService.isOneOfTheFieldsNotBlankAndNotBooleanFalse(MarketingSegmentationsDAO.LEAD_SCORE_CALCULATION_FIELDS,mktgSeg);
+            boolean isUpdated = oldItems != null && ObjectFieldService.isOneOftheFieldsUpdated(MarketingSegmentationsDAO.LEAD_SCORE_CALCULATION_FIELDS,mktgSeg,oldItems.get(mktgSeg.Id));
+            boolean isForProcessing = isInserted || isUpdated;
+            boolean isForContact = isForProcessing && mktgSeg.Contact__c != null;
+            boolean isForLead = isForProcessing && mktgSeg.Lead__c != null;
+
+            if(isForContact){
+                contactIdSet.add(mktgSeg.Contact__c);
+                marketingSegmentationMap.put(mktgSeg.Contact__c, mktgSeg);
+            }else if(isForLead){
+                leadIdSet.add(mktgSeg.Lead__c);
+                marketingSegmentationMap.put(mktgSeg.Lead__c, mktgSeg);
             }
         }
 
-        callSyncOrAsyncCalculation(contactIdSet, marketingSegmentationMap);
+        callSyncOrAsyncCalculation(contactIdSet, leadIdSet, marketingSegmentationMap);
     }    
 
     /**
      * Determines wether to run async or sync
      */
-    private static void callSyncOrAsyncCalculation(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
-        if(!marketingSegmentationMap.isEmpty()){
-            if(System.isQueueable()){
-                executeCalculation(contactIdSet, marketingSegmentationMap);
-            }else{
-                QueueableCall executeQueueable = new QueueableCall(contactIdSet, marketingSegmentationMap);
-                System.enqueueJob(executeQueueable);   
-            }
+    private static void callSyncOrAsyncCalculation(Set<Id> contactIdSet, Set<Id> leadIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
+        if(!marketingSegmentationMap.isEmpty() && (System.isQueueable() || System.isFuture() || System.isBatch())){
+            executeCalculation(contactIdSet, leadIdSet, marketingSegmentationMap);
+        }else if(!marketingSegmentationMap.isEmpty()){
+            QueueableCall executeQueueable = new QueueableCall(contactIdSet, leadIdSet, marketingSegmentationMap);
+            System.enqueueJob(executeQueueable);  
         }
     }
 
     /**
      * Maps Undergrad studylevel records to domesticUnderGradMap and internationalUnderGradMap
      */
-    private static void mapUnderGradStudyLevel(Marketing_Segmentation__c markSeg, Map<Id,Contact> contactMap) {
+    private static void mapUnderGradStudyLevel(Marketing_Segmentation__c markSeg, Map<Id,Contact> contactMap, Map<Id,Lead> leadMap) {
         Boolean isUnderGrad = markSeg.My_Primary_Study_Level__c != null && markSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD;
-        Boolean isDomesticLead = isUnderGrad && markSeg.Lead__c != null && (markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU || markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_NZ);
-        Boolean isInternationalLead = isUnderGrad && markSeg.Lead__c != null && markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+        Boolean isDomesticLead = isUnderGrad && markSeg.Lead__c != null &&  
+            (markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU || markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_NZ);
+        Boolean isInternationalLead = isUnderGrad && markSeg.Lead__c != null && 
+            markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
         Boolean isDomesticContact = isUnderGrad && markSeg.Contact__c != null && contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
         Boolean isInternationalContact = isUnderGrad && markSeg.Contact__c != null && contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
 
@@ -87,10 +91,12 @@
     /**
      * Maps Postgrad studylevel records to domesticPostGradMap and internationalPostGradMap
      */
-    private static void mapPostGradStudyLevel(Marketing_Segmentation__c markSeg, Map<Id,Contact> contactMap) {
+    private static void mapPostGradStudyLevel(Marketing_Segmentation__c markSeg, Map<Id,Contact> contactMap, Map<Id,Lead> leadMap) {
         Boolean isPostGrad = markSeg.My_Primary_Study_Level__c == MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD;
-        Boolean isDomesticLead = isPostGrad && markSeg.Lead__c != null &&  (markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU || markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_NZ);
-        Boolean isInternationalLead = isPostGrad && markSeg.Lead__c != null && markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+        Boolean isDomesticLead = isPostGrad && markSeg.Lead__c != null && 
+            (markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU || markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_NZ);
+        Boolean isInternationalLead = isPostGrad && markSeg.Lead__c != null && 
+            markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
         Boolean isDomesticContact = isPostGrad && markSeg.Contact__c != null && contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
         Boolean isInternationalContact = isPostGrad && markSeg.Contact__c != null && contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
 
@@ -111,14 +117,22 @@
     /**
      * Maps Undergrad studylevel records to domesticUndeterminedMap and internationalUndeterminedMap
      */
-    private static void mapUndeterminedStudyLevel(Marketing_Segmentation__c markSeg, Map<Id,Contact> contactMap) {
-        Boolean isUndetermined = String.isBlank(markSeg.My_Primary_Study_Level__c);
-        Boolean isDomesticLead = isUndetermined && markSeg.Lead__c != null && String.isNotBlank(markSeg.My_Citizenship_Status__c) && (markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU || markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_NZ);
-        Boolean isInternationalLead = isUndetermined && markSeg.Lead__c != null && String.isNotBlank(markSeg.My_Citizenship_Status__c) && markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+    private static void mapUndeterminedStudyLevel(Marketing_Segmentation__c markSeg, Map<Id,Contact> contactMap, Map<Id,Lead> leadMap) {
+        Boolean isUndetermined = 
+            String.isBlank(markSeg.My_Primary_Study_Level__c) || 
+            (
+                markSeg.My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD &&
+                markSeg.My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+            );
+
+        Boolean isDomesticLead = isUndetermined && markSeg.Lead__c != null && 
+            String.isNotBlank(markSeg.My_Citizenship_Status__c) && (markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_AU || markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_DOMESTIC_NZ);
+        Boolean isInternationalLead = isUndetermined && markSeg.Lead__c != null && 
+            String.isNotBlank(markSeg.My_Citizenship_Status__c) && markSeg.My_Citizenship_Status__c == MarketingSegmentationsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
         Boolean isDomesticContact = isUndetermined && contactMap.containsKey(markSeg.Contact__c) && contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
         Boolean isInternationalContact = isUndetermined && contactMap.containsKey(markSeg.Contact__c) && contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
         Boolean isConCitizenshipUD = validateUndeterminedUDContact(isUndetermined, contactMap, markSeg);
-        Boolean isLeadCitizenshipUD = validateUndeterminedUDLead(isUndetermined, markSeg);
+        Boolean isLeadCitizenshipUD = validateUndeterminedUDLead(isUndetermined, leadMap, markSeg);
 
         if(isDomesticContact){
             domesticUndeterminedMap.put(markSeg.Contact__c, markSeg);
@@ -145,15 +159,17 @@
      */
     private class QueueableCall implements Queueable {
         private Set<Id> contactIdSet;
+        private Set<Id> leadIdSet;
         private Map<Id,Marketing_Segmentation__c> marketingSegmentationMap;
         
-        public QueueableCall(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap) {
+        public QueueableCall(Set<Id> contactIdSet, Set<Id> leadIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap) {
             this.contactIdSet = contactIdSet;
+            this.leadIdSet = leadIdSet;
             this.marketingSegmentationMap = marketingSegmentationMap;
         }
 
         public void execute(QueueableContext context) {
-            executeCalculation(contactIdSet, marketingSegmentationMap);
+            executeCalculation(contactIdSet, leadIdSet, marketingSegmentationMap);
         }
     }
 
@@ -163,8 +179,8 @@
      * 2. Calculation of lead score per study level and citizenship status
      * 3. inserting/updating of lead score detail
      */
-    public static void executeCalculation(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
-        LeadScoreCalculatorService.ObjectMap objMap = setObjectMap(contactIdSet, marketingSegmentationMap);
+    public static void executeCalculation(Set<Id> contactIdSet, Set<Id> leadIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
+        LeadScoreCalculatorService.ObjectMap objMap = setObjectMap(contactIdSet, leadIdSet, marketingSegmentationMap);
         if(!marketingSegmentationMap.isEmpty()){
             LeadScoreCalculatorService.calculateLeadScore(objMap, marketingSegmentationMap.keySet(), Marketing_Segmentation__c.getSObjectType());
         }
@@ -173,13 +189,23 @@
     /**
      * Sets the object map to be used in queueable job
      */
-    public static LeadScoreCalculatorService.ObjectMap setObjectMap(Set<Id> contactIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
+    public static LeadScoreCalculatorService.ObjectMap setObjectMap(Set<Id> contactIdSet, Set<Id> leadIdSet, Map<Id,Marketing_Segmentation__c> marketingSegmentationMap){
          //Sort records per study level and citizenship status
          Map<Id,Contact> contactMap = new Map<Id,Contact>(ContactsDAO.newInstance().getPersonContactsBySetIds(contactIdSet, AccessLevel.SYSTEM_MODE));
-         for(Marketing_Segmentation__c mktgSeg : marketingSegmentationMap.values()){
-             mapUnderGradStudyLevel(mktgSeg, contactMap);
-             mapPostGradStudyLevel(mktgSeg, contactMap);
-             mapUndeterminedStudyLevel(mktgSeg, contactMap);
+         Map<Id,Lead> leadMap = new Map<Id,Lead>(LeadsDAO.newInstance().getUnconvertedLeadsByIdSet(leadIdSet, AccessLevel.SYSTEM_MODE));
+
+         for(Id key:marketingSegmentationMap.keySet()){
+            //filter out marketing segmentations related 
+            //to a non Person Contact and
+            //to a converted lead
+            if(!contactMap.containsKey(key) && !leadMap.containsKey(key)){
+                marketingSegmentationMap.remove(key);
+                continue;
+            }
+
+            mapUnderGradStudyLevel(marketingSegmentationMap.get(key), contactMap, leadMap);
+            mapPostGradStudyLevel(marketingSegmentationMap.get(key), contactMap, leadMap);
+            mapUndeterminedStudyLevel(marketingSegmentationMap.get(key), contactMap, leadMap);
          }
 
         LeadScoreCalculatorService.ObjectMap objectMap = new LeadScoreCalculatorService.ObjectMap();
@@ -193,54 +219,12 @@
         return objectMap;
     }
 
-    /*** Methods for checking if for lead score calculation : Start ***/
-    private static Boolean checkIfForUpdate(Map<Id,Marketing_Segmentation__c> oldMarkSegMap, Marketing_Segmentation__c markSeg){
-        return 
-            oldMarkSegMap != null && 
-            markSeg.My_Primary_Study_Level__c != null &&
-            (           
-                (String.isNotBlank(markSeg.My_Citizenship_Status__c) && markSeg.My_Citizenship_Status__c != oldMarkSegMap.get(markSeg.Id).My_Citizenship_Status__c) ||
-                (markSeg.My_Country_Of_Residency__c != oldMarkSegMap.get(markSeg.Id).My_Country_Of_Residency__c) ||
-                (markSeg.My_Country_Of_Citizenship__c != oldMarkSegMap.get(markSeg.Id).My_Country_Of_Citizenship__c) ||
-                (String.isNotBlank(markSeg.My_Funding_Source__c) && markSeg.My_Funding_Source__c != oldMarkSegMap.get(markSeg.Id).My_Funding_Source__c) ||
-                (markSeg.My_Primary_BSA__c != oldMarkSegMap.get(markSeg.Id).My_Primary_BSA__c) ||
-                (markSeg.My_Primary_NSA__c != oldMarkSegMap.get(markSeg.Id).My_Primary_NSA__c) ||
-                (markSeg.My_Double_Degree__c != oldMarkSegMap.get(markSeg.Id).My_Double_Degree__c) ||
-                (markSeg.My_Interested_English_Pathways__c != oldMarkSegMap.get(markSeg.Id).My_Interested_English_Pathways__c) ||
-                (markSeg.My_Expected_Admission_Year__c != oldMarkSegMap.get(markSeg.Id).My_Expected_Admission_Year__c) ||
-                (markSeg.My_Primary_Study_Level__c != oldMarkSegMap.get(markSeg.Id).My_Primary_Study_Level__c)
-            );
-    }
-
-    private static Boolean checkIfForUpdatedToUndetermined(Map<Id,Marketing_Segmentation__c> oldMarkSegMap, Marketing_Segmentation__c markSeg){
-        return 
-            oldMarkSegMap != null &&             
-            (                
-                (String.isNotBlank(markSeg.My_Citizenship_Status__c) && markSeg.My_Citizenship_Status__c != oldMarkSegMap.get(markSeg.Id).My_Citizenship_Status__c) ||
-                (markSeg.My_Country_Of_Residency__c != oldMarkSegMap.get(markSeg.Id).My_Country_Of_Residency__c) ||
-                (markSeg.My_Country_Of_Citizenship__c != oldMarkSegMap.get(markSeg.Id).My_Country_Of_Citizenship__c) ||
-                (String.isNotBlank(markSeg.My_Funding_Source__c) && markSeg.My_Funding_Source__c != oldMarkSegMap.get(markSeg.Id).My_Funding_Source__c) ||
-                (markSeg.My_Primary_BSA__c != oldMarkSegMap.get(markSeg.Id).My_Primary_BSA__c) ||
-                (markSeg.My_Primary_NSA__c != oldMarkSegMap.get(markSeg.Id).My_Primary_NSA__c) ||                
-                (markSeg.My_Double_Degree__c != oldMarkSegMap.get(markSeg.Id).My_Double_Degree__c) ||
-                (markSeg.My_Interested_English_Pathways__c != oldMarkSegMap.get(markSeg.Id).My_Interested_English_Pathways__c) ||
-                (markSeg.My_Expected_Admission_Year__c != oldMarkSegMap.get(markSeg.Id).My_Expected_Admission_Year__c) ||
-                (markSeg.My_Primary_Study_Level__c != oldMarkSegMap.get(markSeg.Id).My_Primary_Study_Level__c && markSeg.My_Primary_Study_Level__c == null)
-            );
-    }
-
-    private static Boolean checkUndeterminedUndetermined(Marketing_Segmentation__c markSeg){
-        return 
-            String.isBlank(markSeg.My_Primary_Study_Level__c) && 
-            String.isBlank(markSeg.My_Citizenship_Status__c);
-    }
-
     private static Boolean validateUndeterminedUDContact(Boolean isUndetermined, Map<Id,Contact> contactMap, Marketing_Segmentation__c markSeg){
-        return contactMap.containsKey(markSeg.Contact__c) && String.isBlank(contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c);
+        return isUndetermined && markSeg.Contact__c!= null && contactMap.containsKey(markSeg.Contact__c) && String.isBlank(contactMap.get(markSeg.Contact__c).hed__Citizenship_Status__c);
     }
 
-    private static Boolean validateUndeterminedUDLead(Boolean isUndetermined, Marketing_Segmentation__c markSeg){
-        return isUndetermined && String.isBlank(markSeg.My_Citizenship_Status__c);
+    private static Boolean validateUndeterminedUDLead(Boolean isUndetermined, Map<Id,Lead> leadMap, Marketing_Segmentation__c markSeg){
+        return isUndetermined && markSeg.Lead__c!= null && leadMap.containsKey(markSeg.Lead__c) && String.isBlank(markSeg.My_Citizenship_Status__c);
     }
 
     /*** Methods for checking if for lead score calculation : End ***/

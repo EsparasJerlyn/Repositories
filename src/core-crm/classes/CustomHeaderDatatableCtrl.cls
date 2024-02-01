@@ -18,7 +18,7 @@ public with sharing class CustomHeaderDatatableCtrl {
      * @param ListId Record Id of Lists Object
      * @return Records of List<List_Member__c>
      */
-    @AuraEnabled
+    @AuraEnabled 
     public static List<List_Member__c> getListMembers(Id listId) {
         List<List_Member__c> listMembers = ListMembersDAO.newInstance().getexistingListMembersWithMatchingList(new Set<Id>{listId}, new Set<Id>{}, 'USER_MODE');
         return listMembers;

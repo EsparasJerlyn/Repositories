@@ -11,30 +11,29 @@
       | kenneth.f.alsay           | January 15, 2024      | DEPP-6964            | Added handleRefresh          |  
       |                           |                       |                      |                              |
  */
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track } from "lwc";
 export default class CustomHeaderContainer extends LightningElement {
-     @api recordId;
-     @track selectedRecords = [];
-     isRefresh = false;    
-     @track columnsName;
-     @track columnsData;
+  @api recordId;
+  @track selectedRecords = [];
+  isRefresh = false;
+  @track columnsName;
+  @track columnsData;
 
-     handleSelectedRows(event){
-          this.selectedRecords = event.detail;
-     }
+  handleSelectedRows(event) {
+    this.selectedRecords = event.detail;
+  }
 
-     handleRefresh(e){
-          this.isRefresh = e.detail;
-     }
+  handleRefresh(e) {
+    this.isRefresh = e.detail;
+  }
 
-     // sets the list member column data
-     listDataHandler(event){
-          this.columnsData = event.detail;
-     }
+  // sets the list member column data
+  listDataHandler(event) {
+    this.columnsData = event.detail;
+  }
 
-     // sets the list header 
-     newColumnsList(event){
-          this.columnsName = event.detail;
-     }
-
+  // sets the list header
+  newColumnsList(event) {
+    this.columnsName = event.detail;
+  }
 }

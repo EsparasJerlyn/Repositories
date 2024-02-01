@@ -2217,6 +2217,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contextual_Role__c.IP_Management__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contextual_Role__c.Opportunity_Outcome__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -12517,6 +12522,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Contextual_Role__c.Engagement_Role</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Contextual_Role__c.IP_Management_Role</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

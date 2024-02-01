@@ -27,9 +27,11 @@ public with sharing class LeadLeadScoreHelper {
         Boolean isForInsert = oldItems == null;
         Map<Id,Lead> leadMap = new Map<Id,Lead>();
         for(Lead lead : newItems){
-            Boolean isValid = lead.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE && !lead.IsConverted;
-            Boolean isForUpdate = !isForInsert && lead.Email_Opt_In_DateTime__c != oldItems.get(lead.Id).Email_Opt_In_DateTime__c;
-            if(isValid && (isForInsert || isForUpdate)){
+            Boolean isValid = !lead.IsConverted;
+            Boolean isForUpdate = !isForInsert && (
+                lead.Email_Opt_In_DateTime__c != oldItems.get(lead.Id).Email_Opt_In_DateTime__c ||
+                (oldItems.get(lead.Id).Marketing_Segmentation__c != lead.Marketing_Segmentation__c && lead.Email_Opt_In_DateTime__c != null));
+            if(isValid && ((isForInsert && lead.Email_Opt_In_DateTime__c != null)|| isForUpdate)){
               leadMap.put(lead.Id, lead);
             }
         }
@@ -89,7 +91,11 @@ public with sharing class LeadLeadScoreHelper {
      * Maps Undergrad studylevel records to domesticUndeterminedMap and internationalUndeterminedMap
      */
     private static void mapUndeterminedStudyLevel(Lead lead, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
-        Boolean isUndetermined = marketingSegMap.containsKey(lead.Id) && String.isBlank(marketingSegMap.get(lead.Id).My_Primary_Study_Level__c);
+        Boolean isUndetermined = marketingSegMap.containsKey(lead.Id) && String.isBlank(marketingSegMap.get(lead.Id).My_Primary_Study_Level__c) || 
+            (
+                marketingSegMap.get(lead.Id).My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD &&
+                marketingSegMap.get(lead.Id).My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
+            );
         Boolean isDomesticLead = isUndetermined && validateDomesticLead(lead, marketingSegMap);
         Boolean isInternationalLead = isUndetermined && validateInternationalLead(lead, marketingSegMap);
         Boolean hasNoCitizenship = isUndetermined && marketingSegMap.get(lead.Id).My_Citizenship_Status__c == null;

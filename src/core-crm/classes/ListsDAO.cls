@@ -13,7 +13,7 @@ public inherited sharing class ListsDAO extends DmlBase implements IListsDAO{
 
     public Schema.SObjectType getSObjectType() {
         return List__c.SObjectType;
-    }
+    } 
     
     public List<List__c> getListRecords(Integer recordsCount) {
         return [ //NOPMD

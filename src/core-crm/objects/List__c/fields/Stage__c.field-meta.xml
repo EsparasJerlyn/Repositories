@@ -9,8 +9,8 @@
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Picklist</type>
-    <valueSet>
+    <type>Picklist</type> 
+    <valueSet> 
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>

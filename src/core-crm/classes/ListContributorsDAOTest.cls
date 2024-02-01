@@ -21,7 +21,7 @@ public with sharing class ListContributorsDAOTest {
         System.runAs(TestDataFactory.getAlumniEngagementManager()) {
             System.assert(ListContributorsDAO.newInstance() != null, 'ListContributorsDAO instance is null');
         }
-        Test.stopTest();
+        Test.stopTest(); 
     }
 
     @isTest

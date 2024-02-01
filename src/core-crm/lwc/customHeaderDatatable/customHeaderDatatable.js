@@ -1,7 +1,7 @@
 /**
  * @description Lightning Web Component for List Members in List container.
  *  
- * @author Accenture
+ * @author Accenture 
  * 
  * @history
  *    | Developer                           | Date                  | JIRA                 | Change Summary                                         |

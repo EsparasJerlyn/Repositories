@@ -8,7 +8,7 @@
     <picklistValues>
         <picklist>Stage__c</picklist>
         <values>
-            <fullName>Closed</fullName>
+            <fullName>Closed</fullName> 
             <default>false</default>
         </values>
         <values>

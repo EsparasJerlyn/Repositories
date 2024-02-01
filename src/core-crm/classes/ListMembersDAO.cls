@@ -13,8 +13,8 @@ public inherited sharing class ListMembersDAO extends DmlBase implements IListMe
     public static final String ACCEPTED_ACTIVITY_STATUS = 'Accepted';
     public static final String DUPLICATE_ERROR_MESSAGE = 'List Member is already in the list';
     public Schema.SObjectType getSObjectType() {
-        return List_Member__c.SObjectType;
-    }
+        return List_Member__c.SObjectType; 
+    } 
 
     public List<List_Member__c> getexistingListMembersWithMatchingList(Set<Id> listIds,Set<Id> listMemberIds,String accessLevel) {
         return Database.query(

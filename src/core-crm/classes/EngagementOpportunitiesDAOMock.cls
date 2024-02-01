@@ -12,7 +12,7 @@
 @isTest
 public inherited sharing class EngagementOpportunitiesDAOMock  extends DmlBaseMock implements IEngagementOpportunitiesDAO{
     public Map<Id, Engagement_Opportunity__c> engagementOpportunityMap;
-
+ 
     public EngagementOpportunitiesDAOMock() {
         super(new Map<Id, Engagement_Opportunity__c>(), Schema.Engagement_Opportunity__c.SObjectType);
         this.engagementOpportunityMap = (Map<Id, Engagement_Opportunity__c>) super.records;

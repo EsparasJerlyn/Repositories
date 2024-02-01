@@ -13,7 +13,7 @@
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
+        <editHeading>true</editHeading> 
         <label>Engagement Score Configuration Summary</label>
         <layoutColumns>
             <layoutItems>

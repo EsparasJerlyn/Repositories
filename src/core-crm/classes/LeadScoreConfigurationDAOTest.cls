@@ -16,7 +16,7 @@ public with sharing class LeadScoreConfigurationDAOTest {
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
     }
-
+    
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
@@ -79,4 +79,36 @@ public with sharing class LeadScoreConfigurationDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getCategoryLeadScoreConfigsByIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()){
+            MockIdGenerator leadScoreConfigMock = new MockIdGenerator(Lead_Score_Configuration__c.sObjectType);
+            List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance()
+                .getCategoryLeadScoreConfigsById(
+                    new Set<Id>{leadScoreConfigMock.getMockId()}, 
+                    new List<String>(), 
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
+        }
+        Test.stopTest();
+    }    
+
+    @isTest
+    static void getCategoryLeadScoreConfigsByIdEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()){
+            List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance()
+                .getCategoryLeadScoreConfigsById(
+                    new Set<Id>(), 
+                    new List<String>(), 
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
+        }
+        Test.stopTest();
+    }  
+
 }

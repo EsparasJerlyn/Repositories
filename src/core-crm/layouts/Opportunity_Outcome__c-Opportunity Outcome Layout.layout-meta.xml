@@ -101,6 +101,9 @@
         <fields>Pure_Project_Name__c</fields>
         <relatedList>Pure_Project__c.Opportunity_Outcome__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <relatedList>RelatedContentNoteList</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

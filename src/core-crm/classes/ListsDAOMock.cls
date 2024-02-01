@@ -14,7 +14,7 @@ public inherited sharing class ListsDAOMock extends DmlBaseMock implements IList
 
     public Schema.SObjectType getSObjectType() {
         return List__c.SObjectType;
-    }
+    } 
 
     public ListsDAOMock() {
         super(new Map<Id, List__c>(), Schema.List__c.SObjectType);

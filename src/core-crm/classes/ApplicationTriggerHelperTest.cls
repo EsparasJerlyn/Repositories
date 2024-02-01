@@ -27,6 +27,7 @@ private class ApplicationTriggerHelperTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
+        TestDataFactory.loadEDATriggers();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
@@ -219,18 +220,51 @@ private class ApplicationTriggerHelperTest {
             }
             Test.startTest();
             ApplicationsDAO.newInstance().updateRecords(applicationToUpdate, false, AccessLevel.SYSTEM_MODE);
-            List<Contact> contactUpdated = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.USER_MODE);
+            Contact con = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.SYSTEM_MODE)[0];
+            System.assertEquals(true, con.HasOptedOutOfEmail, 'Marketing field should be false');
+            System.assertEquals(true, con.Learner_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(true, con.Staff_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(true, con.Work_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(true, con.Work_SMS_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(true, con.hed__SMS_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(true, con.DoNotCall, 'Marketing field should be false');
+            System.assertEquals(false, con.Sync_to_MC__c, 'Marketing field should be true');
+            System.assertEquals(false, con.Do_Not_Sync_To_MC_Override__c, 'Marketing field should be false');
+            System.assertEquals('QTAC Application QUT preferences withdrawn',con.Dont_Market_Reason__c, 'Marketing field Dont_Market_Reason__c should be QTAC Application QUT preferences withdrawn');
+            System.assert(con.Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Learner_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Staff_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Work_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Work_SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            
             Test.stopTest();
-            System.assert(contactUpdated[0].HasOptedOutOfEmail == true, 'HasOptedOutOfEmail should be updated to true.');
-            System.assert(contactUpdated[0].HasOptedOutOfEmail == true, 'Learner_Email_Opt_Out__c should be updated to true.');
-            System.assert(contactUpdated[0].Staff_Email_Opt_Out__c == true, 'Staff_Email_Opt_Out__c should be updated to true.');
-            System.assert(contactUpdated[0].Work_Email_Opt_Out__c == true, 'Work_Email_Opt_Out__c should be updated to true.');
-            System.assert(contactUpdated[0].Work_SMS_Opt_Out__c == true, 'Work_SMS_Opt_Out__c should be updated to true.');
-            System.assert(contactUpdated[0].hed__SMS_Opt_Out__c == true, 'hed__SMS_Opt_Out__c should be updated to true.');
-            System.assert(contactUpdated[0].DoNotCall == true, 'DoNotCall should be updated to true.');
-            System.assert(contactUpdated[0].Sync_to_MC__c == false, 'Sync_to_MC__c should be updated to false.');
-            System.assert(contactUpdated[0].Do_Not_Sync_To_MC_Override__c == false, 'Do_Not_Sync_To_MC_Override__c should be updated to false.');
-            System.assert(contactUpdated[0].Dont_Market_Reason__c == 'QTAC Application QUT preferences withdrawn', 'Dont_Market_Reason__c does not have the correct value.');
+        }
+    }
+
+    @isTest
+    private static void testStudyLinkMarketingFields(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+            //get the contact created in the setup with a study link application
+            Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id; 
+            Contact con = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.SYSTEM_MODE)[0];
+            
+            System.assertEquals(false, con.HasOptedOutOfEmail, 'Marketing field should be false');
+            System.assertEquals(false, con.Learner_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.Staff_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.Work_Email_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.Work_SMS_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.hed__SMS_Opt_Out__c, 'Marketing field should be false');
+            System.assertEquals(false, con.DoNotCall, 'Marketing field should be false');
+            System.assertEquals(true, con.Sync_to_MC__c, 'Marketing field should be true');
+            System.assertEquals(false, con.Do_Not_Sync_To_MC_Override__c, 'Marketing field should be false');
+            System.assert(con.Dont_Market_Reason__c == null, 'Marketing field Dont_Market_Reason__c should be empty');
+            System.assert(con.Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Learner_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Staff_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Work_Email_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.Work_SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');
+            System.assert(con.SMS_Opt_In_DateTime__c != null, 'Marketing field should be populated');  
         }
     }
 
@@ -245,15 +279,14 @@ private class ApplicationTriggerHelperTest {
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.STUDYLINK_RECTYPE_ID)
             };
-            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
-            Map<Id, SObject> newItems = new Map<Id, SObject>((List<SObject>) applications);
             Test.startTest();
-            ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
+
             Contact updatedContact = [
                 SELECT Id, Birthdate, Mobile_No_Locale__c,
                 ATSI_Code__c, hed__Citizenship_Status__c,
@@ -282,14 +315,12 @@ private class ApplicationTriggerHelperTest {
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID)
             };
-            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.startTest();
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
-            Map<Id, SObject> newItems = new Map<Id, SObject>((List<SObject>) applications);
-            Test.startTest();
-            ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             Contact updatedContact = [
                 SELECT Id, Birthdate, Mobile_No_Locale__c,
@@ -298,7 +329,6 @@ private class ApplicationTriggerHelperTest {
                 FROM Contact WHERE Id = :contactId 
                 WITH SYSTEM_MODE LIMIT 1];
             System.assertEquals(applications[0].BirthDate__c, updatedContact.Birthdate, 'Birthdate update failed.');
-            System.assertEquals(applications[0].Mobile__c, updatedContact.Mobile_No_Locale__c, 'Mobile_No_Locale__c update failed.');
             System.assertEquals(applications[0].Indigenous_Status__c, updatedContact.ATSI_Code__c, 'ATSI_Code__c update failed.');
             System.assertEquals(applications[0].Citizenship_Status__c, updatedContact.hed__Citizenship_Status__c, 'hed__Citizenship_Status__c update failed.');
             System.assertEquals(applications[0].Citizenship_Country__c, updatedContact.Citizenship_Country__c, 'Citizenship_Country__c update failed.');
@@ -316,14 +346,12 @@ private class ApplicationTriggerHelperTest {
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID)
             };
-            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
+            Test.startTest();
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
-            Map<Id, SObject> newItems = new Map<Id, SObject>((List<SObject>) applications);
-            Test.startTest();
-            ApplicationTriggerHelper.updateRelatedRecords(newItems, null);
+            ApplicationsDAO.newInstance().insertRecords(applications, true, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             Contact updatedContact = [
                 SELECT Id, Birthdate, Mobile_No_Locale__c,

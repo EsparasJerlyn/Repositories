@@ -13,7 +13,7 @@
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
             <value>University Department</value>
-        </filterItems>
+        </filterItems> 
         <filterItems>
             <field>Account.Organization_Unit_Level__c</field>
             <operation>equals</operation>

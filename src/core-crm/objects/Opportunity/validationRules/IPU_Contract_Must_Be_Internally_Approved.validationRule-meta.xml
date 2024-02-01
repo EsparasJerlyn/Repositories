@@ -6,7 +6,6 @@
     <errorConditionFormula>AND (
 RecordType.DeveloperName =&quot;International_Projects_Unit&quot;,
 ISCHANGED(StageName),
-ISPICKVAL( PRIORVALUE(StageName) ,&quot;Contract&quot;),
 ISPICKVAL(StageName, &quot;Executed&quot;),
 NOT(ISPICKVAL( CLMS_Contract_Status__c , &quot;Internally Approved&quot;))
 )</errorConditionFormula>

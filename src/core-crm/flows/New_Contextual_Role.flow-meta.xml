@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>5858</locationX>
+        <locationX>6122</locationX>
         <locationY>1748</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -35,13 +35,15 @@
                 <stringValue>Error in New Contextual Role</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>FlowLogEntry</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
         <name>Assign_Academic_Modal_Title</name>
         <label>Assign Academic Modal Title</label>
-        <locationX>4010</locationX>
+        <locationX>4274</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -57,7 +59,7 @@
     <assignments>
         <name>Assign_Board_of_Directors_Modal_Title</name>
         <label>Assign Board of Directors Modal Title</label>
-        <locationX>5066</locationX>
+        <locationX>5330</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -73,8 +75,8 @@
     <assignments>
         <name>Assign_Commercialisation_Contributor_Modal_Title</name>
         <label>Assign Commercialisation Contributor Modal Title</label>
-        <locationX>2426</locationX>
-        <locationY>674</locationY>
+        <locationX>2668</locationX>
+        <locationY>1232</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
             <operator>Assign</operator>
@@ -89,7 +91,7 @@
     <assignments>
         <name>Assign_Contextual_Role_Independent_Fields</name>
         <label>Assign Contextual Role Independent Fields</label>
-        <locationX>3427</locationX>
+        <locationX>3020</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
@@ -112,8 +114,8 @@
     <assignments>
         <name>Assign_Contributor_Modal_Title</name>
         <label>Assign Contributor Modal Title</label>
-        <locationX>2998</locationX>
-        <locationY>1232</locationY>
+        <locationX>3482</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
             <operator>Assign</operator>
@@ -128,7 +130,7 @@
     <assignments>
         <name>Assign_Funding_Bodies_Modal_Title</name>
         <label>Assign Funding Bodies Modal Title</label>
-        <locationX>4802</locationX>
+        <locationX>5066</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -144,7 +146,7 @@
     <assignments>
         <name>Assign_Modal_Title_for_CP_Opportunity</name>
         <label>Assign Modal Title for CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -158,10 +160,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Modal_Title_for_IP_Management_Contributor</name>
+        <label>Assign Modal Title for IP Management Contributor</label>
+        <locationX>3746</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>modalTitle</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New Contributor</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Partner_Modal_Title</name>
         <label>Assign Partner Modal Title</label>
-        <locationX>1260</locationX>
-        <locationY>1232</locationY>
+        <locationX>1106</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
             <operator>Assign</operator>
@@ -176,7 +194,7 @@
     <assignments>
         <name>Assign_Public_Officers_Modal_Title</name>
         <label>Assign Public Officers Modal Title</label>
-        <locationX>5330</locationX>
+        <locationX>5594</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -192,7 +210,7 @@
     <assignments>
         <name>Assign_Research_Engagement_Contributor_Modal_Title</name>
         <label>Assign Research Engagement Contributor Modal Title</label>
-        <locationX>490</locationX>
+        <locationX>1370</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -209,7 +227,7 @@
     <assignments>
         <name>Assign_Research_Engagement_Partner</name>
         <label>Assign Research Engagement Partner Modal Title</label>
-        <locationX>50</locationX>
+        <locationX>842</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -219,13 +237,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Research_School_Faculty_Modal_Title</name>
         <label>Assign Research, School, Faculty Modal Title</label>
-        <locationX>4538</locationX>
+        <locationX>4802</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -241,7 +260,7 @@
     <assignments>
         <name>Assign_Startup_Contributor_Modal_Title</name>
         <label>Assign Startup Contributor Modal Title</label>
-        <locationX>2690</locationX>
+        <locationX>2514</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -257,7 +276,7 @@
     <assignments>
         <name>Assign_Training_Team_Modal_Title</name>
         <label>Assign Training Team Modal Title</label>
-        <locationX>4274</locationX>
+        <locationX>4538</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -273,7 +292,7 @@
     <assignments>
         <name>Assign_Variables_For_Academic</name>
         <label>Assign Variables For Academic</label>
-        <locationX>4010</locationX>
+        <locationX>4274</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -296,7 +315,7 @@
     <assignments>
         <name>Assign_Variables_For_Board_of_Directors</name>
         <label>Assign Variables For Board of Directors</label>
-        <locationX>5066</locationX>
+        <locationX>5330</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -319,8 +338,8 @@
     <assignments>
         <name>Assign_Variables_For_Commercialisation_Contributors</name>
         <label>Assign Variables For Commercialisation Contributors</label>
-        <locationX>2426</locationX>
-        <locationY>890</locationY>
+        <locationX>2668</locationX>
+        <locationY>1448</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -336,15 +355,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Contributors</name>
         <label>Assign Variables For Contributors</label>
-        <locationX>2998</locationX>
-        <locationY>1448</locationY>
+        <locationX>3482</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -353,13 +371,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Funding_Bodies</name>
         <label>Assign Variables For Funding Bodies</label>
-        <locationX>4802</locationX>
+        <locationX>5066</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -375,8 +394,8 @@
     <assignments>
         <name>Assign_Variables_for_Partners</name>
         <label>Assign Variables for Partners</label>
-        <locationX>1260</locationX>
-        <locationY>1448</locationY>
+        <locationX>1106</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -399,13 +418,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_for_Partners_of_CP_Opportunity</name>
         <label>Assign Variables for Partners of CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -422,14 +442,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Public_Officers</name>
         <label>Assign Variables For Public Officers</label>
-        <locationX>5330</locationX>
+        <locationX>5594</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -445,7 +464,7 @@
     <assignments>
         <name>Assign_Variables_For_Research_School_Faculty</name>
         <label>Assign Variables For Research, School, Faculty</label>
-        <locationX>4538</locationX>
+        <locationX>4802</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -482,7 +501,7 @@
     <assignments>
         <name>Assign_Variables_For_Startup_Contributors</name>
         <label>Assign Variables For Startup Contributors</label>
-        <locationX>2690</locationX>
+        <locationX>2514</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -506,7 +525,7 @@
     <assignments>
         <name>Assign_Variables_For_Training_Team</name>
         <label>Assign Variables For Training Team</label>
-        <locationX>4274</locationX>
+        <locationX>4538</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -522,7 +541,7 @@
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>3427</locationX>
+        <locationX>3020</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -663,9 +682,10 @@
     <decisions>
         <name>Check_Contributor_Parent</name>
         <label>Check Contributor Parent</label>
-        <locationX>2998</locationX>
+        <locationX>2668</locationX>
         <locationY>350</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Contributor_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -680,7 +700,6 @@
                 </rightValue>
             </conditions>
             <connector>
-                <isGoTo>true</isGoTo>
                 <targetReference>Get_Parent_Engagement_Record</targetReference>
             </connector>
             <label>Is Engagement</label>
@@ -722,11 +741,26 @@
             </connector>
             <label>Is Opportunity</label>
         </rules>
+        <rules>
+            <name>Is_IP_Management</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentObjectApiName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>IP_Management__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_IP_Management</targetReference>
+            </connector>
+            <label>Is IP Management</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Check_Engagement_RecordType</name>
         <label>Check Engagement RecordType</label>
-        <locationX>534</locationX>
+        <locationX>1326</locationX>
         <locationY>566</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -813,7 +847,6 @@
                 </rightValue>
             </conditions>
             <connector>
-                <isGoTo>true</isGoTo>
                 <targetReference>Assign_Commercialisation_Contributor_Modal_Title</targetReference>
             </connector>
             <label>Is Commercialisation Contributor</label>
@@ -822,9 +855,10 @@
     <decisions>
         <name>Check_Opportunity_Outcome_Record_Type</name>
         <label>Check Opportunity Outcome Record Type</label>
-        <locationX>2690</locationX>
+        <locationX>2558</locationX>
         <locationY>566</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Contributor_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -862,9 +896,10 @@
     <decisions>
         <name>Check_Opportunity_Record_RecordType</name>
         <label>Check Opportunity Record RecordType</label>
-        <locationX>1678</locationX>
+        <locationX>182</locationX>
         <locationY>566</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Partner_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -887,7 +922,7 @@
     <decisions>
         <name>Check_Opportunity_Record_Type</name>
         <label>Check Opportunity Record Type</label>
-        <locationX>3526</locationX>
+        <locationX>3394</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_Contributor_Modal_Title</targetReference>
@@ -904,7 +939,6 @@
                 </rightValue>
             </conditions>
             <connector>
-                <isGoTo>true</isGoTo>
                 <targetReference>Assign_Commercialisation_Contributor_Modal_Title</targetReference>
             </connector>
             <label>Is Commercialisation Opportuntity</label>
@@ -913,9 +947,10 @@
     <decisions>
         <name>Check_Partner_Parent</name>
         <label>Check Partner Parent</label>
-        <locationX>1260</locationX>
+        <locationX>182</locationX>
         <locationY>350</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Partner_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -930,6 +965,7 @@
                 </rightValue>
             </conditions>
             <connector>
+                <isGoTo>true</isGoTo>
                 <targetReference>Get_Parent_Engagement_Record</targetReference>
             </connector>
             <label>Is Engagement</label>
@@ -955,6 +991,11 @@
         <name>ParentEngagementId</name>
         <dataType>String</dataType>
         <expression>IF({!ParentObjectApiName} = &quot;Engagement__c&quot;,{!ParentId},&quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>ParentIPManagementId</name>
+        <dataType>String</dataType>
+        <expression>IF({!ParentObjectApiName} = &quot;IP_Management__c&quot;,{!ParentId},&quot;&quot;)</expression>
     </formulas>
     <formulas>
         <name>ParentOpportunityId</name>
@@ -990,7 +1031,7 @@
     <recordCreates>
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
-        <locationX>3427</locationX>
+        <locationX>3020</locationX>
         <locationY>1640</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
@@ -1023,6 +1064,12 @@
             <field>Engagement__c</field>
             <value>
                 <elementReference>ParentEngagementId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IP_Management__c</field>
+            <value>
+                <elementReference>ParentIPManagementId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1065,9 +1112,30 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
+        <name>Get_IP_Management</name>
+        <label>Get IP Management</label>
+        <locationX>3746</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Modal_Title_for_IP_Management_Contributor</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ParentIPManagementId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>IP_Management__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Opportunity</name>
         <label>Get Opportunity</label>
-        <locationX>3526</locationX>
+        <locationX>3394</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1088,7 +1156,7 @@
     <recordLookups>
         <name>Get_Opportunity_Outcome</name>
         <label>Get Opportunity Outcome</label>
-        <locationX>2690</locationX>
+        <locationX>2558</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1113,7 +1181,7 @@
     <recordLookups>
         <name>Get_Opportunity_Record</name>
         <label>Get Opportunity Record</label>
-        <locationX>1678</locationX>
+        <locationX>182</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1134,7 +1202,7 @@
     <recordLookups>
         <name>Get_Parent_Engagement_Record</name>
         <label>Get Parent Engagement Record</label>
-        <locationX>534</locationX>
+        <locationX>1326</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1159,7 +1227,7 @@
     <recordRollbacks>
         <name>Roll_Back_Records</name>
         <label>Roll Back Records</label>
-        <locationX>5858</locationX>
+        <locationX>6122</locationX>
         <locationY>1856</locationY>
         <connector>
             <targetReference>Error</targetReference>
@@ -1168,7 +1236,7 @@
     <screens>
         <name>Academics_Involved_Screen</name>
         <label>Academics Involved Screen</label>
-        <locationX>4010</locationX>
+        <locationX>4274</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1260,6 +1328,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1341,6 +1410,7 @@
                     <dataType>Boolean</dataType>
                     <fieldText>Is Approved</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1361,7 +1431,7 @@
     <screens>
         <name>Board_of_Directors_Screen</name>
         <label>Board of Directors Screen</label>
-        <locationX>5066</locationX>
+        <locationX>5330</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1453,6 +1523,7 @@
                     </defaultValue>
                     <fieldText>QUT Staff</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1468,6 +1539,7 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1479,10 +1551,12 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1514,8 +1588,8 @@
     <screens>
         <name>ComOppOutcomeContributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>2426</locationX>
-        <locationY>782</locationY>
+        <locationX>2668</locationX>
+        <locationY>1340</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1600,6 +1674,7 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1611,6 +1686,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1694,10 +1770,12 @@
                     </defaultValue>
                     <fieldText>Is QUT Internal Participant</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1729,8 +1807,8 @@
     <screens>
         <name>Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>2998</locationX>
-        <locationY>1340</locationY>
+        <locationX>3482</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1827,6 +1905,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1842,11 +1921,13 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1878,7 +1959,7 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>5858</locationX>
+        <locationX>6122</locationX>
         <locationY>1964</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1894,7 +1975,7 @@
     <screens>
         <name>Funding_Bodies_Screen</name>
         <label>Funding Bodies Screen</label>
-        <locationX>4802</locationX>
+        <locationX>5066</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1990,6 +2071,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2010,8 +2092,8 @@
     <screens>
         <name>Partner_Account_Screen</name>
         <label>Partner Account Screen</label>
-        <locationX>1260</locationX>
-        <locationY>1340</locationY>
+        <locationX>1106</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2081,6 +2163,7 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -2169,10 +2252,12 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2204,7 +2289,7 @@
     <screens>
         <name>Partner_Screen_for_CP_Opportunity</name>
         <label>Partner Screen for CP Opportunity</label>
-        <locationX>1546</locationX>
+        <locationX>50</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2221,6 +2306,7 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -2309,10 +2395,12 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2344,7 +2432,7 @@
     <screens>
         <name>Public_Officers_Screen</name>
         <label>Public Officers Screen</label>
-        <locationX>5330</locationX>
+        <locationX>5594</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2436,6 +2524,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2451,11 +2540,13 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2487,7 +2578,7 @@
     <screens>
         <name>Research_Centre_School_Faculty_Screen</name>
         <label>Research Centre, School, Faculty Screen</label>
-        <locationX>4538</locationX>
+        <locationX>4802</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2727,6 +2818,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2747,7 +2839,7 @@
     <screens>
         <name>Startup_Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>2690</locationX>
+        <locationX>2514</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2833,6 +2925,7 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -2844,6 +2937,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2927,10 +3021,12 @@
                     </defaultValue>
                     <fieldText>Is QUT Internal Participant</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2962,7 +3058,7 @@
     <screens>
         <name>Training_Team_Screen</name>
         <label>Training Team Screen</label>
-        <locationX>4274</locationX>
+        <locationX>4538</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3054,6 +3150,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -3069,11 +3166,13 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -3103,7 +3202,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>3301</locationX>
+        <locationX>2894</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Contextual_Role_Independent_Fields</targetReference>
@@ -3113,8 +3212,8 @@
     <subflows>
         <name>Call_Complex_Contextual_Role_Flow</name>
         <label>Call Complex Contextual Role Flow</label>
-        <locationX>50</locationX>
-        <locationY>782</locationY>
+        <locationX>3746</locationX>
+        <locationY>674</locationY>
         <flowName>New_Contextual_Role_Complex</flowName>
         <inputAssignments>
             <name>DynamicDataTableInput</name>

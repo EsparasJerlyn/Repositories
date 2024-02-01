@@ -15,7 +15,7 @@ public with sharing class EngagementOpportunitiesDAOTest {
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
     }
-
+ 
     @isTest
     static void newInstanceTest() {
         Test.startTest();

@@ -6,7 +6,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Contributing QUT Organisation Unit. This is not necessarily the Contributor&apos;s QUT team.</inlineHelpText>
     <label>List Contributor Team</label>
-    <lookupFilter>
+    <lookupFilter> 
         <active>true</active>
         <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
         <filterItems>

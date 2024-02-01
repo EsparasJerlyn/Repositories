@@ -9,7 +9,7 @@
                     <valueList>
                         <valueListItems>
                             <value>Edit</value>
-                            <visibilityRule>
+                            <visibilityRule> 
                                 <booleanFilter>1 OR 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!$Client.formFactor}</leftValue>

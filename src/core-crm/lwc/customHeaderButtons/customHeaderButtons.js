@@ -12,16 +12,16 @@
       | kenneth.f.alsay           | January 15, 2024      | DEPP-6964            | Added handleStatusClick, handlerShowModal |  
       |                           |                       |                      | Added isDownloadCSVDisabled               | 
  */
-import { LightningElement, api, wire, track } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { getRecord  } from 'lightning/uiRecordApi';
-import LIST_STAGE from '@salesforce/schema/List__c.Stage__c';
+import { LightningElement, api, wire, track } from "lwc";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { getRecord } from "lightning/uiRecordApi";
+import LIST_STAGE from "@salesforce/schema/List__c.Stage__c";
 
 const CVS_DOWNLOAD_NAME = "lisData";
 export default class CustomHeaderButtons extends LightningElement {
   @api recordId;
   @api selectedRows;
-  statusSelected = 'Close';
+  statusSelected = "Close";
   @api columnsName;
   @api columnsData;
   csvtemp;
@@ -40,44 +40,50 @@ export default class CustomHeaderButtons extends LightningElement {
 
   // getter setter for isDisabledButton
   get isDisabledButton() {
-     return this.stageValue === "Distribute" || this.stageValue === 'Closed' ? true : false;
+    return this.stageValue === "Distribute" || this.stageValue === "Closed"
+      ? true
+      : false;
   }
 
-  get isDownloadCSVDisabled(){
+  get isDownloadCSVDisabled() {
     return this.stageValue === "Distribute" ? false : true;
   }
 
   @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
-     wiredList(responseData) {
-          const { data, error } = responseData;
+  wiredList(responseData) {
+    const { data, error } = responseData;
 
-          if (data) {
-               const fields = data.fields;
-               this.stageValue = fields.Stage__c.value;
-          }
+    if (data) {
+      const fields = data.fields;
+      this.stageValue = fields.Stage__c.value;
+    }
   }
 
-  handleStatusClick(){
-    if(this.selectedRows && this.selectedRows.length === 0){
-      this.dispatchEvent(new ShowToastEvent({
-        title: 'Error',
-        message: 'Please select a List Member to change the status.',
-        variant: 'error',
-        mode: 'dismissable'
-      })); 
-    }else{
+  handleStatusClick() {
+    if (this.selectedRows && this.selectedRows.length === 0) {
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: "Error",
+          message: "Please select a List Member to change the status.",
+          variant: "error",
+          mode: "dismissable"
+        })
+      );
+    } else {
       this.itemsSelected = this.selectedRows;
       this.isShowModal = true;
-    }       
+    }
   }
 
-  handleRefresh(){
-    this.dispatchEvent(new CustomEvent('handlerefresh', { 
-      detail: true                            
-    }));
+  handleRefresh() {
+    this.dispatchEvent(
+      new CustomEvent("handlerefresh", {
+        detail: true
+      })
+    );
   }
 
-  handlerShowModal(event){
+  handlerShowModal(event) {
     this.isShowModal = event.detail;
   }
 

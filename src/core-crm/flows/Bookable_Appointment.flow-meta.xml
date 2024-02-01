@@ -1321,6 +1321,11 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
+            <name>Schedule_Advisor_Appointment_note</name>
+            <fieldText>&lt;p&gt;Please note: Adviser appointments are only available to future students interested in undergraduate study.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
             <name>Persons_Details_Section</name>
             <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(1, 118, 211); font-size: 24px;&quot;&gt;Person&apos;s Details&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
@@ -1489,7 +1494,7 @@
             </defaultValue>
             <fieldText>Please provide any additional information about this appointment.</fieldText>
             <fieldType>LargeTextArea</fieldType>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Description_Error_Message</name>
