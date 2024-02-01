@@ -32,5 +32,24 @@ public inherited sharing class ListMembersDAOMock extends DmlBaseMock implements
         return listMemberRecords;
     }
 
+    public List<List_Member__c> getListMembersByStatus(
+        Integer recordCount, 
+        AccessLevel accessLevel,
+        String status){
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
+
+        Integer count = 0;
+        for (List_Member__c record : listMembersMap.values()) {
+            if (record.List_Member_Status__c == status) {
+                listMemberRecords.add(record);
+                count++;
+            }
+            if(count==recordCount){
+                break;
+            }
+        }
+        return listMemberRecords;       
+    }
+
     
 }

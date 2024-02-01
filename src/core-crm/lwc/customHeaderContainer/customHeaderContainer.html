@@ -1,15 +1,18 @@
 <template>
-  <div
-    class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
+  <div class="slds-grid slds-wrap slds-align_absolute-center slds-text-align_center">
     <c-custom-header-buttons
       record-id={recordId}
-      selected-rows={selectedRows}
+      selected-rows={selectedRecords}
+      onhandlerefresh={handleRefresh}
       columns-data={columnsData}
       columns-name={columnsName}>
     </c-custom-header-buttons>
   </div>
-  <c-custom-header-datatable
+    <c-custom-header-datatable
     record-id={recordId}
+    onselectedrows={handleSelectedRows}
+    is-refresh={isRefresh}
+    onhandlerefresh={handleRefresh}
     onlistdatahandler={listDataHandler}
     onlistdatacolumns={newColumnsList}>
   </c-custom-header-datatable> 

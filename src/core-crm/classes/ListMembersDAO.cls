@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | carl.alvin.cabiles             | September 14, 2023    | DEPP-6510              | Created file                 |
+      | kenneth.f.alsay                | January 26, 2024      | DEPP-6964              | Added getListMembersByStatus |
  */
 public inherited sharing class ListMembersDAO extends DmlBase implements IListMembersDAO{
     public static final String ACCEPTED_ACTIVITY_STATUS = 'Accepted';
@@ -29,6 +30,19 @@ public inherited sharing class ListMembersDAO extends DmlBase implements IListMe
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
         );
+    }
+
+    public List<List_Member__c> getListMembersByStatus(
+        Integer recordCount, 
+        AccessLevel accessLevel,
+        String status){
+        return Database.query(
+            'SELECT Id, List_Member_Status__c ' +
+                'FROM List_Member__c ' +
+                'WHERE List_Member_Status__c =: status ' +
+                ' LIMIT :recordCount',
+                accessLevel
+        );        
     }
 
     public static IListMembersDAO newInstance()
