@@ -17,7 +17,7 @@
   *    | eccarius.munoz                 | October 22, 2023      | DEPP-6957              | Added handling to run calculation in sync      | 
   *    |                                |                       |                        | process if there's already an existing queue.  | 
   */
-  public with sharing class CaseLeadScoreHelper {
+  public with sharing class CaseLeadScoreHelper{ 
 
     private static Map<Id,Case> domesticUnderGradMap = new Map<Id,Case>();
     private static Map<Id,Case> domesticPostGradMap = new Map<Id,Case>();
