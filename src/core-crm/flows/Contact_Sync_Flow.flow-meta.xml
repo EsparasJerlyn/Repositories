@@ -1,132 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
-    <assignments>
-        <name>Sync_to_MC_False</name>
-        <label>Sync to MC False</label>
-        <locationX>50</locationX>
-        <locationY>431</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.Sync_to_MC__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Check_If_Sync_To_MC_Is_Changed</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Sync_to_MC_True</name>
-        <label>Sync to MC True</label>
-        <locationX>50</locationX>
-        <locationY>1031</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.Sync_to_MC__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <decisions>
-        <name>Check_If_Do_Not_Sync_To_MC_Override_Is_Changed</name>
-        <label>Check If Do Not Sync To MC Override Is Changed</label>
-        <locationX>182</locationX>
-        <locationY>323</locationY>
-        <defaultConnector>
-            <targetReference>Check_If_Sync_To_MC_Is_Changed</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Do_Not_Sync_To_MC_Override_Is_Changed</name>
-            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record__Prior.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior.Do_Not_Sync_To_MC_Override__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>$Record.Do_Not_Sync_To_MC_Override__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Do_Not_Sync_To_MC_Override__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Sync_to_MC_False</targetReference>
-            </connector>
-            <label>Do Not Sync To MC Override Is Changed</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_If_Email_Or_MobilePhone_Is_Changed</name>
-        <label>Check If Email Or MobilePhone Is Changed</label>
-        <locationX>182</locationX>
-        <locationY>923</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Email_Or_MobilePhone_Is_Changed</name>
-            <conditionLogic>(1 OR 2 OR 3) AND (4 OR 5)</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record__Prior.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior.Email</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>$Record.Email</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record__Prior.MobilePhone</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>$Record.MobilePhone</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Email</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.MobilePhone</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Sync_to_MC_True</targetReference>
-            </connector>
-            <label>Email Or MobilePhone Is Changed</label>
-        </rules>
-    </decisions>
     <decisions>
         <name>Check_If_Sync_To_MC_Is_Changed</name>
         <label>Check If Sync To MC Is Changed</label>
         <locationX>182</locationX>
-        <locationY>623</locationY>
-        <defaultConnector>
-            <targetReference>Check_If_Email_Or_MobilePhone_Is_Changed</targetReference>
-        </defaultConnector>
+        <locationY>323</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Sync_To_MC_Is_Changed</name>
@@ -184,10 +63,7 @@
         <name>Sync_Contact_To_Account</name>
         <label>Sync Contact To Account</label>
         <locationX>50</locationX>
-        <locationY>731</locationY>
-        <connector>
-            <targetReference>Check_If_Email_Or_MobilePhone_Is_Changed</targetReference>
-        </connector>
+        <locationY>431</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -215,7 +91,7 @@
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Check_If_Do_Not_Sync_To_MC_Override_Is_Changed</targetReference>
+            <targetReference>Check_If_Sync_To_MC_Is_Changed</targetReference>
         </connector>
         <object>Contact</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>

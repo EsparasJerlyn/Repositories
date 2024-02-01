@@ -163,9 +163,11 @@
     <pluralLabel>Engagements</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
+        <searchResultsAdditionalFields>Engagement_Code__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>RECORDTYPE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Stage_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>OWNER.FIRST_NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>OWNER.LAST_NAME</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
         <excludedStandardButtons>New</excludedStandardButtons>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>

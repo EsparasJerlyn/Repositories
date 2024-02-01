@@ -10,7 +10,7 @@
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | roy.ninos.s.regala             | Aug 21, 2023          | DEPP-5704              | Created file                   |
  */
-public with sharing class FutureStudentJourneyStatusHelper {
+public with sharing class FutureStudentJourneyStatusHelper { 
     
     /**
      * sets the future journey status of the contact based on contact and application fields

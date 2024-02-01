@@ -13,8 +13,7 @@
  */
 trigger MarketingSegmentationTrigger on Marketing_Segmentation__c(
   after insert,
-  after update,
-  before update
+  after update
 ) {
   TriggerDispatcher.dispatch(
     TriggerHandlerFactory.getHandlersForSObjectType('Marketing_Segmentation__c'),

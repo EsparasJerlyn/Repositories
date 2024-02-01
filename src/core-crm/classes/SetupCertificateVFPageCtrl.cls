@@ -9,7 +9,8 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | April 28, 2022        | DEPP-1478            | Created file                 |  
-      | marygrace.li@qut.edu.au   | June 14, 2022         | DEPP-3066            | Added get font size          |         
+      | marygrace.li@qut.edu.au   | June 14, 2022         | DEPP-3066            | Added get font size          |
+      | eugene.andrew.abuan       | November 16, 2023     | DEPP-7010            | Added studentName as dynamic |         
       |                           |                       |                      |                              | 
  */
 public with sharing class SetupCertificateVFPageCtrl {
@@ -18,6 +19,7 @@ public with sharing class SetupCertificateVFPageCtrl {
     public string leftSignature {get;set;}
     public string rightSignature {get;set;}
     public string facilitatorName {get;set;}
+    public string studentName {get;set;}
     public hed__Course_Enrollment__c student {get;set;}
     public string product {get;set;}
     public string dateToday {get;set;}
@@ -25,6 +27,7 @@ public with sharing class SetupCertificateVFPageCtrl {
     public string endDate {get;set;}
     public string fontSize {get;set;}
     public string facilitatorFontSize {get;set;}
+    public string studentNameFontSize {get;set;}
     private static List<String> facilitatorTitle = System.Label.LWC_List_FacilitatorTitle.split(',');
     
     public SetupCertificateVFPageCtrl() {
@@ -133,10 +136,12 @@ public with sharing class SetupCertificateVFPageCtrl {
             this.facilitatorName = this.student.hed__Course_Offering__r.Primary_Facilitator__r.hed__Contact__r.Salutation + ' ' + this.student.hed__Course_Offering__r.Primary_Facilitator__r.First_Name__c + ' ' + this.student.hed__Course_Offering__r.Primary_Facilitator__r.Last_Name__c;
         }
         
+        this.studentName = this.student.First_Name__c + ' ' + this.student.Last_Name__c;
 
         //set font size
         this.fontSize = getFontSize(this.student.hed__Course_Offering__r.hed__Course__r.Name.length());
         this.facilitatorFontSize = getFontSize(this.facilitatorName.length());
+        this.studentNameFontSize = getFontSize(this.studentName.length());
 
     }
 
@@ -161,9 +166,13 @@ public with sharing class SetupCertificateVFPageCtrl {
         }
 
         this.facilitatorName = this.student.Program_Offering__r.hed_Program_Plan__r.Facilitated_By__c;
+        this.studentName = this.student.First_Name__c + ' ' + this.student.Last_Name__c;
+
         //set font size
         this.fontSize = getFontSize(this.student.Program_Offering__r.hed_Program_Plan__r.Name.length());
         this.facilitatorFontSize = getFontSize(this.facilitatorName.length());
+        this.studentNameFontSize = getFontSize(this.studentName.length());
+
     }
 
     public static String getFontSize(Integer textLength){

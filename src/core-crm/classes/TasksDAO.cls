@@ -18,6 +18,8 @@
       | johanna.a.gibas                | Nov 16, 2023          | DEPP-7118              | Replaced Closed - Contacted with               |
       |                                |                       |                        |     Closed - No Further Action Required        |
       | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Added WhoId in getCompletedTasksByTargetId     |
+      | mark.j.mahilum                 | Jan 25, 2024          | DEPP-7675              | Added FOR UPDATE to delete and update task that|
+      |                                |                       |                        | is getting unable to lock row issue            |
  */
 public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
 
@@ -54,7 +56,7 @@ public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
                 AND ActionCadenceStepTracker.ActionCadenceTrackerId IN: actionCadenceIds
                 AND Status IN: taskStatuses
             WITH SYSTEM_MODE
-            ORDER BY CompletedDateTime DESC
+            FOR UPDATE
         ];
     }
 
@@ -71,6 +73,7 @@ public inherited sharing class TasksDAO extends DmlBase implements ITasksDAO {
                 AND IsClosed = TRUE
                 AND ActionCadenceStepTracker.StepType = 'CreateTask'
             WITH SYSTEM_MODE
+            FOR UPDATE
         ];
     }
 }

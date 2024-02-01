@@ -58,6 +58,10 @@
     <picklistValues>
         <picklist>Closure_Code__c</picklist>
         <values>
+            <fullName>Agent Referred</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Invalid Enquiry</fullName>
             <default>false</default>
         </values>
@@ -66,11 +70,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Public - No Further Action</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Redirected</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Response Given</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tier 3 Referred</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -93,6 +93,12 @@ public inherited sharing class ContactService {
             .getApplicationsByContactIds(applicantIds, 'SYSTEM_MODE');
 
         for (hed__Application__c applications : applicationList) {
+
+            //do not include in active QTAC applications as existing active applications related to the contact
+            if(applications.RecordTypeId == ApplicationsDAO.QTAC_RECTYPE_ID && applications.Is_Active__c == false){
+                continue;
+            }
+
             if (!applicationMap.containsKey(applications.hed__Applicant__c)) {
                 applicationMap.put(applications.hed__Applicant__c, new List<hed__Application__c>());
             }

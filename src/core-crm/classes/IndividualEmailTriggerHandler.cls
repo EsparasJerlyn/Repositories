@@ -11,7 +11,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | eccarius.munoz                 | October 18, 2023      | DEPP-5866              | Created file                 |
  */
-public with sharing class IndividualEmailTriggerHandler implements Disableable, AfterInsert, BeforeUpdate {
+public with sharing class IndividualEmailTriggerHandler implements Disableable, AfterInsert, AfterUpdate {
 
     /**
      * @description beforeInsert trigger event
@@ -22,11 +22,11 @@ public with sharing class IndividualEmailTriggerHandler implements Disableable, 
     }
 
     /**
-     * @description before update
+     * @description after update
      * @param newItems - Map of et4ae5__IndividualEmailResult__c.Trigger.new
      * @param oldItems - Map of et4ae5__IndividualEmailResult__c.Trigger.old
      */
-    public void beforeUpdate(
+    public void afterUpdate(
         Map<Id, SObject> newItems,
         Map<Id, SObject> oldItems
     ){
