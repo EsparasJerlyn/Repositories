@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                 |
- *    | kenneth.f.alsay                | September 25, 2023    | DEPP-6629              | added getRecordsLikeName     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
+ *    | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                           |
+ *    | kenneth.f.alsay                | September 25, 2023    | DEPP-6629              | added getRecordsLikeName               |
+ *    | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords |
  */
 public inherited sharing class CourseOfferingsDAO extends DmlBase implements ICourseOfferingsDAO{
 
@@ -31,5 +32,15 @@ public inherited sharing class CourseOfferingsDAO extends DmlBase implements ICo
 			WHERE Name LIKE :name
             WITH USER_MODE
         ];
+    }
+
+    public Database.QueryLocator queryLocatorGetPastActiveRecords() 
+    {
+        String query = 
+        ' SELECT Id, hed__Start_Date__c, hed__End_Date__c, IsActive__c' +
+        ' FROM hed__Course_Offering__c' + 
+        ' WHERE IsActive__c = true AND hed__End_Date__c <= TODAY';
+
+        return Database.getQueryLocator(query);
     }
 }

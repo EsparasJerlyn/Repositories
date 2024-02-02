@@ -751,6 +751,22 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
     private static void getDomesticDeferredOfferToAcceptanceForEntryTest(){
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
+            
+            List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            for(Nurture_Track_Configuration__c nurtureTrackConfig : initialNurtureList){
+                nurtureList.add(
+                    new Nurture_Track_Configuration__c(
+                        Id = nurtureTrackConfig.Id,
+                        Cadence_Name__c = 'Domestic Deferred Offer to Acceptance',
+                        Key_Date_Offset_Days__c = 35,
+                        Status__c = 'Active',
+                        Criteria_Type__c = 'Entry'
+                    )
+                );
+            }
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE); 
+
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = '';
@@ -1428,13 +1444,22 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
 
             Nurture_Track_Configuration__c ntc = new Nurture_Track_Configuration__c(
-                        Cadence_Name__c = 'Domestic Strong Interest Pre-Application (Automated)',
-                        Lead_Score_Threshold__c = 1,
+                        Cadence_Name__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+                        Lead_Score_Threshold__c = -1,
                         Criteria_Type__c = 'Entry',
                         Enquiry_Category_L1__c = 'Applying for a course',
                         Status__c = 'Active'
                     );
             nurtureList.add(ntc);
+            
+            Nurture_Track_Configuration__c ntc1 = new Nurture_Track_Configuration__c(
+                        Cadence_Name__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                        Lead_Score_Threshold__c = -1,
+                        Criteria_Type__c = 'Entry',
+                        Enquiry_Category_L1__c = 'Applying for a course',
+                        Status__c = 'Active'
+                    );
+            nurtureList.add(ntc1);
             
             NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
             
@@ -1458,7 +1483,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contactList));
             // assert
             System.assertEquals(
-                'Domestic Strong Interest Pre-Application (Automated)',
+                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
                 processContacts[0].Calculated_Cadence__c, 
                 'Error, wrong calculated cadence value.'
             );
@@ -1473,22 +1498,22 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
 
             nurtureList.add(new Nurture_Track_Configuration__c(
-                        Cadence_Name__c = 'Domestic Strong Interest Pre-Application',
-                        Lead_Score_Threshold__c = 180,
+                        Cadence_Name__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                        Lead_Score_Threshold__c = -1,
                         Criteria_Type__c = 'Entry',
                         Enquiry_Category_L1__c = 'Applying for a course',
                         Status__c = 'Active'
                     ));
 
             nurtureList.add(new Nurture_Track_Configuration__c(
-                        Cadence_Name__c = 'Domestic Strong Interest Pre-Application (Automated)',
-                        Lead_Score_Threshold__c = 180,
+                        Cadence_Name__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+                        Lead_Score_Threshold__c = -1,
                         Criteria_Type__c = 'Entry',
                         Enquiry_Category_L1__c = 'Applying for a course',
                         Status__c = 'Active'
                     ));
 
-            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList,false,AccessLevel.USER_MODE);
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList,false,AccessLevel.SYSTEM_MODE);
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
             Case caseRec = new Case (
                     ContactId = contactList[0].Id,
@@ -1518,7 +1543,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             
             // assert
             System.assertEquals(
-                'Domestic Strong Interest Pre-Application',
+                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
                 processContacts[0].Calculated_Cadence__c, 
                 'Error, wrong calculated cadence value.'
             );
@@ -1533,7 +1558,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-            newContacts[0].Calculated_Cadence__c = 'Domestic Strong Interest Pre-Application (Automated)';
+            newContacts[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
         
             // create application
@@ -1565,7 +1590,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
-            newContacts[0].Calculated_Cadence__c = 'Domestic Strong Interest Pre-Application';
+            newContacts[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
         
             // create application

@@ -87,6 +87,7 @@ export default class ManageRegistrationSection extends NavigationMixin(Lightning
     @api noOfCoachingSessions;
     @api productCategory;
     @api maxParticipants;
+    @api isChildOfPrescribedProgram;
 
     searchField = '';
     picklistValue = '';

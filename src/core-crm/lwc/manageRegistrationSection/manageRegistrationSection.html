@@ -7,13 +7,15 @@
         </lightning-layout-item>
         <lightning-layout-item class="slds-size_1-of-2 slds-p-right_small slds-p-bottom_medium slds-float_right">
            <div class="slds-float_right">
-            <lightning-button
-                variant="brand"
-                label="Add Registration"
-                icon-name="utility:add"
-                onclick={handleAddContact}
-                disabled={disabled}>
-            </lightning-button>
+            <template if:false={isChildOfPrescribedProgram}>
+                <lightning-button
+                    variant="brand"
+                    label="Add Registration"
+                    icon-name="utility:add"
+                    onclick={handleAddContact}
+                    disabled={disabled}>
+                </lightning-button>
+            </template>
             <lightning-button
                 class="slds-p-left_small"
                 variant="brand"

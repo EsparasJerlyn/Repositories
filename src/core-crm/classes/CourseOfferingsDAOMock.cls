@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               		|
-      |--------------------------------|-----------------------|------------------------|-----------------------------------|
-      | eugene.andrew.abuan            | September 18, 2023    | DEPP-5483              | Created file                 		|
-	  | kenneth.f.alsay                | September 26, 2023    | DEPP-6629              | Added method getRecordsLikeName 	|                                                           |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------|
+      | eugene.andrew.abuan            | September 18, 2023    | DEPP-5483              | Created file                           |
+	  | kenneth.f.alsay                | September 26, 2023    | DEPP-6629              | Added method getRecordsLikeName        |
+      | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords |
  */
 @isTest
 public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implements ICourseOfferingsDAO {
@@ -36,5 +37,9 @@ public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implem
         }
 
 		return courseOfferingList;
+    }
+
+    public Database.QueryLocator queryLocatorGetPastActiveRecords() {
+        return null;
     }
 }
