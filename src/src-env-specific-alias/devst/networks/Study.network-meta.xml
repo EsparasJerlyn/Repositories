@@ -28,7 +28,7 @@
     <enableUpDownVote>false</enableUpDownVote>
     <forgotPasswordTemplate>unfiled$public/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
-    <logoutUrl></logoutUrl>
+    <logoutUrl>https://qut360--devst.sandbox.my.site.com/study/s</logoutUrl>
     <networkMemberGroups>
         <permissionSet>OPE_Catalogue</permissionSet>
         <permissionSet>Corporate_Partner</permissionSet>
