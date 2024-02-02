@@ -15,6 +15,13 @@
         <value>0 0 * * * ?</value>
     </labels>
     <labels>
+        <fullName>Course_Offering_End_Date_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Course Offering End Date Cron Expression</shortDescription>
+        <value>0 0 0 * * ?</value>
+    </labels>
+    <labels>
         <fullName>Email_Trigger_Cron_Expression</fullName>
         <language>en_US</language>
         <protected>false</protected>
