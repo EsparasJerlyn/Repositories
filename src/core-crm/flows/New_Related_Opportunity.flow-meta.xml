@@ -54,7 +54,7 @@
         <name>Add_Clone_IP_Management_Relationship_To_Insert</name>
         <label>Add Clone IP Management Relationship To Insert</label>
         <locationX>1194</locationX>
-        <locationY>4622</locationY>
+        <locationY>4514</locationY>
         <assignmentItems>
             <assignToReference>IP_Management_Relationship_To_Insert</assignToReference>
             <operator>Add</operator>
@@ -70,7 +70,7 @@
         <name>Add_Current_Item_to_Pure_Projects_to_Create</name>
         <label>Add Current Item to Pure Projects to Create</label>
         <locationX>1194</locationX>
-        <locationY>3866</locationY>
+        <locationY>3758</locationY>
         <assignmentItems>
             <assignToReference>PureProjectsToCreate</assignToReference>
             <operator>Add</operator>
@@ -86,7 +86,7 @@
         <name>Add_New_Financial_Split_To_Insert</name>
         <label>Add New Financial Split To Insert</label>
         <locationX>1194</locationX>
-        <locationY>2678</locationY>
+        <locationY>2570</locationY>
         <assignmentItems>
             <assignToReference>Financial_Splits_To_Insert</assignToReference>
             <operator>Add</operator>
@@ -102,7 +102,7 @@
         <name>Assign_Cloned_Contextual_Roles</name>
         <label>Assign Cloned Contextual Roles</label>
         <locationX>1458</locationX>
-        <locationY>2678</locationY>
+        <locationY>2570</locationY>
         <assignmentItems>
             <assignToReference>ContextualRolesToCreate</assignToReference>
             <operator>Add</operator>
@@ -166,7 +166,7 @@
         <name>Clone_Commercialisation_Pure_Project</name>
         <label>Clone Commercialisation Pure Project</label>
         <locationX>1194</locationX>
-        <locationY>3758</locationY>
+        <locationY>3650</locationY>
         <assignmentItems>
             <assignToReference>Loop_Through_Commercialisation_Pure_Projects.Opportunity__c</assignToReference>
             <operator>Assign</operator>
@@ -190,7 +190,7 @@
         <name>Clone_Contextual_Roles</name>
         <label>Clone Contextual Roles</label>
         <locationX>1458</locationX>
-        <locationY>2570</locationY>
+        <locationY>2462</locationY>
         <assignmentItems>
             <assignToReference>Loop_Through_Child_Contextual_Roles.Engagement__c</assignToReference>
             <operator>Assign</operator>
@@ -234,7 +234,7 @@
         <name>Clone_IP_Management_Relationship</name>
         <label>Clone IP Management Relationship</label>
         <locationX>1194</locationX>
-        <locationY>4514</locationY>
+        <locationY>4406</locationY>
         <assignmentItems>
             <assignToReference>Loop_Through_IP_Management_Relationships.Engagement__c</assignToReference>
             <operator>Assign</operator>
@@ -281,7 +281,7 @@
         <name>Create_Financial_Split</name>
         <label>Create Financial Split</label>
         <locationX>1194</locationX>
-        <locationY>2570</locationY>
+        <locationY>2462</locationY>
         <assignmentItems>
             <assignToReference>Financial_Split_To_Add.Funding_Body__c</assignToReference>
             <operator>Assign</operator>
@@ -475,7 +475,7 @@
         <name>Is_Contextual_Roles_Collection_Not_Empty</name>
         <label>Is Contextual Roles Collection Not Empty</label>
         <locationX>1106</locationX>
-        <locationY>2954</locationY>
+        <locationY>2846</locationY>
         <defaultConnector>
             <targetReference>Is_Financial_Split_Collection_Not_Empty</targetReference>
         </defaultConnector>
@@ -500,7 +500,7 @@
         <name>Is_Financial_Split_Collection_Not_Empty</name>
         <label>Is Financial Split Collection Not Empty</label>
         <locationX>1106</locationX>
-        <locationY>3302</locationY>
+        <locationY>3194</locationY>
         <defaultConnector>
             <targetReference>Loop_Through_Commercialisation_Pure_Projects</targetReference>
         </defaultConnector>
@@ -525,7 +525,7 @@
         <name>Is_IP_Management_Relationship_Collection_Empty</name>
         <label>Is IP Management Relationship Collection Empty</label>
         <locationX>1106</locationX>
-        <locationY>4814</locationY>
+        <locationY>4706</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Not_Empty4</name>
@@ -547,7 +547,7 @@
         <name>Is_Pure_Project_Collection_Not_Empty</name>
         <label>Is Pure Project Collection Not Empty</label>
         <locationX>1106</locationX>
-        <locationY>4058</locationY>
+        <locationY>3950</locationY>
         <defaultConnector>
             <targetReference>Loop_Through_IP_Management_Relationships</targetReference>
         </defaultConnector>
@@ -572,7 +572,7 @@
         <name>Is_Record_Funding_Bodies</name>
         <label>Is Record Funding Bodies</label>
         <locationX>1326</locationX>
-        <locationY>2462</locationY>
+        <locationY>2354</locationY>
         <defaultConnector>
             <targetReference>Clone_Contextual_Roles</targetReference>
         </defaultConnector>
@@ -618,7 +618,7 @@
         <name>Loop_Through_Child_Contextual_Roles</name>
         <label>Loop Through Child Contextual Roles</label>
         <locationX>1106</locationX>
-        <locationY>2354</locationY>
+        <locationY>2246</locationY>
         <collectionReference>Get_Child_Contextual_Roles</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -632,7 +632,7 @@
         <name>Loop_Through_Commercialisation_Pure_Projects</name>
         <label>Loop Through Commercialisation Pure Projects</label>
         <locationX>1106</locationX>
-        <locationY>3650</locationY>
+        <locationY>3542</locationY>
         <collectionReference>Get_Commercialisation_Pure_Projects</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -646,7 +646,7 @@
         <name>Loop_Through_IP_Management_Relationships</name>
         <label>Loop Through IP Management Relationships</label>
         <locationX>1106</locationX>
-        <locationY>4406</locationY>
+        <locationY>4298</locationY>
         <collectionReference>Get_Related_IP_Management_Relationship_Records</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -679,7 +679,7 @@
         <name>Create_Contextual_Roles</name>
         <label>Create Contextual Roles</label>
         <locationX>842</locationX>
-        <locationY>3062</locationY>
+        <locationY>2954</locationY>
         <connector>
             <targetReference>Is_Financial_Split_Collection_Not_Empty</targetReference>
         </connector>
@@ -693,7 +693,7 @@
         <name>Create_Financial_Splits</name>
         <label>Create Financial Splits</label>
         <locationX>842</locationX>
-        <locationY>3410</locationY>
+        <locationY>3302</locationY>
         <connector>
             <targetReference>Loop_Through_Commercialisation_Pure_Projects</targetReference>
         </connector>
@@ -707,7 +707,7 @@
         <name>Create_IP_Management_Relationship_Records</name>
         <label>Create IP Management Relationship Records</label>
         <locationX>842</locationX>
-        <locationY>4922</locationY>
+        <locationY>4814</locationY>
         <faultConnector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
@@ -720,7 +720,7 @@
         <locationX>1106</locationX>
         <locationY>2138</locationY>
         <connector>
-            <targetReference>Redirect_to_Parent</targetReference>
+            <targetReference>Loop_Through_Child_Contextual_Roles</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -787,7 +787,7 @@
         <name>Create_Pure_Project_Records</name>
         <label>Create Pure Project Records</label>
         <locationX>842</locationX>
-        <locationY>4166</locationY>
+        <locationY>4058</locationY>
         <connector>
             <targetReference>Loop_Through_IP_Management_Relationships</targetReference>
         </connector>
@@ -1174,22 +1174,6 @@
         </connector>
     </start>
     <status>Active</status>
-    <subflows>
-        <name>Redirect_to_Parent</name>
-        <label>Redirect to Parent</label>
-        <locationX>1106</locationX>
-        <locationY>2246</locationY>
-        <connector>
-            <targetReference>Loop_Through_Child_Contextual_Roles</targetReference>
-        </connector>
-        <flowName>Detail_Page_Navigation</flowName>
-        <inputAssignments>
-            <name>RecordTypeId</name>
-            <value>
-                <elementReference>ParentId</elementReference>
-            </value>
-        </inputAssignments>
-    </subflows>
     <variables>
         <name>Clone_Records_Owner_Id</name>
         <dataType>String</dataType>
