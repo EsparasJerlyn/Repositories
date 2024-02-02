@@ -360,6 +360,7 @@
         <excludedStandardButtons>MassRemoveFromCadence</excludedStandardButtons>
         <excludedStandardButtons>SendListEmailAction</excludedStandardButtons>
         <excludedStandardButtons>MassCreateMyList</excludedStandardButtons>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Preferred_Full_Name__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Preferred_Given_Name__c</lookupDialogsAdditionalFields>
