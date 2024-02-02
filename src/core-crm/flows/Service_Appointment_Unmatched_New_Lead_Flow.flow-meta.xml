@@ -213,6 +213,18 @@
                     </defaultValue>
                     <fieldText>First Name</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>Last_Name</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Get_Service_Appointment_Record.Web_Last_Name__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Last Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
@@ -224,6 +236,18 @@
                     </defaultValue>
                     <fieldText>Mobile Locale</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>Mobile_No_Locale</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Get_Service_Appointment_Record.Web_Mobile_No_Locale__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Mobile No Locale</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
                 <fields>
@@ -249,38 +273,7 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Service_Appointment_Unmatched_New_Lead_Flow_Section1_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>Last_Name</name>
-                    <dataType>String</dataType>
-                    <defaultValue>
-                        <elementReference>Get_Service_Appointment_Record.Web_Last_Name__c</elementReference>
-                    </defaultValue>
-                    <fieldText>Last Name</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <isRequired>true</isRequired>
-                </fields>
-                <fields>
-                    <name>Mobile_No_Locale</name>
-                    <dataType>String</dataType>
-                    <defaultValue>
-                        <elementReference>Get_Service_Appointment_Record.Web_Mobile_No_Locale__c</elementReference>
-                    </defaultValue>
-                    <fieldText>Mobile No Locale</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <isRequired>false</isRequired>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
+                        <stringValue>12</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
