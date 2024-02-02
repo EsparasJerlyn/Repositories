@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Service_Resource_Domestic_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Service Resource Domestic Sharing</label>
+        <sharedTo>
+            <group>Future_Students_Domestic</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Future Student - Domestic</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Service_Resource_International_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Service Resource International Sharing</label>
+        <sharedTo>
+            <group>Future_Students_International</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Future Student - International</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
     <sharingGuestRules>
         <fullName>Guest_User_Service_Resource_Share</fullName>
         <accessLevel>Read</accessLevel>
