@@ -53,7 +53,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         'Mailing_Address_Country__c'
     };
 
-    public static void detectLeadDuplicates(Map<Id,Contact> newItems){
+    public static Set<Id> detectLeadDuplicates(Map<Id,Contact> newItems){
         Map<String, Contact> contactsMap = new Map<String, Contact>();
         Set<Id> contactIdSet = new Set<Id>();
         List<Lead> leads = new List<Lead>();
@@ -63,6 +63,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         List<Marketing_Segmentation__c> contactMarketingSegmentations = new List<Marketing_Segmentation__c>();
         List<Marketing_Segmentation__c> marketingSegmentations = new List<Marketing_Segmentation__c>();
         List<Marketing_Course_Application__c> marketingCourseApps = new List<Marketing_Course_Application__c>();
+        Set<Id> contactWithNewMarketingSegmentations = new Set<Id>();
 
         for(Contact con : newItems.values()){
             if(!String.isBlank(con.Email)){
@@ -240,6 +241,7 @@ public without sharing class ContactWithMatchingLeadHelper {
                 for(Marketing_Segmentation__c m : marketingSegmentationsMap.get(lead.Id)){
                     sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
                     obj.put('Contact__c', contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id);
+                    contactWithNewMarketingSegmentations.add((Id)obj.get('Contact__c'));
                     for(String fieldName: MARKETING_SEGMENTATION_FIELDS){
                         if(m.get(fieldName) != null){
                             obj.put(fieldName, m.get(fieldName));
@@ -268,6 +270,8 @@ public without sharing class ContactWithMatchingLeadHelper {
         if(!marketingSegmentationToUpdate.isEmpty()){
             Database.update(marketingSegmentationToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
+
+        return contactWithNewMarketingSegmentations;
     }
 
     @Future
