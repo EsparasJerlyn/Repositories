@@ -176,6 +176,36 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Parent_Object_Record</name>
+        <label>Assign Parent Object Record</label>
+        <locationX>3097</locationX>
+        <locationY>1748</locationY>
+        <assignmentItems>
+            <assignToReference>ParentObjectRecord</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ParentEngagementId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ParentObjectRecord</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ParentOpportunityId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ParentObjectRecord</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ParentOpporunityOutcomeId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Redirect_to_Parent</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Partner_Modal_Title</name>
         <label>Assign Partner Modal Title</label>
         <locationX>1106</locationX>
@@ -1033,6 +1063,9 @@
         <label>Create Contextual Role Record</label>
         <locationX>3020</locationX>
         <locationY>1640</locationY>
+        <connector>
+            <targetReference>Assign_Parent_Object_Record</targetReference>
+        </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -3241,6 +3274,19 @@
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
+    <subflows>
+        <name>Redirect_to_Parent</name>
+        <label>Redirect to Parent</label>
+        <locationX>3097</locationX>
+        <locationY>1856</locationY>
+        <flowName>Detail_Page_Navigation</flowName>
+        <inputAssignments>
+            <name>RecordTypeId</name>
+            <value>
+                <elementReference>ParentObjectRecord</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <variables>
         <name>ContextualRoleToCreate</name>
         <dataType>SObject</dataType>
@@ -3300,6 +3346,13 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ParentObjectRecord</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
