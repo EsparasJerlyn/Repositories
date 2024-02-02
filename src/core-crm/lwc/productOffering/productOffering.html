@@ -147,6 +147,7 @@
                                                     field-name={childLayout.field}
                                                     required={childLayout.mandatory}
                                                     data-id="toValidate"
+                                                    disabled={childLayout.disabled}
                                                 ></lightning-input-field>
                                             </lightning-layout-item>
                                         </template>
@@ -469,6 +470,7 @@
                                         </div>               
                                     </lightning-accordion-section>
                                 </template>
+                            </template>  
                                 <!--Manage Registrations Section-->
                                 <lightning-accordion-section name="manageRegistrations" label="Manage Registrations" class="nested-accordion-section">
                                     <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
@@ -484,9 +486,11 @@
                                             onaddedregistrant={handleRefreshData}
                                             product-category={productCategory}
                                             max-participants={maxParticipants}
+                                            is-child-of-prescribed-program={childOfPrescribedProgram}
                                         ></c-manage-registration-section>                    
                                     </div> 
                                 </lightning-accordion-section>
+                            <template if:false={childOfPrescribedProgram}>
                                 <!--Manage Certificates Section-->
                                 <lightning-accordion-section name="manageCertificate" label="Manage Certificates" class="nested-accordion-section">
                                     <div class="slds-scrollable slds-p-bottom_medium slds-m-top_small">
