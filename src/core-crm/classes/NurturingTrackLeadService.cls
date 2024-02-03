@@ -236,9 +236,15 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             Boolean hasExistingCaseFromLead = existingCaseFromLead.contains(lead.Id);
             Boolean hasExistingCompletedCadence = leadsWithCompletedCadence.containsKey(lead.Id);
             Boolean hasExistingCompletedCadenceManual = leadsWithCompletedCadenceManual.containsKey(lead.Id);
+            Decimal threshold = NurturingTrackService.selectThreshold(
+                nurturingTrackWithThresholdForEntry, 
+                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                hasExistingCompletedCadence
+            );
             if ((!leadHasExistingApplication || hasInActiveApplication) && 
             hasExistingCaseFromLead && 
             !hasExistingCompletedCadenceManual &&
+            lead.Lead_Score__c >= threshold && // ... has a lead score above threshold...
             //make sure that there are no completed cadence against any succeeding cadence
             //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
             !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST))

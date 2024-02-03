@@ -9,7 +9,8 @@
       | eugene.andrew.abuan            | September 18, 2023    | DEPP-5483              | Created file                 		                    |
 	  | kenneth.f.alsay                | September 26, 2023    | DEPP-6629              | Added method getRecordsLikeName 	                    |
       | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIds                    |
-      | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingId |                                                            |
+      | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingId |
+      | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords                |                                                            |
  */
 @isTest
 public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implements ICourseOfferingsDAO {
@@ -66,5 +67,9 @@ public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implem
             }
         }
 		return courseOfferingList;
+    }
+    
+    public Database.QueryLocator queryLocatorGetPastActiveRecords() {
+        return null;
     }
 }
