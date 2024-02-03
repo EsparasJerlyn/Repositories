@@ -173,7 +173,7 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
 
     //decides to show edit buttons
     get showEditButton(){
-        return !this.isStatusCompleted;
+        return !this.childOfPrescribedProgram && !this.isStatusCompleted;
     }
 
     //disables print name badges
@@ -374,6 +374,13 @@ export default class ProductOffering extends NavigationMixin(LightningElement) {
                         this.childOfferingLayout.push(this.courseOfferingLayoutItem.rightColumn[i]);
                     }
                 }
+                this.childOfferingLayout = this.childOfferingLayout.map(layout => {
+                    let _layout = {...layout};
+                    if(layout && layout.field == 'LMS_Integration_Status__c' && layout.readOnly){
+                        _layout.disabled = true;
+                    }
+                    return _layout;
+                });
             }else if(this.childInfoMap.objectType == COURSE_OFFERING.objectApiName){
                 for(let i = 0; i < this.layoutItem.leftColumn.length; i++){
                     this.singleOfferingLayout.push(this.layoutItem.leftColumn[i]);

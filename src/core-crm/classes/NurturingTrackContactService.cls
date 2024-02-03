@@ -1023,23 +1023,24 @@ public with sharing class NurturingTrackContactService { //NOPMD
         String methodName,
         Set<Id> contactHasApplicationForEntry
     ) {
-
-        boolean isValidRecordType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
-        boolean isValidAdmissionProcess =   app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
-                                            app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC;
-        boolean isValidStartDateForProgram =    app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
-                                                app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-21) <=
-                                                System.today() &&
-                                                app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today();
-
-        boolean isAppForEntry = methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE &&
-                                isValidRecordType &&
-                                isValidAdmissionProcess &&
-                                app.Offer_Status__c == 'Offered' &&
-                                isValidStartDateForProgram;
-
-        if (isAppForEntry) {
-            contactHasApplicationForEntry.add(app.hed__Applicant__c);
+        boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+        boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        if (methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE) {
+            if (
+                (isSAMSLegacyRecType || isSAMSCiRecType) &&
+                (app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
+                app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC) &&
+                app.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
+                nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL) &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
+                    -(Integer) nurturingTrackWithOffSetDaysMap.get(
+                    NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL
+                )?.Key_Date_Offset_Days__c) <= System.today() &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
+            ) {
+                contactHasApplicationForEntry.add(app.hed__Applicant__c);
+            }
         }
     }
 
@@ -1639,11 +1640,18 @@ public with sharing class NurturingTrackContactService { //NOPMD
             Boolean hasExistingCompletedCadence = contactsWithCompletedCadence.containsKey(contact.Id);
             Boolean hasExistingCompletedCadenceManual = contactsWithCompletedCadenceManual.containsKey(contact.Id);
 
+            Decimal threshold = NurturingTrackService.selectThreshold(
+                nurturingTrackWithThresholdForEntry, 
+                NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
+                hasExistingCompletedCadence
+            );
+
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(contact.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(contact.Id)):new Set<String>();
             if ((!contacHasExistingApplication || hasInActiveApplication) && 
                 hasExistingCaseFromContact && 
                 !hasExistingCompletedCadenceManual &&
+                contact.Lead_Score__c >= threshold && // ... has a lead score above threshold...
                 //make sure that there are no completed cadence against any succeeding cadence
                 //this should return true if one of the succeeding cadence is already in completedCadencesCopy
                 !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST))

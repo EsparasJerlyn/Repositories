@@ -9,7 +9,8 @@
       | eugene.andrew.abuan            | September 18, 2023    | DEPP-6592              | Created file                                              |
       | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIdsTest                    |
       | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingIdTest |
-      |                                |                       |                        | getCourseOfferingByProgramOfferingIdNotEmptyTest          |                                                      |
+      |                                |                       |                        | getCourseOfferingByProgramOfferingIdNotEmptyTest          |
+      | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords                    |                                                       |
  */
 @isTest
 public with sharing class CourseOfferingsDAOTest {
@@ -111,4 +112,25 @@ public with sharing class CourseOfferingsDAOTest {
         Test.stopTest();
     }
 
-} 
+    static void getRecordsLikeName() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert( 
+                CourseOfferingsDAO.newInstance().getRecordsLikeName('test') != null,
+                'Course Offerings retrieved is null'
+            );
+        }
+    }
+
+    @isTest
+    static void queryLocatorGetPastActiveRecordsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                CourseOfferingsDAO.newInstance().queryLocatorGetPastActiveRecords() != null,
+                'Course Offerings retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
+}
