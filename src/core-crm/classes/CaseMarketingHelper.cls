@@ -43,8 +43,7 @@ public with sharing class CaseMarketingHelper {
                     caseRecord,
                     parentIdToMarketingSegmentation
                 );
-            }
-            if (isNewLeadLinked) {
+            }else if (isNewLeadLinked) {
                 mapMarketingSegmenationFields(
                     caseRecord.Lead__c,
                     caseRecord,
@@ -80,7 +79,7 @@ public with sharing class CaseMarketingHelper {
     private static void updateMarketingSegmentationRecords(
         Map<Id, Marketing_Segmentation__c> parentIdToMarketingSegmentation
     ) {
-        Map<Id, Marketing_Segmentation__c> marketingSegmentationsToUpdate = new Map<Id, Marketing_Segmentation__c>();
+        List<Marketing_Segmentation__c> marketingSegmentationsToUpdate = new List<Marketing_Segmentation__c>();
         Marketing_Segmentation__c marSegTemp;
 
         if (parentIdToMarketingSegmentation.keySet().isEmpty()) {
@@ -106,18 +105,23 @@ public with sharing class CaseMarketingHelper {
             if (containsContact) {
                 marSegTemp = parentIdToMarketingSegmentation.get(marSeg.Contact__c);
                 marSegTemp.Id = marSeg.Id;
-                marketingSegmentationsToUpdate.put(marSeg.Id, marSegTemp);
+                marketingSegmentationsToUpdate.add(marSegTemp);
             } else if (containsLead) {
                 marSegTemp = parentIdToMarketingSegmentation.get(marSeg.Lead__c);
                 marSegTemp.Id = marSeg.Id;
-                marketingSegmentationsToUpdate.put(marSeg.Id, marSegTemp);
+                marketingSegmentationsToUpdate.add(marSegTemp);
             }
         }
 
-        if (!marketingSegmentationsToUpdate.keySet().isEmpty()) {
+        if (!marketingSegmentationsToUpdate.isEmpty()) {
+
+            //this process remove duplicates by force
+            Map<Id,Marketing_Segmentation__c> uniqueMarketingSegmentations = new Map<Id,Marketing_Segmentation__c>();
+            uniqueMarketingSegmentations.putAll(marketingSegmentationsToUpdate);
+
             MarketingSegmentationsDAO.newInstance()
                 .updateRecords(
-                    marketingSegmentationsToUpdate.values(),
+                    uniqueMarketingSegmentations.values(),
                     false,
                     AccessLevel.SYSTEM_MODE
                 );
