@@ -1023,27 +1023,24 @@ public with sharing class NurturingTrackContactService { //NOPMD
         String methodName,
         Set<Id> contactHasApplicationForEntry
     ) {
-
-        boolean isValidRecordType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
-        boolean isValidAdmissionProcess =   app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
-                                            app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC;
-        boolean isValidStartDateForProgram =    app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
-                                                nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL) &&
-                                                app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
-                                                    -(Integer) nurturingTrackWithOffSetDaysMap.get(
-                                                    NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL
-                                                )?.Key_Date_Offset_Days__c) <=
-                                                System.today() &&
-                                                app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today();
-
-        boolean isAppForEntry = methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE &&
-                                isValidRecordType &&
-                                isValidAdmissionProcess &&
-                                app.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
-                                isValidStartDateForProgram;
-
-        if (isAppForEntry) {
-            contactHasApplicationForEntry.add(app.hed__Applicant__c);
+        boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
+        boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        if (methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE) {
+            if (
+                (isSAMSLegacyRecType || isSAMSCiRecType) &&
+                (app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
+                app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC) &&
+                app.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
+                nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL) &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
+                    -(Integer) nurturingTrackWithOffSetDaysMap.get(
+                    NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL
+                )?.Key_Date_Offset_Days__c) <= System.today() &&
+                app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
+            ) {
+                contactHasApplicationForEntry.add(app.hed__Applicant__c);
+            }
         }
     }
 
@@ -1644,7 +1641,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             Boolean hasExistingCompletedCadenceManual = contactsWithCompletedCadenceManual.containsKey(contact.Id);
 
             Decimal threshold = NurturingTrackService.selectThreshold(
-                nurturingTrackWithThresholdForEntry,
+                nurturingTrackWithThresholdForEntry, 
                 NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
                 hasExistingCompletedCadence
             );
