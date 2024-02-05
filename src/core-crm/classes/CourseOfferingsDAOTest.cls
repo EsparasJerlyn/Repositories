@@ -10,7 +10,7 @@
       | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIdsTest                    |
       | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingIdTest |
       |                                |                       |                        | getCourseOfferingByProgramOfferingIdNotEmptyTest          |
-      | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords                    |                                                       |
+      | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords                    |                                                      |
  */
 @isTest
 public with sharing class CourseOfferingsDAOTest {
