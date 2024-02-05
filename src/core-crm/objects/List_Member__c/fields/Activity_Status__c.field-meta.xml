@@ -4,7 +4,7 @@
     <description>The status of the Activity process.</description>
     <externalId>false</externalId>
     <label>Activity Status</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
