@@ -1275,7 +1275,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
             boolean isValidAdmissionProcess =   application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER && 
                                                 application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC;
 
-            boolean isAppForEntry = isValidRecordType &&
+            boolean isWithRelatedQTACApplication = hasRelatedQTACApplication(application);
+            boolean isAppForEntry = isValidRecordType && isWithRelatedQTACApplication &&
                                     domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
                                     application.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
                                     isValidAdmissionProcess &&
@@ -2314,5 +2315,18 @@ public with sharing class NurturingTrackContactService { //NOPMD
             }
         }
         return configsMap;
+    }
+
+    private static Boolean hasRelatedQTACApplication(hed__Application__c application){
+        Boolean response = false;
+        if(application.Related_QTAC_Application__c != null &&
+            (!ProgramEnrollmentsDAO.ENROLLMENT_STATUS_DONTKNOWYET_SET.contains(application.Program_Enrollment__r.Enrollment_Status__c) || 
+            (ProgramEnrollmentsDAO.ENROLLMENT_STATUS_DONTKNOWYET_SET.contains(application.Program_Enrollment__r.Enrollment_Status__c) && 
+            application.Program_Enrollment__r.Enrollment_Status_Date__c < System.today().addMonths(-12)))    
+        ){
+            response = true;
+        }
+
+        return response;
     }
 }

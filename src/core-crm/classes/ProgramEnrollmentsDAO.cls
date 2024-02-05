@@ -14,6 +14,20 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
 
+    public static final String ENROLLMENT_STATUS_EARLY_WITHDRAWN = 'Early Withdrawn';
+    public static final String ENROLLMENT_STATUS_WITHDRAWN = 'Withdrawn';
+    public static final String ENROLLMENT_STATUS_PASSED = 'Passed';
+    public static final String ENROLLMENT_STATUS_CONDITIONALLY_COMPLETE = 'Conditionally Complete';
+    public static final String ENROLLMENT_STATUS_COMPLETE = 'Complete';
+
+    public static final Set<String> ENROLLMENT_STATUS_DONTKNOWYET_SET = new Set<String> {
+        ENROLLMENT_STATUS_EARLY_WITHDRAWN,
+        ENROLLMENT_STATUS_WITHDRAWN,
+        ENROLLMENT_STATUS_PASSED,
+        ENROLLMENT_STATUS_CONDITIONALLY_COMPLETE,
+        ENROLLMENT_STATUS_COMPLETE
+    };
+
     public Schema.SObjectType getSObjectType(){
 		return hed__Program_Enrollment__c.SObjectType;
 	}
