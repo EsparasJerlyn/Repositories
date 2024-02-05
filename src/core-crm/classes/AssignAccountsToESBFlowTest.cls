@@ -12,11 +12,9 @@
 public class AssignAccountsToESBFlowTest {
     // * Description: This method is used to create initial data for the test methods
 
-    private static Integer numberOfRecords = 140;
-
     @TestSetup
     static void makeData() {
-        List<Account> accountList = TestDataFactory.createTestAccountRecordsWithRecordType(numberOfRecords, AccountsDAO.ACCT_BUSINESS_ORG_ID);
+        List<Account> accountList = TestDataFactory.createTestAccountRecordsWithRecordType(100, AccountsDAO.ACCT_BUSINESS_ORG_ID);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
     }   
     
@@ -25,12 +23,12 @@ public class AssignAccountsToESBFlowTest {
         User esbIntegrationUser = [SELECT Id FROM USER WHERE FirstName = 'ESB' AND LastName = 'Integration User' LIMIT 1];
         System.runAs(esbIntegrationUser){
             Set<String> accountName = new Set<String>();
-            for(Integer i=0; i<numberOfRecords ; i++){
+            for(Integer i=0; i<100 ; i++){
                 accountName.add('TestAccount' + i);
             }
             List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(accountName);
                 System.assertEquals(
-                numberOfRecords,
+                100,
                 [SELECT COUNT()
                 FROM Account
                 WHERE OwnerId = :esbIntegrationUser.Id

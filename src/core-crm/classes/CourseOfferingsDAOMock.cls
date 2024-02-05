@@ -68,7 +68,7 @@ public inherited sharing class CourseOfferingsDAOMock extends DmlBaseMock implem
         }
 		return courseOfferingList;
     }
-
+    
     public Database.QueryLocator queryLocatorGetPastActiveRecords() {
         return null;
     }

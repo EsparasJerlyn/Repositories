@@ -352,7 +352,7 @@
         <customTabListAdditionalFields>Preferred_Given_Name__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>CONTACT.PHONE1</customTabListAdditionalFields>
-        <excludedStandardButtons>PipelineInspection</excludedStandardButtons>
+        <excludedStandardButtons>IntelligenceView</excludedStandardButtons>
         <excludedStandardButtons>Import</excludedStandardButtons>
         <excludedStandardButtons>MassAddToCadence</excludedStandardButtons>
         <excludedStandardButtons>MassChangeTargetAssignee</excludedStandardButtons>
