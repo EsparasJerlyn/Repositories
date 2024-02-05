@@ -572,9 +572,6 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>Edit</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.Schedule_Appointment</value>
                             <visibilityRule>
                                 <criteria>

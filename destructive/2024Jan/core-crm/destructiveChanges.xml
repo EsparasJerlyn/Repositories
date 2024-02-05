@@ -22,5 +22,11 @@
         <!-- (End) DEPP-7673 -->
         <name>ValidationRule</name>
     </types>
+    <types>
+        <!--Start DEPP-7863-->
+        <members>Future_Student_Super_Agent_Domsetic</members>
+        <!--End DEPP-7863-->
+        <name>PermissionSetGroup</name>
+    </types>
     <version>59.0</version> 
 </Package>
