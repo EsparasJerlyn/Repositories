@@ -33,7 +33,8 @@
       | arsenio.jr.dayrit              | Nov. 20, 2023         | DEPP-7268              | Added Domestic First Offer to Acceptance entry and exit criteria              |
       | roy.nino.s.regala              | Jan. 03, 2024         | Shutdown PMD Fix       | Fix cyclomatic complexity issues                                              |
       | arsenio.jr.dayrit              | Jan. 10, 2024         | DEPP-6958              | Added Domestic Accepted and Admitted exit handling                            |
-      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Updated application list used in International Strong Interest exit criteria  | 
+      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Updated application list used in International Strong Interest exit criteria  |
+      | mark.j.mahilum                 | Feb 06, 2024          | DEPP-7862              | Updated entry and exit criteria of (Domestic Accepted not yet enrolled)       |
 
  */
 public with sharing class NurturingTrackContactService { //NOPMD
@@ -1007,12 +1008,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
         boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+        Boolean isProgramEnrollmentStatusNotAdmitted = (app.Program_Enrollment__c != NULL && app.Program_Enrollment__r.Enrollment_Status__c !='Admitted');
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
-                app.Application_Status__c != 'Admitted' &&
-                app.Is_Active__c &&
+                isProgramEnrollmentStatusNotAdmitted &&
                 app.Related_QTAC_Application__c != null &&
-                app.Related_QTAC_Application__r.Offer_Status__c == 'Accepted'
+                app.Related_QTAC_Application__r.Offer_Status__c == 'Accepted' &&
+                app.Related_QTAC_Application__r.Is_Active__c
             ) {
                 contactHasApplicationForEntry.add(app.hed__Applicant__c);
             }
@@ -1049,6 +1051,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         String methodName,
         Set<Id> contactHasApplicationForExit
     ) {
+        Boolean isProgramEnrollmentAdmitted = app.Program_Enrollment__r?.Enrollment_Status__c =='Admitted';
         boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
         boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
         Boolean hasCalculatedCadence =
@@ -1057,8 +1060,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         if (methodName == DOMESTIC_ACCEPTANCE_TO_ENROLLMENT) {
             if (
                 (isSAMSLegacyRecType || isSAMSCiRecType) &&
-                (app.Application_Status__c == 'Admitted' ||
-                app.Application_Status__c == 'Withdrawn' ||
+                (isProgramEnrollmentAdmitted ||
                 app.Offer_Status__c == 'Deferred') &&
                 hasCalculatedCadence
             ) {
