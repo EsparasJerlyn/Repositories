@@ -14,6 +14,7 @@
       | mark.j.mahilum                 | Jan 15, 2024          | DEPP-7519              | Added logic to turn off can nurture flag when    |
       |                                |                       |                        | the lead score is below threshold only if the    |
       |                                |                       |                        | QUT_Applicant flag is false                      |
+      | roy.nino.s.regala              | Feb 5, 2024           | DEPP-7742              | update to a without sharing context for site user|
  */
 public with sharing class LeadScoreDetailTriggerHelper {
     /**
@@ -47,8 +48,7 @@ public with sharing class LeadScoreDetailTriggerHelper {
         }
 
         if (!contactToUpdateMap.keySet().isEmpty()) {
-            ContactsDAO.newInstance()
-                .updateRecords(contactToUpdateMap.values(), false, AccessLevel.SYSTEM_MODE);
+            LeadScoreDetailWithoutSharingService.updateContactRecordsWithoutSharing(contactToUpdateMap.values());
         }
         if (!leadToUpdateMap.keySet().isEmpty()) {
             LeadsDAO.newInstance()
