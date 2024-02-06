@@ -14,6 +14,7 @@
  *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID1__c before deleting the field  |
       | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID__c field      |
  *    | kenneth.f.alsay                | November 7, 2023      | DEPP-7000              | Added Corporate Partnership record type|
+ *    | kenneth.f.alsay                | February 1, 2024      | DEPP-6938              | Added StageName to getRecordsBySetIds, getRecordsByStageName |
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
@@ -82,7 +83,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 
     public static List<Opportunity> getRecordsByStageName(String stageName) {
         return [ //NOPMD
-            SELECT Id
+            SELECT Id, StageName
             FROM Opportunity
             WHERE StageName = :stageName
             WITH USER_MODE
@@ -91,7 +92,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 
     public static List<Opportunity> getRecordsBySetIds(Set<Id> ids) {
         return [ //NOPMD
-            SELECT Id, Memo_Status__c, Memo_PDF_URL__c, OwnerId, Description, Pure_Project_ID__c, CreatedDate
+            SELECT Id, Memo_Status__c, Memo_PDF_URL__c, OwnerId, Description, Pure_Project_ID__c, CreatedDate, StageName
             FROM Opportunity
             WHERE ID IN :ids
             WITH USER_MODE

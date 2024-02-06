@@ -20,6 +20,10 @@
         <recordType>Opportunity.Corporate_Partnership</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Opportunity_Outcome__c-Corporate Partnership Outcome Page Layout</layout>
+        <recordType>Opportunity_Outcome__c.Corporate_Partnership</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Engagement_Opportunity__c-Alumni %26 Corporate Engagement Layout</layout>
         <recordType>Engagement_Opportunity__c.Alumni_Engagement</recordType>
     </layoutAssignments>
