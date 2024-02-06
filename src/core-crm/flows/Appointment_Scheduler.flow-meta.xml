@@ -276,7 +276,6 @@
   &quot;\&quot;WorkTypeGroupId\&quot;:\&quot;&quot; &amp; {!workTypeGroupId} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;SchedStartTime\&quot;:\&quot;&quot; &amp; SUBSTITUTE(SUBSTITUTE(TEXT({!ServiceAppointment.SchedStartTime}), &quot; &quot;, &quot;T&quot;), &quot;Z&quot;, &quot;&quot;) &amp; &quot;.000Z\&quot;,&quot; &amp;
   &quot;\&quot;SchedEndTime\&quot;:\&quot;&quot; &amp; SUBSTITUTE(SUBSTITUTE(TEXT({!ServiceAppointment.SchedEndTime}), &quot; &quot;, &quot;T&quot;), &quot;Z&quot;, &quot;&quot;) &amp; &quot;.000Z\&quot;,&quot; &amp;
-  &quot;\&quot;Description\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Description} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Subject\&quot;:\&quot;&quot; &amp; &quot;&quot; &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Phone\&quot;:\&quot;&quot; &amp;  {!ServiceAppointment.Phone} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Email\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Email} &amp; &quot;\&quot;,&quot; &amp; 
