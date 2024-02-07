@@ -14,6 +14,8 @@
       | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added test class coverage for getDomesticAccepted    | 
       | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Added new test method                                |
       |                                |                       |                        | getExitInternationalStrongInterestPreApplicationTest |
+      | mark.j.mahilum                 | Feb 06, 2024          | DEPP-7862              | Added test class data DomesticAcceptanceToEnrollment |
+      |                                |                       |                        | entry and exit method                                |
  */
 @isTest
 public with sharing class NurturingTrackContactServiceTest { //NOPMD
@@ -659,12 +661,18 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Availability_Start_Date__c = System.today();
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'New';
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
             newQtacApplications[0].Offer_Status__c = 'Accepted';
             ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
+            newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
@@ -684,6 +692,11 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = '';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'New';
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
             newQtacApplications[0].Offer_Status__c = 'Accepted';
@@ -692,6 +705,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
+            newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -713,9 +727,15 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Availability_Start_Date__c = System.today();
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Admitted');
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
+            newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -737,9 +757,15 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Availability_Start_Date__c = System.today();
             ProgramPlansDAO.newInstance().insertRecords(programList, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'Admitted');
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
+            newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
