@@ -7,7 +7,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | roy.nino.s.regala         | September 3, 2021     | DEP1-170,169,159,263 | Created file                 | 
-      |                           |                       |                      |                              | 
+      | sebastianne.k.trias       | February 5, 2024      | DEPP-7870            | Add a Metadata for OIE       | 
  */
 public with sharing class AddressInformationValidationCtrl {
 
@@ -20,10 +20,24 @@ public with sharing class AddressInformationValidationCtrl {
     public static AddressMetaData getLoqateMetaData(String objectApiName){
         try {
             AddressMetadata addressMetaData = new AddressMetadata();
-            Loqate_Component__mdt loqate = [SELECT Object_Type__c, Field_API_Address_Mapping__c, Country_Mapping__c, Address_Lookup_Field__c FROM loqate_Component__mdt WHERE Object_Type__c =: objectApiName LIMIT 1];
-                addressMetaData.fieldApiMapping = loqate.Field_API_Address_Mapping__c;
-                addressMetaData.countryMapping = loqate.Country_Mapping__c;
-                addressMetaData.addressLookup = loqate.Address_Lookup_Field__c;
+            Loqate_Component__mdt loqate;
+            String profileName=[Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name; 
+            List<Loqate_Component__mdt> loqateComponentList = [ 
+                SELECT Object_Type__c, Field_API_Address_Mapping__c, Country_Mapping__c, 
+                Address_Lookup_Field__c, Profile__c 
+                FROM loqate_Component__mdt 
+                WHERE Object_Type__c =: objectApiName ];
+            for(Loqate_Component__mdt loq : loqateComponentList){
+                if(loq.Profile__c == profileName){
+                    loqate = loq;
+                    break;
+                }else if(loq.Profile__c == null){
+                    loqate = loq;
+                }
+            }
+            addressMetaData.fieldApiMapping = loqate.Field_API_Address_Mapping__c;
+            addressMetaData.countryMapping = loqate.Country_Mapping__c;
+            addressMetaData.addressLookup = loqate.Address_Lookup_Field__c;
             return addressMetaData;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
