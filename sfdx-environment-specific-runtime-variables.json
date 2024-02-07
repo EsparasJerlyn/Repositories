@@ -5,7 +5,7 @@
   ],
   "env":{
     "prod":{
-      "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "qut@qut.edu.au",
+      "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "studyatqut@qut.edu.au",
       "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "qut.direct@qut.edu.au"
     },
     "stagingfc":{

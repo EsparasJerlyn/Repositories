@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoResponseRule>
+        <fullName>Future Student Domestic Acknowledgement</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <formula>AND(   
+ RecordType.DeveloperName = &apos;Domestic_Future_Student_Enquiry&apos;,
+ ISPICKVAL(Origin, &apos;Email&apos;),
+ ISNEW()
+)</formula>
+            <notifyCcRecipients>false</notifyCcRecipients>
+            <senderEmail>no-reply@qut.edu.au</senderEmail>
+            <senderName>no-reply</senderName>
+            <template>QUTDomesticFutureStudentTemplates/Domestic_Future_Student_Acknowledgement_1707205776929</template>
+        </ruleEntry>
+    </autoResponseRule>
+</AutoResponseRules>
