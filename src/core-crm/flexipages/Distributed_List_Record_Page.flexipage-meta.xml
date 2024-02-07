@@ -1052,26 +1052,33 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>tableColumnType</name>
+                    <value>Dynamic</value>
+                </componentInstanceProperties>
                 <componentName>customHeaderContainer</componentName>
                 <identifier>c_customHeaderContainer</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>In Progress</rightValue>
                     </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>customHeaderContainer</componentName>
-                <identifier>c_customHeaderContainer2</identifier>
-                <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Closed</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Distribute</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Qualification</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

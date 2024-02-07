@@ -14,7 +14,7 @@ public with sharing class ListsDAOTest {
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
     }
- 
+
     @isTest
     static void newInstanceTest() {
         Test.startTest();
@@ -54,6 +54,25 @@ public with sharing class ListsDAOTest {
             List<List__c> listRecList = ListsDAO.newInstance()
                 .getListRecordsByRelatedEngagementOpportunitySetIds(new Set<Id>(), AccessLevel.SYSTEM_MODE);
             System.assert(listRecList.isEmpty(), 'listRecList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getListByRecordIdNameTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            List<List__c> newListRecords = TestDataFactory.createListRecords(1);
+            ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.SYSTEM_MODE);
+
+            List<List__c> listRecListEmptyFilter = ListsDAO.newInstance()
+                .getListByRecordIdName(newListRecords[0].Id, '', AccessLevel.SYSTEM_MODE);
+
+            List<List__c> listRecListHasFilter = ListsDAO.newInstance()
+                .getListByRecordIdName(newListRecords[0].Id, 'test', AccessLevel.SYSTEM_MODE);
+
+            System.assert(listRecListEmptyFilter.isEmpty(), 'listRecList is not empty');
+            System.assert(listRecListHasFilter.isEmpty(), 'listRecList is not empty');
         }
         Test.stopTest();
     }

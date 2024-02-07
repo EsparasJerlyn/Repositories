@@ -329,7 +329,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
 
         return Database.query(
             'SELECT Id, Current_Learner_Verified__c, Alumni_Verified__c, Lead_Score__c, Future_Student_Journey_Status__c, ' +
-            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, ' +
+            'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, Name, ' +
             'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
             'Learner_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Work_SMS_Opt_In_DateTime__c, ' +
             'SMS_Opt_In_DateTime__c, '+ 
@@ -337,14 +337,28 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
             'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c, ' +
-            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c ' +
+            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
                 accessLevel
         );
     }
-    
+
+    public List<Contact> getAlumniPersonContactsBySetIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ){
+        return Database.query(
+            'SELECT Id, Alumni_Verified__c, Name, Email, ' +
+            'FirstName, LastName, Birthdate, MobilePhone ' +
+                'FROM Contact ' +
+                'WHERE Id IN: recordIds ' +
+                'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',
+                accessLevel
+        );
+    }
+
     public static List<Contact> getContactsForQTACAddressUpdate(
         Set<Id> qtacApplicantIdSet,
         AccessLevel accessLevel

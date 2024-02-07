@@ -398,27 +398,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;Identify FIELDS&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText2</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>New</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
                     <value>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; font-size: 14px; background-color: rgba(161, 189, 217, 0.08);&quot;&gt;Information in this tab will be available when you reach the Identify stage.&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
@@ -427,6 +406,23 @@
                     <criteria>
                         <leftValue>{!Record.Stage__c}</leftValue>
                         <operator>EQUAL</operator>
+                        <rightValue>New</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tableColumnType</name>
+                    <value>Dynamic</value>
+                </componentInstanceProperties>
+                <componentName>customHeaderContainer</componentName>
+                <identifier>c_customHeaderContainer</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>NE</operator>
                         <rightValue>New</rightValue>
                     </criteria>
                 </visibilityRule>
@@ -564,7 +560,7 @@
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-69c3448a-6a15-4b2b-8b5e-ba0e8ccdc3c2</name>
+        <name>Facet-26ac57f1-a76b-42de-bed2-c8aee3dd1345</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -576,7 +572,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-69c3448a-6a15-4b2b-8b5e-ba0e8ccdc3c2</value>
+                    <value>Facet-26ac57f1-a76b-42de-bed2-c8aee3dd1345</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -586,7 +582,7 @@
                 <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-e89ae97a-d9d4-4a0a-97f3-1f04db7570fe</name>
+        <name>Facet-5330984c-d012-48db-b1de-632e01a4953d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -594,7 +590,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
-                    <value>Facet-e89ae97a-d9d4-4a0a-97f3-1f04db7570fe</value>
+                    <value>Facet-5330984c-d012-48db-b1de-632e01a4953d</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset2</identifier>

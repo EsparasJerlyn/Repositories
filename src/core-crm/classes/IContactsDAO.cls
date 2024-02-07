@@ -57,6 +57,10 @@ public interface IContactsDAO extends DmlInterface {
         Set<Id> recordIds,
         AccessLevel accessLevel
     );
+    List<Contact> getAlumniPersonContactsBySetIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
     List<Contact> getContactByCaseMobile(
         Set<String> caseMobile,
         AccessLevel accessLevel

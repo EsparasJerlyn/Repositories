@@ -43,4 +43,22 @@ public with sharing class ListContributorsDAOTest {
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
         Test.stopTest();
     }
+
+    @isTest
+    static void getListContributorByUserIDTest() {
+        Test.startTest();
+            List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
+                .getListContributorByUserID(new Set<Id>(),new Set<Id>(),AccessLevel.USER_MODE);
+            System.assert(listContributors.isEmpty(), 'listContributors is not empty');
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getRecordIdListContributorByListIDTest() {
+        Test.startTest();
+            List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
+                .getRecordIdListContributorByListID(new Set<Id>(),new Set<Id>(),AccessLevel.USER_MODE);
+            System.assert(listContributors.isEmpty(), 'listContributors is not empty');
+        Test.stopTest();
+    }
 }

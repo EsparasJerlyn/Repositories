@@ -1894,7 +1894,7 @@ public class TestDataFactory {
         for (Integer i = 0; i < numOfList; i++) {
             listRecords.add(
                 new List__c(
-                   List_Name__c = 'New List '+i,
+                   List_Name__c = 'New List ' + i,
                    Stage__c = 'New'
                 )
             );

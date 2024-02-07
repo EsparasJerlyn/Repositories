@@ -151,6 +151,7 @@ public class ImplementationSelector {
         /**
          * Constructs a simple DAO Factory
          **/
+
         // prettier-ignore
         public DAOFactory() {} //NOPMD
         /**

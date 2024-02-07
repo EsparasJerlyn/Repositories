@@ -46,7 +46,7 @@ private class ContactsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(1);
-            System.assert(contactList.isEmpty(), 'contactList is not empty');
+            System.assert(contactList.isEmpty(), 'ContactList is not empty');
         }
         Test.stopTest();
     }
@@ -83,7 +83,7 @@ private class ContactsDAOTest {
                     new Set<String>(),
                     'SYSTEM_MODE'
                 );
-            System.assert(contactList.isEmpty(), 'contactList is not empty');
+            System.assert(contactList.isEmpty(), 'ContactList is not empty');
         }
         Test.stopTest();
     }
@@ -97,7 +97,7 @@ private class ContactsDAOTest {
                     new ContactsDAO.QueryParamWrapper(),
                     'SYSTEM_MODE'
                 );
-            System.assert(contactList.isEmpty(), 'contactList is not empty');
+            System.assert(contactList.isEmpty(), 'ContactList is not empty');
         }
         Test.stopTest();
     }
@@ -111,7 +111,7 @@ private class ContactsDAOTest {
                     new ContactsDAO.QueryParamWrapper(),
                     'SYSTEM_MODE'
                 );
-            System.assert(contactList.isEmpty(), 'contactList is not empty');
+            System.assert(contactList.isEmpty(), 'ContactList is not empty');
         }
         Test.stopTest();
     }
@@ -124,7 +124,7 @@ private class ContactsDAOTest {
                 .getPersonContactsByCalculatedCadences(
                     new Set<String>()
                 );
-            System.assert(contactList.isEmpty(), 'contactList is not empty');
+            System.assert(contactList.isEmpty(), 'ContactList is not empty');
         }
         Test.stopTest();
     }
@@ -138,7 +138,7 @@ private class ContactsDAOTest {
                     new Set<String>(),
                     'USER_MODE'
                 );
-            System.assert(contactList.isEmpty(), 'contactList should not be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should not be empty');
         }
         Test.stopTest();
     }
@@ -151,7 +151,7 @@ private class ContactsDAOTest {
                     new Set<Id>(),
                     'USER_MODE'
                 );
-            System.assert(contactList.isEmpty(), 'contactList should not be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should not be empty');
         }
         Test.stopTest();
     }
@@ -177,7 +177,7 @@ private class ContactsDAOTest {
                     contactQueryParam,
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contact should not be empty');
+            System.assert(contactList.isEmpty(), 'Contact should not be empty');
         }
         Test.stopTest();
     }
@@ -191,7 +191,21 @@ private class ContactsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getAlumniPersonContactsBySetIdsTest() { 
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getAlumniPersonContactsBySetIds(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
         Test.stopTest();
     }
@@ -206,7 +220,7 @@ private class ContactsDAOTest {
                     new Set<Id>{contactMock.getMockId()},
                     AccessLevel.USER_MODE
                 );
-            System.assert(contactList.isEmpty(), 'leadList should be empty');
+            System.assert(contactList.isEmpty(), 'LeadList should be empty');
         }
         Test.stopTest();
     }
@@ -220,7 +234,7 @@ private class ContactsDAOTest {
                     new Set<String>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
         Test.stopTest();
     }
@@ -230,7 +244,7 @@ private class ContactsDAOTest {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> contactList = ContactsDAO.newInstance().
                 getContactsForQTACAddressUpdate(new Set<Id>(), AccessLevel.SYSTEM_MODE);
-            System.assert(contactList.isEmpty(), 'contactList should not be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should not be empty');
         }
         Test.stopTest();
     }
@@ -244,7 +258,7 @@ private class ContactsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
         Test.stopTest();
     }
@@ -272,7 +286,7 @@ private class ContactsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
         Test.stopTest();
     }
@@ -288,7 +302,7 @@ private class ContactsDAOTest {
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
     }
 
@@ -302,7 +316,7 @@ private class ContactsDAOTest {
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
     }
 
@@ -317,7 +331,7 @@ private class ContactsDAOTest {
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
-            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty.');
         }
     }
 
@@ -331,7 +345,7 @@ private class ContactsDAOTest {
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
-            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty.');
         }
     }
 
@@ -346,7 +360,7 @@ private class ContactsDAOTest {
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
-            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty.');
         }
     }
 
@@ -360,7 +374,7 @@ private class ContactsDAOTest {
                     AccessLevel.USER_MODE
                 );
             Test.stopTest();
-            System.assert(contactList.isEmpty(), 'contactList should be empty.');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty.');
         }
     }
 
@@ -372,7 +386,7 @@ private class ContactsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
         Test.stopTest();
     }
@@ -386,7 +400,7 @@ private class ContactsDAOTest {
                     new Set<Id>(),
                     AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'contactList should be empty');
+            System.assert(contactList.isEmpty(), 'ContactList should be empty');
         }
         Test.stopTest();
     }
