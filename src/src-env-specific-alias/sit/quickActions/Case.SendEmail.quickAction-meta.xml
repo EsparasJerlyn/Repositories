@@ -10,7 +10,7 @@
     </fieldOverrides>
     <fieldOverrides>
         <field>ValidatedFromAddress</field>
-        <formula>IF(Case.RecordType.DeveloperName = &quot;Domestic_Future_Student_Enquiry&quot; , &quot;studyatqut@qut.edu.au&quot;, &quot;qut.direct@qut.edu.au&quot;)</formula>
+        <formula>IF(Case.RecordType.DeveloperName = &quot;Domestic_Future_Student_Enquiry&quot; , &quot;test-qut-domestic@yopmail.com&quot;, &quot;test-qut-international@yopmail.com&quot;)</formula>
     </fieldOverrides>
     <optionsCreateFeedItem>true</optionsCreateFeedItem>
     <quickActionLayout>
