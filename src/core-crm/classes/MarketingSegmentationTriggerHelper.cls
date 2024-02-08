@@ -6,10 +6,11 @@
   *
   * @history
   *
-  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
-  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
-  *    | roy.nino.s.regala              | Oct 25, 2022          | DEPP-4327              | Created file                                   |
-  *    | alexander.cadalin              | Aug 15, 2023          | DEPP-6124              | Rework contact/lead update logic               |
+  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
+  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
+  *    | roy.nino.s.regala              | Oct 25, 2022          | DEPP-4327              | Created file                                     |
+  *    | alexander.cadalin              | Aug 15, 2023          | DEPP-6124              | Rework contact/lead update logic                 |
+  *    | roy.nino.s.regala              | Feb 5, 2024           | DEPP-7742              | update to a without sharing context for site user|
   */
 
 public with sharing class MarketingSegmentationTriggerHelper{
@@ -31,7 +32,7 @@ public with sharing class MarketingSegmentationTriggerHelper{
             // lead updates end here
         }
         if(!contactsToUpdate.keySet().isEmpty()) {
-         	ContactsDAO.newInstance().updateRecords(contactsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);   
+            MarketingSegWithoutSharingService.updateContactRecordsWithoutSharing(contactsToUpdate.values());   
         }
         if(!leadsToUpdate.keySet().isEmpty()) {
             LeadsDAO.newInstance().updateRecords(leadsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
@@ -69,7 +70,7 @@ public with sharing class MarketingSegmentationTriggerHelper{
             // lead updates end here
         }
         if(!contactsToUpdate.keySet().isEmpty()) {
-         	ContactsDAO.newInstance().updateRecords(contactsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);   
+            MarketingSegWithoutSharingService.updateContactRecordsWithoutSharing(contactsToUpdate.values());   
         }
         if(!leadsToUpdate.keySet().isEmpty()) {
             LeadsDAO.newInstance().updateRecords(leadsToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
