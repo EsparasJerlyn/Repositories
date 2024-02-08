@@ -12,6 +12,15 @@
         <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
         <name>FlexiPage</name>
     </types>
+    <!-- <types> -->
+      <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
+      <!-- This to track that the old Muting Permissionset has been removed. -->        
+      <!-- <members>Future_Student_Agent_Muted</members>
+        <members>Future_Student_Concierge_Muted</members>
+        <members>Future_Student_Team_Leader_Muted</members> -->
+        <!--(End) DEPP-7474 -->
+        <!-- <name>MutingPermissionSet</name> -->
+    <!-- </types> -->
     <types>
         <!--(Start) DEPP-5906-->
         <members>Case_Clear_Closure_Fields</members>
@@ -32,6 +41,16 @@
         <members>Case.Priority_is_required</members>
         <!-- (End) DEPP-7673 -->
         <name>ValidationRule</name>
+    <!-- <types> -->
+      <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
+      <!-- This to track that the old permissionset has been removed. -->
+      <!-- <members>Future_Student_Concierge</members>
+      <members>Future_Student_Agent</members>
+      <members>Future_Student_Super_User</members>
+      <members>Future_Student_Team_Leader</members> -->
+      <!--(End) DEPP-7474 -->
+      <!-- <name>PermissionSetGroup</name>
+  </types> -->
     </types>
     <version>59.0</version> 
 </Package>
