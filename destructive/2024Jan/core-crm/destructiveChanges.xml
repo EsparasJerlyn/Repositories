@@ -13,6 +13,17 @@
         <name>FlexiPage</name>
     </types>
     <types>
+        <!--(Start) DEPP-5906-->
+        <members>Case_Clear_Closure_Fields</members>
+        <members>Case_Pending_Closure_to_Closed</members>
+        <!--(End) DEPP-5906-->
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
+        <name>Layout</name>
+    </types>
+    <types>
         <!-- (Start) DEPP-7673 -->
         <members>Case.Case_Origin_is_required</members>
         <members>Case.Category_is_required</members>

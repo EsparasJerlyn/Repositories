@@ -327,14 +327,6 @@
         <!--(Start) DEPP-6714-->
         <members>Course_Connection_Pricing_Validation</members>
         <!--(End) DEPP-6714-->
-
-        <!--(Start) DEPP-5906-->
-
-        <!-- 
-        DOES NOT destroy successfully. Might neeed a pre deploy manual step. Please uncomment, create a PR and test on CI.
-        <members>Case_Clear_Closure_Fields</members>
-        <members>Case_Pending_Closure_to_Closed</members> -->
-        <!--(End) DEPP-5906-->
         <name>Flow</name>
     </types>
     <types>
