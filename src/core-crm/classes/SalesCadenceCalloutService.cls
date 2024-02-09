@@ -210,7 +210,16 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             CompletedCadencesDAO.newInstance().updateRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE); 
         }
         
-        updateTasks(tasksToUpdateList, completedCadenceStatusMap);
+        if(System.isBatch() || System.isFuture() || System.isQueueable()) {
+            //The process is running asynchronously
+            updateTasks(tasksToUpdateList, completedCadenceStatusMap);
+        } else {
+            //The process is running synchronously
+            QueueableCall executeQueueable = new QueueableCall(tasksToUpdateList, completedCadenceStatusMap);
+            System.enqueueJob(executeQueueable);
+        }
+        
+        
     }
 
     private static String setCacluatedStatus(String taskStatus){
@@ -322,13 +331,20 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
     * @param Map<String,String> removeCadence
     */
     private class QueueableCall implements Queueable, Database.AllowsCallouts{
-        private Map<String,String> assignCadenceMap;
-        private Map<String,String> removeCadenceMap;
+        private Map<String,String> assignCadenceMap = new Map<String,String>();
+        private Map<String,String> removeCadenceMap = new Map<String,String>();
+        private List<Task> tasksToUpdateList = new List<Task>();
+        private Map<String, Completed_Cadence__c> completedCadenceStatusMap = new Map<String,Completed_Cadence__c>();
         
         public QueueableCall(Map<String,String> assignCadence,Map<String,String> removeCadence) {
             this.assignCadenceMap = assignCadence;
             this.removeCadenceMap = removeCadence;
         }
+        public QueueableCall(List<Task> tasksUpdateList,Map<String, Completed_Cadence__c> completedCadencesStatusMap) {
+            this.tasksToUpdateList = tasksUpdateList;
+            this.completedCadenceStatusMap = completedCadencesStatusMap;
+        }
+        
         public void execute(QueueableContext context) {
             
             if(!assignCadenceMap.isEmpty()){
@@ -337,7 +353,9 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             if(!removeCadenceMap.isEmpty()){
                 removeTargetToCadence(removeCadenceMap);
             } 
-            
+            if(tasksToUpdateList !=null && !tasksToUpdateList.isEmpty()){
+                updateTasks(tasksToUpdateList, completedCadenceStatusMap);  
+            }
         }
     }
 
@@ -663,4 +681,4 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         return actMap;
     }
     
-} 
+}
