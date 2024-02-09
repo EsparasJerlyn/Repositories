@@ -532,9 +532,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>hed__Program_Plan__c-Program Page Layout</layout>
         <recordType>hed__Program_Plan__c.Program</recordType>
     </layoutAssignments>
     <layoutAssignments>
