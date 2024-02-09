@@ -529,4 +529,16 @@
     <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+        <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+    </layoutAssignments>
 </Profile>
