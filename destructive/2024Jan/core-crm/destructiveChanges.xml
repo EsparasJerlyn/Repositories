@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!--DEPP-7607
+        COMMENTING THIS OUT. FIELD NEEDS TO REMAIN FOR ANOTHER FEW WEEKS
     <types>
-        <members>hed__Application__c.Applied_Program__c</members><!--DEPP-7607-->
+        <members>hed__Application__c.Applied_Program__c</members>
         <name>CustomField</name>
     </types>
+    -->
     <types>
         <!--Start DEPP-6659-->
         <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
