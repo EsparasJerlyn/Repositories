@@ -65,7 +65,7 @@ stages:
         ##### Microsoft Hosted Agents with Docker Image ############
         pool:
           vmImage: "ubuntu-latest"
-        container: adammbest/sfdx:latest
+        container: adammbest/sfdx:1.9
 
         steps:
           - checkout: SELF
