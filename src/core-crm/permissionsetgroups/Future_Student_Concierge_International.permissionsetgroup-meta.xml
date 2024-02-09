@@ -9,5 +9,6 @@
     <permissionSets>Run_Reports_and_Dashboards</permissionSets>
     <permissionSets>force__HighVelocitySalesUserIncluded</permissionSets>
     <permissionSets>Future_Student_International_Email_Access</permissionSets>
+    <permissionSets>Lightning_Scheduler_User_V2</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
