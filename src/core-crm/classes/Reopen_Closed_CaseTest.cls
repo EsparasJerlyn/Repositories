@@ -13,19 +13,24 @@
 
 @isTest
 public with sharing class Reopen_Closed_CaseTest {
+
+    private static final Integer numberOfRecords = 100;
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
         
         List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
         insert relatedContacts;
         
-        Id internationalRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('International_Future_Student_Enquiry').getRecordTypeId();
-        
-        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(internationalRecordTypeId, 'Test International Case', 100);
-        
-        for(Case c : internationalCases){
+        List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', numberOfRecords);
+        List<Case> domesticCases = TestDataFactory.createTestCaseRecords(CasesDAO.DOMESTICFS_RECTYPE_ID, 'Test Domestic Case', numberOfRecords);
+
+        List<Case> caseList = new List<Case>();
+        caseList.addAll(internationalCases);
+        caseList.addAll(domesticCases);
+
+        for(Case c : caseList){
             c.ContactId = relatedContacts[0].Id;
             c.Origin = 'Email';
             c.Priority = 'Low';
@@ -35,34 +40,65 @@ public with sharing class Reopen_Closed_CaseTest {
             c.Closure_Details__c = 'Test Closure Details.';
         }
         
-        insert internationalCases;   
+        CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);
     }
     
     @IsTest
-    static void reopenClosedCaseTest(){
-        List<EmailMessage> EmailMessages = new List<EmailMessage>();
+    static void reopenClosedInternationalCaseTest(){
+        System.runAs(TestDataFactory.getInternationalFutureStudentAgent()) {
+            List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
-        Test.startTest();
-
-        for(Case c : [SELECT Id FROM Case]){                
-            EmailMessage emailMessage = new EmailMessage();
-            emailMessage.relatedToId = c.Id; 
-            emailMessage.fromAddress = 'test@test.com'; // from address
-            emailMessage.fromName = 'Test'; // from name
-            emailMessage.toAddress = 'test@test.com';
-            emailMessage.Subject = 'Test Email Message Subject';
-            emailMessage.incoming = true;
-            emailMessage.HtmlBody = 'Test HtmlBody';
-            emailMessages.add(emailMessage);
+            Test.startTest();
+    
+            for(Case c : [SELECT Id FROM Case]){                
+                EmailMessage emailMessage = new EmailMessage();
+                emailMessage.relatedToId = c.Id; 
+                emailMessage.fromAddress = 'test@test.com'; // from address
+                emailMessage.fromName = 'Test'; // from name
+                emailMessage.toAddress = 'test@test.com';
+                emailMessage.Subject = 'Test Email Message Subject';
+                emailMessage.incoming = true;
+                emailMessage.HtmlBody = 'Test HtmlBody';
+                emailMessages.add(emailMessage);
+            }
+            
+            insert emailMessages;
+            
+            Test.stopTest();
+            
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.INTERNATIONALFS_RECTYPE_ID];
+            
+            Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
         }
+    }
+
+    @IsTest
+    static void reopenClosedDomesticCaseTest(){
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<EmailMessage> EmailMessages = new List<EmailMessage>();
         
-        insert emailMessages;
-        
-        Test.stopTest();
-        
-        List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded'];
-        
-        Assert.areEqual(100, casesRetrieved.size(), 'Closed cases should be Responded.');
+            Test.startTest();
+    
+            for(Case c : [SELECT Id FROM Case]){                
+                EmailMessage emailMessage = new EmailMessage();
+                emailMessage.relatedToId = c.Id; 
+                emailMessage.fromAddress = 'test@test.com'; // from address
+                emailMessage.fromName = 'Test'; // from name
+                emailMessage.toAddress = 'test@test.com';
+                emailMessage.Subject = 'Test Email Message Subject';
+                emailMessage.incoming = true;
+                emailMessage.HtmlBody = 'Test HtmlBody';
+                emailMessages.add(emailMessage);
+            }
+            
+            insert emailMessages;
+            
+            Test.stopTest();
+            
+            List<Case> casesRetrieved = [SELECT Id, Status FROM Case WHERE Status = 'Responded' AND RecordTypeId =: CasesDAO.DOMESTICFS_RECTYPE_ID];
+            
+            Assert.areEqual(numberOfRecords, casesRetrieved.size(), 'Closed cases should be Responded.');
+        }
     }
     
 }
