@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>IE_Operations_Manager_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Expense records to Operations Manager with Read/Write access</description>
+        <label>IE Operations Manager Share</label>
+        <sharedTo>
+            <role>Operations_Manager</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Operations_Manager</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>
