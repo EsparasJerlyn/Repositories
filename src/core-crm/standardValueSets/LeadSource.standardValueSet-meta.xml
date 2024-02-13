@@ -8,7 +8,7 @@
     </standardValue>
     <standardValue>
         <fullName>Event</fullName>
-        <default>false</default>
+        <default>true</default>
         <label>Event</label>
     </standardValue>
     <standardValue>
