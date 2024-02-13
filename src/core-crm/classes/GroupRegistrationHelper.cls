@@ -311,7 +311,7 @@ public without sharing class GroupRegistrationHelper {
             }
         }
         if(Schema.sObjectType.Contact.isUpdateable()){
-            upsert contacts;
+            ContactsDAO.newInstance().upsertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
         }
     }
 

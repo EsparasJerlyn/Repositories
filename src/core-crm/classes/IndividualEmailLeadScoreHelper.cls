@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Individual Email
+  * @description helper class to compute Lead Score for Individual Email 
   * @see ..IndividualEmailTriggerHandler
   *
   * @author Accenture 
@@ -26,7 +26,7 @@
         Set<Id> contactIdSet = new Set<Id>();
         Set<Id> leadIdSet = new Set<Id>();
 
-        for(et4ae5__IndividualEmailResult__c indivEmail : newItems){            
+        for(et4ae5__IndividualEmailResult__c indivEmail : newItems) {            
             if(
                 !indivEmail.Lead_Score_Reset__c && 
                 (validateIfForInsert(indivEmail, oldItems) || 
@@ -282,4 +282,3 @@
         );
     }
 }
-

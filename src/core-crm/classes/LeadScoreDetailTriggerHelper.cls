@@ -10,9 +10,11 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
       | julie.jane.alegre              | Sept 07, 2023         | DEPP-5965              | Created file                                     |
       | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added handling for calculating total lead score  |
+      | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                         |
       | mark.j.mahilum                 | Jan 15, 2024          | DEPP-7519              | Added logic to turn off can nurture flag when    |
       |                                |                       |                        | the lead score is below threshold only if the    |
       |                                |                       |                        | QUT_Applicant flag is false                      |
+      | roy.nino.s.regala              | Feb 5, 2024           | DEPP-7742              | update to a without sharing context for site user|
  */
 public with sharing class LeadScoreDetailTriggerHelper {
     /**
@@ -21,7 +23,6 @@ public with sharing class LeadScoreDetailTriggerHelper {
      * @param oldItems - Map<Id, Lead_Score_Detail__c> old records map
      */
     public static void linkLeadScoreDetailToContact(Map<Id, Lead_Score_Detail__c> newItems) {
-        Map<Id, Id> leadScoreDetailMap = new Map<Id, Id>();
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         //Get contact id link to the newly created lead score detail
@@ -47,8 +48,7 @@ public with sharing class LeadScoreDetailTriggerHelper {
         }
 
         if (!contactToUpdateMap.keySet().isEmpty()) {
-            ContactsDAO.newInstance()
-                .updateRecords(contactToUpdateMap.values(), false, AccessLevel.SYSTEM_MODE);
+            LeadScoreDetailWithoutSharingService.updateContactRecordsWithoutSharing(contactToUpdateMap.values());
         }
         if (!leadToUpdateMap.keySet().isEmpty()) {
             LeadsDAO.newInstance()
@@ -60,8 +60,6 @@ public with sharing class LeadScoreDetailTriggerHelper {
         List<Lead_Score_Detail__c> newItems,
         Map<Id, Lead_Score_Detail__c> oldItems
     ) {
-        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
-        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         Map<String, Integer> configMap = mapLeadScoreConfigMax();
         Map<Id, Decimal> contactToScoreMap = new Map<Id, Decimal>();
         Map<Id, Decimal> leadToScoreMap = new Map<Id, Decimal>();

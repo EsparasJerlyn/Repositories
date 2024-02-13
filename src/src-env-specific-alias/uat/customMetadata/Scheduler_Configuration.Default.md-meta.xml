@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Appointment_Base_URL__c</field>
-        <value xsi:type="xsd:string">https://www.qut.edu.au/additional/update-booking</value>
+        <value xsi:type="xsd:string">https://cms.qut.edu.au/utilities/underdevelopment/grantg/bookable-test/update-booking-uat/_nocache</value>
     </values>
 </CustomMetadata>

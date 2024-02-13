@@ -20,36 +20,43 @@ public with sharing class LeadScoreConfigurationDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()){
 		System.assert(
             new LeadScoreConfigurationDAO().getSObjectType() == Lead_Score_Configuration__c.SObjectType,
             'SObject is not Account'
-        );
+             );
+        }
         Test.stopTest();
     }
 
     @isTest
     static void getLeadScoreConfigByCitizenshipStudyLvlTest() {
         Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance()
             .getLeadScoreConfigByCitizenshipStudyLvl(
                 '',
                 ''
             );
         System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
+        }
         Test.stopTest();
     }
 
     @isTest
     static void getLeadScoreConfigTest() {
         Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance().getLeadScoreConfigByRecordTypeIds(AccessLevel.SYSTEM_MODE, LeadScoreConfigurationDAO.RECTYPE_IDS_CATEGORY_AND_SUB_CATEGORY);
         System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
+        }
         Test.stopTest();
     }
 
     @isTest
     static void getLeadScoreConfigsByIdTest() {
         Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         List<Lead_Score_Configuration__c> leadScoreConfig = LeadScoreConfigurationDAO.newInstance()
             .getLeadScoreConfigsById(
                 new Set<Id>(), 
@@ -57,16 +64,19 @@ public with sharing class LeadScoreConfigurationDAOTest {
                 AccessLevel.SYSTEM_MODE
             );
         System.assert(leadScoreConfig.isEmpty(), 'leadScoreConfig should be empty.');
+        }
         Test.stopTest();
     }
 
     @isTest
     static void queryLocatorLeadScoreConfigByIdsTest() {
         Test.startTest();
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         System.assert(
             LeadScoreConfigurationDAO.newInstance().queryLocatorLeadScoreConfigByIds(new Set<Id>()) != null,
             'leadScoreConfig should be empty'
         );
+        }
         Test.stopTest();
     }
 

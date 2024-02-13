@@ -1,5 +1,5 @@
 /**
- * @description Mock DAO Class for Lead Object. 
+ * @description Mock DAO Class for Lead Object.  
  * @author Accenture
  *
  * @history
@@ -126,7 +126,7 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
         LeadsDAO.QueryParamWrapperEmailOrName queryParam,
         Boolean excludeConverted,
         AccessLevel accessLevel
-    ){
+    ) {
 
         String email = queryParam.email;
         List<Lead> leadList = new List<Lead>();
@@ -201,6 +201,38 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
         return null;
     }
     
+    public List<Lead> getLearnerLeadsByEmailOrWorkEmail(
+        Set<String> emails,
+        AccessLevel accessLevel
+    ) {
+        List<Lead> leads = new List<Lead>();
+        for(Lead ld : leadsMap.values()) {
+            Boolean containsEmail = emails.contains(ld.Work_Email__c) || emails.contains(ld.Email);
+            Boolean isLearner = ld.Lead_Type__c == 'Learner';
+            if(containsEmail && isLearner) {
+                leads.add(ld);
+            }
+        }
+        return leads;
+    }
+
+    public List<Lead> getLearnerLeadsByEmailOrWorkEmail(
+        Set<String> emails,
+        Set<String> workEmails,
+        AccessLevel accessLevel
+    ) {
+        List<Lead> leads = new List<Lead>();
+        for(Lead ld : leadsMap.values()) {
+            Boolean containsEmail = emails.contains(ld.Email) || workEmails.contains(ld.Email);
+            Boolean containsWorkEmail = emails.contains(ld.Work_Email__c) || workEmails.contains(ld.Work_Email__c);
+            Boolean isLearner = ld.Lead_Type__c == 'Learner';
+            if((containsEmail || containsWorkEmail) && isLearner) {
+                leads.add(ld);
+            }
+        }
+        return leads;
+    }
+
     public List<Lead> getUnconvertedLeadsByIdSet(
         Set<Id> recordIdSet,
         AccessLevel accessLevel
@@ -213,5 +245,4 @@ public inherited sharing class LeadsDAOMock extends DmlBaseMock implements ILead
         }
         return leadList;
     }
-
 }

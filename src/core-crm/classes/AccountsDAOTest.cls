@@ -30,6 +30,33 @@ public with sharing class AccountsDAOTest {
     }
 
     @isTest
+    static void getPartnerAccountsByIdsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            MockIdGenerator mockAccount = new MockIdGenerator(Account.SObjectType);
+            List<Account> accounts = AccountsDAO.newInstance().getPartnerAccountsByIds(
+                new Set<Id>{mockAccount.getMockId()},
+                AccessLevel.SYSTEM_MODE
+            );
+            System.assert(accounts.isEmpty(), 'accounts is not empty');
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void getPartnerAccountsByIdsEmptyTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            List<Account> accounts = AccountsDAO.newInstance().getPartnerAccountsByIds(
+                new Set<Id>(),
+                AccessLevel.SYSTEM_MODE
+            );
+            System.assert(accounts.isEmpty(), 'accounts is not empty');
+            Test.stopTest();
+        }
+    }
+
+    @isTest
     static void getAccountsByFieldsSetIdsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {

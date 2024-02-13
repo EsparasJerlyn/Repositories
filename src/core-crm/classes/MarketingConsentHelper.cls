@@ -11,8 +11,8 @@
 | roy.nino.s.regala              | Feb 06, 2023          | DEPP-4866              | Created File                                                                  |
 | roy.nino.s.regala              | Feb 20, 2023          | DEPP-5221              | added opt out and in dates                                                    |
 | roy.nino.s.regala              | Oct 31, 2023          | DEPP-7060              | made sure to email opt in date to now only if it is not directly updated      |
-|								 |                       |                        | this happens on lead convert or case creation                                 |																	
-
+|								 |                       |                        | this happens on lead convert or case creation                                 |
+| johanna.a.gibas                | Jan 04, 2024          | ApexCRUDViolationFix   | Fixed CRUD Violation                                                          |
 */
 public without sharing class MarketingConsentHelper {
 
@@ -68,17 +68,8 @@ public without sharing class MarketingConsentHelper {
 	private static Map<String, List<Marketing_Segmentation__c>> getExistingMarketingSegmentations(Map<String, List<Marketing_Segmentation__c>> marketingSegMap, Map<String, Contact> emailToContactMap ){
 
 		if(!emailToContactMap.keySet().isEmpty()){
-			for(Marketing_Segmentation__c marSeg: [ SELECT Id, My_Profile_Persona__c, 
-			My_Primary_Study_Level__c, My_Secondary_Study_Level__c, 
-			Contact__c, Contact__r.Email, Contact__r.Registered_Email__c,
-			Contact__r.Work_Email__c, Contact__r.QUT_Staff_Email__c,
-			Contact__r.QUT_Learner_Email__c
-			FROM Marketing_Segmentation__c 
-			WHERE Contact__r.Registered_Email__c IN: emailToContactMap.keySet()
-			OR Contact__r.Email IN: emailToContactMap.keySet()
-			OR Contact__r.Work_Email__c IN: emailToContactMap.keySet()
-			OR Contact__r.QUT_Staff_Email__c IN: emailToContactMap.keySet()
-			OR Contact__r.QUT_Learner_Email__c IN: emailToContactMap.keySet()]){
+			
+			for(Marketing_Segmentation__c marSeg: MarketingSegmentationsDAO.newInstance().getExistingMarketingSegmentations(emailToContactMap,AccessLevel.SYSTEM_MODE)){
 
 				//create email to marketing segmentation map
 				//this groups marketing segmentation agains a person and mc persona with the same registered email
@@ -133,7 +124,7 @@ public without sharing class MarketingConsentHelper {
 		}
 
 		if(!segmentationsToUpsert.isEmpty()){
-			upsert segmentationsToUpsert;
+			MarketingSegmentationsDAO.newInstance().upsertRecords(segmentationsToUpsert, false, AccessLevel.SYSTEM_MODE);
 		}
 	}
 

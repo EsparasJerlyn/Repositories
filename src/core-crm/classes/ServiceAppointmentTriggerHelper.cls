@@ -13,6 +13,7 @@
  *    | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added methods for existing lead and contact matching     |
  *    | ryan.j.a.dela.cruz             | December 6, 2023      | DEPP-7369              | Confirmation email sending fix                           |
  *    | kenneth.f.alsay                | December 11, 2023     | DEPP-7394              | Added convert email string to lower case before matching |
+ *    | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                                 |
  */
 public without sharing class ServiceAppointmentTriggerHelper {
 
@@ -179,7 +180,6 @@ public without sharing class ServiceAppointmentTriggerHelper {
         
         Set<String> suppliedEmails = new Set<String>();
         Map<String, ServiceAppointment> emailToAppointmentMap = new Map<String, ServiceAppointment>();
-        Map<Id, ServiceAppointment> contacToAppointmentMap = new Map<Id, ServiceAppointment>();
         Map<String, Id> appointmentToContactMap = new Map<String, Id>();
         Map<String, Id> appointmentToLeadMap = new Map<String, Id>();
         
@@ -233,6 +233,18 @@ public without sharing class ServiceAppointmentTriggerHelper {
     }
 
     /**
+     * @description Generate GUID
+     * @param newItems List of new ServiceAppointment records
+     */
+    public static void generateGUID(List<ServiceAppointment> newItems) {
+        for(ServiceAppointment appointment : newItems) {
+            if(appointment.GUID__c == null) {
+                appointment.GUID__c = GenerateUniqueId.getUUID();
+            }
+        }
+    }
+
+    /**
      * @description Send email on Service Appointment record creation 
      * if work Type is either International Phone Calls or Domestic Phone Calls
      *
@@ -243,11 +255,6 @@ public without sharing class ServiceAppointmentTriggerHelper {
         List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
         List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
         List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
-
-        Map<Id, String> workTypeMap = new Map<Id, String>{
-            internationalWorkType.get(0).id => internationalWorkType.get(0).Name,
-            domesticWorkType.get(0).id => domesticWorkType.get(0).Name
-        };
 
         for(ServiceAppointment serviceAppointment : newItems){
 
@@ -470,8 +477,6 @@ public without sharing class ServiceAppointmentTriggerHelper {
         Map<String, String> uniqueContactMap
     ) {
         Map<String,Id> appointmentToContactMap = new Map<String, Id>();
-        List<ServiceAppointment> appointmentsWithNoContactMatch = new List<ServiceAppointment>();
-        Set<String> suppliedEmails = new Set<String>();
         
         for (ServiceAppointment appointment : appointmentList) {
             if (uniqueContactMap.containsKey(appointment.Email)) {

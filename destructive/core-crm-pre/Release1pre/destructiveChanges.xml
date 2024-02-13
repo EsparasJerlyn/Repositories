@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <!-- DEPP-3095-->
+        <members>CommunitiesSelfReg</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <!-- (Start) DEPP-5556 -->
+        <members>QTAC_Preference__c.Application__c</members>
+        <members>QTAC_Preference__c.Preference_Number__c</members>
+        <members>QTAC_Preference__c.Offer_Exists__c</members>
+        <members>QTAC_Preference__c.Faculty__c</members>
+        <members>QTAC_Preference__c.Offer_Status__c</members>
+        <members>QTAC_Preference__c.Offer_Status_Date__c</members>
+        <members>QTAC_Preference__c.Offer_Start_Date__c</members>
+        <members>QTAC_Preference__c.Offer_Lapse_date__c</members>
+        <!-- (End) DEPP-5556 -->
+        <!-- (Start) DEPP-5555 -->
+        <members>hed__Application__c.Application_Source__c</members>
+        <members>hed__Application__c.Offer_Condition__c</members>
+        <members>hed__Application__c.Defered_Study_Period__c</members>
+        <members>hed__Application__c.Is_Education_Distruption_Applicant__c</members>
+        <members>hed__Application__c.Is_Elite_Athelete_Applicant__c</members>
+        <members>hed__Application__c.Study_Link_ApplicantID__c</members>
+        <!-- (End) DEPP-5555-->
+        <!-- (Start) DEPP-5920 -->
+        <members>IP_Management_Relationship__c.Stage__c</members>
+        <!-- (End) DEPP-5920 -->
+        <!-- Start DEPP-6243 -->
+        <members>Relationship_Manager__c.User__c</members>
+        <!-- End DEPP-6243 -->
+        <!--Start DEPP-6271-->
+        <members>Document__c.Document_End_Date__c</members>
+        <!-- End DEPP-6271 -->
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Lead.Standard_Lead_Duplicate_Rule</members>
+        <members>Lead.Custom_Lead_Duplicate_Rule</members>
+        <name>DuplicateRule</name>
+    </types>
+    <types>
+        <!--Start DEPP-6136-->
+        <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
+        <members>Application_Record_Page.flexipage.xml</members>
+        <!--End DEPP-6136-->
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <!-- DEPP-2217-->
+        <members>Product2.Publishing_EndDate_is_Future_Date</members>
+        <name>ValidationRule</name>
+    </types>
+    <types>
+        <!-- DEPP-5604 -->
+        <members>Study_Area_Plan__c.Study_Area__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <!--Start DEPP-5479-->
+        <members>Engagement__c.Commericialisation</members>
+        <!--End DEPP-5479-->
+        <name>RecordType</name>
+    </types>
+
+    <types>
+        <!--Start DEPP-5788-->
+        <members>Future_Student_Engagement_Agent</members>
+        <!--End DEPP-5788-->
+        <!--Start DEPP-7487-->
+        <members>Lightning_Scheduler_User</members>
+        <!--End DEPP-7487-->
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <!--Start DEPP-5788-->
+        <members>Future_Student_Engagement</members>
+        <!--End DEPP-5788-->
+        <name>PermissionSetGroup</name>
+    </types>
+
+    <types>
+        <!--Start DEPP-5946-->
+        <members>CCE_Lead_Path</members>
+        <!--End DEPP-5946-->
+        <name>PathAssistant</name>
+    </types>
+
+    <types>
+        <!--Start DEPP-6208-->
+        <members>CreateOpportunityOutcome</members>
+        <!--End DEPP-6208-->
+        <name>CustomPageWebLink</name>
+    </types>
+
+    <types>
+        <!--(Start) DEPP-6629-->
+        <members>Nullify_LMS_Integration_Status</members>
+        <!--(End) DEPP-6629-->
+        <!--(Start) DEPP-6714-->
+        <members>Course_Connection_Pricing_Validation</members>
+        <!--(End) DEPP-6714-->
+        <name>Flow</name>
+    </types>
+    <version>52.0</version>
+</Package>

@@ -35,6 +35,7 @@
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | updated creation of marketing   |
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | segmentation to future          |
       | kenneth.f.alsay                | December 06, 2023     | DEPP-7339              | updated query in sendWelcomeEmail|
+      | kenneth.f.alsay                | December 27, 2023     |                        | removed unused variable         |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -94,9 +95,13 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
   public void afterInsert(Map<Id, SObject> newItems) {
     Map<Id, Contact> newMap = (Map<Id,Contact>) newItems;
     ContactImageHelper.generateContactImageFile(newMap.values(),null);
-    processLeadOnInsert(newMap);    
+    Set<Id> contactsWithNewMarketingSegmentations = processLeadOnInsert(newMap);    
     ContactTriggerHelper.createLeadScoreDetailRecord(newMap.values());
-    ContactTriggerHelper.createMarketingSegmentation(newMap.keySet());
+
+    Set<Id> contactsWithNoSegmentations = newMap.keySet();
+    contactsWithNoSegmentations.removeAll(contactsWithNewMarketingSegmentations);
+    ContactTriggerHelper.createMarketingSegmentation(contactsWithNoSegmentations);
+
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());
@@ -129,16 +134,20 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    * @description Process Lead on insert
    * @param newMap - List of Contact.Trigger.new
    */
-  private void processLeadOnInsert(Map<Id, Contact> newMap){
+  private Set<Id> processLeadOnInsert(Map<Id, Contact> newMap){
+    Set<Id> contactsWitNewhMarketingSegmentations = new Set<Id>();
+
     if(!isRunning){
       isRunning = true;
       ContactTriggerHelper.createAccountContactRelationRecords(newMap.values(), null);
-      ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap);
+      contactsWitNewhMarketingSegmentations.addAll(ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap));
 
       List<Id> contactIdList = new List<Id>();
       contactIdList.addAll(newMap.keySet());
       ContactWithMatchingLeadHelper.convertLeadOnInsert(contactIdList);
     }
+
+    return contactsWitNewhMarketingSegmentations;
   }
 
   /**
@@ -148,6 +157,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    */
   private void processLeadOnUpdate(Map<Id, Contact> newMap, Map<Id, Contact> oldMap){
     Boolean hasChanges = false;
+
     for(Id key : newMap.keySet()){
       if(oldMap.get(key).Email != newMap.get(key).Email || oldMap.get(key).Work_Email__c != newMap.get(key).Work_Email__c){
         hasChanges = true;
@@ -156,6 +166,7 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     }
     if(!isRunning && hasChanges){
       isRunning = true;
+      
       ContactWithMatchingLeadHelper.detectLeadDuplicates(newMap);
 
       List<Id> contactIdList = new List<Id>();
@@ -240,15 +251,11 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
    * @param contacts the list of contacts to set owner for
    */
   private void setContactOwner(List<Contact> contacts) {
-
-
       List<Contact> contactsToUpdate = new List<Contact>();
 
       Id sysAdIntegUserId;
       User currentUser;
       Id currentUserId = UserInfo.getUserId();
-
-      List<User> listOfOwners = new List<User>();
 
       if(Schema.sObjectType.User.isAccessible()){
         //query once, get current user and syss admin integration user id

@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Marketing_Interaction__c
+  * @description helper class to compute Lead Score for Marketing_Interaction__c 
   * @see ..MarketingInteractionTriggerHandler
   *
   * @author Accenture 
@@ -12,7 +12,7 @@
   *    |                                |                       |                        | for marketing interactions                     |
   */
 //public with sharing class MarketingInteractionLeadScoreHelper implements ILeadScoreCommand{
-public with sharing class MarketingInteractionLeadScoreHelper{
+public with sharing class MarketingInteractionLeadScoreHelper {
 
     private static Map<Id,Marketing_Interaction__c> domesticUnderGradMap = new Map<Id,Marketing_Interaction__c>();
     private static Map<Id,Marketing_Interaction__c> domesticPostGradMap = new Map<Id,Marketing_Interaction__c>();
@@ -38,7 +38,7 @@ public with sharing class MarketingInteractionLeadScoreHelper{
                 !mktgInteraction.Lead_Score_Reset__c && 
                 (checkIfForInsert(mktgInteraction, oldItems) || 
                 checkIfForUpdate(mktgInteraction, oldItems))
-            ){
+            ) {
                 setContactIds(mktgInteraction, oldItems, contactIdSet);    
                 setLeadIds(mktgInteraction, oldItems, leadIdSet);
             }

@@ -2,7 +2,7 @@
  * @description Helper class for LeadScoreConfigTriggerHandler
  * @see LeadScoreConfigTriggerHandler
  *
- * @author Accenture
+ * @author Accenture 
  *
  * @history
  *

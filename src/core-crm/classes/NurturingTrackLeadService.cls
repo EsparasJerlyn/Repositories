@@ -591,13 +591,16 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
         for(hed__Application__c application : applicationListForStrongInterest) {
             Lead relatedLead = internationalExitLeadMap.get(application.Lead__c);
-            if(
-                relatedLead != null &&
-                cadenceNames.contains(relatedLead.Calculated_Cadence__c) && 
+
+            Boolean isActiveApplication = 
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 application.Application_Status__c != null && 
-                (!ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c) ||
-                relatedLead.HasOptedOutOfEmail)
+                !ApplicationsDAO.STUDYLINK_TERMINAL_STATUSES.contains(application.Application_Status__c);
+                
+            if(
+                relatedLead != null &&
+                cadenceNames.contains(relatedLead.Calculated_Cadence__c) &&                 
+                (isActiveApplication || relatedLead.HasOptedOutOfEmail)
             ) {
                 leadsToUpdate.put(
                     relatedLead.Id,

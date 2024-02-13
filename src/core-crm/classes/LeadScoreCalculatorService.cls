@@ -1,5 +1,5 @@
 /**
- * @description Helper class for Lead Score Calculation
+ * @description Helper class for Lead Score Calculation 
  * 
  * @author Accenture
  *
@@ -25,10 +25,9 @@ public inherited sharing class LeadScoreCalculatorService {
      * 1. Sets the parameters needed for calculation per study level and citizenship
      * 2. Update/Insert Lead Score Details
      */
-    public static void calculateLeadScore(ObjectMap objectMap, Set<Id> contactLeadIds, SObjectType sObjectType){
+    public static void calculateLeadScore(ObjectMap objectMap, Set<Id> contactLeadIds, SObjectType sObjectType) {
 
-        try{
-
+        try {
             List<Lead_Score_Detail__c> leadScoreDetailList = new List<Lead_Score_Detail__c>();
 
             LeadScoreConfigService.LeadScoreConfigStudyLevelParam leadScoreConfig = LeadScoreConfigService.getLeadScoreConfig();
@@ -327,3 +326,4 @@ public inherited sharing class LeadScoreCalculatorService {
     }
 
 }
+

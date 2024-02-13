@@ -2273,41 +2273,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Primary_Contact_Method__c</picklist>
-        <values>
-            <fullName>Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>QUT Learner Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>QUT Staff Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WeChat</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Work Email</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Priority</picklist>
         <values>
             <fullName>High</fullName>
@@ -2353,29 +2318,6 @@
         </values>
         <values>
             <fullName>Parent Child</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Student_LifeCycle_Status__c</picklist>
-        <values>
-            <fullName>Acceptance</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Applicant</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Current Student</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Offered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Prospect</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2507,29 +2449,6 @@
         </values>
         <values>
             <fullName>Welcome and orientation events</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Sub_Status__c</picklist>
-        <values>
-            <fullName>Agent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Faculty</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>International Admissions</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>International Office</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other QUT Department</fullName>
             <default>false</default>
         </values>
     </picklistValues>

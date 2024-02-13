@@ -12,18 +12,13 @@
  */
 
 public with sharing class AffiliationTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
-    public static Boolean isRunning = false;
 
    /**
     * @description afterInsert trigger event
     * @param newItems - List of hed__Affiliation__c.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-        
-        if(!isRunning ){
-            isRunning = true;
-            AffiliationTriggerHelper.getContactFromAffiliation((List<hed__Affiliation__c>) newItems.values(),null);
-        }
+        AffiliationTriggerHelper.getContactFromAffiliation((List<hed__Affiliation__c>) newItems.values(),null);
     }
 
    /**
@@ -35,10 +30,7 @@ public with sharing class AffiliationTriggerHandler implements Disableable,  Aft
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        if(!isRunning ){
-            isRunning = true;
-            AffiliationTriggerHelper.getContactFromAffiliation((List<hed__Affiliation__c>) newItems.values(),(Map<Id, hed__Affiliation__c>) oldItems);
-        }
+        AffiliationTriggerHelper.getContactFromAffiliation((List<hed__Affiliation__c>) newItems.values(),(Map<Id, hed__Affiliation__c>) oldItems);
     }
     
    /**

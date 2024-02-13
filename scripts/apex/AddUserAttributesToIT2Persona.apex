@@ -1,39 +1,5 @@
 /**DEPP-4732 [Manual] Add Attributes to Persona */
 
-/** Assign following attributes to "Communications Manager" and "Student Enquiries Communications Officer":
- * Marketing
- * Service Cloud
- * Chat User
- * Knowledge User
- */
-Id isrProfileId = [SELECT Id, Name FROM Profile WHERE Name='International Student Recruitment']?.Id;
-Id isrSuperUserRoleId = [SELECT Id, Name FROM UserRole WHERE Name='International Super User']?.Id;
-System.debug(LoggingLevel.DEBUG, 'ISR Profile Id:' + isrProfileId);//NOPMD
-System.debug(LoggingLevel.DEBUG, 'ISR User Role Id:' + isrSuperUserRoleId);//NOPMD
-
-// Retrieve all users
-List<User> internationalStudentRecruitmentUsers = [SELECT Id,
-                            UserPermissionsMarketingUser,
-                            UserPermissionsSupportUser,
-                            UserPermissionsLiveAgentUser,
-                            UserPermissionsKnowledgeUser
-                        FROM User 
-                        WHERE UserRoleId=:isrSuperUserRoleId AND ProfileId=:isrProfileId];
-for(User usr : internationalStudentRecruitmentUsers){
-    usr.UserPermissionsMarketingUser = true; //Marketing
-    usr.UserPermissionsSupportUser = true; //Service Cloud
-    usr.UserPermissionsLiveAgentUser = true; //Chat
-    usr.UserPermissionsKnowledgeUser = true; //Knowledge
-}
-Database.SaveResult[] srList1 = Database.update(internationalStudentRecruitmentUsers, false);
-for (Database.SaveResult result : srList1){
-    if(result.isSuccess()){
-        System.debug('Successfully updated International Student Recruitment User with User Id: ' + result.getId());
-    }else{
-        System.debug('Database error updating users (Communications Manager, Student Enquiries Communications Officer): ' + result.getErrors());
-    }            
-}
-
 /** Assign following attributes to Student Advisor:
  * Service Cloud
  * Chat User

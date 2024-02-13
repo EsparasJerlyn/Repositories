@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | October 06, 2023      | DEPP-5866              | Created file                 |
-      |                                |                       |                        |                              |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                           |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
+      | roy.nino.s.regala              | October 06, 2023      | DEPP-5866              | Created file                                             |
+      | kenneth.f.alsay                | December 27, 2023     |                        | Added assert of unused variable leadScoreConfigReference |
+      |                                |                       |                        |                                                          |
  */
 @isTest
 private class LeadScoreConfigServiceTest {
@@ -20,7 +21,7 @@ private class LeadScoreConfigServiceTest {
         LeadScoreConfigService.LeadScoreConfigReference leadScoreConfigReference = new LeadScoreConfigService.LeadScoreConfigReference();
         Test.startTest();
         System.assert(LeadScoreConfigService.getLeadScoreConfig() != null,'lead score config was not retrieved');
+        System.assert(leadScoreConfigReference.leadScoreEventRegistration != null, 'leadScoreEventRegistration must not be null');
         Test.stopTest();
-    }
-    
+    }   
 }

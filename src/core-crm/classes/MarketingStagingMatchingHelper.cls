@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------------------------|
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | Created file                                   |
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
+      | kenneth.f.alsay                | January 3, 2024       |                        | Fixed excessive param list                     |
  */
 public without sharing class MarketingStagingMatchingHelper{
 
@@ -208,25 +209,25 @@ public without sharing class MarketingStagingMatchingHelper{
      * @param marketingObj - object api name
      * @return sObject marketing record
      */
-    public static sObject createMarketingRecord(sObject marketingStage, Id contactId, Id leadId, Id oldId,String marketingObj){
+    public static sObject createMarketingRecord(sObject marketingStage, Map<String, Id> idMap, String marketingObj){
 
         sObject obj = Schema.getGlobalDescribe().get(marketingObj).newSObject();
 
-        if(oldId != null){
+        if(idMap.get('oldId') != null){
             if(marketingObj == 'Marketing_Interaction__c'){
-                obj.put('Marketing_Segmentation__c',oldId);
+                obj.put('Marketing_Segmentation__c',idMap.get('oldId'));
             }else{
-                obj.put('Id',oldId);
+                obj.put('Id',idMap.get('oldId'));
             }
            
         }
 
-        if(leadId != null){
-            obj.put('Lead__c',leadId);
+        if(idMap.get('leadId') != null){
+            obj.put('Lead__c',idMap.get('leadId'));
         }
 
-        if(contactId != null){
-            obj.put('Contact__c',contactId);
+        if(idMap.get('contactId') != null){
+            obj.put('Contact__c',idMap.get('contactId'));
         }
 
         for(String fieldName: MARKETING_OBJECT_MAP.get(marketingObj)){
@@ -257,17 +258,13 @@ public without sharing class MarketingStagingMatchingHelper{
      * @description get marketing records
      * @param leadMatches - list of lead matches
      * @param contactMatches - list of contact matches
-     * @param qtacMatchingList - list of qtac matching list
-     * @param samsMatchingList - list of sams matching list
-     * @param studylinkMatchingList - list of studylink matching list
+     * @param matchingList - map of list of qtac, sams and studyLink matching list
      * @return RelatedMarketingRecordsClass marketing record matching
      */
      public static RelatedMarketingRecordsClass getRelatedMarketingRecords( 
         List<Lead> leadMatches, 
-        List<Contact> contactMatches, 
-        List<String> qtacMatchingList, 
-        List<String> samsMatchingList,
-        List<String> studylinkMatchingList){
+        List<Contact> contactMatches,
+        Map<String, List<String>> matchingList){
 
         RelatedMarketingRecordsClass marketingClass = new RelatedMarketingRecordsClass();
         marketingClass.contactSegMap = new Map<Id,List<Marketing_Segmentation__c>>();
@@ -300,9 +297,9 @@ public without sharing class MarketingStagingMatchingHelper{
                                                 FROM Marketing_Course_Application__c 
                                                 WHERE (Lead__c IN: leadMatches 
                                                 OR Contact__c IN: contactMatches)
-                                                AND ( QTAC_Matching_Criteria__c IN: qtacMatchingList
-                                                OR SAMS_Matching_Criteria__c IN: samsMatchingList
-                                                OR Studylink_Matching_Criteria__c IN: studylinkMatchingList)]){
+                                                AND ( QTAC_Matching_Criteria__c IN: matchingList.get('qtacMatchingList')
+                                                OR SAMS_Matching_Criteria__c IN: matchingList.get('samsMatchingList')
+                                                OR Studylink_Matching_Criteria__c IN: matchingList.get('studylinkMatchingList'))]){
         //create a contact map against the marketing segmentation records 
             if(marCourApp.Contact__c != null){
                 if(!marketingClass.contactAppMap.containsKey(marCourApp.Contact__c)){
@@ -402,9 +399,11 @@ public without sharing class MarketingStagingMatchingHelper{
                         segmentation.Id,
                         (Marketing_Segmentation__c)createMarketingRecord(
                             staging,
-                            segmentation.Contact__c,
-                            segmentation.Lead__c,
-                            segmentation.Id,
+                            new Map<String, Id>{
+                                'contactId' => segmentation.Contact__c,
+                                'leadId' => segmentation.Lead__c,
+                                'oldId' => segmentation.Id
+                            },
                             'Marketing_Segmentation__c'
                         )
                     ); 
@@ -421,9 +420,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             staging.Id,
                             (Marketing_Interaction__c)createMarketingRecord(
                                 staging,
-                                segmentation.Contact__c,
-                                segmentation.Lead__c,
-                                segmentation.Id,
+                                new Map<String, Id>{
+                                    'contactId' => segmentation.Contact__c,
+                                    'leadId' => segmentation.Lead__c,
+                                    'oldId' => segmentation.Id
+                                },
                                 'Marketing_Interaction__c'
                             )
                         );
@@ -436,14 +437,15 @@ public without sharing class MarketingStagingMatchingHelper{
                     staging.Id,
                     (Marketing_Segmentation__c)createMarketingRecord(
                         staging,
-                        contactId,
-                        leadId,
-                        null,
+                        new Map<String, Id>{
+                            'contactId' => contactId,
+                            'leadId' => leadId,
+                            'oldId' => null
+                        },                       
                         'Marketing_Segmentation__c'
                     )
                 );
             }
-
             if( applicationMap.containsKey(parentId)){
                 Boolean exactMatchFound = false;
                 for(Marketing_Course_Application__c courseApp:applicationMap.get(parentId)){
@@ -456,9 +458,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             courseApp.Id,
                         (Marketing_Course_Application__c)createMarketingRecord(
                             staging,
-                            courseApp.Contact__c,
-                            courseApp.Lead__c,
-                            courseApp.Id,
+                            new Map<String, Id>{
+                                'contactId' => courseApp.Contact__c,
+                                'leadId' => courseApp.Lead__c,
+                                'oldId' => courseApp.Id
+                            },
                             'Marketing_Course_Application__c'
                             )
                         );
@@ -476,9 +480,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             staging.Id,
                             (Marketing_Course_Application__c)createMarketingRecord(
                                 staging,
-                                contactId,
-                                leadId,
-                                null,
+                                new Map<String, Id>{
+                                    'contactId' => contactId,
+                                    'leadId' => leadId,
+                                    'oldId' => null
+                                },
                                 'Marketing_Course_Application__c'
                             )
                         );
@@ -490,9 +496,11 @@ public without sharing class MarketingStagingMatchingHelper{
                             staging.Id,
                             (Marketing_Course_Application__c)createMarketingRecord(
                                 staging,
-                                contactId,
-                                leadId,
-                                null,
+                                new Map<String, Id>{
+                                    'contactId' => contactId,
+                                    'leadId' => leadId,
+                                    'oldId' => null
+                                },
                                 'Marketing_Course_Application__c'
                             )
                         );

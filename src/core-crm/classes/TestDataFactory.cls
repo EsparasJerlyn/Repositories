@@ -65,6 +65,7 @@
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
  *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
+ *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
  *
  **/
 
@@ -103,9 +104,6 @@ public class TestDataFactory {
         'QUT_Quality_Assurance',
         'QUT_Digital_Marketing_Officer',
         'QUT_Digital_Communication_Officer',
-        'QUT_ISR_Communications_Manager',
-        'QUT_ISR_Student_Enquiries_Communications_Officer',
-        'QUT_ISR_Student_Adviser',
         'QUT_IE_Partnership_Manager',
         'QUT_Operations_Manager',
         'QUT_Domestic_Future_Student_Agent',
@@ -2267,51 +2265,6 @@ public class TestDataFactory {
     }
 
     /**
-     * @description Method for ISR Communications Manager
-     * @param void
-     * @return ISR Communications Manager
-     */
-    public static User getISRCommunicationsManager() {
-        User communicationMgr = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_ISR_Communications_Manager%'
-            LIMIT 1
-        ];
-        return communicationMgr;
-    }
-
-    /**
-     * @description Method for ISR Student Enquiries Communications Officer
-     * @param void
-     * @return ISR Student Enquiries Communications Officer
-     */
-    public static User getISRStudentEnquiriesCommunicationOfficer() {
-        User secoUser = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_ISR_Student_Enquiries_Communications_Officer%'
-            LIMIT 1
-        ];
-        return secoUser;
-    }
-
-    /**
-     * @description Method for ISR Student Adviser
-     * @param void
-     * @return ISR Student Adviser
-     */
-    public static User getISRStudentAdviser() {
-        User studentAdviser = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_ISR_Student_Adviser%'
-            LIMIT 1
-        ];
-        return studentAdviser;
-    }
-
-    /**
      * @description Method for QUT Industry Engagement Partnership Manager
      * @param void
      * @return IE Partnership Manager
@@ -2995,7 +2948,7 @@ public class TestDataFactory {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User,Future_Student_Domestic_Email_Access';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_Domestic_Email_Access';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3009,7 +2962,7 @@ public class TestDataFactory {
                 userName = 'QUT_International_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - International';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator,Lightning_Scheduler_User,Future_Student_International_Email_Access';
+                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3068,50 +3021,6 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'Marketing User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            }
-            /**Start of Creation of ISR - International Student Recruitment Users */
-            else if (name == 'QUT_ISR_Communications_Manager') {
-                userName = 'QUT_ISR_Communications_Manager';
-                profileName = 'International Student Recruitment';
-                roleName = 'International Super User';
-                permSets = 'Enquiry_Management_Base,Email_Template_Management,Manage_Reports_and_Dashboards,Live_Chat_Supervisor';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            } else if (name == 'QUT_ISR_Student_Enquiries_Communications_Officer') {
-                userName = 'QUT_ISR_Student_Enquiries_Communications_Officer';
-                profileName = 'International Student Recruitment';
-                roleName = 'International Super User';
-                permSets = 'Enquiry_Management_Base,Email_Template_Management,Run_Reports_and_Dashboards,Live_Chat_Agent';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            } else if (name == 'QUT_ISR_Student_Adviser') {
-                userName = 'QUT_ISR_Student_Adviser';
-                profileName = 'International Student Recruitment';
-                roleName = 'International User';
-                permSets = 'Enquiry_Management_Base,Run_Reports_and_Dashboards,Live_Chat_Agent';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3993,7 +3902,6 @@ public class TestDataFactory {
      */
     public static List<WorkType> createTestWorkTypeRecords() {
         List<WorkType> newWorkTypes = new List<WorkType>();
-        String workName;
         for (Integer i = 0; i < 2; i++) {
             newWorkTypes.add(
                 new WorkType(

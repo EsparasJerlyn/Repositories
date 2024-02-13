@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
  *    |--------------------------------|-----------------------|------------------------|------------------------------|
  *    | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | alexander.cadalin              | Jan 05 ,2024          | n/a                    | Added methods
  */
 @isTest
 public with sharing class WebCartsDAOTest {
@@ -32,6 +33,35 @@ public with sharing class WebCartsDAOTest {
                 new WebCartsDAO().getSObjectType() == WebCart.SObjectType,
                 'SObject is not WebCart'
             );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWebCartByUserIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<WebCart> webCartList = WebCartsDAO.newInstance()
+                .getWebCartByUserId(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(webCartList.isEmpty(), 'webCartList is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getWebCartByUserIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForWebCart = new MockIdGenerator(WebCart.sObjectType);
+            List<WebCart> webCartList = WebCartsDAO.newInstance()
+                .getWebCartByUserId(
+                    new Set<Id>{builderForWebCart.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(webCartList.isEmpty(), 'webCartList is not empty');
         }
         Test.stopTest();
     }

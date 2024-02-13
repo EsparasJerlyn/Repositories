@@ -53,7 +53,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         'Mailing_Address_Country__c'
     };
 
-    public static void detectLeadDuplicates(Map<Id,Contact> newItems){
+    public static Set<Id> detectLeadDuplicates(Map<Id,Contact> newItems){
         Map<String, Contact> contactsMap = new Map<String, Contact>();
         Set<Id> contactIdSet = new Set<Id>();
         List<Lead> leads = new List<Lead>();
@@ -63,6 +63,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         List<Marketing_Segmentation__c> contactMarketingSegmentations = new List<Marketing_Segmentation__c>();
         List<Marketing_Segmentation__c> marketingSegmentations = new List<Marketing_Segmentation__c>();
         List<Marketing_Course_Application__c> marketingCourseApps = new List<Marketing_Course_Application__c>();
+        Set<Id> contactWithNewMarketingSegmentations = new Set<Id>();
 
         for(Contact con : newItems.values()){
             if(!String.isBlank(con.Email)){
@@ -78,11 +79,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         }
         }
         if(!contactsMap.keySet().isEmpty()){
-            leads = [
-                SELECT Id, Email, Work_Email__c 
-                FROM Lead 
-                WHERE (Email IN : contactsMap.keySet() OR Work_Email__c IN : contactsMap.keySet()) 
-                AND Lead_Type__c = 'Learner'];
+            leads = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(contactsMap.keySet(), AccessLevel.SYSTEM_MODE);
         }
         
 
@@ -92,7 +89,7 @@ public without sharing class ContactWithMatchingLeadHelper {
         Map<Id, List<Contact>> contactsLeadMap = new Map<Id, List<Contact>>();
 
         if(!leadIdSet.isEmpty()){
-            contactList = [SELECT Id, Parent_Person_Contact__c, Parent_Person_Lead__c FROM Contact WHERE Parent_Person_Lead__c IN : leadIdSet];
+            contactList = ContactsDAO.newInstance().getContactsByParentPersonLeadIds(leadIdSet, AccessLevel.SYSTEM_MODE);
         }
 
         for(Contact c : contactList){
@@ -107,7 +104,9 @@ public without sharing class ContactWithMatchingLeadHelper {
 
         Map<Id, List<Marketing_Interaction__c>> marketingInteractionsMap = new Map<Id, List<Marketing_Interaction__c>>();
         if(!leadIdSet.isEmpty()){
-            marketingInteractions = [SELECT Id, Lead__c, Contact__c FROM Marketing_Interaction__c WHERE Lead__c IN : leadIdSet];
+            marketingInteractions = MarketingInteractionsDAO.newInstance().getMarketingInteractionsByContactOrLeadIds(
+                leadIdSet, AccessLevel.SYSTEM_MODE
+            );
         }
         
         for(Marketing_Interaction__c mi : marketingInteractions){
@@ -122,7 +121,9 @@ public without sharing class ContactWithMatchingLeadHelper {
 
         Map<Id, List<Marketing_Course_Application__c>> marketingCourseAppsMap = new Map<Id, List<Marketing_Course_Application__c>>();
         if(!leadIdSet.isEmpty()){
-            marketingCourseApps = [SELECT Id, Lead__c, Contact__c FROM Marketing_Course_Application__c WHERE Lead__c IN : leadIdSet];          
+            marketingCourseApps = MarketingCourseApplicationsDAO.newInstance().getMrktngCourseAppsByLeadIds(
+                leadIdSet, AccessLevel.SYSTEM_MODE
+            );          
         }
 
         for(Marketing_Course_Application__c mca : marketingCourseApps){
@@ -151,11 +152,19 @@ public without sharing class ContactWithMatchingLeadHelper {
         }
 
         if(!contactIdSet.isEmpty()){
-            contactMarketingSegmentations = getLinkedMarketingSegFromContact(contactIdSet);  
+            contactMarketingSegmentations = MarketingSegmentationsDAO.newInstance()
+                .getLinkedMarketingSegByContactOrLeadIds(
+                    contactIdSet,
+                    AccessLevel.SYSTEM_MODE
+                );
         }
          
         if(!leadIdSet.isEmpty()){
-            marketingSegmentations = getLinkedMarketingSegFromLead(leadIdSet);
+            marketingSegmentations = MarketingSegmentationsDAO.newInstance()
+                .getLinkedMarketingSegByContactOrLeadIds(
+                    leadIdSet,
+                    AccessLevel.SYSTEM_MODE
+                );
         }
 
         Map<Id, Marketing_Segmentation__c> leadMarketingSegmentationsMap = new Map<Id, Marketing_Segmentation__c>();
@@ -232,6 +241,7 @@ public without sharing class ContactWithMatchingLeadHelper {
                 for(Marketing_Segmentation__c m : marketingSegmentationsMap.get(lead.Id)){
                     sObject obj = Schema.getGlobalDescribe().get('Marketing_Segmentation__c').newSObject();
                     obj.put('Contact__c', contactsMap.get(lead.Email)?.Id != null ? contactsMap.get(lead.Email).Id : contactsMap.get(lead.Work_Email__c).Id);
+                    contactWithNewMarketingSegmentations.add((Id)obj.get('Contact__c'));
                     for(String fieldName: MARKETING_SEGMENTATION_FIELDS){
                         if(m.get(fieldName) != null){
                             obj.put(fieldName, m.get(fieldName));
@@ -260,6 +270,8 @@ public without sharing class ContactWithMatchingLeadHelper {
         if(!marketingSegmentationToUpdate.isEmpty()){
             Database.update(marketingSegmentationToUpdate, false, AccessLevel.SYSTEM_MODE);
         }
+
+        return contactWithNewMarketingSegmentations;
     }
 
     @Future
@@ -274,7 +286,11 @@ public without sharing class ContactWithMatchingLeadHelper {
     private static void convertLead(List<Id> newItems){
         Map<String, Contact> initContactEmailMap = new Map<String, Contact>();
         Map<String, Contact> initContactWorkEmailMap = new Map<String, Contact>();
-        List<Contact> initContactList = [SELECT Id, Email, Work_Email__c, AccountId FROM Contact WHERE Id IN : newItems AND Parent_Person_Contact__c = null];
+        Set<Id> contactIds = new Set<Id>();
+        contactIds.addAll(newItems);
+        List<Contact> initContactList = ContactsDAO.newInstance().getContactsNoParentPersonContactByIds(
+            contactIds, AccessLevel.SYSTEM_MODE
+        );
         for(Contact c : initContactList){
             if(!String.isBlank(c.Email)){
                 initContactEmailMap.put(c.Email, c);
@@ -284,11 +300,12 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
         }
         List<Lead> initLeads = new List<Lead>();
-        initLeads = [SELECT Id, Email, Work_Email__c, Name FROM Lead 
-                      WHERE ((Email IN : initContactEmailMap.keySet() OR Email IN : initContactWorkEmailMap.keySet())
-                        OR (Work_Email__c IN : initContactWorkEmailMap.keySet() OR Work_Email__c IN : initContactEmailMap.keySet()))
-                        AND Lead_Type__c = 'Learner'];
-        LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = true LIMIT 1];
+        initLeads = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
+            initContactEmailMap.keySet(),
+            initContactWorkEmailMap.keySet(),
+            AccessLevel.SYSTEM_MODE
+        );
+        LeadStatus convertStatus = LeadStatusesDAO.newInstance().getConvertedLeadStatus(AccessLevel.SYSTEM_MODE);
         Map<Id, Database.LeadConvert> leadsToConvertMap = new Map<Id, Database.LeadConvert>();     
         if(initLeads != null && !initLeads.isEmpty()){
             for(Lead lead : initLeads){
@@ -314,7 +331,11 @@ public without sharing class ContactWithMatchingLeadHelper {
         }else{
             Map<String, Contact> contactEmailMap = new Map<String, Contact>();
             Map<String, Contact> contactWorkEmailMap = new Map<String, Contact>();   
-            List<Contact> parentContactList = [SELECT Parent_Person_Contact__r.Id, Parent_Person_Contact__r.Email, Parent_Person_Contact__r.Work_Email__c, Parent_Person_Contact__r.AccountId FROM Contact WHERE Id IN : newItems];
+            List<Contact> parentContactList = ContactsDAO.newInstance()
+                .getContactsWithParentPersonContactByIds(
+                    contactIds,
+                    AccessLevel.SYSTEM_MODE
+                );
             for(Contact c : parentContactList){
                 if(!String.isBlank(c.Parent_Person_Contact__r.Email)){
                     contactEmailMap.put(c.Parent_Person_Contact__r.Email, c);
@@ -324,10 +345,11 @@ public without sharing class ContactWithMatchingLeadHelper {
                 }
             }
             List<Lead> leads = new List<Lead>();
-            leads = [SELECT Id, Email, Work_Email__c, Name FROM Lead 
-                      WHERE ((Email IN : contactEmailMap.keySet() OR Email IN : contactWorkEmailMap.keySet())
-                        OR (Work_Email__c IN : contactWorkEmailMap.keySet() OR Work_Email__c IN : contactEmailMap.keySet()))
-                        AND Lead_Type__c = 'Learner'];
+            leads = LeadsDAO.newInstance().getLearnerLeadsByEmailOrWorkEmail(
+                contactEmailMap.keySet(),
+                contactWorkEmailMap.keySet(),
+                AccessLevel.SYSTEM_MODE
+            );
 
             for(Lead lead : leads){
                 Database.LeadConvert leadToConvert = new Database.LeadConvert();
@@ -358,56 +380,5 @@ public without sharing class ContactWithMatchingLeadHelper {
             }
             Database.convertLead(leadsToConvert, false); 
         }
-    }
-
-    private static List<Marketing_Segmentation__c> getLinkedMarketingSegFromContact(Set<Id> contactIdSet){
-        return [SELECT Id, Lead__c, Contact__c, Migration_Key__c,Prospects_Behaviour__c,Prospects_Rank__c,
-                Prospects_Score__c,Previous_Educational_Institution__c,Secondary_School_Name__c,
-                Alumnus_Educational_Institution__c,Course_Referrer__c,My_Profile_Persona__c,My_Citizenship_Status__c,
-                My_Indigenous_Status_ATSI__c,My_Country_Of_Citizenship__c,My_Country_Of_Residency__c,My_Expected_Admission_Year__c,
-                My_Year_12_Expected_Completion_Year__c,My_Studying_Australian_Curriculum__c,My_Funding_Source__c,
-                My_Moving_To_Brisbane__c,My_High_Achieving_Student__c,My_Elite_Athlete__c,My_Organisation__c,
-                My_Position__c,My_Industry__c,My_Primary_Study_Level__c,My_Primary_BSA__c,My_Primary_NSA__c,
-                My_Secondary_Study_Level__c,My_Secondary_BSA__c,My_Secondary_NSA__c,My_Double_Degree__c,
-                My_Interested_Pathway_Program_or_Diploma__c,My_Interested_English_Pathways__c,My_Interested_Financial_Assistance__c,
-                My_Interested_Entrepreneurship__c,My_Interested_Languages__c,My_Interested_ESport_Interest__c,My_Postcode__c,
-                My_State__c,My_Suburb__c,SE_Profile_Persona__c,SE_Citizenship_Status__c,SE_Indigenous_Status_ATSI__c,
-                SE_Country_Of_Citizenship__c,SE_Country_Of_Residency__c,SE_Expected_Admission_Year__c,SE_Education_Level__c, SE_Year_12_Expected_Completion_Year__c,
-                SE_Studying_Australian_Curriculum__c,SE_Funding_Source__c,SE_Moving_To_Brisbane__c,SE_High_Achieving_Student__c,
-                SE_Elite_Athlete__c,SE_Organisation__c,SE_Position__c,SE_Industry__c,SE_Primary_Study_Level__c,SE_Primary_BSA__c,
-                SE_Primary_NSA__c,SE_Secondary_Study_Level__c,SE_Secondary_BSA__c,SE_Secondary_NSA__c,SE_Double_Degree__c,
-                SE_Interested_Pathway_Program_or_Diploma__c,SE_Interested_English_Pathways__c,SE_Interested_Financial_Assistance__c,
-                SE_Interested_Entrepreneurship__c,SE_Interested_Languages__c,SE_Interested_ESport_Interest__c,SE_Interested_Course_Name__c,
-                SE_Postcode__c,SE_State__c,SE_Suburb__c,ORG_Profile_Persona__c,ORG_Indigenous_Status_ATSI__c,ORG_Country_Of_Residency__c,
-                ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c,
-                ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c,
-                ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,
-                Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Contact__c IN : contactIdSet
-            ];
-    }
-
-    private static List<Marketing_Segmentation__c> getLinkedMarketingSegFromLead(Set<Id> leadIdSet){
-        return [SELECT Id, Lead__c, Contact__c, Migration_Key__c,Prospects_Behaviour__c,Prospects_Rank__c,
-            Prospects_Score__c,Previous_Educational_Institution__c,Secondary_School_Name__c,
-            Alumnus_Educational_Institution__c,Course_Referrer__c,My_Profile_Persona__c,My_Citizenship_Status__c,
-            My_Indigenous_Status_ATSI__c,My_Country_Of_Citizenship__c,My_Country_Of_Residency__c,My_Expected_Admission_Year__c,
-            My_Year_12_Expected_Completion_Year__c,My_Studying_Australian_Curriculum__c,My_Funding_Source__c,
-            My_Moving_To_Brisbane__c,My_High_Achieving_Student__c,My_Elite_Athlete__c,My_Organisation__c,
-            My_Position__c,My_Industry__c,My_Primary_Study_Level__c,My_Primary_BSA__c,My_Primary_NSA__c,
-            My_Secondary_Study_Level__c,My_Secondary_BSA__c,My_Secondary_NSA__c,My_Double_Degree__c,
-            My_Interested_Pathway_Program_or_Diploma__c,My_Interested_English_Pathways__c,My_Interested_Financial_Assistance__c,
-            My_Interested_Entrepreneurship__c,My_Interested_Languages__c,My_Interested_ESport_Interest__c,My_Postcode__c,
-            My_State__c,My_Suburb__c,SE_Profile_Persona__c,SE_Citizenship_Status__c,SE_Indigenous_Status_ATSI__c,
-            SE_Country_Of_Citizenship__c,SE_Country_Of_Residency__c,SE_Expected_Admission_Year__c,SE_Education_Level__c, SE_Year_12_Expected_Completion_Year__c,
-            SE_Studying_Australian_Curriculum__c,SE_Funding_Source__c,SE_Moving_To_Brisbane__c,SE_High_Achieving_Student__c,
-            SE_Elite_Athlete__c,SE_Organisation__c,SE_Position__c,SE_Industry__c,SE_Primary_Study_Level__c,SE_Primary_BSA__c,
-            SE_Primary_NSA__c,SE_Secondary_Study_Level__c,SE_Secondary_BSA__c,SE_Secondary_NSA__c,SE_Double_Degree__c,
-            SE_Interested_Pathway_Program_or_Diploma__c,SE_Interested_English_Pathways__c,SE_Interested_Financial_Assistance__c,
-            SE_Interested_Entrepreneurship__c,SE_Interested_Languages__c,SE_Interested_ESport_Interest__c,SE_Interested_Course_Name__c,
-            SE_Postcode__c,SE_State__c,SE_Suburb__c,ORG_Profile_Persona__c,ORG_Indigenous_Status_ATSI__c,ORG_Country_Of_Residency__c,
-            ORG_Organisation__c,ORG_Position__c,ORG_Industry__c,ORG_Primary_Study_Level__c,ORG_Primary_BSA__c,ORG_Primary_NSA__c,
-            ORG_Secondary_Study_Level__c,ORG_Secondary_BSA__c,ORG_Secondary_NSA__c,ORG_Interested_Languages__c,ORG_Interested_Course_Name__c,
-            ORG_Postcode__c,ORG_State__c, ORG_Education_Level__c, ORG_Suburb__c, My_Education_Level__c,External_Key__c,
-            Mailing_Address_Country__c FROM Marketing_Segmentation__c WHERE Lead__c IN : leadIdSet];
     }
 }

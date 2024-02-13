@@ -1,7 +1,7 @@
 /**
   * @description Batch class to recalculate lead score when lead score config is updated
   *
-  * @author Accenture 
+  * @author Accenture
   *
   * @history
   *

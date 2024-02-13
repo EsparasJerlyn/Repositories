@@ -222,6 +222,9 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
 
     private static void collectIdsToRemove(Set<Id> targetIdsToRemove, List<Id> targetIds, String calculatedCadence){
 
+        Set<String> calculatedCadenceSet = new Set<String>{calculatedCadence};
+        Set<Id> targetIdsSet = new Set<Id>(targetIds);
+
         for(Contact record: ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>(targetIds),AccessLevel.SYSTEM_MODE)){
             if(record.Calculated_Cadence__c == calculatedCadence + ' Edit'){
                 //collect contact/leads ids where asignment is in progress
@@ -239,8 +242,8 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         for (
             ActionCadenceTracker aCadenceTracker : ActionCadenceTrackersDAO.newInstance()
                 .getRunningACTrackerByTargetIdAndCadenceName(
-                    new Set<Id>(targetIds),
-                    new Set<String>{ calculatedCadence },
+                    targetIdsSet,
+                    calculatedCadenceSet,
                     'USER_MODE'
                 )
         ){
@@ -248,11 +251,16 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             targetIdsToRemove.add(aCadenceTracker.TargetId);
         } 
 
+        filterByCompletedCadence(targetIdsSet,calculatedCadenceSet,targetIdsToRemove);
+
+    }
+
+    private static void filterByCompletedCadence(Set<Id> targetIdsSet, Set<String> calculatedCadenceSet, Set<Id> targetIdsToRemove){
         for (
             Completed_Cadence__C completedCadence : CompletedCadencesDAO.newInstance()
                 .getCompletedCadenceByTargetIds(
-                    new Set<Id>(targetIds),
-                    new Set<String>{ calculatedCadence },
+                    targetIdsSet,
+                    calculatedCadenceSet,
                     'USER_MODE'
                 )
         ){

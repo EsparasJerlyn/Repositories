@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | arsenio.jr.dayrit              | March 04, 2023        | DEPP-5322              | Created file                 | 
+      | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variable      |
       |                                |                       |                        |                              | 
  */
 @isTest
@@ -61,7 +62,7 @@ public class ContactHeaderSectionCtrlTest {
             Boolean exceptionOccurred = false;
             try{
                 // Create a new ContentDistribution object with the test file content
-                String response = ContactHeaderSectionCtrl.createContentDistribution('test');
+                ContactHeaderSectionCtrl.createContentDistribution('test');
             }catch(Exception e){
                 exceptionOccurred = true;
             }

@@ -22,7 +22,7 @@ public with sharing class InternationalTierTriggerHandlerTest {
     @isTest
     public static void addingCountryTierTest(){
         Test.startTest();
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
                                                             new List<String>{'Wales','Australia'}, 'Tier 1',true);
             tierList.addAll(TestDataFactory.createInternationalTierRecords(
@@ -37,7 +37,7 @@ public with sharing class InternationalTierTriggerHandlerTest {
     @isTest
     public static void addingTierWithExistingActive(){
         Test.startTest();
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             Boolean hasException = false;
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
                                                             new List<String>{'Wales','Australia'}, 'Tier 1',true);
@@ -61,7 +61,7 @@ public with sharing class InternationalTierTriggerHandlerTest {
     @isTest
     public static void testTwoActiveCountryTiers(){
         Test.startTest();
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             Boolean hasException = false;
             try{
                 List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
@@ -79,7 +79,7 @@ public with sharing class InternationalTierTriggerHandlerTest {
     @isTest
     public static void testSwitchingActiveTiers(){
         Test.startTest();
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             Boolean hasException = false;
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
                                                             new List<String>{'Wales'}, 'Tier 1',true);
@@ -108,7 +108,7 @@ public with sharing class InternationalTierTriggerHandlerTest {
     @isTest
     public static void updatingOwnRecord(){
         Test.startTest();
-        System.runAs(TestDataFactory.getISRStudentEnquiriesCommunicationOfficer()){
+        System.runAs(TestDataFactory.getSystemAdminUser()){
             Boolean hasException = false;
             List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(
                                                             new List<String>{'Wales','Australia'}, 'Tier 1',true);

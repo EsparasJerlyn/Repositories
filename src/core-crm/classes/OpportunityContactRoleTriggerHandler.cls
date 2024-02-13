@@ -10,18 +10,13 @@
       | mark.j.mahilum            | Aug 24, 2023          | DEPP-6367    | Created file                                |
 */
 public with sharing class OpportunityContactRoleTriggerHandler implements Disableable,  AfterInsert, AfterUpdate {
-    public static Boolean isRunning = false;
 
    /**
     * @description afterInsert trigger event
     * @param newItems - List of OpportunityContactRole.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-        
-        if(!isRunning ){
-            isRunning = true;
-            getContactFromOpportunityContactRole((List<OpportunityContactRole>) newItems.values(),null);
-        }
+        getContactFromOpportunityContactRole((List<OpportunityContactRole>) newItems.values(),null);
     }
 
    /**
@@ -33,10 +28,7 @@ public with sharing class OpportunityContactRoleTriggerHandler implements Disabl
         Map<Id, SObject> newItems,
         Map<Id, Sobject> oldItems
     ) {
-        if(!isRunning ){
-            isRunning = true;
-            getContactFromOpportunityContactRole((List<OpportunityContactRole>) newItems.values(),(Map<Id, OpportunityContactRole>) oldItems);
-        }
+        getContactFromOpportunityContactRole((List<OpportunityContactRole>) newItems.values(),(Map<Id, OpportunityContactRole>) oldItems);
     }
     
    /**

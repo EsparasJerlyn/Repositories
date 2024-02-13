@@ -86,11 +86,11 @@ public inherited sharing class ContactLeadScoreHelper{
      */
     private static void mapUndeterminedStudyLevel(Contact contact, Map<Id,Marketing_Segmentation__c> marketingSegMap) {
         Boolean isUndetermined = 
-            marketingSegMap.containsKey(contact.Id) && String.isBlank(marketingSegMap.get(contact.Id).My_Primary_Study_Level__c) || 
+            marketingSegMap.containsKey(contact.Id) && (String.isBlank(marketingSegMap.get(contact.Id).My_Primary_Study_Level__c) || 
             (
                 marketingSegMap.get(contact.Id).My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_UNDERGRAD &&
                 marketingSegMap.get(contact.Id).My_Primary_Study_Level__c != MarketingSegmentationsDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
-            );
+            ));
         Boolean isDomesticContact = isUndetermined && contact.hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC;
         Boolean isInternationalContact = isUndetermined && contact.hed__Citizenship_Status__c == ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
         Boolean hasNoCitizenship = isUndetermined && String.isBlank(contact.hed__Citizenship_Status__c);

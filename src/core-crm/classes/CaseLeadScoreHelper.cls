@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Case
+  * @description helper class to compute Lead Score for Case 
   * @see ..CaseTriggerHandler
   *
   * @author Accenture 
@@ -17,7 +17,7 @@
   *    | eccarius.munoz                 | October 22, 2023      | DEPP-6957              | Added handling to run calculation in sync      | 
   *    |                                |                       |                        | process if there's already an existing queue.  | 
   */
-  public with sharing class CaseLeadScoreHelper{
+  public with sharing class CaseLeadScoreHelper{ 
 
     private static Map<Id,Case> domesticUnderGradMap = new Map<Id,Case>();
     private static Map<Id,Case> domesticPostGradMap = new Map<Id,Case>();
@@ -32,7 +32,7 @@
      * @param List<Case> newItems - Case.Trigger.new
      * @param Map<Id, Case> oldItems - Case.Trigger.old
      */
-    public static void processLeadScoreCalculation(List<Case> newItems, Map<Id, Case> oldItems){
+    public static void processLeadScoreCalculation(List<Case> newItems, Map<Id, Case> oldItems) {
 
         /**
          * Filtering of case records
@@ -41,7 +41,7 @@
         Set<Id> leadIdSet = new Set<Id>();
         
         for(Case caseRec : newItems){   
-            if(isForProcessing(caseRec, oldItems)){    
+            if(isForProcessing(caseRec, oldItems)) {    
                 setContactIds(caseRec, oldItems, contactIdSet);    
                 setLeadIds(caseRec, oldItems, leadIdSet);
             }

@@ -14,8 +14,16 @@
 
 @isTest
 public class TranslateServiceTest {
+    @testSetup
+    static void testSetup() {
+        Test.startTest();
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        Test.stopTest();
+    }
+    
     @isTest
     static void testGetTranslationEndpoint() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.startTest();
         String translationEndpoint = TranslateService.getTranslationEndpoint();
         Test.stopTest();
@@ -24,18 +32,22 @@ public class TranslateServiceTest {
             translationEndpoint,
             'Translation endpoint should not be null.'
         );
+        }
     }
 
     @isTest
     static void testGetDetectionEndpoint() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.startTest();
         String detectionEndpoint = TranslateService.getDetectionEndpoint();
         Test.stopTest();
         System.assertNotEquals(null, detectionEndpoint, 'Detection endpoint should not be null.');
+        }
     }
 
     @isTest
     static void testGetSupportedLanguagesEndpoint() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.startTest();
         String supportedLanguagesEndpoint = TranslateService.getSupportedLanguagesEndpoint();
         Test.stopTest();
@@ -44,10 +56,12 @@ public class TranslateServiceTest {
             supportedLanguagesEndpoint,
             'Supported languages endpoint should not be null.'
         );
+        }
     }
 
     @IsTest
     private static void testSingleTranslation() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(true));
 
         String translation;
@@ -56,10 +70,12 @@ public class TranslateServiceTest {
         Test.stopTest();
 
         System.assertNotEquals(null, translation, 'Translation should not be null.');
+        }
     }
 
     @IsTest
     private static void testMultipleTranslation() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(false));
 
         String[] translations;
@@ -71,10 +87,12 @@ public class TranslateServiceTest {
         Test.stopTest();
 
         System.assertEquals(2, translations.size(), 'Expected 2 translations.');
+        }
     }
 
     @IsTest
     private static void testSingleTranslationWithSourceLanguage() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(true));
 
         String translation;
@@ -83,10 +101,12 @@ public class TranslateServiceTest {
         Test.stopTest();
 
         System.assertNotEquals(null, translation, 'Translation should not be null.');
+        }
     }
 
     @IsTest
     private static void testMultipleTranslationWithSourceLanguage() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(false));
 
         String[] translations;
@@ -99,10 +119,12 @@ public class TranslateServiceTest {
         Test.stopTest();
 
         System.assertEquals(2, translations.size(), 'Expected 2 translations.');
+        }
     }
 
     @IsTest
     private static void testInvalidTranslationCallout() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleTranslationMock(true));
 
         String translation;
@@ -111,10 +133,12 @@ public class TranslateServiceTest {
         Test.stopTest();
 
         System.assertEquals(null, translation, 'Translation of a null query should be null.');
+        }
     }
 
     @IsTest
     private static void testSingleDetection() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleDetectionMock());
 
         String detections;
@@ -123,10 +147,12 @@ public class TranslateServiceTest {
         Test.stopTest();
 
         System.assertNotEquals(null, detections, 'Detection should not be null.');
+        }
     }
 
     @IsTest
     private static void testMultipleDetections() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleDetectionMock());
 
         String[] detections;
@@ -136,10 +162,12 @@ public class TranslateServiceTest {
 
         System.assertNotEquals(null, detections, 'Detections should not be null.');
         System.assertEquals(2, detections.size(), 'Expected 2 detections.');
+        }
     }
 
     @IsTest
     private static void testInvalidDetectionCallout() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleDetectionMock());
 
         String detections;
@@ -148,18 +176,22 @@ public class TranslateServiceTest {
         Test.stopTest();
 
         System.assertEquals(null, detections, 'Detection of a null query should be null.');
+        }
     }
 
     @isTest
     static void testGetSupportedLanguages() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         Test.setMock(HttpCalloutMock.class, new GoogleSupportedLanguagesMock());
 
         String supportedLanguages = TranslateService.getSupportedLanguages();
         System.assertNotEquals(null, supportedLanguages, 'Supported languages should not be null.');
+        }
     }
 
     @isTest
     static void testMapLanguageCode() {
+        System.runAs(TestDataFactory.getSystemAdminUser()){
         // Test mapping for 'iw' (Hebrew)
         String mappedHebrew = TranslateService.mapLanguageCode('iw');
         System.assertEquals('he', mappedHebrew, 'Hebrew should be mapped to "he"');
@@ -179,6 +211,7 @@ public class TranslateServiceTest {
         // Test a language code with no mapping
         String unmappedCode = TranslateService.mapLanguageCode('xx');
         System.assertEquals('xx', unmappedCode, 'Unmapped code should remain unchanged');
+        }
     }
 
     public class GoogleTranslationMock implements HttpCalloutMock {

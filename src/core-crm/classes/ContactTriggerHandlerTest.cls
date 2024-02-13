@@ -20,6 +20,7 @@
      |                                |                       |                        | Email in sendEmailOnContact  |
      | alexander.cadalin              | July 30, 2022         | DEPP-3623              | Commented out old dupe checker
      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentationTest|
+     | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables     |
 */
 @isTest
 public with sharing class ContactTriggerHandlerTest {
@@ -399,15 +400,11 @@ public with sharing class ContactTriggerHandlerTest {
         Test.StopTest();
 
         //assign corporate partner permission set
-        List<PermissionSetAssignment> permSetAssignments = new List<PermissionSetAssignment>();
         List<PermissionSet> permsets = new List<PermissionSet>();
         if(Schema.sObjectType.PermissionSet.isAccessible()){
             permsets = [SELECT Id FROM PermissionSet WHERE Label = 'Corporate Partner' LIMIT 1];
         }
 
-        List<PermissionSetAssignment> userPermSetAssignments = new List<PermissionSetAssignment>();
-
-    
         PermissionSetAssignment permSetAssignment = new PermissionSetAssignment(
                 PermissionSetId = permsets[0].Id,
                 AssigneeId = commerceUser.Id

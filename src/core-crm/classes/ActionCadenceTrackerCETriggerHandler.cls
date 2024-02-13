@@ -10,18 +10,13 @@
      | mark.j.mahilum            | Aug 23, 2023          | DEPP-5846    | Created file                                                          |
 */
 public with sharing class ActionCadenceTrackerCETriggerHandler implements Disableable,  AfterInsert {
-    public static Boolean isRunning = false;
     
-   /**
+    /**
     * @description afterInsert trigger event
     * @param newItems - Map<Id, SObject> of ActionCadenceTrackerChangeEvent.Trigger.new
     */
     public void afterInsert(Map<Id, SObject> newItems) {
-        
-        if(!isRunning ){
-            isRunning = true; 
-            processCompletedCadenceTracker((List<ActionCadenceTrackerChangeEvent>) newItems.values());           
-        }
+        processCompletedCadenceTracker((List<ActionCadenceTrackerChangeEvent>) newItems.values());           
     }
     
     
@@ -40,7 +35,7 @@ public with sharing class ActionCadenceTrackerCETriggerHandler implements Disabl
     */
     public static void processCompletedCadenceTracker(List<ActionCadenceTrackerChangeEvent> newItems) {       
         List<String> recordIds = new List<String>();  
-        try{
+        try {
             for(ActionCadenceTrackerChangeEvent event : newItems) {
                 EventBus.ChangeEventHeader header = event.ChangeEventHeader;                
                 recordIds.addAll(header.getRecordIds());         
@@ -49,11 +44,11 @@ public with sharing class ActionCadenceTrackerCETriggerHandler implements Disabl
                 }       
             }
             
-            if(!recordIds.isEmpty()){                
+            if(!recordIds.isEmpty()) {                
                 SalesCadenceCalloutService.processCompletedCadenceTracker(recordIds);   
-            }   
+            }
             
-        }catch(Exception e){
+        } catch(Exception e) {
             Logger.error('Exception caught in method execute in Apex Trigger ActionCadenceTrackerCETriggerHandler.').setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {

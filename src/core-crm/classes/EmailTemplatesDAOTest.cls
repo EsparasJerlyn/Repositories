@@ -46,7 +46,7 @@ public with sharing class EmailTemplatesDAOTest {
             List<EmailTemplate> emailTempList = EmailTemplatesDAO.newInstance()
                 .getEmailTemplatesByNameSet(
                     new Set<String>(),
-                    'USER_MODE'
+                    AccessLevel.SYSTEM_MODE
                 );
             System.assert(emailTempList.isEmpty(), 'emailTempList should not be empty.');
         }

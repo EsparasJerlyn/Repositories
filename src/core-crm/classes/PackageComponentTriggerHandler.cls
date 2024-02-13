@@ -10,7 +10,6 @@
       | arsenio.jr.dayrit         | August 15,2023        | DEPP-6370    | Created file                                                          |
 */
 public with sharing class PackageComponentTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate {
-    public static Boolean isRunning = false;
 
     /**
    * @description beforeInsert trigger event

@@ -15,10 +15,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Case Layout</layout>
-        <recordType>Case.International_Enquiry</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Case-Case Layout</layout>
         <recordType>Case.International_Future_Student_Enquiry</recordType>
     </layoutAssignments>
     <layoutAssignments>

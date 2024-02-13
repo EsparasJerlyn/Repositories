@@ -25,7 +25,7 @@ public inherited sharing class EmailTemplatesDAOMock extends DmlBaseMock impleme
 
     public List<EmailTemplate> getEmailTemplatesByNameSet(
         Set<String> nameSet,
-		String accessLevel 
+		AccessLevel accessLevel 
     ) {
         List<EmailTemplate> emailTempList = new List<EmailTemplate>();
 

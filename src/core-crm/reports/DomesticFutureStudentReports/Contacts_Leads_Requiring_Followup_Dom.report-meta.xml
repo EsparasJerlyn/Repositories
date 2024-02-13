@@ -52,6 +52,11 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
+        <field>Completed_Cadence__c$QTAC_Offer_Round__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
         <field>Completed_Cadence__c$Cadence_Name__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>

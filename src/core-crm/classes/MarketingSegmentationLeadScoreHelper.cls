@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for MarketingSegmentation
+  * @description helper class to compute Lead Score for MarketingSegmentation 
   * @see ..MarketingSegmentationTriggerHelper
   *
   * @author Accenture 
@@ -12,7 +12,7 @@
   *    |                                |                       |                        | for marketing segmentation                     |
   *    | roy.nino.s.regala              | Jan 11, 2024          | DEPP-7142              | Updated checker on what segmentation to process|
   */
-  public with sharing class MarketingSegmentationLeadScoreHelper{    
+  public with sharing class MarketingSegmentationLeadScoreHelper {    
 
     private static Map<Id,Marketing_Segmentation__c> domesticUnderGradMap = new Map<Id,Marketing_Segmentation__c>();
     private static Map<Id,Marketing_Segmentation__c> domesticPostGradMap = new Map<Id,Marketing_Segmentation__c>();
@@ -25,7 +25,7 @@
     /**
      * Filter records to be processed
      */
-    public static void processLeadScoreCalculation(List<Marketing_Segmentation__c> newItems, Map<Id, Marketing_Segmentation__c> oldItems){
+    public static void processLeadScoreCalculation(List<Marketing_Segmentation__c> newItems, Map<Id, Marketing_Segmentation__c> oldItems) {
 
         Map<Id,Marketing_Segmentation__c> marketingSegmentationMap = new Map<Id,Marketing_Segmentation__c>();
         Set<Id> contactIdSet = new Set<Id>();
@@ -230,3 +230,4 @@
     /*** Methods for checking if for lead score calculation : End ***/
 
 }
+

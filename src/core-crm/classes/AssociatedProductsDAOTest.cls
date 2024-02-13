@@ -5,9 +5,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                              |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------|
+      | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file                                |   
+      | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added method for getAssociatedProductsById  |
  */
 @isTest
 public with sharing class AssociatedProductsDAOTest {
@@ -23,6 +24,39 @@ public with sharing class AssociatedProductsDAOTest {
             System.assert(
                 AssociatedProductsDAO.newInstance()
                     .getActiveAssociatedProductsByProductRequest(new Set<Id>())
+                    .isEmpty(),
+                'associated product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getAssociatedProductsByIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            System.assert(
+                AssociatedProductsDAO.newInstance()
+                    .getAssociatedProductsById(
+                        new Set<Id>(),
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'associated product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getAssociatedProductsByIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builder = new MockIdGenerator(Associated_Products__c.sObjectType);
+            System.assert(
+                AssociatedProductsDAO.newInstance()
+                    .getAssociatedProductsById(
+                        new Set<Id>{builder.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
                     .isEmpty(),
                 'associated product retrieved is not empty'
             );

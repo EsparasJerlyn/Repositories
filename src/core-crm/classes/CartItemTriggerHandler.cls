@@ -10,6 +10,7 @@
       |--------------------------------|-----------------------|------------------------|--------------------------------------------------------------------|
       | eugene.andrew.abuan            | March 22, 2022        | DEPP-1991              | Created file                                                       |
       | arsenio.jr.dayrit              | April 07, 2022        | DEPP-2057              | add method for counting cart item  for course and program offering |
+      | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | ApexCRUDViolation is fixed                                         |
  */
 public without sharing class CartItemTriggerHandler implements Disableable, BeforeInsert,
                                                                             AfterInsert,
@@ -91,9 +92,7 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
         }
       }
 
-
-      List<AggregateResult> aggrCourseOfferList = [SELECT Course_Offering__c, COUNT(Id) counter FROM CartItem WHERE Course_Offering__c IN :courseOfferIdSet 
-                                                   AND Cart.Status__c = 'Checkout' GROUP BY Course_Offering__c];
+      List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance().countCartItemsGroupByCourseOffering(courseOfferIdSet, AccessLevel.SYSTEM_MODE);
 
       for (AggregateResult aggrCourseOffer : aggrCourseOfferList) {
         if (String.isNotBlank((Id) aggrCourseOffer.get('Course_Offering__c'))) {
@@ -101,7 +100,7 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
         }
       }
 
-      List<hed__Course_Offering__c> courseOfferList = [SELECT Id, Checkout_Cart_Items_Count__c FROM hed__Course_Offering__c WHERE Id IN :courseOfferIdSet];
+      List<hed__Course_Offering__c> courseOfferList = CourseOfferingsDAO.newInstance().getCourseOfferingByRecordIds(courseOfferIdSet, AccessLevel.SYSTEM_MODE);
 
       for (hed__Course_Offering__c courseOffer : courseOfferList) {
         if (courseOfferMap.containsKey(courseOffer.Id)) {
@@ -110,11 +109,10 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
           courseOffer.Checkout_Cart_Items_Count__c = 0;
         }
       }
-      update courseOfferList;
 
+      CourseOfferingsDAO.newInstance().updateRecords(courseOfferList, false, AccessLevel.SYSTEM_MODE);
 
-      List<AggregateResult> aggrProgramOfferList = [SELECT Program_Offering__c, COUNT(Id) counter FROM CartItem WHERE Program_Offering__c IN :programOfferIdSet 
-                                                    AND Cart.Status__c = 'Checkout' GROUP BY Program_Offering__c];
+      List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance().countCartItemsGroupByProgramOffering(programOfferIdSet, AccessLevel.SYSTEM_MODE);
 
       for (AggregateResult aggrProgramOffer : aggrProgramOfferList) {
         if (String.isNotBlank((Id) aggrProgramOffer.get('Program_Offering__c'))) {
@@ -122,7 +120,7 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
         }
       }
 
-      List<Program_Offering__c> programOfferList = [SELECT Id, Checkout_Cart_Items_Count__c FROM Program_Offering__c WHERE Id IN :programOfferIdSet];
+      List<Program_Offering__c> programOfferList = ProgramOfferingsDAO.newInstance().getProgramOfferingByRecordIds(programOfferIdSet, AccessLevel.SYSTEM_MODE);
 
       for (Program_Offering__c programOffer : programOfferList) {
         if (programOfferMap.containsKey(programOffer.Id)) {
@@ -131,7 +129,7 @@ public without sharing class CartItemTriggerHandler implements Disableable, Befo
           programOffer.Checkout_Cart_Items_Count__c = 0;
         }
       }
-      update programOfferList;
+      ProgramOfferingsDAO.newInstance().updateRecords(programOfferList, false, AccessLevel.SYSTEM_MODE);
 
 
     } catch (Exception e) {

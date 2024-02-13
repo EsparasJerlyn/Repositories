@@ -36,4 +36,18 @@ public inherited sharing class UsersDAOMock extends DmlBaseMock implements IUser
 
         return userList;
     }
+
+    public List<User> getUsersById(
+        Set<Id> userIdSet,     
+        AccessLevel accessLevel){
+
+        List<User> userList = new List<User>();
+        for (User record : usersMap.values()) {
+            if (userIdSet.contains(record.Id)) {
+                userList.add(record);
+            }
+        }
+
+        return userList;
+    }
 }

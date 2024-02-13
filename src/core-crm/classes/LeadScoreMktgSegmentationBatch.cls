@@ -1,8 +1,8 @@
 
 /**
-  * @description Chained Batch job from LeadScoreConfigRecalculationBatch to recalculate lead score for Marketing Segmentation related records.
+  * @description Chained Batch job from LeadScoreConfigRecalculationBatch to recalculate lead score for Marketing Segmentation related records. 
   *
-  * @author Accenture 
+  * @author Accenture
   *
   * @history
   *
@@ -17,7 +17,7 @@
     private Set<Id> contactIdSet;
     private Set<Id> leadIdSet;
 
-    public void recalculateLeadScore(Set<Id> contactIdSet, Set<Id> leadIdSet){
+    public void recalculateLeadScore(Set<Id> contactIdSet, Set<Id> leadIdSet) {
         this.contactIdSet = contactIdSet;
         this.leadIdSet = leadIdSet;
         this.contactLeadIds = LeadScoreCalculatorService.mergeContactAndLeadIdsIntoOneSet(contactIdSet, leadIdSet);
@@ -29,7 +29,7 @@
     * @param bc - BatchableContext
     * @return query - filtered query of Marketing_Segmentation__c records
     */
-    public Database.QueryLocator start(Database.BatchableContext bc){        
+    public Database.QueryLocator start(Database.BatchableContext bc) {        
         return MarketingSegmentationsDAO.newInstance().queryLocatorGetMarketingSegmentationsByContactOrLeadIds(contactLeadIds);
     }
 
@@ -53,8 +53,8 @@
             LeadScoreCalculatorService.ObjectMap objMap = MarketingSegmentationLeadScoreHelper.setObjectMap(contactIdSet, leadIdSet, marketingSegmentationMap);
             if(!marketingSegmentationMap.isEmpty()){
                 LeadScoreCalculatorService.calculateLeadScore(objMap, contactLeadIds, Marketing_Segmentation__c.getSObjectType());
-            }  
-        }catch(Exception e){
+            }
+        } catch(Exception e) {
             Logger.error('Exception caught in method execute in Apex class LeadScoreMktgSegmentationBatch.').setExceptionDetails(e);
         } finally {
             if(Logger.getBufferSize() > 0) {

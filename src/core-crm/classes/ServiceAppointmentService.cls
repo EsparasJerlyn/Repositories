@@ -6,23 +6,24 @@
  * @author Accenture
  *
  * @history
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
- *    |--------------------------------|-----------------------|------------------------|-------------------------------|
- *    | nicole.genon                   | December 4,2023       | DEPP-7259	            | Created File                  |
- *    | ryan.j.a.dela.cruz             | December 12,2023      | DEPP-7259	            | Updated template merge fields |
- *    | eugene.andrew.abuan            | December 15,2023      | DEPP-7448	            | Removed Reminder email        |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                   |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------|
+ *    | nicole.genon                   | December 4,2023       | DEPP-7259	            | Created File                     |
+ *    | ryan.j.a.dela.cruz             | December 12,2023      | DEPP-7259	            | Updated template merge fields    |
+ *    | eugene.andrew.abuan            | December 15,2023      | DEPP-7448	            | Removed Reminder email           |
+ *    | kenneth.f.alsay                | January 4, 2024       |                        | Fixed ExcessiveParameterList PMD |   
 
  */
 public inherited sharing class ServiceAppointmentService {
-    private static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'Bookable Appointment - International Confirmation',
         'Domestic Phone Calls' => 'Bookable Appointment - Domestic Confirmation'
     };
-    private static final Map<String, String> REMINDER_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> REMINDER_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'International Reminder',
         'Domestic Phone Calls' => 'Domestic Reminder'
     };
-    private static final Map<String, String> CANCELLED_EMAIL_TEMPLATE_MAP = new Map<String, String>{
+    public static final Map<String, String> CANCELLED_EMAIL_TEMPLATE_MAP = new Map<String, String>{
         'International Phone Calls' => 'International Cancellation',
         'Domestic Phone Calls' => 'Domestic Cancellation'
     };
@@ -32,15 +33,14 @@ public inherited sharing class ServiceAppointmentService {
     /**
      * @description Method that will Send either a confirmation email or reminder email
      * @param serviceAppointments  - list of new Service Appointment records
-     * @param orgWideEmailName  - org wide email for domestic/international
-     * @param workTypeName  - either International Phone Call/Domestic Phone Call, public string found in WorkTypesDAO
+     * @param emailInfo - map for orgWideEmailName and workTypeName
      * @param emailTemplateMap  - Confirmation or Reminder Map of the email template depeding on the worktype specified
      * @return void
      */
-    public static void sendConfirmationOrReminderEmail(List<ServiceAppointment> serviceAppointments, String orgWideEmailName, String workTypeName, Map<String, String> emailTemplateMap) {
-        List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{orgWideEmailName}, AccessLevel.SYSTEM_MODE);
+    public static void sendConfirmationOrReminderEmail(List<ServiceAppointment> serviceAppointments, Map<String,String> emailInfo, Map<String, String> emailTemplateMap) {
+        List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{emailInfo.get('orgWideEmailName')}, AccessLevel.SYSTEM_MODE);
     
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{emailTemplateMap.get(workTypeName)}, 'SYSTEM_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{emailTemplateMap.get(emailInfo.get('workTypeName'))}, AccessLevel.SYSTEM_MODE);
     
         buildEmail(serviceAppointments, owea, emailTemplate.get(0));
     }
@@ -51,7 +51,13 @@ public inherited sharing class ServiceAppointmentService {
      * @return void
      */
     public static void sendConfrimationEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
-        sendConfirmationOrReminderEmail(internationalServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.INTERNATIONAL_WORK_TYPE, CONFIRMATION_EMAIL_TEMPLATE_MAP);
+        sendConfirmationOrReminderEmail(
+            internationalServiceAppointments,
+            new Map<String, String>{
+                'orgWideEmailName' => OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES,
+                'workTypeName' => WorkTypesDAO.INTERNATIONAL_WORK_TYPE
+            },
+            CONFIRMATION_EMAIL_TEMPLATE_MAP);
     }
 
     /**
@@ -60,7 +66,13 @@ public inherited sharing class ServiceAppointmentService {
      * @return void
      */
     public static void sendConfirmationEmailToDomesticServiceAppointments(List<ServiceAppointment> domesticServiceAppointments) {
-        sendConfirmationOrReminderEmail(domesticServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.DOMESTIC_WORK_TYPE, CONFIRMATION_EMAIL_TEMPLATE_MAP);
+        sendConfirmationOrReminderEmail(
+            domesticServiceAppointments,
+            new Map<String, String>{
+                'orgWideEmailName' => OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES,
+                'workTypeName' => WorkTypesDAO.DOMESTIC_WORK_TYPE
+            },
+            CONFIRMATION_EMAIL_TEMPLATE_MAP);
     }
     
     /**
@@ -69,7 +81,13 @@ public inherited sharing class ServiceAppointmentService {
      * @return void
      */
     public static void sendReminderEmailToDomesticServiceAppointment(List<ServiceAppointment> domesticServiceAppointments) {
-        sendConfirmationOrReminderEmail(domesticServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.DOMESTIC_WORK_TYPE, REMINDER_EMAIL_TEMPLATE_MAP);
+        sendConfirmationOrReminderEmail(
+            domesticServiceAppointments,
+            new Map<String, String>{
+                'orgWideEmailName' => OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES,
+                'workTypeName' => WorkTypesDAO.DOMESTIC_WORK_TYPE
+            },
+            REMINDER_EMAIL_TEMPLATE_MAP);
     }
 
     /**
@@ -78,7 +96,13 @@ public inherited sharing class ServiceAppointmentService {
      * @return void
      */
     public static void sendReminderEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
-        sendConfirmationOrReminderEmail(internationalServiceAppointments, OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES, WorkTypesDAO.INTERNATIONAL_WORK_TYPE, REMINDER_EMAIL_TEMPLATE_MAP);
+        sendConfirmationOrReminderEmail(
+            internationalServiceAppointments,
+            new Map<String, String>{
+                'orgWideEmailName' => OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES,
+                'workTypeName' => WorkTypesDAO.INTERNATIONAL_WORK_TYPE
+            },
+            REMINDER_EMAIL_TEMPLATE_MAP);
     }
     
 
@@ -92,7 +116,7 @@ public inherited sharing class ServiceAppointmentService {
      */
     public static void sendEmailAfterServiceAppointmentCancellation(List<ServiceAppointment> internationalServiceAppointments,List<ServiceAppointment> domesticServiceAppointments) {
         List<OrgWideEmailAddress> owea = OrgWideEmailAddressesDAO.newInstance().getOrgWideEmailAddressByDisplayName(new Set<String>{OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_INTERNATIONAL_FUTURE_STUDENT_ENQUIRIES,OrgWideEmailAddressesDAO.ORG_WIDE_EMAIL_DOMESTIC_FUTURE_STUDENT_ENQUIRIES},AccessLevel.SYSTEM_MODE);
-        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},'SYSTEM_MODE');
+        List<EmailTemplate> emailTemplate = EmailTemplatesDAO.newInstance().getEmailTemplatesByNameSet(new Set<String>{CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE),CANCELLED_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.DOMESTIC_WORK_TYPE)},AccessLevel.SYSTEM_MODE);
         
         if(!internationalServiceAppointments.isEmpty()){
             buildEmail(internationalServiceAppointments,owea,emailTemplate.get(0));

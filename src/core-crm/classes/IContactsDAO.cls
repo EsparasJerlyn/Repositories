@@ -80,8 +80,23 @@ public interface IContactsDAO extends DmlInterface {
         AccessLevel accessLevel
     ); 
 
+    List<Contact> getContactsByParentPersonLeadIds(
+        Set<Id> leadIds,
+        AccessLevel accessLevel
+    );
+
+    List<Contact> getContactsNoParentPersonContactByIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
+
     List<Contact> getMCPersonaContactsByParentPersonContactIds(
         Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
+
+    List<Contact> getContactsWithParentPersonContactByIds(
+        Set<Id> recordsIds,
         AccessLevel accessLevel
     );
 

@@ -275,7 +275,6 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             Test.startTest();
-            System.debug('timezone = ' + UserInfo.getTimeZone());
             actualDatetime = SalesCadenceListViewCtrl.convertDatetime(rawDateTime);
             Test.stopTest();
         }

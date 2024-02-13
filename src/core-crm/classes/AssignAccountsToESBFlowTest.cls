@@ -11,27 +11,30 @@
 @isTest
 public class AssignAccountsToESBFlowTest {
     // * Description: This method is used to create initial data for the test methods
+
     @TestSetup
     static void makeData() {
-        List<Account> accountList = TestDataFactory.createTestAccountRecordsWithRecordType(200, AccountsDAO.ACCT_BUSINESS_ORG_ID);
+        List<Account> accountList = TestDataFactory.createTestAccountRecordsWithRecordType(100, AccountsDAO.ACCT_BUSINESS_ORG_ID);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
     }   
     
     @isTest
     public static void updateOpportunityStagetoExecuted(){
-        Id esbIntegrationUser = [SELECT Id FROM USER WHERE FirstName = 'ESB' AND LastName = 'Integration User' LIMIT 1].Id;
-        Set<String> accountName = new Set<String>();
-        for(Integer i=0; i<200 ; i++){
-            accountName.add('TestAccount' + i);
+        User esbIntegrationUser = [SELECT Id FROM USER WHERE FirstName = 'ESB' AND LastName = 'Integration User' LIMIT 1];
+        System.runAs(esbIntegrationUser){
+            Set<String> accountName = new Set<String>();
+            for(Integer i=0; i<100 ; i++){
+                accountName.add('TestAccount' + i);
+            }
+            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(accountName);
+                System.assertEquals(
+                100,
+                [SELECT COUNT()
+                FROM Account
+                WHERE OwnerId = :esbIntegrationUser.Id
+                AND Id IN :accountList],
+                'Incorrect number of Accounts'
+                );
         }
-        List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(accountName);
-        System.assertEquals(
-            200,
-            [SELECT COUNT()
-             FROM Account
-             WHERE OwnerId = :esbIntegrationUser
-             AND Id IN :accountList],
-            'Incorrect number of Accounts'
-        );
     }
 }

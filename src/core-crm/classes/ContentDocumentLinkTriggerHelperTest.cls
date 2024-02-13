@@ -26,53 +26,54 @@ public class ContentDocumentLinkTriggerHelperTest {
                 false,
                 AccessLevel.USER_MODE
             );
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
     }
 
     @isTest
     private static void createMemoPDFURLTest() {
-        String baseUrl =
-        SYSTEM.URL.getSalesforceBaseUrl()
-            .toExternalForm()
-            .removeEndIgnoreCase('.my.salesforce.com') +
-        '.lightning.force.com/lightning/r/ContentDocument/';
-        
-        List<Opportunity> opportunityList = new List<Opportunity>();
-        opportunityList = TestDataFactory.createOpportunityRecords(1, 'Opportunity', 'Development');
-        OpportunitiesDAO.newInstance().insertRecords(opportunityList, false, AccessLevel.USER_MODE);
-        List<ContentVersion> contentVersionRecords = TestDataFactory.createTestContentVersionRecordsWithMemoTitle(
-            1
-        );
-        ContentVersionsDAO.newInstance()
-            .insertRecords(contentVersionRecords, false, AccessLevel.USER_MODE);
-         ContentVersion contentVersion = ContentVersionsDAO.newInstance()
-            .getContentVersionByTitle(new Set<String>{ 'QUT MEMO_Opportunity0' })
-            .iterator()
-            .next();
-        Id oppId = opportunityList.iterator().next()?.Id;
-
-        Test.startTest();
-        
-        ContentDocumentLink contentDocumentLink = TestDataFactory.createTestContentDocumentLink(
-            contentVersion.ContentDocumentId,
-            oppId
-        );
-        ContentDocumentLinksDAO.newInstance()
-            .insertRecords(
-                new List<ContentDocumentLink>{ contentDocumentLink },
-                false,
-                AccessLevel.USER_MODE
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()){
+            String baseUrl =
+            SYSTEM.URL.getSalesforceBaseUrl()
+                .toExternalForm()
+                .removeEndIgnoreCase('.my.salesforce.com') +
+            '.lightning.force.com/lightning/r/ContentDocument/';
+            
+            List<Opportunity> opportunityList = new List<Opportunity>();
+            opportunityList = TestDataFactory.createOpportunityRecords(1, 'Opportunity', 'Development');
+            OpportunitiesDAO.newInstance().insertRecords(opportunityList, false, AccessLevel.USER_MODE);
+            List<ContentVersion> contentVersionRecords = TestDataFactory.createTestContentVersionRecordsWithMemoTitle(
+                1
             );
-
-        Test.stopTest();
-        Opportunity opp = OpportunitiesDAO.newInstance()
-            .getRecordsBySetIds(new Set<id>{ oppId })
-            .iterator()
-            .next();
-        System.assertEquals(
-            baseUrl + contentVersion.ContentDocumentId + '/view',
-            opp.Memo_PDF_URL__c,
-            'Not Equal'
-        );
-        System.assertEquals('Generated', opp.Memo_Status__c, 'Not Equal');
+            ContentVersionsDAO.newInstance()
+                .insertRecords(contentVersionRecords, false, AccessLevel.USER_MODE);
+             ContentVersion contentVersion = ContentVersionsDAO.newInstance()
+                .getContentVersionByTitle(new Set<String>{ 'QUT MEMO_Opportunity0' })
+                .iterator()
+                .next();
+            Id oppId = opportunityList.iterator().next()?.Id;
+    
+            Test.startTest();
+            ContentDocumentLink contentDocumentLink = TestDataFactory.createTestContentDocumentLink(
+                contentVersion.ContentDocumentId,
+                oppId
+            );
+            ContentDocumentLinksDAO.newInstance()
+                .insertRecords(
+                    new List<ContentDocumentLink>{ contentDocumentLink },
+                    false,
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            Opportunity opp = OpportunitiesDAO.newInstance()
+                .getRecordsBySetIds(new Set<id>{ oppId })
+                .iterator()
+                .next();
+            System.assertEquals(
+                baseUrl + contentVersion.ContentDocumentId + '/view',
+                opp.Memo_PDF_URL__c,
+                'Not Equal'
+            );
+            System.assertEquals('Generated', opp.Memo_Status__c, 'Not Equal');
+        }
     }
 }

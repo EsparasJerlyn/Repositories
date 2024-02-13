@@ -11,7 +11,7 @@
       | johanna.a.gibas                | November 24, 2023     | DEPP-7143              | Added Developed Nations      |
       | johanna.a.gibas                | December 11, 2023     | DEPP-7143              | Updated logic                |
  */
-public with sharing class LeadScoreConfigCountryTierService {
+public with sharing class LeadScoreConfigCountryTierService {//NOPMD this is a service class, high number of public methods and class complexity are expected
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigCountryTier leadScoreConfigCountryTier, Boolean isDomestic){
         String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_COUNTRY_TIER;
         Boolean isForCountryTier = leadScoreConfig.Name == category && leadScoreConfig.RecordTypeId == LeadScoreConfigurationDAO.RECTYPE_ID_CATEGORY;

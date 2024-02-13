@@ -37,6 +37,9 @@
         <!--(End) DEPP-7280 -->
         <members>CasePotentialMatchesListCtrl</members>
         <members>CasePotentialMatchesListCtrlTest</members>
+        <!--(Start) DEPP-5906 -->
+        <members>Case_Clear_Closure_FieldsFlowTest</members>
+        <!--(End) DEPP-5906 -->
         <name>ApexClass</name>
     </types>
     <types>
@@ -51,6 +54,14 @@
         <name>ApexTrigger</name>
         <!--(End) DEPP-5797 -->
     </types>
+
+    <types>
+        <!--(Start) DEPP-5906-->
+        <members>Case.International_Enquiry_Compact_Layout</members>
+        <!--(End) DEPP-5906-->
+        <name>CompactLayout</name>
+    </types>
+
     <types>
         <!--(Start) DEPP-7280 -->
         <members>casePotentialMatchesRecord</members>
@@ -71,6 +82,9 @@
         <!--DEPP-5673 Satrt-->
         <members>Future_Student_Engagement</members>
         <!-- DEPP-5673 End-->
+        <!--(Start) DEPP-5906-->
+        <members>International_Student_Recruitment</members>
+        <!--(End) DEPP-5906-->
         <name>CustomApplication</name>
     </types>
     <types>
@@ -141,7 +155,10 @@
         <members>hed__Application__c.StudyLink_Program_Faculty__c</members>
         <members>hed__Application__c.StudyLink_Program_URL__c</members>
         <members>hed__Application__c.Studylink_Offered_Program_Name__c</members>
-        <!-- End DEPP-6130 -->       
+        <!-- End DEPP-6130 --> 
+        <!-- Start DEPP-7608-->
+		<members>Application_Preference__c.QUT_Program__c</members>
+		<!-- End DEPP-7608-->
         <!-- Start DEPP-6232-->
 		<members>hed__Program_Enrollment__c.Graduating_Faculty__c</members>
 		<members>hed__Program_Enrollment__c.Graduating_Other_Faculty__c</members>
@@ -208,8 +225,24 @@
         <!-- DEPP-5604 -->
         <members>Study_Area_Plan__c.Study_Area__c</members>
 
+        <!--(Start) DEPP-5906-->
+        <members>Case.Add_to_Campaign__c</members>
+        <members>Case.Latest_Queue_Name__c</members>
+        <members>Case.Primary_Contact_Method__c</members>
+        <members>Case.Student_LifeCycle_Status__c</members>
+        <members>Case.Sub_Status__c</members>
+        <!--(End) DEPP-5906-->
         <name>CustomField</name>
     </types>
+
+    <types>
+        <!--(Start) DEPP-5797 -->
+        <members>TriggerHandler.et4ae5__IndividualEmailResult__c</members>
+        <members>TriggerHandler.Marketing_Course_Application__c</members>
+        <!--(Start) DEPP-5797 -->
+        <name>CustomMetadata</name>
+    </types>
+
     <types>
         <!--Start DEPP-5837-->
         <members>Project_Milestone__c</members>
@@ -250,14 +283,23 @@
         <members>Application_SAMS_Record_Page</members>
         <!--End DEPP-6248 / DEPP-6201-->
         <!--Start DEPP-6659-->
-        <members>Applicatioon_SAMS_CIAnywhere_Record_Page.flexipage-meta.xml</members>
-        <members>Applicatioon_SAMS_Legacy_Record_Page.flexipage-meta.xml</members>
+        <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
+        <members>Applicatioon_SAMS_Legacy_Record_Page</members>
         <!--End DEPP-6659-->
 
         <!--Start DEPP-6136-->
         <members>QTAC_Preference_Record_Page.flexipage-meta.xml</members>
         <members>Application_Record_Page.flexipage.xml</members>
         <!--End DEPP-6136-->
+        <!--Start DEPP-5906-->
+        <members>International_Inquiry</members>
+        <members>International_Student_Recruitment_UtilityBar</members>
+        <members>Contact_Record_Page_Old</members>
+        <members>Contact_Record_Page1</members>
+        <members>Lead_Record_Page</members>
+        <members>Lead_Record_Page1</members>
+        <members>QUTeX_Lead</members>
+        <!--End DEPP-5906-->
         <name>FlexiPage</name>
     </types>
     <types>
@@ -285,7 +327,6 @@
         <!--(Start) DEPP-6714-->
         <members>Course_Connection_Pricing_Validation</members>
         <!--(End) DEPP-6714-->
-
         <name>Flow</name>
     </types>
     <types>
@@ -305,6 +346,10 @@
         <!--Start DEPP-6248 / DEPP-6201-->
         <members>hed__Application__c-SAMS Application Layout</members>
         <!--End DEPP-6248 / DEPP-6201-->
+        <!--Start DEPP-5906-->
+        <members>Case-International Enquiry Layout2</members>
+        <members>Case-EDA Incident Layout</members>
+        <!--End DEPP-5906-->
         <name>Layout</name>
     </types>
     <types>
@@ -388,6 +433,13 @@
     </types>
 
     <types>
+        <!--(Start) DEPP-5906-->
+        <members>International_Inquiry_Team</members>
+        <!--(End) DEPP-5906-->
+        <name>PresenceUserConfig</name>
+    </types>
+
+    <types>
         <!--(Start) DEPP-5917 -->
         <members>Engagement__c.Engagement_Summary_is_Required</members>
         <!-- (End) DEPP-5917 -->
@@ -407,6 +459,9 @@
         <!-- DEPP-2217-->
         <members>Product2.Publishing_EndDate_is_Future_Date</members>
 
+        <!-- (Start) DEPP-5906 -->
+        <members>Case.Student_Life_Cycle_Status_is_required</members>
+        <!-- (End) DEPP-5906 -->
         <name>ValidationRule</name>
     </types>
 
@@ -435,6 +490,10 @@
          <!--Start DEPP-5479-->
          <members>Engagement__c.Commericialisation</members>
          <!--End DEPP-5479-->
+        <!--(Start) DEPP-5906 -->
+        <members>Case.Incident</members>
+        <members>Case.International_Enquiry</members>
+        <!--(End) DEPP-5906 -->
         <name>RecordType</name>
     </types>
     <types>
@@ -448,6 +507,9 @@
         <members>NewContacts_Leads_Per_Nurture_Track_Dom</members>
         <members>NewContacts_Leads_Per_Nurture_Track_Int</members>
         <!--(End) DEPP-6889 -->
+        <!--(Start) DEPP-7596 -->
+        <members>Number_of_Calls_by_Type_This_Month_Dom</members>
+        <!--(End) DEPP-7596 -->
         <name>Report</name>
     </types>
     <types>
@@ -456,12 +518,14 @@
         <!--(End) DEPP-6889 -->
         <name>ReportType</name>
     </types>
+    
+
     <types>
-        <!--(Start) DEPP-5797 -->
-        <members>TriggerHandler.et4ae5__IndividualEmailResult__c</members>
-        <members>TriggerHandler.Marketing_Course_Application__c</members>
-        <!--(Start) DEPP-5797 -->
-        <name>CustomMetadata</name>
+        <!--(Start) DEPP-5906 -->
+        <members>International_Super_User</members>
+        <members>International_User</members>
+         <!--(End) DEPP-5906 -->
+        <name>Role</name>
     </types>
     <!-- <types>
         (Start) DEPP-6570
@@ -480,7 +544,19 @@
         <!--(End) DEPP-6900 -->
         <name>PathAssistant</name>
     </types>
-
+    <types>
+        <!--Start DEPP-7487-->
+        <members>Lightning_Scheduler_User</members>
+        <!--End DEPP-7487-->
+         <!--(Start) DEPP-5906-->
+         <members>Direct_Nurture_Base</members>
+         <!--(End) DEPP-5906-->
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>International Student Recruitment</members>
+        <name>Profile</name>
+    </types>
     <types>
         <!--(Start) DEPP-7067-->
         <members>Future_Student_Advisor_Enquiries</members>
@@ -492,5 +568,6 @@
         <!--(End) DEPP-7078-->
         <name>Queue</name>
     </types>
+    
     <version>59.0</version> 
 </Package>

@@ -7,15 +7,16 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                            |
       |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------|
-      | arsenio.jr.dayrit       	   | November 23, 2023     | DEPP-7264              | Created file                                              | 
+      | arsenio.jr.dayrit              | November 23, 2023     | DEPP-7264              | Created file                                              | 
       | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added Test classes                                        |
       | kenneth.f.alsay                | November 30, 2023     | DEPP-7265              | Added test methods for existing lead and contact matching |
-      | arsenio.jr.dayrit       	   | December 12, 2023     | DEPP-7357              | Update Test method                						|
+      | arsenio.jr.dayrit              | December 12, 2023     | DEPP-7357              | Update Test method                                        |
+      | kenneth.f.alsay                | December 27, 2023     | DEPP-7357              | Removed unused variable                                   |
  */
 @isTest
 public with sharing class ServiceAppointmentTriggerHelperTest {
     private static final String TEST_ACCOUNT_NAME = 'TestAccount0';
-    private static final List<String> FIELDS = new List<String>{'Appointment_Email__c', 'Web_Email__c', 'SchedStartTime','SchedEndTime', 'WorkTypeId', 'Description', 'First_Name__c', 'Last_Name__c', 'Mobile_Locale__c', 'Mobile_No_Locale__c', 'Appointment_Topic__c', 'Status'};
+    private static final List<String> FIELDS = new List<String>{'Appointment_Email__c', 'Web_Email__c', 'SchedStartTime','SchedEndTime', 'WorkTypeId', 'Description', 'First_Name__c', 'Last_Name__c', 'Mobile_Locale__c', 'Mobile_No_Locale__c', 'Appointment_Topic__c', 'Status', 'GUID__c'};
     private static final String FIRSTNAME = 'TestfirstName';
     private static final String LASTNAME = 'Testlastname';
     private static final String BIRTHDAY = '2000-06-28';
@@ -209,7 +210,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            Map<Id,ServiceAppointment> oldRecords = new Map<Id,ServiceAppointment>(ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE));
             List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE);
             serviceAppointment.get(0).Status = 'Cancelled';
             serviceAppointment.get(1).SchedStartTime = DateTime.Now().AddDays(2);
@@ -288,5 +288,18 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             System.assert(appointmentRecordList[0].LeadId__c !=null, 'Service Appointment is not link to existing lead.');
         }
     } 
-    
+
+    @isTest
+    private static void generateGUIDTest() {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
+            List<ServiceAppointment> newItems = TestDataFactory.createTestServiceAppointmentRecords(200, accList.get(0).Id);
+            Test.startTest();
+            ServiceAppointmentTriggerHelper.generateGUID(newItems);
+            Test.stopTest();
+            for(ServiceAppointment newItem : newItems) {
+                System.assert(newItem.GUID__c != null, 'Failed to generate GUID for a record.');
+            }
+        }
+    }
 }

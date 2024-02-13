@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for Lead
+  * @description helper class to compute Lead Score for Lead 
   * @see ..LeadTriggerHandler
   *
   * @author Accenture 
@@ -23,7 +23,7 @@ public with sharing class LeadLeadScoreHelper {
     /**
      * Filter records to be processed
      */
-    public static void processLeadScoreCalculation(List<Lead> newItems, Map<Id, Lead> oldItems){
+    public static void processLeadScoreCalculation(List<Lead> newItems, Map<Id, Lead> oldItems) {
         Boolean isForInsert = oldItems == null;
         Map<Id,Lead> leadMap = new Map<Id,Lead>();
         for(Lead lead : newItems){
@@ -36,10 +36,10 @@ public with sharing class LeadLeadScoreHelper {
             }
         }
         
-        if(!leadMap.isEmpty()){
-            if(System.isQueueable()){
+        if(!leadMap.isEmpty()) {
+            if(System.isQueueable()) {
                 executeCalculation(leadMap);
-            }else{
+            } else {
                 QueueableCall executeQueueable = new QueueableCall(leadMap);
                 System.enqueueJob(executeQueueable);   
             }

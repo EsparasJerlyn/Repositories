@@ -11,7 +11,7 @@
       | arsenio.jr.dayrit              | October 23, 2023      | DEPP-6929              | Updated getLeadScoreConfig and  calculateLeadScore methods |
       |                                |                       |                        |                                                            |
  */
-public with sharing class LeadScoreConfigFundingService {    
+public with sharing class LeadScoreConfigFundingService {//NOPMD this is a service class. High number of public methods and overall complexity are expected.
 
     public static void getLeadScoreConfig(Lead_Score_Configuration__c leadScoreConfig, LeadScoreConfigFunding leadScoreConfigFunding, Boolean isDomestic){
         String category = LeadScoreConfigurationDAO.CONFIG_CATEGORY_FUNDING;

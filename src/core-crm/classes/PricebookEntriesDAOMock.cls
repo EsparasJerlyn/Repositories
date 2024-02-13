@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | Sep 19, 2023          | DEPP-6714              | Created file
+ *    | alexander.cadalin              | Jan 05 ,2024          | n/a                    | Added methods
  */
 @isTest
 public inherited sharing class PricebookEntriesDAOMock extends DmlBaseMock implements IPricebookEntriesDAO {
@@ -35,5 +36,18 @@ public inherited sharing class PricebookEntriesDAOMock extends DmlBaseMock imple
         }
 
         return pricebookEntriesList;
+    }
+
+    public List<PricebookEntry> getPricebookEntriesByIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ) {
+        List<PricebookEntry> pbEntries = new List<PricebookEntry>();
+        for(PricebookEntry pb : pricebookEntriesMap.values()) {
+            if(recordIds.contains(pb.Id)) {
+                pbEntries.add(pb);
+            }
+        }
+        return pbEntries;
     }
 }

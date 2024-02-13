@@ -48,6 +48,16 @@ public inherited sharing class AccountsDAOMock extends DmlBaseMock implements IA
         return accountList;
     }
 
+    public List<Account> getPartnerAccountsByIds(Set<Id> recordIds, AccessLevel accessLevel) {
+        List<Account> accounts = new List<Account>();
+        for(Account account : accountMap.values()) {
+            if(recordIds.contains(account.Id) && account.IsPartner == true) {
+                accounts.add(account);
+            }
+        }
+        return accounts;
+    }
+
     public List<Account> getAccountsBySetNames(Set<String> accountNames) {
         List<Account> accountList = new List<Account>();
 

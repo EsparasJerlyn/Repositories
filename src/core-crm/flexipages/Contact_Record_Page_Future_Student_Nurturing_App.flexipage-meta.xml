@@ -38,10 +38,16 @@
                         <valueListItems>
                             <value>Contact.Schedule_Appointment</value>
                             <visibilityRule>
+                                <booleanFilter>1 OR 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Future Student Engagement</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>System Administrator</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -879,7 +885,7 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Applied_Program__c</value>
+                            <value>Applied_ProgramV2__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Intake_Year__c</value>
@@ -950,7 +956,7 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Applied_Program__c</value>
+                            <value>Applied_ProgramV2__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Intake_Year__c</value>

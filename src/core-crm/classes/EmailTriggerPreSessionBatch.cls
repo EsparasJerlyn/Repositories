@@ -77,22 +77,28 @@ public with sharing class EmailTriggerPreSessionBatch implements Database.Batcha
                                                             FROM Communication_Schedule__c
                                                             WHERE Send_email_before_session__c = TRUE
                                                                 AND (Course__c IN :courseIdSet OR Program_Plan__c IN :progPlanIdSet)]){
-                    if(String.isNotBlank(commSched.Course__c)){
+                    
+                    Boolean isCourseNotBlank = String.isNotBlank(commSched.Course__c);
+                    Boolean isProgramPlanNotBlank = String.isNotBlank(commSched.Program_Plan__c);
+                    Boolean isCourseNotificationNotBlank = String.isNotBlank(commSched.Course__c) && String.isNotBlank(commSched.Notification_Before_Session_Template__c);
+                    Boolean isProgramPlanNotificationNotBlank = String.isNotBlank(commSched.Program_Plan__c) && String.isNotBlank(commSched.Notification_Before_Session_Template__c);
+                    
+                    if(isCourseNotBlank){
                         courseAllowedEmailMap.put(commSched.Course__c, commSched.Send_email_before_session__c);
-                        // Get email template for Course
-                        if(String.isNotBlank(commSched.Notification_Before_Session_Template__c)){
-                            productEmailTemplateMap.put(commSched.Course__c,
-                                                        String.valueOf(commSched.Notification_Before_Session_Template__c));
-                        }
+                    }
+                    // Get email template for Course
+                    if(isCourseNotificationNotBlank){
+                        productEmailTemplateMap.put(commSched.Course__c,
+                                                    String.valueOf(commSched.Notification_Before_Session_Template__c));
                     }
                     
-                    if(String.isNotBlank(commSched.Program_Plan__c)){
+                    if(isProgramPlanNotBlank){
                         courseAllowedEmailMap.put(commSched.Program_Plan__c, commSched.Send_email_before_session__c);
-                        // Get email template for Program
-                        if(String.isNotBlank(commSched.Notification_Before_Session_Template__c)){
-                            productEmailTemplateMap.put(commSched.Program_Plan__c,
-                                                        String.valueOf(commSched.Notification_Before_Session_Template__c));
-                        }
+                    }
+                    // Get email template for Program
+                    if(isProgramPlanNotificationNotBlank){
+                        productEmailTemplateMap.put(commSched.Program_Plan__c,
+                                                    String.valueOf(commSched.Notification_Before_Session_Template__c));
                     }
                 }
             }

@@ -1,5 +1,5 @@
 /**
-  * @description helper class to compute Lead Score for hed__Program_Enrollment__c
+  * @description helper class to compute Lead Score for hed__Program_Enrollment__c 
   * @see ..ProgramEnrollmentTriggerHandler
   *
   * @author Accenture 
@@ -28,14 +28,14 @@ public with sharing class ProgEnrollLeadScoreHelper {
         /**
          * Filter records to be processed
          */
-        for(hed__Program_Enrollment__c programEnrollment : newItems){
+        for(hed__Program_Enrollment__c programEnrollment : newItems) {
             Boolean isForInsert = oldItems == null && programEnrollment.hed__Contact__c != null;
             Boolean isForUpdate = oldItems != null && programEnrollment.hed__Contact__c != null && (
                 oldItems.get(programEnrollment.Id).hed__Contact__c != programEnrollment.hed__Contact__c ||
                 oldItems.get(programEnrollment.Id).hed__Account__c != programEnrollment.hed__Account__c ||
                 oldItems.get(programEnrollment.Id).Enrollment_Status__c != programEnrollment.Enrollment_Status__c
             );
-            if(!programEnrollment.Lead_Score_Reset__c && (isForInsert || isForUpdate)){
+            if(!programEnrollment.Lead_Score_Reset__c && (isForInsert || isForUpdate)) {
                 contactIdSet.add(programEnrollment.hed__Contact__c);
             }
         }

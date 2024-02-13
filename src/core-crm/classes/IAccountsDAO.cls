@@ -12,6 +12,7 @@
  */
 public interface IAccountsDAO extends DmlInterface {
     List<Account> getAccountsBySetIds(Set<Id> accountIds);
+    List<Account> getPartnerAccountsByIds(Set<Id> recordIds, AccessLevel accessLevel);
     List<Account> getAccountsBySetIds(Set<Id> accountIds, List<String> fields, AccessLevel accessLevel);
     List<Account> getAccountsBySetNames(Set<String> accountNames);
     List<Account> getAccountBySetNamesWithLimit(Set<String> accountNames, Integer recordsCount);

@@ -6,18 +6,15 @@
  * @history
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
-      |--------------------------------|-----------------------|------------------------|-----------------------------------|
-      | nicole.genon                   | December 12, 2023     | DEPP-7259              | Created file                      |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------|
+ *    | nicole.genon                   | December 12, 2023     | DEPP-7259              | Created file                      |
+ *    | ryan.j.a.dela.cruz             | December 14, 2023     | DEPP-7259              | Created file                      |
  */
 @isTest
 public with sharing class ServiceAppointmentServiceTest {
     private static final String QUT_WORK_TYPE = 'QUT team';
     private static final String TEST_ACCOUNT_NAME = 'TestAccount0';
-    private static final List<String> FIELDS = new List<String>{'Appointment_Email__c', 'Web_Email__c', 'SchedStartTime', 'WorkTypeId', 'Description', 'First_Name__c', 'Last_Name__c', 'Mobile_Locale__c', 'Mobile_No_Locale__c', 'Appointment_Topic__c', 'Status'};
-    private static final Map<String, String> CONFIRMATION_EMAIL_TEMPLATE_MAP = new Map<String, String>{
-        'International Phone Calls' => 'Bookable_Appointment_International_Confirmation_1700639088819',
-        'Domestic Phone Calls' => 'Bookable_Appointment_Domestic_Confirmation_1700702503498'
-    };
+    private static final List<String> FIELDS = new List<String>{'Alteration_URL__c', 'Appointment_Email__c', 'Web_Email__c', 'SchedStartTime', 'WorkTypeId', 'Description', 'First_Name__c', 'Last_Name__c', 'Mobile_Locale__c', 'Mobile_No_Locale__c', 'Appointment_Topic__c', 'Status'};
 
     @testSetup
     static void testSetup() {
@@ -38,7 +35,7 @@ public with sharing class ServiceAppointmentServiceTest {
             List<EmailTemplate> internationalEmailTemplate = TestDataFactory.createTestEmailTemplateRecords(1,new Map<String, String> {'Bookable Appointment - International Confirmation' => 'Appointment Confirmation'});
 
             for(EmailTemplate template : internationalEmailTemplate){
-                template.DeveloperName = 'Bookable_Appointment_International_Confirmation_1700639088819';
+                template.Name = ServiceAppointmentService.CONFIRMATION_EMAIL_TEMPLATE_MAP.get(WorkTypesDAO.INTERNATIONAL_WORK_TYPE);
             }
             EmailTemplatesDAO.newInstance().insertRecords(internationalEmailTemplate,false, AccessLevel.SYSTEM_MODE);
         }
@@ -54,8 +51,6 @@ public with sharing class ServiceAppointmentServiceTest {
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
 
-            //ImplementationSelector.DAO.setMock(new ServiceAppointmentsDAOMock());
-            
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
 
             for(ServiceAppointment ap : serviceAppList){
@@ -79,6 +74,11 @@ public with sharing class ServiceAppointmentServiceTest {
             System.assert(serviceAppList.get(0).Id != null, 'Email is sent to the user');
 
             List<ServiceAppointment> insertedAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id},FIELDS,AccessLevel.SYSTEM_MODE);
+
+            Scheduler_Configuration__mdt schedulerConfig = Scheduler_Configuration__mdt.getInstance('Default');
+            if(schedulerConfig.Appointment_Base_URL__c != null){
+                System.assert(insertedAppointment.get(0).Alteration_URL__c.contains(schedulerConfig.Appointment_Base_URL__c),'Alteration URL is not empty.');
+            }
 
             System.assert(insertedAppointment.get(0).Appointment_Email__c.equals(insertedAppointment.get(0).Web_Email__c), 'Appointment Email is not null. Email is sent to the user.');
         }
@@ -117,6 +117,11 @@ public with sharing class ServiceAppointmentServiceTest {
 
             Long timeDifferenceInMilliseconds = insertedAppointment.get(0).SchedStartTime.getTime() - DateTime.now().getTime();
             Integer hoursDifference = (Integer)Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60));
+
+            Scheduler_Configuration__mdt schedulerConfig = Scheduler_Configuration__mdt.getInstance('Default');
+            if(schedulerConfig.Appointment_Base_URL__c != null){
+                System.assert(insertedAppointment.get(0).Alteration_URL__c.contains(schedulerConfig.Appointment_Base_URL__c),'Alteration URL is not empty.');
+            }
 
             System.assert(insertedAppointment.get(0).Appointment_Email__c.equals(insertedAppointment.get(0).Web_Email__c), 'Appointment Email is not null. Email is sent to the user.');
             System.assert(hoursDifference < 24, 'Service Appointment is less than 24 hours.');

@@ -181,7 +181,7 @@ public without sharing class ManageRegistrationEnrolmentHelper{
                     }
                }  
                if(contactListToUpsert.size() > 0 && Schema.sObjectType.Contact.isUpdateable()){
-                    upsert contactListToUpsert;
+                    ContactsDAO.newInstance().upsertRecords(contactListToUpsert, false, AccessLevel.SYSTEM_MODE);
                     validationReturn.contactId = contactListToUpsert[0].Id;
                }
           
@@ -235,7 +235,7 @@ public without sharing class ManageRegistrationEnrolmentHelper{
      }
 
      if(Schema.sObjectType.Contact.isCreateable()){
-          insert courseConnectionList;
+          CourseConnectionsDAO.newInstance().insertRecords(courseConnectionList, false, AccessLevel.SYSTEM_MODE);
       }
      
      return courseConnectionList;

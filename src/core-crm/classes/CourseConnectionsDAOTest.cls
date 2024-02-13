@@ -5,15 +5,17 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------|
-      | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Created File                               |
-      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                         |
-      |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
-      | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                         |
-      |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds  |
-      | kenneth.f.alsay                | Sep 25, 2023          | DEPP-6629              | added method named                         |
-      |                                |                       |                        | getCourseConnectionByStatusTest            |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                    |
+      |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
+      | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | Created File                                      |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | added method named                                |
+      |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds         |
+      | roy.nino.s.regala              | Sep 20, 2023          | DEPP-6714              | added method named                                |
+      |                                |                       |                        | getCourseConnectionByProgramEnrollmentIds         |
+      | kenneth.f.alsay                | Sep 25, 2023          | DEPP-6629              | added method named                                |
+      |                                |                       |                        | getCourseConnectionByStatusTest                   |
+      | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseConnectionByCartItemTest|
+      |                                |                       |                        | getCourseConnectionByCartItemNotEmptyTest         |
  */
 @isTest
 public with sharing class CourseConnectionsDAOTest {
@@ -106,4 +108,34 @@ public with sharing class CourseConnectionsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getCourseConnectionByCartItemTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
+                .getCourseConnectionByCartItem(
+                    new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getCourseConnectionByCartItemNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForCartItem = new MockIdGenerator(CartItem.sObjectType);
+            List<hed__Course_Enrollment__c> courseConnectionList = CourseConnectionsDAO.newInstance()
+                .getCourseConnectionByCartItem(
+                    new Set<Id>{builderForCartItem.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(courseConnectionList.isEmpty(), 'courseConnectionList should be empty.');
+        }
+        Test.stopTest();
+    }
+
 }

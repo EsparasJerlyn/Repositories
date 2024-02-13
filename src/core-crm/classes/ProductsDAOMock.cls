@@ -22,4 +22,17 @@ public inherited sharing class ProductsDAOMock extends DmlBaseMock implements IP
 		super(new Map<Id, Product2>(), Schema.Product2.SObjectType);
 		this.productsMap = (Map<Id, Product2>) super.records;
 	}
+
+	public List<Product2> getProductById(
+        Set<Id> productIdSet,
+        AccessLevel accessLevel
+    ){
+        List<Product2> productList = new List<Product2>();
+        for (Product2 record : productsMap.values()) {
+            if (productIdSet.contains(record.Id)){
+                productList.add(record);
+            }
+        }
+        return productList;
+    }
 }
