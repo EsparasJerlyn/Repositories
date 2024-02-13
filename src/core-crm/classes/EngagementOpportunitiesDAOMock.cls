@@ -8,6 +8,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                             |
  *    |--------------------------------|-----------------------|------------------------|--------------------------------------------|
  *    | nicole.genon                   | December 18, 2023     | DEPP-6949              | Created File                               |
+ *    | carl.alvin.cabiles             | February 12, 2024     | DEPP-7134              | Added getEngagementOpportunitiesBySetNames |
+
  */
 @isTest
 public inherited sharing class EngagementOpportunitiesDAOMock  extends DmlBaseMock implements IEngagementOpportunitiesDAO{
@@ -27,6 +29,18 @@ public inherited sharing class EngagementOpportunitiesDAOMock  extends DmlBaseMo
 
         for (Engagement_Opportunity__c record : engagementOpportunityMap.values()) {
             if (engagementOpportunityIds.contains(record.Id)) {
+                engagementOpportunityList.add(record);
+            }
+        }
+
+        return engagementOpportunityList;
+    }
+
+    public List<Engagement_Opportunity__c> getEngagementOpportunitiesBySetNames(Set<String> engagementOpportunityNames, AccessLevel accessLevel) {
+        List<Engagement_Opportunity__c> engagementOpportunityList = new List<Engagement_Opportunity__c>();
+
+        for (Engagement_Opportunity__c record : engagementOpportunityMap.values()) {
+            if (engagementOpportunityNames.contains(record.Engagement_Opportunity_Name__c)) {
                 engagementOpportunityList.add(record);
             }
         }
