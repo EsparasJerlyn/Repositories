@@ -10,7 +10,17 @@
         <!--Start DEPP-7863-->
         <members>Future_Student_Super_Agent_Domsetic</members>
         <!--End DEPP-7863-->
+        <!--Start DEPP-7993-->
+        <members>Lightning_Scheduler_Administrator_PSG</members>
+        <members>Lightning_Scheduler_User_PSG</members>
+        <!--End DEPP-7993-->
         <name>PermissionSetGroup</name>
+    </types>
+    <types>
+        <!--Start DEPP-7993-->
+        <members>Lightning_Scheduler_Administrator</members>
+        <!--End DEPP-7993-->
+        <name>PermissionSet</name>
     </types>
     <version>59.0</version> 
 </Package>

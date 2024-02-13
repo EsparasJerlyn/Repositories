@@ -116,12 +116,12 @@
                 name="visibilityByParent"
                 label="Controlled Visibility By Parent"
                 type="String"
-                description="Optional, text, controls the visibility of new and edit buttons by parent records. E.g. Stage != 'Completed' " />
+                description="Optional, text, controls the visibility of new button by parent records. E.g. Stage != 'Completed' " />
             <property
                 name="visibilityByUser"
                 label="Controlled Visibility By User"
                 type="String"
-                description="Optional, text, controls the visibility of new and edit buttons by current user details. E.g. Role.Name != 'Partnership Manager' " />
+                description="Optional, text, controls the visibility of new button by current user details. E.g. Role.Name != 'Partnership Manager' " />
             <supportedFormFactors>
                 <supportedFormFactor type="Large" />
                 <supportedFormFactor type="Small" />

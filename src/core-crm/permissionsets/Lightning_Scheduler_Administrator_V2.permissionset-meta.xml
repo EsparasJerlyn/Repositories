@@ -439,8 +439,7 @@
         <flow>Bookable_Appointment</flow>
     </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Lightning Scheduler Administrator</label>
-    <license>LightningSchedulerPsl</license>
+    <label>Lightning Scheduler Administrator V2</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -499,8 +498,4 @@
         <recordType>ServiceAppointment.Future_Student_Appointment</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>LightningSchedulerUserAccess</name>
-    </userPermissions>
 </PermissionSet>
