@@ -12,7 +12,7 @@
       | kenneth.f.alsay           | January 15, 2024      | DEPP-6964            | Added handleStatusClick, handlerShowModal                                                  |
       |                           |                       |                      | Added isDownloadCSVDisabled                                                                |
       | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Display Import CSV modal add method handleImporCSV                                         |
-      |                           |                       |                      |                                                                                            |
+      | carl.alvin.cabiles        | February 13,2024      | DEPP-8039            | Add Contact Name column in csv                                                             |
  */
 import { LightningElement, api, wire, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -115,6 +115,9 @@ export default class CustomHeaderButtons extends LightningElement {
 
         columnsName.forEach((obj) => {
             headers[obj.apiFieldName] = obj.label;
+            if(obj.label == 'Contact ID'){
+                headers['List_Member__r'] = 'Contact Name'
+            }
         });
 
         let csvData = [];
@@ -134,17 +137,22 @@ export default class CustomHeaderButtons extends LightningElement {
             let newObj = {};
             for (var key in obj) {
                 for (var index in headers) {
+                    
                     if (fieldObj[key] && fieldObj[key] === index) {
                         newObj[fieldObj[key]] = obj[key];
                     } else {
-                        if (key === index) {       
-                                newObj[key] = obj[key];    
+
+                        if (key === index && key == 'List_Member__r') {   
+                            newObj[key] = obj['List_Member__r']['Name'];    
+                        }else if(key === index){
+                            newObj[key] = obj[key];  
                         }
                     }
                 }
             }
             csvData.push(newObj);
         });
+
 
         csvData.forEach((obj) => {
             for (var index in headers) {
