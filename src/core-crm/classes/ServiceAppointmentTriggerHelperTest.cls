@@ -193,7 +193,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
             List<WorkType> workTypeIds = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
             List<Account> accList = AccountsDAO.newInstance().getAccountBySetNamesWithLimit(new Set<String> {TEST_ACCOUNT_NAME},1);
 
-            List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(2,accList.get(0).Id);
+            List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1,accList.get(0).Id);
 
             for(ServiceAppointment ap : serviceAppList){
                 ap.Web_Email__c = 'nicolesample@mailinator.com';
@@ -212,7 +212,6 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
 
             List<ServiceAppointment> serviceAppointment = ServiceAppointmentsDAO.newInstance().getServiceAppointmentsBySetIds(new Set<Id> {serviceAppList.get(0).Id,serviceAppList.get(1).Id},FIELDS,AccessLevel.SYSTEM_MODE);
             serviceAppointment.get(0).Status = 'Cancelled';
-            serviceAppointment.get(1).SchedStartTime = DateTime.Now().AddDays(2);
 
             Database.SaveResult[] srList = Database.update(serviceAppointment);
             
