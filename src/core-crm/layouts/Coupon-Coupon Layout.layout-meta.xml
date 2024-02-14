@@ -7,20 +7,16 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>RedemptionLimitAllBuyers</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>RedemptionLimitPerBuyer</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Required</behavior>
                 <field>CouponCode</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Description</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RedemptionLimitAllBuyers</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -31,6 +27,10 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Status</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RedemptionLimitPerBuyer</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
