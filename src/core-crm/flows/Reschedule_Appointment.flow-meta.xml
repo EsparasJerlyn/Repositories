@@ -4,7 +4,7 @@
         <description>Logs an Error to the Nebula Logger</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>842</locationX>
+        <locationX>1106</locationX>
         <locationY>1106</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -77,7 +77,7 @@
         <description>Saves the Error Action of the Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>842</locationX>
+        <locationX>1106</locationX>
         <locationY>1214</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
@@ -209,7 +209,6 @@
   &quot;\&quot;SchedEndTime\&quot;:\&quot;&quot; &amp; SUBSTITUTE(SUBSTITUTE(TEXT({!ServiceAppointment.SchedEndTime}), &quot; &quot;, &quot;T&quot;), &quot;Z&quot;, &quot;&quot;) &amp; &quot;.000Z\&quot;,&quot; &amp;
   &quot;\&quot;WorkTypeId\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.WorkTypeId} &amp; &quot;\&quot;,&quot; &amp;   
   &quot;\&quot;Id\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Id} &amp; &quot;\&quot;,&quot; &amp; 
-  &quot;\&quot;Description\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Description} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Subject\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Subject} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Phone\&quot;:\&quot;&quot; &amp;  {!ServiceAppointment.Phone} &amp; &quot;\&quot;,&quot; &amp; 
   &quot;\&quot;Email\&quot;:\&quot;&quot; &amp; {!ServiceAppointment.Email} &amp; &quot;\&quot;,&quot; &amp; 
@@ -328,6 +327,18 @@
         <queriedFields>StatusCategory</queriedFields>
         <queriedFields>IsAnonymousBooking</queriedFields>
     </recordLookups>
+    <recordUpdates>
+        <description>This update will ensure the proper population of custom fields defined in the Service Appointment record.</description>
+        <name>Update_Appointment</name>
+        <label>Update Appointment</label>
+        <locationX>578</locationX>
+        <locationY>1214</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <inputReference>ServiceAppointment</inputReference>
+    </recordUpdates>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <name>Confirmation_Screen</name>
@@ -337,6 +348,9 @@
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Update_Appointment</targetReference>
+        </connector>
         <fields>
             <name>Your_Appointment_Has_Been_Updated</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 28px; color: rgb(1, 118, 211);&quot;&gt;Your Appointment Has Been Updated&lt;/strong&gt;&lt;/p&gt;</fieldText>
@@ -353,7 +367,7 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>842</locationX>
+        <locationX>1106</locationX>
         <locationY>1322</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
