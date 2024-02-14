@@ -114,18 +114,33 @@ export default class CustomHeaderButtons extends LightningElement {
         let headers = {};
 
         columnsName.forEach((obj) => {
-            headers[obj.fieldName] = obj.label;
+            headers[obj.apiFieldName] = obj.label;
         });
 
         let csvData = [];
+        const fieldObj = {
+            Email__c: "Column_2__c",
+            Mobile__c: "Column_3__c",
+            Column_1_Value__c: "Column_4__c",
+            Column_2_Value__c: "Column_5__c",
+            Column_3_Value__c: "Column_6__c",
+            Column_4_Value__c: "Column_7__c",
+            Column_5_Value__c: "Column_8__c",
+            Column_6_Value__c: "Column_9__c",
+            Column_7_Value__c: "Column_10__c"
+        }
 
         columnsData.forEach((obj) => {
             let newObj = {};
             for (var key in obj) {
                 for (var index in headers) {
-                        if (key === index) {
-                        newObj[key] = obj[key];
+                    if (fieldObj[key] && fieldObj[key] === index) {
+                        newObj[fieldObj[key]] = obj[key];
+                    } else {
+                        if (key === index) {       
+                                newObj[key] = obj[key];    
                         }
+                    }
                 }
             }
             csvData.push(newObj);
