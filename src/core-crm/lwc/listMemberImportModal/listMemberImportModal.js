@@ -250,7 +250,6 @@ export default class ListMemberImportModal extends LightningElement {
         if (contactids) {
             contacts = await getContactById({ ids: contactids });
         }
-        console.log(this.defaultContributor);
         let listContributors = await getListContributorByIds({ listId: this.listId, contributorIds: listContributorids });
 
         let newData = [];
@@ -289,6 +288,7 @@ export default class ListMemberImportModal extends LightningElement {
 
             listMember.Email__c = email;
             listMember.Mobile__c = mobilePhone;
+            listMember.List_Contributor__c = this.defaultContributor;
 
             listContributors.forEach(obj => {
                 isFoundListContributor = true;

@@ -42,6 +42,8 @@ import getListIdEngOpp from "@salesforce/apex/CustomHeaderContainerCtrl.getListI
 import getUserHasListContributor from "@salesforce/apex/CustomHeaderContainerCtrl.getUserHasListContributor";
 import updateListMemberStatus from "@salesforce/apex/CustomHeaderContainerCtrl.updateListMemberStatus";
 import bulkSaveListMember from "@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember";
+import getListMembersForEngage from "@salesforce/apex/CustomHeaderContainerCtrl.getListMembersByListIdAndStatus"; 
+import getAllListContributors from "@salesforce/apex/CustomHeaderContainerCtrl.getAllListContributors";
 
 const ROW_WIDTH = 180;
 
@@ -96,6 +98,60 @@ export default class CustomHeaderContainer extends LightningElement {
         }
     ];
 
+    @track engageColumns = [
+        {
+            label: 'Contact',
+            fieldName: 'ContactUrl',
+            apiFieldName:'List_Member__c',
+            type: 'text',
+            editable: false,
+            sortable: true,
+            "initialWidth": ROW_WIDTH,
+            type: 'url',
+            typeAttributes: { label: { fieldName: 'ListMemberName' }, target: '_self' }
+        },        
+        {
+            label: 'Activity Name',
+            fieldName: 'Activity_Name__c',
+            apiFieldName:'Activity_Name__c',
+            type: 'text',
+            editable: false,
+            sortable: true,
+            "initialWidth": ROW_WIDTH,
+            type: 'text'
+        },
+        {
+            label: 'Activity Start Date',
+            fieldName: 'Activity_Start_Date__c',
+            apiFieldName:'Activity_Start_Date__c',
+            type: 'text',
+            editable: false,
+            sortable: true,
+            "initialWidth": ROW_WIDTH,
+            type: 'text'
+        },
+        {
+            label: 'Activity End Date',
+            fieldName: 'Activity_End_Date__c',
+            apiFieldName:'Activity_End_Date__c',
+            type: 'text',
+            editable: false,
+            sortable: true,
+            "initialWidth": ROW_WIDTH,
+            type: 'text'
+        },
+        {
+            label: 'Activity Status',
+            fieldName: 'Activity_Status__c',
+            apiFieldName:'Activity_Status__c',
+            type: 'text',
+            editable: false,
+            sortable: true,
+            "initialWidth": ROW_WIDTH,
+            type: 'text'
+        }
+    ]
+
     listFields = [
         LIST_STAGE,
         LIST_COLUMN_1,
@@ -120,6 +176,7 @@ export default class CustomHeaderContainer extends LightningElement {
     receivedListMemberData;
     receivedRecordId;
     listStageValue;
+    isEngageTab = false;
 
     get isEnableTableWithValidation() {
         return this.recordDataToAdd.length ? true : false;
@@ -150,7 +207,7 @@ export default class CustomHeaderContainer extends LightningElement {
         const { data, error } = responseData;
 
         this.dataListRecord = responseData;
-        if (data) {
+        if (data && this.tableColumnType === 'Dynamic') {
             const fields = data.fields;
 
             await this.createColumn(fields);
@@ -158,17 +215,24 @@ export default class CustomHeaderContainer extends LightningElement {
         }
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         if (this.tableColumnType === 'Dynamic') {
             this.tableColumns = this.listColumns;
             this.fieldsToColumns = this.listFields;
-        }
 
-        if (this.objectApiName === 'List__c') {
-            this.listId = this.recordId;
-        } else if (this.objectApiName === 'Engagement_Opportunity__c') {
-            this.fetchList();
-        }
+            if (this.objectApiName === 'List__c') {
+                this.listId = this.recordId;
+                this.fetchListContributors();
+            } else if (this.objectApiName === 'Engagement_Opportunity__c') {
+                this.fetchList();
+            }           
+        } else if (this.tableColumnType === 'Engage' && this.objectApiName === 'Engagement_Opportunity__c') {
+            this.tableColumns = this.engageColumns;
+            await this.fetchList();
+            await this.fetchUserHasListContributor();
+            this.fetchListMembersForEngage();
+            this.isEngageTab = true;
+        } 
     }
 
     reloadListMembersTable(event) {
@@ -201,8 +265,11 @@ export default class CustomHeaderContainer extends LightningElement {
 
                     if (obj.List_Contributor__r) {
                         obj.List_Contributor__c = obj.List_Contributor__r.Id;
-                        obj.ListContributorName = obj.List_Contributor__r.Name;
-
+                        this.allListContributors.forEach(contributor =>{
+                            if(contributor.Id === obj.List_Contributor__r.Id){
+                                obj.ListContributorName = contributor.List_Contributor__r.Name;
+                            }
+                        });
                         obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${obj.List_Contributor__r.Id}/view`;
                     }
                 });
@@ -213,13 +280,39 @@ export default class CustomHeaderContainer extends LightningElement {
         }, 1000);
     }
 
-    fetchList() {
-        getListIdEngOpp({ recordId: this.recordId })
+    fetchListMembersForEngage() {
+        setTimeout(() => {
+            getListMembersForEngage({ listId: this.listId, status: 'Qualified'})
+            .then((response) => {
+                response.forEach(obj => {
+                    if (obj.List_Member__r) {
+                        obj.List_Member__c = obj.List_Member__r.Id;
+                        obj.ListMemberName = obj.List_Member__r.Name;
+
+                        obj.ContactUrl = `/lightning/r/Contact/${obj.List_Member__r.Id}/view`;
+                    }
+                });
+
+                this.recordData = response;
+                this.isTableLoading = false;
+            })
+        }, 1000);
+    }
+
+    fetchListContributors() {
+        getAllListContributors({ listId: this.listId})
         .then((response) => {
-            if (response && response.length) {
-                this.listId = response[0].Id;
+            if(response){
+                this.allListContributors = response;
             }
         })
+    }
+
+    async fetchList() {
+        const response = await getListIdEngOpp({ recordId: this.recordId });
+        if (response && response.length) {
+            this.listId = response[0].Id;
+        }
     }
 
     async createColumn(fields) {

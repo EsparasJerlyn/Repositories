@@ -68,4 +68,27 @@ public with sharing class CustomHeaderContainerCtrl {
 
         return listContributorRecord;
     }
+
+    /**
+     * @description Retrieve List Members that matches listId and status
+     * @param listId List Id
+     * @param status User Id
+     */
+    @AuraEnabled
+    public static List<List_Member__c> getListMembersByListIdAndStatus(Id listId, String status) {
+        List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance().getListMembersByListIdAndStatus(new Set<Id>{listId}, status, AccessLevel.USER_MODE);
+
+        return listMemberRecords;
+    }
+
+    /**
+     * @description Retrieve All List Contributors in List
+     * @param listId List Id
+     */
+    @AuraEnabled
+    public static List<List_Contributor__c> getAllListContributors(Id listId) {
+        List<List_Contributor__c> listContributorRecord = ListContributorsDAO.newInstance().getAllListContributors(new Set<Id>{listId}, AccessLevel.USER_MODE);
+
+        return listContributorRecord;
+    }
 }
