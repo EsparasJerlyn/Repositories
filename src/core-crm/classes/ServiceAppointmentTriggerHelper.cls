@@ -229,6 +229,7 @@ public without sharing class ServiceAppointmentTriggerHelper {
     public static void sendEmailOnServiceAppointmentUpdate(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems) {
         checkCreatedAppointments(newItems,oldItems);
         checkCancelledAppointments(newItems,oldItems);
+        checkRescheduledAppointments(newItems,oldItems);
     }
 
     /**
@@ -315,6 +316,46 @@ public without sharing class ServiceAppointmentTriggerHelper {
         // If there are cancelled appointments, send emails
         if (withCancelledAppointments) {
             ServiceAppointmentService.sendEmailAfterServiceAppointmentCancellation(internationalServiceAppointments, domesticServiceAppointments);
+        }
+    }
+
+
+    public static void checkRescheduledAppointments(List<ServiceAppointment> newItems, Map<Id, ServiceAppointment> oldItems) {
+        List<ServiceAppointment> internationalServiceAppointments = new List<ServiceAppointment>();
+        List<ServiceAppointment> domesticServiceAppointments = new List<ServiceAppointment>();
+        
+        List<WorkType> internationalWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.INTERNATIONAL_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+        List<WorkType> domesticWorkType = WorkTypesDAO.newInstance().getWorkTypesBySetNames(new Set<String> {WorkTypesDAO.DOMESTIC_WORK_TYPE},AccessLevel.SYSTEM_MODE);
+
+        Map<Id, String> workTypeMap = new Map<Id, String>{
+            internationalWorkType.get(0).id => internationalWorkType.get(0).Name,
+            domesticWorkType.get(0).id => domesticWorkType.get(0).Name
+        };
+        
+        Boolean emailSent = false;
+
+        for (ServiceAppointment sa : newItems) {
+                          
+            if((sa.SchedStartTime == null && sa.SchedEndTime == null) || !String.IsNotBlank(sa.Appointment_Email__c)){
+                emailSent = false;
+            }else if((sa.SchedEndTime != null && oldItems.get(sa.Id).SchedEndTime == null) || (sa.SchedStartTime != null && oldItems.get(sa.Id).SchedStartTime == null) || (!sa.SchedStartTime.isSameDay(oldItems.get(sa.Id).SchedStartTime) || !sa.SchedEndTime.isSameDay(oldItems.get(sa.Id).SchedEndTime) || 
+            sa.SchedStartTime.time() != oldItems.get(sa.Id).SchedStartTime.time() || sa.SchedEndTime.time() != oldItems.get(sa.Id).SchedEndTime.time()) && 
+            sa.WorkTypeId != null && String.IsNotBlank(sa.Appointment_Email__c) && !sa.status.equals('Cancelled') && workTypeMap.containsKey(sa.WorkTypeId)){
+                if(sa.WorkTypeId == internationalWorkType.get(0).id){
+                    internationalServiceAppointments.add(sa);
+                }
+                if(sa.WorkTypeId == domesticWorkType.get(0).id){
+                    domesticServiceAppointments.add(sa);
+                }
+            }
+        }
+
+        if(!internationalServiceAppointments.isEmpty()){
+            ServiceAppointmentService.sendConfirmationEmailToInternationalServiceAppointments(internationalServiceAppointments);
+        }
+
+        if(!domesticServiceAppointments.isEmpty()){
+            ServiceAppointmentService.sendConfirmationEmailToDomesticServiceAppointments(domesticServiceAppointments);
         }
     }
     
