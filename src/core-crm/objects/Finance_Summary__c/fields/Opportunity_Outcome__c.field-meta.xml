@@ -10,6 +10,7 @@
     <relationshipName>Finance_Summaries</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
