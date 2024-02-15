@@ -1,6 +1,17 @@
+/**
+ * @description A reusable Lightning Web Component to mimic standard look and feel of a record details page
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                  |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------|
+ *    | ryan.j.a.dela.cruz             | February 2, 2024      | DEPP-6950              | Created file                    |
+ *    |                                |                       |                        |                                 |
+ */
+
 import { LightningElement, api, wire } from "lwc";
-import { RefreshEvent } from "lightning/refresh";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { reduceErrors } from "c/lwcUtility";
 import customForm from "@salesforce/resourceUrl/CustomRecordEditForm";
 import { loadStyle } from "lightning/platformResourceLoader";
@@ -8,15 +19,17 @@ import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import LIST_OBJECT from "@salesforce/schema/List__c";
 
 export default class DynamicRecordEditForm extends LightningElement {
-  @api objectApiName;
-  @api recordObjectApiName;
-  @api recordId;
+  @api recordObjectApiName; // FOR DELETION
+  @api fieldListToOverride;
+  @api passedObjectApiName;
+  @api passedRecordId;
   @api column1FieldList;
   @api column2FieldList;
   @api hiddenFieldList;
   @api showEditField;
 
   detailRecordId;
+  error;
 
   renderedCallback() {
     Promise.all([loadStyle(this, customForm)]).then(() => {});
@@ -53,42 +66,85 @@ export default class DynamicRecordEditForm extends LightningElement {
     return this._recordTypeId;
   }
 
-  @api submit() {
+  @api async submit() {
     const inputFields = this.template.querySelectorAll("lightning-input-field");
     const fields = {};
+
+    // Initialize or retrieve the session object
+    let sessionData = sessionStorage.getItem("combinedFields");
+    const combinedFields = sessionData ? JSON.parse(sessionData) : {};
 
     inputFields.forEach((field) => {
       fields[field.fieldName] = field.value;
     });
 
-    console.log("HIDDEN", JSON.stringify(this.hiddenFieldList));
+    // Merge current fields with the existing combinedFields
+    const sessionFields = { ...combinedFields, ...fields };
+
+    // Save the updated combinedFields in the session
+    sessionStorage.setItem("combinedFields", JSON.stringify(sessionFields));
+
     if (this.hiddenFieldList) {
       const url = window.location.href;
       this.detailRecordId = url.split("/r/")[1].split("/")[1];
 
       this.hiddenFieldList.forEach((hiddenField) => {
-        if (hiddenField.name === this.recordObjectApiName) {
-          console.log("BEFORE SUBMIT", this.detailRecordId);
-          fields[hiddenField.name] = this.detailRecordId;
-        } else {
-          fields[hiddenField.name] = hiddenField.value;
+        switch (hiddenField.name) {
+          case this.fieldListToOverride.engagementOpportunityId:
+            fields[hiddenField.name] = this.detailRecordId;
+            break;
+          case this.fieldListToOverride.listName:
+            fields[hiddenField.name] =
+              sessionFields.Engagement_Opportunity_Name__c;
+            break;
+          case this.fieldListToOverride.listPurpose:
+            fields[hiddenField.name] = sessionFields.Summary__c;
+            break;
+          case this.fieldListToOverride.recordTypeId:
+            fields[hiddenField.name] = this.recordTypeId;
+            break;
+          default:
+            fields[hiddenField.name] = hiddenField.value;
         }
       });
     }
 
-    console.log("FIELDS", JSON.parse(JSON.stringify(fields)));
+    console.log("[1] Actual Submit: ", JSON.parse(JSON.stringify(fields)));
 
+    // Initialize or retrieve the session object
     let targetForm = this.template.querySelector("lightning-record-edit-form");
     targetForm.submit(fields);
   }
 
-  handleSubmit() {
-    console.log("SUBMITTED");
-  }
-
   handleSuccess(event) {
     event.preventDefault();
-    console.log("Record saved (", event.detail.apiName, "):", event.detail.id);
+    console.log(
+      "[2] Record saved (",
+      event.detail.apiName,
+      "):",
+      event.detail.id
+    );
+
+    if (event.detail.apiName === "List__c") {
+      console.log("[3] recordidupdate");
+
+      this.dispatchEvent(
+        new CustomEvent("recordidupdate", {
+          detail: {
+            message: event.detail.id
+          }
+        })
+      );
+    } else {
+      // console.log("[3] success");
+      // this.dispatchEvent(
+      //   new CustomEvent("success", {
+      //     detail: {
+      //       message: true
+      //     }
+      //   })
+      // );
+    }
 
     this.showEditField = true;
     this.dispatchEvent(
@@ -98,22 +154,17 @@ export default class DynamicRecordEditForm extends LightningElement {
         }
       })
     );
-    this.dispatchEvent(
-      new CustomEvent("recordidupdate", {
-        detail: {
-          message: this.detailRecordId
-        }
-      })
-    );
-    this.dispatchEvent(new RefreshEvent());
   }
 
   handleError(error) {
-    console.log("ERROR", reduceErrors(error).join(", "));
-    new ShowToastEvent({
-      title: "Error!",
-      message: reduceErrors(error).join(", "),
-      variant: "error"
-    });
+    console.log("ERROR Reduced: ", reduceErrors(error).join(", "));
+    sessionStorage.setItem("dynamicErrors", reduceErrors(error).join(", "));
+    this.dispatchEvent(
+      new CustomEvent("error", {
+        detail: {
+          message: error
+        }
+      })
+    );
   }
 }

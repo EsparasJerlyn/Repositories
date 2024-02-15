@@ -1,32 +1,44 @@
+/**
+ * @description The parent Lightning Web Component to show a customized sectional record details page of Engagement Opportunity object
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                  |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------|
+ *    | ryan.j.a.dela.cruz             | February 2, 2024      | DEPP-6950              | Created file                    |
+ *    |                                |                       |                        |                                 |
+ */
+
 import { LightningElement, api } from "lwc";
-import LIST_OBJECT from "@salesforce/schema/List__c";
+import { RefreshEvent } from "lightning/refresh";
+import findListRecordIdByEngagementOpportunityId from "@salesforce/apex/ListsCtrl.findListRecordIdByEngagementOpportunityId";
 
 export default class EngagementOpportunityDetails extends LightningElement {
   // Flexipage provides recordId and objectApiName
   @api recordId;
   @api objectApiName; // Engagement_Opportunity__c
-  listObjectApiName = LIST_OBJECT;
+  listObjectApiName = "List__c";
   listRecordId;
   showFooter;
   showEditField = true;
   isLoading;
   error;
 
-  updateShowFooter(event) {
-    this.showFooter = event.detail.message;
-    this.showEditField = !this.showFooter;
-    this.isLoading = false;
-  }
-
-  handleListRecordIdUpdate(event) {
-    this.listRecordId = event.detail.message;
-  }
-
   label = {
     opportunitySummary: "Opportunity Summary",
     listColumnHeaders: "List Column Headers",
     stageManagement: "Stage Management",
     systemInformation: "System Information"
+  };
+
+  fieldListToOverride = {
+    engagementOpportunityId: "Engagement_Opportunity__c",
+    listName: "List_Name__c",
+    listPurpose: "List_Purpose__c",
+    recordTypeId: "RecordTypeId",
+    stage: "Stage__c"
   };
 
   // Set active sessions here on page load
@@ -79,6 +91,10 @@ export default class EngagementOpportunityDetails extends LightningElement {
       {
         name: "Requesting_Faculty__c",
         editable: true
+      },
+      {
+        name: "Stage__c",
+        editable: true
       }
     ]
   };
@@ -122,6 +138,49 @@ export default class EngagementOpportunityDetails extends LightningElement {
     ]
   };
 
+  updateShowFooter(event) {
+    this.showFooter = event.detail.message;
+    this.showEditField = !this.showFooter;
+    this.isLoading = false;
+  }
+
+  handleListRecordIdUpdate(event) {
+    this.listRecordId = event.detail.message;
+    console.log("[4] List Record Id", this.listRecordId);
+    // const subForm = this.template.querySelector(
+    //   "c-dynamic-record-edit-form[data-id='engagementOpportunitySubForm']"
+    // );
+    // subForm.submit();
+  }
+
+  connectedCallback() {
+    this.isLoading = true;
+    if (this.recordId) {
+      findListRecordIdByEngagementOpportunityId({
+        engagementOpportunityIdString: this.recordId
+      })
+        .then((result) => {
+          if (result) {
+            this.listRecordId = result;
+            console.log("List Record Found: ", this.listRecordId);
+
+            this.isLoading = false;
+          }
+        })
+        .catch((error) => {
+          const logger = this.template.querySelector("c-logger");
+          if (logger) {
+            logger.error(
+              "Exception caught in method connectedCallback in LWC engagementOpportunityDetails: ",
+              JSON.stringify(error)
+            );
+            logger.saveLog();
+          }
+          this.isLoading = false;
+        });
+    }
+  }
+
   stageManagement = {
     column1FieldList: [{ name: "Stage__c", editable: true }]
   };
@@ -129,41 +188,77 @@ export default class EngagementOpportunityDetails extends LightningElement {
   handleSubmit(event) {
     event.preventDefault();
     this.isLoading = true;
-    let count = 0;
-    this.template
-      .querySelectorAll("c-dynamic-record-edit-form")
-      .forEach((form) => {
-        // Check if the form has data-id="engagementOpportunityForm" before submitting
-        if (form.dataset.id === "engagementOpportunityForm") {
-          form.submit();
-          count++;
-        }
-      });
+    let hasError = false;
 
-    if (count >= 2) {
-      this.template
-        .querySelectorAll("c-dynamic-record-edit-form")
-        .forEach((form) => {
-          // Check if the form has data-id="listForm" before submitting
-          if (form.dataset.id === "listForm") {
-            form.submit();
-          }
-        });
+    const mainForm = this.template.querySelector(
+      "c-dynamic-record-edit-form[data-id='engagementOpportunityMainForm']"
+    );
+    const subForm = this.template.querySelector(
+      "c-dynamic-record-edit-form[data-id='engagementOpportunitySubForm']"
+    );
+    const listForm = this.template.querySelector(
+      "c-dynamic-record-edit-form[data-id='listForm']"
+    );
+
+    let errorSession = sessionStorage.getItem("dynamicErrors");
+
+    // Submit the first form
+    mainForm.submit();
+
+    // Check for error before submitting the sub form
+    if (!errorSession && subForm) {
+      if (this.error) {
+        hasError = true;
+      } else {
+        // subForm.submit();
+      }
+    }
+
+    // Check for error before submitting the list form
+    if (!errorSession && listForm) {
+      if (this.error) {
+        hasError = true;
+      } else {
+        // listForm.submit();
+      }
     }
   }
 
   handleCancel(event) {
     this.showFooter = false;
     this.showEditField = true; // This is the pencil icon on read only view
+    this.error = "";
+    this.isLoading = false;
+    sessionStorage.setItem("dynamicErrors", "");
   }
 
   handleSuccess(event) {
-    const message = event.detail;
-    this.result = "Success from Child! Message: " + message;
+    const message = JSON.parse(JSON.stringify(event.detail));
+    console.log("[3] Parent Received Success: ", message);
+    this.isLoading = false;
+
+    // const _event = JSON.parse(JSON.stringify(event));
+    // console.log("[3.1] Parent Received _event: ", _event);
+
+    // Since the main form submission is successful, we can trigger the next one.
+    if (event.detail.apiName === this.objectApiName) {
+      const listForm = this.template.querySelector(
+        "c-dynamic-record-edit-form[data-id='listForm']"
+      );
+      listForm.submit();
+    }
+
+    // const subForm = this.template.querySelector(
+    //   "c-dynamic-record-edit-form[data-id='engagementOpportunitySubForm']"
+    // );
+    // subForm.submit();
   }
 
   handleError(event) {
-    const error = event.detail;
-    this.result = "Error from Child! " + error;
+    const error = event.detail.message;
+    this.error = error;
+    const message = JSON.parse(JSON.stringify(event.detail));
+    console.log("[3] Parent Received Error: ", message);
+    this.isLoading = false;
   }
 }
