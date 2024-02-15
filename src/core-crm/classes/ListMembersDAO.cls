@@ -45,6 +45,32 @@ public inherited sharing class ListMembersDAO extends DmlBase implements IListMe
         );        
     }
 
+    public List<List_Member__c> getListMembersByListIdAndStatus(
+        Set<Id> listId,
+        String status,
+        AccessLevel accessLevel){
+        return Database.query(
+            'SELECT Id, List_Member_Status__c, List_Member__c, List_Member__r.Name, Activity_Name__c, Activity_Start_Date__c, Activity_End_Date__c, Activity_Status__c ' +
+                'FROM List_Member__c ' +
+                'WHERE List__c IN: listId ' + 
+                'AND List_Member_Status__c =: status ',
+                accessLevel
+        );        
+    }
+
+    public List<List_Member__c> getListMembersByActivityStatus(
+        Integer recordCount,
+        String status,
+        AccessLevel accessLevel){
+            return Database.query(
+                'SELECT Id, List_Member_Status__c, List_Member__c, List_Member__r.Name, Activity_Name__c, Activity_Start_Date__c, Activity_End_Date__c, Activity_Status__c ' +
+                    'FROM List_Member__c ' +
+                    'WHERE Activity_Status__c =: status ' +
+                    'LIMIT :recordCount',
+                    accessLevel
+            );  
+    }
+
     public static IListMembersDAO newInstance()
 	{
 		return (IListMembersDAO) ImplementationSelector.DAO.newInstance(List_Member__c.SObjectType);

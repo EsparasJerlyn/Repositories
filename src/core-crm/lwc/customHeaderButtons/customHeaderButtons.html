@@ -42,7 +42,7 @@
             variant="brand-outline"
             class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small"
             onclick={handleStatusClick}
-            disabled={isDisabledButton}>
+            disabled={isDisabledBulkStatusChangeButton}>
         </lightning-button>
 
         <c-list-member-status-modal
@@ -50,6 +50,7 @@
             onsetshowmodal={handlerShowModalListMemberStatus}
             items-selected={itemsSelectedListMemberStatus}
             onhandlerefresh={reloadListMembersTable}
+            engage-tab={engageTab}
         ></c-list-member-status-modal>
 
         <c-list-member-import-modal
