@@ -50,7 +50,7 @@ public inherited sharing class ServiceAppointmentService {
      * @param internationalServiceAppointments  List of new Service Appointment records 
      * @return void
      */
-    public static void sendConfrimationEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
+    public static void sendConfirmationEmailToInternationalServiceAppointments(List<ServiceAppointment> internationalServiceAppointments) {
         sendConfirmationOrReminderEmail(
             internationalServiceAppointments,
             new Map<String, String>{
