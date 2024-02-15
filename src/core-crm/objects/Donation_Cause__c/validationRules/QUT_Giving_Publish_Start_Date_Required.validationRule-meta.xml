@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QUT_Giving_Publish_Start_Date_Required</fullName>
+    <active>true</active>
+    <description>If Is_QUT_Giving_Cause__c is checked then field value must be provided during Cause setup.</description>
+    <errorConditionFormula>AND(Is_QUT_Giving_Cause__c = True,  ISBLANK( QUT_Giving_Publish_Start_Date__c ) )</errorConditionFormula>
+    <errorDisplayField>QUT_Giving_Publish_Start_Date__c</errorDisplayField>
+    <errorMessage>QUT Giving Publish Start Date is required when Is QUT Giving Cause is checked.</errorMessage>
+</ValidationRule>
