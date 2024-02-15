@@ -67,7 +67,7 @@ public with sharing class ServiceAppointmentServiceTest {
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(serviceAppList);
+            ServiceAppointmentService.sendConfirmationEmailToInternationalServiceAppointments(serviceAppList);
 
             Test.stopTest();
             
@@ -220,7 +220,7 @@ public with sharing class ServiceAppointmentServiceTest {
 
             ServiceAppointmentsDAO.newInstance().insertRecords(serviceAppList, false, AccessLevel.USER_MODE);
 
-            ServiceAppointmentService.sendConfrimationEmailToInternationalServiceAppointments(serviceAppList);
+            ServiceAppointmentService.sendConfirmationEmailToInternationalServiceAppointments(serviceAppList);
 
             Test.stopTest();
             
