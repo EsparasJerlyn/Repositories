@@ -6377,6 +6377,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Opportunity.Due_Diligence_Completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opportunity.Due_Diligence_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6492,11 +6497,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Opportunity.Is_Due_Diligence_Complete__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Opportunity.Is_Qualified__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6568,21 +6568,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opportunity.NextStep</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.Opportunity_Ability_Comment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.Opportunity_Interest_Comment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.Opportunity_Linkage_Comment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
