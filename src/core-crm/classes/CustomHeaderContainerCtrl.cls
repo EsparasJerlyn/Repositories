@@ -12,6 +12,7 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
       | neil.s.h.lesidan               | December 20, 2023     | DEPP-6963              | Created file                                      |
       | kenneth.f.alsay                | January 15, 2024      | DEPP-6964              | Added updateListMemberStatus method               |
+      | kenneth.f.alsay                | January 15, 2024      | DEPP-6953              | Added getListMembersByListIdAndStatus method      |
  */
 public with sharing class CustomHeaderContainerCtrl {
 
@@ -67,5 +68,17 @@ public with sharing class CustomHeaderContainerCtrl {
         List<List_Contributor__c> listContributorRecord = ListContributorsDAO.newInstance().getListContributorByUserID(new Set<Id>{listId}, new Set<Id>{userId}, AccessLevel.USER_MODE);
 
         return listContributorRecord;
+    }
+
+    /**
+     * @description Retrieve List Members that matches listId and status
+     * @param listId List Id
+     * @param status User Id
+     */
+    @AuraEnabled
+    public static List<List_Member__c> getListMembersByListIdAndStatus(Id listId, String status) {
+        List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance().getListMembersByListIdAndStatus(new Set<Id>{listId}, status, AccessLevel.USER_MODE);
+
+        return listMemberRecords;
     }
 }

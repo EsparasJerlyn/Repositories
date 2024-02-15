@@ -12,14 +12,26 @@
                     <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">List Member Status</h1>
                 </div>
                 <div class="slds-modal__content slds-p-around_small" id="modal-content-id-1">
-                    <lightning-combobox
+                    <div if:true={engageTab}>
+                        <lightning-combobox
+                        name="status"
+                        placeholder="Choose Status"
+                        value={value}
+                        onchange={handleChange}
+                        options={activityStatusOptions}
+                        >
+                        </lightning-combobox>
+                    </div>
+                    <div if:false={engageTab}>
+                        <lightning-combobox
                         name="status"
                         placeholder="Choose Status"
                         value={value}
                         onchange={handleChange}
                         options={statusOptions}
                         >
-                    </lightning-combobox>
+                        </lightning-combobox>
+                    </div>
                 </div>
                 <div class="slds-modal__footer">
                     <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={handleCancel}>Cancel</button>

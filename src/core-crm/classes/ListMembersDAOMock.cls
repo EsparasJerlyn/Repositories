@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    |carl.alvin.cabiles              | September 18, 2023    | DEPP-6510              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
+ *    |carl.alvin.cabiles              | September 18, 2023    | DEPP-6510              | Created file                           |
+ *    | kenneth.f.alsay                | February 12, 2024     | DEPP-6953              | Added getListMembersByListIdAndStatus  |
  */
 @isTest
 public inherited sharing class ListMembersDAOMock extends DmlBaseMock implements IListMembersDAO {
@@ -50,6 +51,37 @@ public inherited sharing class ListMembersDAOMock extends DmlBaseMock implements
         }
         return listMemberRecords;       
     }
+   
+    public List<List_Member__c> getListMembersByListIdAndStatus(
+        Set<Id> listId,
+        String status,
+        AccessLevel accessLevel){
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
 
-    
+        for (List_Member__c record : listMembersMap.values()) {
+            if (record.List_Member_Status__c == status && listId.contains(record.Id)) {
+                listMemberRecords.add(record);
+            }
+        }
+        return listMemberRecords;       
+    }
+
+    public List<List_Member__c> getListMembersByActivityStatus(
+        Integer recordCount,
+        String status,
+        AccessLevel accessLevel){
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
+
+        Integer count = 0;
+        for (List_Member__c record : listMembersMap.values()) {
+            if (record.Activity_Status__c == status) {
+                listMemberRecords.add(record);
+                count++;
+            }
+            if(count==recordCount){
+                break;
+            }
+        }
+        return listMemberRecords;       
+    }
 }

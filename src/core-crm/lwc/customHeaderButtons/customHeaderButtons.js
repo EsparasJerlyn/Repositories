@@ -12,12 +12,13 @@
       | kenneth.f.alsay           | January 15, 2024      | DEPP-6964            | Added handleStatusClick, handlerShowModal                                                  |
       |                           |                       |                      | Added isDownloadCSVDisabled                                                                |
       | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Display Import CSV modal add method handleImporCSV                                         |
-      |                           |                       |                      |                                                                                            |
+      | carl.alvin.cabiles        | February 13,2024      | DEPP-8039            | Add Contact Name column in csv                                                             |
  */
 import { LightningElement, api, wire, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord } from "lightning/uiRecordApi";
 import LIST_STAGE from "@salesforce/schema/List__c.Stage__c";
+import LIST_RECORD_TYPE from "@salesforce/schema/List__c.RecordType.DeveloperName";
 
 const CVS_DOWNLOAD_NAME = "lisData";
 
@@ -30,6 +31,7 @@ export default class CustomHeaderButtons extends LightningElement {
     @api columnsData;
     @api isEnableTableWithValidation;
     @api isContributorLinkToList;
+    @api isEngageTab;
 
     @api listStageValue;
     @api tableColumns;
@@ -47,6 +49,8 @@ export default class CustomHeaderButtons extends LightningElement {
     @track listMembers;
     @track listMemberStatus;
     isShowModalListMemberStatus = false;
+    engageTab = this.isEngageTab;
+
     error;
 
     isShowImportCSVModal = false;
@@ -70,6 +74,10 @@ export default class CustomHeaderButtons extends LightningElement {
         return isDisabled;
     }
 
+    get isDisabledBulkStatusChangeButton() {
+        return (this.recordType === 'Distributed_List' && this.stageValue === "In Progress") || (this.recordType === 'Engagement_Opportunity' && this.isEngageTab === false) || (this.recordType === 'Engagement_Opportunity' && !this.isContributorLinkToList) || this.stageValue === "Closed" ? true : false;
+    }
+
     get isDisabledAddFromExistingListButton() {
         let isDisabled = true;
         if (this.isContributorLinkToList) {
@@ -86,10 +94,22 @@ export default class CustomHeaderButtons extends LightningElement {
     @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
         wiredList(responseData) {
         const { data, error } = responseData;
-
+        console.log(data);
         if (data) {
             const fields = data.fields;
             this.stageValue = fields.Stage__c.value;
+        }
+    }
+
+    recordTypeField = [LIST_RECORD_TYPE];
+    @wire(getRecord, { recordId: "$listId", fields: "$recordTypeField" })
+        wireRecordType(responseData) {
+        const { data, error } = responseData;
+        if (data) {
+            const fields = data.fields;
+            if(fields.RecordType.value && fields.RecordType.value.fields.DeveloperName && fields.RecordType.value.fields.DeveloperName.value){
+                this.recordType = fields.RecordType.value.fields.DeveloperName.value;
+            }
         }
     }
 
@@ -99,6 +119,7 @@ export default class CustomHeaderButtons extends LightningElement {
         }else{
             this.itemsSelectedListMemberStatus = this.selectedRows;
             this.isShowModalListMemberStatus = true;
+            this.engageTab = this.isEngageTab;
         }
     }
 
@@ -115,6 +136,9 @@ export default class CustomHeaderButtons extends LightningElement {
 
         columnsName.forEach((obj) => {
             headers[obj.apiFieldName] = obj.label;
+            if(obj.label == 'Contact ID'){
+                headers['List_Member__r'] = 'Contact Name'
+            }
         });
 
         let csvData = [];
@@ -134,17 +158,22 @@ export default class CustomHeaderButtons extends LightningElement {
             let newObj = {};
             for (var key in obj) {
                 for (var index in headers) {
+                    
                     if (fieldObj[key] && fieldObj[key] === index) {
                         newObj[fieldObj[key]] = obj[key];
                     } else {
-                        if (key === index) {       
-                                newObj[key] = obj[key];    
+
+                        if (key === index && key == 'List_Member__r') {   
+                            newObj[key] = obj['List_Member__r']['Name'];    
+                        }else if(key === index){
+                            newObj[key] = obj[key];  
                         }
                     }
                 }
             }
             csvData.push(newObj);
         });
+
 
         csvData.forEach((obj) => {
             for (var index in headers) {
