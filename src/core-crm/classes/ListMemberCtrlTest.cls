@@ -24,11 +24,13 @@ public class ListMemberCtrlTest {
         ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
         List<List_Member__c> newListMemberRecords = TestDataFactory.createListMemberRecords(100,newListRecords[0].id,newContacts[0].id);
         ListMembersDAO.newInstance().insertRecords(newListMemberRecords, false, AccessLevel.USER_MODE);             
-        List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance().getListMembersByStatus(100, AccessLevel.SYSTEM_MODE, '');
         Test.startTest();
-        ListMemberCtrl.updateListMemberStatus(newListMemberRecords, 'Qualified');
-        List<List_Member__c> updatedListMemberRecords = ListMembersDAO.newInstance().getListMembersByStatus(100, AccessLevel.SYSTEM_MODE, 'Qualified');
-        System.assert(!updatedListMemberRecords.isEmpty(), 'No List Member found');
+        ListMemberCtrl.updateListMemberStatus(newListMemberRecords, 'Qualified', false);
+        List<List_Member__c> updatedListMemberRecordsFalse = ListMembersDAO.newInstance().getListMembersByStatus(100, AccessLevel.SYSTEM_MODE, 'Qualified');
+        System.assert(!updatedListMemberRecordsFalse.isEmpty(), 'No List Member found');
+        ListMemberCtrl.updateListMemberStatus(newListMemberRecords, 'Accepted', true);
+        List<List_Member__c> updatedListMemberRecordsTrue = ListMembersDAO.newInstance().getListMembersByActivityStatus(100, 'Accepted', AccessLevel.USER_MODE);
+        System.assert(!updatedListMemberRecordsFalse.isEmpty(), 'No List Member found');
         Test.stopTest();
     }
 }

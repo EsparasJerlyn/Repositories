@@ -6192,6 +6192,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>hed__Time_Block__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
     </tabSettings>

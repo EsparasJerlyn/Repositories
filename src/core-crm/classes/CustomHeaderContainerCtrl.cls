@@ -12,6 +12,8 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------------------|
       | neil.s.h.lesidan               | December 20, 2023     | DEPP-6963              | Created file                                      |
       | kenneth.f.alsay                | January 15, 2024      | DEPP-6964              | Added updateListMemberStatus method               |
+      | kenneth.f.alsay                | January 15, 2024      | DEPP-6953              | Added getListMembersByListIdAndStatus method      |
+      | kenneth.f.alsay                | February 14, 2024     | DEPP-8040              | Added getAllListContributors method               |
  */
 public with sharing class CustomHeaderContainerCtrl {
 
