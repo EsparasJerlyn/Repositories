@@ -57,8 +57,29 @@ const reduceErrors = (errors) => {
       .filter((error) => !!error)
       // Extract an error message
       .map((error) => {
+        // Check if the error detail is available
+        if (error?.detail) {
+          const detail = error.detail;
+
+          // Check if output contains field errors
+          if (
+            detail.output &&
+            detail.output.fieldErrors &&
+            Object.keys(detail.output.fieldErrors).length > 0
+          ) {
+            const fieldNames = Object.keys(detail.output.fieldErrors);
+            const errorMessage = `Review the following fields: ${fieldNames.join(
+              ", "
+            )}`;
+            return errorMessage;
+          }
+          // Check if the detail has a message
+          else if (detail.message) {
+            return detail.message;
+          }
+        }
         // UI API read errors
-        if (Array.isArray(error.body)) {
+        else if (Array.isArray(error.body)) {
           return error.body.map((e) => e.message);
         }
         // Page level errors

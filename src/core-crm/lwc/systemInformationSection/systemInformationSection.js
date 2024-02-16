@@ -1,3 +1,16 @@
+/**
+ * @description A reusable Lightning Web Component to mimic standard look and feel of system information section
+ *
+ * @author Accenture
+ *
+ * @history
+ *
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                  |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------|
+ *    | ryan.j.a.dela.cruz             | February 2, 2024      | DEPP-6950              | Created file                    |
+ *    |                                |                       |                        |                                 |
+ */
+
 import { LightningElement, api, wire } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
 
