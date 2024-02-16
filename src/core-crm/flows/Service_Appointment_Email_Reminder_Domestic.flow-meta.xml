@@ -146,6 +146,20 @@
                 <elementReference>$Record.Description</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AlterationURLMergeField.mergeField</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{{{ServiceAppointment.Alteration_URL__c}}}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AlterationURLMergeField.mergeFieldValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Alteration_URL__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Merge_Fields_to_DomesticMergeFields</targetReference>
         </connector>
@@ -202,6 +216,13 @@
             <operator>Add</operator>
             <value>
                 <elementReference>SchedStartDateMergeField</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DomesticMergeFields</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>AlterationURLMergeField</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -317,6 +338,14 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>AlterationURLMergeField</name>
+        <apexClass>FlowEmailMergeField</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>AppointmentEmail</name>
         <dataType>String</dataType>
