@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Support Students</fullName>
+        <default>false</default>
+        <label>Support Students</label>
+    </customValue>
+    <customValue>
+        <fullName>Support Research</fullName>
+        <default>false</default>
+        <label>Support Research</label>
+    </customValue>
+    <customValue>
+        <fullName>Support Community</fullName>
+        <default>false</default>
+        <label>Support Community</label>
+    </customValue>
+    <description>The giving category or categories, the Opportunity Participant is interested in donating to.</description>
+    <masterLabel>Giving Category</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
