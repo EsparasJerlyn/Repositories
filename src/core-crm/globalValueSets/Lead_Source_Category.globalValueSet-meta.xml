@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Partner Sourced</fullName>
+        <default>false</default>
+        <label>Partner Sourced</label>
+    </customValue>
+    <description>Indicates the original lead source channel category for the Lead Source Channel that a Marketing Person interacted with/via.</description>
+    <masterLabel>Lead Source Category</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
