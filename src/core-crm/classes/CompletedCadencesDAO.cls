@@ -83,6 +83,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             'Application__r.Offered_Program_Plan__r.Name, ' +
             'Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name, ' +
             'Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c, ' +
+            'Application__r.Current_Preference__r.Name, ' + 
             'Cadence_Name__c, Calculated_Cadence__c ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Nurture_Track_Configuration__r.Cadence_Name__c IN :cadenceNames ' +

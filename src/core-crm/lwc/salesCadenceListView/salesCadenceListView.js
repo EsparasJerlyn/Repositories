@@ -23,7 +23,6 @@ import getSearchedUsers from "@salesforce/apex/SalesCadenceListViewCtrl.getSearc
 import getRecentlyViewed from "@salesforce/apex/SalesCadenceListViewCtrl.getRecentlyViewed";
 import checkUserRole from "@salesforce/apex/SalesCadenceListViewCtrl.checkUserRole";
 
-
 const ERROR_TOAST_VARIANT = "error";
 const ERROR_TOAST_TITLE = "Error";
 const MULTI_ASSIGN_ERROR_MSG = "Some of the contacts you selected have already been assigned to another user, those that weren't have now been assigned to you";
@@ -49,6 +48,12 @@ export default class SalesCadenceListView extends LightningElement {
     'Domestic First Offer to Acceptance',
     'Domestic Accepted not yet Enrolled',
     'Domestic Offer Lapsed'
+  ];
+
+  internationalPreOrPostAcceptance = [
+    'International Application to Offer',
+    'International Offer to Acceptance',
+    'International Acceptance Deposit not Paid'
   ];
 
   //columns for domestic strong interest pre application cadence
@@ -194,8 +199,38 @@ export default class SalesCadenceListView extends LightningElement {
     }
   ];
 
-  //columns for international strong interest pre application
-  @track internationalPreApplicationColumns = [
+  @track internationalPartnerSourcedColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Citizenship Country",
+      fieldName: "citizenshipCountry",
+      type: "text",
+      sortable: true,
+      cellAttributes: {
+        alignment: "left"
+      }
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  @track internationalStrongApplicationColumns = [
     {
       label: "Name",
       fieldName: "name",
@@ -221,8 +256,92 @@ export default class SalesCadenceListView extends LightningElement {
       }
     },
     {
-      label: "Agent Assisted",
-      fieldName: "agentAssisted",
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  @track internationalApplicationColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Current Preference",
+      fieldName: "currentPreference",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Citizenship Country",
+      fieldName: "citizenshipCountry",
+      type: "text",
+      sortable: true,
+      cellAttributes: {
+        alignment: "left"
+      }
+    },
+    {
+      label: "Status",
+      fieldName: "completedCadenceStatus",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Entry Date",
+      fieldName: "entryDate",
+      type: "date",
+      sortable: true,
+      typeAttributes: { day: "numeric", month: "numeric", year: "numeric" }
+    }
+  ];
+
+  
+  @track internationalPreOrPostAcceptanceColumns = [
+    {
+      label: "Name",
+      fieldName: "name",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Offered Preference",
+      fieldName: "offeredPreference",
+      type: "text",
+      sortable: true
+    },
+    {
+      label: "Citizenship Country",
+      fieldName: "citizenshipCountry",
+      type: "text",
+      sortable: true,
+      cellAttributes: {
+        alignment: "left"
+      }
+    },
+    {
+      label: "Residence Country",
+      fieldName: "residenceCountry",
+      type: "text",
+      sortable: true,
+      cellAttributes: {
+        alignment: "left"
+      }
+    },
+    {
+      label: "Partner Sourced",
+      fieldName: "partnerSourced",
       type: "boolean",
       sortable: true
     },
@@ -241,7 +360,6 @@ export default class SalesCadenceListView extends LightningElement {
     }
   ];
 
-  //columns of all international cadences expect international strong interest pre application
   @track internationalColumns = [
     {
       label: "Name",
@@ -365,9 +483,13 @@ export default class SalesCadenceListView extends LightningElement {
           return this.domesticColumns;
         }
     } else if (this.calculatedCadence == "International Strong Interest Pre-Application") {
-      return this.internationalPreApplicationColumns;
-    } else if (this.calculatedCadence.startsWith("International")) {
-      return this.internationalColumns;
+      return this.internationalStrongApplicationColumns;
+    } else if (this.calculatedCadence == "International Pre-Application - Partner Sourced"){
+      return this.internationalPartnerSourcedColumns;
+    } else if (this.internationalPreOrPostAcceptance.includes(this.calculatedCadence)){
+      return this.internationalPreOrPostAcceptanceColumns;
+    } else if (this.calculatedCadence == "International Application Submission - Direct Applicant"){
+      return this.internationalApplicationColumns;
     }
     return this.internationalColumns;
   }
