@@ -16,6 +16,7 @@
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added method for getContactByCaseMobile   |
  *    | neil.s.h.lesidan               | Sept 20, 2023       | DEPP-6478              | Added getPersonContactsByEmailOrName      |
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
+ *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSL    |
  */
 @isTest
 public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IContactsDAO {//NOPMD could contain a lot of methods
@@ -343,6 +344,19 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         List<Contact> contactList = new List<Contact>();
         for (Contact record : contactsMap.values()) {
             if (recordIds.contains(record.Parent_Person_Lead__c)){
+                contactList.add(record);
+            }
+        }
+        return contactList;
+    }
+
+    public List<Contact> getPersonContactsByNameUsingSOSL(
+        String filterName
+    ){
+        List<Contact> contactList = new List<Contact>();
+        for (Contact record : contactsMap.values()) {
+            if ( record.RecordTypeId == ContactsDAO.PERSON_RECORDTYPE_ID && filterName.contains(record.Name) ) 
+            {
                 contactList.add(record);
             }
         }

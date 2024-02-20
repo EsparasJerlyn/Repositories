@@ -11,6 +11,7 @@
       | angelika.j.s.galang       | February 8, 2022      | DEPP-1258    | Created file                                  | 
       | roy.nino.s.regala         | April 20, 2022        | DEPP-2138    | Updated to enable user to search contacts     |
       | john.m.tambasen           | August, 16 2022       | DEPP-1946    | Single/Group Coaching changes                 |
+      | sebastianne.k.trias       | February 16, 2024     | DEPP-7750    | Fixed issue on searching contact name         |
 */
 public with sharing class ProductOfferingCtrl {
     
@@ -22,7 +23,7 @@ public with sharing class ProductOfferingCtrl {
     private static final String STR_QUTEX_TERM = STR_QUTEX + ' Term';
     private static final String STR_ALL_OPE = 'All_OPE_';//metadata is named as All_OPE_<Object_Plural_Label>
     private static final Id FACULTY_REC_TYPE = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName().get('Faculty').getRecordTypeId();
-    
+    private static final Id PERSON_RECORDTYPE_ID = ContactsDAO.PERSON_RECORDTYPE_ID;
     /**
      * @description get the parent program product request id
      * @param productRequestId - id of product request
@@ -123,18 +124,8 @@ public with sharing class ProductOfferingCtrl {
      */
     @AuraEnabled(cacheable=true)
     public static List<Map<String,String>> getSearchContacts(String filterString){
-        filterString = '%' + filterString + '%';
         List<Map<String,String>> contactMap = new List<Map<String,String>>();
-        
-        for(Contact con : [
-            SELECT Id, Name, Email
-            FROM Contact
-            WHERE (
-                Name LIKE :filterString OR
-                Name = :filterString
-            )
-            LIMIT 15
-        ]){
+        for(Contact con : ContactsDAO.newInstance().getPersonContactsByNameUsingSOSL(filterString)){
             contactMap.add(new Map<String,String>{
                 'id' => con.Id,
                 'label' => con.Name,

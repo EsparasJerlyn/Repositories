@@ -16,6 +16,7 @@
  *    | neil.s.h.lesidan               | Sep 20, 2023        | DEPP-6478              | Added getPersonContactsByEmailOrNameTest  |
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added getContactByCaseMobile              |
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
+ *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSLTest|
  */
 @isTest
 private class ContactsDAOTest {
@@ -401,6 +402,19 @@ private class ContactsDAOTest {
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(contactList.isEmpty(), 'ContactList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPersonContactsByNameUsingSOSLTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .getPersonContactsByNameUsingSOSL(
+                    'test'
+                );
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
         }
         Test.stopTest();
     }
