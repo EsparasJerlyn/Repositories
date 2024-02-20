@@ -25,7 +25,7 @@
       "default": true,
       "versionName": "Version 1.0.0.0",
       "versionNumber": "1.0.0.0",
-      "destructiveChangePath": "destructive/2024Jan/core-crm/destructiveChanges.xml",
+      "destructiveChangePath": "destructive/2024Jan/core-crm/destructiveChangesIT3Temp.xml",
       "destructiveChangePathPreviousRelease": "destructive/core-crm/Release1/destructiveChanges.xml"
     },{
       "path": "src",
