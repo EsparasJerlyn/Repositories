@@ -217,10 +217,10 @@ export default class ManageCertificates extends NavigationMixin(LightningElement
         if (this.searchField || this.markDescValue) {
             this.empty = false;
             this.records = [...this.recordsTemp];
-            this.records = this.records
+            this.records = this.markDescValue ? this.records
                 .filter( product => product.contactFullName.toLowerCase().includes(this.searchField.toLowerCase()))
                 .filter( product => product.marksDesc && product.marksDesc.includes(this.markDescValue)
-            );
+            ) : this.records.filter( product => product.contactFullName.toLowerCase().includes(this.searchField.toLowerCase()));
         } else {
             this.empty = false;
             this.records = [...this.recordsTemp];
