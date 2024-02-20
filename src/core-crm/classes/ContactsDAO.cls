@@ -220,6 +220,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Citizenship_Country__c,
                 Lead_Score__c,
                 Is_Agent_Assisted__c,
+                Country_of_Residency__c,
+                Partner_Sourced__c,
                 Marketing_Segmentation__r.My_Country_Of_Residency__c,
                 Marketing_Segmentation__r.My_Primary_BSA__c
             FROM Contact
