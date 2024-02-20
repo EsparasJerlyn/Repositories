@@ -297,6 +297,40 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Lead_Source_Category__c</fieldItem>
+                <identifier>RecordLead_Source_Category_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>International</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LeadSource</fieldItem>
+                <identifier>RecordLeadSourceField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.hed__Citizenship_Status__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>International</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-cbe1fa62-7bc5-4680-a83a-04f1d9f26641</name>
         <type>Facet</type>
     </flexiPageRegions>
