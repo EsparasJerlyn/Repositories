@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Organisation_Giving</fullName>
+    <active>true</active>
+    <businessProcess>Organisation Giving Opportunity</businessProcess>
+    <description>Create a Advancement Opportunity for an Organisation.</description>
+    <label>Organisation Giving</label>
+</RecordType>

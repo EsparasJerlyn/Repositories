@@ -30136,6 +30136,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Donation_Cause__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Facilitator_Bio__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -30249,6 +30253,10 @@
     </tabSettings>
     <tabSettings>
         <tab>Session__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>SMS_Template__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
