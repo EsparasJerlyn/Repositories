@@ -5,4 +5,77 @@
     <businessProcess>Organisation Giving Opportunity</businessProcess>
     <description>Create a Advancement Opportunity for an Organisation.</description>
     <label>Organisation Giving</label>
+    <picklistValues>
+        <picklist>Donor_Ability_Rank__c</picklist>
+        <values>
+            <fullName>%241 Million %2B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2410K - %2425K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%241K - %2410K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%24250K - %24500K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2425K - %24250K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%24500K - %241Million</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Donor_Interest_Rank__c</picklist>
+        <values>
+            <fullName>High Level of Interest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low Level of Interest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Moderate Interest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Interest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unknown or not assessed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Donor_Linkage_Rank__c</picklist>
+        <values>
+            <fullName>High Level of Connection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low Level of Connection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Moderate Level of Connection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Link</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Very Highly Connected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>

@@ -5,12 +5,70 @@
     <externalId>false</externalId>
     <inlineHelpText>The probability, (expressed as a percentage) of the Opportunity being won.</inlineHelpText>
     <label>Probability Of Success</label>
-    <precision>3</precision>
     <required>false</required>
-    <scale>0</scale>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Percent</type>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0%</fullName>
+                <default>false</default>
+                <label>0%</label>
+            </value>
+            <value>
+                <fullName>10%</fullName>
+                <default>false</default>
+                <label>10%</label>
+            </value>
+            <value>
+                <fullName>20%</fullName>
+                <default>false</default>
+                <label>20%</label>
+            </value>
+            <value>
+                <fullName>30%</fullName>
+                <default>false</default>
+                <label>30%</label>
+            </value>
+            <value>
+                <fullName>40%</fullName>
+                <default>false</default>
+                <label>40%</label>
+            </value>
+            <value>
+                <fullName>50%</fullName>
+                <default>false</default>
+                <label>50%</label>
+            </value>
+            <value>
+                <fullName>60%</fullName>
+                <default>false</default>
+                <label>60%</label>
+            </value>
+            <value>
+                <fullName>70%</fullName>
+                <default>false</default>
+                <label>70%</label>
+            </value>
+            <value>
+                <fullName>80%</fullName>
+                <default>false</default>
+                <label>80%</label>
+            </value>
+            <value>
+                <fullName>90%</fullName>
+                <default>false</default>
+                <label>90%</label>
+            </value>
+            <value>
+                <fullName>100%</fullName>
+                <default>false</default>
+                <label>100%</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>
