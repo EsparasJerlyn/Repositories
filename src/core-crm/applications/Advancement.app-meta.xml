@@ -14,6 +14,42 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Advancement</label>
     <navType>Console</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Individual_Giving_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Individual_Giving</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Individual_Giving_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Individual_Giving</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Individual_Giving_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Individual_Giving</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Individual_Giving_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Individual_Giving</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Opportunity</tabs>
