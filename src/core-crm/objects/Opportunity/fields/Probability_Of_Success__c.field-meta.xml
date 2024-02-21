@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Probability_Of_Success__c</fullName>
+    <description>The probability, (expressed as a percentage) of the Opportunity being won.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The probability, (expressed as a percentage) of the Opportunity being won.</inlineHelpText>
+    <label>Probability Of Success</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>
