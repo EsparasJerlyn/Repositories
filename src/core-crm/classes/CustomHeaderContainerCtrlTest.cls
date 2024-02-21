@@ -13,13 +13,14 @@
      | kenneth.f.alsay                     | January 29, 2024      | DEPP-6964            | Utilized DAOMock                                       |
      | neil.s.h.lesidan                    | Feb 2, 2024           | DEPP-7005            | Add method getListIdEngOppTest                         |
      | kenneth.f.alsay                     | February 12, 2024     | DEPP-6953            | Added method getListMembersByListIdAndStatus           |
+     | kenneth.f.alsay                     | Ferbruary 15, 2024    | DEPP-8040            | Added method getAllListContributors                    |
 */
 @isTest
 @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
 public with sharing class CustomHeaderContainerCtrlTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Alumni_Engagement_Manager' });
     }
 
     @isTest
@@ -34,8 +35,6 @@ public with sharing class CustomHeaderContainerCtrlTest {
         List<List_Member__c> newListMemberRecords = TestDataFactory.createListMemberRecords(10,newListRecords[0].id,newContacts[0].id);
         ListMembersDAO.newInstance().insertRecords(newListMemberRecords, false, AccessLevel.USER_MODE);
         Test.startTest();
-
-        Database.SaveResult[] srList = ListMembersDAO.newInstance().insertRecords(newListMemberRecords, false, AccessLevel.USER_MODE);
 
         List<List_Member__c> listMemberRecord = CustomHeaderContainerCtrl.getListMembers(newListRecords[0].Id);
         System.assert(!listMemberRecord.isEmpty(), 'No List Member found');
@@ -83,8 +82,6 @@ public with sharing class CustomHeaderContainerCtrlTest {
 
         List<List_Member__c> newListMemberRecords = TestDataFactory.createListMemberRecords(1,newListRecords[0].id,newContacts[0].id);
         ListMembersDAO.newInstance().insertRecords(newListMemberRecords, false, AccessLevel.USER_MODE);
-
-        List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance().getListMembersByStatus(100, AccessLevel.SYSTEM_MODE, '');
 
         for(List_Member__c listMember : newListMemberRecords){
             listMember.List_Member_Status__c = 'Qualified';
@@ -134,5 +131,18 @@ public with sharing class CustomHeaderContainerCtrlTest {
         List<List_Member__c> listMemberRecord = CustomHeaderContainerCtrl.getListMembersByListIdAndStatus(newListMemberRecords[0].Id, 'Qualified');
         System.assert(!listMemberRecord.isEmpty(), 'No List Member found');
         Test.stopTest();     
+    }
+    
+    @isTest
+    static void getAllListContributors(){
+        ImplementationSelector.DAO.setMock(new ListContributorsDAOMock());
+        List<List__c> newListRecords = TestDataFactory.createListRecords(1);
+        ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
+        List<List_Contributor__c> newListContributors = TestDataFactory.createListContributorRecords(5, newListRecords[0].Id);
+        ListContributorsDAO.newInstance().insertRecords(newListContributors, false, AccessLevel.USER_MODE);
+        Test.startTest();
+        List<List_Contributor__c> getListContributors = CustomHeaderContainerCtrl.getAllListContributors(newListRecords[0].Id);
+        System.assert(!getListContributors.isEmpty(), 'No List Contributors found');
+        Test.stopTest();         
     }
 }

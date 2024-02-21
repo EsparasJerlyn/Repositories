@@ -8,6 +8,8 @@
       |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
       | carl.alvin.cabiles             | December 12, 2023     | DEPP-7186              | Created file                                             |
       | neil.s.h.lesidan               | Feb 2, 2024           | DEPP-7005              | Adding method getListContributorByUserID                 |
+      | kenneth.f.alsay                | Feb 14, 2024          | DEPP-8040              | Added getAllListContributors                             |
+ *
  */
 public inherited sharing class ListContributorsDAO extends DmlBase implements IListContributorsDAO{
     public Schema.SObjectType getSObjectType() {
@@ -41,6 +43,15 @@ public inherited sharing class ListContributorsDAO extends DmlBase implements IL
             'FROM List_Contributor__c ' +
             'WHERE Id IN :recordId ' +
             'AND List__c IN :listID',
+            accessLevel
+        );
+    }
+
+    public List<List_Contributor__c> getAllListContributors(Set<Id> listID, AccessLevel accessLevel){
+        return Database.query(
+            'SELECT Id, List_Contributor__c, List_Contributor__r.Name ' +
+            'FROM List_Contributor__c ' +
+            'WHERE List__c IN :listID',
             accessLevel
         );
     }
