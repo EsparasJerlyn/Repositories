@@ -4,10 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                     |
- *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------|
- *    | neil.s.h.lesidan               | Feb 2, 2024           | DEPP-7005              | Created file                                       |
- *    |                                |                       |                        |                                                    |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                        |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------|
+ *    | neil.s.h.lesidan               | Feb 2, 2024           | DEPP-7005              | Created file                          |
+ *    |nicole.genon                    | Feb 3, 2024           | DEPP-7003              | Added getListContributorByUserID      |
  */
 @isTest
 public inherited sharing class ListContributorsDAOMock extends DmlBaseMock implements IListContributorsDAO {

@@ -4,9 +4,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | ryan.j.a.dela.cruz             | August 08, 2023       | DEPP-6335              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
+ *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
+ *    | ryan.j.a.dela.cruz             | August 08, 2023       | DEPP-6335              | Created file                           |
+ *    | nicole.genon                   | February 1, 2024      | DEPP-7003              | Added getListContributorByUserIDTest   |
  */
 @isTest
 public with sharing class ListContributorsDAOTest {
@@ -43,7 +44,6 @@ public with sharing class ListContributorsDAOTest {
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
         Test.stopTest();
     }
-
     @isTest
     static void getListContributorByUserIDTest() {
         Test.startTest();
