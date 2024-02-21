@@ -5078,6 +5078,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.Due_Diligence_Completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Due_Diligence_Summary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.Engagement__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5089,6 +5099,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Existing_Relationship__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Expected_Completion_Timeframe__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5128,6 +5143,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.Giving_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Giving_Category_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Giving_Faculty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Giving_Faculty_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.Has_Proposal_Opportunity_Role__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5154,6 +5189,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Is_a_Tender_Requires_Legal_Review__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Is_Agreement_Signed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Is_Qualified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5253,6 +5298,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.Probability_Of_Success__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.Program_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5344,6 +5394,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Self_Evaluation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Solicitation_Sub_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6769,6 +6829,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Financial_Split__c.Revenue_Split_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Plan_Activity__c.Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Plan_Activity__c.Opportunity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Plan_Activity__c.Stewardship__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -14455,6 +14530,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Milestone__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Plan_Activity__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
