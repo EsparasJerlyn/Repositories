@@ -7,25 +7,32 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------|
  *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | Created File                  | 
+ *    | eccarius.munoz                 | February 15, 2024     | DEPP-7714	            | Added Tier Subcategory check  | 
+ *    |                                |                       |        	            | in matchCountryTier method    | 
  */
 public inherited sharing class CasePriorityConfigurationService {
 
     public static Boolean matchCountryTier(
         Case item,
         Case_Priority_Configuration__c config,
-        Map<String, String> countryTierMap
+        Map<String, International_Tier__c> countryTierMap
     ) {
         Boolean trueSoFar = true;
-        if (
+
+        Boolean isTierCategNotMatch = 
             config.Country_Tier__c != null &&
-            (config.Country_Tier__c !=
-            countryTierMap.get(
-                item.Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c
-            ) &&
-            config.Country_Tier__c != countryTierMap.get(item.Contact.Citizenship_Country__c))
-        ) {
+            config.Country_Tier__c != countryTierMap.get(item.Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c)?.Tier_Category__c &&
+            config.Country_Tier__c != countryTierMap.get(item.Contact.Citizenship_Country__c)?.Tier_Category__c;
+
+        Boolean isTierSubCategNotMatch = 
+            config.Country_Tier_Subcategory__c != null &&
+            config.Country_Tier_Subcategory__c != countryTierMap.get(item.Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c)?.Tier_Subcategory__c &&
+            config.Country_Tier_Subcategory__c != countryTierMap.get(item.Contact.Citizenship_Country__c)?.Tier_Subcategory__c;
+
+        if (isTierCategNotMatch || isTierSubCategNotMatch) {
             trueSoFar = false;
         }
+
         return trueSoFar;
     }
 
@@ -33,24 +40,30 @@ public inherited sharing class CasePriorityConfigurationService {
         Boolean trueSoFar = config.Case_Record_Type__c != null
             ? CasesDAO.CASE_RECTYPE_MAP.get(config.Case_Record_Type__c) == item.RecordTypeId
             : true;
-        if (
+
+        Boolean isLeadScoreValid = 
             config.Lead_Score__c != null &&
-            (config.Lead_Score__c != item.Lead__r.Lead_Score__c &&
-            config.Lead_Score__c != item.Contact.Lead_Score__c)
-        ) {
+            config.Lead_Score__c != item.Lead__r.Lead_Score__c &&
+            config.Lead_Score__c != item.Contact.Lead_Score__c;
+
+        if (isLeadScoreValid) {
             trueSoFar = false;
         }
-        if (
+
+        Boolean isFutureStudStageValid = 
             config.Future_Student_Stage__c != null &&
-            (config.Future_Student_Stage__c != item.Lead__r.Future_Student_Journey_Status__c &&
-            config.Future_Student_Stage__c != item.Contact.Future_Student_Journey_Status__c)
-        ) {
+            config.Future_Student_Stage__c != item.Lead__r.Future_Student_Journey_Status__c &&
+            config.Future_Student_Stage__c != item.Contact.Future_Student_Journey_Status__c;
+
+        if (isFutureStudStageValid) {
             trueSoFar = false;
         }
-        if (
+
+        Boolean isApplicantOnshoreValid = 
             config.Applicant_Onshore__c != null &&
-            config.Applicant_Onshore__c != item.Contact.Applicant_Onshore__c
-        ) {
+            config.Applicant_Onshore__c != item.Contact.Applicant_Onshore__c;
+
+        if (isApplicantOnshoreValid) {
             trueSoFar = false;
         }
         

@@ -9728,6 +9728,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Country_Tier_Subcategory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case_Priority_Configuration__c.Date_from__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9774,6 +9779,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case_Priority_Configuration__c.Lead_Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Lead_Source_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12379,6 +12389,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>International_Tier__c.Tier_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>International_Tier__c.Tier_Subcategory__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

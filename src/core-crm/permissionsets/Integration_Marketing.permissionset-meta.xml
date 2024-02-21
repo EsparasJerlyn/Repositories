@@ -1487,6 +1487,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>International_Tier__c.Tier_Subcategory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.ABN__c</field>
         <readable>true</readable>
     </fieldPermissions>
