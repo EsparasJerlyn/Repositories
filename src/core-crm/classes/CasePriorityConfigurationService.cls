@@ -9,6 +9,8 @@
  *    | roy.nino.s.regala              | October 05,2023       | DEPP-6426	            | Created File                  | 
  *    | eccarius.munoz                 | February 15, 2024     | DEPP-7714	            | Added Tier Subcategory check  | 
  *    |                                |                       |        	            | in matchCountryTier method    | 
+ *    | eccarius.munoz                 | February 19, 2024     | DEPP-7867	            | Added Lead Source categ check |
+ *    |                                |                       |        	            | in matchConfigToCaseBase      | 
  */
 public inherited sharing class CasePriorityConfigurationService {
 
@@ -59,10 +61,17 @@ public inherited sharing class CasePriorityConfigurationService {
             trueSoFar = false;
         }
 
+        Boolean isLeadScoreCategoryValid = 
+            config.Lead_Source_Category__c != null &&
+            config.Lead_Source_Category__c != item.Lead__r.Lead_Source_Category__c &&
+            config.Lead_Source_Category__c != item.Contact.Lead_Source_Category__c;
+        if (isLeadScoreCategoryValid) {
+            trueSoFar = false;
+        }
+
         Boolean isApplicantOnshoreValid = 
             config.Applicant_Onshore__c != null &&
             config.Applicant_Onshore__c != item.Contact.Applicant_Onshore__c;
-
         if (isApplicantOnshoreValid) {
             trueSoFar = false;
         }

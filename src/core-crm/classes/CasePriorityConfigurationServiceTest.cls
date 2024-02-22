@@ -12,6 +12,7 @@
       | roy.nino.s.regala              | Oct 5, 2023           | DEPP-6425              | Created file                                          |
       | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
       | eccarius.munoz                 | February 16, 2024     | DEPP-7714	            | Added test method of case prio with sub category      | 
+      | eccarius.munoz                 | February 19, 2024     | DEPP-7867	            | Added test method of case prio with lead src category | 
  */
 @isTest
 private class CasePriorityConfigurationServiceTest {
@@ -123,5 +124,53 @@ private class CasePriorityConfigurationServiceTest {
             'Case was not updated'
         );
     }
-}
 
+    @isTest
+    private static void testEnqueueCasesToPrioritizeWithLeadSourceCategory() {//NOPMD Test method is mocked user not needed
+        
+        ImplementationSelector.DAO.setMock(new CasesDAOMock());
+        ImplementationSelector.DAO.setMock(new InternationalTiersDAOMock());
+        ImplementationSelector.DAO.setMock(new CasePriorityConfigurationsDAOMock());
+        ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+
+        List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+        contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+        contactList[0].Lead_Source_Category__c = 'Partner Sourced';
+        ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
+
+        CasePriorityConfigurationsDAO.newInstance()
+            .insertRecords(
+                TestDataFactory.createCasePrioConfigRecords(),
+                false,
+                AccessLevel.USER_MODE
+            );
+
+        
+        List<Case> cases = new List<Case>();
+        cases.add(
+            new Case(
+                Status = 'Created',
+                Auto_Priority_Assignment__c = true,
+                Category__c = 'Student life',
+                Origin = CasesDAO.ORIGIN_WHATSAPP,
+                Priority = 'Low',
+                ContactId = contactList[0].Id,
+                RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+            )
+        );
+
+        CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.USER_MODE);
+
+        Test.startTest();
+        CaseService.enqueueCasesToPrioritize(cases, AccessLevel.USER_MODE);
+        Test.stopTest();
+
+        System.assertEquals(
+            'High',
+            CasesDAO.newInstance()
+                    .getCasesByIds(new Set<Id>{ cases[0].Id }, AccessLevel.USER_MODE)[0]
+                .Priority,
+            'Case was not updated'
+        );
+    }
+}

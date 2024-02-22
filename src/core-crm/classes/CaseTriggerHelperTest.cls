@@ -13,6 +13,7 @@
       | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added test method for updating case using WhatsApp    |
       | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
       | eccarius.munoz                 | February 16, 2024     | DEPP-7714	            | Added test method of case prio with sub category      | 
+      | eccarius.munoz                 | February 19, 2024     | DEPP-7867	            | Added test method of case prio with lead src category | 
  */
 @isTest
 private class CaseTriggerHelperTest {
@@ -194,6 +195,38 @@ private class CaseTriggerHelperTest {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Citizenship_Country__c = 'Yemen';
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
+            
+            List<Case> cases = new List<Case>();
+            cases.add(
+                new Case(
+                    Status = 'Created',
+                    Auto_Priority_Assignment__c = true,
+                    Category__c = 'Student life',
+                    Origin = CasesDAO.ORIGIN_WHATSAPP,
+                    Priority = 'Low',
+                    ContactId = contactList[0].Id,
+                    RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                )
+            );
+
+            Test.startTest();
+            CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
+            List<Case> caseList = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id}, AccessLevel.SYSTEM_MODE);
+            System.assertEquals('High', caseList[0].Priority, 'Case priority should be set to high.');
+        }
+    }
+
+    @isTest
+    private static void testHandleAutoPriorityAssignedCaseWithLeadSourceCategory(){
+        
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
+            contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            contactList[0].Lead_Source_Category__c = 'Partner Sourced';
             ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.USER_MODE);
             
             List<Case> cases = new List<Case>();
