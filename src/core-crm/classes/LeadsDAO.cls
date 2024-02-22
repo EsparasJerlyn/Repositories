@@ -141,7 +141,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     ){
         return Database.query(
             'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status, Email, Email_Opt_In_DateTime__c, HasOptedOutOfEmail, ' +
-            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c FROM Lead ' +
+            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, LeadMobile_Locale__c, Mobile_No_Locale__c, MobilePhone, Work_Email__c FROM Lead ' +
             'WHERE Id IN: recordIdSet ',
             accessLevel
         );
