@@ -39,6 +39,13 @@
         <!-- Start DEPP-7306-->
         <members>List_Contributor__c.Contact__c</members>
         <!-- End DEPP-7306-->
+        <!-- Start DEPP-8054 -->
+         <members>Stewardship_Type__c.Stewardship__c</members>
+         <members>Stewardship_Tier__c.Stewardship__c</members>
+         <members>Completion_Reason__c.Stewardship__c</members>
+         <members>Lost_Reason__c.Stewardship__c</members>
+         <members>Lost_Summary__c.Stewardship__c</members>
+        <!-- End DEPP-8054 -->
         <name>CustomField</name>
     </types>
     <types>
