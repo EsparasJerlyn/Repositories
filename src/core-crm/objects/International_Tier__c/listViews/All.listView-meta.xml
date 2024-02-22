@@ -4,6 +4,7 @@
     <columns>NAME</columns>
     <columns>Country_Name__c</columns>
     <columns>Tier_Category__c</columns>
+    <columns>Tier_Subcategory__c</columns>
     <columns>IsActive__c</columns>
     <columns>UPDATEDBY_USER</columns>
     <filterScope>Everything</filterScope>

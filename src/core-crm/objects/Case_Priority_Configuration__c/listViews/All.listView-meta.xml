@@ -3,9 +3,11 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Country_Tier__c</columns>
+    <columns>Country_Tier_Subcategory__c</columns>
     <columns>Enquiry_Category__c</columns>
     <columns>Enquiry_Sub_Category__c</columns>
     <columns>Lead_Score__c</columns>
+    <columns>Lead_Source_Category__c</columns>
     <columns>Future_Student_Stage__c</columns>
     <columns>Applicant_Onshore__c</columns>
     <columns>Date_from__c</columns>

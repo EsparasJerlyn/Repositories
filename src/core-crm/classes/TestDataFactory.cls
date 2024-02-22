@@ -3861,7 +3861,21 @@ public class TestDataFactory {
             Is_Active__c = true,
             Priority__c = 'High'
         ));
-
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Country_Tier__c = 'Untiered',
+            Country_Tier_Subcategory__c = 'Restricted',
+            Is_Active__c = true,
+            Priority__c = 'High',
+            Enquiry_Category__c = 'Student life'
+        ));
+        casePrioConfigList.add(new Case_Priority_Configuration__c(
+            Case_Record_Type__c = 'International Future Student Enquiry',
+            Is_Active__c = true,
+            Priority__c = 'High',
+            Enquiry_Category__c = 'Student life',
+            Lead_Source_Category__c = 'Partner Sourced'
+        ));
         return casePrioConfigList;
     }
 

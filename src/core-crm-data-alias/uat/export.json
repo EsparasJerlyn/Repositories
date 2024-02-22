@@ -209,7 +209,7 @@
             "importCSVFilesAsIs": true
         },
         {
-            "query": "SELECT Country_Name__c, Tier_Category__c, IsActive__c FROM International_Tier__c",
+            "query": "SELECT Country_Name__c, Tier_Category__c, Tier_Subcategory__c, IsActive__c FROM International_Tier__c",
             "operation": "Upsert",
             "externalId": "Country_Name__c",
             "useCSVValuesMapping": true,
