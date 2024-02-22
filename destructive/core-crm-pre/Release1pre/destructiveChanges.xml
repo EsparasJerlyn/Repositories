@@ -40,11 +40,11 @@
         <members>List_Contributor__c.Contact__c</members>
         <!-- End DEPP-7306-->
         <!-- Start DEPP-8054 -->
-         <members>Stewardship_Type__c.Stewardship__c</members>
-         <members>Stewardship_Tier__c.Stewardship__c</members>
-         <members>Completion_Reason__c.Stewardship__c</members>
-         <members>Lost_Reason__c.Stewardship__c</members>
-         <members>Lost_Summary__c.Stewardship__c</members>
+         <members>Stewardship__c.Stewardship_Type__c</members>
+         <members>Stewardship__c.Stewardship_Tier__c</members>
+         <members>Stewardship__c.Completion_Reason__c</members>
+         <members>Stewardship__c.Lost_Reason__c</members>
+         <members>Stewardship__c.Lost_Summary__c</members>
         <!-- End DEPP-8054 -->
         <name>CustomField</name>
     </types>
