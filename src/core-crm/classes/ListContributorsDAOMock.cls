@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                     |
  *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------|
  *    | neil.s.h.lesidan               | Feb 2, 2024           | DEPP-7005              | Created file                                       |
+ *    | nicole.genon                   | Feb 3, 2024           | DEPP-7003              | Added getListContributorByUserID                   |
  *    | kenneth.f.alsay                | Feb 14, 2024          | DEPP-8040              | Added getAllListContributors                       |
  *    |                                |                       |                        |                                                    |
  */

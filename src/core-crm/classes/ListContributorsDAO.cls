@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                           |
       |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
       | carl.alvin.cabiles             | December 12, 2023     | DEPP-7186              | Created file                                             |
+      | nicole.genon                   | February 1, 2024      | DEPP-7003              | Added getListContributorByUserID     |
       | neil.s.h.lesidan               | Feb 2, 2024           | DEPP-7005              | Adding method getListContributorByUserID                 |
       | kenneth.f.alsay                | Feb 14, 2024          | DEPP-8040              | Added getAllListContributors                             |
  *
@@ -22,7 +23,7 @@ public inherited sharing class ListContributorsDAO extends DmlBase implements IL
 
     public List<List_Contributor__c> getListContributorByListID(set<Id> listID, AccessLevel accessLevel) {
         return Database.query(
-            'SELECT Id, Name, Task_Due_Date__c, List_Contributor__r.Name ' +
+            'SELECT Id, Name, Task_Due_Date__c, List_Contributor__c, List_Contributor__r.Name ' +
             'FROM List_Contributor__c ' +
             'WHERE List__c =: listID', accessLevel
         );

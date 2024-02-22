@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | ryan.j.a.dela.cruz             | August 08, 2023       | DEPP-6335              | Created file
- *    | kenneth.f.alsay                | February 14, 2024     | DEPP-8040              | Added method getAllListContributors. Added runAs to all methods for PMD Error.
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                  |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------------------------|
+ *    | ryan.j.a.dela.cruz             | August 08, 2023       | DEPP-6335              | Created file                                                                    |
+ *    | nicole.genon                   | February 1, 2024      | DEPP-7003              | Added getListContributorByUserIDTest                                            |
+ *    | kenneth.f.alsay                | February 14, 2024     | DEPP-8040              | Added method getAllListContributors. Added runAs to all methods for PMD Error.  |
  */
 @isTest
 public with sharing class ListContributorsDAOTest {
@@ -47,7 +48,6 @@ public with sharing class ListContributorsDAOTest {
 
         Test.stopTest();
     }
-
     @isTest
     static void getListContributorByUserIDTest() {
         Test.startTest();
