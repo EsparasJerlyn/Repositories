@@ -30,6 +30,7 @@
  *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds         |
  *    | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Add Birthdate in getPersonContactsByEmailOrName           |
  *    | nicole.genon                   | Feb 6, 2024           | DEPP-7003              | Added getAllPersonContacts                                |
+ *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | Added getPersonContactsByNameUsingSOSL method             |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -527,6 +528,14 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             ') LIMIT ' + queryLimit + ' ',
             accessLevel
         );
+    }
+
+    public List<Contact> getPersonContactsByNameUsingSOSL(
+        String filterName
+    ){
+        filterName = '*'+ filterName + '*';
+        List<List<Contact>> contactList = [FIND :filterName IN NAME FIELDS RETURNING Contact(name,email Where RecordTypeId = :PERSON_RECORDTYPE_ID limit 15 )];
+        return contactList[0];
     }
 
     /**
