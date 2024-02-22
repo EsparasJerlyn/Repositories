@@ -131,4 +131,22 @@
         <probability>0</probability>
         <won>false</won>
     </standardValue>
+    <standardValue>
+        <fullName>Cultivation</fullName>
+        <default>false</default>
+        <label>Cultivation</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>25</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Solicitation</fullName>
+        <default>false</default>
+        <label>Solicitation</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>75</probability>
+        <won>false</won>
+    </standardValue>
 </StandardValueSet>
