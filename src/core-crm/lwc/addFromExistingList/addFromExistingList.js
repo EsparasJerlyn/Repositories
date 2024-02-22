@@ -7,6 +7,7 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | neil.s.h.lesidan          | January 22, 2024      | DEPP-7004            | Created file                 |
+      | kenneth.f.alsay           | February 22, 2024     | DEPP-8040, DEPP-8099 | Fixed table column checking  |
  */
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -48,6 +49,8 @@ export default class AddFromExistingList extends LightningElement {
     searchListInProgress = false;
     listSearchItems = [];
     selectListColumns = [];
+    selectColumnLabels = [];
+    columnLabel = [];
     listFields = [
         LIST_COLUMN_1,
         LIST_COLUMN_2,
@@ -66,13 +69,16 @@ export default class AddFromExistingList extends LightningElement {
         return this.columns;
     }
     set tableColumns(value) {
-        const columns = [];;
+        const columns = [];
+        const columnLabel = [];
         value.forEach(key => {
             if (this.excludeCTableolumns.indexOf(key.fieldName) < 0) {
-                columns.push(key.fieldName)
+                columns.push(key.fieldName);
+                columnLabel.push(key.label);
             }
         });
 
+        this.columnLabel = columnLabel;
         this.columnNames = columns;
     }
 
@@ -103,6 +109,7 @@ export default class AddFromExistingList extends LightningElement {
         ];
 
         const selectListColumns = [];
+        const selectColumnLabels = [];
         listColumns.forEach((key, index) => {
             let toShowColumn = false;
 
@@ -112,10 +119,12 @@ export default class AddFromExistingList extends LightningElement {
 
             if (toShowColumn) {
                 selectListColumns.push(key.fieldName);
+                selectColumnLabels.push(fields[key.column].value);
             }
         });
 
         this.selectListColumns = selectListColumns;
+        this.selectColumnLabels = selectColumnLabels;
    }
 
     // sets header change
@@ -198,13 +207,16 @@ export default class AddFromExistingList extends LightningElement {
     // sets save existing list
     async handleSaveExistingList() {
         let columnNames = JSON.parse(JSON.stringify(this.columnNames));
+        let columnLabels = JSON.parse(JSON.stringify(this.columnLabel));
         const listMembers = await this.fetchListMembers(this.selectedListId);
         const recordData = JSON.parse(JSON.stringify(this.recordData));
         const selectListColumns = JSON.parse(JSON.stringify(this.selectListColumns));
-        const excludeFields = ["ListMemberUrl", "ListContributorUrl"];
+        const selectColumnLabels = JSON.parse(JSON.stringify(this.selectColumnLabels));
+        
+        const excludeFields = ["List Member Reference", "List Contributor", "List Member Status"];
 
         if (listMembers && listMembers.length) {
-            columnNames = columnNames.filter((val) => {
+            columnLabels = columnLabels.filter((val) => {
                 if (excludeFields.indexOf(val) >= 0) {
                     return false;
                 }
@@ -212,7 +224,9 @@ export default class AddFromExistingList extends LightningElement {
                 return true;
             });
 
-            let isEqualColumns =  JSON.stringify(selectListColumns) ===  JSON.stringify(columnNames);
+//            let isEqualColumns =  JSON.stringify(selectListColumns) ===  JSON.stringify(columnNames);
+            let isEqualColumns =  JSON.stringify(selectColumnLabels) ===  JSON.stringify(columnLabels);
+            console.log(isEqualColumns);
             let hasExistingListMemberContact = false;
 
             const newListMember = [];
