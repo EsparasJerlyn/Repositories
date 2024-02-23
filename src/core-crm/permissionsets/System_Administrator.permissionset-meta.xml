@@ -13217,6 +13217,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>List_Member__c.Activity_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>List_Member__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
