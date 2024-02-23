@@ -8702,11 +8702,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stewardship__c.Completion_Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Stewardship__c.Completion_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8727,12 +8722,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stewardship__c.Lost_Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Stewardship__c.Lost_Summary__c</field>
+        <field>Stewardship__c.Inactive_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
