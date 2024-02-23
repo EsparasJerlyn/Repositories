@@ -19880,11 +19880,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Stewardship__c.Completion_Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Stewardship__c.Completion_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -19901,16 +19896,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Stewardship__c.External_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Stewardship__c.Lost_Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Stewardship__c.Lost_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
