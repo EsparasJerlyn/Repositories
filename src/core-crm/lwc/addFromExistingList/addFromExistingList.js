@@ -16,6 +16,7 @@ import getSearchedLists from '@salesforce/apex/AddFromExistingListCtrl.getSearch
 import getListMembers from '@salesforce/apex/CustomHeaderContainerCtrl.getListMembers';
 import bulkSaveListMember from '@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember';
 import getUserHasListContributor from "@salesforce/apex/CustomHeaderContainerCtrl.getUserHasListContributor";
+import getDefaultListContributor from '@salesforce/apex/ListMemberAddModalController.getDefaultListContributor';
 
 import LIST_COLUMN_1 from '@salesforce/schema/List__c.Column_1__c';
 import LIST_COLUMN_2 from '@salesforce/schema/List__c.Column_2__c';
@@ -27,6 +28,7 @@ import LIST_COLUMN_7 from '@salesforce/schema/List__c.Column_7__c';
 import LIST_COLUMN_8 from '@salesforce/schema/List__c.Column_8__c';
 import LIST_COLUMN_9 from '@salesforce/schema/List__c.Column_9__c';
 import LIST_COLUMN_10 from '@salesforce/schema/List__c.Column_10__c';
+import ID from "@salesforce/user/Id";
 
 export default class AddFromExistingList extends LightningElement {
     @api listId;
@@ -41,6 +43,7 @@ export default class AddFromExistingList extends LightningElement {
     errorMessage;
     selectedList;
     selectedListId;
+    defaultContributor;
     excludeCTableolumns = ['Name', 'List_Contributor__c', 'List_Member_Status__c'];
     content = 'The modal content';
     header = 'The modal header';
@@ -80,6 +83,12 @@ export default class AddFromExistingList extends LightningElement {
 
         this.columnLabel = columnLabel;
         this.columnNames = columns;
+    }
+
+    connectedCallback(){
+        if(this.listId){
+            this.fetchDefaultListContributor();
+        }
     }
 
     @wire(getRecord, { recordId: "$selectedListId", fields: "$listFields" })
@@ -206,11 +215,9 @@ export default class AddFromExistingList extends LightningElement {
 
     // sets save existing list
     async handleSaveExistingList() {
-        let columnNames = JSON.parse(JSON.stringify(this.columnNames));
         let columnLabels = JSON.parse(JSON.stringify(this.columnLabel));
         const listMembers = await this.fetchListMembers(this.selectedListId);
         const recordData = JSON.parse(JSON.stringify(this.recordData));
-        const selectListColumns = JSON.parse(JSON.stringify(this.selectListColumns));
         const selectColumnLabels = JSON.parse(JSON.stringify(this.selectColumnLabels));
         
         const excludeFields = ["List Member Reference", "List Contributor", "List Member Status"];
@@ -224,18 +231,18 @@ export default class AddFromExistingList extends LightningElement {
                 return true;
             });
 
-//            let isEqualColumns =  JSON.stringify(selectListColumns) ===  JSON.stringify(columnNames);
             let isEqualColumns =  JSON.stringify(selectColumnLabels) ===  JSON.stringify(columnLabels);
             console.log(isEqualColumns);
             let hasExistingListMemberContact = false;
 
             const newListMember = [];
-            const userInfo = this.userInfo;
+            const userInfo = JSON.parse(JSON.stringify(this.userInfo));
 
             listMembers.forEach(async (obj) => {
                 obj.isExistingContact = false;
                 obj.toAddListRecord = true;
-
+                obj.List_Contributor__c = this.defaultContributor;
+                obj.List_Member_Status__c = null;
                 recordData.forEach((o) => {
                     if (obj.List_Member__c === o.List_Member__c) {
                         hasExistingListMemberContact = true;
@@ -251,14 +258,16 @@ export default class AddFromExistingList extends LightningElement {
                     this.errorMessage = "Selected List doesn't have List Member or its List Member Status is not equal to Qualified.";
                 } else if (hasExistingListMemberContact) {
                     const listContributorRecord = await getUserHasListContributor({ listId: this.listId, userId: userInfo.Id });
+                    
+                    let listContributors = await getListContributorByIds({ listId: this.listId, contributorIds: listContributorRecord[0] });
 
                     listMembers.forEach((obj) => {
-                        obj.List_Contributor__c = listContributorRecord[0].Id;
+                        obj.List_Contributor__c = this.defaultContributor;
                         obj.List_Contributor__r = JSON.parse(JSON.stringify(userInfo));
 
-                        if (listContributorRecord && listContributorRecord.length) {
-                            obj.ListContributorName = listContributorRecord[0].Name;
-                            obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${listContributorRecord[0].Id}/view`;
+                        if (listContributors && listContributors.length) {
+                            obj.ListContributorName = listContributors[0].List_Contributor__r.Name;
+                            obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${listContributors[0].Id}/view`;
                         }
                     })
 
@@ -294,6 +303,16 @@ export default class AddFromExistingList extends LightningElement {
         } else {
             this.errorMessage = "The selected list does not contain any list members.";
         }
+    }
+
+    //gets List Contributor ID of current user and assign it to var defaultContributor
+    fetchDefaultListContributor(){
+        getDefaultListContributor({ listId: this.listId, currentUser: ID })
+        .then((response) => {
+            if(response && response.length){
+                this.defaultContributor = response[0].Id;
+            }
+        })
     }
 
     async fetchListMembers(listId) {
