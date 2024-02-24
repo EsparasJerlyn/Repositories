@@ -194,6 +194,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c;
             tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
             tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name;
+            tempWrapper.currentPreference = completedCadenceMap.get(record.Id).Application__r.Current_Preference__r.Name;
 
             recordDetailsWrapper.add(tempWrapper);
         }

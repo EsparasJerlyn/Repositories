@@ -6,16 +6,18 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                      |
-      |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------------|
-      | mark.j.mahilum                 | July 18, 2023         | DEPP-6105              | Created file                                                        |
-      | arsenio.jr.dayrit              | September 07, 2023    | DEPP-5652              | Added handling for Domestic Strong Interest Pre-Application         |
-      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace Term Intake Date to                      |
-      |                                |                       |                        | Calculated Intake Date on application records                       |
-      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove method call to getCurrentIntakePeriod as it's no longer used |
-      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest        |
-      | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added new entry criteria for Domestic Lead Admitted Application     |
-      | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application        | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                     |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 18, 2023         | DEPP-6105              | Created file                                                                       |
+      | arsenio.jr.dayrit              | September 07, 2023    | DEPP-5652              | Added handling for Domestic Strong Interest Pre-Application                        |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace Term Intake Date to                                     |
+      |                                |                       |                        | Calculated Intake Date on application records                                      |
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove method call to getCurrentIntakePeriod as it's no longer used                |
+      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                       |
+      | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added new entry criteria for Domestic Lead Admitted Application                    |
+      | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application                       |
+      | arsenio.jr.dayrit              | Feb 23, 2024          | DEPP-7709              | Update handling for International International Strong Interest Pre –              |
+      |                                |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationListForStrongInterest = new List<hed__Application__c>();
@@ -39,6 +41,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
     };
+    private static Map<String,International_Tier__c> InternationalTierRestrictedMap = NurturingTrackService.getAllRestrictedCountry();
 
     /**
      * @description: process All leads for Entry and Exit in Cadences assignment
@@ -160,19 +163,19 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     ) {
         Map<Id, hed__Application__c> internationalDirectApplicants = new Map<Id, hed__Application__c>();
         Set<String> newOrUnsubmittedStatus = new Set<String>{ 'New', 'Unsubmitted' };
+        Set<Id> leadIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryLeadMap.values());
+        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY};
         for (hed__Application__c application : applicationList) {
-            if (
-                internationalEntryLeadMap.containsKey(application.Lead__c) &&
-                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
-                newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                application.Calculated_Intake_Date__c !=NULL &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Calculated_Intake_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
-                application.Is_Agent_Assisted__c == false
-            ) {
+            boolean isPartnerSourced = leadSourceCategory.contains(application.Lead__r.Lead_Source_Category__c);
+            boolean hasContactIdsWithRestricted = leadIdsWithRestricted.contains(application.Lead__c);
+            
+            boolean isCriteriaMet = internationalEntryLeadMap.containsKey(application.Lead__c) &&
+                                    application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                                    newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
+                                    application.Calculated_Intake_Date__c > System.today() &&
+                                    !hasContactIdsWithRestricted &&
+                                    !isPartnerSourced;
+            if (isCriteriaMet) {
                 internationalDirectApplicants.put(application.Id, application);
             }
         }
@@ -241,13 +244,16 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                 NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
                 hasExistingCompletedCadence
             );
-            if ((!leadHasExistingApplication || hasInActiveApplication) && 
-            hasExistingCaseFromLead && 
-            !hasExistingCompletedCadenceManual &&
-            lead.Lead_Score__c >= threshold && // ... has a lead score above threshold...
-            //make sure that there are no completed cadence against any succeeding cadence
-            //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
-            !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST))
+
+            Boolean isCriteriaMet = (!leadHasExistingApplication || hasInActiveApplication) && 
+                                    hasExistingCaseFromLead &&
+                                    !hasExistingCompletedCadenceManual &&
+                                    lead.Lead_Score__c >= threshold && // ... has a lead score above threshold...
+                                    //make sure that there are no completed cadence against any succeeding cadence
+                                    //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+                                    !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST);
+                                    
+            if (isCriteriaMet)
             {
                 leadToUpdateMap.put(
                         lead.Id, 
@@ -518,12 +524,13 @@ public with sharing class NurturingTrackLeadService { //NOPMD
 
     private static Map<Id, Lead> getEntryInternationalStrongInterestPreApplication(Map<Id, Lead> internationalEntryLeadMap) {
         Set<String> completedCadencesCopy = new Set<String>();
-
         Map<Id, Set<String>> leadIdsWithCmpltdCadenceSet = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryLeadMap.keySet(),
             new List<String>{NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED},
             applicantIdsWithCompletedCadence
         );
+        Set<Id> leadIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryLeadMap.values());
+        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY};
         
         Set<Id> completedManualCadenceByLeadId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryLeadMap.keySet(),
@@ -534,7 +541,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Map<Id, List<String>> leadIdToCaseCategoriesMap = NurturingTrackService.getApplicantIdToRelatedCaseCategoriesMap(internationalEntryLeadMap.keySet(), 3);
         Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
         for(Lead internationalEntryLead : internationalEntryLeadMap.values()) {
-            
+            boolean isPartnerSourced = leadSourceCategory.contains(internationalEntryLead.Lead_Source_Category__c);
+            boolean hasLeadIdsWithRestricted = leadIdsWithRestricted.contains(internationalEntryLead.Id);
             boolean shouldContinueProcessing = leadIdsWithCmpltdCadenceSet.containsKey(internationalEntryLead.Id) && leadIdsWithCmpltdCadenceSet.get(internationalEntryLead.Id).size() >= 2;       
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(internationalEntryLead.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(internationalEntryLead.Id)):new Set<String>();
@@ -559,15 +567,12 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             );
             //pass an empty list if not found in map
             List<String> relatedCaseCategories = leadIdToCaseCategoriesMap.containsKey(internationalEntryLead.Id)?leadIdToCaseCategoriesMap.get(internationalEntryLead.Id): new List<String>();
-
-            if( // ... the lead...
-                isLeadWithNoActiveStudyLinkAppforXYears(internationalEntryLead, 3) && // ... has any inactive studylink only (must have no active)...
-                internationalEntryLead.Lead_Score__c > threshold &&  (                    // ... has a lead score above threshold...
-                    NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(        // ... has a related case with a certain category...
-                        l1Categories, 
-                        relatedCaseCategories
-                    ))
-            ) {
+            Boolean isCriteriaMet = isLeadWithNoActiveStudyLinkAppforXYears(internationalEntryLead, 3) &&
+                                    internationalEntryLead.Lead_Score__c > threshold &&
+                                    (NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(l1Categories,relatedCaseCategories)) &&
+                                    !hasLeadIdsWithRestricted &&
+                                    !isPartnerSourced;
+            if(isCriteriaMet) {
                 leadsToUpdate.put(
                     internationalEntryLead.Id, 
                     new Lead(
@@ -656,6 +661,16 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             }
         }
         return !hasActiveApplication;
+    }
+
+    private static Set<Id> getCitizenshipCountryIsRestricted(List<Lead> leadList){
+        Set<Id> leadIdsWithRestrictedSet = new Set<Id>();
+        for(Lead lead : leadList){
+            if(!InternationalTierRestrictedMap.isEmpty() && InternationalTierRestrictedMap.containsKey(lead.Marketing_Segmentation__r.My_Country_Of_Citizenship__c)){
+                leadIdsWithRestrictedSet.add(lead.Id);
+            }
+        }
+        return leadIdsWithRestrictedSet;
     }
 
 }

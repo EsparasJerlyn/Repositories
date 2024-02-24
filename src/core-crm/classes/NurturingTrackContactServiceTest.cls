@@ -115,18 +115,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
-            List<hed__Term__c> newTerms = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
-            newApplications[0].Is_Agent_Assisted__c = false;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
@@ -149,19 +139,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance()
-                .getAccountsBySetNames(new Set<String>{'Test Account'});
-            List<hed__Term__c> newTerms = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
-            newApplications[0].Is_Agent_Assisted__c = false;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // create completed cadence
