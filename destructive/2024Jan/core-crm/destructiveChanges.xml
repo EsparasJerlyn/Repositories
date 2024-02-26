@@ -8,6 +8,16 @@
     </types>
     -->
     <types>
+        <!-- Start DEPP-8054 -->
+         <members>Stewardship__c.Stewardship_Type__c</members>
+         <members>Stewardship__c.Stewardship_Tier__c</members>
+         <members>Stewardship__c.Completion_Reason__c</members>
+         <members>Stewardship__c.Lost_Reason__c</members>
+         <members>Stewardship__c.Lost_Summary__c</members>
+        <!-- End DEPP-8054 -->
+        <name>CustomField</name>
+    </types>    
+    <types>
         <!--Start DEPP-6659-->
         <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
         <members>Applicatioon_SAMS_Legacy_Record_Page</members>
