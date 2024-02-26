@@ -1331,6 +1331,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Email</field>
+            <value>
+                <elementReference>PrimaryEmailInput.workEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>FirstName</field>
             <value>
                 <elementReference>First_Name</elementReference>
@@ -2237,6 +2243,44 @@
             </visibilityRule>
         </fields>
         <fields>
+            <name>PrimaryEmailInput</name>
+            <extensionName>c:flowWorkEmailField</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Primary Email</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+                <conditions>
+                    <leftValueReference>Create_New_Contact</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>IndividualGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>WorkEmailInput</name>
             <extensionName>c:flowWorkEmailField</extensionName>
             <fieldType>ComponentInstance</fieldType>
@@ -2256,6 +2300,20 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>IndividualGivingText</elementReference>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <elementReference>OrganisationGivingText</elementReference>
                     </rightValue>
                 </conditions>
             </visibilityRule>

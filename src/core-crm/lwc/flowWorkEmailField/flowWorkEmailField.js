@@ -31,6 +31,15 @@ export default class FlowWorkEmailField extends LightningElement {
   workEmailExists = false;
   isException = false;
   timer;
+  _label = 'Work Email';
+
+  @api
+  get label() {
+    return this._label;
+  }
+  set label(value) {
+    this._label = value || 'Work Email';
+  }
 
   connectedCallback() {
     this.retrieveEmailFromSession();
