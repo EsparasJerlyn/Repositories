@@ -18,11 +18,6 @@
 @isTest
 @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveRunAs')
 public with sharing class CustomHeaderContainerCtrlTest {
-    @testSetup
-    static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Alumni_Engagement_Manager' });
-    }
-
     @isTest
     static void getListMembersTest(){
         ImplementationSelector.DAO.setMock(new ListMembersDAOMock());
@@ -107,7 +102,7 @@ public with sharing class CustomHeaderContainerCtrlTest {
         ListContributorsDAO.newInstance().insertRecords(newListContributor, false, AccessLevel.USER_MODE);
 
         Test.startTest();
-        List<List_Contributor__c> listContributorRecord = CustomHeaderContainerCtrl.getUserHasListContributor(newListRecords[0].Id, mockUser.getMockId());
+        List<List_Contributor__c> listContributorRecord = CustomHeaderContainerCtrl.getUserHasListContributor(newListRecords[0].Id, newListContributor[0].List_Contributor__c);
         System.assert(!listContributorRecord.isEmpty(), 'No List Contributor found');
         Test.stopTest();
     }
