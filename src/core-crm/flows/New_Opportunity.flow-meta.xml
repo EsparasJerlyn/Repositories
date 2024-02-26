@@ -1482,7 +1482,7 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>ContactId</field>
+            <field>Contact__c</field>
             <value>
                 <elementReference>ContactId</elementReference>
             </value>
