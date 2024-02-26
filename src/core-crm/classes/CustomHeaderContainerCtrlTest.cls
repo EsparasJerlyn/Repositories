@@ -99,15 +99,15 @@ public with sharing class CustomHeaderContainerCtrlTest {
         ImplementationSelector.DAO.setMock(new ListsDAOMock());
         ImplementationSelector.DAO.setMock(new ListContributorsDAOMock());
         List<List__c> newListRecords = TestDataFactory.createListRecords(1);
-        User userRecord = TestDataFactory.getAlumniEngagementManager();
+        MockIdGenerator mockUser = new MockIdGenerator(User.SObjectType);
         ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
 
         List<List_Contributor__c> newListContributor = TestDataFactory.createListContributorRecords(1, newListRecords[0].Id);
-		newListContributor[0].List_Contributor__c = userRecord.Id;
+		newListContributor[0].List_Contributor__c = mockUser.getMockId();
         ListContributorsDAO.newInstance().insertRecords(newListContributor, false, AccessLevel.USER_MODE);
 
         Test.startTest();
-        List<List_Contributor__c> listContributorRecord = CustomHeaderContainerCtrl.getUserHasListContributor(newListRecords[0].Id, userRecord.Id);
+        List<List_Contributor__c> listContributorRecord = CustomHeaderContainerCtrl.getUserHasListContributor(newListRecords[0].Id, mockUser.getMockId());
         System.assert(!listContributorRecord.isEmpty(), 'No List Contributor found');
         Test.stopTest();
     }

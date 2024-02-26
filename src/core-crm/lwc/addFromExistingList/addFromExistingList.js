@@ -232,7 +232,6 @@ export default class AddFromExistingList extends LightningElement {
             });
 
             let isEqualColumns =  JSON.stringify(selectColumnLabels) ===  JSON.stringify(columnLabels);
-            console.log(isEqualColumns);
             let hasExistingListMemberContact = false;
 
             const newListMember = [];
