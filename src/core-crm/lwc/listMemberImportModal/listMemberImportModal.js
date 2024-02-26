@@ -212,15 +212,18 @@
           }
       
           csvToArray(csv) {
-              const rows = csv.split('\n');
-              const result = [];
-      
-              for (const row of rows) {
-                  const values = row.split(',');
-                  result.push(values);
+            const rows = csv.split('\n');
+            const result = [];
+            for (const row of rows) {
+              const splitValue = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+              for (const i in splitValue) {
+                let value = splitValue[i].toString().replace(/(\r\n|\n|\r)/gm, "");
+                splitValue[i] = value.replace(/(^"|"$)/g, '');
               }
-      
-              return result;
+              result.push(splitValue);
+            }
+            
+            return result;
           }
       
           //Toast Message

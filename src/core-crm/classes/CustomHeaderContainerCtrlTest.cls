@@ -20,7 +20,7 @@
 public with sharing class CustomHeaderContainerCtrlTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Alumni_Engagement_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Alumni_Engagement_Manager' });
     }
 
     @isTest
@@ -99,7 +99,7 @@ public with sharing class CustomHeaderContainerCtrlTest {
         ImplementationSelector.DAO.setMock(new ListsDAOMock());
         ImplementationSelector.DAO.setMock(new ListContributorsDAOMock());
         List<List__c> newListRecords = TestDataFactory.createListRecords(1);
-        User userRecord = TestDataFactory.getQUTIEPartnershipManager();
+        User userRecord = TestDataFactory.getAlumniEngagementManager();
         ListsDAO.newInstance().insertRecords(newListRecords, false, AccessLevel.USER_MODE);
 
         List<List_Contributor__c> newListContributor = TestDataFactory.createListContributorRecords(1, newListRecords[0].Id);
