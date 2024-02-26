@@ -7,16 +7,19 @@
  *    | Developer                 | Date                  | JIRA                 | Change Summary               |
       |---------------------------|-----------------------|----------------------|------------------------------|
       | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Created file                 |
+      | kenneth.f.alsay           | February 14, 2024     | DEPP-8040            | Default List Contributor     |
       |                           |                       |                      |                              |
  */
       import { LightningElement, api, track } from 'lwc';
       import { ShowToastEvent } from 'lightning/platformShowToastEvent';
       
       import LIST_MEMBER_SCHEMA from '@salesforce/schema/List_Member__c';
+      import ID from "@salesforce/user/Id";
       
       import getContactById from '@salesforce/apex/ListMemberImportModalCtrl.getContactById';
       import getListContributorByIds from '@salesforce/apex/ListMemberImportModalCtrl.getListContributorByIds';
       import bulkSaveListMember from '@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember';
+      import getDefaultListContributor from '@salesforce/apex/ListMemberAddModalController.getDefaultListContributor';
       
       const ROW_WIDTH = 180;
       
@@ -31,6 +34,7 @@
           @track data = [];
           @track csvdata = [];
       
+          defaultContributor;
           rowId;
           errors;
           hasRowError = true;;
@@ -39,7 +43,7 @@
           isEditRecord = false;
           prefields = [];
           excludeCTableolumns = ['List Member Reference'];
-          excludeCSVColumns = ['List Member Reference', 'Email', 'Mobile'];
+          excludeCSVColumns = ['List Member Reference', 'Email', 'Mobile', 'List Contributor', 'List Member Status'];
           actions = [
               { label: 'Delete', name: 'delete' },
               { label: 'Edit', name: 'edit' },
@@ -73,6 +77,12 @@
               return `table-layout: fixed; width: ${ROW_WIDTH * this.columns.length}px;`;
           }
       
+          connectedCallback(){
+              if(this.listId){
+                  this.fetchDefaultListContributor();
+              }
+          }
+      
           toShowListMemberImportModal(value) {
               this.dispatchEvent(
                   new CustomEvent('changeshowimportmodal', {
@@ -100,7 +110,16 @@
                   const columns = JSON.parse(JSON.stringify(this.columns));
       
                   const data = [];
-                  let isNotEqualColumns = false;
+                  this.isNotEqualColumns = false;
+                  const dynamicColumns = [
+                      "Column_1_Value__c",
+                      "Column_2_Value__c",
+                      "Column_3_Value__c",
+                      "Column_4_Value__c",
+                      "Column_5_Value__c",
+                      "Column_6_Value__c",
+                      "Column_7_Value__c",
+                  ];
       
                   csvRecord.forEach((key, index) => {
                       let obj = {};
@@ -121,8 +140,13 @@
       
                           columns.forEach((v, ii) => {
                               if (v.label === headerName) {
+                                  if (dynamicColumns.indexOf(v.fieldName) > -1) {
+                                      obj[v.fieldName] = value;
+                                  } else {
+                                      obj[v.apiFieldName] = value;
+                                  }
+      
                                   isFound = true;
-                                  obj[v.apiFieldName] = value;
                               }
                           })
                       })
@@ -140,11 +164,24 @@
                       }
                   });
       
-                  if (JSON.stringify(csvHeader) !== JSON.stringify(columnsNames)) {
-                      isNotEqualColumns = true;
+                  if (csvHeader.length !== columnsNames.length) {
+                      this.isNotEqualColumns = true;
+                  } else {
+                      columnsNames.forEach((key) => {
+                          let isKeyFound = false;
+                          csvHeader.forEach((val) => {
+                              if (key === val) {
+                                  isKeyFound = true;
+                              }
+                          })
+      
+                          if (!isKeyFound) {
+                              this.isNotEqualColumns = true;
+                          }
+                      })
                   }
       
-                  if (!isNotEqualColumns) {
+                  if (!this.isNotEqualColumns) {
                       this.data = data.map((key, index)=> {
                           let id = index + 1 + "";
                               return {
@@ -158,23 +195,35 @@
                   } else {
                       this.data = [];
                       this.disabledSave = true;
-                      this.generateToast('Reminder', 'The list headers do not match. Please make sure CSV file column headers matches the headers of this List.', 'error');
                   }
               }
       
               reader.readAsDataURL(file)
           }
       
+          //gets List Contributor ID of current user and assign it to var defaultContributor
+          fetchDefaultListContributor(){
+              getDefaultListContributor({ listId: this.listId, currentUser: ID })
+              .then((response) => {
+                  if(response && response.length){
+                      this.defaultContributor = response[0].Id;
+                  }
+              })
+          }
+      
           csvToArray(csv) {
-              const rows = csv.split('\n');
-              const result = [];
-      
-              for (const row of rows) {
-                  const values = row.split(',');
-                  result.push(values);
+            const rows = csv.split('\n');
+            const result = [];
+            for (const row of rows) {
+              const splitValue = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+              for (const i in splitValue) {
+                let value = splitValue[i].toString().replace(/(\r\n|\n|\r)/gm, "");
+                splitValue[i] = value.replace(/(^"|"$)/g, '');
               }
-      
-              return result;
+              result.push(splitValue);
+            }
+            
+            return result;
           }
       
           //Toast Message
@@ -192,28 +241,19 @@
               let rowsValidation = {};
               const data = JSON.parse(JSON.stringify(this.data));
               let idContactArr = [];
-              let idListContributorArr = [];
               data.forEach(obj => {
                   if (obj.List_Member__c) {
                       idContactArr.push(obj.List_Member__c);
                   }
-      
-                  if (obj.List_Contributor__c) {
-                      idListContributorArr.push(obj.List_Contributor__c);
-                  }
               });
       
               const contactids = idContactArr.toString();
-              const listContributorids = idListContributorArr.toString();
+              const listContributorids = this.defaultContributor;
               let contacts = [];
               if (contactids) {
                   contacts = await getContactById({ ids: contactids });
               }
-      
-              let listContributors = [];
-              if (listContributorids) {
-                  listContributors = await getListContributorByIds({ listId: this.listId, contributorIds: listContributorids });
-              }
+              let listContributors = await getListContributorByIds({ listId: this.listId, contributorIds: listContributorids });
       
               let newData = [];
               let hasError = false;
@@ -251,19 +291,13 @@
       
                   listMember.Email__c = email;
                   listMember.Mobile__c = mobilePhone;
-      
-                  if (listMember.List_Contributor__c) {
-                      listMember.ListContributorName = listMember.List_Contributor__c;
-                      listMember.ListContributorUrl = `/lightning/r/List_Contributor__c/${listMember.List_Contributor__c}/view`;
-                  }
+                  listMember.List_Contributor__c = this.defaultContributor;
       
                   listContributors.forEach(obj => {
-                      if (listMember.List_Contributor__c === obj.Id) {
-                          isFoundListContributor = true;
+                      isFoundListContributor = true;
       
-                          listMember.ListContributorName = obj.Name;
-                          listMember.ListContributorUrl = `/lightning/r/List_Contributor__c/${obj.Id}/view`;
-                      }
+                      listMember.ListContributorName = obj.List_Contributor__r.Name;
+                      listMember.ListContributorUrl = `/lightning/r/List_Contributor__c/${obj.Id}/view`;
                   });
       
                   let messages = [];
@@ -432,6 +466,7 @@
       
           reloadListMembersTable() {
               this.dispatchEvent(new CustomEvent('reloadlistmemberstable', {
+                
                   detail: true
               }));
           }
