@@ -43,6 +43,7 @@ import getUserHasListContributor from "@salesforce/apex/CustomHeaderContainerCtr
 import updateListMemberStatus from "@salesforce/apex/CustomHeaderContainerCtrl.updateListMemberStatus";
 import bulkSaveListMember from "@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember";
 import getListMembersForEngage from "@salesforce/apex/CustomHeaderContainerCtrl.getListMembersByListIdAndStatus"; 
+import getAllListContributors from "@salesforce/apex/CustomHeaderContainerCtrl.getAllListContributors";
 
 const ROW_WIDTH = 180;
 
@@ -221,6 +222,7 @@ export default class CustomHeaderContainer extends LightningElement {
 
             if (this.objectApiName === 'List__c') {
                 this.listId = this.recordId;
+                this.fetchListContributors();
             } else if (this.objectApiName === 'Engagement_Opportunity__c') {
                 this.fetchList();
             }           
@@ -263,8 +265,11 @@ export default class CustomHeaderContainer extends LightningElement {
 
                     if (obj.List_Contributor__r) {
                         obj.List_Contributor__c = obj.List_Contributor__r.Id;
-                        obj.ListContributorName = obj.List_Contributor__r.Name;
-
+                        this.allListContributors.forEach(contributor =>{
+                            if(contributor.Id === obj.List_Contributor__r.Id){
+                                obj.ListContributorName = contributor.List_Contributor__r.Name;
+                            }
+                        });
                         obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${obj.List_Contributor__r.Id}/view`;
                     }
                 });
@@ -280,7 +285,6 @@ export default class CustomHeaderContainer extends LightningElement {
             getListMembersForEngage({ listId: this.listId, status: 'Qualified'})
             .then((response) => {
                 response.forEach(obj => {
-
                     if (obj.List_Member__r) {
                         obj.List_Member__c = obj.List_Member__r.Id;
                         obj.ListMemberName = obj.List_Member__r.Name;
@@ -293,6 +297,15 @@ export default class CustomHeaderContainer extends LightningElement {
                 this.isTableLoading = false;
             })
         }, 1000);
+    }
+
+    fetchListContributors() {
+        getAllListContributors({ listId: this.listId})
+        .then((response) => {
+            if(response){
+                this.allListContributors = response;
+            }
+        })
     }
 
     async fetchList() {
