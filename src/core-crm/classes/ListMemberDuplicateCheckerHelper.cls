@@ -4,25 +4,26 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | carl.alvin.cabiles             | September 14, 2023    | DEPP-6510              | Created file                 |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                           |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
+      | carl.alvin.cabiles             | September 14, 2023    | DEPP-6510              | Created file                                             |
+      | roy.nino.s.regala              | Feb 26, 2023          | DEPP-7882              | Updated logic to also consider on insert                 |
  */
 public with sharing class ListMemberDuplicateCheckerHelper {
     public static void detectDuplicateListMembers(List<List_Member__c> newItems,Map<Id, List_Member__c> oldItems){
     	Set<String> duplicateCheckers = new Set<String>();
-        SObjectType recordObjectType = new ListMembersDAO().getSObjectType();
 
         Set<Id> listRecordIds = new Set<Id>();
         Set<Id> listMemberIds = new Set<Id>();
         List<List_Member__c> listMembersToCheck = new List<List_Member__c>();
         for(List_Member__c listItem: newItems){
             Boolean listItemNotNullListAndListMember = listItem.List_Member__c != null && listItem.List__c != null;
+            Boolean listRecordCreated = oldItems == null;
             Boolean listRecordChanged = oldItems != null && oldItems.get(listItem.Id).List__c != listItem.List__c;
             Boolean listMemberRecordChanged = oldItems != null && oldItems.get(listItem.Id).List_Member__c != listItem.List_Member__c; 
            
             if( listItemNotNullListAndListMember &&
-               ( listRecordChanged|| listMemberRecordChanged )
+               (listRecordCreated || listRecordChanged || listMemberRecordChanged )
             ){
             listRecordIds.add(listItem.List__c);
             listMemberIds.add(listItem.List_Member__c);
