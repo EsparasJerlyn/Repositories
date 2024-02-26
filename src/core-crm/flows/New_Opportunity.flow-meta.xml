@@ -453,13 +453,6 @@
                     <stringValue>Fundraiser</stringValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>System_Administrator</stringValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Do_Not_Have_Access_Lead_Conversion_Screen</targetReference>
             </connector>
@@ -530,13 +523,6 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>FundraiserFundraiser</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$UserRole.DeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>System_Administrator</stringValue>
                 </rightValue>
             </conditions>
             <connector>
