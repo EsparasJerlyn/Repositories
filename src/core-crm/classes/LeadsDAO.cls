@@ -34,6 +34,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     public static final String ACCEPT_ADMIT_JOURNEY_STATUS = 'Accept-Admit';
     public static final String STUDY_JOURNEY_STATUS = 'Study';
     public static final String LEARNER_LEAD_TYPE = 'Learner';
+    public static final string LEAD_SOURCE_CATEGORY = 'Partner Sourced';
 
     public static ILeadsDAO newInstance() {
         return (ILeadsDAO) ImplementationSelector.DAO.newInstance(Lead.SObjectType);
@@ -61,7 +62,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
 
     public static List<Lead> getLeadsWithLimit(Integer recordsCount) {
         return [//NOPMD
-            SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c, 
+            SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c, Lead_Source_Category__c, 
             Lead_Score__c, Calculated_Cadence__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c, MobilePhone, IsConverted,
             Email_Opt_In_DateTime__c
             FROM Lead
