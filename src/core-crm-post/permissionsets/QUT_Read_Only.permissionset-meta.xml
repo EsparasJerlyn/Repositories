@@ -4163,6 +4163,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>List_Member__c.Activity_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>List_Member__c.Column_1_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
