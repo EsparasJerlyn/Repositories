@@ -175,7 +175,7 @@ export default class AddFromExistingList extends LightningElement {
             result.forEach(obj => {
                 newResult.push({
                     id: obj.Id,
-                    label: obj.Name,
+                    label: obj.Name+'-'+obj.List_Name__c,
                     meta: '',
                 });
             });
