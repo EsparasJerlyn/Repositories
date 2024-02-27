@@ -6,6 +6,11 @@
         <default>false</default>
         <visible>true</visible>
     </applicationVisibilities>
+    <applicationVisibilities>
+        <application>Advancement</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
     <layoutAssignments>
         <layout>Application_Preference__c-StudyLink</layout>
         <recordType>Application_Preference__c.StudyLink</recordType>
@@ -219,6 +224,14 @@
     </layoutAssignments>
      <layoutAssignments>
         <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout> 
+        <recordType>Opportunity.Individual_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout>
+        <recordType>Opportunity.Organisation_Giving</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-Industry Engagement Layout</layout>
