@@ -8,6 +8,7 @@
       |---------------------------|-----------------------|----------------------|------------------------------|
       | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Created file                 |
       | kenneth.f.alsay           | February 14, 2024     | DEPP-8040            | Default List Contributor     |
+      | kenneth.f.alsay           | February 27, 2024     | DEPP-8099            | Removed edit action button   |     
       |                           |                       |                      |                              |
  */
       import { LightningElement, api, track } from 'lwc';
@@ -40,13 +41,11 @@
           hasRowError = true;;
           isNotEqualColumns = false;
           disabledSave = true;
-          isEditRecord = false;
           prefields = [];
           excludeCTableolumns = ['List Member Reference'];
           excludeCSVColumns = ['List Member Reference', 'Email', 'Mobile', 'List Contributor', 'List Member Status'];
           actions = [
               { label: 'Delete', name: 'delete' },
-              { label: 'Edit', name: 'edit' },
           ];
       
           @api
@@ -357,44 +356,7 @@
       
           handleRowAction(event) {
               const recordId = event.detail.row.id;
-      
-              if(event.detail.action.name == "edit"){
-                  let selectedContact = this.data.filter(record => record.id == recordId)[0];
-                  selectedContact = JSON.parse(JSON.stringify(selectedContact));
-                  this.rowId = selectedContact.id
-      
-                  const prefields = JSON.parse(JSON.stringify(this.columns));
-                  const hasLookup = ['List_Member__c', 'List_Contributor__c', 'List_Member_Status__c'];
-      
-                  prefields.forEach((key, i) => {
-                      key.value = '';
-      
-                      if (
-                          (key.apiFieldName === 'List_Member__c' && selectedContact.isFoundListContributor) ||
-                          (key.apiFieldName === 'List_Contributor__c' && selectedContact.isFoundContact))
-                      {
-                          key.value = selectedContact[key.apiFieldName];
-                      }
-      
-                      key.isDisabled = false;
-                      key.tableObjectType = 'List_Member__c';
-      
-                      if(key.apiFieldName === "Email__c" || key.apiFieldName === "Mobile__c") {
-                          key.isDisabled = true;
-                      }
-      
-                      if (hasLookup.indexOf(key.apiFieldName) > -1) {
-                          key.isGetRecord = true;
-                      }
-                  });
-      
-                  prefields.pop();
-      
-                  this.prefields = prefields;
-      
-                  this.isEditRecord = true;
-              }
-      
+
               if(event.detail.action.name == "delete"){
                   const data = this.data;
                   const newdata = data.filter(record=> {

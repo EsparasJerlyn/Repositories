@@ -38,15 +38,6 @@
                         errors={errors}
                     >
                     </lightning-datatable>
-                    <template if:true={isEditRecord}>
-                        <c-custom-add-edit-list-member
-                            pre-populated-fields={prefields}
-                            standard-header-label={standardHeaderLabel}
-                            onhandlesave={handleEdit}
-                            row-id={rowId}
-                            onclose={handleCloseEditModal}
-                        ></c-custom-add-edit-list-member>
-                    </template>
                 </div>
                 <div class="slds-modal__footer slds-text-align_center">
                     <button onclick={handleCloseModal} class="slds-button slds-button_neutral" aria-label="Cancel">Cancel</button>
