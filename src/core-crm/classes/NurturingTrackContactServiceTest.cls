@@ -5,17 +5,18 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
-      |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                         |
-      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and                      |
-      |                                |                       |                        | International Enrolment to Census                    |
-      | mark.j.mahilum                 | Sept 07,2023          | DEPP-6479              | Updated test class to include Calculated Intake Date |
-      | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added test class coverage for getDomesticAccepted    | 
-      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Added new test method                                |
-      |                                |                       |                        | getExitInternationalStrongInterestPreApplicationTest |
-      | mark.j.mahilum                 | Feb 06, 2024          | DEPP-7862              | Added test class data DomesticAcceptanceToEnrollment |
-      |                                |                       |                        | entry and exit method                                |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                            |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                              |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and                                                           |
+      |                                |                       |                        | International Enrolment to Census                                                         |
+      | mark.j.mahilum                 | Sept 07,2023          | DEPP-6479              | Updated test class to include Calculated Intake Date                                      |
+      | mark.j.mahilum                 | Oct 04, 2023          | DEPP-6682              | Added test class coverage for getDomesticAccepted                                         | 
+      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Added new test method                                                                     |
+      |                                |                       |                        | getExitInternationalStrongInterestPreApplicationTest                                      |
+      | mark.j.mahilum                 | Feb 06, 2024          | DEPP-7862              | Added test class data DomesticAcceptanceToEnrollment                                      |    
+      |                                |                       |                        | entry and exit method                                                                     |
+      | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Updated test class method  International Application Submission - Direct Applicant Exit   |
  */
 @isTest
 public with sharing class NurturingTrackContactServiceTest { //NOPMD
@@ -521,20 +522,9 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Application Submission - Direct Applicant (Automated)';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
-
-            List<hed__Term__c> newTerms  = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
             
             // create application0
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
-            newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
-            newApplications[0].Is_Agent_Assisted__c = false;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
@@ -556,20 +546,9 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newContacts[0].hed__Citizenship_Status__c = 'International';
             newContacts[0].Calculated_Cadence__c = 'International Application Submission - Direct Applicant (Automated)';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
-            
-            List<hed__Term__c> newTerms  = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
            
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
-            newApplications[0].Applied_Intake_Study_Period__c = newTerms[0].Id;
-            newApplications[0].Is_Agent_Assisted__c = false;
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // create completed cadence
