@@ -349,7 +349,20 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-xas554zax4c</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>richTextValue</name>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-4f3248a7-4ab6-46de-b538-c76cf84a53b9</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -439,7 +452,7 @@
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText4</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
@@ -525,11 +538,31 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-cvitx4eb9th</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-94c0durd8g</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-5ecf91ca-eec4-4b80-b1f7-f1e759d4f4fe</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-925e807c-3d90-4042-8558-ed574f58a3ff</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -555,7 +588,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-xas554zax4c</value>
+                    <value>Facet-4f3248a7-4ab6-46de-b538-c76cf84a53b9</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -611,7 +644,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-cvitx4eb9th</value>
+                    <value>Facet-94c0durd8g</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -625,7 +658,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-5ecf91ca-eec4-4b80-b1f7-f1e759d4f4fe</value>
+                    <value>Facet-925e807c-3d90-4042-8558-ed574f58a3ff</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
