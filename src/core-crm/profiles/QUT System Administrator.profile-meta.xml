@@ -6,11 +6,6 @@
         <default>false</default>
         <visible>true</visible>
     </applicationVisibilities>
-    <applicationVisibilities>
-        <application>Advancement</application>
-        <default>false</default>
-        <visible>true</visible>
-    </applicationVisibilities>
     <layoutAssignments>
         <layout>Application_Preference__c-StudyLink</layout>
         <recordType>Application_Preference__c.StudyLink</recordType>
