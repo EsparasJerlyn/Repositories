@@ -18,6 +18,7 @@
       | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application                       |
       | arsenio.jr.dayrit              | Feb 23, 2024          | DEPP-7709              | Update handling for International International Strong Interest Pre –              |
       |                                |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
+      | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Added handling for International Application Submission - Direct Applicant Exit    |
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationListForStrongInterest = new List<hed__Application__c>();
@@ -68,6 +69,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         //leadToUpdate.putAll(.getExitDomesticStrongInterestPreApplication(domesticExitLeadMap));
         leadToUpdate.putAll(getDomesticStrongInterestPreApplicationForExit(domesticExitLeadMap));
         leadToUpdate.putAll(getExitInternationalStrongInterestPreApplication(internationalExitLeadMap));
+        leadToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitLeadMap));
+        
 
         return leadToUpdate.values();
     }
@@ -201,6 +204,35 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>(leadToUpdateList);
 
+        return leadToUpdateMap;
+    }
+
+    /**
+     * @description Update international direct applicant lead based on exit criteria
+    * @param Map<Id, Leads> internationalExitLeadMap a map of ids to exit international lead records
+     * @return Map<Id, Leads> map of id to updated lead records for batch processing
+     */
+    private static Map<Id, Lead> getExitInternationalDirectApplicants(
+        Map<Id, Lead> internationalExitLeadMap
+    ) {
+
+        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
+        for (hed__Application__c application : applicationList) {
+            Boolean hasCalculatedCadence =
+                (application.Lead__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED) ||
+                (application.Lead__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL);
+            if (
+                internationalExitLeadMap.containsKey(application.Lead__c) &&
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                application.Application_Status__c == 'Submitted' &&
+                hasCalculatedCadence
+            ) {
+                leadToUpdateMap.put(
+                    application.Lead__c,
+                    new Lead(Id = application.Lead__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
         return leadToUpdateMap;
     }
 

@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                 |
-      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                            |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                              |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date                                                              |
+      | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Updated test class method  International Application Submission - Direct Applicant Exit   |
  */
 @isTest
 public with sharing class NurturingTrackLeadServiceTest {
@@ -321,6 +322,68 @@ public with sharing class NurturingTrackLeadServiceTest {
                 'International Application Submission - Direct Applicant (Automated)',
                 processLeads[0].Calculated_Cadence__c, 
                 'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
+    private static void testAutomaticInternationalDirectApplicantExit() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            leadList[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED;
+            LeadsDAO.newInstance().updateRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            
+            // create application0
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            // assert
+            System.assertEquals(
+                '', processLeads[0].Calculated_Cadence__c, 'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
+    private static void testManualInternationalDirectApplicantExit() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            leadList[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL;
+            LeadsDAO.newInstance().updateRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            
+            // create application0
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            // assert
+            System.assertEquals(
+                '', processLeads[0].Calculated_Cadence__c, 'Error, wrong calculated cadence value.'
             );
         }
     }
