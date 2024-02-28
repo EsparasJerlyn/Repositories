@@ -1,0 +1,4 @@
+Payment_URL__c: https://qut-dev.xetta.com/onestopweb/qutopeintegration/tranadd?
+GL_Code__c: 182002-0001-2402-58-0-0-1
+TransType_Invoice__c: CCE002
+TransType_PayNow__c: CCE001
