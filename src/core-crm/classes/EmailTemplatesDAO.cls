@@ -41,7 +41,7 @@ public without sharing class EmailTemplatesDAO extends DmlBase implements IEmail
 		String accessLevel   
     ) {
         return Database.query(
-            'SELECT Name, Subject, HtmlValue, Body ' +
+            'SELECT Name, Subject, HtmlValue, Body, DeveloperName ' +
               'FROM EmailTemplate ' +
              'WHERE DeveloperName IN: developerNameSet WITH ' +
              String.escapeSingleQuotes(accessLevel)
