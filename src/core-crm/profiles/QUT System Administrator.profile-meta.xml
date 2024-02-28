@@ -221,6 +221,14 @@
         <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout> 
+        <recordType>Opportunity.Individual_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout>
+        <recordType>Opportunity.Organisation_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Opportunity-Industry Engagement Layout</layout>
         <recordType>Opportunity.Commercialisation</recordType>
     </layoutAssignments>

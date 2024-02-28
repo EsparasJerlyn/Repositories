@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Stewardship_Tier__c</fullName>
-    <description>The Plan ‘service level’.</description>
+    <fullName>Endowment_Account_Type__c</fullName>
     <externalId>false</externalId>
-    <inlineHelpText>The Plan ‘service level’.</inlineHelpText>
-    <label>Stewardship Tier</label>
-    <required>true</required>
+    <label>Endowment Account Type</label>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -15,9 +14,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>NA</fullName>
+                <fullName>Perpetual</fullName>
                 <default>false</default>
-                <label>NA</label>
+                <label>Perpetual</label>
+            </value>
+            <value>
+                <fullName>Non-Perpetual</fullName>
+                <default>false</default>
+                <label>Non-Perpetual</label>
             </value>
         </valueSetDefinition>
     </valueSet>
