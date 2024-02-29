@@ -3,6 +3,7 @@
     <fullName>Individual_Giving</fullName>
     <active>true</active>
     <businessProcess>Individual Giving Opportunity</businessProcess>
+    <compactLayoutAssignment>Advancement_Compact_Layout</compactLayoutAssignment>
     <description>Create a Advancement Opportunity for an Individual Contact.</description>
     <label>Individual Giving</label>
     <picklistValues>
