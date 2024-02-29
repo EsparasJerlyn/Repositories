@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Installment_Amount__c</fullName>
+    <description>The amount of each installment payment under the schedule.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The amount of each installment payment under the schedule.</inlineHelpText>
+    <label>Installment Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>
