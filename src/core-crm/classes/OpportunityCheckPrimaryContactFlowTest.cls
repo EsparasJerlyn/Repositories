@@ -49,10 +49,12 @@ public with sharing class OpportunityCheckPrimaryContactFlowTest {
             Test.startTest();
             List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID},AccessLevel.USER_MODE);
 
+            oppRecords[0].Start_Date__c = System.today() + 10 ;
+            oppRecords[0].Description = 'Opp Test';
             oppRecords[0].StageName = 'Qualify';
             OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
             Test.stopTest();
-            
+
             List<Opportunity> oppUpdatedRecords = OpportunitiesDAO.getRecordsBySetIds(new Set<Id>{oppRecords[0].Id});
             System.assert(oppUpdatedRecords[0].StageName.equals('Qualify'), 'Stage is successfully changed to Qualify.');
         }
