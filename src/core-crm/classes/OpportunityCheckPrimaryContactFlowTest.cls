@@ -51,11 +51,10 @@ public with sharing class OpportunityCheckPrimaryContactFlowTest {
 
             oppRecords[0].StageName = 'Qualify';
             OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
-
             Test.stopTest();
+            
             List<Opportunity> oppUpdatedRecords = OpportunitiesDAO.getRecordsBySetIds(new Set<Id>{oppRecords[0].Id});
-
-            System.assert(oppUpdatedRecords[0].StageName == 'Qualify', 'Stage is successfully changed to Qualify.');
+            System.assert(oppUpdatedRecords[0].StageName.equals('Qualify'), 'Stage is successfully changed to Qualify.');
         }
     }
 }
