@@ -569,6 +569,75 @@ public with sharing class NurturingTrackLeadServiceTest {
         }
     }
 
+    @isTest
+    private static void getEntryInternationalApplicationToOfferDirectAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(1);
+
+            List<Marketing_Segmentation__c> mseg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(
+                new Set<Id>{leads[0].Id},
+                AccessLevel.SYSTEM_MODE
+            );
+            mseg[0].My_Citizenship_Status__c = 'International Student';
+            MarketingSegmentationsDAO.newInstance().updateRecords(mseg, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                Lead__c = leads[0].Id,
+                Application_Status__c = 'Submitted',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leads));
+            Test.stopTest();
+
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+                processLeads[0].Calculated_Cadence__c,
+                'Wrong calculated cadence.'
+            );
+        }
+    }
+
+    @isTest
+    private static void getExitInternationalApplicationToOfferDirectAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Lead> leads = LeadsDAO.getLeadsWithLimit(1);
+            leads[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED;
+            LeadsDAO.newInstance().updateRecords(leads, false, AccessLevel.SYSTEM_MODE);
+
+            List<Marketing_Segmentation__c> mseg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(
+                new Set<Id>{leads[0].Id},
+                AccessLevel.SYSTEM_MODE
+            );
+            mseg[0].My_Citizenship_Status__c = 'International Student';
+            MarketingSegmentationsDAO.newInstance().updateRecords(mseg, false, AccessLevel.SYSTEM_MODE);
+
+            leads = LeadsDAO.getLeadsWithLimit(1);
+
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                Lead__c = leads[0].Id,
+                Application_Status__c = 'Conditional Offer',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leads));
+            Test.stopTest();
+
+            System.assert(processLeads.isEmpty() == false, 'No lead is updated.');
+            System.assertEquals('', processLeads[0].Calculated_Cadence__c, 'Calculated cadence is not cleared.');
+        }
+    }
+
     /**
      * Generate nurture track configurations and return them as a list of records.
      * Some criterias will always read configs even if there are no valid records for entry/exit

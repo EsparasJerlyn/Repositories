@@ -63,6 +63,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         leadToUpdate.putAll(getEntryDomesticStrongInterestPreApplication(domesticEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalStrongInterestPreApplication(internationalEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalDirectApplicants(internationalEntryLeadMap));
+        leadToUpdate.putAll(getEntryInternationalApplicationToOfferDirectAutomated(internationalEntryLeadMap));
         leadToUpdate.putAll(getEntryDomesticAcceptedAndAdmitted(domesticEntryLeadMap));
 
         //Lead exit criteria to //SAMPLE METHOD ONLY
@@ -70,7 +71,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         leadToUpdate.putAll(getDomesticStrongInterestPreApplicationForExit(domesticExitLeadMap));
         leadToUpdate.putAll(getExitInternationalStrongInterestPreApplication(internationalExitLeadMap));
         leadToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitLeadMap));
-        
+        leadToUpdate.putAll(getExitInternationalApplicationToOfferDirectAutomated(internationalExitLeadMap));
 
         return leadToUpdate.values();
     }
@@ -652,6 +653,83 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         getLeadHasOptedOutOfEmail(internationalExitLeadMap, leadsToUpdate, cadenceNames);
 
         return leadsToUpdate;
+    }
+
+    /**
+     * @description Update entering international application to offer DIRECT automated applications
+     * @param Map<Id, Lead> internationEntryLeadMap a map of ids to entry international lead records
+     * @return Map<Id, Lead> map of id to updated lead records for batch processing
+     */
+    private static Map<Id, Lead> getEntryInternationalApplicationToOfferDirectAutomated(
+        Map<Id, Lead> internationalEntryLeadMap
+    ) {
+        Map<Id, hed__Application__c> directApplicantsToOffer = new Map<Id, hed__Application__c>();
+        Set<String> completedCadencesCopy = new Set<String>();
+        for(hed__Application__c application : applicationList) {
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c) ?
+                new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)) : new Set<String>();
+            Boolean isPassedCriteria = 
+                (application.Calculated_Intake_Date__c != null && application.Calculated_Intake_Date__c > Date.today()) &&
+                (application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID) &&
+                (ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)) &&
+                (application.Is_Agent_Assisted__c == false) &&
+                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_DIRECT));
+            if(isPassedCriteria) {
+                directApplicantsToOffer.put(application.Id, application);
+            }
+        }
+
+        Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryLeadMap.keySet(),
+            new List<String>{
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED
+            },
+            applicantIdsWithCompletedCadence
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Lead.getSObjectType(),
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+            null
+        );
+
+        List<Lead> leadToUpdateList = (List<Lead>) NurturingTrackService.populateCalculatedCadenceSingle(
+            filteredApplicantIdsWithCompletedCadence, 
+            directApplicantsToOffer.values(), 
+            cadenceWrapper
+        );
+
+        Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>(leadToUpdateList);
+        return leadToUpdateMap;
+    }
+
+    /**
+     * @description Update exiting international application to offer DIRECT automated applications
+     * @param Map<Id, Lead> internationalExitLeadMap - A map of ids to exit international contact records
+     * @return Map<Id, Lead> A map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Lead> getExitInternationalApplicationToOfferDirectAutomated(
+        Map<Id, Lead> internationalExitLeadMap
+    ) {
+        Map<Id, Lead> leadsForUpdating = new Map<Id, Lead>();
+        for(hed__Application__c application : applicationList) {
+            Lead relatedLead = internationalExitLeadMap.get(application.Lead__c);
+            Boolean isActiveApplication = 
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                application.Application_Status__c != null && 
+                ApplicationsDAO.EXIT_STATUSES_INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTO.contains(application.Application_Status__c);
+            if(
+                relatedLead != null &&
+                relatedLead.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED &&
+                isActiveApplication
+            ) {
+                leadsForUpdating.put(
+                    relatedLead.Id,
+                    new Lead(Id = relatedLead.Id, Calculated_Cadence__c = '')
+                );
+            }
+        }
+        return leadsForUpdating;
     }
 
     private static void getLeadHasOptedOutOfEmail(Map<Id, Lead> internationalExitLeadMap, Map<Id, Lead> leadsToUpdate, List<String> cadenceNames) {
