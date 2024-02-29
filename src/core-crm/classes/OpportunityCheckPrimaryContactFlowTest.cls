@@ -59,4 +59,28 @@ public with sharing class OpportunityCheckPrimaryContactFlowTest {
             System.assert(oppUpdatedRecords[0].StageName.equals('Qualify'), 'Stage is successfully changed to Qualify.');
         }
     }
+
+    @isTest
+    private static void checkStageUpdateWithInActivePrimaryContact() {
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Contextual_Role__c> contextualRoleRecords = ContextualRolesDAO.newInstance().getActiveOpportunityContextualRolesRecords(new Set<Id>{oppRecords[0].Id}, new List<String>{CONTRIBUTORS_CONTEXTUAL_ROLE_GROUP});
+
+            contextualRoleRecords[0].Role_Is_Active__c = false;
+            ContextualRolesDAO.newInstance().updateRecords(contextualRoleRecords, false, AccessLevel.USER_MODE);
+
+            oppRecords[0].Start_Date__c = System.today() + 10 ;
+            oppRecords[0].Description = 'Opp Test';
+            oppRecords[0].StageName = 'Qualify';
+            Database.SaveResult[] srList = OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            List<Opportunity> oppUpdatedRecords = OpportunitiesDAO.getRecordsBySetIds(new Set<Id>{oppRecords[0].Id});
+            for (Database.SaveResult sr : srList) {
+                System.assert(!sr.isSuccess(), 'A record was saved.');
+            }
+            System.assert(oppUpdatedRecords[0].StageName.equals('Identify'), 'Stage value is Identify.');
+        }
+    }
 }
