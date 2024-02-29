@@ -41,12 +41,12 @@ Application is for the Current Intake Period AND
 Student is not a Agent assisted Student.
 International Application Submission - Direct Applicant (Automated) has been completed",International Application Submission - Direct Applicant,Entry,,1,,,,
 NTC-0012,International Application Submission - Direct Applicant,Active,International FS (Contact or Lead) has submitted an application in StudyLink,International Application Submission - Direct Applicant,Exit,,1,,,,
-NTC-0013,International Application to Offer,Active,"International FS (Contact) has submitted an application in StudyLink AND
+NTC-0013,International Application to Offer,Inactive,"International FS (Contact) has submitted an application in StudyLink AND
 Application is for the Current Intake Period AND
 International FS (Contact) has not received any offer on the application AND
 International FS (Contact) is a direct applicant (no Agent) AND
 Less than X number of days before Class start date",International Application to Offer,Entry,,1,,Class Start Date,Before,90
-NTC-0014,International Application to Offer,Active,"International FS (Contact) has received an offer on the application. OR
+NTC-0014,International Application to Offer,Inactive,"International FS (Contact) has received an offer on the application. OR
 International FS (Contact) has withdrawn the application OR
 International FS (Contact) has received an unsuccessful response on application.",International Application to Offer,Exit,,1,,,,
 NTC-0015,Domestic First Offer to Acceptance (Automated),Active,"Domestic FS (contact) has received an offer on any of their preferences AND
@@ -116,3 +116,17 @@ NTC-0036,Domestic Offer Lapsed,Active,Domestic FS (Contact) offer was re-instate
 NTC-0037,Domestic Accepted and Admitted,Active,"Domestic FS (contact) has accepted offer AND
 Domestic FS (contact) has been admitted in SAMS.",Domestic Accepted and Admitted,Entry,,1,,,,
 NTC-0038,Domestic Accepted and Admitted,Active,Manual,Domestic Accepted and Admitted,Exit,,1,,,,
+NTC-0039,International Application to Offer - Direct (Automated),Active,"International FS (Contact) has submitted an application in StudyLink AND
+International FS (Contact) has not received any offer on the application AND
+International FS (Contact) is a direct applicant (no Agent)",International Application to Offer - Direct,Entry,,1,,,,
+NTC-0040,International Application to Offer - Direct (Automated),Active,"International FS (Contact) has received an offer on the application OR
+International FS (Contact) has withdrawn the application OR
+International FS (Contact) has received an unsuccessful response on application OR
+International FS (Contact) application status has changed to Request additional Information.",International Application to Offer - Direct,Exit,,1,,,,
+NTC-0041,International Application to Offer - Agent (Automated),Active,"International FS (Contact) has submitted an application in StudyLink AND
+International FS (Contact) has not received any offer on the application AND
+International FS (Contact) is an Agent applicant.",International Application to Offer - Agent,Entry,,1,,,,
+NTC-0042,International Application to Offer - Agent (Automated),Active,"International FS (Contact) has received an offer on the application OR
+International FS (Contact) has withdrawn the application OR
+International FS (Contact) has received an unsuccessful response on application OR
+International FS (Contact) application status has changed to Request additional Information.",International Application to Offer - Agent,Exit,,1,,,,

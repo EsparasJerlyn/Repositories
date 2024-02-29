@@ -1698,6 +1698,130 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         }
     }
 
+    @isTest
+    private static void getEntryInternationalApplicationToOfferDirectAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Contact> contacts = new List<Contact>();
+            contacts.add(new Contact(
+                LastName = 'Test',
+                hed__Citizenship_Status__c = 'International'
+            ));
+            ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                hed__Applicant__c = contacts[0].Id,
+                Application_Status__c = 'Submitted',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+                processContacts[0].Calculated_Cadence__c,
+                'Wrong calculated cadence.'
+            );
+        }
+    }
+
+    @isTest
+    private static void getExitInternationalApplicationToOfferDirectAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Contact> contacts = new List<Contact>();
+            contacts.add(new Contact(
+                LastName = 'Test',
+                hed__Citizenship_Status__c = 'International',
+                Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED
+            ));
+            ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                hed__Applicant__c = contacts[0].Id,
+                Application_Status__c = 'Conditional Offer',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+
+            System.assert(processContacts.isEmpty() == false, 'No contact is updated.');
+            System.assertEquals('', processContacts[0].Calculated_Cadence__c, 'Calculated cadence is not cleared.');
+        }
+    }
+
+    @isTest
+    private static void getEntryInternationalApplicationToOfferAgentAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Contact> contacts = new List<Contact>();
+            contacts.add(new Contact(
+                LastName = 'Test',
+                hed__Citizenship_Status__c = 'International'
+            ));
+            ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                hed__Applicant__c = contacts[0].Id,
+                Application_Status__c = 'Submitted',
+                Is_Agent_Assisted__c = true,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED,
+                processContacts[0].Calculated_Cadence__c,
+                'Wrong calculated cadence.'
+            );
+        }
+    }
+
+    @isTest
+    private static void getExitInternationalApplicationToOfferAgenttAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Contact> contacts = new List<Contact>();
+            contacts.add(new Contact(
+                LastName = 'Test',
+                hed__Citizenship_Status__c = 'International',
+                Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED
+            ));
+            ContactsDAO.newInstance().insertRecords(contacts, false, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                hed__Applicant__c = contacts[0].Id,
+                Application_Status__c = 'Conditional Offer',
+                Is_Agent_Assisted__c = true,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(contacts));
+            Test.stopTest();
+
+            System.assert(processContacts.isEmpty() == false, 'No contact is updated.');
+            System.assertEquals('', processContacts[0].Calculated_Cadence__c, 'Calculated cadence is not cleared.');
+        }
+    }
+
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String recordType, String applicationStatus) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();
         for (Contact con: conList) {

@@ -136,6 +136,16 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'Under Assessment - Review'
     };
 
+    public static final Set<String> EXIT_STATUSES_INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTO = new Set<String>{
+        'Conditional Offer',
+        'Unconditional Offer',
+        'Withdrawn',
+        'More Information Required',
+        'Unsuccessful',
+        'With Faculty',
+        'With Faculty - Academic'
+    };
+
     public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
     public static final String STATUS_WITHDRAWN = 'Withdrawn';
     public static final String STATUS_DECLINED = 'Declined';

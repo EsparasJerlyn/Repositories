@@ -37,6 +37,8 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL = 'Domestic Accepted and Admitted';
     public static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     public static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
+    public static final String INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED = 'International Application to Offer - Direct (Automated)';
+    public static final String INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED = 'International Application to Offer - Agent (Automated)';
 
     public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST = new Set<String>{
         DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED, //Domestic First Offer to Acceptance (Automated)
@@ -106,6 +108,13 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
+    public static final Set<String> INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_DIRECT = new Set<String>{
+        INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED //International Application to Offer - Direct (Automated)
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AGENT = new Set<String>{
+        INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED //International Application to Offer - Direct (Automated)
+    };
 
 
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
