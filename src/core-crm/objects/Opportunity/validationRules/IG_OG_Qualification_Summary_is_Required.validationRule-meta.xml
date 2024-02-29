@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Qualification_Summary_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED( StageName ),
+ISPICKVAL( PRIORVALUE(StageName) ,&apos;Qualify&apos;),
+ISPICKVAL( StageName , &apos;Cultivation&apos;),
+ISBLANK(Qualification_Summary__c)
+)</errorConditionFormula>
+    <errorDisplayField>Qualification_Summary__c</errorDisplayField>
+    <errorMessage>Mandatory field</errorMessage>
+</ValidationRule>

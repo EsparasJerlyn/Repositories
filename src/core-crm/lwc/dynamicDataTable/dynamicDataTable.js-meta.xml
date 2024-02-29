@@ -116,7 +116,7 @@
                 name="visibilityByParent"
                 label="Controlled Visibility By Parent"
                 type="String"
-                description="Optional, text, controls the visibility of new button by parent records. E.g. Stage != 'Completed' " />
+                description="Optional, text, controls the visibility of new and edit button by parent records. E.g. Stage != 'Completed' " />
             <property
                 name="visibilityByUser"
                 label="Controlled Visibility By User"
