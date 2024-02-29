@@ -3,6 +3,7 @@
     <fullName>Organisation_Giving</fullName>
     <active>true</active>
     <businessProcess>Organisation Giving Opportunity</businessProcess>
+    <compactLayoutAssignment>Advancement_Compact_Layout</compactLayoutAssignment>
     <description>Create a Advancement Opportunity for an Organisation.</description>
     <label>Organisation Giving</label>
     <picklistValues>
