@@ -97,4 +97,19 @@ public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implemen
 
         return opportunityList;
     }
+
+    public List<Opportunity> getOpportunityByRecordTypeIds(
+        Set<Id> recordTypeIds,
+        AccessLevel accessLevel
+    ) {
+        List<Opportunity> opportunityList = new List<Opportunity>();
+
+        for (Opportunity record : opportunitiesMap.values()) {
+            if (recordTypeIds.contains(record.RecordTypeId)) {
+                opportunityList.add(record);
+            }
+        }
+
+        return opportunityList;
+    }
 }

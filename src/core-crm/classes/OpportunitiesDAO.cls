@@ -29,6 +29,9 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 	public static final Id CORPORATEPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Corporate_Partnership')
         .getRecordTypeId();
+    public static final Id ORGANISATIONGIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+        .get('Organisation_Giving')
+        .getRecordTypeId();
 
     public static final String IDENTIFY_STAGE = 'Identify';
     public Schema.SObjectType getSObjectType() {
@@ -108,6 +111,18 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
             'WHERE AccountId IN :accountIds ' + 
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public static List<Opportunity> getOpportunityByRecordTypeIds(
+        Set<Id> recordTypeIds,
+        AccessLevel accessLevel
+    ) {
+        return Database.query(
+            'SELECT Id, Name, AccountId, StageName ' +
+            'FROM Opportunity ' +
+            'WHERE RecordTypeId IN :recordTypeIds',
+            accessLevel
         );
     }
 }
