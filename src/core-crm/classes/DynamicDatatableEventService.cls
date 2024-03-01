@@ -13,6 +13,9 @@
  *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6141              | Added Relationship Manager     |
  *    | ryan.j.a.dela.cruz             | August 10, 2023       | DEPP-6335              | Added Risk                     |
  *    | eugene.andrew.abuan            | August 14, 2023       | DEPP-6331              | Added IP Relationship Mngmnt   |
+ *    | kenneth.f.alsay                | February 28, 2024     | DEPP-7883              | Added Plan Activity            |
+ 
+ * 
 
  */
 public with sharing class DynamicDatatableEventService {
@@ -54,6 +57,10 @@ public with sharing class DynamicDatatableEventService {
         Opportunity_Outcome__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity__c',
             'ObjectLabel' => 'Opportunity Outcome'
+        },
+        Plan_Activity__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity__c',
+            'ObjectLabel' => 'Plan Activity'
         },
         Relationship_Manager__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Account__c,Contact__c',

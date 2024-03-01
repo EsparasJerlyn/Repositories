@@ -11,7 +11,8 @@
     <relationshipName>Plan_Activities</relationshipName>
     <required>false</required>
     <securityClassification>Official</securityClassification>
-    <trackHistory>false</trackHistory>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
