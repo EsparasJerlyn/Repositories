@@ -44,6 +44,7 @@
  *    | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added object mapping for BuyerGroups,                         |
  *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
+ *    | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Added object mapping for Plan_Activity object                 |
  */
 public class ImplementationSelector { 
 
@@ -113,6 +114,7 @@ public class ImplementationSelector {
             OrgWideEmailAddress.SobjectType => OrgWideEmailAddressesDAO.class,
             Product_Request__c.SObjectType => ProductRequestsDAO.class,
             Package_Component__c.SObjectType => PackageComponentDAO.class,
+            Plan_Activity__c.SObjectType => PlanActivitiesDAO.class,
             Pricebook2.SObjectType => PricebooksDAO.class,
             PricebookEntry.SObjectType => PricebookEntriesDAO.class,
             Product2.SObjectType => ProductsDAO.class,
