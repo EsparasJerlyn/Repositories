@@ -35,11 +35,15 @@ public with sharing class OpportunityCheckPrimaryContactFlowTest {
             OpportunitiesDAO.newInstance().insertRecords(newOpportunityRecords, false, AccessLevel.USER_MODE);
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.USER_MODE);
 
-            List<Contextual_Role__c> newContextualRoleRecords = TestDataFactory.createContextualRolesForOpportunity(1,ContextualRolesDAO.ADVANCEMENT_OPPORTUNITY_ROLE_RECTYPE_ID,newOpportunityRecords[0].id,accountRecord[0].Id,CONTRIBUTORS_CONTEXTUAL_ROLE_GROUP);
+            List<Contextual_Role__c> contextualRoleRecords = new List<Contextual_Role__c>();
+            List<Contextual_Role__c> newContextualRoleRecords = TestDataFactory.createContextualRolesForOpportunity(10,ContextualRolesDAO.ADVANCEMENT_OPPORTUNITY_ROLE_RECTYPE_ID,newOpportunityRecords[0].id,accountRecord[0].Id,CONTRIBUTORS_CONTEXTUAL_ROLE_GROUP);
 
-            newContextualRoleRecords[0].Contextual_Role__c = PRIMARY_CONTACT_CONTEXTUAL_ROLE;
-            newContextualRoleRecords[0].Role_Is_Active__c = true;
-            ContextualRolesDAO.newInstance().insertRecords(newContextualRoleRecords, false, AccessLevel.USER_MODE);  
+            for(Contextual_Role__c con : newContextualRoleRecords){
+                con.Contextual_Role__c = PRIMARY_CONTACT_CONTEXTUAL_ROLE;
+                con.Role_Is_Active__c = true;
+                contextualRoleRecords.add(con);
+            }
+            ContextualRolesDAO.newInstance().insertRecords(contextualRoleRecords, false, AccessLevel.USER_MODE);  
         }
     }
 
@@ -65,10 +69,14 @@ public with sharing class OpportunityCheckPrimaryContactFlowTest {
         System.runAs(TestDataFactory.getAdvancementManager()) {
             Test.startTest();
             List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Contextual_Role__c> contextualRoleRecordsToUpdate = new List<Contextual_Role__c>();
             List<Contextual_Role__c> contextualRoleRecords = ContextualRolesDAO.newInstance().getActiveOpportunityContextualRolesRecords(new Set<Id>{oppRecords[0].Id}, new List<String>{CONTRIBUTORS_CONTEXTUAL_ROLE_GROUP});
 
-            contextualRoleRecords[0].Role_Is_Active__c = false;
-            ContextualRolesDAO.newInstance().updateRecords(contextualRoleRecords, false, AccessLevel.USER_MODE);
+            for(Contextual_Role__c con : contextualRoleRecords){
+                con.Role_Is_Active__c = false;
+                contextualRoleRecordsToUpdate.add(con);
+            }
+            ContextualRolesDAO.newInstance().updateRecords(contextualRoleRecordsToUpdate, false, AccessLevel.USER_MODE);
 
             oppRecords[0].Start_Date__c = System.today() + 10 ;
             oppRecords[0].Description = 'Opp Test';
