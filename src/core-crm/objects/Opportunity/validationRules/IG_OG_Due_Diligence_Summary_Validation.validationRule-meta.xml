@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IG_OG_Due_Diligence_Summary_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(RecordType.DeveloperName = &apos;Individual_Giving&apos;,
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;),
+ISCHANGED(StageName),
+ISPICKVAL( PRIORVALUE(StageName) ,&quot;Solicitation&quot;),
+ISPICKVAL( StageName ,&quot;Executed&quot;),
+  ISBLANK(Due_Diligence_Summary__c ) 
+)</errorConditionFormula>
+    <errorDisplayField>Due_Diligence_Summary__c</errorDisplayField>
+    <errorMessage>Ensure due diligence is summarised to support the opportunity.</errorMessage>
+</ValidationRule>

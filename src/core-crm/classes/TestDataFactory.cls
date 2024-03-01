@@ -115,7 +115,8 @@ public class TestDataFactory {
         'Alumni_Engagement_Manager',
         'QUT_Alumni_Engagement_Manager',
         'QUT_Corporate_Engagement_Manager',
-        'QUT_International_Future_Student_Agent'
+        'QUT_International_Future_Student_Agent',
+        'QUT_Advancement_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -2327,6 +2328,21 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating Advancement Manager
+     * @param void
+     * @return advancementManager - Advancement Manager
+     */
+    public static User getAdvancementManager() {
+        User advancementManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Advancement_Manager%'
+            LIMIT 1
+        ];
+        return advancementManager;
+    }
+
+    /**
      * @description Method for creating Learning Designer
      * @param void
      * @return learningDesigner - Learning Designer
@@ -3118,6 +3134,20 @@ public class TestDataFactory {
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }else if(name == 'QUT_Advancement_Manager'){
+                userName = 'QUT_Advancement_Manager';
+                profileName = 'Advancement';
+                roleName = 'Advancement Manager';
+                permSets = 'Advancement_Base';
+                publicGroups = 'Advancement Manager';
+                isServiceCloudUser = false;
+                isFlowUser = true;
+                isKnowledgeUser = false;
                 isMarketingUser = false;
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;
