@@ -146,7 +146,7 @@
     <description>Plan Activity captures business interactions staff have with a Contact or Organisation.</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
-    <enableFeeds>false</enableFeeds>
+    <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
@@ -156,10 +156,10 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Plan Activity</label>
     <nameField>
-        <displayFormat>PAR-{00000}</displayFormat>
-        <label>Plan Activity Reference</label>
-        <trackHistory>false</trackHistory>
-        <type>AutoNumber</type>
+        <label>Plan Activity Name</label>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Plan Activities</pluralLabel>
     <searchLayouts></searchLayouts>

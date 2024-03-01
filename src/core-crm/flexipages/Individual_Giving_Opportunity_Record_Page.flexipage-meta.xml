@@ -32,7 +32,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>hideUpdateButton</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>variant</name>
@@ -620,32 +620,67 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.StageName</fieldItem>
+                <identifier>RecordStageNameField4</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Loss_Reason_Explanation__c</fieldItem>
+                <identifier>RecordLoss_Reason_Explanation_cField4</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-81d8d8c8-60a4-4f7a-a8c6-b8d092b56509</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Loss_Reason__c</fieldItem>
+                <identifier>RecordLoss_Reason_cField4</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-cef96025-42c6-42c4-bb62-1305f14ba0c8</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
+                    <name>body</name>
+                    <value>Facet-81d8d8c8-60a4-4f7a-a8c6-b8d092b56509</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Cultivation Stage Fields to render here&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText3</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Identify</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Qualify</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column15</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-cef96025-42c6-42c4-bb62-1305f14ba0c8</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column16</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d7fc26eb-8a9a-4d48-976b-c3da1be9b4e7</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -668,6 +703,133 @@
                     <criteria>
                         <leftValue>{!Record.StageName}</leftValue>
                         <operator>EQUAL</operator>
+                        <rightValue>Qualify</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>defaultValues</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionTypeLabel</name>
+                    <value>New</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Plan Activity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact Channel&quot;,&quot;fieldName&quot;: &quot;Contact_Channel__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;: &quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Date&quot;,&quot;fieldName&quot;:&quot;Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;Status&quot;,&quot;fieldName&quot;:&quot;Status__c&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Cultivation Plan</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Plan_Activity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>(UserRole.DeveloperName = &apos;Advancement_Manager&apos; OR UserRole.DeveloperName = &apos;Advancement_Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Fundraiser&apos; OR UserRole.DeveloperName = &apos;Fundraising_Manager&apos; OR UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos; OR UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos;)</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable2</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Qualify</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Identify</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-d7fc26eb-8a9a-4d48-976b-c3da1be9b4e7</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Stage Management</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection8</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Identify</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
                         <rightValue>Qualify</rightValue>
                     </criteria>
                 </visibilityRule>
@@ -978,7 +1140,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByParent</name>
-                    <value>(Stage != 'Executed' AND Stage != 'Discontinued')</value>
+                    <value>(Stage != &apos;Executed&apos; AND Stage != &apos;Discontinued&apos;)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
