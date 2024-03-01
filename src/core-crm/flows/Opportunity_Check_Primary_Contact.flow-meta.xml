@@ -38,7 +38,7 @@
     </decisions>
     <environments>Default</environments>
     <interviewLabel>Opportunity_Check_ {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Opportunity_Check_Primary_Contact</label>
+    <label>Opportunity Check Primary Contact</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
