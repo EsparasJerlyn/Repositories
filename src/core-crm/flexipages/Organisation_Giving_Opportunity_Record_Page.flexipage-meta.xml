@@ -413,32 +413,67 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.StageName</fieldItem>
+                <identifier>RecordStageNameField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Loss_Reason_Explanation__c</fieldItem>
+                <identifier>RecordLoss_Reason_Explanation_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-04eb2c5b-75fc-458f-8f7a-c4a7d91cb723</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Loss_Reason__c</fieldItem>
+                <identifier>RecordLoss_Reason_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-1d4e20b1-c3fa-4bb9-9390-f8719ba6bc1c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
+                    <name>body</name>
+                    <value>Facet-04eb2c5b-75fc-458f-8f7a-c4a7d91cb723</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(116, 116, 116);&quot;&gt;Cultivation Stage Fields to render here&lt;/span&gt;&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText3</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Identify</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Qualify</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column7</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1d4e20b1-c3fa-4bb9-9390-f8719ba6bc1c</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-a8823220-0c0f-498c-92c3-72fb2a3ce8b0</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -466,144 +501,154 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>defaultValues</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:custom</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionTypeLabel</name>
+                    <value>New</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Opportunity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Plan Activity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact Channel&quot;,&quot;fieldName&quot;: &quot;Contact_Channel__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;: &quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Date&quot;,&quot;fieldName&quot;:&quot;Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;Status&quot;,&quot;fieldName&quot;:&quot;Status__c&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Cultivation Plan</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Plan_Activity__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>(UserRole.DeveloperName = &apos;Advancement_Manager&apos; OR UserRole.DeveloperName = &apos;Advancement_Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Fundraiser&apos; OR UserRole.DeveloperName = &apos;Fundraising_Manager&apos; OR UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos; OR UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos;)</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Identify</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Qualify</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-a8823220-0c0f-498c-92c3-72fb2a3ce8b0</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Stage Management</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Qualify</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Qualify</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-bcd302e2-42e4-4b8b-9700-c92628a44b8e</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Solicitation_Sub_Stage__c</fieldItem>
-                <identifier>RecordSolicitation_Sub_Stage_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Due_Diligence_Summary__c</fieldItem>
-                <identifier>RecordDue_Diligence_Summary_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-16e68d9c-b701-484e-be65-3310f0184a9e</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Due_Diligence_Completed__c</fieldItem>
-                <identifier>RecordDue_Diligence_Completed_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Is_Agreement_Signed__c</fieldItem>
-                <identifier>RecordIs_Agreement_Signed_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-4545829f-4be5-487d-b6e4-eac40fdf78cb</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-16e68d9c-b701-484e-be65-3310f0184a9e</value>
+                    <name>decorate</name>
+                    <value>true</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-4545829f-4be5-487d-b6e4-eac40fdf78cb</value>
+                    <name>richTextValue</name>
+                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(116, 116, 116);&quot;&gt;Solicitation Stage Fields to render here&lt;/span&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column8</identifier>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText6</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Identify</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Qualify</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.StageName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Cultivation</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-0fafc818-f92d-4270-8d3c-fb0472f32549</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>required</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.StageName</fieldItem>
-                <identifier>RecordStageNameField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Loss_Reason_Explanation__c</fieldItem>
-                <identifier>RecordLoss_Reason_Explanation_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-fe976902-1f27-434d-ada0-67b2ac7463ca</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Loss_Reason__c</fieldItem>
-                <identifier>RecordLoss_Reason_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-c0a02618-9a7b-4b96-a464-0555f231db30</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-fe976902-1f27-434d-ada0-67b2ac7463ca</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column9</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-c0a02618-9a7b-4b96-a464-0555f231db30</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column10</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-f6cfd56b-8df7-49a4-8610-20d99de5550d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -636,78 +681,6 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-0fafc818-f92d-4270-8d3c-fb0472f32549</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Solicitation</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection4</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Identify</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Qualify</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Cultivation</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-f6cfd56b-8df7-49a4-8610-20d99de5550d</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Stage Management</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection5</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Identify</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Qualify</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.StageName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Cultivation</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-z14ron71zgg</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -729,27 +702,11 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Opportunity.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Histories</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
+                    <name>decorate</name>
                     <value>true</value>
                 </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText9</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-925e807c-3d90-4042-8558-ed574f58a3ff</name>
