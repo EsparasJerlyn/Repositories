@@ -15,4 +15,7 @@
         <layout>Opportunity-Advancement Opportunity Layout</layout>
         <recordType>Opportunity.Organisation_Giving</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Plan_Activity__c-Plan Activity Summary Layout</layout>
+    </layoutAssignments>
 </Profile>
