@@ -7,7 +7,7 @@
     <label>Stage</label>
     <required>true</required>
     <securityClassification>Official</securityClassification>
-    <trackHistory>true</trackHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -25,9 +25,9 @@
                 <label>Completed</label>
             </value>
             <value>
-                <fullName>Lost</fullName>
+                <fullName>Inactive</fullName>
                 <default>false</default>
-                <label>Lost</label>
+                <label>Inactive</label>
             </value>
         </valueSetDefinition>
     </valueSet>
