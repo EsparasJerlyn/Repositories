@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>International Offer to Acceptance - Direct (Auto) - Email Template</name>
+    <name>International Offer to Acceptance - Agent (Auto) - Email Template</name>
     <style>none</style>
     <subject>We can&apos;t wait to welcome you to QUT!</subject>
     <type>custom</type>
