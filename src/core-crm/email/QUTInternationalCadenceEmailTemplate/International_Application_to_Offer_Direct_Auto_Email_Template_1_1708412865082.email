@@ -10,10 +10,10 @@
 			<td colspan="6" style="width:442.75pt; padding:0cm 5.4pt 0cm 5.4pt; height:165.6pt">
 			<p class="MsoNormal" style="margin-left: 40px;">&nbsp;</p>
 
-			<p class="MsoNormal" style="margin-left: 20px;"><img alt="qut_img" class="qutImg" src="" style="max-width: 1330.0445312499999px" title="qut_img" /><span style=""><span style="font-family:&quot;Arial&quot;,sans-serif; color:black">&nbsp;</span></span></p>
+			<p class="MsoNormal" style="margin-left: 20px;"><img alt="qut_img" class="qutImg" src="{[devName:qut_img]}" style="max-width: 1330.0445312499999px" title="qut_img" /><span style=""><span style="font-family:&quot;Arial&quot;,sans-serif; color:black">&nbsp;</span></span></p>
 
 			<p class="MsoNormal" style="margin: 0cm; font-size: 11.5pt;font-family:Arial, sans-serif"><br />
-			<span style="color:#124c7b;"><strong>Hi {{{RecipientName}}},</strong></span>&nbsp;<br />
+			<span style="color:#124c7b;"><strong>Hi {{{Recipient.Name}}},</strong></span>&nbsp;<br />
 			<br />
 			Thank you for choosing QUT to start your educational journey!&nbsp;<br />
 			<br />
@@ -41,7 +41,7 @@
 		</tr>
 		<tr style="height:2.0cm">
 			<td colspan="6" style="width:442.75pt; background:#0066B9; padding:0cm 5.4pt 0cm 5.4pt; height:2.0cm" width="590">
-			<p align="center" style="text-align:center; line-height:15.0pt"><a href="https://www.linkedin.com/school/queensland-university-of-technology/" style="text-decoration:none; cursor:pointer"><img alt="linkedIn" class="socialmedia" height="18" src="" title="linkedIn" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.facebook.com/QUTBrisbane" style="text-decoration:none; cursor:pointer"> <img alt="fb" class="socialmedia" height="18" src="" title="fb" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.instagram.com/qutrealworld/?hl=en" style="text-decoration:none; cursor:pointer"> <img alt="instagram" class="socialmedia" height="18" src="" title="instagram" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.youtube.com/user/TheQUTube" style="text-decoration:none; cursor:pointer"> <img alt="youtube" class="socialmedia" height="18" src="" title="youtube" width="18" /> <span>&nbsp;</span></a><a href="https://www.tiktok.com/@qutrealworld" style="text-decoration:none; cursor:pointer"><img alt="tiktok" class="socialmedia" height="18" src="" title="tiktok" width="18" /> </a></p>
+			<p align="center" style="text-align:center; line-height:15.0pt"><a href="https://www.linkedin.com/school/queensland-university-of-technology/" style="text-decoration:none; cursor:pointer"><img alt="linkedIn" class="socialmedia" height="18" src="{[devName:linkedIn]}" title="linkedIn" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.facebook.com/QUTBrisbane" style="text-decoration:none; cursor:pointer"> <img alt="fb" class="socialmedia" height="18" src="{[devName:fb]}" title="fb" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.instagram.com/qutrealworld/?hl=en" style="text-decoration:none; cursor:pointer"> <img alt="instagram" class="socialmedia" height="18" src="{[devName:instagram]}" title="instagram" width="18" /> <span>&nbsp;</span> </a> <a href="https://www.youtube.com/user/TheQUTube" style="text-decoration:none; cursor:pointer"> <img alt="youtube" class="socialmedia" height="18" src="{[devName:youtube]}" title="youtube" width="18" /> <span>&nbsp;</span></a><a href="https://www.qut.edu.au/__data/assets/image/0011/840692/quti-wechat-qr.jpg" style="text-decoration:none; cursor:pointer"> <img alt="wechat" class="socialmedia" height="18" src="{[devName:wechat]}" title="wechat" width="18" /> <span>&nbsp;</span> </a><a href="https://www.tiktok.com/@qutrealworld" style="text-decoration:none; cursor:pointer"><img alt="tiktok" class="socialmedia" height="18" src="{[devName:tiktok]}" title="tiktok" width="18" /> </a></p>
 			</td>
 		</tr>
 		<tr style="height:4.0pt">
