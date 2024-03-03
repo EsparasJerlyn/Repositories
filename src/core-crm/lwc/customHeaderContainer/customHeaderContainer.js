@@ -14,6 +14,8 @@
       |                           |                       |                      | Fetch List Member record from List     |
       |                           |                       |                      | CSV List Member record bulk save       |
       |                           |                       |                      |                                        |
+      | eugene.andrew.abuan       | February 28, 2034     | DEPP-7992            | Added checking if userId == ownerId    |
+
  */
 import { LightningElement, api, wire, track } from "lwc";
 import { getRecord  } from "lightning/uiRecordApi";
@@ -34,6 +36,7 @@ import LIST_COLUMN_7 from "@salesforce/schema/List__c.Column_7__c";
 import LIST_COLUMN_8 from "@salesforce/schema/List__c.Column_8__c";
 import LIST_COLUMN_9 from "@salesforce/schema/List__c.Column_9__c";
 import LIST_COLUMN_10 from "@salesforce/schema/List__c.Column_10__c";
+import LIST_OWNER_ID from "@salesforce/schema/List__c.OwnerId";
 
 import ENGAGEMENT_OPPORTUNITY_STAGE from "@salesforce/schema/Engagement_Opportunity__c.Stage__c";
 
@@ -52,6 +55,7 @@ export default class CustomHeaderContainer extends LightningElement {
     @api objectApiName;
     @api tableColumnType;
 
+    @track ownerId;
     @track columnsName;
     @track columnsData;
     @track listId;
@@ -154,6 +158,7 @@ export default class CustomHeaderContainer extends LightningElement {
 
     listFields = [
         LIST_STAGE,
+        LIST_OWNER_ID,
         LIST_COLUMN_1,
         LIST_COLUMN_2,
         LIST_COLUMN_3,
@@ -177,6 +182,7 @@ export default class CustomHeaderContainer extends LightningElement {
     receivedRecordId;
     listStageValue;
     isEngageTab = false;
+    isOwner = false;
 
     get isEnableTableWithValidation() {
         return this.recordDataToAdd.length ? true : false;
@@ -209,6 +215,10 @@ export default class CustomHeaderContainer extends LightningElement {
         this.dataListRecord = responseData;
         if (data && this.tableColumnType === 'Dynamic') {
             const fields = data.fields;
+
+            // Check the UserId is matched with OwnerId
+            this.ownerId = fields.OwnerId.value;
+            this.isOwner = (this.userId === this.ownerId) ? true: false;
 
             await this.createColumn(fields);
             this.fetchListMembers();
@@ -375,7 +385,7 @@ export default class CustomHeaderContainer extends LightningElement {
                 fields.Stage__c &&
                 fields.Stage__c.value &&
                 (fields.Stage__c.value === 'Closed' || fields.Stage__c.value === 'Distribute'))
-                || (key.fieldName === 'List_Member_Status__c' && !this.isContributorLinkToList)
+                || (key.fieldName === 'List_Member_Status__c' && !this.isOwner)
             ){
                 key.type = 'text';
             }

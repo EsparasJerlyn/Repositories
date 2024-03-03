@@ -14,6 +14,7 @@
       | carl.alvin.cabiles        | January 18, 2024      | DEPP-7003            | Added handleShowAddListMembersModal                                                        |
       | neil.s.h.lesidan          | January 24, 2024      | DEPP-7005            | Display Import CSV modal add method handleImporCSV                                         |
       | carl.alvin.cabiles        | February 13,2024      | DEPP-8039            | Add Contact Name column in csv                                                             |
+      | eugene.andrew.abuan       | February 27, 2024     | DEPP-7922            | Added checking for bulk button                                                             |
  */
 import { LightningElement, api, wire, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -34,6 +35,7 @@ export default class CustomHeaderButtons extends LightningElement {
     @api isEnableTableWithValidation;
     @api isContributorLinkToList;
     @api isEngageTab;
+    @api isOwner;
 
     @api listStageValue;
     @api tableColumns;
@@ -79,7 +81,14 @@ export default class CustomHeaderButtons extends LightningElement {
     }
 
     get isDisabledBulkStatusChangeButton() {
-        return (this.recordType === 'Distributed_List' && this.stageValue === "In Progress") || (this.recordType === 'Engagement_Opportunity' && this.isEngageTab === false) || (this.recordType === 'Engagement_Opportunity' && !this.isContributorLinkToList) || this.stageValue === "Closed" ? true : false;
+        let isDisabled = true;
+        if(this.isOwner){
+            isDisabled = (this.recordType === 'Distributed_List' && this.stageValue === "In Progress") || 
+                         (this.recordType === 'Engagement_Opportunity' && this.isEngageTab === false) || 
+                         (this.recordType === 'Engagement_Opportunity' && !this.isContributorLinkToList) || 
+                         this.stageValue === "Closed" ? true : false;
+        }
+        return isDisabled;
     }
 
     get isDisabledAddFromExistingListButton() {
@@ -98,7 +107,6 @@ export default class CustomHeaderButtons extends LightningElement {
     @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
         wiredList(responseData) {
         const { data, error } = responseData;
-        console.log(data);
         if (data) {
             const fields = data.fields;
             this.stageValue = fields.Stage__c.value;
