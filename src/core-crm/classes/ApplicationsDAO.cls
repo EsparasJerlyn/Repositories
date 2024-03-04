@@ -21,6 +21,7 @@
  *    |                                |                       |                        | getApplicationsByContactIds                                                   |
  *    | arsenio.jr.dayrit              | November 20, 2023     | DEPP-7268              | Added Offered_Program_Plan__r.Program_Level__c field in                       |         
  *    |                                |                       |                        | getAppsWithLatestCalculatedIntakeDateByApplicantIds                           |
+ *    | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Added static values for application status                                    |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -35,6 +36,25 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     public static final Id STUDYLINK_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
         .get('StudyLink')
         .getRecordTypeId();
+
+    //Application Status
+    public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
+    public static final String STATUS_WITHDRAWN = 'Withdrawn';
+    public static final String STATUS_DECLINED = 'Declined';
+    public static final String STATUS_OFFERED = 'Offered';
+    public static final String STATUS_ACCEPTED = 'Accepted';
+    public static final String STATUS_DECLINED_BY_APPLICANT = 'Declined by Applicant';
+    public static final String STATUS_DEFERRAL_REQUESTED = 'Deferral Requested';
+    public static final String STATUS_ACCEPTANCE_PAYMENT_RECEIVED = 'Acceptance - Payment Received';
+    public static final String STATUS_ACCEPTANCE_NO_PAYMENT_REQUIRED = 'Acceptance - No Payment Required';
+    public static final String STATUS_ACCEPTANCE_PENDING_MORE_INFO = 'Acceptance - Pending More Information';
+    public static final String STATUS_ACCEPTANCE_PENDING_PAYMENT = 'Acceptance - Pending Payment';
+    public static final String STATUS_CONDITIONAL_ACCEPTANCE = 'Conditional Acceptance';
+    public static final String STATUS_CONDITIONAL_OFFER = 'Conditional Offer';
+    public static final String STATUS_UNCONDITIONAL_OFFER = 'Unconditional Offer';
+
+    public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
+    public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';
 
     public static final Set<String> studyLinkStatuses = new Set<String>{
         'Accepted',
@@ -67,7 +87,8 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     };
 
     public static final Set<String> INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK = new Set<String>{
-        'Unconditional Offer'
+        STATUS_CONDITIONAL_OFFER,
+        STATUS_UNCONDITIONAL_OFFER
     };
 
     public static final Set<String> DECLINED_OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK = new Set<String>{
@@ -146,12 +167,17 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'With Faculty - Academic'
     };
 
-    public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
-    public static final String STATUS_WITHDRAWN = 'Withdrawn';
-    public static final String STATUS_DECLINED = 'Declined';
-    public static final String STATUS_OFFERED = 'Offered';
-    public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
-    public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';
+    public static final Set<String> STATUS_SET_ACCEPTS_DECLINES_DEFERS_OFFER = new Set<String>{
+        STATUS_ACCEPTANCE_NO_PAYMENT_REQUIRED,
+        STATUS_ACCEPTANCE_PAYMENT_RECEIVED,
+        STATUS_ACCEPTANCE_PENDING_MORE_INFO,
+        STATUS_ACCEPTANCE_PENDING_PAYMENT,
+        STATUS_ACCEPTED,
+        STATUS_DECLINED_BY_APPLICANT,
+        STATUS_DEFERRAL_REQUESTED,
+        STATUS_CONDITIONAL_ACCEPTANCE,
+        STATUS_WITHDRAWN
+    };
 
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(
