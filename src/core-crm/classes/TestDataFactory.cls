@@ -70,6 +70,7 @@
  *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,             |
                                                                                   QUT_Corporate_Engagement_Manager users and Engagement Opportunity records
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
+ *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
  *
  **/
 
@@ -3763,6 +3764,32 @@ public class TestDataFactory {
         }
         return packageComponentList;
     }
+
+    
+    /**
+     * @description Method for creating test Plan Activity records
+     * @params
+     * numOfPlanActivites - number of records to create
+     * oppOd - Id of the Opportunity the Plan Activity record will be related to
+     * @return planActivities - List of Plan Activity records created
+     */
+    public static List<Plan_Activity__c> createPlanActivityRecords(
+        Integer numOfPlanActivities
+    ) {
+        List<Plan_Activity__c> planActivities = new List<Plan_Activity__c>();
+        for (Integer i = 0; i < numOfPlanActivities; i++) {
+            planActivities.add(
+                new Plan_Activity__c(
+                    Status__c = 'Pending',
+                    Outcome__c = 'Test Outcome',
+                    Contact_Channel__c = 'Email',
+                    Description__c = 'Test Description'
+                )
+            );
+        }
+        return planActivities;
+    }
+
     /**
      * @description Method for creating test Lead Score Configuration records
      * @return List<Lead_Score_Configuration__c> leadScoreConfigurationList - List of Lead Score Configuration Records
