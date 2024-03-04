@@ -4,4 +4,19 @@
     <active>true</active>
     <description>Create a Advancement Stewardship plan for an Organisation.</description>
     <label>Organisation Stewardship</label>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
