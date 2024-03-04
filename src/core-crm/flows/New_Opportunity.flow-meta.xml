@@ -1652,7 +1652,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>OpporOpportunityDetails_Opportunity_Name_Inputtunity_Name</elementReference>
+                <elementReference>ADVI_Opportunity_Name_Input</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1741,7 +1741,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>OpporOpportunityDetails_Opportunity_Name_Inputtunity_Name</elementReference>
+                <elementReference>ADVO_Opportunity_Name_Input</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3096,7 +3096,7 @@
                 <name>CollectOpportunitySummaryScreen_Section1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>OpporOpportunityDetails_Opportunity_Name_Inputtunity_Name</name>
+                    <name>ADVO_Opportunity_Name_Input</name>
                     <dataType>String</dataType>
                     <defaultValue>
                         <stringValue>ADVO:</stringValue>
@@ -3105,6 +3105,37 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>OrganisationGivingText</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>ADVI_Opportunity_Name_Input</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue>ADVI:</stringValue>
+                    </defaultValue>
+                    <fieldText>Opportunity Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>SelectedRecordTypeName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>IndividualGivingText</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <fields>
                     <name>OpportunityDetails_Start_Date_Input</name>
