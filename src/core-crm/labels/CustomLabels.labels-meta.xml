@@ -105,7 +105,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>International Nurture Track List</shortDescription>
-        <value>International Pre-Application - Partner Sourced,International Strong Interest Pre-Application,International Application Submission - Direct Applicant,International Application to Offer,International Offer to Acceptance,International Acceptance Deposit not Paid</value>
+        <value>International Pre-Application - Partner Sourced,International Strong Interest Pre-Application,International Application Submission - Direct Applicant,International Application to Offer,International Offer to Acceptance - Direct,International Acceptance Deposit not Paid</value>
     </labels>
     <labels>
         <fullName>LWC_Error_General</fullName>
