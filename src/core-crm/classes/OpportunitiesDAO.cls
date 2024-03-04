@@ -32,7 +32,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 	public static final Id INTERNATIONAL_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Individual_Giving')
         .getRecordTypeId();
-	public static final Id ORGANISATION_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+	public static final Id ORGANISATIONGIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Organisation_Giving')
         .getRecordTypeId();
 
@@ -115,5 +115,19 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
         );
+    }
+
+    public static List<Opportunity> getOpportunityByRecordTypeIds(
+        Set<Id> recordTypeIds,
+        AccessLevel accessLevel
+    ) {
+        if(!recordTypeIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id, Name, AccountId, StageName ' +
+                'FROM Opportunity ' +
+                'WHERE RecordTypeId IN :recordTypeIds',
+                accessLevel
+            );
+        }  else { return new List<Opportunity>(); }
     }
 }
