@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OG_Account_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+RecordType.DeveloperName = &apos;Organisation_Giving&apos;,
+ISCHANGED( StageName ),
+ISPICKVAL( PRIORVALUE(StageName) ,&apos;Identify&apos;),
+ISPICKVAL( StageName , &apos;Qualify&apos;),
+ISBLANK( AccountId )
+)</errorConditionFormula>
+    <errorDisplayField>AccountId</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>
