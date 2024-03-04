@@ -5,6 +5,7 @@
     <label>Total Donations To Date</label>
     <precision>18</precision>
     <required>false</required>
+    <securityClassification>Official</securityClassification>
     <scale>2</scale>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
