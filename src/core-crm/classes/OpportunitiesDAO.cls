@@ -4,17 +4,18 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
- *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
- *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                           |
- *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                          |
- *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method       |
- *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method  |
- *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | added method getOpportunityByAccountIds|
- *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID1__c before deleting the field  |
-      | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID__c field      |
- *    | kenneth.f.alsay                | November 7, 2023      | DEPP-7000              | Added Corporate Partnership record type|
- *    | kenneth.f.alsay                | February 1, 2024      | DEPP-6938              | Added StageName to getRecordsBySetIds, getRecordsByStageName |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                         |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------------------------------|
+ *    | roy.nino.s.regala              | May 04, 2023          | DEPP-5587              | Created file                                                           |
+ *    | alexander.cadalin              | May 17, 2023          | DEPP-5594              | added methods                                                          |
+ *    | carl.alvin.cabiles             | May 25, 2023          | DEPP-5410              | added getRecordsBySetName method                                       |
+ *    | kenneth.f.alsay                | June 16, 2023         | DEPP-5434, 5399        | added getRecordsByStartingName method                                  |
+ *    | mark.j.mahilum                 | July 21, 2023         | DEPP-5799              | added method getOpportunityByAccountIds                                |
+ *    | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID1__c before deleting the field               |
+      | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID__c field                                    |
+ *    | kenneth.f.alsay                | November 7, 2023      | DEPP-7000              | Added Corporate Partnership record type                                |
+ *    | kenneth.f.alsay                | February 1, 2024      | DEPP-6938              | Added StageName to getRecordsBySetIds, getRecordsByStageName           |
+ *    | neil.s.h.lesidan               | March 4, 2024         | DEPP-7880              | Added get record type Id INTERNATIONAL_GIVING_RECTYPE_ID               |
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
