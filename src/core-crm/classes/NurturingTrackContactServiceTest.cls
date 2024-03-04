@@ -211,28 +211,28 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
-           
-            List<hed__Term__c> newTerms  = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Program_Level__c = 'Undergraduate';
             insert programList;
 
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
+            insert programEnrollmentList;
+
+            List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
+
             // create application
-            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'New');
-            newApplications[0].RecordTypeId = ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
+            List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
             newApplications[0].Offer_Status__c = ApplicationsDAO.STATUS_OFFERED;
             newApplications[0].hed__Application_Date__c = Date.today().addMonths(4);
             newApplications[0].Offer_Status_Date__c = Date.today().addDays(1);
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(5);
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
@@ -341,20 +341,20 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance()
-                .getAccountsBySetNames(new Set<String>{'Test Account'});
-
-            List<hed__Term__c> newTerms  = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
-
+        
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Program_Level__c = 'Undergraduate';
             insert programList;
+
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
+            insert programEnrollmentList;
+
+            List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            newQtacApplications[0].Offer_Status__c = 'Accepted';
+            ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
 
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
@@ -363,6 +363,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplications[0].Offer_Status_Date__c = Date.today().addDays(2);
             newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Application__c> newApplicationsSecond = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
@@ -371,6 +372,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplicationsSecond[0].Offer_Status_Date__c = Date.today().addDays(3);
             newApplicationsSecond[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             newApplicationsSecond[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplicationsSecond[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplicationsSecond, false, AccessLevel.SYSTEM_MODE);
 
             // Create Nurture Track Configuration
@@ -417,20 +419,22 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
-
-            List<hed__Term__c> newTerms  = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
+            
             List<hed__Application__c> applicationsToInsert = new List<hed__Application__c>();
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Program_Level__c = 'Undergraduate';
             insert programList;
+
+            List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
+            insert programEnrollmentList;
+
+            List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            newQtacApplications[0].Offer_Status__c = 'Accepted';
+            ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
 
             // create application
             List<hed__Application__c> newApplicationsOne = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
@@ -439,6 +443,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplicationsOne[0].Offer_Status_Date__c = Date.today().addDays(-1);
             newApplicationsOne[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             newApplicationsOne[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplicationsOne[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             applicationsToInsert.addAll(newApplicationsOne);
 
             List<hed__Application__c> newApplicationsTwo = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
@@ -447,6 +452,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplicationsTwo[0].Offer_Status_Date__c = Date.today().addDays(3);
             newApplicationsTwo[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             newApplicationsTwo[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplicationsTwo[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             applicationsToInsert.addAll(newApplicationsTwo);
             
             List<hed__Application__c> newApplicationsThree = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
@@ -455,6 +461,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplicationsThree[0].Offer_Status_Date__c = Date.today().addDays(1);
             newApplicationsThree[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             newApplicationsThree[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplicationsThree[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             applicationsToInsert.addAll(newApplicationsThree);
 
             List<hed__Application__c> newApplicationsFour = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
@@ -463,6 +470,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplicationsFour[0].Offer_Start_Date__c = Date.today().addDays(2);
             newApplicationsFour[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             newApplicationsFour[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplicationsFour[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             applicationsToInsert.addAll(newApplicationsFour);
 
             ApplicationsDAO.newInstance().insertRecords(applicationsToInsert, true, AccessLevel.SYSTEM_MODE);
@@ -814,15 +822,6 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
             newContacts[0].Calculated_Cadence__c = 'Domestic First Offer to Acceptance (Automated)';
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-            // create applied intake term
-            List<Account> accountList = AccountsDAO.newInstance().getAccountsBySetNames(new Set<String>{'Test Account'});
-
-            List<hed__Term__c> newTerms  = new List<hed__Term__c>();
-            newTerms.add(new hed__Term__c(
-                hed__Start_Date__c = Date.today().addMonths(4),
-                hed__Account__c = accountList[0].Id
-            ));
-            TermsDAO.newInstance().insertRecords(newTerms, false, AccessLevel.SYSTEM_MODE);
 
             // create application
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID, 'New');
@@ -1727,24 +1726,26 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
             programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentList, false, AccessLevel.SYSTEM_MODE);
-            
-            List<hed__Course_Enrollment__c> courseEnrollmentList = new List<hed__Course_Enrollment__c>();
-            courseEnrollmentList.add(new hed__Course_Enrollment__c(
-                hed__Contact__c = newContacts[0].Id, 
-                Enrollment_Status__c = 'Test',
-                hed__Program_Enrollment__c = programEnrollmentList[0].Id
-            )); 
-            CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
+
+            List<hed__Program_Enrollment__c> programEnrollmentListOne = TestDataFactory.createTestProgramEnrollmentRecords(1);
+            programEnrollmentListOne[0].hed__Contact__c = newContacts[0].Id;
+            programEnrollmentListOne[0].Enrollment_Status__c = 'Admitted';
+            ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListOne, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
             programList[0].Program_Level__c = 'Undergraduate';
             insert programList;
+
+            List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
             
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
-            newApplications[0].Program_Enrollment__c = programEnrollmentList[0].Id;
             newApplications[0].Calculated_Intake_Date__c = System.today().addDays(5);
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
+            newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
+            newApplications[0].Program_Enrollment__c = programEnrollmentListOne[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             
             Test.startTest();
