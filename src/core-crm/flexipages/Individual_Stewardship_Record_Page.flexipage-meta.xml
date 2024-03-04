@@ -109,6 +109,16 @@
                 <identifier>RecordClose_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Total_Donations_To_Date__c</fieldItem>
+                <identifier>RecordTotal_Donations_To_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-bffbe6ef-31db-411e-88b0-c3abcc6c6f3e</name>
         <type>Facet</type>
     </flexiPageRegions>
