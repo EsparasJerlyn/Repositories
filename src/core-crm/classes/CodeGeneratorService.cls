@@ -1,51 +1,65 @@
 /**
  * @description Service class for various code generators.
- * 
+ *
  * ON NAMING FUTURE METHODS IN THIS SERVICE:
- * Any future CodeGenerator method should try to follow the naming scheme: 
+ * Any future CodeGenerator method should try to follow the naming scheme:
  * 'generate<field>For<object>Records'
  * e.g., generateOpportunityCodeForOpportunityRecords
  * @author Accenture
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file
-      | kenneth.f.alsay                | November 6, 2023      | DEPP-7000              | Updated generateCodeForOpportunityOutcomeRecords to exclude
-      |                                |                       |                        | record types not in recordTypeToCodePartsMap 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                         |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------------------------------|
+      | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file                                                           |
+      | kenneth.f.alsay                | November 6, 2023      | DEPP-7000              | Updated generateCodeForOpportunityOutcomeRecords to exclude            |
+      |                                |                       |                        | record types not in recordTypeToCodePartsMap                           |
+      | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INTERNATIONAL_GIVING_RECTYPE_ID record types generate code         |
+      |                                |                       |                        | Add ORGANISATION_GIVING_RECTYPE_ID record types generate code          |
  */
 public with sharing class CodeGeneratorService {
-    /** 
+    /**
      * Generate code for Opportunity.Opportunity_Code__c following the format "AAA:00000"
      * The first three characters are based on the record type of the opportunity.
      */
 	public static void generateOpportunityCodeForOpportunityRecords(List<Opportunity> newItems) {
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         Map<Id, CodeParts> recordTypeToCodePartsMap = new Map<Id, CodeParts>();
+        recordTypeToCodePartsMap.put(OpportunitiesDAO.INTERNATIONAL_GIVING_RECTYPE_ID, new CodeParts('ADVO', opptyCodeAutoNum.Advancement__c));
+        recordTypeToCodePartsMap.put(OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID, new CodeParts('ADVO', opptyCodeAutoNum.Advancement__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID, new CodeParts('INPO', opptyCodeAutoNum.International_Projects_Unit__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID, new CodeParts('RCO', opptyCodeAutoNum.Commercialisation__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID, new CodeParts('RPO', opptyCodeAutoNum.Research_Partnership__c));
         for(Opportunity newItem : newItems) {
             if(recordTypeToCodePartsMap.containsKey(newItem.RecordTypeId)) {
                 String codePrefix = recordTypeToCodePartsMap.get(newItem.RecordTypeId).prefix;
-                Integer autoNumber = Integer.valueOf(recordTypeToCodePartsMap.get(newItem.RecordTypeId).autoNumber);
+                Integer autoNumber = 0;
+
+                if (recordTypeToCodePartsMap.get(newItem.RecordTypeId).autoNumber != null) {
+                    autoNumber = Integer.valueOf(recordTypeToCodePartsMap.get(newItem.RecordTypeId).autoNumber);
+                }
+
                 String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
                 newItem.Opportunity_Code__c = codePrefix + ':' + codeNumber;
                 autoNumber++;
                 recordTypeToCodePartsMap.put(newItem.RecordTypeId, new CodeParts(codePrefix, autoNumber));
             }
         }
+
+        Decimal internationalGivingAutoNumber = recordTypeToCodePartsMap.get(OpportunitiesDAO.INTERNATIONAL_GIVING_RECTYPE_ID).autoNumber;
+        Decimal organisationGivingAutoNumber = recordTypeToCodePartsMap.get(OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID).autoNumber;
+        opptyCodeAutoNum.Advancement__c = internationalGivingAutoNumber + organisationGivingAutoNumber;
+
         opptyCodeAutoNum.International_Projects_Unit__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.Commercialisation__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.Research_Partnership__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID).autoNumber;
         OpportunityCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Opportunity_Code_Auto_Number__c>{opptyCodeAutoNum}, 
-            false, 
+            new List<Opportunity_Code_Auto_Number__c>{opptyCodeAutoNum},
+            false,
             AccessLevel.SYSTEM_MODE
             );
     }
-    
+
     /**
      * Generate code for Opportunity_Outcome__c.Code__c following the format "AAA:00000"
      * The first three characters are based on the record type of the opportunity outcome record.

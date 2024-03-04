@@ -18,7 +18,7 @@
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
-        .get('Commercialisation') 
+        .get('Commercialisation')
         .getRecordTypeId();
     public static final Id INTERNATIONALPROJECTSUNIT_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('International_Projects_Unit')
@@ -28,6 +28,12 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
         .getRecordTypeId();
 	public static final Id CORPORATEPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Corporate_Partnership')
+        .getRecordTypeId();
+	public static final Id INTERNATIONAL_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+        .get('Individual_Giving')
+        .getRecordTypeId();
+	public static final Id ORGANISATION_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+        .get('Organisation_Giving')
         .getRecordTypeId();
 
     public static final String IDENTIFY_STAGE = 'Identify';

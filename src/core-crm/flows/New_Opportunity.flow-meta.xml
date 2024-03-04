@@ -3099,7 +3099,7 @@
                     <name>OpporOpportunityDetails_Opportunity_Name_Inputtunity_Name</name>
                     <dataType>String</dataType>
                     <defaultValue>
-                        <stringValue>ADV:</stringValue>
+                        <stringValue>ADVO:</stringValue>
                     </defaultValue>
                     <fieldText>Opportunity Name</fieldText>
                     <fieldType>InputField</fieldType>
