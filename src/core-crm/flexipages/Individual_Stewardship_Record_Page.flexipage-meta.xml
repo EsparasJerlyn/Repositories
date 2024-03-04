@@ -153,18 +153,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Completion_Reason__c</fieldItem>
-                <identifier>RecordCompletion_Reason_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Lost_Reason__c</fieldItem>
-                <identifier>RecordLost_Reason_cField</identifier>
+                <fieldItem>Record.Completion_Summary__c</fieldItem>
+                <identifier>RecordCompletion_Summary_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-60ac7536-5d9f-43ba-badd-ed54c0e9a63c</name>
@@ -177,18 +167,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Completion_Summary__c</fieldItem>
-                <identifier>RecordCompletion_Summary_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Lost_Summary__c</fieldItem>
-                <identifier>RecordLost_Summary_cField</identifier>
+                <fieldItem>Record.Completion_Reason__c</fieldItem>
+                <identifier>RecordCompletion_Reason_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8e71a7ce-62e9-4eaa-a41f-9ab3b533dac5</name>
@@ -329,19 +309,59 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-df775172-b994-4c62-b5ed-b33367dd7bd1</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-9d2aea0f-198a-4f5c-8837-d887a8a1a8de</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-fa3f26a7-eeae-442c-a549-04329551be54</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1mymiq4ntj2</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-owxz01tp6m</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d8d32e65-606f-44db-9bf1-e02d316994d9</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-t6n2fm5hze</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-b4j0b9kfu2k</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -362,12 +382,8 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>active</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-df775172-b994-4c62-b5ed-b33367dd7bd1</value>
+                    <value>Facet-9d2aea0f-198a-4f5c-8837-d887a8a1a8de</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -381,7 +397,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-fa3f26a7-eeae-442c-a549-04329551be54</value>
+                    <value>Facet-1mymiq4ntj2</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -395,7 +411,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-owxz01tp6m</value>
+                    <value>Facet-d8d32e65-606f-44db-9bf1-e02d316994d9</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -409,7 +425,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-t6n2fm5hze</value>
+                    <value>Facet-b4j0b9kfu2k</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
