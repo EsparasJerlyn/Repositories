@@ -26,7 +26,7 @@ public with sharing class CodeGeneratorService {
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         Map<Id, CodeParts> recordTypeToCodePartsMap = new Map<Id, CodeParts>();
         recordTypeToCodePartsMap.put(OpportunitiesDAO.INTERNATIONAL_GIVING_RECTYPE_ID, new CodeParts('ADVI', opptyCodeAutoNum.Individual_Giving__c));
-        recordTypeToCodePartsMap.put(OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID, new CodeParts('ADVO', opptyCodeAutoNum.Organisation_Giving__c));
+        recordTypeToCodePartsMap.put(OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID, new CodeParts('ADVO', opptyCodeAutoNum.Organisation_Giving__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID, new CodeParts('INPO', opptyCodeAutoNum.International_Projects_Unit__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID, new CodeParts('RCO', opptyCodeAutoNum.Commercialisation__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID, new CodeParts('RPO', opptyCodeAutoNum.Research_Partnership__c));
@@ -47,7 +47,7 @@ public with sharing class CodeGeneratorService {
         }
 
         opptyCodeAutoNum.Individual_Giving__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.INTERNATIONAL_GIVING_RECTYPE_ID).autoNumber;
-        opptyCodeAutoNum.Organisation_Giving__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID).autoNumber;
+        opptyCodeAutoNum.Organisation_Giving__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.International_Projects_Unit__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.Commercialisation__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.Research_Partnership__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.RESEARCHPARTNERSHIP_RECTYPE_ID).autoNumber;
