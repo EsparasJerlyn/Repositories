@@ -4,7 +4,7 @@
     <customErrors>
         <name>No_Active_Primary_Contact</name>
         <label>No Active Primary Contact</label>
-        <locationX>314</locationX>
+        <locationX>182</locationX>
         <locationY>755</locationY>
         <customErrorMessages>
             <errorMessage>You must have an active Primary contact under the Contributor section of Relationships tab.</errorMessage>
@@ -14,7 +14,7 @@
     <decisions>
         <name>Check_Record_Type</name>
         <label>Check Record Type</label>
-        <locationX>611</locationX>
+        <locationX>479</locationX>
         <locationY>323</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -36,7 +36,7 @@
     <decisions>
         <name>Check_Stage_Update_Value</name>
         <label>Check Stage Update Value</label>
-        <locationX>380</locationX>
+        <locationX>248</locationX>
         <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -65,7 +65,7 @@
     <decisions>
         <name>Is_Contextual_Role_Records_Populated</name>
         <label>Is Contextual Role Records Populated</label>
-        <locationX>182</locationX>
+        <locationX>50</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>No_Active_Primary_Contact</targetReference>
@@ -81,9 +81,6 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>Update_Stage_to_Qualify</targetReference>
-            </connector>
             <label>Contextual Role is Not Null</label>
         </rules>
     </decisions>
@@ -112,7 +109,7 @@
     <recordLookups>
         <name>Get_Contextual_Role</name>
         <label>Get Contextual Role</label>
-        <locationX>182</locationX>
+        <locationX>50</locationX>
         <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -151,21 +148,8 @@
         <object>Contextual_Role__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordUpdates>
-        <name>Update_Stage_to_Qualify</name>
-        <label>Update Stage to Qualify</label>
-        <locationX>50</locationX>
-        <locationY>755</locationY>
-        <inputAssignments>
-            <field>StageName</field>
-            <value>
-                <stringValue>Qualify</stringValue>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
     <start>
-        <locationX>485</locationX>
+        <locationX>353</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Record_Type</targetReference>
