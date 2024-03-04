@@ -1,21 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>60.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <customErrors>
         <name>No_Active_Primary_Contact</name>
         <label>No Active Primary Contact</label>
         <locationX>314</locationX>
-        <locationY>539</locationY>
+        <locationY>755</locationY>
         <customErrorMessages>
             <errorMessage>You must have an active Primary contact under the Contributor section of Relationships tab.</errorMessage>
             <isFieldError>false</isFieldError>
         </customErrorMessages>
     </customErrors>
     <decisions>
+        <name>Check_Record_Type</name>
+        <label>Check Record Type</label>
+        <locationX>611</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Organisation_Giving</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Organisation_Giving</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Stage_Update_Value</targetReference>
+            </connector>
+            <label>Is Organisation Giving</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Stage_Update_Value</name>
+        <label>Check Stage Update Value</label>
+        <locationX>380</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Stage_Update_to_Qualify</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.StageName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Identify</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Qualify</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Contextual_Role</targetReference>
+            </connector>
+            <label>Stage Update to Qualify</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_Contextual_Role_Records_Populated</name>
         <label>Is Contextual Role Records Populated</label>
         <locationX>182</locationX>
-        <locationY>431</locationY>
+        <locationY>647</locationY>
         <defaultConnector>
             <targetReference>No_Active_Primary_Contact</targetReference>
         </defaultConnector>
@@ -37,8 +88,8 @@
         </rules>
     </decisions>
     <environments>Default</environments>
-    <interviewLabel>Opportunity_Check_ {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Opportunity Check Primary Contact</label>
+    <interviewLabel>Opportunity Update - Custom Validation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity Update - Custom Validation</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -62,7 +113,7 @@
         <name>Get_Contextual_Role</name>
         <label>Get Contextual Role</label>
         <locationX>182</locationX>
-        <locationY>323</locationY>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Contextual_Role_Records_Populated</targetReference>
@@ -104,7 +155,7 @@
         <name>Update_Stage_to_Qualify</name>
         <label>Update Stage to Qualify</label>
         <locationX>50</locationX>
-        <locationY>539</locationY>
+        <locationY>755</locationY>
         <inputAssignments>
             <field>StageName</field>
             <value>
@@ -114,13 +165,11 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>56</locationX>
+        <locationX>485</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_Contextual_Role</targetReference>
+            <targetReference>Check_Record_Type</targetReference>
         </connector>
-        <filterFormula>{!$Record.RecordType.DeveloperName}=&apos;Organisation_Giving&apos; &amp;&amp;
-ISCHANGED({!$Record.StageName}) &amp;&amp; ISPICKVAL({!$Record__Prior.StageName}, &apos;Identify&apos;) &amp;&amp;  ISPICKVAL({!$Record.StageName}, &apos;Qualify&apos;)</filterFormula>
         <object>Opportunity</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

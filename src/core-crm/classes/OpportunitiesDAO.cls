@@ -118,11 +118,13 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
         Set<Id> recordTypeIds,
         AccessLevel accessLevel
     ) {
-        return Database.query(
-            'SELECT Id, Name, AccountId, StageName ' +
-            'FROM Opportunity ' +
-            'WHERE RecordTypeId IN :recordTypeIds',
-            accessLevel
-        );
+        if(!recordTypeIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id, Name, AccountId, StageName ' +
+                'FROM Opportunity ' +
+                'WHERE RecordTypeId IN :recordTypeIds',
+                accessLevel
+            );
+        }  else { return new List<Opportunity>(); }
     }
 }

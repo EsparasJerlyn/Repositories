@@ -1,7 +1,7 @@
 /**
- * @description Test Class for Opportunity Check Primary Contact flow
+ * @description Test Class for Opportunity Update - Custom Validation flow
  *
- * @see ../flows/Opportunity Check Primary Contact
+ * @see ../flows/Opportunity Update - Custom Validation
  *
  * @author Accenture
  *
@@ -11,7 +11,7 @@
       | nicole.genon    	      | February 29, 2024     | DEPP-7905    | Created file           |
 */
 @isTest
-public with sharing class OpportunityCheckPrimaryContactFlowTest {
+public with sharing class OpportunityUpdateCustomValidationTest {
     public static final String CONTRIBUTORS_CONTEXTUAL_ROLE_GROUP = 'Contributors';
     public static final String PRIMARY_CONTACT_CONTEXTUAL_ROLE = 'Primary Contact';
 

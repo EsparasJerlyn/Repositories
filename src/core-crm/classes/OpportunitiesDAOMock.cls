@@ -104,9 +104,11 @@ public inherited sharing class OpportunitiesDAOMock extends DmlBaseMock implemen
     ) {
         List<Opportunity> opportunityList = new List<Opportunity>();
 
-        for (Opportunity record : opportunitiesMap.values()) {
-            if (recordTypeIds.contains(record.RecordTypeId)) {
-                opportunityList.add(record);
+        if(!recordTypeIds.isEmpty()){
+            for (Opportunity record : opportunitiesMap.values()) {
+                if (recordTypeIds.contains(record.RecordTypeId)) {
+                    opportunityList.add(record);
+                }
             }
         }
 
