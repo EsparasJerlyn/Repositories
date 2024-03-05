@@ -147,4 +147,30 @@ private class OpportunitiesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getOpportunityByRecordTypeIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
+                .getOpportunityByRecordTypeIds(new Set<Id>(),AccessLevel.SYSTEM_MODE);
+            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getOpportunityByRecordTypeIdsNotEmpty() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            MockIdGenerator recordTypeMock = new MockIdGenerator(Recordtype.getSObjectType());
+            List<Opportunity> opportunityList = OpportunitiesDAO.newInstance()
+                .getOpportunityByRecordTypeIds(
+                    new Set<Id>{recordTypeMock.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            System.assert(opportunityList.isEmpty(), 'OpportunityList should not be empty');
+        }
+        Test.stopTest();
+    }
 }

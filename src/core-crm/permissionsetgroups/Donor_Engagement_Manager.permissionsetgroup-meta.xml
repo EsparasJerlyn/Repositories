@@ -3,6 +3,7 @@
     <description>Permission set group to be assigned to Donor Engagement Manager</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Donor Engagement Manager</label>
+    <mutingPermissionSets>Donor_Engagement_Manager_Muted</mutingPermissionSets>
     <permissionSets>Advancement_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
