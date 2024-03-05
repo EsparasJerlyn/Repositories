@@ -41,6 +41,7 @@
       |                                |                       |                        | and Domestic Accepted and Admitted entry method                                    |                             |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
       | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Renamed International Offer to Acceptance (add - Direct) and created new nurture   |
       |                                |                       |                        | track named International Offer to Acceptance - Agent                              |
+      | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added new entry and exit criteria for InternationalPreApplicationPartnerSourced    |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList = new List<hed__Application__c>();
@@ -84,7 +85,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
         NurtureTrackConfigurationsDAO.DOMESTIC_OFFER_LAPSED_MANUAL,
         NurtureTrackConfigurationsDAO.DOMESTIC_OFFER_LAPSED_AUTOMATED,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
-        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
     };
     private static Map<String,International_Tier__c> InternationalTierRestrictedMap = NurturingTrackService.getAllRestrictedCountry();
 
@@ -118,6 +121,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         //Contact entry criteria to process
         contactToUpdate.putall(getDomesticStrongInterestPreApplicationForEntry(domesticEntryContactMap));
         contactToUpdate.putAll(getEntryInternationalStrongInterestPreApplication(internationalEntryContactMap));
+        contactToUpdate.putAll(getEntryInternationalPreApplicationPartnerSourced(internationalEntryContactMap));
         contactToUpdate.putall(getEntryInternationalDirectApplicants(internationalEntryContactMap));
         contactToUpdate.putAll(getEntryInternationalApplicationToOfferDirectAutomated(internationalEntryContactMap));
         contactToUpdate.putAll(getEntryInternationalApplicationToOfferAgentAutomated(internationalEntryContactMap));
@@ -136,6 +140,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         //Contact exit criteria to process
         contactToUpdate.putAll(getDomesticStrongInterestPreApplicationForExit(domesticExitContactMap));
         contactToUpdate.putAll(getExitInternationalStrongInterestPreApplication(internationalExitContactMap));
+        contactToUpdate.putAll(getExitInternationalPreApplicationPartnerSourced(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalApplicationToOfferDirectAutomated(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalApplicationToOfferAgentAutomated(internationalExitContactMap));
@@ -285,6 +290,63 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
         return contactToUpdateMap;
     }
+
+    /**
+     * @description Entry Criteria for International Pre-Application - Partner Source Contacts
+     * @param Map<Id, Contact> internationEntryContactMap a map of ids to entry international contact records
+     * @return Map<Id, Contact> map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getEntryInternationalPreApplicationPartnerSourced(
+        Map<Id, Contact> internationalEntryContactMap
+    ) {
+        
+        Map<Id, Set<String>> contactIdsWithCmpltdCadenceSet = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new List<String>{NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED},
+            applicantIdsWithCompletedCadence
+        );
+        Set<String> completedCadencesCopy = new Set<String>();
+        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY};
+        Set<Id> contactIdsWithActiveApplication = getContactWithApplicationsforXYears(3);
+
+        // Check Contact and Cadence Name if Manual is already Completed
+        Set<Id> completedManualCadenceByContactId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED },
+            applicantIdsWithCompletedCadence
+        ).keySet();
+
+        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
+        for(Contact internationalEntryContact : internationalEntryContactMap.values()) {
+            boolean isPartnerSourced = leadSourceCategory.contains(internationalEntryContact.Lead_Source_Category__c);
+            boolean shouldContinueProcessing = contactIdsWithCmpltdCadenceSet.containsKey(internationalEntryContact.Id) && contactIdsWithCmpltdCadenceSet.get(internationalEntryContact.Id).size() >= 2;
+            //get a copy of completed cadences related to the contact regardless of status
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(internationalEntryContact.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(internationalEntryContact.Id)):new Set<String>();
+
+            if (shouldContinueProcessing ||
+                contactIdsWithActiveApplication.contains(internationalEntryContact.Id) ||
+                !isPartnerSourced ||
+                //make sure that there are no completed cadence against any succeeding cadence
+                //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST)) {
+                continue;
+            }
+
+            Boolean isManual = !completedManualCadenceByContactId.contains(internationalEntryContact.Id);
+            
+            contactsToUpdate.put(
+                internationalEntryContact.Id,
+                new Contact(
+                    Id = internationalEntryContact.Id,
+                    Calculated_Cadence__c = !isManual ?
+                    NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL:
+                    NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+                )
+            );
+        }
+        
+        return contactsToUpdate;
+    }    
 
     /**
      * @description Update international direct applicant contacts based on entry criteria
@@ -2481,6 +2543,65 @@ public with sharing class NurturingTrackContactService { //NOPMD
         return contactsToUpdate;
     }
 
+    /**
+     * Retrieves international exit contacts sourced through partner for pre-application nurturing.
+     * Checks if the contact's cadence is within specified types and if they have an active application 
+     * within the last three years or have opted out of email communication. Contacts meeting these 
+     * criteria are prepared for update with the calculated cadence field reset.
+     * 
+     * @param internationalExitContactMap A map of Contact Ids to Contact records representing 
+     *                                    international exit contacts.
+     * @return Map<Id, Contact> A map of Contact Ids to Contact records ready for update.
+     */    
+    private static Map<Id, Contact> getExitInternationalPreApplicationPartnerSourced(Map<Id, Contact> internationalExitContactMap) {
+        List<String> cadenceNames = new List<String>{
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+        };
+        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
+        
+        // Iterate through the list of applications
+        for(hed__Application__c application : applicationListForStrongInterest) {
+            
+            if(!internationalExitContactMap.containsKey(application.hed__Applicant__c)){
+                continue;
+            }
+            
+            // Check if the application falls under specific record types
+            Boolean isStudylinkORSamsRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            
+            // Check if the application was created within the specified time range
+            Boolean isInitiallyCreatedWithinTimeRange =
+                application.CreatedDate <= System.today() &&
+                application.CreatedDate >= System.today().addYears(-3);
+            
+            // get contact related to application
+            Contact relatedContact = internationalExitContactMap.get(application.hed__Applicant__c);
+            
+            // If the application meets both criteria, add the associated contact ID to the set
+            if(
+                isStudylinkORSamsRecType &&
+                cadenceNames.contains(relatedContact.Calculated_Cadence__c) && 
+                isInitiallyCreatedWithinTimeRange &&
+                application.Application_Status__c =='Submitted'
+            ) {
+                contactsToUpdate.put(
+                    relatedContact.Id,
+                    new Contact(
+                        Id = relatedContact.Id,
+                        Calculated_Cadence__c = ''
+                    )
+                );
+            }
+        }
+
+        getContactHasOptedOutOfEmail(internationalExitContactMap, contactsToUpdate, cadenceNames);
+
+        return contactsToUpdate;
+    }
+
     private static Set<Id> getapplicationProgramUnderGrad(List<hed__Application__c> applications){
         Set<Id> applicationWithProgramLevelUnderGradIdSet = new Set<Id>();
         for(hed__Application__c app : applications){
@@ -2606,5 +2727,43 @@ public with sharing class NurturingTrackContactService { //NOPMD
             }
         }
             return contactWithValidProgramEnrollmentMap;
+    }
+
+   /**
+    * This method checks for contacts associated with applications that fall under specific record types 
+    * (Studylink or Sams) and were created within a certain time range specified by the input parameter years. 
+    * It returns a set of contact IDs that meet these criteria.
+    * 
+    * @param years The number of years back from today's date within which the application must have been created.
+    * @return A set of contact IDs associated with applications that meet the specified criteria.
+    */
+    private static Set<Id> getContactWithApplicationsforXYears(Integer years) {
+        
+        // Initialize a set to store contact IDs
+        Set<Id> contactIds = new Set<Id>();
+        
+        // Iterate through the list of applications
+        for(hed__Application__c application : applicationListForStrongInterest) {
+            
+            // Check if the application falls under specific record types
+            Boolean isStudylinkORSamsRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            
+            // Check if the application was created within the specified time range
+            Boolean isInitiallyCreatedWithinTimeRange =
+                application.CreatedDate <= System.today() &&
+                application.CreatedDate >= System.today().addYears(-years);
+            
+            // If the application meets both criteria, add the associated contact ID to the set
+            if(
+                isStudylinkORSamsRecType &&
+                isInitiallyCreatedWithinTimeRange
+            ) {
+                contactIds.add(application.hed__Applicant__c);
+            }
+        }
+        // Return the set of contact IDs
+        return contactIds;
     }
 }

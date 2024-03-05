@@ -18,6 +18,7 @@
       |                                |                       |                        | entry and exit method                                                                     |
       | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Updated test class method  International Application Submission - Direct Applicant Exit   |
       | eccarius.munoz                 | Feb 29, 2024          | DEPP-7838              | Added test method for International Offer to Acceptance - Agent                           |
+      | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added test method for International Pre Application Partner Sourced                       |
  */
 @isTest
 public with sharing class NurturingTrackContactServiceTest { //NOPMD
@@ -1879,7 +1880,104 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             System.assertEquals('', processContacts[0].Calculated_Cadence__c, 'Calculated cadence is not cleared.');
         }
     }
-
+    @isTest
+    private static void testEntryInternationalPreApplicationPartnerSourcedAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            
+            Nurture_Track_Configuration__c ntc = new Nurture_Track_Configuration__c(
+                Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+                Lead_Score_Threshold__c = -1,
+                Criteria_Type__c = 'Entry',
+                Enquiry_Category_L1__c = 'Applying for a course',
+                Status__c = 'Active'
+            );
+            nurtureList.add(ntc);
+            
+            Nurture_Track_Configuration__c ntc1 = new Nurture_Track_Configuration__c(
+                Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+                Lead_Score_Threshold__c = -1,
+                Criteria_Type__c = 'Entry',
+                Enquiry_Category_L1__c = 'Applying for a course',
+                Status__c = 'Active'
+            );
+            nurtureList.add(ntc1);
+            
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
+            
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = 'International';
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY;
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+			
+            // call method
+            Test.startTest();
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+                       
+            // assert
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+                processContacts[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+    
+    @isTest
+    private static void testEntryInternationalPreApplicationPartnerSourcedManualTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            
+            List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
+            
+            Nurture_Track_Configuration__c ntc = new Nurture_Track_Configuration__c(
+                Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+                Lead_Score_Threshold__c = -1,
+                Criteria_Type__c = 'Entry',
+                Enquiry_Category_L1__c = 'Applying for a course',
+                Status__c = 'Active'
+            );
+            nurtureList.add(ntc);
+            
+            Nurture_Track_Configuration__c ntc1 = new Nurture_Track_Configuration__c(
+                Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+                Lead_Score_Threshold__c = -1,
+                Criteria_Type__c = 'Entry',
+                Enquiry_Category_L1__c = 'Applying for a course',
+                Status__c = 'Active'
+            );
+            nurtureList.add(ntc1);
+            
+            NurtureTrackConfigurationsDAO.newInstance().insertRecords(nurtureList, false, AccessLevel.SYSTEM_MODE);  
+            
+            List<Contact> newContacts = createTestContactRecords(0, 1);
+            newContacts[0].hed__Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY;
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            completedCadenceList.add(new Completed_Cadence__c(
+                Contact__c = newContacts[0].Id,
+                Nurture_Track_Configuration__c = nurtureList[0].Id,
+                Completed_Cadence_Status__c ='Successful'
+            ));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
+			
+            // call method
+            Test.startTest();
+            List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
+            Test.stopTest();
+                       
+            // assert
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+                processContacts[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+    
     private static List<hed__Application__c> createTestApplicationRecords(List<Contact> conList, String recordType, String applicationStatus) {
         List<hed__Application__c> newApplications = new List<hed__Application__c>();
         for (Contact con: conList) {
