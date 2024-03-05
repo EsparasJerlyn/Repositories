@@ -2474,6 +2474,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Stewardship__c.Manager__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Stewardship__c.Migration_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
