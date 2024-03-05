@@ -29,6 +29,8 @@
  *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added query for getPersonContactsWithLimit                |
  *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds         |
  *    | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Add Birthdate in getPersonContactsByEmailOrName           |
+ *    | nicole.genon                   | Feb 6, 2024           | DEPP-7003              | Added getAllPersonContacts                                |
+ *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | Added getPersonContactsByNameUsingSOSL method             |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -492,6 +494,50 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         );
     }
 
+    public List<Contact> getPersonContactsWithMatchingEmailsPosition(
+        String filterString,
+        Integer queryLimit,
+        AccessLevel accessLevel
+    ){
+
+        if(String.isEmpty(filterString)){
+            return new List<Contact>();
+        }
+
+        String toFilterString = '%' + filterString + '%';
+
+        return Database.query(
+            'SELECT Id, Name, Salutation, FirstName, MiddleName, LastName, Suffix, Email, hed__WorkEmail__c, ' +
+            'hed__UniversityEmail__c, QUT_Staff_Email__c, Position__c ' +
+            'FROM Contact ' +
+            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+            'AND RecordTypeId =: PERSON_RECORDTYPE_ID ' +
+            'AND ( ' +
+            '    (Email != NULL AND Email LIKE :toFilterString) ' +
+            '    OR (QUT_Learner_Email__c != NULL AND QUT_Learner_Email__c LIKE :toFilterString) ' +
+            '    OR (QUT_Staff_Email__c != NULL AND QUT_Staff_Email__c LIKE :toFilterString) ' +
+            '    OR (Work_Email__c != NULL AND Work_Email__c LIKE :toFilterString) ' +
+            '    OR (Name != NULL AND Name LIKE :toFilterString) ' +
+            '    OR (Salutation != NULL AND Salutation LIKE :toFilterString) ' +
+            '    OR (FirstName != NULL AND FirstName LIKE :toFilterString) ' +
+            '    OR (MiddleName != NULL AND MiddleName LIKE :toFilterString) ' +
+            '    OR (LastName != NULL AND LastName LIKE :toFilterString) ' +
+            '    OR (Suffix != NULL AND Suffix LIKE :toFilterString) ' +
+            '    OR (hed__UniversityEmail__c != NULL AND hed__UniversityEmail__c LIKE :toFilterString) ' +
+            '    OR (Position__c != NULL AND Position__c LIKE :toFilterString) ' +
+            ') LIMIT ' + queryLimit + ' ',
+            accessLevel
+        );
+    }
+
+    public List<Contact> getPersonContactsByNameUsingSOSL(
+        String filterName
+    ){
+        filterName = '*'+ filterName + '*';
+        List<List<Contact>> contactList = [FIND :filterName IN NAME FIELDS RETURNING Contact(name,email Where RecordTypeId = :PERSON_RECORDTYPE_ID limit 15 )];
+        return contactList[0];
+    }
+
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */
@@ -525,4 +571,4 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         }
     }
     
-} 
+}

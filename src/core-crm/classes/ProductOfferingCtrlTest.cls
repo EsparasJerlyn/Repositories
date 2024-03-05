@@ -21,6 +21,7 @@ public class ProductOfferingCtrlTest {
     private static final String ACCT_BUSI_ORG = System.Label.RT_Account_Business_Org;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
     private static final Id ACCT_BUSI_ORG_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_BUSI_ORG).getRecordTypeId();
+    private static final Id PERSON_RECORDTYPE_ID = ContactsDAO.PERSON_RECORDTYPE_ID;
 
     @testSetup static void setup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
@@ -67,9 +68,13 @@ public class ProductOfferingCtrlTest {
             Contact con = TestDataFactory.createTestContactRecords(1).iterator().next();
             con.FirstName = 'Test';
             con.LastName = 'Contact';
+            con.RecordTypeId = PERSON_RECORDTYPE_ID;
             insert con;
 
             Test.startTest();
+            Id [] fixedSearchResults= new Id[1];
+            fixedSearchResults[0] = con.Id;
+            Test.setFixedSearchResults(fixedSearchResults);
             List<Map<String,String>> contacts = ProductOfferingCtrl.getSearchContacts('test');
             Test.stopTest();
 

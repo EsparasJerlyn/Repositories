@@ -1245,6 +1245,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ListMemberAddModalController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ListMemberAddModalControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ListMemberImportModalCtrl</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -13205,6 +13213,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>List_Member__c.Activity_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>List_Member__c.Activity_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
