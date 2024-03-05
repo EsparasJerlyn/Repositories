@@ -261,6 +261,14 @@
         <layout>SMS_Template__c-SMS Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout> 
+        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Task-SMS Layout</layout>
         <recordType>Task.SMS</recordType>
     </layoutAssignments>
