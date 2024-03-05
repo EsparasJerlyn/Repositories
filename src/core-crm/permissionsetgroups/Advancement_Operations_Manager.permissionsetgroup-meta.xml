@@ -3,6 +3,7 @@
     <description>Permission set group to be assigned to Advancement Operations Manager</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Advancement Operations Manager</label>
+    <mutingPermissionSets>Advancement_Operations_Manager_Muted</mutingPermissionSets>
     <permissionSets>Advancement_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
