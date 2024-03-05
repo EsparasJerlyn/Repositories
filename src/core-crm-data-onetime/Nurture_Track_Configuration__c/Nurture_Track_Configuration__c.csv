@@ -134,3 +134,13 @@ NTC-0043,International Offer to Acceptance - Agent (Automated),Active,"An interv
 NTC-0044,International Offer to Acceptance - Agent (Automated),Active,"International FS (contact) has accepted the offer OR
 International FS (contact) has declined the offer OR
 International FS (contact) has deferred the offer",International Offer to Acceptance - Agent,Exit,,1,,,,
+NTC-0045,International Pre-Application - Partner Sourced (Automated),Active,"International FS (Contact or Lead) has no Active applications in Studylink or SAMS created in the last 3 years AND
+Lead or contact has a Lead source category of Partner Sourced",International Pre-Application - Partner Sourced (Automated),Entry,,1,,,,
+NTC-0046,International Pre-Application - Partner Sourced (Automated),Active,"International Application has been submitted in Studylink OR
+International Application has been submitted in SAMS OR
+Student has opted out of all Marketing Comms",International Pre-Application - Partner Sourced (Automated),Exit,,2,,,,
+NTC-0047,International Pre-Application - Partner Sourced,Active,"International FS (Contact or Lead) has no Active applications in Studylink or SAMS created in the last 3 years AND
+Lead or contact has a Lead source category of Partner Sourced",International Pre-Application - Partner Sourced,Entry,,1,,,,
+NTC-0048,International Pre-Application - Partner Sourced,Active,"International Application has been submitted in Studylink OR
+International Application has been submitted in SAMS OR
+Student has opted out of all Marketing Comms",International Pre-Application - Partner Sourced,Exit,,2,,,,

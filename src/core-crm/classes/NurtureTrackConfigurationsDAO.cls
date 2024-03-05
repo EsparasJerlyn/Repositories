@@ -42,6 +42,8 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
     public static final String INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED = 'International Application to Offer - Direct (Automated)';
     public static final String INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED = 'International Application to Offer - Agent (Automated)';
+    public static final String INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED = 'International Pre-Application - Partner Sourced (Automated)';
+    public static final String INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL = 'International Pre-Application - Partner Sourced';
 
     public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST = new Set<String>{
         DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED, //Domestic First Offer to Acceptance (Automated)

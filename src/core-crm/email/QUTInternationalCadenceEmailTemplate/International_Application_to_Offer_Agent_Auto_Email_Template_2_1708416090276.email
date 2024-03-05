@@ -13,7 +13,7 @@
 			<p class="MsoNormal" style="margin-left: 20px;"><img alt="qut_img" class="qutImg" src="{[devName:qut_img]}" style="max-width: 1330.0445312499999px" title="qut_img" /><span style=""><span style="font-family:&quot;Arial&quot;,sans-serif; color:black">&nbsp;</span></span></p>
 
 			<p class="MsoNormal" style="margin: 0cm; font-size: 11.5pt;font-family:Arial, sans-serif"><br />
-			<span style="color:#124c7b;"><strong>Hi {{{Recipient.Name}}},</strong></span>&nbsp;<br />
+			<span style="color:#124c7b;"><strong>Hi {{{Recipient.FirstName}}},</strong></span>&nbsp;<br />
 			<br />
 			We understand it's been some time since you submitted your application to QUT, and we're diligently working to provide your agent with an update soon.&nbsp;<br />
 			<br />

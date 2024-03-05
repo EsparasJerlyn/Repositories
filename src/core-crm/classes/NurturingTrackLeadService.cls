@@ -19,6 +19,7 @@
       | arsenio.jr.dayrit              | Feb 23, 2024          | DEPP-7709              | Update handling for International International Strong Interest Pre –              |
       |                                |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
       | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Added handling for International Application Submission - Direct Applicant Exit    |
+      | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added new entry and exit criteria for International Partner Sourced                |
  */
 public with sharing class NurturingTrackLeadService { //NOPMD 
     private static List<hed__Application__c> applicationListForStrongInterest = new List<hed__Application__c>();
@@ -40,7 +41,9 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
         NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
-        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
     };
     private static Map<String,International_Tier__c> InternationalTierRestrictedMap = NurturingTrackService.getAllRestrictedCountry();
 
@@ -62,6 +65,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         //leadToUpdate.putAll(getEntryDomesticStrongInterestPreApplication(domesticEntryLeadMap));
         leadToUpdate.putAll(getEntryDomesticStrongInterestPreApplication(domesticEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalStrongInterestPreApplication(internationalEntryLeadMap));
+        leadToUpdate.putAll(getEntryInternationalPreApplicationPartnerSourced(internationalEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalDirectApplicants(internationalEntryLeadMap));
         leadToUpdate.putAll(getEntryInternationalApplicationToOfferDirectAutomated(internationalEntryLeadMap));
         leadToUpdate.putAll(getEntryDomesticAcceptedAndAdmitted(domesticEntryLeadMap));
@@ -70,6 +74,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         //leadToUpdate.putAll(.getExitDomesticStrongInterestPreApplication(domesticExitLeadMap));
         leadToUpdate.putAll(getDomesticStrongInterestPreApplicationForExit(domesticExitLeadMap));
         leadToUpdate.putAll(getExitInternationalStrongInterestPreApplication(internationalExitLeadMap));
+        leadToUpdate.putAll(getExitInternationalPreApplicationPartnerSourced(internationalExitLeadMap));
         leadToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitLeadMap));
         leadToUpdate.putAll(getExitInternationalApplicationToOfferDirectAutomated(internationalExitLeadMap));
 
@@ -730,6 +735,160 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             }
         }
         return leadsForUpdating;
+    }
+
+    /**
+     * @description Entry Criteria for International Pre-Application - Partner Source Contacts
+     * @param Map<Id, Lead>  internationalEntryLeadMap a map of ids to entry international lead records
+     * @return Map<Id, Lead>  map of id to updated Lead records for batch processing
+     */
+    private static Map<Id, Lead> getEntryInternationalPreApplicationPartnerSourced(
+        Map<Id, Lead> internationalEntryLeadMap
+    ) {
+        
+        Map<Id, Set<String>> leadIdsWithCmpltdCadenceSet = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryLeadMap.keySet(),
+            new List<String>{NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED},
+            applicantIdsWithCompletedCadence
+        );
+        Set<String> completedCadencesCopy = new Set<String>();
+        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY};
+        Set<Id> leadIdsWithActiveApplication = getLeadWithApplicationsforXYears(3);
+
+        // Check Lead and Cadence Name if Manual is already Completed
+        Set<Id> completedManualCadenceByLeadId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryLeadMap.keySet(),
+            new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED },
+            applicantIdsWithCompletedCadence
+        ).keySet();
+
+        Map<Id, Lead> leadsToUpdate = new Map<Id, Lead>();
+        for(Lead internationalEntryLead : internationalEntryLeadMap.values()) {
+            boolean isPartnerSourced = leadSourceCategory.contains(internationalEntryLead.Lead_Source_Category__c);
+            boolean shouldContinueProcessing = leadIdsWithCmpltdCadenceSet.containsKey(internationalEntryLead.Id) && leadIdsWithCmpltdCadenceSet.get(internationalEntryLead.Id).size() >= 2;
+            //get a copy of completed cadences related to the lead regardless of status
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(internationalEntryLead.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(internationalEntryLead.Id)):new Set<String>();
+
+            if (shouldContinueProcessing ||
+                leadIdsWithActiveApplication.contains(internationalEntryLead.Id) ||
+                !isPartnerSourced ||
+                //make sure that there are no completed cadence against any succeeding cadence
+                //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST)) {
+                continue;
+            }
+
+            Boolean isManual = !completedManualCadenceByLeadId.contains(internationalEntryLead.Id);
+            
+            leadsToUpdate.put(
+                internationalEntryLead.Id,
+                new Lead(
+                    Id = internationalEntryLead.Id,
+                    Calculated_Cadence__c = !isManual ?
+                    NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL:
+                    NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+                )
+            );
+        }
+        
+        return leadsToUpdate;
+    }
+    
+    /**
+     * Retrieves international exit lead sourced through partner for pre-application nurturing.
+     * Checks if the lead's cadence is within specified types and if they have an active application 
+     * within the last three years or have opted out of email communication. Lead meeting these 
+     * criteria are prepared for update with the calculated cadence field reset.
+     * 
+     * @param internationalExitLeadMap A map of Lead Ids to Contact records representing 
+     *                                    international exit contacts.
+     * @return Map<Id, Lead> A map of Lead Ids to lead records ready for update.
+     */    
+    private static Map<Id, Lead> getExitInternationalPreApplicationPartnerSourced(Map<Id, Lead> internationalExitLeadMap) {
+        List<String> cadenceNames = new List<String>{
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+        };
+        Map<Id, Lead> leadToUpdate = new Map<Id, Lead>();
+        
+        // Iterate through the list of applications
+        for(hed__Application__c application : applicationListForStrongInterest) {
+            
+            if(!internationalExitLeadMap.containsKey(application.Lead__c)){
+                continue;
+            }
+            
+            // Check if the application falls under specific record types
+            Boolean isStudylinkORSamsRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            
+            // Check if the application was created within the specified time range
+            Boolean isInitiallyCreatedWithinTimeRange =
+                application.CreatedDate <= System.today() &&
+                application.CreatedDate >= System.today().addYears(-3);
+            
+            // get lead related to application
+            Lead relatedLead = internationalExitLeadMap.get(application.Lead__c);
+            
+            // If the application meets both criteria, add the associated lead Id to the set
+            if(
+                isStudylinkORSamsRecType &&
+                cadenceNames.contains(relatedLead.Calculated_Cadence__c) && 
+                isInitiallyCreatedWithinTimeRange &&
+                application.Application_Status__c =='Submitted'
+            ) {
+                leadToUpdate.put(
+                    relatedLead.Id,
+                    new Lead(
+                        Id = relatedLead.Id,
+                        Calculated_Cadence__c = ''
+                    )
+                );
+            }
+        }
+
+        getLeadHasOptedOutOfEmail(internationalExitLeadMap, leadToUpdate, cadenceNames);
+
+        return leadToUpdate;
+    }
+    
+   /**
+    * This method checks for lead associated with applications that fall under specific record types 
+    * (Studylink or Sams) and were created within a certain time range specified by the input parameter years. 
+    * It returns a set of lead IDs that meet these criteria.
+    * 
+    * @param years The number of years back from today's date within which the application must have been created.
+    * @return A set of lead IDs associated with applications that meet the specified criteria.
+    */
+    private static Set<Id> getLeadWithApplicationsforXYears(Integer years) {
+        
+        // Initialize a set to store lead IDs
+        Set<Id> leadIds = new Set<Id>();
+        
+        // Iterate through the list of applications
+        for(hed__Application__c application : applicationListForStrongInterest) {
+            
+            // Check if the application falls under specific record types
+            Boolean isStudylinkORSamsRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            
+            // Check if the application was created within the specified time range
+            Boolean isInitiallyCreatedWithinTimeRange =
+                application.CreatedDate <= System.today() &&
+                application.CreatedDate >= System.today().addYears(-years);
+            
+            // If the application meets both criteria, add the associated contact ID to the set
+            if(
+                isStudylinkORSamsRecType &&
+                isInitiallyCreatedWithinTimeRange
+            ) {
+                leadIds.add(application.Lead__c);
+            }
+        }
+        // Return the set of leadIds
+        return leadIds;
     }
 
     private static void getLeadHasOptedOutOfEmail(Map<Id, Lead> internationalExitLeadMap, Map<Id, Lead> leadsToUpdate, List<String> cadenceNames) {

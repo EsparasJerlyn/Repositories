@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Region__c</fullName>
+    <description>The region of Citizenship Country</description>
+    <externalId>false</externalId>
+    <formula>IF(CONTAINS(&quot;China:Mongolia&quot;, Citizenship_Country__c) , &quot;China &amp; Mongolia&quot; , 
+
+IF(CONTAINS(&quot;Åland Islands:Albania:American Samoa:Andorra:Angola:Anguilla:Antigua and Barbuda:Argentina:Armenia:Aruba:Austria:Azerbaijan:Bahamas (the):Barbados:Belarus:Belgium:Belize:Bermuda:Bolivia (Plurinational State of):Bonaire, Sint Eustatius and Saba:Bosnia and Herzegovina:Botswana:Bouvet Island:Brazil:British Indian Ocean Territory (the):Bulgaria:Cameroon:Canada:Cayman Islands (the):Channel Islands:Chile:Colombia:Congo (the Democratic Republic of the):Congo (the):Costa Rica:Croatia:Cuba:Curaçao:Czechia:Denmark:Dominica:Dominican Republic (the):Ecuador:El Salvador:Estonia:Ethiopia:Falkland Islands (the) [Malvinas]:Faroe Islands (the):Finland:France:French Guiana:French Polynesia:French Southern Territories (the):Georgia:Germany:Ghana:Gibraltar:Greece:Greenland:Grenada:Guadeloupe:Guatemala:Guernsey:Haiti:Holy See (the):Honduras:Hungary:Iceland:Ireland:Isle of Man:Italy:Jamaica:Jersey:Jordan:Kenya:Kosovo:Kuwait:Latvia:Liberia:Libya:Liechtenstein:Lithuania:Luxembourg:Madagascar:Malawi:Maldives:Malta:Martinique:Mayotte:Mexico:Moldova (the Republic of):Monaco:Montenegro:Montserrat:Netherlands (the):Nicaragua:Nigeria:North Macedonia:Northern Mariana Islands (the):Norway:Panama:Paraguay:Peru:Pitcairn:Poland:Portugal:Puerto Rico:Réunion:Romania:Russian Federation (the):Rwanda:Saint Barthélemy:Saint Helena, Ascension and Tristan da Cunha:Saint Kitts and Nevis:Saint Lucia:Saint Martin (French part):Saint Pierre and Miquelon:Saint Vincent and the Grenadines:San Marino:Scotland:Sierra Leone:Sint Maarten (Dutch part):Slovakia:Slovenia:Somalia:South Africa:South Georgia and the South Sandwich Islands:Spain:Sudan (the):Suriname:Svalbard and Jan Mayen:Sweden:Switzerland:Trinidad and Tobago:Turks and Caicos Islands (the):Ukraine:United Kingdom of Great Britain and Northern Ireland (the):United States Minor Outlying Islands (the):United States of America (the):Uruguay:Vatican City:Venezuela (Bolivarian Republic of):Virgin Islands (British):Virgin Islands (U.S.):Wales:Yugoslavia, Federal Republic:Zimbabwe&quot;, Citizenship_Country__c) , &quot;E&amp;A&quot; , 
+
+IF(CONTAINS(&quot;Hong Kong:Japan:Korea (the Democratic People&apos;s Republic of):Korea (the Republic of):Macao:Taiwan:Tajikistan&quot;, Citizenship_Country__c) , &quot;North Asia&quot; , 
+
+IF(CONTAINS(&quot;Australia:Cook Islands (the):Fiji:Kiribati:Marshall Islands (the):Micronesia (Federated States of):New Caledonia:New Zealand:Niue:Norfolk Island:Palau:Papua New Guinea:Samoa:Solomon Islands:Tokelau:Tonga:Tuvalu:Vanuatu:Wallis and Futuna&quot;, Citizenship_Country__c) , &quot;Onshore &amp; Pacific&quot; , 
+
+IF(CONTAINS(&quot;Afghanistan:Algeria:Bahrain:Bangladesh:Benin:Bhutan:Burkina Faso:Burundi:Cabo Verde:Central African Republic (the):Chad:Comoros (the):Côte d&apos;Ivoire:Cyprus:Djibouti:Egypt:Equatorial Guinea:Eritrea:Eswatini:Gabon:Gambia (the):Guinea:Guinea-Bissau:Guyana:India:Iran (Islamic Republic of):Iraq:Israel:Kazakhstan:Kyrgyzstan:Lebanon:Lesotho:Mali:Mauritania:Mauritius:Morocco:Mozambique:Namibia:Nauru:Nepal:Niger (the):Oman:Other Former Ussr And Baltic States:Other Former Yugoslavia:Pakistan:Palestine, State of:Qatar:Sao Tome and Principe:Saudi Arabia:Senegal:Serbia:Seychelles:South Sudan:Sri Lanka:Syrian Arab Republic (the):Tanzania, the United Republic of:Togo:Tunisia:Turkey:Turkmenistan:Uganda:United Arab Emirates (the):Uzbekistan:Western Sahara*:Yemen:Zambia&quot;, Citizenship_Country__c) , &quot;SAMEA&quot; , 
+
+IF(CONTAINS(&quot;Brunei Darussalam:Cambodia:Christmas Island:Cocos (Keeling) Islands (the):Guam:Heard Island and McDonald Islands:Indonesia:Lao People&apos;s Democratic Republic (the):Malaysia:Myanmar:Philippines (the):Singapore:Thailand:Timor-Leste:Vietnam&quot;, Citizenship_Country__c) , &quot;SEA&quot; , 
+
+IF(CONTAINS(&quot;Antarctica&quot;, Citizenship_Country__c) , &quot;E&amp;A and SAMEA&quot; , &quot;Unknown&quot; )))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Region</label>
+    <required>false</required>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
