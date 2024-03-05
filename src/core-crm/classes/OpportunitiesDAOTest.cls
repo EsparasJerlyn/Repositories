@@ -80,7 +80,7 @@ private class OpportunitiesDAOTest {
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             List<Opportunity> opportunitiesList = OpportunitiesDAO.newInstance()
                 .getRecordsSortByOpportunityCodeAsc();
-            System.assert(opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
+            System.assert(!opportunitiesList.isEmpty(), 'opportunitiesList should not be empty');
         }
         Test.stopTest();
     }
@@ -114,14 +114,14 @@ private class OpportunitiesDAOTest {
             List<Opportunity> opptyListWildCardAfter = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Opportunities', false, '%');
             System.assert(
-                opptyListWildCardAfter.isEmpty(),
+                !opptyListWildCardAfter.isEmpty(),
                 'opportunitiesList should not be empty'
             );
             List<Opportunity> opptyListWildCardBefore = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Opportunities', true, '%');
             System.assert(
                 opptyListWildCardBefore.isEmpty(),
-                'opportunitiesList should not be empty'
+                'opportunitiesList record found'
             );
         }
         Test.stopTest();
