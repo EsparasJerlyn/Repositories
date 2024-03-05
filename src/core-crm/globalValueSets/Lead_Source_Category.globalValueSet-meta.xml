@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
+        <fullName>Event</fullName>
+        <default>false</default>
+        <label>Event</label>
+    </customValue>
+    <customValue>
+        <fullName>Lead Ad</fullName>
+        <default>false</default>
+        <label>Lead Ad</label>
+    </customValue>
+    <customValue>
+        <fullName>Web Form</fullName>
+        <default>false</default>
+        <label>Online Interaction</label>
+    </customValue>
+    <customValue>
+        <fullName>Outreach Activity</fullName>
+        <default>false</default>
+        <label>Engagement/Partnership</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Partner</fullName>
+        <default>false</default>
+        <label>Referral Partner</label>
+    </customValue>
+    <customValue>
         <fullName>Partner Sourced</fullName>
         <default>false</default>
         <label>Partner Sourced</label>
+    </customValue>
+    <customValue>
+        <fullName>Strategic Partner</fullName>
+        <default>false</default>
+        <label>Strategic Partner</label>
+    </customValue>
+    <customValue>
+        <fullName>Study Application</fullName>
+        <default>false</default>
+        <label>Study Application</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
     </customValue>
     <description>Indicates the original lead source channel category for the Lead Source Channel that a Marketing Person interacted with/via.</description>
     <masterLabel>Lead Source Category</masterLabel>
