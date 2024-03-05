@@ -18,4 +18,12 @@
     <layoutAssignments>
         <layout>Plan_Activity__c-Plan Activity Summary Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout> 
+        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+    </layoutAssignments>
 </Profile>
