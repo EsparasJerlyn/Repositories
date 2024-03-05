@@ -163,11 +163,25 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Inactive_Summary__c</fieldItem>
+                <identifier>RecordInactive_Summary_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-60ac7536-5d9f-43ba-badd-ed54c0e9a63c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Completion_Summary__c</fieldItem>
                 <identifier>RecordCompletion_Summary_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-60ac7536-5d9f-43ba-badd-ed54c0e9a63c</name>
+        <name>Facet-8e71a7ce-62e9-4eaa-a41f-9ab3b533dac5</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -179,6 +193,16 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
                 <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-8e71a7ce-62e9-4eaa-a41f-9ab3b533dac5</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-d453d0c1-5cb0-4ad0-9f34-af8541b07bca</name>
@@ -356,7 +380,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentRecord</name>
-                    <value>Stewardship</value>
+                    <value>Stewardship__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>recordTypeName</name>
@@ -399,9 +423,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByParent</name>
+                    <value>(Stage != &apos;Executed&apos; AND Stage != &apos;Discontinued&apos;)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
+                    <value>(UserRole.DeveloperName = &apos;Advancement_Manager&apos; OR UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos; OR UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos; OR UserRole.DeveloperName = &apos;Fundraising_Manager&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable</identifier>
@@ -545,6 +571,32 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Stewardship__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>AttachedContentNotes</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
