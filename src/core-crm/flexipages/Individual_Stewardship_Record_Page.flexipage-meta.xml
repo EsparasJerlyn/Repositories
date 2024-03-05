@@ -163,8 +163,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Completion_Summary__c</fieldItem>
-                <identifier>RecordCompletion_Summary_cField</identifier>
+                <fieldItem>Record.Inactive_Summary__c</fieldItem>
+                <identifier>RecordInactive_Summary_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-60ac7536-5d9f-43ba-badd-ed54c0e9a63c</name>
@@ -177,8 +177,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Completion_Reason__c</fieldItem>
-                <identifier>RecordCompletion_Reason_cField</identifier>
+                <fieldItem>Record.Completion_Summary__c</fieldItem>
+                <identifier>RecordCompletion_Summary_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8e71a7ce-62e9-4eaa-a41f-9ab3b533dac5</name>
