@@ -21,6 +21,42 @@
         <pageOrSobjectType>Opportunity</pageOrSobjectType>
         <recordType>Opportunity.Individual_Giving</recordType>
         <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Individual_Giving_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Individual_Giving</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Organisation_Giving_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Organisation_Giving</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Organisation_Giving_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Organisation_Giving</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Individual_Giving_Opportunity_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Individual_Giving</recordType>
+        <type>Flexipage</type>
         <profile>Advancement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -88,37 +124,55 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Individual_Stewardship_Record_Page</content>
+        <content>Distributed_List_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
-        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+        <pageOrSobjectType>List__c</pageOrSobjectType>
+        <recordType>List__c.Distributed_List</recordType>
         <type>Flexipage</type>
         <profile>Advancement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Individual_Stewardship_Record_Page</content>
+        <content>Distributed_List_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
-        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+        <pageOrSobjectType>List__c</pageOrSobjectType>
+        <recordType>List__c.Distributed_List</recordType>
         <type>Flexipage</type>
         <profile>Advancement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Individual_Stewardship_Record_Page</content>
+        <content>List_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
-        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+        <pageOrSobjectType>List__c</pageOrSobjectType>
+        <recordType>List__c.Distributed_List</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>List_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>List__c</pageOrSobjectType>
+        <recordType>List__c.Distributed_List</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Distributed_List_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>List__c</pageOrSobjectType>
+        <recordType>List__c.Distributed_List</recordType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Individual_Stewardship_Record_Page</content>
+        <content>Distributed_List_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
-        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+        <pageOrSobjectType>List__c</pageOrSobjectType>
+        <recordType>List__c.Distributed_List</recordType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
