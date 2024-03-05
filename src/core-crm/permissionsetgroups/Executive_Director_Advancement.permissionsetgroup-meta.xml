@@ -3,6 +3,7 @@
     <description>Permission set group to be assigned to Executive Director Advancement</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Executive Director Advancement</label>
+    <mutingPermissionSets>Executive_Director_Advancement_Muted</mutingPermissionSets>
     <permissionSets>Advancement_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
