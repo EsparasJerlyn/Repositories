@@ -11,7 +11,7 @@
         <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
         <filterItems>
             <field>Account.RecordType.Name</field>
-            <operation>notEqual</operation>
+            <operation>equals</operation>
             <value>University Department</value>
         </filterItems>
         <filterItems>
@@ -26,7 +26,7 @@
         </filterItems>
         <filterItems>
             <field>Account.End_Date__c</field>
-            <operation>notEqual</operation>
+            <operation>equals</operation>
             <value></value>
         </filterItems>
         <isOptional>false</isOptional>

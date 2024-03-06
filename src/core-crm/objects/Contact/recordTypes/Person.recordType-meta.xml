@@ -5290,6 +5290,13 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Lead_Source_Category__c</picklist>
+        <values>
+            <fullName>Partner Sourced</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Marketing_Mobile_Locale__c</picklist>
         <values>
             <fullName>af-ZA</fullName>

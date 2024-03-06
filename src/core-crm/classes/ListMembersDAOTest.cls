@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|---------------------------------------|
       | carl.alvin.cabiles             | September 14, 2023    | DEPP-6510              | Created file                          |
       | kenneth.f.alsay                | January 26, 2024      | DEPP-6964              | Added getListMembersByStatus          |
+      | nicole.genon                   | February 1, 2024      | DEPP-7003              | Added getexistingListMembersWithMatchingContactList |
       | kenneth.f.alsay                | February 12, 2024     | DEPP-6953              | Added getListMembersByListIdAndStatus |
       |                                |                       |                        | Added runAs to all methods. PMD fix.  |     
  */
@@ -69,6 +70,15 @@ public with sharing class ListMembersDAOTest {
             System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty'); 
         }
         Test.stopTest(); 
+    }
+
+    @isTest
+    static void getexistingListMembersWithMatchingContactList() {
+        Test.startTest();
+            List<List_Member__c> listMemberRecords = ListMembersDAO.newInstance()
+                .getexistingListMembersWithMatchingContactList(new Set<Id>(),new Set<Id>(),'SYSTEM_MODE');
+            System.assert(listMemberRecords.isEmpty(), 'listMemberRecords is not empty');
+        Test.stopTest();
     }
 
     @isTest

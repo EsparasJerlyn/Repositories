@@ -55,12 +55,12 @@ public inherited sharing class ListsDAOMock extends DmlBaseMock implements IList
         List<List__c> listRecList = new List<List__c>();
 
         for (List__c record : listsMap.values()) {
-            if ((record.Name.startsWith(filterString) || record.Name.endsWith(filterString)) && recordId != record.Id) {
+            if ((record.List_Name__c.startsWith(filterString) || record.List_Name__c.endsWith(filterString)) && recordId != record.Id) {
                 List__c tempList = new List__c();
 
                 // Deserialize JSON to add Name and CreatedDate
                 String listString = '{"attributes":{"type":"List__c","url":"/services/data/v59.0/sobjects/List__c/'+record.Id+'"},' +
-                '"Id":"'+record.Id+'","Name":"'+record.Name+'","CreatedDate":"'+String.valueOf(System.today())+'"}';
+                '"Id":"'+record.Id+'","List_Name__c":"'+record.List_Name__c+'","CreatedDate":"'+String.valueOf(System.today())+'"}';
                 tempList = (List__c)JSON.deserialize(listString, List__c.class);
                 tempList.RecordTypeId = record.RecordTypeId;
                 tempList.Stage__c = record.Stage__c;
