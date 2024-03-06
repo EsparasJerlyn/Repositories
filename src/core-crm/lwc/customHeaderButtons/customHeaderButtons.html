@@ -4,6 +4,8 @@
             label="Add List Member"
             title="Add List Member"
             icon-name="utility:add"
+            object-api-name={objectApiName}
+            onclick={handleShowAddListMember}
             variant="brand-outline"
             disabled={isDisabledButton}
             class="slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-m-left_x-small">
@@ -73,5 +75,14 @@
             onhandleshowmodalexistinglist={handleShowModalExistingList}
             onrecordlistmemberhaserror={handleRecordListMemberHasError}
         ></c-add-from-existing-list>
+
+        <c-list-member-add-modal
+          onreloadlistmemberstable={reloadListMembersTable}
+          table-columns={tableColumns}
+          list-id={_listId}
+          is-show-modal={isShowAddListMemberModal}
+          onclosemodal={handleCloseAddListMember}
+          object-api-name={objectApiName}>
+        </c-list-member-add-modal>
     </div>
 </template>
