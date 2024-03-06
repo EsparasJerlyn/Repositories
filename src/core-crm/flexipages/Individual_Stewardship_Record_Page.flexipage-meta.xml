@@ -93,7 +93,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Contact__c</fieldItem>
                 <identifier>RecordContact_cField</identifier>
@@ -376,7 +376,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Plan Activity Reference&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact Channel&quot;,&quot;fieldName&quot;:&quot;Contact_Channel__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Date&quot;,&quot;fieldName&quot;:&quot;Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;Status&quot;,&quot;fieldName&quot;:&quot;Status__c&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Plan Activity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Contact Channel&quot;,&quot;fieldName&quot;:&quot;Contact_Channel__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Date&quot;,&quot;fieldName&quot;:&quot;Date__c&quot;,&quot;type&quot;:&quot;date&quot;},{&quot;label&quot;:&quot;Status&quot;,&quot;fieldName&quot;:&quot;Status__c&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
