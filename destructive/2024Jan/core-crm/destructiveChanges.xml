@@ -71,5 +71,11 @@
         <!--(End) DEPP-8114-->
         <name>PathAssistant</name>
     </types>
+    <types>
+        <!--(Start) DEPP-7233 Created a wrong file name--> 
+        <members>Fundraising</members>
+        <!--(End) DEPP-8114-->
+        <name>PermissionSetGroup</name>
+    </types>
     <version>59.0</version> 
 </Package>

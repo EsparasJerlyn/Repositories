@@ -3,6 +3,7 @@
     <description>Permission set group to be assigned to Fundraising Manager</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Fundraising Manager</label>
+    <mutingPermissionSets>Fundraising_Manager_Muted</mutingPermissionSets>
     <permissionSets>Advancement_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

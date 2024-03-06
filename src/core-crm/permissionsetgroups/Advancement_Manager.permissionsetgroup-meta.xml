@@ -3,6 +3,7 @@
     <description>Permission set group to be assigned to Advancement Manager</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Advancement Manager</label>
+    <mutingPermissionSets>Advancement_Manager_Muted</mutingPermissionSets>
     <permissionSets>Advancement_Base</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
