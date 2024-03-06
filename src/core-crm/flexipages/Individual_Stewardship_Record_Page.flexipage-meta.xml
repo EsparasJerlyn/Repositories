@@ -384,6 +384,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>recordTypeName</name>
+                    <value>Standard</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedField</name>
