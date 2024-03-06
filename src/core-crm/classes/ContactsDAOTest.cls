@@ -16,6 +16,7 @@
  *    | neil.s.h.lesidan               | Sep 20, 2023        | DEPP-6478              | Added getPersonContactsByEmailOrNameTest  |
  *    | arsenio.jr.dayrit              | Sept 22,2023        | DEPP-6720              | added getContactByCaseMobile              |
  *    | julie.jane.alegre              | Nov 07, 2023        | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
+ *    | nicole.genon                   | Feb 06, 2024        | DEPP-7003              | Added method getAllPersonContactsTest     |
  *    | sebastianne.k.trias            | Feb 19, 2024        | DEPP-7750              | added getPersonContactsByNameUsingSOSLTest|
  */
 @isTest
@@ -23,7 +24,7 @@ private class ContactsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager', 'QUT_Domestic_Future_Student_Agent' }
+            new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager', 'QUT_Domestic_Future_Student_Agent', 'QUT_Alumni_Engagement_Manager' }
         );
     }
 
@@ -402,6 +403,18 @@ private class ContactsDAOTest {
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(contactList.isEmpty(), 'ContactList should be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPersonContactsWithMatchingEmailsPositionTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTAlumniEngagementManager()) {
+            String toFilter;
+            Integer recordLimit;
+            List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithMatchingEmailsPosition(toFilter,recordLimit,AccessLevel.SYSTEM_MODE);
+            System.assert(contactList.isEmpty(), 'contactList is not empty');
         }
         Test.stopTest();
     }
