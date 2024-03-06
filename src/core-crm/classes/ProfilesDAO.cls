@@ -15,6 +15,8 @@ public inherited sharing class ProfilesDAO extends DmlBase implements IProfilesD
 		'System Administrator'
 	};
 
+	public static String FUTURE_STUDENT_ENGAGEMENT_PROFILE = 'Future Student Engagement';
+
     public Schema.SObjectType getSObjectType()
 	{
 		return Profile.SObjectType;
@@ -30,7 +32,7 @@ public inherited sharing class ProfilesDAO extends DmlBase implements IProfilesD
             SELECT Id, Name
             FROM Profile
 			WHERE Id IN: profileIdSet 
-			WITH USER_MODE
+			WITH SYSTEM_MODE
         ];
 	}
 }

@@ -23,7 +23,7 @@
     </standardValue>
     <standardValue>
         <fullName>Outbound Enquiry</fullName>
-        <default>true</default>
+        <default>false</default>
         <label>Outbound Enquiry</label>
     </standardValue>
     <standardValue>

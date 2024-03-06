@@ -665,7 +665,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             
             Test.stopTest();
             leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
-            leadList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY;
+            leadList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
 
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
 
@@ -692,7 +692,7 @@ public with sharing class NurturingTrackLeadServiceTest {
             leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
             Test.stopTest();
             leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
-            leadList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY;
+            leadList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
 
             List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
 

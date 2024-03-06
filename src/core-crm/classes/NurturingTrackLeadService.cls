@@ -173,7 +173,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
         Map<Id, hed__Application__c> internationalDirectApplicants = new Map<Id, hed__Application__c>();
         Set<String> newOrUnsubmittedStatus = new Set<String>{ 'New', 'Unsubmitted' };
         Set<Id> leadIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryLeadMap.values());
-        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY};
+        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED};
         for (hed__Application__c application : applicationList) {
             boolean isPartnerSourced = leadSourceCategory.contains(application.Lead__r.Lead_Source_Category__c);
             boolean hasContactIdsWithRestricted = leadIdsWithRestricted.contains(application.Lead__c);
@@ -568,7 +568,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             applicantIdsWithCompletedCadence
         );
         Set<Id> leadIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryLeadMap.values());
-        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY};
+        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED};
         
         Set<Id> completedManualCadenceByLeadId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryLeadMap.keySet(),
@@ -752,7 +752,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             applicantIdsWithCompletedCadence
         );
         Set<String> completedCadencesCopy = new Set<String>();
-        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY};
+        Set<String> leadSourceCategory = new Set<String>{LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED};
         Set<Id> leadIdsWithActiveApplication = getLeadWithApplicationsforXYears(3);
 
         // Check Lead and Cadence Name if Manual is already Completed

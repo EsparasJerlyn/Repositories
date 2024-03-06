@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Source_Restrict_Edit_Existing</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ $Profile.Name = &apos;Future Student Engagement&apos;,
+ NOT(ISBLANK(TEXT(PRIORVALUE(LeadSource)))),
+ ISCHANGED(LeadSource)
+)</errorConditionFormula>
+    <errorDisplayField>LeadSource</errorDisplayField>
+    <errorMessage>Lead Source cannot be changed from it’s initial value</errorMessage>
+</ValidationRule>
