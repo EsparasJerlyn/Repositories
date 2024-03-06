@@ -70,7 +70,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>List_Record_Page</content>
+        <content>Distributed_List_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>List__c</pageOrSobjectType>
         <recordType>List__c.Distributed_List</recordType>
@@ -79,7 +79,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>List_Record_Page</content>
+        <content>Distributed_List_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>List__c</pageOrSobjectType>
         <recordType>List__c.Distributed_List</recordType>
