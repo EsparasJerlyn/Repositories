@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Advancement_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share List records to all Advancement with Read/Write access when record owned by Advancement Team</description>
+        <label>Advancement Share</label>
+        <sharedTo>
+            <group>Advancement</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Advancement</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Alumni_Corporate_Partnerships_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share List records to all Alumni &amp; Corporate Partnerships with Read/Write access when record owned by Alumni &amp; Corporate Partnerships Team</description>
+        <label>Alumni &amp; Corporate Partnerships Share</label>
+        <sharedTo>
+            <group>Alumni_Corporate_Partnerships</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Alumni_Corporate_Partnerships</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>
