@@ -374,7 +374,7 @@
         <inputAssignments>
             <field>Lead_Source_Category__c</field>
             <value>
-                <stringValue>Online Interaction</stringValue>
+                <stringValue>Web Form</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>

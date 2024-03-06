@@ -5292,7 +5292,43 @@
     <picklistValues>
         <picklist>Lead_Source_Category__c</picklist>
         <values>
+            <fullName>Enquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lead Ad</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outreach Activity</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Partner Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Strategic Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Study Application</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Form</fullName>
             <default>false</default>
         </values>
     </picklistValues>
