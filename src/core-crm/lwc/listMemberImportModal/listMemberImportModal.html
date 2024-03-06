@@ -20,7 +20,11 @@
                         <li style="list-style: disc;" class="slds-text-align_left">Contact ID must be the first column in CSV file</li>
                         <li style="list-style: disc;" class="slds-text-align_left">Exclude Mobile and Email field in the CSV file as these will be automatically populated on Contact ID</li>
                     </ul>
-
+                    <template if:true={isNotEqualColumns}>
+                        <div>
+                            <p class="slds-text-align_left" style="color:red">The list headers do not match. Please choose appropriate list.</p>
+                        </div>
+                    </template>
                     <div class="slds-m-around_medium slds-text-align_left">
                         <lightning-input type="file" accept=".csv" onchange={handleUploadCSV}></lightning-input>
                     </div>
@@ -34,15 +38,6 @@
                         errors={errors}
                     >
                     </lightning-datatable>
-                    <template if:true={isEditRecord}>
-                        <c-custom-add-edit-list-member
-                            pre-populated-fields={prefields}
-                            standard-header-label={standardHeaderLabel}
-                            onhandlesave={handleEdit}
-                            row-id={rowId}
-                            onclose={handleCloseEditModal}
-                        ></c-custom-add-edit-list-member>
-                    </template>
                 </div>
                 <div class="slds-modal__footer slds-text-align_center">
                     <button onclick={handleCloseModal} class="slds-button slds-button_neutral" aria-label="Cancel">Cancel</button>

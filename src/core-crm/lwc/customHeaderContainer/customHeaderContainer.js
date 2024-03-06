@@ -14,6 +14,8 @@
       |                           |                       |                      | Fetch List Member record from List     |
       |                           |                       |                      | CSV List Member record bulk save       |
       |                           |                       |                      |                                        |
+      | eugene.andrew.abuan       | February 28, 2034     | DEPP-7992            | Added checking if userId == ownerId    |
+
  */
 import { LightningElement, api, wire, track } from "lwc";
 import { getRecord  } from "lightning/uiRecordApi";
@@ -34,6 +36,7 @@ import LIST_COLUMN_7 from "@salesforce/schema/List__c.Column_7__c";
 import LIST_COLUMN_8 from "@salesforce/schema/List__c.Column_8__c";
 import LIST_COLUMN_9 from "@salesforce/schema/List__c.Column_9__c";
 import LIST_COLUMN_10 from "@salesforce/schema/List__c.Column_10__c";
+import LIST_OWNER_ID from "@salesforce/schema/List__c.OwnerId";
 
 import ENGAGEMENT_OPPORTUNITY_STAGE from "@salesforce/schema/Engagement_Opportunity__c.Stage__c";
 
@@ -43,6 +46,7 @@ import getUserHasListContributor from "@salesforce/apex/CustomHeaderContainerCtr
 import updateListMemberStatus from "@salesforce/apex/CustomHeaderContainerCtrl.updateListMemberStatus";
 import bulkSaveListMember from "@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember";
 import getListMembersForEngage from "@salesforce/apex/CustomHeaderContainerCtrl.getListMembersByListIdAndStatus"; 
+import getAllListContributors from "@salesforce/apex/CustomHeaderContainerCtrl.getAllListContributors";
 
 const ROW_WIDTH = 180;
 
@@ -51,6 +55,7 @@ export default class CustomHeaderContainer extends LightningElement {
     @api objectApiName;
     @api tableColumnType;
 
+    @track ownerId;
     @track columnsName;
     @track columnsData;
     @track listId;
@@ -153,6 +158,7 @@ export default class CustomHeaderContainer extends LightningElement {
 
     listFields = [
         LIST_STAGE,
+        LIST_OWNER_ID,
         LIST_COLUMN_1,
         LIST_COLUMN_2,
         LIST_COLUMN_3,
@@ -176,6 +182,7 @@ export default class CustomHeaderContainer extends LightningElement {
     receivedRecordId;
     listStageValue;
     isEngageTab = false;
+    isOwner = false;
 
     get isEnableTableWithValidation() {
         return this.recordDataToAdd.length ? true : false;
@@ -209,6 +216,10 @@ export default class CustomHeaderContainer extends LightningElement {
         if (data && this.tableColumnType === 'Dynamic') {
             const fields = data.fields;
 
+            // Check the UserId is matched with OwnerId
+            this.ownerId = fields.OwnerId.value;
+            this.isOwner = (this.userId === this.ownerId) ? true: false;
+
             await this.createColumn(fields);
             this.fetchListMembers();
         }
@@ -221,6 +232,7 @@ export default class CustomHeaderContainer extends LightningElement {
 
             if (this.objectApiName === 'List__c') {
                 this.listId = this.recordId;
+                this.fetchListContributors();
             } else if (this.objectApiName === 'Engagement_Opportunity__c') {
                 this.fetchList();
             }           
@@ -263,8 +275,11 @@ export default class CustomHeaderContainer extends LightningElement {
 
                     if (obj.List_Contributor__r) {
                         obj.List_Contributor__c = obj.List_Contributor__r.Id;
-                        obj.ListContributorName = obj.List_Contributor__r.Name;
-
+                        this.allListContributors.forEach(contributor =>{
+                            if(contributor.Id === obj.List_Contributor__r.Id){
+                                obj.ListContributorName = contributor.List_Contributor__r.Name;
+                            }
+                        });
                         obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${obj.List_Contributor__r.Id}/view`;
                     }
                 });
@@ -280,7 +295,6 @@ export default class CustomHeaderContainer extends LightningElement {
             getListMembersForEngage({ listId: this.listId, status: 'Qualified'})
             .then((response) => {
                 response.forEach(obj => {
-
                     if (obj.List_Member__r) {
                         obj.List_Member__c = obj.List_Member__r.Id;
                         obj.ListMemberName = obj.List_Member__r.Name;
@@ -293,6 +307,15 @@ export default class CustomHeaderContainer extends LightningElement {
                 this.isTableLoading = false;
             })
         }, 1000);
+    }
+
+    fetchListContributors() {
+        getAllListContributors({ listId: this.listId})
+        .then((response) => {
+            if(response){
+                this.allListContributors = response;
+            }
+        })
     }
 
     async fetchList() {
@@ -362,7 +385,7 @@ export default class CustomHeaderContainer extends LightningElement {
                 fields.Stage__c &&
                 fields.Stage__c.value &&
                 (fields.Stage__c.value === 'Closed' || fields.Stage__c.value === 'Distribute'))
-                || (key.fieldName === 'List_Member_Status__c' && !this.isContributorLinkToList)
+                || (key.fieldName === 'List_Member_Status__c' && !this.isOwner)
             ){
                 key.type = 'text';
             }

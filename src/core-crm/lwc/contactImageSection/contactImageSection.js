@@ -6,10 +6,10 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary    |
-      |---------------------------|-----------------------|--------------|-------------------|
-      | arsenio.jr.dayrit         | march 04, 2023        | DEPP-5322    | Created file      | 
-      |                           |                       |              |                   | 
+ *    | Developer                 | Date                  | JIRA         | Change Summary                |
+      |---------------------------|-----------------------|--------------|-------------------------------|
+      | arsenio.jr.dayrit         | march 04, 2023        | DEPP-5322    | Created file                  | 
+      | johanna.a.gibas           | February 16, 2024     | DEPP-7697    | Added Partner Sourced in html | 
  */
 
 import { LightningElement, api, wire } from "lwc";
