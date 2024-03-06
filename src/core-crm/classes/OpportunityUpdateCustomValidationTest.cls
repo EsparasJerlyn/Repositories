@@ -25,7 +25,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
             AccountsDAO.newInstance().insertRecords(accountRecord, false, AccessLevel.SYSTEM_MODE);
         
             List<Opportunity> newOpportunityRecords = TestDataFactory.createTestOpportunityRecords(
-                1,'OppTest',OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID);
+                1,'OppTest',OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID);
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);
             newOpportunityRecords[0].AccountId = accountRecord[0].Id;
             newOpportunityRecords[0].StageName = OpportunitiesDAO.IDENTIFY_STAGE;
@@ -51,7 +51,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
     private static void checkStageUpdateWithActivePrimaryContact() {
         System.runAs(TestDataFactory.getAdvancementManager()) {
             Test.startTest();
-            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
 
             oppRecords[0].Start_Date__c = System.today() + 10 ;
             oppRecords[0].Description = 'Opp Test';
@@ -68,7 +68,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
     private static void checkStageUpdateWithInActivePrimaryContact() {
         System.runAs(TestDataFactory.getAdvancementManager()) {
             Test.startTest();
-            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATIONGIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
             List<Contextual_Role__c> contextualRoleRecordsToUpdate = new List<Contextual_Role__c>();
             List<Contextual_Role__c> contextualRoleRecords = ContextualRolesDAO.newInstance().getActiveOpportunityContextualRolesRecords(new Set<Id>{oppRecords[0].Id}, new List<String>{CONTRIBUTORS_CONTEXTUAL_ROLE_GROUP});
 
