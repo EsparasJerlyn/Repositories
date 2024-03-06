@@ -4,9 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
- *    |--------------------------------|-----------------------|------------------------|------------------------------|
- *    | ryan.j.a.dela.cruz             | August 08, 2023       | DEPP-6335              | Created file
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                  |
+ *    |--------------------------------|-----------------------|------------------------|---------------------------------------------------------------------------------|
+ *    | ryan.j.a.dela.cruz             | August 08, 2023       | DEPP-6335              | Created file                                                                    |
+ *    | nicole.genon                   | February 1, 2024      | DEPP-7003              | Added getListContributorByUserIDTest                                            |
+ *    | kenneth.f.alsay                | February 14, 2024     | DEPP-8040              | Added method getAllListContributors. Added runAs to all methods for PMD Error.  |
  */
 @isTest
 public with sharing class ListContributorsDAOTest {
@@ -38,27 +40,44 @@ public with sharing class ListContributorsDAOTest {
     @isTest
     static void getListContributorByListID() {
         Test.startTest();
+        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
             List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
                 .getListContributorByListID(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
+        }
+
         Test.stopTest();
     }
-
     @isTest
     static void getListContributorByUserIDTest() {
         Test.startTest();
+        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
             List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
                 .getListContributorByUserID(new Set<Id>(),new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
+        }
         Test.stopTest();
     }
 
     @isTest
     static void getRecordIdListContributorByListIDTest() {
         Test.startTest();
+        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
             List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
                 .getRecordIdListContributorByListID(new Set<Id>(),new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(listContributors.isEmpty(), 'listContributors is not empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getAllListContributors() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAlumniEngagementManager()) {
+            List<List_Contributor__c> listContributors = ListContributorsDAO.newInstance()
+                .getAllListContributors(new Set<Id>(),AccessLevel.USER_MODE);
+            System.assert(listContributors.isEmpty(), 'listContributors is not empty');
+        }
         Test.stopTest();
     }
 }

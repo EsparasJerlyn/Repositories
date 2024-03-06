@@ -8,20 +8,26 @@
     <label>List Contributor</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>(1 OR 2 OR 3) AND 4</booleanFilter>
         <filterItems>
-            <field>User.UserRoleId</field>
-            <operation>notEqual</operation>
-            <value></value>
-        </filterItems> 
-        <filterItems>
-            <field>User.UserType</field>
+            <field>User.UserRole.Name</field>
             <operation>equals</operation>
-            <value>Standard</value>
+            <value>Alumni Engagement</value>
         </filterItems>
         <filterItems>
             <field>User.UserRole.Name</field>
-            <operation>notEqual</operation>
-            <value>System Administrator</value>
+            <operation>equals</operation>
+            <value>Corporate Engagement</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Corporate Events</value>
+        </filterItems>
+        <filterItems>
+            <field>User.IsActive</field>
+            <operation>equals</operation>
+            <value>True</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
