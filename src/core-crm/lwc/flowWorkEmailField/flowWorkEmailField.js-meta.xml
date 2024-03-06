@@ -8,8 +8,9 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
+            <property name="label" label="Label" type="String" default="Work Email" role="inputOnly"></property>
             <property name="workEmail" label="Value" type="String" role="outputOnly"></property>
-            <property name="required" label="Required" type="Boolean" default="false" role="inputOnly"></property> 
+            <property name="required" label="Required" type="Boolean" default="false" role="inputOnly"></property>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
