@@ -18,6 +18,7 @@
       | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7060              | Added new method getLeadsWithLimit and  getLeadsByIdSet           |
       | alexander.cadalin              | November 9, 2023      | DEPP-7212              | Added excludeConverted to getLeadByEmailOrName                    |
       | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Fix conditional query getLeadByEmailOrName                        |
+      | eccarius.munoz                 | March 4, 2024         | DEPP-7699              | Added static variables for lead source and lead source category   |
  */
 public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
@@ -34,7 +35,18 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     public static final String ACCEPT_ADMIT_JOURNEY_STATUS = 'Accept-Admit';
     public static final String STUDY_JOURNEY_STATUS = 'Study';
     public static final String LEARNER_LEAD_TYPE = 'Learner';
-    public static final string LEAD_SOURCE_CATEGORY = 'Partner Sourced';
+    public static final String COMPANY_LEARNER = 'Learner';
+
+    //Lead source category
+    public static final string LEAD_SOURCE_CATEGORY_PARTNER_SOURCED = 'Partner Sourced';
+    public static final string LEAD_SOURCE_CATEGORY_STUDY_APPLICATION = 'Study Application';
+    public static final string LEAD_SOURCE_CATEGORY_ONLINE_INTERACTION = 'Online Interaction';
+    public static final string LEAD_SOURCE_CATEGORY_OTHER = 'Other';
+
+    //Lead source
+    public static final string LEAD_SOURCE_STUDYLINK_STUDYLINK_UNSUBMITTED = 'Studylink Unsubmitted';
+    public static final string LEAD_SOURCE_ENQUIRY_FORM = 'Enquiry Form';
+    public static final string LEAD_SOURCE_MANUAL_CREATE = 'Manual Create';
 
     public static ILeadsDAO newInstance() {
         return (ILeadsDAO) ImplementationSelector.DAO.newInstance(Lead.SObjectType);
@@ -64,7 +76,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         return [//NOPMD
             SELECT Email, Work_Email__c, Status, Future_Student_Journey_Status__c, Can_Nurture__c, Lead_Source_Category__c, 
             Lead_Score__c, Calculated_Cadence__c, HasOptedOutOfEmail, Marketing_Segmentation__r.My_Citizenship_Status__c, MobilePhone, IsConverted,
-            Email_Opt_In_DateTime__c
+            Email_Opt_In_DateTime__c, LeadSource, LastName
             FROM Lead
             WITH SYSTEM_MODE//Only used in test class to verify record insert/update
             LIMIT :recordsCount

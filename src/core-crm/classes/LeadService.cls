@@ -19,6 +19,8 @@
  *    |                                |                       |                        |     updateCompletedCadences                 |
  *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | updated createMarketingSegmentationForLeads |
  *    |                                |                       |                        |     to future                               |
+ *    | eccarius.munoz                 | March 5, 2024         | DEPP-7699              | Added method for lead source and lead source|
+ *    |                                |                       |                        | category values when user profile is FSE.   |
  */
 @SuppressWarnings('PMD')
 public with sharing class LeadService {
@@ -112,6 +114,33 @@ public with sharing class LeadService {
         }
         if(!leadScoreDetailsToInsert.isEmpty()){
             LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    /**
+     * Sets the Lead Source and Lead Source Category when User Profile is Future Student Engagement
+     * 
+     * @param List<Lead> newItems - List of lead to be inserted
+     */
+    public static void setLeadSourceAndLeadSourceCategoryFields(List<Lead> newItems){
+
+        boolean isFSEUserProfile = false;
+        Id userProfileId = UserInfo.getProfileId();
+        List<Profile> profileList = ProfilesDAO.newInstance().getProfileRecordsBySetIds(new Set<Id>{userProfileId});
+        for(Profile profile : profileList){
+            if(profile.Name == ProfilesDAO.FUTURE_STUDENT_ENGAGEMENT_PROFILE){
+                isFSEUserProfile = true;
+            }
+        }
+        if(isFSEUserProfile){
+            for (Lead lead : newItems) {
+                if(lead.LeadSource == null){
+                    lead.LeadSource = LeadsDAO.LEAD_SOURCE_MANUAL_CREATE;
+                }
+                if(lead.Lead_Source_Category__c == null){
+                    lead.Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_OTHER;
+                }
+            }
         }
     }
 }

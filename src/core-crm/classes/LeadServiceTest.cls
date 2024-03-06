@@ -6,12 +6,14 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary                               |
-      |---------------------------|-----------------------|--------------|----------------------------------------------|
-      | mark.j.mahilum            | June 13,2023          | DEPP-5798    | Created file                                 |
-      | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Updated test class to cover can nurture logic|
-      | julie.jane.alegre         | Sept 07, 2023         | DEPP-5965    | Add test method testCreateLeadScoreDetail    |
-      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class testCreateMarketingSegmentation|
+ *    | Developer                 | Date                  | JIRA         | Change Summary                                   |
+      |---------------------------|-----------------------|--------------|--------------------------------------------------|
+      | mark.j.mahilum            | June 13,2023          | DEPP-5798    | Created file                                     |
+      | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Updated test class to cover can nurture logic    |
+      | julie.jane.alegre         | Sept 07, 2023         | DEPP-5965    | Add test method testCreateLeadScoreDetail        |
+      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class testCreateMarketingSegmentation |
+      | eccarius.munoz            | March 5, 2024         | DEPP-7699    | Added test method for lead source and lead source|
+      |                           |                       |              | category values when user profile is FSE.        |
 */
 @isTest
 private class LeadServiceTest {
@@ -234,6 +236,42 @@ private class LeadServiceTest {
             
             for(Marketing_Segmentation__c marketingSeg : marketingSegList){
                 System.assert(marketingSeg.Lead__c != null, 'No Marketing Segmentation record created for the lead');
+            }
+        }
+    }
+
+    @isTest
+    private static void testSetLeadSourceAndLeadSourceCategoryFields() {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            setupLeadScoreConfig(10);
+            Test.startTest();
+            String lastName = 'FSELead';
+            List<Lead> leadListToInsert = TestDataFactory.createTestLeadRecords(0, recordsCount);
+            for(Lead lead : leadListToInsert){
+                lead.LastName = lastName;
+                lead.Email = lastName + lead.Email;
+                lead.Work_Email__c = lastName + lead.Work_Email__c;
+            }
+
+            LeadsDAO.newInstance().insertRecords(leadListToInsert, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {
+                if(lead.LastName == lastName){
+                    System.assertEquals('Manual Create', lead.LeadSource, 'Lead Source did not match');
+                    System.assertEquals('Other', lead.Lead_Source_Category__c, 'Lead Source Category did not match');
+                }
+            }
+        }
+    }
+
+    @isTest
+    private static void testSetLeadSourceAndLeadSourceCategoryFieldsNonFSE() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            setupLeadScoreConfig(10);
+            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {
+                System.assertEquals(null, lead.LeadSource, 'Lead Source did not match');
+                System.assertEquals(null, lead.Lead_Source_Category__c, 'Lead Source Category did not match');
             }
         }
     }

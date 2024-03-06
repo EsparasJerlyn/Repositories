@@ -99,6 +99,18 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>LeadSource</field>
+            <value>
+                <stringValue>Enquiry Form</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Lead_Source_Category__c</field>
+            <value>
+                <stringValue>Online Interaction</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Mobile_No_Locale__c</field>
             <value>
                 <elementReference>Mobile_No_Locale</elementReference>
