@@ -54,7 +54,7 @@ public inherited sharing class ListsDAO extends DmlBase implements IListsDAO{
             'SELECT Id, Name, List_Name__c, Column_1__c, Column_2__c, Column_3__c, Column_4__c, Column_5__c, ' +
             'Column_6__c, Column_7__c, Column_8__c, Column_9__c, Column_10__c ' +
             'FROM List__c ' +
-            'WHERE (Name LIKE :toFilterString OR Name = :toFilterString) ' +
+            'WHERE (List_Name__c LIKE :toFilterString OR List_Name__c = :toFilterString) ' +
             'AND Id != :recordId ',
             accessLevel
         );

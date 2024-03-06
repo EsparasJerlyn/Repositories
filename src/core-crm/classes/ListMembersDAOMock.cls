@@ -4,10 +4,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                         |
- *    |--------------------------------|-----------------------|------------------------|----------------------------------------|
- *    |carl.alvin.cabiles              | September 18, 2023    | DEPP-6510              | Created file                           |
- *    | kenneth.f.alsay                | February 12, 2024     | DEPP-6953              | Added getListMembersByListIdAndStatus  |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                       |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------------|
+ *    |carl.alvin.cabiles              | September 18, 2023    | DEPP-6510              | Created file                                         |
+ *    |nicole.genon                    | February 1, 2024      | DEPP-7003              | Added getexistingListMembersWithMatchingContactList  |
+ *    | kenneth.f.alsay                | February 12, 2024     | DEPP-6953              | Added getListMembersByListIdAndStatus                |
  */
 @isTest
 public inherited sharing class ListMembersDAOMock extends DmlBaseMock implements IListMembersDAO {
@@ -83,5 +84,16 @@ public inherited sharing class ListMembersDAOMock extends DmlBaseMock implements
             }
         }
         return listMemberRecords;       
+    }
+
+    public List<List_Member__c> getexistingListMembersWithMatchingContactList(Set<Id> listIds,Set<Id> listMemberIds,String accessLevel) {
+        List<List_Member__c> listMemberRecords = new List<List_Member__c>();
+        for (List_Member__c record : listMembersMap.values()) {
+            if (record.List__c != null && record.List_Member__c != null &&
+                listIds.contains(record.List__c) && listMemberIds.contains(record.List_Member__c)) {
+                listMemberRecords.add(record);
+            }
+        }
+        return listMemberRecords;
     }
 }
