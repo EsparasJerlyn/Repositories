@@ -423,7 +423,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByParent</name>
-                    <value>(Stage != &apos;Executed&apos; AND Stage != &apos;Discontinued&apos;)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
