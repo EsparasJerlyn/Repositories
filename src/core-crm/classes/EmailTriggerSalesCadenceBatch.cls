@@ -12,6 +12,9 @@
       |                                |                       |                        | batch class for completing   |
       |                                |                       |                        | the cadence with sent emails |
       |                                |                       |                        |                              |
+      | mark.j.mahilum                 | March 07, 2024        | DEPP-8243              | Fixed issue where SMS task   |
+      |                                |                       |                        | is getting created for       |
+      |                                |                       |                        |  International Student       |
  */
 public with sharing class EmailTriggerSalesCadenceBatch implements Database.Batchable<sObject>, Database.AllowsCallouts {
 
@@ -37,7 +40,8 @@ public with sharing class EmailTriggerSalesCadenceBatch implements Database.Batc
             for(Communication_Queue__c rec: communicationQueueList){
                 if(rec.Type__c =='Email' && rec.Due_Date__c <= System.today()){
                     emailComsQueueList.add(rec);
-                }else{
+                }
+                if(rec.Type__c =='SMS'){
                     smsComsQueueList.add(rec);
                 }               
             }
