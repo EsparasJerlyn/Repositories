@@ -7,12 +7,25 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Created file
+      | nicole.genon                   | March 7, 2024         | DEPP-7922              | Added getPlanActivityRecordsWithStewardshipIds
  */
 @isTest
 public with sharing class PlanActivitiesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager','QUT_Sys_Admin' });
+            List<Plan_Activity__c> newPlanActivityList = new List<Plan_Activity__c>();
+            List<Plan_Activity__c> planActivityList = TestDataFactory.createPlanActivityRecords(5);
+            List<Stewardship__c> stewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID,1);
+
+            StewardshipsDAO.newInstance().insertRecords(stewardshipList, false, AccessLevel.SYSTEM_MODE);
+
+            for(Plan_Activity__c plan : planActivityList){
+                plan.Stewardship__c = stewardshipList[0].Id;
+                newPlanActivityList.add(plan);
+            }
+
+            PlanActivitiesDAO.newInstance().insertRecords(newPlanActivityList, false, AccessLevel.SYSTEM_MODE);
     }
     @isTest
     static void newInstanceTest() {
@@ -30,6 +43,32 @@ public with sharing class PlanActivitiesDAOTest {
                 new PlanActivitiesDAO().getSObjectType() == Plan_Activity__c.SObjectType,
                 'SObject is not Plan_Activity__c'
             );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPlanActivityRecordsWithStewardshipIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
+                .getPlanActivityRecordsWithStewardshipIds(new Set<Id>(),AccessLevel.SYSTEM_MODE);
+            System.assert(planActivitiesList.isEmpty(), 'planActivitiesList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPlanActivityRecordsWithStewardshipIdsNotEmpty() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            MockIdGenerator stewardshipMock = new MockIdGenerator(Stewardship__c.SObjectType);
+            List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
+                .getPlanActivityRecordsWithStewardshipIds(
+                    new Set<Id>{stewardshipMock.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            System.assert(planActivitiesList.isEmpty(), 'planActivitiesList should not be empty');
         }
         Test.stopTest();
     }

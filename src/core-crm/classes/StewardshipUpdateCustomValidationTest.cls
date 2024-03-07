@@ -45,4 +45,27 @@ public with sharing class StewardshipUpdateCustomValidationTest {
             System.assert(stewardshipUpdatedRecords[0].Stage__c.equals('Active'), 'Stage is Active.');
         }
     }
+
+    @isTest
+    private static void checkStageUpdateWithNoPendingPlanActivity() {
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+            Test.startTest();
+            List<Plan_Activity__c> updatePlanActivityList = new List<Plan_Activity__c>();
+            List<Stewardship__c> stewardshipRecords = StewardshipsDAO.getStewardshipByRecordTypeIds(new Set<Id>{StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Plan_Activity__c> planActivityList = PlanActivitiesDAO.getPlanActivityRecordsWithStewardshipIds(new Set<Id>{stewardshipRecords[0].Id},AccessLevel.USER_MODE);
+
+            for(Plan_Activity__c plan : planActivityList){
+                plan.Status__c = 'Completed';
+                updatePlanActivityList.add(plan);
+            }
+            PlanActivitiesDAO.newInstance().updateRecords(updatePlanActivityList, false, AccessLevel.USER_MODE);
+
+            stewardshipRecords[0].Stage__c = 'Completed';
+            StewardshipsDAO.newInstance().updateRecords(stewardshipRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            List<Stewardship__c> stewardshipUpdatedRecords = StewardshipsDAO.getStewardshipBySetIds(new Set<Id>{stewardshipRecords[0].Id},AccessLevel.USER_MODE);
+            System.assert(stewardshipUpdatedRecords[0].Stage__c.equals('Completed'), 'Stage is successfully changed to Completed.');
+        }
+    }
 }
