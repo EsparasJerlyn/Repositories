@@ -198,11 +198,13 @@ public with sharing class LeadScoreDetailTriggerHelper {
             ) {
                 Decimal totalLeadScore = leadToScoreMap.get(lead.Id);
                 String newStatus = LeadScoreService.getLeadStatus(totalLeadScore);
-                boolean isAboveThreshold = minimumThreshold != null && LeadScoreService.isLeadScoreInRange(
-                    totalLeadScore,
-                    minimumThreshold,
-                    null
-                );
+                boolean isAboveThreshold = minimumThreshold != null && 
+                        LeadScoreService.isLeadScoreInRange(
+                                totalLeadScore,
+                                minimumThreshold,
+                                null
+                        ) &&
+                        lead.Lead_Source_Category__c != 'Partner Sourced';
                 String newJourneyStatus = totalLeadScore > 0 ? LeadsDAO.EXPLORE_JOURNEY_STATUS : '';
 
                 //if any of the fields above is changed by recalculation, then lead is for update
@@ -211,10 +213,12 @@ public with sharing class LeadScoreDetailTriggerHelper {
                     lead.Future_Student_Journey_Status__c != newJourneyStatus ||
                     lead.Status != newStatus;
 
+                boolean isPartnerSourced = lead.Lead_Source_Category__c == 'Partner Sourced';
+              
                 if (isForUdpate) {
                     leadRecord = new Lead();
                     leadRecord.Id = lead.Id;
-                    leadRecord.Can_Nurture__c = isAboveThreshold;
+                    leadRecord.Can_Nurture__c = isPartnerSourced? true : isAboveThreshold;
                     leadRecord.Future_Student_Journey_Status__c = newJourneyStatus;
                     leadRecord.Status = newStatus;
                     leadToUpdateMap.put(lead.Id, leadRecord);

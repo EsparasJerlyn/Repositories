@@ -676,7 +676,7 @@ public with sharing class NurturingTrackLeadServiceTest {
                 'Error, wrong calculated cadence value.'
             );
         }
-    }
+    } 
     
     @isTest 
     private static void testEntryInternationalPreApplicationPartnerSourcedAutomatedTest() {

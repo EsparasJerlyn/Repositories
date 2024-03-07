@@ -682,7 +682,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             if(isPassedCriteria) {
                 directApplicantsToOffer.put(application.Id, application);
             }
-        }
+        } 
 
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryLeadMap.keySet(),

@@ -8,7 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | June 26, 2023         | DEPP-5411              | Created file
  */
-public inherited sharing class ProfilesDAO extends DmlBase implements IProfilesDAO{
+public inherited sharing class ProfilesDAO extends DmlBase implements IProfilesDAO{ 
 
 	public static List<String> ADMIN_PROFILES = new List<String>{
 		'QUT System Administrator',

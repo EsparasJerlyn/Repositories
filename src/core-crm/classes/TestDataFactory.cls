@@ -251,7 +251,7 @@ public class TestDataFactory {
             );
         }
         return newApplications;
-    }
+    }  
 
     /**
      * @description Method for creating test Lead records

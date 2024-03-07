@@ -1908,7 +1908,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'International';
-            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY;
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
 			
             // call method
@@ -1953,7 +1953,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = ContactsDAO.CITIZENSHIP_STATUS_INTERNATIONAL;
-            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY;
+            newContacts[0].Lead_Source_Category__c = ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
             List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
