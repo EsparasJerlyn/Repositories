@@ -7,6 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                     |
  *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------|
  *    | neil.s.h.lesidan               | Feb 2, 2024           | DEPP-7005              | Created file                                       |
+ *    | nicole.genon                   | Feb 3, 2024           | DEPP-7003              | Added getListContributorByUserID                   |
+ *    | kenneth.f.alsay                | Feb 14, 2024          | DEPP-8040              | Added getAllListContributors                       |
  *    |                                |                       |                        |                                                    |
  */
 @isTest
@@ -57,4 +59,15 @@ public inherited sharing class ListContributorsDAOMock extends DmlBaseMock imple
         return listContributorRecords;
     }
 
+    public List<List_Contributor__c> getAllListContributors(Set<Id> listID, AccessLevel accessLevel){
+        List<List_Contributor__c> listContributorRecords = new List<List_Contributor__c>();
+        for (List_Contributor__c record : listContributorsMap.values()) {
+            if (record.List__c != null && record.Id != null &&
+                listId.contains(record.List__c)) {
+                listContributorRecords.add(record);
+            }
+        }
+
+        return listContributorRecords;
+    }
 }
