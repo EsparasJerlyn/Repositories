@@ -8,6 +8,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Standard</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Opportunity-Advancement Opportunity Layout</layout> 
         <recordType>Opportunity.Individual_Giving</recordType>
     </layoutAssignments>
