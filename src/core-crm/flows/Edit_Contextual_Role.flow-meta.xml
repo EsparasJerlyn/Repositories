@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>4010</locationX>
+        <locationX>4274</locationX>
         <locationY>1166</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -35,13 +35,15 @@
                 <stringValue>Error in Edit Contextual Role</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>FlowLogEntry</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>56.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Assign_AccountId_from_FacultyAccountId</name>
         <label>Assign AccountId from FacultyAccountId</label>
-        <locationX>2426</locationX>
+        <locationX>2690</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -57,7 +59,7 @@
     <assignments>
         <name>Assign_AccountId_from_ResearchCentreAccountId</name>
         <label>Assign AccountId from ResearchCentreAccountId</label>
-        <locationX>2162</locationX>
+        <locationX>2426</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -73,7 +75,7 @@
     <assignments>
         <name>Assign_AccountId_from_SchoolAccountId</name>
         <label>Assign AccountId from SchoolAccountId</label>
-        <locationX>2690</locationX>
+        <locationX>2954</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -89,7 +91,7 @@
     <assignments>
         <name>Assign_Board_of_Directors_Variables</name>
         <label>Assign Board of Directors Variables</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -135,7 +137,7 @@
     <assignments>
         <name>Assign_Contributors_Variables</name>
         <label>Assign Contributors Variables</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -151,7 +153,7 @@
     <assignments>
         <name>Assign_Funding_Bodies_Variables</name>
         <label>Assign Funding Bodies Variables</label>
-        <locationX>2954</locationX>
+        <locationX>3218</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -206,7 +208,7 @@
     <assignments>
         <name>Assign_Public_Officers_Variables</name>
         <label>Assign Public Officers Variables</label>
-        <locationX>3482</locationX>
+        <locationX>3746</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -222,7 +224,7 @@
     <assignments>
         <name>Assign_Research_School_Faculty_Variables</name>
         <label>Assign Research, School, Faculty Variables</label>
-        <locationX>2426</locationX>
+        <locationX>2690</locationX>
         <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -319,9 +321,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Oganisation_Giving_Opportunity_Contributor_Variables</name>
+        <label>Oganisation Giving Opportunity Contributor Variables</label>
+        <locationX>1898</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrganisationGivingOpp_Is_Active</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Contextual_Role</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Account_ID</name>
         <label>Set Account ID</label>
-        <locationX>2426</locationX>
+        <locationX>2690</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>InitialAccountId</assignToReference>
@@ -337,7 +355,7 @@
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>1898</locationX>
+        <locationX>2030</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -478,7 +496,7 @@
     <decisions>
         <name>Check_Parent</name>
         <label>Check Parent Details</label>
-        <locationX>1370</locationX>
+        <locationX>1502</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Contributors_Screen</targetReference>
@@ -545,11 +563,26 @@
             </connector>
             <label>Is Startup Opportunity Outcome</label>
         </rules>
+        <rules>
+            <name>Is_Advancement_Opportunity</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Contextual_Role_Record.Opportunity__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Organisation_Giving</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Organisation_Giving_Opp_Contributors_Screen</targetReference>
+            </connector>
+            <label>Is Organisation Giving Opportunity</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Contextual_role_group</name>
         <label>Contextual role group</label>
-        <locationX>2426</locationX>
+        <locationX>2690</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_AccountId_from_SchoolAccountId</targetReference>
@@ -611,7 +644,7 @@
     <recordLookups>
         <name>Get_Contextual_Role_Record</name>
         <label>Get Contextual Role Record</label>
-        <locationX>1898</locationX>
+        <locationX>2030</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -636,13 +669,14 @@
     <recordUpdates>
         <name>Update_Contextual_Role</name>
         <label>Update Contextual Role</label>
-        <locationX>1898</locationX>
+        <locationX>2030</locationX>
         <locationY>1058</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>Get_Contextual_Role_Record</inputReference>
     </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <name>Academic_Screen</name>
         <label>Academic Screen</label>
@@ -741,6 +775,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -823,6 +858,7 @@
                     </defaultValue>
                     <fieldText>Is Approved</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -843,7 +879,7 @@
     <screens>
         <name>Board_of_Directors_Screen</name>
         <label>Board of Directors Screen</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -941,6 +977,7 @@
                     </defaultValue>
                     <fieldText>QUT Staff</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -956,6 +993,7 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -967,10 +1005,12 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1094,6 +1134,7 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1105,10 +1146,12 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1209,6 +1252,7 @@
                     </defaultValue>
                     <fieldText>Is QUT Internal Participant</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1229,7 +1273,7 @@
     <screens>
         <name>Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1327,6 +1371,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1342,11 +1387,13 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1378,7 +1425,7 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>4010</locationX>
+        <locationX>4274</locationX>
         <locationY>1274</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1394,7 +1441,7 @@
     <screens>
         <name>Funding_Bodies_Screen</name>
         <label>Funding Bodies Screen</label>
-        <locationX>2954</locationX>
+        <locationX>3218</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1496,6 +1543,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1608,6 +1656,7 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1619,10 +1668,12 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -1723,6 +1774,7 @@
                     </defaultValue>
                     <fieldText>Is QUT Internal Participant</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1735,6 +1787,147 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Organisation_Giving_Opp_Contributors_Screen</name>
+        <label>Organisation Giving Opp Contributors Screen</label>
+        <locationX>1898</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Oganisation_Giving_Opportunity_Contributor_Variables</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_1_of_BoardofDirectors_Contextual_Role_Summary</name>
+            <fieldText>Contextual Role Summary</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Copy_1_of_BoardofDirectors_Contextual_Role_Summary_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>OrganisationGivingContributorsLookup</name>
+                    <dataTypeMappings>
+                        <typeName>T</typeName>
+                        <typeValue>Contact</typeValue>
+                    </dataTypeMappings>
+                    <extensionName>c:flowLookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>objectName</name>
+                        <value>
+                            <stringValue>Contact</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultValueInput</name>
+                        <value>
+                            <elementReference>Get_Contextual_Role_Record.Contact__c</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>iconName</name>
+                        <value>
+                            <stringValue>standard:contact</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Existing Contact</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>placeholder</name>
+                        <value>
+                            <stringValue>Select Contact...</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>whereClause</name>
+                        <value>
+                            <stringValue>RecordType.DeveloperName = &apos;Person&apos;</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageWhenValueMissing</name>
+                        <value>
+                            <stringValue>Mandatory Field</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToDisplay</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToDisplayForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>fieldsToSearch</name>
+                        <value>
+                            <elementReference>$Label.LWC_FlowLookupFieldsToSearchForContactObject</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <outputParameters>
+                        <assignToReference>Get_Contextual_Role_Record.Contact__c</assignToReference>
+                        <name>selectedRecordIdOutput</name>
+                    </outputParameters>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingOpp_Is_Active</name>
+                    <dataType>Boolean</dataType>
+                    <defaultValue>
+                        <elementReference>Get_Contextual_Role_Record.Role_Is_Active__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Is Active</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+        </fields>
+        <fields>
+            <fieldType>ObjectProvided</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>Contributors</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -1834,6 +2027,7 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -1931,6 +2125,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1946,6 +2141,7 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
             <visibilityRule>
@@ -1966,7 +2162,7 @@
     <screens>
         <name>Public_Officers_Screen</name>
         <label>Public Officers Screen</label>
-        <locationX>3482</locationX>
+        <locationX>3746</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2064,6 +2260,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2079,11 +2276,13 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2115,7 +2314,7 @@
     <screens>
         <name>Research_Screen</name>
         <label>Research, School, Faculty Screen</label>
-        <locationX>2426</locationX>
+        <locationX>2690</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2373,6 +2572,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2485,6 +2685,7 @@
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
@@ -2496,6 +2697,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2585,6 +2787,7 @@
                     </defaultValue>
                     <fieldText>Is QUT Internal Participant</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2600,6 +2803,7 @@
         </fields>
         <fields>
             <fieldType>ObjectProvided</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
             <visibilityRule>
@@ -2718,6 +2922,7 @@
                     </defaultValue>
                     <fieldText>Is Active</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2733,11 +2938,13 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
                     <visibilityRule>
@@ -2767,7 +2974,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1772</locationX>
+        <locationX>1904</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Contextual_Role_Record</targetReference>

@@ -4,7 +4,7 @@
         <name>Error_Action</name>
         <label>Error Action</label>
         <locationX>1282</locationX>
-        <locationY>2264</locationY>
+        <locationY>2372</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -44,7 +44,7 @@
         <name>Assign_Account_To_Contextual_Role</name>
         <label>Assign Account To Contextual Role</label>
         <locationX>270</locationX>
-        <locationY>1448</locationY>
+        <locationY>1556</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -60,7 +60,7 @@
         <name>Assign_Contact_To_Contextual_Role</name>
         <label>Assign Contact To Contextual Role</label>
         <locationX>270</locationX>
-        <locationY>1964</locationY>
+        <locationY>2072</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
             <operator>Assign</operator>
@@ -76,7 +76,7 @@
         <name>Assign_Contact_Values</name>
         <label>Assign Contact Values</label>
         <locationX>270</locationX>
-        <locationY>1748</locationY>
+        <locationY>1856</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.ContactMobile_Locale__c</assignToReference>
             <operator>Assign</operator>
@@ -110,10 +110,23 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Contextual_Role_Object_Values</name>
+        <label>Assign Contextual Role Object Values</label>
+        <locationX>578</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>New_Contact_Organisation_Giving</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Values_to_Contact_Var</name>
         <label>Assign Values to Contact Var</label>
         <locationX>578</locationX>
-        <locationY>782</locationY>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -308,7 +321,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>New_Contact_Organisation_Giving</targetReference>
+                <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
             </connector>
             <label>Parent Is Organisation Giving Opportunity</label>
         </rules>
@@ -317,7 +330,7 @@
         <name>Is_New_Account</name>
         <label>Is New Account?</label>
         <locationX>534</locationX>
-        <locationY>1232</locationY>
+        <locationY>1340</locationY>
         <defaultConnector>
             <targetReference>Is_New_Contact</targetReference>
         </defaultConnector>
@@ -342,7 +355,7 @@
         <name>Is_New_Contact</name>
         <label>Is New Contact?</label>
         <locationX>534</locationX>
-        <locationY>1640</locationY>
+        <locationY>1748</locationY>
         <defaultConnector>
             <targetReference>Create_Contextual_Role</targetReference>
         </defaultConnector>
@@ -363,6 +376,14 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <dynamicChoiceSets>
+        <name>AdvancementRoleContributorPicklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Contextual_Role__c</picklistField>
+        <picklistObject>Contextual_Role__c</picklistObject>
+    </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>mobilelocalepicklist</name>
         <dataType>Picklist</dataType>
@@ -430,7 +451,7 @@
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
         <locationX>270</locationX>
-        <locationY>1340</locationY>
+        <locationY>1448</locationY>
         <connector>
             <targetReference>Assign_Account_To_Contextual_Role</targetReference>
         </connector>
@@ -444,7 +465,7 @@
         <name>Create_Contact_Record</name>
         <label>Create Contact Record</label>
         <locationX>270</locationX>
-        <locationY>1856</locationY>
+        <locationY>1964</locationY>
         <connector>
             <targetReference>Assign_Contact_To_Contextual_Role</targetReference>
         </connector>
@@ -458,7 +479,7 @@
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
         <locationX>534</locationX>
-        <locationY>2156</locationY>
+        <locationY>2264</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -532,7 +553,7 @@
         <name>Rollback_Records</name>
         <label>Rollback Records</label>
         <locationX>1282</locationX>
-        <locationY>2372</locationY>
+        <locationY>2480</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
         </connector>
@@ -745,7 +766,7 @@
         <name>Contact_Screen</name>
         <label>Contact Screen</label>
         <locationX>534</locationX>
-        <locationY>1124</locationY>
+        <locationY>1232</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1060,7 +1081,7 @@
         <name>Error_Screen</name>
         <label>Error Screen</label>
         <locationX>1282</locationX>
-        <locationY>2480</locationY>
+        <locationY>2588</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1081,7 +1102,7 @@
         <name>New_Contact_Organisation_Giving</name>
         <label>New Contact Organisation Giving</label>
         <locationX>578</locationX>
-        <locationY>674</locationY>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1186,6 +1207,37 @@
             <fieldType>InputField</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Role_Picklist_Test</name>
+            <choiceReferences>AdvancementRoleContributorPicklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Role Picklist Test</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <fieldType>ObjectProvided</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
+        </fields>
+        <fields>
+            <fieldType>ObjectProvided</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>DynamicDataTableInput</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>Contributors</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Affiliation_Organisation_Giving</name>
