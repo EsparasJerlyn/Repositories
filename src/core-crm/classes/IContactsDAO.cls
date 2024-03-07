@@ -17,6 +17,7 @@
  *    | neil.s.h.lesidan               | Sep 20, 2023          | DEPP-6478              | Added getPersonContactsByEmailOrName   |
  *    | arsenio.jr.dayrit              | Sept 22,2023          | DEPP-6720              | added getContactByCaseMobile           |
  *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds|
+ *    | nicole.genon                   | Feb 06, 2024          | DEPP-7003              | Added method getAllPersonContacts      |
  *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | added getPersonContactsByNameUsingSOSL |
  */
 public interface IContactsDAO extends DmlInterface {
@@ -107,6 +108,12 @@ public interface IContactsDAO extends DmlInterface {
 
     List<Contact> getMCPersonaContactsByParentPersonLeadIds(
         Set<Id> recordIds,
+        AccessLevel accessLevel
+    );
+    
+    List<Contact> getPersonContactsWithMatchingEmailsPosition(
+        String toSearch,
+        Integer queryLimit,
         AccessLevel accessLevel
     );
 

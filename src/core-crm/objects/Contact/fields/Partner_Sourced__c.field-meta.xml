@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Partner_Sourced__c</fullName>
+    <description>This Checkbox needs to be set to true based on the Lead Conversion if the Lead converted into the contacts has a Lead source of Partner Sourced</description>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL( Lead_Source_Category__c , &apos;Partner Sourced&apos; ) , TRUE , FALSE )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Partner Sourced</label>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
