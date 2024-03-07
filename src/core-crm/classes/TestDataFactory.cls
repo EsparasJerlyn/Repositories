@@ -4277,6 +4277,7 @@ public class TestDataFactory {
      * @return stewardshipList - List of Stewardship records created
      */
     public static List<Stewardship__c> createStewardshipRecords(
+        Id recordTypeId,
         Integer numOfRecords
     ) {
         List<Stewardship__c> stewardshipList = new List<Stewardship__c>();
@@ -4285,7 +4286,8 @@ public class TestDataFactory {
                 new Stewardship__c(
                     Stage__c = 'Active',
                     Start_Date__c = System.today() + 30,
-                    Completion_Summary__c = 'Test'
+                    Completion_Summary__c = 'Test',
+                    RecordTypeId = recordTypeId
                 )
             );
         }
