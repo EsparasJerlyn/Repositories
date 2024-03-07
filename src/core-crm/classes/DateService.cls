@@ -27,5 +27,13 @@ public inherited sharing class DateService {
         }
         return trueSoFar;
     }
+
+    public static Boolean isDateLessThanAYear(Date dateToCheck) {
+        Boolean trueSoFar = false;
+        if(dateToCheck < System.today().addMonths(-12)){
+            trueSoFar = true;
+        }
+        return trueSoFar;
+    }
     
 }

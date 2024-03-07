@@ -8,6 +8,7 @@
     <fields>Work_Phone__c</fields>
     <fields>Email</fields>
     <fields>Work_Email__c</fields>
+    <fields>Lead_Source_Category__c</fields>
     <fields>LeadSource</fields>
     <label>Lead Compact Layout</label>
 </CompactLayout>

@@ -13,6 +13,8 @@
       | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Added static variable for Domestic Accepted not yet Enrolled               |
       | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Added static variable for Domestic and International Enrolment to Census   |
       | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Domestic First Offer to Acceptance (Automated)                             |
+      | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Renamed International Offer to Acceptance (add - Direct) and created new   |
+      |                                |                       |                        | nurture track named International Offer to Acceptance - Agent              |
  */
 public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase implements INurtureTrackConfigurationsDAO {
 
@@ -22,8 +24,9 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED = 'International Strong Interest Pre-Application (Automated)';
     public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL = 'Domestic Strong Interest Pre-Application';
     public static final String DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED = 'Domestic Strong Interest Pre-Application (Automated)';
-    public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED = 'International Offer to Acceptance (Automated)';
-    public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL = 'International Offer to Acceptance';
+    public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED = 'International Offer to Acceptance - Direct (Automated)';
+    public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL = 'International Offer to Acceptance - Direct';
+    public static final String INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED = 'International Offer to Acceptance - Agent (Automated)';
     public static final String DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED = 'Domestic Accepted not yet Enrolled (Automated)';
     public static final String DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL = 'Domestic Accepted not yet Enrolled';
     public static final String DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE = 'Domestic and International Enrolment to Census';
@@ -37,6 +40,10 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final String DOMESTIC_ACCEPTED_AND_ADMITTED_MANUAL = 'Domestic Accepted and Admitted';
     public static final String DOMESTIC_OFFER_LAPSED_AUTOMATED = 'Domestic Offer Lapsed (Automated)';
     public static final String DOMESTIC_OFFER_LAPSED_MANUAL = 'Domestic Offer Lapsed';
+    public static final String INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED = 'International Application to Offer - Direct (Automated)';
+    public static final String INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED = 'International Application to Offer - Agent (Automated)';
+    public static final String INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED = 'International Pre-Application - Partner Sourced (Automated)';
+    public static final String INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL = 'International Pre-Application - Partner Sourced';
 
     public static final Set<String> DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST = new Set<String>{
         DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED, //Domestic First Offer to Acceptance (Automated)
@@ -79,20 +86,20 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST = new Set<String>{
         INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED, //International Application Submission - Direct Applicant (Automated)
         INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
-        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED, //International Offer to Acceptance (Automated)
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
         INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
     public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_DIRECT_APPLICANT = new Set<String>{
         INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
-        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED, //International Offer to Acceptance (Automated)
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
         INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
     public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_APP_TO_OFFER = new Set<String>{
-        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED, //International Offer to Acceptance (Automated)
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
         INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL,//International Acceptance Deposit not Paid
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
@@ -106,6 +113,18 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
+    public static final Set<String> INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_DIRECT = new Set<String>{
+        INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED //International Application to Offer - Direct (Automated)
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AGENT = new Set<String>{
+        INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED //International Application to Offer - Direct (Automated)
+    };
+
+    public static final Set<String> INTERNATIONAL_PARTNER_SOURCED = new Set<String>{
+       INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+       INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL
+    };
 
 
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
@@ -158,5 +177,5 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
         );
-    }
+    } 
 } 

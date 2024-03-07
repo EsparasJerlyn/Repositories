@@ -6,10 +6,11 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary    |
-      |---------------------------|-----------------------|--------------|-------------------|
-      | arsenio.jr.dayrit         | march 04, 2023        | DEPP-5322    | Created file      | 
-      |                           |                       |              |                   | 
+ *    | Developer                 | Date                  | JIRA         | Change Summary                |
+      |---------------------------|-----------------------|--------------|-------------------------------|
+      | arsenio.jr.dayrit         | march 04, 2023        | DEPP-5322    | Created file                  | 
+      | johanna.a.gibas           | February 16, 2024     | DEPP-7697    | Added Partner Sourced in html |
+      | johanna.a.gibas           | March 01, 2024        | DEPP-8106    | Re-ordered Partner Sourced    |
  */
 
 import { LightningElement, api, wire } from "lwc";

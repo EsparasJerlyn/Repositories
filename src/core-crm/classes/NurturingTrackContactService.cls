@@ -6,36 +6,42 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                |
-      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                  |
-      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International                                 |
-      |                                |                       |                        | Enrolment to Census                                                           |
-      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace the Term Intake to                                 |
-      |                                |                       |                        | Calculated Intake Date on application record                                  |
-      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove CURRENT_INTAKE_PERIOD and NurturingTrackService.isDateWithinRange call |
-      |                                |                       |                        | as it's no longer used                                                        |
-      | arsenio.jr.dayrit              | September 07, 2023    | DEPP-5652              | Added handling for Domestic Strong Interest Pre-Application                   |
-      | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6677              | Updated name of sales cadence from Domestic Acceptance to Enrollment to       |
-      |                                |                       |                        | Domestic Accepted not yet Enrolled                                            |
-      | arsenio.jr.dayrit              | October 03, 2023      | DEPP-6816              | Added handling for International Offer to Acceptance                          |
-      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                  |
-      | mark.j.mahilum                 | October 04, 2023      | DEPP-6682              | Added new entry criteria for DomesticAcceptedAdmitted sales cadence           |
-      | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Update handling for Domestic Accepted not yet Enrolled                        |
-      | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application                  |
-      | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6854              | Updated handing for Domestic International Start Date                         |
-      | arsenio.jr.dayrit              | Oct. 12, 2023         | DEPP-6901              | Added international citizenship status handling                               |
-      | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Updated handling for Domestic First Offer (Auto). Changed checking of field   |
-      |                                |                       |                        | Admission process. Should be either RTN_DEFER or RTN_QTAC.                    |
-      | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Transffered String literals (Domestic First Offer Auto && Census)             |
-      |                                |                       |                        | to NurtureTrackConfigurationsDAO.                                             |
-      | arsenio.jr.dayrit              | Oct. 19, 2023         | DEPP-6958              | Added Domestic Deffered Offer to Acceptance exit handling                     |
-      | arsenio.jr.dayrit              | Nov. 20, 2023         | DEPP-7268              | Added Domestic First Offer to Acceptance entry and exit criteria              |
-      | roy.nino.s.regala              | Jan. 03, 2024         | Shutdown PMD Fix       | Fix cyclomatic complexity issues                                              |
-      | arsenio.jr.dayrit              | Jan. 10, 2024         | DEPP-6958              | Added Domestic Accepted and Admitted exit handling                            |
-      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Updated application list used in International Strong Interest exit criteria  |
-      | mark.j.mahilum                 | Feb 06, 2024          | DEPP-7862              | Updated entry and exit criteria of (Domestic Accepted not yet enrolled)       |
-
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                     |
+      |--------------------------------|-----------------------|------------------------|------------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                       |
+      | eccarius.munoz                 | August 08, 2023       | DEPP-5760              | Added handling for Domestic and International                                      |
+      |                                |                       |                        | Enrolment to Census                                                                |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Updated methods to replace the Term Intake to                                      |
+      |                                |                       |                        | Calculated Intake Date on application record                                       |
+      | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Remove CURRENT_INTAKE_PERIOD and NurturingTrackService.isDateWithinRange call      |
+      |                                |                       |                        | as it's no longer used                                                             |
+      | arsenio.jr.dayrit              | September 07, 2023    | DEPP-5652              | Added handling for Domestic Strong Interest Pre-Application                        |
+      | mark.j.mahilum                 | Sept 19, 2023         | DEPP-6677              | Updated name of sales cadence from Domestic Acceptance to Enrollment to            |
+      |                                |                       |                        | Domestic Accepted not yet Enrolled                                                 |
+      | arsenio.jr.dayrit              | October 03, 2023      | DEPP-6816              | Added handling for International Offer to Acceptance                               |
+      | alexander.cadalin              | Oct 3, 2023           | DEPP-6814              | Fixed case detection logic for international strong interest                       |
+      | mark.j.mahilum                 | October 04, 2023      | DEPP-6682              | Added new entry criteria for DomesticAcceptedAdmitted sales cadence                |
+      | arsenio.jr.dayrit              | October 04, 2023      | DEPP-6834              | Update handling for Domestic Accepted not yet Enrolled                             |
+      | arsenio.jr.dayrit              | October 06, 2023      | DEPP-6853              | Update handling for Domestic Strong Interest Pre Application                       |
+      | mark.j.mahilum                 | Oct. 06, 2023         | DEPP-6854              | Updated handing for Domestic International Start Date                              |
+      | arsenio.jr.dayrit              | Oct. 12, 2023         | DEPP-6901              | Added international citizenship status handling                                    |
+      | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Updated handling for Domestic First Offer (Auto). Changed checking of field        |
+      |                                |                       |                        | Admission process. Should be either RTN_DEFER or RTN_QTAC.                         |
+      | eccarius.munoz                 | October 16, 2023      | DEPP-6914              | Transffered String literals (Domestic First Offer Auto && Census)                  |
+      |                                |                       |                        | to NurtureTrackConfigurationsDAO.                                                  |
+      | arsenio.jr.dayrit              | Oct. 19, 2023         | DEPP-6958              | Added Domestic Deffered Offer to Acceptance exit handling                          |
+      | arsenio.jr.dayrit              | Nov. 20, 2023         | DEPP-7268              | Added Domestic First Offer to Acceptance entry and exit criteria                   |
+      | roy.nino.s.regala              | Jan. 03, 2024         | Shutdown PMD Fix       | Fix cyclomatic complexity issues                                                   |
+      | arsenio.jr.dayrit              | Jan. 10, 2024         | DEPP-6958              | Added Domestic Accepted and Admitted exit handling                                 |
+      | eccarius.munoz                 | January 22, 2024      | DEPP-7651              | Updated application list used in International Strong Interest exit criteria       |
+      | mark.j.mahilum                 | Feb 06, 2024          | DEPP-7862              | Updated entry and exit criteria of (Domestic Accepted not yet enrolled)            |
+      | arsenio.jr.dayrit              | Feb 23, 2024          | DEPP-7709              | Update handling for International International Strong Interest Pre –              |
+      |                                |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
+      | arsenio.jr.dayrit              | Feb 29, 2024          | DEPP-7595              | Update handling for Domestic First Offer To Acceptance entry method                |
+      |                                |                       |                        | and Domestic Accepted and Admitted entry method                                    |                             |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
+      | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Renamed International Offer to Acceptance (add - Direct) and created new nurture   |
+      |                                |                       |                        | track named International Offer to Acceptance - Agent                              |
+      | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added new entry and exit criteria for InternationalPreApplicationPartnerSourced    |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList = new List<hed__Application__c>();
@@ -47,6 +53,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackWithThresholdForEntry = new Map<String,Nurture_Track_Configuration__c>();
     private static Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>();
     private static Map<Id, Set<String>> applicantIdsWithAllCompletedCadence = new Map<Id, Set<String>>();
+    private static Map<String,String> contactWithValidProgramEnrollmentMap = new Map<String,String>();
     private static List<Case> caseList;
     private static Map<Id, Contact> domesticEntryContactMap = new Map<Id, Contact>();
     private static Map<Id, Contact> domesticExitContactMap = new Map<Id, Contact>();
@@ -66,7 +73,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_AUTOMATED,
         NurtureTrackConfigurationsDAO.DOMESTIC_ACCEPTED_NOT_YET_ENROLLED_MANUAL,
         NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL,
-        NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL,
         NurtureTrackConfigurationsDAO.DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE,
         NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED,
@@ -78,8 +85,11 @@ public with sharing class NurturingTrackContactService { //NOPMD
         NurtureTrackConfigurationsDAO.DOMESTIC_OFFER_LAPSED_MANUAL,
         NurtureTrackConfigurationsDAO.DOMESTIC_OFFER_LAPSED_AUTOMATED,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
-        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
     };
+    private static Map<String,International_Tier__c> InternationalTierRestrictedMap = NurturingTrackService.getAllRestrictedCountry();
 
     /**
      * @description: process All contacts for Entry and Exit in Cadences assignment
@@ -92,7 +102,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
         //query all the related records required for each entry/exit criteria
         getAllRelatedRecords(contactMap);
-
+        
         //CALL YOUR ENTRY AND EXIT METHOD HERE PASS ONLY THE
 
         /**
@@ -101,7 +111,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
          *   International Application to Offer (DEPP-5746)
          *   Domestic First Offer to Acceptance (DEPP-5747)
          *   Domestic Deferred Offer to Acceptance (DEPP-5755)
-         *   International Offer to Acceptance (DEPP-5756)
+         *   International Offer to Acceptance - Direct (Original DEPP-5756, New DEPP-7838)
          *   International Acceptance Deposit not Paid (DEPP-5757)
          *   Domestic Accepted not yet Enrolled (DEPP-5758)
          *   Domestic and International Enrolment to Census (DEPP-5760)
@@ -111,11 +121,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
         //Contact entry criteria to process
         contactToUpdate.putall(getDomesticStrongInterestPreApplicationForEntry(domesticEntryContactMap));
         contactToUpdate.putAll(getEntryInternationalStrongInterestPreApplication(internationalEntryContactMap));
+        contactToUpdate.putAll(getEntryInternationalPreApplicationPartnerSourced(internationalEntryContactMap));
         contactToUpdate.putall(getEntryInternationalDirectApplicants(internationalEntryContactMap));
+        contactToUpdate.putAll(getEntryInternationalApplicationToOfferDirectAutomated(internationalEntryContactMap));
+        contactToUpdate.putAll(getEntryInternationalApplicationToOfferAgentAutomated(internationalEntryContactMap));
         contactToUpdate.putAll(getEntryInternationalApplicationToOffer(internationalEntryContactMap));
         contactToUpdate.putall(getEntryDomesticFirstOffertoAcceptance(domesticEntryContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForEntry(domesticEntryContactMap));
-        contactToUpdate.putAll(getInternationalOfferToAcceptanceForEntry(internationalEntryContactMap));
+        contactToUpdate.putAll(getInternationalOfferToAcceptanceDirectForEntry(internationalEntryContactMap));
+        contactToUpdate.putAll(getInternationalOfferToAcceptanceAgentForEntry(internationalEntryContactMap));
         contactToUpdate.putall(getEntryInternationalAcceptanceDepositNotPaid(internationalEntryContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForEntry(domesticEntryContactMap));
         contactToUpdate.putAll(getEntryDomesticAcceptedAndAdmitted(domesticEntryContactMap));
@@ -126,11 +140,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
         //Contact exit criteria to process
         contactToUpdate.putAll(getDomesticStrongInterestPreApplicationForExit(domesticExitContactMap));
         contactToUpdate.putAll(getExitInternationalStrongInterestPreApplication(internationalExitContactMap));
+        contactToUpdate.putAll(getExitInternationalPreApplicationPartnerSourced(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalDirectApplicants(internationalExitContactMap));
+        contactToUpdate.putAll(getExitInternationalApplicationToOfferDirectAutomated(internationalExitContactMap));
+        contactToUpdate.putAll(getExitInternationalApplicationToOfferAgentAutomated(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalApplicationToOffer(internationalExitContactMap));
         contactToUpdate.putAll(getExitDomesticFirstOffertoAcceptance(domesticExitContactMap));
         contactToUpdate.putAll(getDomesticDeferredOfferToAcceptanceForExit(domesticExitContactMap));
         contactToUpdate.putAll(getExitInternationalOffertoAcceptance(internationalExitContactMap));
+        contactToUpdate.putAll(getExitInternationalOffertoAcceptanceAgent(internationalExitContactMap));
         contactToUpdate.putAll(getExitInternationalAcceptanceDepositNotPaid(internationalExitContactMap));
         contactToUpdate.putAll(getDomesticAcceptanceToEnrollmentForExit(domesticExitContactMap));
         contactToUpdate.putAll(getExitDomesticAcceptedAndAdmitted(domesticExitContactMap));
@@ -226,24 +244,24 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> internationalDirectApplicants = new Map<Id, hed__Application__c>();
         Set<String> newOrUnsubmittedStatus = new Set<String>{ 'New', 'Unsubmitted' };
         Set<String> completedCadencesCopy = new Set<String>();
+        Set<Id> contactIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryContactMap.values());
+        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE};
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+            boolean isPartnerSourced = leadSourceCategory.contains(application.hed__Applicant__r.Lead_Source_Category__c);
+            boolean hasContactIdsWithRestricted = contactIdsWithRestricted.contains(application.hed__Applicant__c);
 
-            if (
-                internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
-                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
-                newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Calculated_Intake_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')
-                ) &&
-                application.Is_Agent_Assisted__c == false &&
-                //make sure that there are no completed cadence against any succeeding cadence
-                //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
-                !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_DIRECT_APPLICANT)
-            ) {
+            boolean isCriteriaMet = internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
+                                    application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                                    application.Calculated_Intake_Date__c > System.today() &&
+                                    newOrUnsubmittedStatus.contains(application.Application_Status__c) &&
+                                    !hasContactIdsWithRestricted &&
+                                    !isPartnerSourced &&
+                                    //make sure that there are no completed cadence against any succeeding cadence
+                                    //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+                                    !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_DIRECT_APPLICANT);
+            if (isCriteriaMet) {
                 internationalDirectApplicants.put(application.Id, application);
             }
         }
@@ -272,6 +290,63 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
         return contactToUpdateMap;
     }
+
+    /**
+     * @description Entry Criteria for International Pre-Application - Partner Source Contacts
+     * @param Map<Id, Contact> internationEntryContactMap a map of ids to entry international contact records
+     * @return Map<Id, Contact> map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getEntryInternationalPreApplicationPartnerSourced(
+        Map<Id, Contact> internationalEntryContactMap
+    ) {
+        
+        Map<Id, Set<String>> contactIdsWithCmpltdCadenceSet = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new List<String>{NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED},
+            applicantIdsWithCompletedCadence
+        );
+        Set<String> completedCadencesCopy = new Set<String>();
+        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE};
+        Set<Id> contactIdsWithActiveApplication = getContactWithApplicationsforXYears(3);
+
+        // Check Contact and Cadence Name if Manual is already Completed
+        Set<Id> completedManualCadenceByContactId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED },
+            applicantIdsWithCompletedCadence
+        ).keySet();
+
+        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
+        for(Contact internationalEntryContact : internationalEntryContactMap.values()) {
+            boolean isPartnerSourced = leadSourceCategory.contains(internationalEntryContact.Lead_Source_Category__c);
+            boolean shouldContinueProcessing = contactIdsWithCmpltdCadenceSet.containsKey(internationalEntryContact.Id) && contactIdsWithCmpltdCadenceSet.get(internationalEntryContact.Id).size() >= 2;
+            //get a copy of completed cadences related to the contact regardless of status
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(internationalEntryContact.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(internationalEntryContact.Id)):new Set<String>();
+
+            if (shouldContinueProcessing ||
+                contactIdsWithActiveApplication.contains(internationalEntryContact.Id) ||
+                !isPartnerSourced ||
+                //make sure that there are no completed cadence against any succeeding cadence
+                //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST)) {
+                continue;
+            }
+
+            Boolean isManual = !completedManualCadenceByContactId.contains(internationalEntryContact.Id);
+            
+            contactsToUpdate.put(
+                internationalEntryContact.Id,
+                new Contact(
+                    Id = internationalEntryContact.Id,
+                    Calculated_Cadence__c = !isManual ?
+                    NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL:
+                    NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+                )
+            );
+        }
+        
+        return contactsToUpdate;
+    }    
 
     /**
      * @description Update international direct applicant contacts based on entry criteria
@@ -470,13 +545,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
       * @param Map<Id,Contact> mapOfContacts record to evaluate
       * @return Map<Id,Contact> of domestic acceptance contact
       */
-      public static Map<Id,Contact> getInternationalOfferToAcceptanceForEntry(Map<Id,Contact> internationalEntryContactMap) {
+      public static Map<Id,Contact> getInternationalOfferToAcceptanceDirectForEntry(Map<Id,Contact> internationalEntryContactMap) {
         Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
         Map<Id, hed__Application__c> internationalOffertoAcceptanceManual = new Map<Id, hed__Application__c>();
         Map<Id, hed__Application__c> internationalOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryContactMap.keySet(),
-            new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED },
+            new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED },
             applicantIdsWithCompletedCadence
         );
         Set<String> completedCadencesCopy = new Set<String>();
@@ -485,12 +560,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
         for (hed__Application__c application : applicationList) {
             Boolean hasCompletedCadence = filteredApplicantIdsWithCompletedCadence.containsKey(application.hed__Applicant__c);
             boolean isStudyLinkRecordType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
-
+            boolean isAgentAssisted = application.Is_Agent_Assisted__c;
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
 
             if (
                 isStudyLinkRecordType &&
+                !isAgentAssisted &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 ApplicationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK.contains(application.Application_Status__c) &&
                 NurturingTrackService.isDateWithinRange(
@@ -512,6 +588,95 @@ public with sharing class NurturingTrackContactService { //NOPMD
         return contactToUpdateMap;
     }
 
+    /**
+     * @description Validate records and update contacts if criteria is for Entry of International Offer to Acceptance - Agent cadence
+     * @param Map<Id,Contact> contactMap contacts to evaluate
+     */
+    public static Map<Id,Contact> getInternationalOfferToAcceptanceAgentForEntry(Map<Id,Contact> contactMap){
+
+        Set<String> completedCadencesCopy = new Set<String>();
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>();
+        Map<Id, hed__Application__c> internationalOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
+        Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new List<String>{ NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED },
+            applicantIdsWithCompletedCadence
+        );        
+
+        for (hed__Application__c application : applicationList) {
+            //get a copy of completed cadences related to the contact regardless of status
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
+
+            boolean isForProcessing = 
+                !filteredApplicantIdsWithCompletedCadence.containsKey(application.hed__Applicant__c) &&
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
+                application.Is_Agent_Assisted__c &&
+                ApplicationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK.contains(application.Application_Status__c) &&
+                NurturingTrackService.isDateWithinRange(application.Calculated_Intake_Date__c, CURRENT_INTAKE_PERIOD.get('START_DATE'), CURRENT_INTAKE_PERIOD.get('END_DATE')) &&
+                internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
+                //make sure that there are no completed cadence against any succeeding cadence
+                //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
+                !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_OFFER_TO_ACCEPTANCE);
+            
+            if (isForProcessing) {
+                internationalOffertoAcceptanceAutomated.put(application.Id, application);
+            }
+        }
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Contact.getSObjectType(), 
+            null,
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED
+        );
+
+        // Check and Update Contacts Cadence Name
+        List<Contact> completedManualCadenceByContactId = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            filteredApplicantIdsWithCompletedCadence,
+            internationalOffertoAcceptanceAutomated.values(),
+            cadenceWrapper
+        );
+
+        if(!completedManualCadenceByContactId.isEmpty()){
+            contactToUpdateMap.putAll(completedManualCadenceByContactId);
+        }
+       
+        return contactToUpdateMap;
+    }
+    
+    /**
+     * @description Validate records and update contacts if criteria is for Exit of International Offer to Acceptance - Agent cadence
+     * @param Map<Id,Contact> contactMap contacts to evaluate
+     */
+    private static Map<Id, Contact> getExitInternationalOffertoAcceptanceAgent(
+        Map<Id, Contact> internationalEntryContactMap
+    ) {
+        Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
+
+        for (hed__Application__c application : applicationList) {
+            boolean isStudyLinkRecordType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            boolean hasCalculatedCadence = application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED;
+            boolean isValidCalcIntakeDate = NurturingTrackService.isDateWithinRange(
+                                                application.Calculated_Intake_Date__c,
+                                                CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                                                CURRENT_INTAKE_PERIOD.get('END_DATE')
+                                            );
+            boolean isAppStatusValid = ApplicationsDAO.STATUS_SET_ACCEPTS_DECLINES_DEFERS_OFFER.contains(application.Application_Status__c);
+            if (
+                internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
+                isStudyLinkRecordType &&
+                isAppStatusValid &&
+                hasCalculatedCadence &&
+                isValidCalcIntakeDate
+            ) {
+                contactsForUpdatingMap.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+        return contactsForUpdatingMap;
+    }
+
     private static void processCompletedInternationalOffertoAcceptanceAutomated(hed__Application__c application, Map<Id, hed__Application__c> internationalOffertoAcceptanceAutomated, Boolean hasCompletedCadence){
         if( !hasCompletedCadence){
             internationalOffertoAcceptanceAutomated.put(application.Id, application);
@@ -519,12 +684,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
     }
 
     private static void processCompletedInternationalOffertoAcceptanceManual(hed__Application__c application, Map<Id,hed__Application__c> internationalOffertoAcceptanceManual, Boolean hasCompletedCadence){
-
-        if( hasCompletedCadence &&
-            application.Is_Agent_Assisted__c == false &&
+        if( 
+            hasCompletedCadence &&
             nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL) &&
             nurturingTrackWithOffSetDaysMap.get(NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL).Key_Date_Offset_Days__c != null &&
-            application.Calculated_Intake_Date__c.addDays(-(Integer)nurturingTrackWithOffSetDaysMap.get(NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL).Key_Date_Offset_Days__c) <= System.today()){
+            application.Offer_Status_Date__c != null && application.Offer_Status_Date__c.addDays((Integer)nurturingTrackWithOffSetDaysMap.get(NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL).Key_Date_Offset_Days__c) == System.today()
+        ){
             internationalOffertoAcceptanceManual.put(application.Id, application);
         }
     }
@@ -541,13 +706,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryContactMap.keySet(),
             new List<String>{
-                NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED
             },
             applicantIdsWithCompletedCadence
         );
 
         NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(Contact.getSObjectType(), null,
-                                                                                                                                    NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED);
+                                                                                                                                    NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED);
 
         // Check and Update Contacts Cadence Name
         List<Contact> completedManualCadenceByContactId = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
@@ -572,7 +737,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, Set<String>> applicantWithCompletedCadenceAutomated = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             internationalEntryContactMap.keySet(),
             new List<String>{
-                NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED
             },
             applicantIdsWithCompletedCadence
         );
@@ -623,22 +788,23 @@ public with sharing class NurturingTrackContactService { //NOPMD
     ) {
         Map<Id, Contact> contactsForUpdatingMap = new Map<Id, Contact>();
 
-        Set<String> offerStatus = new Set<String>{ 'Accepted', 'Declined by Applicant', 'Deferral Requested','Acceptance - Payment Received','Acceptance - No Payment Required','Acceptance - Pending More Information','Acceptance - Pending Payment','Conditional Acceptance','Withdrawn' };
-
         for (hed__Application__c application : applicationList) {
             boolean isStudyLinkRecordType = application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
             Boolean hasCalculatedCadence =
-                (application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AUTOMATED) ||
+                (application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED) ||
                 (application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL);
+            boolean isValidCalcIntakeDate = NurturingTrackService.isDateWithinRange(
+                                                application.Calculated_Intake_Date__c,
+                                                CURRENT_INTAKE_PERIOD.get('START_DATE'),
+                                                CURRENT_INTAKE_PERIOD.get('END_DATE')
+                                            );
+            boolean isAppStatusValid = ApplicationsDAO.STATUS_SET_ACCEPTS_DECLINES_DEFERS_OFFER.contains(application.Application_Status__c);
             if (
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 isStudyLinkRecordType &&
-                offerStatus.contains(application.Application_Status__c) &&
+                isAppStatusValid &&
                 hasCalculatedCadence &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Calculated_Intake_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE'))
+                isValidCalcIntakeDate
             ) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
@@ -1028,19 +1194,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
         boolean isSAMSLegacyRecType = app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID;
         boolean isSAMSCiRecType = app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID;
         if (methodName == DOMESTIC_DEFFERED_OFFER_TO_ACCEPTANCE) {
-            if (
-                (isSAMSLegacyRecType || isSAMSCiRecType) &&
-                (app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
-                app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC) &&
-                app.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
-                app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
-                nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL) &&
-                app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(
-                    -(Integer) nurturingTrackWithOffSetDaysMap.get(
-                    NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL
-                )?.Key_Date_Offset_Days__c) <= System.today() &&
-                app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today()
-            ) {
+            boolean isCriteriaMet = (isSAMSLegacyRecType || isSAMSCiRecType) &&
+                                    (app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER ||
+                                    app.Admission_Process__c == ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC) &&
+                                    app.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
+                                    app.Offered_Program_Plan__r.Availability_Start_Date__c != null &&
+                                    nurturingTrackWithOffSetDaysMap.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL) &&
+                                    app.Offered_Program_Plan__r.Availability_Start_Date__c.addDays(-(Integer) nurturingTrackWithOffSetDaysMap.get(NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL)?.Key_Date_Offset_Days__c) <= System.today() &&
+                                    app.Offered_Program_Plan__r.Availability_Start_Date__c >= System.today();
+            if (isCriteriaMet) {
                 contactHasApplicationForEntry.add(app.hed__Applicant__c);
             }
         }
@@ -1262,6 +1424,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
         Set<String> completedCadencesCopy = new Set<String>();
         Set<Id> applicationProgramUnderGrad = getapplicationProgramUnderGrad(applicationList);
+        Map<String,String> contactWithValidProgramEnrollmentAndQtac = checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet());
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED },
@@ -1277,11 +1440,17 @@ public with sharing class NurturingTrackContactService { //NOPMD
             boolean isValidAdmissionProcess =   application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_DEFER &&
                                                 application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC;
 
+            boolean isContactWithProgramEnrollmentNotAdmittedORWithQtact = (application.Related_QTAC_Application__c != null &&
+                                                                           contactWithValidProgramEnrollmentAndQtac.containsKey(application.hed__Applicant__c)) ||
+                                                                           (contactWithValidProgramEnrollmentAndQtac.containsKey(application.hed__Applicant__c) && 
+                                                                           contactWithValidProgramEnrollmentAndQtac.get(application.hed__Applicant__c) != ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED);
+
             boolean isAppForEntry = isValidRecordType &&
                                     domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
                                     application.Offer_Status__c == ApplicationsDAO.STATUS_OFFERED &&
                                     isValidAdmissionProcess &&
                                     application.hed__Application_Date__c != null &&
+                                    isContactWithProgramEnrollmentNotAdmittedORWithQtact &&
                                     //make sure that there are no completed cadence against any succeeding cadence
                                     //this should return true if one of the succeeding cadence is already in completedCadencesCopy
                                     !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_FIRST_OFFER) &&
@@ -1610,6 +1779,152 @@ public with sharing class NurturingTrackContactService { //NOPMD
     }
 
     /**
+     * @description Update entering international application to offer DIRECT automated applications
+     * @param Map<Id, Contact> internationEntryContactMap a map of ids to entry international contact records
+     * @return Map<Id, Contact> map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getEntryInternationalApplicationToOfferDirectAutomated(
+        Map<Id, Contact> internationalEntryContactMap
+    ) {
+        Map<Id, hed__Application__c> directApplicantsToOffer = new Map<Id, hed__Application__c>();
+        Set<String> completedCadencesCopy = new Set<String>();
+        for(hed__Application__c application : applicationList) {
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c) ?
+                new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)) : new Set<String>();
+            Boolean isPassedCriteria = 
+                (application.Calculated_Intake_Date__c != null && application.Calculated_Intake_Date__c > Date.today()) &&
+                (application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID) &&
+                (ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)) &&
+                (application.Is_Agent_Assisted__c == false) &&
+                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_DIRECT));
+            if(isPassedCriteria) {
+                directApplicantsToOffer.put(application.Id, application);
+            }
+        }
+
+        Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new List<String>{
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED
+            },
+            applicantIdsWithCompletedCadence
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Contact.getSObjectType(),
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+            null
+        );
+
+        List<Contact> contactToUpdateList = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            filteredApplicantIdsWithCompletedCadence, 
+            directApplicantsToOffer.values(), 
+            cadenceWrapper
+        );
+
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
+        return contactToUpdateMap;
+    }
+
+    /**
+     * @description Update exiting international application to offer DIRECT automated applications
+     * @param Map<Id, Contact> internationalExitContactMap - A map of ids to exit international contact records
+     * @return Map<Id, Contact> A map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getExitInternationalApplicationToOfferDirectAutomated(
+        Map<Id, Contact> internationalExitContactMap
+    ) {
+        Map<Id, Contact> contactsForUpdating = new Map<Id, Contact>();
+        for(hed__Application__c application : applicationList) {
+            if(
+                application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED &&
+                internationalExitContactMap.containsKey(application.hed__Applicant__c) &&
+                ApplicationsDAO.EXIT_STATUSES_INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTO.contains(application.Application_Status__c)
+            ) {
+                contactsForUpdating.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+
+        return contactsForUpdating;
+    }
+
+    /**
+     * @description Update entering international application to offer AGENT automated applications
+     * @param Map<Id, Contact> internationEntryContactMap a map of ids to entry international contact records
+     * @return Map<Id, Contact> map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getEntryInternationalApplicationToOfferAgentAutomated(
+        Map<Id, Contact> internationalEntryContactMap
+    ) {
+        Map<Id, hed__Application__c> directApplicantsToOffer = new Map<Id, hed__Application__c>();
+        Set<String> completedCadencesCopy = new Set<String>();
+        for(hed__Application__c application : applicationList) {
+            completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c) ?
+                new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)) : new Set<String>();
+            Boolean isPassedCriteria = 
+                (application.Calculated_Intake_Date__c != null && application.Calculated_Intake_Date__c > Date.today()) &&
+                (application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID) &&
+                (ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)) &&
+                (application.Is_Agent_Assisted__c == true) &&
+                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AGENT));
+            if(isPassedCriteria) {
+                directApplicantsToOffer.put(application.Id, application);
+            }
+        }
+
+        Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
+            internationalEntryContactMap.keySet(),
+            new List<String>{
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED
+            },
+            applicantIdsWithCompletedCadence
+        );
+
+        NurturingTrackService.CadenceWrapper cadenceWrapper = new NurturingTrackService.CadenceWrapper(
+            Contact.getSObjectType(),
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED,
+            null
+        );
+
+        List<Contact> contactToUpdateList = (List<Contact>) NurturingTrackService.populateCalculatedCadenceSingle(
+            filteredApplicantIdsWithCompletedCadence, 
+            directApplicantsToOffer.values(), 
+            cadenceWrapper
+        );
+
+        Map<Id, Contact> contactToUpdateMap = new Map<Id, Contact>(contactToUpdateList);
+        return contactToUpdateMap;
+    }
+
+    /**
+     * @description Update exiting international application to offer DIRECT automated applications
+     * @param Map<Id, Contact> internationalExitContactMap - A map of ids to exit international contact records
+     * @return Map<Id, Contact> A map of id to updated contact records for batch processing
+     */
+    private static Map<Id, Contact> getExitInternationalApplicationToOfferAgentAutomated(
+        Map<Id, Contact> internationalExitContactMap
+    ) {
+        Map<Id, Contact> contactsForUpdating = new Map<Id, Contact>();
+        for(hed__Application__c application : applicationList) {
+            if(
+                application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED &&
+                internationalExitContactMap.containsKey(application.hed__Applicant__c) &&
+                ApplicationsDAO.EXIT_STATUSES_INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTO.contains(application.Application_Status__c)
+            ) {
+                contactsForUpdating.put(
+                    application.hed__Applicant__c,
+                    new Contact(Id = application.hed__Applicant__c, Calculated_Cadence__c = '')
+                );
+            }
+        }
+
+        return contactsForUpdating;
+    }
+
+    /**
      * @description: Check if the contact is for Entry of Domestic Strong Interest Pre-Application cadences
      *
      * @param Map<Id,Contact> mapOfContacts record to evaluate
@@ -1650,13 +1965,15 @@ public with sharing class NurturingTrackContactService { //NOPMD
 
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(contact.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(contact.Id)):new Set<String>();
-            if ((!contacHasExistingApplication || hasInActiveApplication) &&
-                hasExistingCaseFromContact &&
-                !hasExistingCompletedCadenceManual &&
-                contact.Lead_Score__c >= threshold && // ... has a lead score above threshold...
-                //make sure that there are no completed cadence against any succeeding cadence
-                //this should return true if one of the succeeding cadence is already in completedCadencesCopy
-                !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST))
+            
+            Boolean isCriteriaMet = (!contacHasExistingApplication || hasInActiveApplication) &&
+                                    hasExistingCaseFromContact &&
+                                    !hasExistingCompletedCadenceManual &&
+                                    contact.Lead_Score__c >= threshold && // ... has a lead score above threshold...
+                                    //make sure that there are no completed cadence against any succeeding cadence
+                                    //this should return true if one of the succeeding cadence is already in completedCadencesCopy
+                                    !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_STRONG_INTEREST);
+            if (isCriteriaMet)
             {
                 contactToUpdateMap.put(
                         contact.Id,
@@ -1684,12 +2001,17 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> domesticAcceptedApplicants = new Map<Id, hed__Application__c>();
         Set<String> completedCadencesCopy = new Set<String>();
         Set<Id> applicationProgramUnderGrad = getapplicationProgramUnderGrad(applicationList);
+        Map<String,String> contactWithValidProgramEnrollmentAndQtac = checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet());
         for (hed__Application__c app : applicationList) {
 
             Boolean isSAMSApplication = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
             Boolean isProgramEnrollmentAdmitted = (app.Program_Enrollment__c != NULL && String.isNotBlank(app.Program_Enrollment__r.Enrollment_Status__c));
             Boolean isSAMSLatestApplication = (app.Calculated_Intake_Date__c != NULL && app.Calculated_Intake_Date__c > Date.today());
             boolean isApplicationProgramUnderGrad = applicationProgramUnderGrad.contains(app.Id);
+            boolean isContactWithProgramEnrollmentNotAdmittedORWithQtact = (app.Related_QTAC_Application__c != null &&
+                                                                           contactWithValidProgramEnrollmentAndQtac.containsKey(app.hed__Applicant__c)) ||
+                                                                           (contactWithValidProgramEnrollmentAndQtac.containsKey(app.hed__Applicant__c) && 
+                                                                           contactWithValidProgramEnrollmentAndQtac.get(app.hed__Applicant__c) != ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED);
 
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(app.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(app.hed__Applicant__c)):new Set<String>();
@@ -1698,7 +2020,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
                                     domesticEntryContactMap.containsKey(app.hed__Applicant__c) &&
                                     isProgramEnrollmentAdmitted &&
                                     isSAMSLatestApplication &&
-                                    app.Program_Enrollment__r.Enrollment_Status__c =='Admitted' &&
+                                    app.Program_Enrollment__r.Enrollment_Status__c == ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
+                                    isContactWithProgramEnrollmentNotAdmittedORWithQtact &&
                                     //make sure that there are no completed cadence against any succeeding cadence
                                     //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
                                     !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_ACCEPTED_ADMITTED) &&
@@ -2161,6 +2484,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
             applicantIdsWithCompletedCadence
         );
         Set<String> completedCadencesCopy = new Set<String>();
+        Set<Id> contactIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryContactMap.values());
+        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE};
 
         // Check Contact and Cadence Name if Manual is already Completed
         Set<Id> completedManualCadenceByContactId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
@@ -2172,7 +2497,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, List<String>> contactIdToCaseCategoriesMap = NurturingTrackService.getApplicantIdToRelatedCaseCategoriesMap(internationalEntryContactMap.keySet(), 3);
         Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
         for(Contact internationalEntryContact : internationalEntryContactMap.values()) {
-
+            boolean isPartnerSourced = leadSourceCategory.contains(internationalEntryContact.Lead_Source_Category__c);
+            boolean hasContactIdsWithRestricted = contactIdsWithRestricted.contains(internationalEntryContact.Id);
             boolean shouldContinueProcessing = contactIdsWithCmpltdCadenceSet.containsKey(internationalEntryContact.Id) && contactIdsWithCmpltdCadenceSet.get(internationalEntryContact.Id).size() >= 2;
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(internationalEntryContact.Id)?new Set<String>(applicantIdsWithAllCompletedCadence.get(internationalEntryContact.Id)):new Set<String>();
@@ -2196,14 +2522,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 isManual
             );
             List<String> relatedCaseCategories = contactIdToCaseCategoriesMap.get(internationalEntryContact.Id);
-            if( // ... the contact...
-                isContactWithNoActiveStudyLinkAppforXYears(internationalEntryContact, 3) &&  // ... has no active studylink app...
-                internationalEntryContact.Lead_Score__c > threshold &&                       // ... has a lead score above threshold...
-                NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(           // ... has a related case with a certain category...
-                    l1Categories,
-                    relatedCaseCategories
-                )
-            ) {
+            boolean isCriteriaMet = isContactWithNoActiveStudyLinkAppforXYears(internationalEntryContact, 3) &&
+                                    internationalEntryContact.Lead_Score__c > threshold &&  
+                                    NurturingTrackService.isRelatedCaseCategoriesContainsL1Categories(l1Categories,relatedCaseCategories) &&
+                                    !hasContactIdsWithRestricted &&
+                                    !isPartnerSourced;
+            if(isCriteriaMet) {
+
                 contactsToUpdate.put(
                     internationalEntryContact.Id,
                     new Contact(
@@ -2215,6 +2540,65 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 );
             }
         }
+        return contactsToUpdate;
+    }
+
+    /**
+     * Retrieves international exit contacts sourced through partner for pre-application nurturing.
+     * Checks if the contact's cadence is within specified types and if they have an active application 
+     * within the last three years or have opted out of email communication. Contacts meeting these 
+     * criteria are prepared for update with the calculated cadence field reset.
+     * 
+     * @param internationalExitContactMap A map of Contact Ids to Contact records representing 
+     *                                    international exit contacts.
+     * @return Map<Id, Contact> A map of Contact Ids to Contact records ready for update.
+     */    
+    private static Map<Id, Contact> getExitInternationalPreApplicationPartnerSourced(Map<Id, Contact> internationalExitContactMap) {
+        List<String> cadenceNames = new List<String>{
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+            NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+        };
+        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
+        
+        // Iterate through the list of applications
+        for(hed__Application__c application : applicationListForStrongInterest) {
+            
+            if(!internationalExitContactMap.containsKey(application.hed__Applicant__c)){
+                continue;
+            }
+            
+            // Check if the application falls under specific record types
+            Boolean isStudylinkORSamsRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            
+            // Check if the application was created within the specified time range
+            Boolean isInitiallyCreatedWithinTimeRange =
+                application.CreatedDate <= System.today() &&
+                application.CreatedDate >= System.today().addYears(-3);
+            
+            // get contact related to application
+            Contact relatedContact = internationalExitContactMap.get(application.hed__Applicant__c);
+            
+            // If the application meets both criteria, add the associated contact ID to the set
+            if(
+                isStudylinkORSamsRecType &&
+                cadenceNames.contains(relatedContact.Calculated_Cadence__c) && 
+                isInitiallyCreatedWithinTimeRange &&
+                application.Application_Status__c =='Submitted'
+            ) {
+                contactsToUpdate.put(
+                    relatedContact.Id,
+                    new Contact(
+                        Id = relatedContact.Id,
+                        Calculated_Cadence__c = ''
+                    )
+                );
+            }
+        }
+
+        getContactHasOptedOutOfEmail(internationalExitContactMap, contactsToUpdate, cadenceNames);
+
         return contactsToUpdate;
     }
 
@@ -2316,5 +2700,70 @@ public with sharing class NurturingTrackContactService { //NOPMD
             }
         }
         return configsMap;
+    }
+
+    private static Set<Id> getCitizenshipCountryIsRestricted(List<Contact> conList){
+        Set<Id> contactIdsWithRestrictedSet = new Set<Id>();
+        for(Contact contact : conList){
+            if(!InternationalTierRestrictedMap.isEmpty() && InternationalTierRestrictedMap.containsKey(contact.Citizenship_Country__c)){
+                contactIdsWithRestrictedSet.add(contact.Id);
+            }
+        }
+        return contactIdsWithRestrictedSet;
+    }
+    private static Map<String,String> checkContactWithValidProgramEnrollmentAndQtac(Set<Id> contactIds){
+        if(!contactIds.isEmpty()){
+            for(hed__Program_Enrollment__c programEnrollment : ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactIds, AccessLevel.SYSTEM_MODE)){
+                if(!ProgramEnrollmentsDAO.ENROLLMENT_STATUS.contains(programEnrollment.Enrollment_Status__c) &&
+                    programEnrollment.Enrollment_Status_Date__c != null && 
+                    DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)){
+                    contactWithValidProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
+                }
+                else if(programEnrollment.Enrollment_Status__c != ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
+                    programEnrollment.hed__Admission_Date__c != null &&
+                    DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)){
+                     contactWithValidProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
+                }
+            }
+        }
+            return contactWithValidProgramEnrollmentMap;
+    }
+
+   /**
+    * This method checks for contacts associated with applications that fall under specific record types 
+    * (Studylink or Sams) and were created within a certain time range specified by the input parameter years. 
+    * It returns a set of contact IDs that meet these criteria.
+    * 
+    * @param years The number of years back from today's date within which the application must have been created.
+    * @return A set of contact IDs associated with applications that meet the specified criteria.
+    */
+    private static Set<Id> getContactWithApplicationsforXYears(Integer years) {
+        
+        // Initialize a set to store contact IDs
+        Set<Id> contactIds = new Set<Id>();
+        
+        // Iterate through the list of applications
+        for(hed__Application__c application : applicationListForStrongInterest) {
+            
+            // Check if the application falls under specific record types
+            Boolean isStudylinkORSamsRecType = application.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID ||
+                application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID;
+            
+            // Check if the application was created within the specified time range
+            Boolean isInitiallyCreatedWithinTimeRange =
+                application.CreatedDate <= System.today() &&
+                application.CreatedDate >= System.today().addYears(-years);
+            
+            // If the application meets both criteria, add the associated contact ID to the set
+            if(
+                isStudylinkORSamsRecType &&
+                isInitiallyCreatedWithinTimeRange
+            ) {
+                contactIds.add(application.hed__Applicant__c);
+            }
+        }
+        // Return the set of contact IDs
+        return contactIds;
     }
 }

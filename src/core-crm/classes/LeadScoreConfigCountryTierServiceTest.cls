@@ -44,9 +44,10 @@ private class LeadScoreConfigCountryTierServiceTest {
                 'Country Tier3',
                 'Untiered nationality - unrestricted cohort (ex. developed countries)',
                 'Untiered nationality - restricted cohort, Australian',
-                'Developed Nations'
+                'Developed Nations',
+                'Unlisted'
             },
-            new List<Integer>{ 30, 20, 10, 5, 5, 20 }
+            new List<Integer>{ 30, 20, 10, 5, 5, 20, 5 }
         );
 
         LeadScoreConfigurationDAO.newInstance()
@@ -101,6 +102,21 @@ private class LeadScoreConfigCountryTierServiceTest {
                 true
             )
         );
+        International_Tier__c untieredRestricted = TestDataFactory.createInternationalTierRecords(
+            new List<String>{ 'Yemen' },
+            'Untiered',
+            true
+        )[0];
+        untieredRestricted.Tier_Subcategory__c = 'Restricted';
+        internationalTiers.add(untieredRestricted);
+
+        International_Tier__c untieredUnRestricted = TestDataFactory.createInternationalTierRecords(
+            new List<String>{ 'Uruguay' },
+            'Untiered',
+            true
+        )[0];
+        untieredUnRestricted.Tier_Subcategory__c = 'Unrestricted';
+        internationalTiers.add(untieredUnRestricted);
 
         InternationalTiersDAO.newInstance()
             .insertRecords(internationalTiers, true, AccessLevel.SYSTEM_MODE);
@@ -142,6 +158,18 @@ private class LeadScoreConfigCountryTierServiceTest {
                 My_Country_Of_Citizenship__c = 'New Zealand'
             )
         );
+        marSegList.add(
+            new Marketing_Segmentation__c(
+                Lead__c = leadList[0].Id,
+                My_Country_Of_Citizenship__c = 'Yemen'
+            )
+        );
+        marSegList.add(
+            new Marketing_Segmentation__c(
+                Lead__c = leadList[0].Id,
+                My_Country_Of_Citizenship__c = 'Uruguay'
+            )
+        );
 
         MarketingSegmentationsDAO.newInstance()
         .insertRecords(marSegList, true, AccessLevel.USER_MODE);
@@ -153,6 +181,7 @@ private class LeadScoreConfigCountryTierServiceTest {
         leadScoreConfig.setUntieredRestricted(10);
         leadScoreConfig.setUntieredUnrestricted(10);
         leadScoreConfig.setDevelopedNations(10);
+        leadScoreConfig.setUnlisted(5);
 
         System.assert(
             !LeadScoreConfigCountryTierService.calculateLeadScore(

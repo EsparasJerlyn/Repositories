@@ -19,6 +19,8 @@
  *    |                                |                       |                        |     updateCompletedCadences                 |
  *    | roy.nino.s.regala              | Nov 01, 2023          | DEPP-7105              | updated createMarketingSegmentationForLeads |
  *    |                                |                       |                        |     to future                               |
+ *    | eccarius.munoz                 | March 5, 2024         | DEPP-7699              | Added method for lead source and lead source|
+ *    |                                |                       |                        | category values when user profile is FSE.   |
  */
 @SuppressWarnings('PMD')
 public with sharing class LeadService {
@@ -112,6 +114,84 @@ public with sharing class LeadService {
         }
         if(!leadScoreDetailsToInsert.isEmpty()){
             LeadScoreDetailsDAO.newInstance().insertRecords(leadScoreDetailsToInsert, false, AccessLevel.SYSTEM_MODE);
+        }
+    }
+
+    /**
+     * @description Update Lead Parner Sourced
+     *
+     * @param newItems  Map of new lead records
+     * @param oldItems  Map of old lead records
+     */
+    public static void updateCanNurture(Map<Id, Lead> newItems, Map<Id, Lead> oldItems) {
+
+        Boolean isForInsert = oldItems == null;
+        Boolean isForUpdate = oldItems!= null;
+        Set<Id> leadWithCompletedCadencePartnerSource = checkCompletedCadenceWithPartnerSource(newItems.keySet());
+        for (Lead lead : newItems.values()) {
+            Boolean hasLeadWithCompletedCadencePartnerSource = leadWithCompletedCadencePartnerSource.contains(lead.Id);
+            Boolean leadForUpdate = lead.Lead_Source_Category__c == 'Partner Sourced' &&
+                                    !lead.IsConverted &&
+                                    isForUpdate &&
+                                    hasLeadWithCompletedCadencePartnerSource &&
+                                    lead.Can_Nurture__c;
+
+            if(leadForUpdate){
+                lead.Can_Nurture__c = false;
+            }
+        }
+    }
+
+    public static Set<Id> checkCompletedCadenceWithPartnerSource(Set<Id> leadIds){
+        date afterThreeYears = System.today().addYears(-3);
+        Set<Id> leadsWithSubmittedApplication = new Set<Id>();
+        Set<Id> leadWithCompletedCadenceWithPartnerSourceIdSet = new Set<Id>();
+        List<hed__Application__c> applicationList = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds, 'SYSTEM_MODE');
+            For(hed__Application__c app : applicationList){
+                if(app.Application_Status__c == ApplicationsDAO.STATUS_SUBMITTED){
+                    leadsWithSubmittedApplication.add(app.Lead__c);
+                }
+            }
+
+        List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByLeadIds(leadIds,'SYSTEM_MODE');
+        for(Completed_Cadence__c completedCadence : completedCadenceList){
+            Boolean isValid = completedCadence.Lead__c != null &&
+                              completedCadence.Lead__r.Can_Nurture__c && 
+                              NurtureTrackConfigurationsDAO.INTERNATIONAL_PARTNER_SOURCED.contains(completedCadence.Lead__r.Calculated_Cadence__c) &&
+                              completedCadence.CreatedDate < afterThreeYears &&
+                              !leadsWithSubmittedApplication.contains(completedCadence.Lead__c);
+            if(isValid){
+                leadWithCompletedCadenceWithPartnerSourceIdSet.add(completedCadence.Lead__c);
+            }
+        }
+
+        return leadWithCompletedCadenceWithPartnerSourceIdSet;
+    }
+
+     /**
+     * Sets the Lead Source and Lead Source Category when User Profile is Future Student Engagement
+     * 
+     * @param List<Lead> newItems - List of lead to be inserted
+     */
+    public static void setLeadSourceAndLeadSourceCategoryFields(List<Lead> newItems){
+
+        boolean isFSEUserProfile = false;
+        Id userProfileId = UserInfo.getProfileId();
+        List<Profile> profileList = ProfilesDAO.newInstance().getProfileRecordsBySetIds(new Set<Id>{userProfileId});
+        for(Profile profile : profileList){
+            if(profile.Name == ProfilesDAO.FUTURE_STUDENT_ENGAGEMENT_PROFILE){
+                isFSEUserProfile = true;
+            }
+        }
+        if(isFSEUserProfile){
+            for (Lead lead : newItems) {
+                if(lead.LeadSource == null){
+                    lead.LeadSource = LeadsDAO.LEAD_SOURCE_MANUAL_CREATE;
+                }
+                if(lead.Lead_Source_Category__c == null){
+                    lead.Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_OTHER;
+                }
+            }
         }
     }
 }

@@ -11,6 +11,7 @@
       | roy.nino.s.regala              | June 28, 2022         | DEPP-3070              | Created file                                   |
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
       | kenneth.f.alsay                | January 3, 2024       |                        | Fixed excessive param list                     |
+      | mark.j.mahilum                 | March 06, 2024        | DEPP-8008              | Added fieldmapping for lead source and category|
  */
 public without sharing class MarketingStagingMatchingHelper{
 
@@ -73,7 +74,8 @@ public without sharing class MarketingStagingMatchingHelper{
         'Dont_Market__c' => 'Dont_Market__c', 'Dont_Market_Reason__c' => 'Dont_Market_Reason__c',
         'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c', 'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c',
         'Consent_Source_Category__c' => 'Consent_Source_Category__c','Consent_Source__c' => 'Consent_Source__c',
-        'Email_Unsub_JobID__c' => 'Email_Unsub_JobID__c', 'Email_Unsub_Reason__c' => 'Email_Unsub_Reason__c'
+        'Email_Unsub_JobID__c' => 'Email_Unsub_JobID__c', 'Email_Unsub_Reason__c' => 'Email_Unsub_Reason__c',
+        'LeadSource' => 'Lead_Source__c','Lead_Source_Category__c' => 'Lead_Source_Category__c'
     };
 
     private static final Map<String,String> LEAD_FIELDS = new Map<String,String>{
@@ -91,7 +93,9 @@ public without sharing class MarketingStagingMatchingHelper{
         'Dont_Market_Reason__c' => 'Dont_Market_Reason__c', 'Dont_Market_DateTime__c' => 'Dont_Market_DateTime__c',
         'Consent_Source_Category__c' => 'Consent_Source_Category__c',
         'Consent_Source__c' => 'Consent_Source__c', 'Email_Unsub_JobID__c' => 'Email_Unsub_JobID__c', 
-        'Email_Unsub_Reason__c' => 'Email_Unsub_Reason__c'
+        'Email_Unsub_Reason__c' => 'Email_Unsub_Reason__c',
+        'LeadSource' => 'Lead_Source__c',
+        'Lead_Source_Category__c' => 'Lead_Source_Category__c'
     };
 
     private static final Map<String,String> LEAD_FIELDS_UPDATE = new Map<String,String>{
@@ -137,6 +141,18 @@ public without sharing class MarketingStagingMatchingHelper{
                     finalMaping.put('Mobile_No_Locale__c','Mobile__c');
                 finalMaping.put('ContactMobile_Locale__c','MarketingStaging_Mobile_Locale__c');
             }
+            
+            //check if current contact in loop has its Lead Source populated
+            if( MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                MarketingStagingTriggerHelper.contactMatches.get(oldContactId).LeadSource == null){
+                finalMaping.put('LeadSource','Lead_Source__c');
+            }
+            
+            //check if current contact in loop has its Lead Source Category populated
+            if( MarketingStagingTriggerHelper.contactMatches.containsKey(oldContactId) &&
+                MarketingStagingTriggerHelper.contactMatches.get(oldContactId).Lead_Source_Category__c == null){
+                finalMaping.put('Lead_Source_Category__c','Lead_Source_Category__c');
+            }
         }
 
         for(String fieldName: finalMaping.keySet()){
@@ -175,6 +191,16 @@ public without sharing class MarketingStagingMatchingHelper{
                 finalMaping.put('LeadMobile_Locale__c','MarketingStaging_Mobile_Locale__c');
                 finalMaping.put('Mobile_No_Locale__c','Mobile__c');
             }
+            
+            //check if current lead in loop has its lead source is not populated
+            if( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).LeadSource == null){
+                finalMaping.put('LeadSource','Lead_Source__c');
+            }
+            //check if current lead in loop has its lead source category is not populated
+            if( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).Lead_Source_Category__c == null){
+                finalMaping.put('Lead_Source_Category__c','Lead_Source_Category__c');
+            }
+
 
             //check if current lead in loop has a LastName of Unkown
             if( MarketingStagingTriggerHelper.leadMatches.get(oldLeadId).LastName.toLowercase() == 'unknown'){
