@@ -19,8 +19,13 @@ private class PlanActivityTriggerHandlerTest {
     private static void testPlatformEventInsertAndUpdate() {
         System.runAs(testDataFactory.getAdvancementManager()) {
             Test.startTest();
+            List<Opportunity> opps = TestDataFactory.createTestOpportunityRecords(1, 'OppGiving',OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID);
+            for( Opportunity opp: opps){
+            opp.StageName = 'Cultivation';
+            }
             List<Plan_Activity__c> newPlanActivities = TestDataFactory.createPlanActivityRecords(
-                1
+                1,
+                opps[0].Id
             );
             System.assert(
                 PlanActivitiesDAO.newInstance()
