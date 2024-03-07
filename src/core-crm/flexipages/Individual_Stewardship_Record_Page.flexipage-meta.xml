@@ -413,7 +413,7 @@
                     <value>(UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
-                <identifier>c_dynamicDataTable</identifier>
+                <identifier>c_dynamicDataTable2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-1mymiq4ntj2</name>
