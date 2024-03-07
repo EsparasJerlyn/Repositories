@@ -854,6 +854,13 @@
         <value>0 0 10 * * ?</value>
     </labels>
     <labels>
+        <fullName>Lead_Source_Can_Nurture_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lead_Source_Can_Nurture_Cron_Expression</shortDescription>
+        <value>0 0 0 * * ?</value>
+    </labels>
+    <labels>
         <fullName>PL_CommsQueue_Scheduled</fullName>
         <categories>Picklist,CommunicationQueue</categories>
         <language>en_US</language>

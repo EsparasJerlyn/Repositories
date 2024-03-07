@@ -52,6 +52,7 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     public static final String STATUS_CONDITIONAL_ACCEPTANCE = 'Conditional Acceptance';
     public static final String STATUS_CONDITIONAL_OFFER = 'Conditional Offer';
     public static final String STATUS_UNCONDITIONAL_OFFER = 'Unconditional Offer';
+    public static final String STATUS_SUBMITTED = 'Submitted';
 
     public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
     public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';

@@ -56,7 +56,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         'Accept-Admit','Study'
     };
 
-    public static final string LEAD_SOURCE_CATEGORY ='Partner Sourced';
+    public static final string LEAD_SOURCE_CATEGORY_PARTNER_SOURCE ='Partner Sourced';
 
     public static final String CITIZENSHIP_STATUS_DOMESTIC = 'Domestic';
     public static final String CITIZENSHIP_STATUS_INTERNATIONAL = 'International';

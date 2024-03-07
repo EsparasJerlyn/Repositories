@@ -24,7 +24,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
     /**
      * Lead Constants
      */
-    public static final String CCE_CORPORATE_PARTNER = 'CCE Corporate Partner';
+    public static final String CCE_CORPORATE_PARTNER = 'CCE Corporate Partner'; 
     public static final String QUALIFIED_STATUS = 'Qualified';
     public static final String NEW_STATUS = 'New';
     public static final String ENGAGING_STATUS = 'Engaging';
@@ -153,7 +153,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         AccessLevel accessLevel
     ){
         return Database.query(
-            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status, Email, Email_Opt_In_DateTime__c, HasOptedOutOfEmail, ' +
+            'SELECT Id,Future_Student_Journey_Status__c, Can_Nurture__c, Status, Email, Email_Opt_In_DateTime__c, HasOptedOutOfEmail, Lead_Source_Category__c, ' +
             'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, LeadMobile_Locale__c, Mobile_No_Locale__c, MobilePhone, Work_Email__c FROM Lead ' +
             'WHERE Id IN: recordIdSet ',
             accessLevel
@@ -323,3 +323,4 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         } else { return new List<Lead>(); }
     }
 } 
+ 

@@ -121,6 +121,11 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
         INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED //International Application to Offer - Direct (Automated)
     };
 
+    public static final Set<String> INTERNATIONAL_PARTNER_SOURCED = new Set<String>{
+       INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+       INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL
+    };
+
 
     public static final String CRITERIA_TYPE_ENTRY = 'ENTRY';
 

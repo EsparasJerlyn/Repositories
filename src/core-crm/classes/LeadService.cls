@@ -118,6 +118,57 @@ public with sharing class LeadService {
     }
 
     /**
+     * @description Update Lead Parner Sourced
+     *
+     * @param newItems  Map of new lead records
+     * @param oldItems  Map of old lead records
+     */
+    public static void updateCanNurture(Map<Id, Lead> newItems, Map<Id, Lead> oldItems) {
+
+        Boolean isForInsert = oldItems == null;
+        Boolean isForUpdate = oldItems!= null;
+        Set<Id> leadWithCompletedCadencePartnerSource = checkCompletedCadenceWithPartnerSource(newItems.keySet());
+        for (Lead lead : newItems.values()) {
+            Boolean hasLeadWithCompletedCadencePartnerSource = leadWithCompletedCadencePartnerSource.contains(lead.Id);
+            Boolean leadForUpdate = lead.Lead_Source_Category__c == 'Partner Sourced' &&
+                                    !lead.IsConverted &&
+                                    isForUpdate &&
+                                    hasLeadWithCompletedCadencePartnerSource &&
+                                    lead.Can_Nurture__c;
+
+            if(leadForUpdate){
+                lead.Can_Nurture__c = false;
+            }
+        }
+    }
+
+    public static Set<Id> checkCompletedCadenceWithPartnerSource(Set<Id> leadIds){
+        date afterThreeYears = System.today().addYears(-3);
+        Set<Id> leadsWithSubmittedApplication = new Set<Id>();
+        Set<Id> leadWithCompletedCadenceWithPartnerSourceIdSet = new Set<Id>();
+        List<hed__Application__c> applicationList = ApplicationsDAO.newInstance().getApplicationsByLeadIds(leadIds, 'SYSTEM_MODE');
+            For(hed__Application__c app : applicationList){
+                if(app.Application_Status__c == ApplicationsDAO.STATUS_SUBMITTED){
+                    leadsWithSubmittedApplication.add(app.Lead__c);
+                }
+            }
+
+        List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance().getCompletedCadenceByLeadIds(leadIds,'SYSTEM_MODE');
+        for(Completed_Cadence__c completedCadence : completedCadenceList){
+            Boolean isValid = completedCadence.Lead__c != null &&
+                              completedCadence.Lead__r.Can_Nurture__c && 
+                              NurtureTrackConfigurationsDAO.INTERNATIONAL_PARTNER_SOURCED.contains(completedCadence.Lead__r.Calculated_Cadence__c) &&
+                              completedCadence.CreatedDate < afterThreeYears &&
+                              !leadsWithSubmittedApplication.contains(completedCadence.Lead__c);
+            if(isValid){
+                leadWithCompletedCadenceWithPartnerSourceIdSet.add(completedCadence.Lead__c);
+            }
+        }
+
+        return leadWithCompletedCadenceWithPartnerSourceIdSet;
+    }
+
+     /**
      * Sets the Lead Source and Lead Source Category when User Profile is Future Student Engagement
      * 
      * @param List<Lead> newItems - List of lead to be inserted

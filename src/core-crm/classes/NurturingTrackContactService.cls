@@ -245,7 +245,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Set<String> newOrUnsubmittedStatus = new Set<String>{ 'New', 'Unsubmitted' };
         Set<String> completedCadencesCopy = new Set<String>();
         Set<Id> contactIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryContactMap.values());
-        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY};
+        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE};
         for (hed__Application__c application : applicationList) {
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
@@ -306,7 +306,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             applicantIdsWithCompletedCadence
         );
         Set<String> completedCadencesCopy = new Set<String>();
-        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY};
+        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE};
         Set<Id> contactIdsWithActiveApplication = getContactWithApplicationsforXYears(3);
 
         // Check Contact and Cadence Name if Manual is already Completed
@@ -2485,7 +2485,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         );
         Set<String> completedCadencesCopy = new Set<String>();
         Set<Id> contactIdsWithRestricted = getCitizenshipCountryIsRestricted(internationalEntryContactMap.values());
-        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY};
+        Set<String> leadSourceCategory = new Set<String>{ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE};
 
         // Check Contact and Cadence Name if Manual is already Completed
         Set<Id> completedManualCadenceByContactId = NurturingTrackService.getFilteredApplicantWithCompletedCadence(

@@ -119,7 +119,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
             'FROM Case ' +
             'WHERE Id IN :caseIds ',
             accessLevel
-        );
+        ); 
     }
 
     public Database.QueryLocator queryLocatorGetCasesByContactOrLeadIds(

@@ -80,10 +80,12 @@ private class LeadScoreDetailTriggerHelperTest {
                 lead.Description = 'Test Description';
                 lead.Lead_Type__c = 'Learner';
                 lead.Email_Opt_In_Datetime__c = System.Today();
+                lead.Lead_Source_Category__c = '';
             }   
+            Test.startTest();
             LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
+            Test.stopTest();
         }  
-        
         List<Contact> newContact = TestDataFactory.createTestContactRecords(0, 1);
         newContact[0].FirstName = 'Test Contact Flag';
         ContactsDAO.newInstance().insertRecords(newContact, true, AccessLevel.SYSTEM_MODE);
@@ -132,8 +134,9 @@ private class LeadScoreDetailTriggerHelperTest {
             }
             MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegListToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
-
+    
             for(Lead lead: LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords)){
+                System.debug(lead.Lead_Score__c);
                 System.assertEquals('Explore', lead.Future_Student_Journey_Status__c, 'future student journey status should match');
                 System.assertEquals(true, lead.Can_Nurture__c, 'Can_Nurture__c should match');
                 System.assertEquals('Nurturing', lead.Status, 'Status should match');
