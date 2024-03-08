@@ -853,6 +853,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>CurrentDateFromSixMonths</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>ContactId</field>
             <value>
                 <elementReference>StewardshipContactId</elementReference>
@@ -1372,84 +1378,95 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>OpportunityNameStewardshipOpportunity_Input</name>
-            <dataType>String</dataType>
-            <fieldText>Opportunity Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>AmountStewardshipOpportunity_Input</name>
-            <dataType>Number</dataType>
-            <fieldText>Amount</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <name>NewOpportunityFromStewardship_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>NewOpportunityFromStewardship_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>OpportunityNameStewardshipOpportunity_Input</name>
+                    <dataType>String</dataType>
+                    <fieldText>Opportunity Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>StartDateStewardshipOpportuntiy_Input</name>
+                    <dataType>Date</dataType>
+                    <defaultValue>
+                        <elementReference>$Flow.CurrentDate</elementReference>
+                    </defaultValue>
+                    <fieldText>Start Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OppToCreate.Giving_Category__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OppToCreate.Giving_Faculty__c</objectFieldReference>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>NewOpportunityFromStewardship_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>AmountStewardshipOpportunity_Input</name>
+                    <dataType>Number</dataType>
+                    <fieldText>Amount</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <scale>0</scale>
+                </fields>
+                <fields>
+                    <name>DescriptionStewardshipOpportunity_Input</name>
+                    <fieldText>Description</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>GivingCategoryCommentStewardshipOpportunity_Input</name>
+                    <fieldText>Giving Category Comment</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>GivingFacultyCommentStewardshipOpportunity_Input</name>
+                    <fieldText>Giving Faculty Comment</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
             <isRequired>false</isRequired>
-            <scale>0</scale>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
-        <fields>
-            <name>ContactLookup</name>
-            <dataTypeMappings>
-                <typeName>T</typeName>
-                <typeValue>Contact</typeValue>
-            </dataTypeMappings>
-            <extensionName>c:flowLookup</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>objectName</name>
-                <value>
-                    <stringValue>Contact</stringValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <fields>
-            <name>StartDateStewardshipOpportuntiy_Input</name>
-            <dataType>Date</dataType>
-            <defaultValue>
-                <elementReference>$Flow.CurrentDate</elementReference>
-            </defaultValue>
-            <fieldText>Start Date</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>DescriptionStewardshipOpportunity_Input</name>
-            <fieldText>Description</fieldText>
-            <fieldType>LargeTextArea</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-            <objectFieldReference>OppToCreate.Giving_Category__c</objectFieldReference>
-        </fields>
-        <fields>
-            <name>GivingCategoryCommentStewardshipOpportunity_Input</name>
-            <fieldText>Giving Category Comment</fieldText>
-            <fieldType>LargeTextArea</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-            <objectFieldReference>OppToCreate.Giving_Faculty__c</objectFieldReference>
-        </fields>
-        <fields>
-            <name>GivingFacultyCommentStewardshipOpportunity_Input</name>
-            <fieldText>Giving Faculty Comment</fieldText>
-            <fieldType>LargeTextArea</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-        </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
@@ -1460,7 +1477,7 @@
             <targetReference>Assign_Modal_Title</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>Clone_Records_Owner_Id</name>
         <dataType>String</dataType>

@@ -322,11 +322,88 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>decorate</name>
+                    <name>defaultValues</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dynamicDataTableInput</name>
+                    <value>Individual Giving</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editActionType</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>editScreenFlowApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>icon</name>
+                    <value>standard:opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionType</name>
+                    <value>Screen Flow</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newActionTypeLabel</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>newScreenFlowApiName</name>
+                    <value>New_Related_Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentRecord</name>
+                    <value>Stewardship__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>recordTypeName</name>
+                    <value>Individual Giving</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedField</name>
+                    <value>Stewardship__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFields</name>
+                    <value>[{&quot;label&quot;:&quot;Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Opportunity Code&quot;,&quot;fieldName&quot;:&quot;Opportunity_Code__c&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;StageName&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFilters</name>
+                    <value>RecordType.DeveloperName = &apos;Individual_Giving&apos;</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Stewardship Opportunities</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedRecord</name>
+                    <value>Opportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showEditButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showNewButton</name>
                     <value>true</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText</identifier>
+                <componentInstanceProperties>
+                    <name>sortField</name>
+                    <value>CreatedDate</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortOrder</name>
+                    <value>DESC</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByParent</name>
+                    <value>(Stage != &apos;Completed&apos; AND Stage != &apos;Inactive&apos;)</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos;</value>
+                </componentInstanceProperties>
+                <componentName>dynamicDataTable</componentName>
+                <identifier>c_dynamicDataTable3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-9d2aea0f-198a-4f5c-8837-d887a8a1a8de</name>
