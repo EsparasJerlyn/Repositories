@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>4274</locationX>
-        <locationY>1166</locationY>
+        <locationX>4802</locationX>
+        <locationY>1250</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,7 +43,7 @@
     <assignments>
         <name>Assign_AccountId_from_FacultyAccountId</name>
         <label>Assign AccountId from FacultyAccountId</label>
-        <locationX>2690</locationX>
+        <locationX>3218</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -59,7 +59,7 @@
     <assignments>
         <name>Assign_AccountId_from_ResearchCentreAccountId</name>
         <label>Assign AccountId from ResearchCentreAccountId</label>
-        <locationX>2426</locationX>
+        <locationX>2954</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -75,7 +75,7 @@
     <assignments>
         <name>Assign_AccountId_from_SchoolAccountId</name>
         <label>Assign AccountId from SchoolAccountId</label>
-        <locationX>2954</locationX>
+        <locationX>3482</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -91,7 +91,7 @@
     <assignments>
         <name>Assign_Board_of_Directors_Variables</name>
         <label>Assign Board of Directors Variables</label>
-        <locationX>3482</locationX>
+        <locationX>4010</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -137,7 +137,7 @@
     <assignments>
         <name>Assign_Contributors_Variables</name>
         <label>Assign Contributors Variables</label>
-        <locationX>2162</locationX>
+        <locationX>2690</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -153,7 +153,7 @@
     <assignments>
         <name>Assign_Funding_Bodies_Variables</name>
         <label>Assign Funding Bodies Variables</label>
-        <locationX>3218</locationX>
+        <locationX>3746</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -170,7 +170,7 @@
         <name>Assign_Opportunity_Commercialisation_Contributor_Variables</name>
         <label>Assign Opportunity Commercialisation Contributor Variables</label>
         <locationX>1370</locationX>
-        <locationY>566</locationY>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Is_QUT_Internal_Participant__c</assignToReference>
             <operator>Assign</operator>
@@ -208,7 +208,7 @@
     <assignments>
         <name>Assign_Public_Officers_Variables</name>
         <label>Assign Public Officers Variables</label>
-        <locationX>3746</locationX>
+        <locationX>4274</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -224,7 +224,7 @@
     <assignments>
         <name>Assign_Research_School_Faculty_Variables</name>
         <label>Assign Research, School, Faculty Variables</label>
-        <locationX>2690</locationX>
+        <locationX>3218</locationX>
         <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -248,7 +248,7 @@
         <name>Assign_Startup_Contributor_Variables</name>
         <label>Assign Startup Contributor Variables</label>
         <locationX>1634</locationX>
-        <locationY>566</locationY>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Is_QUT_Internal_Participant__c</assignToReference>
             <operator>Assign</operator>
@@ -321,15 +321,15 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Oganisation_Giving_Opportunity_Contributor_Variables</name>
-        <label>Oganisation Giving Opportunity Contributor Variables</label>
-        <locationX>1898</locationX>
+        <name>Opportunity_Organisation_Giving_Contributor_Variables</name>
+        <label>Opportunity Organisation Giving Contributor Variables</label>
+        <locationX>2426</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>OrganisationGivingOpp_Is_Active</elementReference>
+                <elementReference>OrganisationGivingOppIsActive</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -339,7 +339,7 @@
     <assignments>
         <name>Set_Account_ID</name>
         <label>Set Account ID</label>
-        <locationX>2690</locationX>
+        <locationX>3218</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>InitialAccountId</assignToReference>
@@ -355,7 +355,7 @@
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>2030</locationX>
+        <locationX>2294</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -494,9 +494,50 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Opportunity_Record_Type</name>
+        <label>Check Opportunity Record Type</label>
+        <locationX>1634</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Contributors_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Commercialisation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentOpportunity.Opportunity__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Commercialisation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Opportunity_Commercialisation_Contributors_Screen</targetReference>
+            </connector>
+            <label>Is Commercialisation</label>
+        </rules>
+        <rules>
+            <name>Is_Startup</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ParentOpportunity.Opportunity__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Startup</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Startup_Contributors_Screen</targetReference>
+            </connector>
+            <label>Is Startup</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Parent</name>
         <label>Check Parent Details</label>
-        <locationX>1502</locationX>
+        <locationX>1766</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Contributors_Screen</targetReference>
@@ -506,10 +547,10 @@
             <name>Is_Commercialisation_Engagement</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Contextual_Role_Record.Engagement__r.RecordType.DeveloperName</leftValueReference>
+                <leftValueReference>Get_Contextual_Role_Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Commercialisation</stringValue>
+                    <stringValue>Engagement_Role</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -522,10 +563,10 @@
             <name>Is_Commercialisation_Opportunity_Outcome</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Contextual_Role_Record.Opportunity_Outcome__r.RecordType.DeveloperName</leftValueReference>
+                <leftValueReference>Get_Contextual_Role_Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Research_Commercialisation_Project</stringValue>
+                    <stringValue>Opportunity_Outcome_Role</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -534,55 +575,40 @@
             <label>Is Commercialisation Opportunity Outcome</label>
         </rules>
         <rules>
-            <name>Is_Commercialisation_Opportunity</name>
+            <name>Is_Opportunity</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Contextual_Role_Record.Opportunity__r.RecordType.DeveloperName</leftValueReference>
+                <leftValueReference>Get_Contextual_Role_Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Commercialisation</stringValue>
+                    <stringValue>Opportunity_Role</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Opportunity_Commercialisation_Contributors_Screen</targetReference>
+                <targetReference>Get_Opportunity_Record_Type</targetReference>
             </connector>
-            <label>Is Commercialisation Opportunity</label>
-        </rules>
-        <rules>
-            <name>Is_Startup_Opportunity_Outcome</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Contextual_Role_Record.Opportunity_Outcome__r.RecordType.DeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Startup</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Startup_Contributors_Screen</targetReference>
-            </connector>
-            <label>Is Startup Opportunity Outcome</label>
+            <label>Is Opportunity</label>
         </rules>
         <rules>
             <name>Is_Advancement_Opportunity</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Contextual_Role_Record.Opportunity__r.RecordType.DeveloperName</leftValueReference>
+                <leftValueReference>Get_Contextual_Role_Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Organisation_Giving</stringValue>
+                    <stringValue>Advancement_Opportunity_Role</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Organisation_Giving_Opp_Contributors_Screen</targetReference>
+                <targetReference>Opportunity_Organisation_Giving_Contributors_Screen</targetReference>
             </connector>
-            <label>Is Organisation Giving Opportunity</label>
+            <label>Is Advancement Opportunity</label>
         </rules>
     </decisions>
     <decisions>
         <name>Contextual_role_group</name>
         <label>Contextual role group</label>
-        <locationX>2690</locationX>
+        <locationX>3218</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_AccountId_from_SchoolAccountId</targetReference>
@@ -644,7 +670,7 @@
     <recordLookups>
         <name>Get_Contextual_Role_Record</name>
         <label>Get Contextual Role Record</label>
-        <locationX>2030</locationX>
+        <locationX>2294</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -664,19 +690,55 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Contextual_Role__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Account__c</queriedFields>
+        <queriedFields>Contact__c</queriedFields>
+        <queriedFields>Role_Is_Active__c</queriedFields>
+        <queriedFields>Role_Is_Approved__c</queriedFields>
+        <queriedFields>Contextual_Role__c</queriedFields>
+        <queriedFields>Contextual_Role_Group__c</queriedFields>
+        <queriedFields>Is_QUT_Internal_Participant__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>RecordTypeId</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Opportunity_Record_Type</name>
+        <label>Get Opportunity Record Type</label>
+        <locationX>1634</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Opportunity_Record_Type</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Contextual_Role_Record.Id</elementReference>
+            </value>
+        </filters>
+        <object>Contextual_Role__c</object>
+        <outputReference>ParentOpportunity</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Opportunity__c</queriedFields>
     </recordLookups>
     <recordUpdates>
         <name>Update_Contextual_Role</name>
         <label>Update Contextual Role</label>
-        <locationX>2030</locationX>
-        <locationY>1058</locationY>
+        <locationX>2294</locationX>
+        <locationY>1142</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <inputReference>Get_Contextual_Role_Record</inputReference>
     </recordUpdates>
-    <runInMode>SystemModeWithoutSharing</runInMode>
+    <runInMode>DefaultMode</runInMode>
     <screens>
         <name>Academic_Screen</name>
         <label>Academic Screen</label>
@@ -879,7 +941,7 @@
     <screens>
         <name>Board_of_Directors_Screen</name>
         <label>Board of Directors Screen</label>
-        <locationX>3482</locationX>
+        <locationX>4010</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1273,7 +1335,7 @@
     <screens>
         <name>Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>2162</locationX>
+        <locationX>2690</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1425,8 +1487,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>4274</locationX>
-        <locationY>1274</locationY>
+        <locationX>4802</locationX>
+        <locationY>1358</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1441,7 +1503,7 @@
     <screens>
         <name>Funding_Bodies_Screen</name>
         <label>Funding Bodies Screen</label>
-        <locationX>3218</locationX>
+        <locationX>3746</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1565,7 +1627,7 @@
         <name>Opportunity_Commercialisation_Contributors_Screen</name>
         <label>Opportunity Commercialisation Contributors Screen</label>
         <locationX>1370</locationX>
-        <locationY>458</locationY>
+        <locationY>674</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1793,25 +1855,25 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Organisation_Giving_Opp_Contributors_Screen</name>
-        <label>Organisation Giving Opp Contributors Screen</label>
-        <locationX>1898</locationX>
+        <name>Opportunity_Organisation_Giving_Contributors_Screen</name>
+        <label>Opportunity Organisation Giving Contributors Screen</label>
+        <locationX>2426</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Oganisation_Giving_Opportunity_Contributor_Variables</targetReference>
+            <targetReference>Opportunity_Organisation_Giving_Contributor_Variables</targetReference>
         </connector>
         <fields>
-            <name>Copy_1_of_BoardofDirectors_Contextual_Role_Summary</name>
+            <name>Copy_1_of_Copy_1_of_Copy_1_of_Contextual_Role_Summary4</name>
             <fieldText>Contextual Role Summary</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
-                <name>Copy_1_of_BoardofDirectors_Contextual_Role_Summary_Column1</name>
+                <name>Copy_1_of_Copy_1_of_Copy_1_of_Contextual_Role_Summary4_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>OrganisationGivingContributorsLookup</name>
+                    <name>Copy_1_of_ComOppContributorsLookup</name>
                     <dataTypeMappings>
                         <typeName>T</typeName>
                         <typeValue>Contact</typeValue>
@@ -1886,13 +1948,7 @@
                     </outputParameters>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
-                </fields>
-                <fields>
-                    <name>OrganisationGivingOpp_Is_Active</name>
+                    <name>OrganisationGivingOppIsActive</name>
                     <dataType>Boolean</dataType>
                     <defaultValue>
                         <elementReference>Get_Contextual_Role_Record.Role_Is_Active__c</elementReference>
@@ -1902,32 +1958,49 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</leftValueReference>
+                            <operator>NotEqualTo</operator>
+                            <rightValue>
+                                <stringValue>Contributors</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>12</stringValue>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Copy_1_of_Copy_1_of_Copy_1_of_Contextual_Role_Summary4_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
-        </fields>
-        <fields>
-            <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-            <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</objectFieldReference>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Get_Contextual_Role_Record.Contextual_Role_Group__c</leftValueReference>
-                    <operator>NotEqualTo</operator>
-                    <rightValue>
-                        <stringValue>Contributors</stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
         </fields>
         <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -2162,7 +2235,7 @@
     <screens>
         <name>Public_Officers_Screen</name>
         <label>Public Officers Screen</label>
-        <locationX>3746</locationX>
+        <locationX>4274</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2314,7 +2387,7 @@
     <screens>
         <name>Research_Screen</name>
         <label>Research, School, Faculty Screen</label>
-        <locationX>2690</locationX>
+        <locationX>3218</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2594,7 +2667,7 @@
         <name>Startup_Contributors_Screen</name>
         <label>Startup Contributors Screen</label>
         <locationX>1634</locationX>
-        <locationY>458</locationY>
+        <locationY>674</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2974,7 +3047,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1904</locationX>
+        <locationX>2168</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Contextual_Role_Record</targetReference>
@@ -3003,11 +3076,29 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>isOrganisationOppErrorMessage</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
         <name>modalTitle</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ParentOpportunity</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contextual_Role__c</objectType>
     </variables>
     <variables>
         <name>RecordId</name>
