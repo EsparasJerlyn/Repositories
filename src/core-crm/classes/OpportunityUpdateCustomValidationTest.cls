@@ -91,4 +91,24 @@ public with sharing class OpportunityUpdateCustomValidationTest {
             System.assert(oppUpdatedRecords[0].StageName.equals('Identify'), 'Stage value is Identify.');
         }
     }
+
+    @isTest
+    static void opportunityWithPendingPlanActivityStatusTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Plan_Activity__c> planActivityRecords = PlanActivitiesDAO.newInstance().getPlanActivityRecordsWithOpportunityIds(new Set<Id>{oppRecords[0].id}, AccessLevel.SYSTEM_MODE);
+            
+            Test.startTest();
+            for( Plan_Activity__c planActivity: planActivityRecords){
+                planActivity.Status__c = 'Pending';
+            }
+            PlanActivitiesDAO.newInstance().updateRecords(planActivityRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+            oppRecords[0].StageName = 'Solicitation';
+            Database.SaveResult[] srList = OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            for (Database.SaveResult sr : srList) {
+                System.assert(!sr.isSuccess(), 'A record was saved.'); 
+            }
+        }
+    }
 }

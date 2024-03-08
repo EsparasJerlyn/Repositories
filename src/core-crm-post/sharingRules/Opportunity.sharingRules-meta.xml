@@ -61,6 +61,21 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>All_Advancement_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Individual Giving and Organisation Opportunity records to all Advancement persona with Read/Write access</description>
+        <label>All Advancement Share</label>
+        <sharedTo>
+            <group>Advancement</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Individual Giving,Organisation Giving</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>IE_Operations_Manager_Share</fullName>
         <accessLevel>Read</accessLevel>
         <description>Share Industry Engagement related Opportunity records to Operations Manager
