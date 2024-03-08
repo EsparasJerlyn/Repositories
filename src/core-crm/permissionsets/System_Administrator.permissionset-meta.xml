@@ -30001,6 +30001,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Contextual_Role__c.Advancement_Opportunity_Role</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Contextual_Role__c.Engagement_Role</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -30282,6 +30286,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Session__c.Specialised_Session</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
