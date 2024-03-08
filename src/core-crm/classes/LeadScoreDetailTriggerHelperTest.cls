@@ -130,13 +130,13 @@ private class LeadScoreDetailTriggerHelperTest {
             List<Marketing_Segmentation__c> mktgSegListToUpdate = new List<Marketing_Segmentation__c>();
             for (Marketing_Segmentation__c record : mktgSegList) { 
                 record.My_Expected_Admission_Year__c = System.today().year();
+                record.My_Citizenship_Status__c = 'International Student';
                 mktgSegListToUpdate.add(record);
             }
             MarketingSegmentationsDAO.newInstance().updateRecords(mktgSegListToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
     
             for(Lead lead: LeadsDAO.newInstance().getLeadsWithLimit(numberOfRecords)){
-                System.debug(lead.Lead_Score__c);
                 System.assertEquals('Explore', lead.Future_Student_Journey_Status__c, 'future student journey status should match');
                 System.assertEquals(true, lead.Can_Nurture__c, 'Can_Nurture__c should match');
                 System.assertEquals('Nurturing', lead.Status, 'Status should match');
