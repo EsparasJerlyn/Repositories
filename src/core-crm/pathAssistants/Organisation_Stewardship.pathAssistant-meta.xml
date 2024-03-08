@@ -5,15 +5,15 @@
     <fieldName>Stage__c</fieldName>
     <masterLabel>Organisation Stewardship</masterLabel>
     <pathAssistantSteps>
-        <info>&lt;ul&gt;&lt;li&gt;&lt;em&gt;Stewardship management establishes a better connection with your donor organisation&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;em&gt;Utilise Stewardship Activities tab to steward a donor effectively. Strategically adding steps to engage and inspire a donor to give again. &lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;em&gt;Utilise notes section to capture additional information.&lt;/em&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;Stewardship management establishes a better connection with your donor organisation&lt;/li&gt;&lt;li&gt;Utilise Stewardship Activities tab to steward a donor effectively. Strategically adding steps to engage and inspire a donor to give again. &lt;/li&gt;&lt;li&gt;Utilise notes section to capture additional information.&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Active</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;ul&gt;&lt;li&gt;&lt;em&gt;Completed’ indicates that stewardship plan has hit its close date.&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;em&gt;Utilise &amp;#39;Completion Summary&amp;#39; to explain the reason a stewardship plan as completed.&lt;/em&gt;&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Completed’ indicates that stewardship plan has hit its close date.&lt;/li&gt;&lt;li&gt;Utilise &amp;#39;Completion Summary&amp;#39; to explain the reason a stewardship plan as completed.&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Completed</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;ul&gt;&lt;li&gt;&lt;em&gt;&amp;#39;Inactive’ indicates that stewardship plan has been abandoned for future engagements. &lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;em&gt;Utilise &amp;#39;Inactive Summary&amp;#39; to explain the reason the stewardship has become inactive.&lt;/em&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Inactive’ indicates that stewardship plan has been abandoned for future engagements. &lt;/li&gt;&lt;li&gt;Utilise &amp;#39;Inactive Summary&amp;#39; to explain the reason the stewardship has become inactive.&lt;/li&gt;&lt;/ul&gt;</info>
         <picklistValueName>Inactive</picklistValueName>
     </pathAssistantSteps>
     <recordTypeName>Organisation_Stewardship</recordTypeName>
