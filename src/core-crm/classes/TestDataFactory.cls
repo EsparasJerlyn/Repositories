@@ -3774,7 +3774,8 @@ public class TestDataFactory {
      * @return planActivities - List of Plan Activity records created
      */
     public static List<Plan_Activity__c> createPlanActivityRecords(
-        Integer numOfPlanActivities
+        Integer numOfPlanActivities,
+        Id opptyId
     ) {
         List<Plan_Activity__c> planActivities = new List<Plan_Activity__c>();
         for (Integer i = 0; i < numOfPlanActivities; i++) {

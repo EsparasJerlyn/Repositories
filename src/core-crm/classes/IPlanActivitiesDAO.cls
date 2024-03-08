@@ -6,9 +6,10 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Created file
- */
+      | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Created file                 |
+      | jerlyn.esparas                 | February 29, 2024     | DEPP-7890              |                              |
+*/
 
  public interface IPlanActivitiesDAO extends DmlInterface {
-
+    List<Plan_Activity__c> getPlanActivityRecordsWithOpportunityIds (Set<Id> opptyIds, AccessLevel accessLevel);
  }

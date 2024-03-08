@@ -13,15 +13,17 @@
 @isTest
 public class List_Contributor_Task_Due_Date_FlowTest {
     @testSetup
-    static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'Alumni_Engagement_Manager'});
-        List<List__c> listRecords = TestDataFactory.createListRecords(1);
-        listRecords[0].Due_Date__c = System.today() + 30;
-        ListsDAO.newInstance().insertRecords(listRecords, false, AccessLevel.USER_MODE);
-
-        List<List_Contributor__c> listContributorRecords = TestDataFactory.createListContributorRecords(1,listRecords[0].id); 
-        ListContributorsDAO.newInstance().insertRecords(listContributorRecords, false, AccessLevel.USER_MODE);
-    }
+        static void makeData(){
+            TestDataFactory.generateTestUsers(new List<String>{'Alumni_Engagement_Manager'});
+            System.runAs(TestDataFactory.getAlumniEngagementManager()){
+                List<List__c> listRecords = TestDataFactory.createListRecords(1);
+                listRecords[0].Due_Date__c = System.today() + 30;
+                ListsDAO.newInstance().insertRecords(listRecords, false, AccessLevel.USER_MODE);
+                
+                List<List_Contributor__c> listContributorRecords = TestDataFactory.createListContributorRecords(1,listRecords[0].id); 
+                ListContributorsDAO.newInstance().insertRecords(listContributorRecords, false, AccessLevel.USER_MODE);
+            }
+        }
     
     @isTest
     public static void checkDueDate(){
