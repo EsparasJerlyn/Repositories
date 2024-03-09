@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QUT_Persona__c</fullName>
+    <description>A persona is the user security component makeup of this user. Eg. Profile, Role, Perm Set Group, Public Group</description>
+    <externalId>false</externalId>
+    <inlineHelpText>A persona is the user security component makeup of this user. Eg. Profile, Role, Perm Set Group, Public Group</inlineHelpText>
+    <label>QUT Persona</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>System Administrator</fullName>
+                <default>false</default>
+                <label>System Administrator</label>
+            </value>
+            <value>
+                <fullName>System Administrator - Read Only</fullName>
+                <default>false</default>
+                <label>System Administrator - Read Only</label>
+            </value>
+            <value>
+                <fullName>Development Team</fullName>
+                <default>false</default>
+                <label>Development Team</label>
+            </value>
+            <value>
+                <fullName>Student Services Admin</fullName>
+                <default>false</default>
+                <label>Student Services Admin</label>
+            </value>
+            <value>
+                <fullName>QUTeX Executive Director</fullName>
+                <default>false</default>
+                <label>QUTeX Executive Director</label>
+            </value>
+            <value>
+                <fullName>QUTeX Business Manager</fullName>
+                <default>false</default>
+                <label>QUTeX Business Manager</label>
+            </value>
+            <value>
+                <fullName>QUTeX Director of OPE</fullName>
+                <default>false</default>
+                <label>QUTeX Director of OPE</label>
+            </value>
+            <value>
+                <fullName>QUTeX Portfolio Co-Ordinator</fullName>
+                <default>false</default>
+                <label>QUTeX Portfolio Co-Ordinator</label>
+            </value>
+            <value>
+                <fullName>QUTeX Product Administrator</fullName>
+                <default>false</default>
+                <label>QUTeX Product Administrator</label>
+            </value>
+            <value>
+                <fullName>QUTeX Learning Innovation Manager</fullName>
+                <default>false</default>
+                <label>QUTeX Learning Innovation Manager</label>
+            </value>
+            <value>
+                <fullName>QUTeX Learning Designer</fullName>
+                <default>false</default>
+                <label>QUTeX Learning Designer</label>
+            </value>
+            <value>
+                <fullName>QUTeX Partnership Manager</fullName>
+                <default>false</default>
+                <label>QUTeX Partnership Manager</label>
+            </value>
+            <value>
+                <fullName>QUTeX Program Co-Ordinator</fullName>
+                <default>false</default>
+                <label>QUTeX Program Co-Ordinator</label>
+            </value>
+            <value>
+                <fullName>QUTeX Program Administrator</fullName>
+                <default>false</default>
+                <label>QUTeX Program Administrator</label>
+            </value>
+            <value>
+                <fullName>Marketing Manager</fullName>
+                <default>false</default>
+                <label>Marketing Manager</label>
+            </value>
+            <value>
+                <fullName>Marketing Partnership Manager</fullName>
+                <default>false</default>
+                <label>Marketing Partnership Manager</label>
+            </value>
+            <value>
+                <fullName>Marketing Quality Assurance</fullName>
+                <default>false</default>
+                <label>Marketing Quality Assurance</label>
+            </value>
+            <value>
+                <fullName>Digital Marketing Officer</fullName>
+                <default>false</default>
+                <label>Digital Marketing Officer</label>
+            </value>
+            <value>
+                <fullName>Marketing Digital Communication Officer</fullName>
+                <default>false</default>
+                <label>Marketing Digital Communication Officer</label>
+            </value>
+            <value>
+                <fullName>Future Student Concierge - Domestic</fullName>
+                <default>false</default>
+                <label>Future Student Concierge - Domestic</label>
+            </value>
+            <value>
+                <fullName>Future Student Concierge - International</fullName>
+                <default>false</default>
+                <label>Future Student Concierge - International</label>
+            </value>
+            <value>
+                <fullName>Future Student Agent - Domestic</fullName>
+                <default>false</default>
+                <label>Future Student Agent - Domestic</label>
+            </value>
+            <value>
+                <fullName>Future Student Agent Super User - Domestic</fullName>
+                <default>false</default>
+                <label>Future Student Agent Super User - Domestic</label>
+            </value>
+            <value>
+                <fullName>Future Student Super Team Leader - Domestic</fullName>
+                <default>false</default>
+                <label>Future Student Super Team Leader - Domestic</label>
+            </value>
+            <value>
+                <fullName>Future Student Agent - International</fullName>
+                <default>false</default>
+                <label>Future Student Agent - International</label>
+            </value>
+            <value>
+                <fullName>Future Student Team Leader - Domestic</fullName>
+                <default>false</default>
+                <label>Future Student Team Leader - Domestic</label>
+            </value>
+            <value>
+                <fullName>Future Student Reporting - Domestic</fullName>
+                <default>false</default>
+                <label>Future Student Reporting - Domestic</label>
+            </value>
+            <value>
+                <fullName>Future Student Team Leader - International</fullName>
+                <default>false</default>
+                <label>Future Student Team Leader - International</label>
+            </value>
+            <value>
+                <fullName>Future Student Super User - Domestic</fullName>
+                <default>false</default>
+                <label>Future Student Super User - Domestic</label>
+            </value>
+            <value>
+                <fullName>Future Student Super Team Leader - International</fullName>
+                <default>false</default>
+                <label>Future Student Super Team Leader - International</label>
+            </value>
+            <value>
+                <fullName>Future Student Super User - International</fullName>
+                <default>false</default>
+                <label>Future Student Super User - International</label>
+            </value>
+            <value>
+                <fullName>Industry Partnership Manager</fullName>
+                <default>false</default>
+                <label>Industry Partnership Manager</label>
+            </value>
+            <value>
+                <fullName>Industry Operations Manager</fullName>
+                <default>false</default>
+                <label>Industry Operations Manager</label>
+            </value>
+            <value>
+                <fullName>Industry VP Business Development</fullName>
+                <default>false</default>
+                <label>Industry VP Business Development</label>
+            </value>
+            <value>
+                <fullName>Industry Director Business Development</fullName>
+                <default>false</default>
+                <label>Industry Director Business Development</label>
+            </value>
+            <value>
+                <fullName>Industry Engagement Super User</fullName>
+                <default>false</default>
+                <label>Industry Engagement Super User</label>
+            </value>
+            <value>
+                <fullName>Alumni &amp; Corporate Partnerships Super User</fullName>
+                <default>false</default>
+                <label>Alumni &amp; Corporate Partnerships Super User</label>
+            </value>
+            <value>
+                <fullName>Alumni Engagement Manager</fullName>
+                <default>false</default>
+                <label>Alumni Engagement Manager</label>
+            </value>
+            <value>
+                <fullName>Corporate Partnerships Manager</fullName>
+                <default>false</default>
+                <label>Corporate Partnerships Manager</label>
+            </value>
+            <value>
+                <fullName>Corporate Engagement Manager</fullName>
+                <default>false</default>
+                <label>Corporate Engagement Manager</label>
+            </value>
+            <value>
+                <fullName>Corporate Events Manager</fullName>
+                <default>false</default>
+                <label>Corporate Events Manager</label>
+            </value>
+            <value>
+                <fullName>Fundraising Manager</fullName>
+                <default>false</default>
+                <label>Fundraising Manager</label>
+            </value>
+            <value>
+                <fullName>Fundraiser</fullName>
+                <default>false</default>
+                <label>Fundraiser</label>
+            </value>
+            <value>
+                <fullName>Advancement Manager</fullName>
+                <default>false</default>
+                <label>Advancement Manager</label>
+            </value>
+            <value>
+                <fullName>Advancement Operations Manager</fullName>
+                <default>false</default>
+                <label>Advancement Operations Manager</label>
+            </value>
+            <value>
+                <fullName>Donor Engagement Manager</fullName>
+                <default>false</default>
+                <label>Donor Engagement Manager</label>
+            </value>
+            <value>
+                <fullName>Executive Director Advancement</fullName>
+                <default>false</default>
+                <label>Executive Director Advancement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
