@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>1282</locationX>
-        <locationY>2372</locationY>
+        <locationX>1018</locationX>
+        <locationY>2114</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,8 +43,8 @@
     <assignments>
         <name>Assign_Account_To_Contextual_Role</name>
         <label>Assign Account To Contextual Role</label>
-        <locationX>270</locationX>
-        <locationY>1556</locationY>
+        <locationX>138</locationX>
+        <locationY>1298</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -59,8 +59,8 @@
     <assignments>
         <name>Assign_Contact_To_Contextual_Role</name>
         <label>Assign Contact To Contextual Role</label>
-        <locationX>270</locationX>
-        <locationY>2072</locationY>
+        <locationX>138</locationX>
+        <locationY>1814</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
             <operator>Assign</operator>
@@ -75,8 +75,8 @@
     <assignments>
         <name>Assign_Contact_Values</name>
         <label>Assign Contact Values</label>
-        <locationX>270</locationX>
-        <locationY>1856</locationY>
+        <locationX>138</locationX>
+        <locationY>1598</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.ContactMobile_Locale__c</assignToReference>
             <operator>Assign</operator>
@@ -110,64 +110,6 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Contextual_Role_Object_Values</name>
-        <label>Assign Contextual Role Object Values</label>
-        <locationX>578</locationX>
-        <locationY>674</locationY>
-        <assignmentItems>
-            <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
-            <operator>Assign</operator>
-        </assignmentItems>
-        <connector>
-            <targetReference>New_Contact_Organisation_Giving</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Values_to_Contact_Var</name>
-        <label>Assign Values to Contact Var</label>
-        <locationX>578</locationX>
-        <locationY>890</locationY>
-        <assignmentItems>
-            <assignToReference>ContactToCreate.FirstName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>First_Name_Organisation_Giving</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactToCreate.LastName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Last_Name_Organisation_Giving</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactToCreate.ContactMobile_Locale__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Mobile_Locale_Organisation_Giving</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactToCreate.MobilePhone</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Mobile_Organisation_Giving</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactToCreate.Title</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Job_Title_Organisation_Giving</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Create_Contact_Record</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Pre_Assigned_Account_Values</name>
         <label>Pre Assigned Account Values</label>
         <locationX>50</locationX>
@@ -186,7 +128,7 @@
     <assignments>
         <name>Pre_Assigned_Contact_Values</name>
         <label>Pre Assigned Contact Values</label>
-        <locationX>534</locationX>
+        <locationX>402</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>ContactToCreate.RecordTypeId</assignToReference>
@@ -202,7 +144,7 @@
     <assignments>
         <name>Pre_Assigned_Contextual_Role_Values</name>
         <label>Pre Assigned Contextual Role Values</label>
-        <locationX>534</locationX>
+        <locationX>402</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
@@ -260,7 +202,7 @@
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>534</locationX>
+        <locationX>402</locationX>
         <locationY>458</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -289,48 +231,16 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Check_Parent_Record_Type</targetReference>
+                <targetReference>Contact_Screen</targetReference>
             </connector>
             <label>Is Contributors</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Parent_Record_Type</name>
-        <label>Check Parent Record Type</label>
-        <locationX>710</locationX>
-        <locationY>566</locationY>
-        <defaultConnector>
-            <targetReference>Contact_Screen</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Parent_Is_Organisation_Giving_Opportunity</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>ContextualRoleToCreate.Opportunity__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>OpportunityRecordTypeDeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Organisation_Giving</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Contextual_Role_Object_Values</targetReference>
-            </connector>
-            <label>Parent Is Organisation Giving Opportunity</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_New_Account</name>
         <label>Is New Account?</label>
-        <locationX>534</locationX>
-        <locationY>1340</locationY>
+        <locationX>402</locationX>
+        <locationY>1082</locationY>
         <defaultConnector>
             <targetReference>Is_New_Contact</targetReference>
         </defaultConnector>
@@ -354,8 +264,8 @@
     <decisions>
         <name>Is_New_Contact</name>
         <label>Is New Contact?</label>
-        <locationX>534</locationX>
-        <locationY>1748</locationY>
+        <locationX>402</locationX>
+        <locationY>1490</locationY>
         <defaultConnector>
             <targetReference>Create_Contextual_Role</targetReference>
         </defaultConnector>
@@ -376,14 +286,6 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <dynamicChoiceSets>
-        <name>AdvancementRoleContributorPicklist</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Contextual_Role__c</picklistField>
-        <picklistObject>Contextual_Role__c</picklistObject>
-    </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>mobilelocalepicklist</name>
         <dataType>Picklist</dataType>
@@ -450,8 +352,8 @@
     <recordCreates>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>270</locationX>
-        <locationY>1448</locationY>
+        <locationX>138</locationX>
+        <locationY>1190</locationY>
         <connector>
             <targetReference>Assign_Account_To_Contextual_Role</targetReference>
         </connector>
@@ -464,8 +366,8 @@
     <recordCreates>
         <name>Create_Contact_Record</name>
         <label>Create Contact Record</label>
-        <locationX>270</locationX>
-        <locationY>1964</locationY>
+        <locationX>138</locationX>
+        <locationY>1706</locationY>
         <connector>
             <targetReference>Assign_Contact_To_Contextual_Role</targetReference>
         </connector>
@@ -478,8 +380,8 @@
     <recordCreates>
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
-        <locationX>534</locationX>
-        <locationY>2264</locationY>
+        <locationX>402</locationX>
+        <locationY>2006</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -520,7 +422,7 @@
     <recordLookups>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>534</locationX>
+        <locationX>402</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -552,8 +454,8 @@
     <recordRollbacks>
         <name>Rollback_Records</name>
         <label>Rollback Records</label>
-        <locationX>1282</locationX>
-        <locationY>2480</locationY>
+        <locationX>1018</locationX>
+        <locationY>2222</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
         </connector>
@@ -765,8 +667,8 @@
     <screens>
         <name>Contact_Screen</name>
         <label>Contact Screen</label>
-        <locationX>534</locationX>
-        <locationY>1232</locationY>
+        <locationX>402</locationX>
+        <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1080,8 +982,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>1282</locationX>
-        <locationY>2588</locationY>
+        <locationX>1018</locationX>
+        <locationY>2330</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1098,164 +1000,8 @@
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
-    <screens>
-        <name>New_Contact_Organisation_Giving</name>
-        <label>New Contact Organisation Giving</label>
-        <locationX>578</locationX>
-        <locationY>782</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Assign_Values_to_Contact_Var</targetReference>
-        </connector>
-        <fields>
-            <name>OrganisationGivingContactHeader</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!PartyRoleType}&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>Account_Lookup_Organisation_Giving</name>
-            <dataTypeMappings>
-                <typeName>T</typeName>
-                <typeValue>Account</typeValue>
-            </dataTypeMappings>
-            <extensionName>c:flowLookup</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>objectName</name>
-                <value>
-                    <stringValue>Account</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>disabled</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>defaultValueInput</name>
-                <value>
-                    <elementReference>ParentOpportunityAccountId</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>leftIconName</name>
-                <value>
-                    <stringValue>standard:account</stringValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <fields>
-            <name>First_Name_Organisation_Giving</name>
-            <dataType>String</dataType>
-            <fieldText>First Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Last_Name_Organisation_Giving</name>
-            <dataType>String</dataType>
-            <fieldText>Last Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>Job_Title_Organisation_Giving</name>
-            <dataType>String</dataType>
-            <fieldText>Job Title</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>Work_Email_Organisation_Giving</name>
-            <extensionName>c:flowWorkEmailField</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>required</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>ContactToCreate.Work_Email__c</assignToReference>
-                <name>workEmail</name>
-            </outputParameters>
-        </fields>
-        <fields>
-            <name>Mobile_Locale_Organisation_Giving</name>
-            <choiceReferences>mobilelocalepicklist</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Mobile Locale</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Mobile_Organisation_Giving</name>
-            <dataType>String</dataType>
-            <fieldText>Mobile</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Role_Picklist_Test</name>
-            <choiceReferences>AdvancementRoleContributorPicklist</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Role Picklist Test</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-            <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
-        </fields>
-        <fields>
-            <fieldType>ObjectProvided</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-            <objectFieldReference>ContextualRoleToCreate.Contextual_Role_Group__c</objectFieldReference>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>DynamicDataTableInput</leftValueReference>
-                    <operator>NotEqualTo</operator>
-                    <rightValue>
-                        <stringValue>Contributors</stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>Affiliation_Organisation_Giving</name>
-            <dataType>Boolean</dataType>
-            <fieldText>I understand that this contact will be affiliated to this Account.</fieldText>
-            <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <validationRule>
-                <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Mandatory Field&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</errorMessage>
-                <formulaExpression>IF({!Affiliation_Organisation_Giving}=TRUE,TRUE,FALSE)</formulaExpression>
-            </validationRule>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
     <start>
-        <locationX>408</locationX>
+        <locationX>276</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Pre_Assigned_Contextual_Role_Values</targetReference>
@@ -1309,13 +1055,6 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>OpportunityRecordTypeDeveloperName</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
         <name>ParentId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1324,13 +1063,6 @@
     </variables>
     <variables>
         <name>ParentObjectApiName</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>ParentOpportunityAccountId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
