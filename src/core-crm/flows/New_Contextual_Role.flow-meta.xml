@@ -188,7 +188,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_Contact_Affiliation</targetReference>
+            <targetReference>Check_Contextual_Role_Contact_Affiliation</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1040,7 +1040,7 @@
         <locationX>4142</locationX>
         <locationY>998</locationY>
         <defaultConnector>
-            <targetReference>Check_Contact_Affiliation</targetReference>
+            <targetReference>Check_Contextual_Role_Contact_Affiliation</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3921,12 +3921,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <name>OpportunityRecordTypeDeveloperName</name>
-            <value>
-                <elementReference>Get_Opportunity.RecordType.DeveloperName</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <name>ParentId</name>
             <value>
                 <elementReference>ParentId</elementReference>
@@ -3939,12 +3933,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <name>ParentOpportunityAccountId</name>
-            <value>
-                <elementReference>OrganisationGivingAccountId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <name>RecordTypeId</name>
             <value>
                 <elementReference>RecordTypeId</elementReference>
@@ -3953,8 +3941,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
-        <name>Check_Contact_Affiliation</name>
-        <label>Check Contact Affiliation</label>
+        <name>Check_Contextual_Role_Contact_Affiliation</name>
+        <label>Check Contextual Role Contact Affiliation</label>
         <locationX>4142</locationX>
         <locationY>1622</locationY>
         <connector>
@@ -3974,7 +3962,7 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <name>JobTitleTextVar</name>
+            <name>JobTitle</name>
             <value>
                 <elementReference>OrganisationGivingOpp_Job_Title</elementReference>
             </value>
