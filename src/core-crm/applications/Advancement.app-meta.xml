@@ -212,6 +212,42 @@
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Organisation_Stewardship_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Organisation_Stewardship_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Organisation_Stewardship_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Organisation_Stewardship_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Stewardship__c</pageOrSobjectType>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Opportunity</tabs>
