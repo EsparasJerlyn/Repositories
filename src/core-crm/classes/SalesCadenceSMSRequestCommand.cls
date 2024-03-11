@@ -13,6 +13,7 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
     
     private List<Communication_Queue__c> communicationQueueList;
     private static final String SMS_SUBJECT = 'Nurture Track SMS';
+    private static final String NO_ANSWER_SMS_SUBJECT = 'Service Appt No Answer SMS';
 
     public SalesCadenceSMSRequestCommand(List<Communication_Queue__c> communicationQueueList) {
         this.communicationQueueList = communicationQueueList;
@@ -110,35 +111,55 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
     }
 
    /**
-    * create Tasks for SMS 
+    * create Tasks for SMS
     */    
     private static void createTaskRecords(List<Communication_Queue__c> commsQueueListToUpdate ) {
         
-        List<Task> insertTaskRecord = new List<Task>();
+        List<Task> insertTaskRecords = new List<Task>();   
         Id userId = UserInfo.getUserId();
-    
-        for(Communication_Queue__c commsQueue : commsQueueListToUpdate){
+        String senderNumber = getCommsQueueConfig().SMS_Messaging_Channel__c;
+        senderNumber = senderNumber?.replace('TEXT_AU_', '');  
 
-            String senderNumber = getCommsQueueConfig().SMS_Messaging_Channel__c;
-            senderNumber = senderNumber?.replace('TEXT_AU_', '');  
-            
-            insertTaskRecord.add(
-                new Task(
-                    Subject = SMS_SUBJECT,
-                    OwnerId = userId,
-                    SMS_Outcome__c = commsQueue.Status__c,
-                    Status = 'Completed',
-                    WhoId = commsQueue.WhoId__c,
-                    RecordTypeId = TasksDAO.SMS_RECTYPE_ID,
-                    Message_Content__c =  commsQueue.Message__c,
-                    ActivityDate = System.today(),
-                    Sender__c = senderNumber,
-                    Priority = 'Normal'
-                )
-            );
+        for(Communication_Queue__c commsQueue : commsQueueListToUpdate){    
+            if(commsQueue.Status__c == 'Retry Scheduled') {
+                continue;
+            }
+            if(commsQueue.Business_Process__c == CommunicationQueuesDAO.BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS) {
+                insertTaskRecords.add(
+                    new Task(
+                        Subject = NO_ANSWER_SMS_SUBJECT,
+                        OwnerId = userId,
+                        SMS_Outcome__c = commsQueue.Status__c,
+                        Status = 'Completed',
+                        WhoId = commsQueue.WhoId__c,
+                        RecordTypeId = TasksDAO.SMS_RECTYPE_ID,
+                        Message_Content__c =  commsQueue.Message__c,
+                        ActivityDate = System.today(),
+                        Sender__c = senderNumber,
+                        Receiver__c = commsQueue.Mobile__c,
+                        Priority = 'Normal'
+                    )
+                );
+            } else {
+                insertTaskRecords.add(
+                    new Task(
+                        Subject = SMS_SUBJECT,
+                        OwnerId = userId,
+                        SMS_Outcome__c = commsQueue.Status__c,
+                        Status = 'Completed',
+                        WhoId = commsQueue.WhoId__c,
+                        RecordTypeId = TasksDAO.SMS_RECTYPE_ID,
+                        Message_Content__c =  commsQueue.Message__c,
+                        ActivityDate = System.today(),
+                        Sender__c = senderNumber,
+                        Priority = 'Normal'
+                    )
+                );
+            }
         }
-        if(!insertTaskRecord.isEmpty()){
-            TasksDAO.newInstance().insertRecords(insertTaskRecord,false,AccessLevel.SYSTEM_MODE);  
-        }  
+        
+        if(!insertTaskRecords.isEmpty()){
+            TasksDAO.newInstance().insertRecords(insertTaskRecords, false, AccessLevel.SYSTEM_MODE);  
+        }
     }
 }
