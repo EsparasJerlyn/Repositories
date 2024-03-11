@@ -5,5 +5,5 @@
     <values>
         <field>Username__c</field>
         <value xsi:type="xsd:string">website.integration@qut.edu.au.dep</value>
-    </values>
+    </values> 
 </CustomMetadata>
