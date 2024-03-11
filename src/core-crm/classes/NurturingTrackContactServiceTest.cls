@@ -336,10 +336,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
     @isTest
     private static void testManualDomesticFirstOffertoAcceptanceEntryHasCompleteCadence() {
-        system.debug('soqllimit1'+Limits.getDMLStatements());
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
-            system.debug('soqllimit2'+Limits.getDMLStatements());
             // create contact
             List<Contact> newContacts = createTestContactRecords(0, 1);
             newContacts[0].hed__Citizenship_Status__c = 'Domestic';
@@ -376,6 +374,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplicationsSecond[0].Offered_Program_Plan__c = programList[0].Id;
             newApplicationsSecond[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
             newApplications.addAll(newApplicationsSecond);
+            
+            Test.stopTest();
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
 
             // Create Nurture Track Configuration
@@ -401,11 +401,8 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                 Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
-            system.debug('soqllimit3'+Limits.getDMLStatements());
-            Test.stopTest();
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
-            system.debug('soqllimit4'+Limits.getDMLStatements());
             // assert
             System.assertEquals(
                 'Domestic First Offer to Acceptance',
