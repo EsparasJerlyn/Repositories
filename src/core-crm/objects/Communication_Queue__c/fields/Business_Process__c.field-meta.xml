@@ -33,6 +33,11 @@
                 <default>false</default>
                 <label>Domestic Automated Cadence SMS</label>
             </value>
+            <value>
+                <fullName>Domestic No Answer SMS</fullName>
+                <default>false</default>
+                <label>Domestic No Answer SMS</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
