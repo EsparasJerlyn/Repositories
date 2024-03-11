@@ -14,18 +14,20 @@ public with sharing class PlanActivitiesDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Advancement_Manager','QUT_Donor_Engagement_Manager' });
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
             List<Plan_Activity__c> newPlanActivityList = new List<Plan_Activity__c>();
             List<Plan_Activity__c> planActivityList = TestDataFactory.createPlanActivityRecords(5);
             List<Stewardship__c> stewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID,1);
 
-            StewardshipsDAO.newInstance().insertRecords(stewardshipList, false, AccessLevel.SYSTEM_MODE);
+            StewardshipsDAO.newInstance().insertRecords(stewardshipList, false, AccessLevel.USER_MODE);
 
             for(Plan_Activity__c plan : planActivityList){
                 plan.Stewardship__c = stewardshipList[0].Id;
                 newPlanActivityList.add(plan);
             }
 
-            PlanActivitiesDAO.newInstance().insertRecords(newPlanActivityList, false, AccessLevel.SYSTEM_MODE);
+            PlanActivitiesDAO.newInstance().insertRecords(newPlanActivityList, false, AccessLevel.USER_MODE);
+        }
     }
     @isTest
     static void newInstanceTest() {
@@ -52,7 +54,7 @@ public with sharing class PlanActivitiesDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
             List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
-                .getPlanActivityRecordsWithStewardshipIds(new Set<Id>(),AccessLevel.SYSTEM_MODE);
+                .getPlanActivityRecordsWithStewardshipIds(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(planActivitiesList.isEmpty(), 'planActivitiesList should not be empty');
         }
         Test.stopTest();

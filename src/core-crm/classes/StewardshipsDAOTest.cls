@@ -48,7 +48,7 @@ private class StewardshipsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
             List<Stewardship__c> stewardshipsList = StewardshipsDAO.newInstance()
-                .getStewardshipBySetIds(new Set<Id>(),AccessLevel.SYSTEM_MODE);
+                .getStewardshipBySetIds(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(stewardshipsList.isEmpty(), 'stewardshipsList should not be empty');
         }
         Test.stopTest();
@@ -74,7 +74,7 @@ private class StewardshipsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
             List<Stewardship__c> stewardshipsList = StewardshipsDAO.newInstance()
-                .getStewardshipByRecordTypeIds(new Set<Id>(),AccessLevel.SYSTEM_MODE);
+                .getStewardshipByRecordTypeIds(new Set<Id>(),AccessLevel.USER_MODE);
             System.assert(stewardshipsList.isEmpty(), 'stewardshipsList should not be empty');
         }
         Test.stopTest();
