@@ -251,4 +251,45 @@
         <layout>Task-SMS Layout</layout>
         <recordType>Task.SMS</recordType>
     </layoutAssignments>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>13.236.99.148</endAddress>
+        <startAddress>13.236.99.148</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>13.211.16.11</endAddress>
+        <startAddress>13.211.16.11</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>3.104.209.136</endAddress>
+        <startAddress>3.104.209.136</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>3.104.212.142</endAddress>
+        <startAddress>3.104.212.142</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.archiver.ownbackup.com &amp; au1.archive.owndata.com</description>
+        <endAddress>54.79.91.194</endAddress>
+        <startAddress>54.79.91.194</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.archiver.ownbackup.com &amp; au1.archive.owndata.com</description>
+        <endAddress>3.104.161.68</endAddress>
+        <startAddress>3.104.161.68</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.archiver.ownbackup.com &amp; au1.archive.owndata.com</description>
+        <endAddress>13.55.207.198</endAddress>
+        <startAddress>13.55.207.198</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>QUT Corporate Network</description>
+        <endAddress>131.181.158.153</endAddress>
+        <startAddress>131.181.158.153</startAddress>
+    </loginIpRanges>
+    <userLicense>Salesforce</userLicense>
 </Profile>

@@ -4,6 +4,7 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Persona System Administrator</label>
     <permissionSets>Marketing_Cloud_Connected_App</permissionSets>
+    <permissionSets>Permission_Multi_Factor_Authentication_for_User_Interface_Logins</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
