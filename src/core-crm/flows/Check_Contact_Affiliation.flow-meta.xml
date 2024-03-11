@@ -126,8 +126,8 @@
         </rules>
     </decisions>
     <environments>Default</environments>
-    <interviewLabel>Check Contextual Role Contact Affiliation {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Check Contextual Role Contact Affiliation</label>
+    <interviewLabel>Check Contact Affiliation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Check Contact Affiliation</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

@@ -381,7 +381,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Check_Contextual_Role_Contact_Affiliation</targetReference>
+                <targetReference>Check_Contact_Affiliation</targetReference>
             </connector>
             <label>Is True - Account and Contact Affiliation</label>
         </rules>
@@ -3271,14 +3271,14 @@
     </start>
     <status>Active</status>
     <subflows>
-        <name>Check_Contextual_Role_Contact_Affiliation</name>
-        <label>Check Contextual Role Contact Affiliation</label>
+        <name>Check_Contact_Affiliation</name>
+        <label>Check Contact Affiliation</label>
         <locationX>3394</locationX>
         <locationY>2984</locationY>
         <connector>
             <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
         </connector>
-        <flowName>Check_Contextual_Role_Contact_Affiliation</flowName>
+        <flowName>Check_Contact_Affiliation</flowName>
         <inputAssignments>
             <name>AccountId</name>
             <value>

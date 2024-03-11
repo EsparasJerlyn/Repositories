@@ -188,7 +188,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_Contextual_Role_Contact_Affiliation</targetReference>
+            <targetReference>Check_Contact_Affiliation</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1040,7 +1040,7 @@
         <locationX>4142</locationX>
         <locationY>998</locationY>
         <defaultConnector>
-            <targetReference>Check_Contextual_Role_Contact_Affiliation</targetReference>
+            <targetReference>Check_Contact_Affiliation</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3941,14 +3941,14 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
-        <name>Check_Contextual_Role_Contact_Affiliation</name>
-        <label>Check Contextual Role Contact Affiliation</label>
+        <name>Check_Contact_Affiliation</name>
+        <label>Check Contact Affiliation</label>
         <locationX>4142</locationX>
         <locationY>1622</locationY>
         <connector>
             <targetReference>Assign_RoleIsActive_Value</targetReference>
         </connector>
-        <flowName>Check_Contextual_Role_Contact_Affiliation</flowName>
+        <flowName>Check_Contact_Affiliation</flowName>
         <inputAssignments>
             <name>AccountId</name>
             <value>
