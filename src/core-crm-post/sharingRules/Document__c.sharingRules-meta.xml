@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>All_Advancement_Share</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to Fundraising Manager with all Advancement persona when under Opportunity or Stewardship</description>
+        <label>All Advancement Share</label>
+        <sharedTo>
+            <group>Advancement</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>Opportunity__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Stewardship__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>IE_Operations_Manager_Share</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Document records to Operations Manager with Read/Write access when under
