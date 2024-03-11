@@ -14,6 +14,7 @@
       | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Added test class coverage for can nurture logic           |
       | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class createMarketingSegmentationTest          |
       | julie.jane.alegre         | Oct 27, 2023          | DEPP-6955    | Added new method updateRegisteredEmailTest                |
+      | mark.j.mahilum            | Feb 29, 2024          | DEPP-7739    | Added new test method for contact to lead conversion      |
 */
 @isTest
 private class ContactTriggerHelperTest {
@@ -209,6 +210,8 @@ private class ContactTriggerHelperTest {
             insert marSeg;
             Contact con = new Contact(LastName = 'Test', Marketing_Segmentation__c = marSeg.Id);
             ContactsDAO.newInstance().insertRecords(new List<Contact>{con}, true, AccessLevel.SYSTEM_MODE);
+            marSeg.Contact__c = con.Id;
+            update marSeg;
             Contact finalCon = [SELECT Id, Moving_To_Brisbane__c FROM Contact WHERE Id = :con.Id LIMIT 1];
             Test.stopTest();
             System.assertEquals(true, finalCon.Moving_to_Brisbane__c, 'The contact\'s Moving To Brisbane field was not set to true.');
@@ -482,6 +485,139 @@ private class ContactTriggerHelperTest {
             for(Contact con: ContactsDAO.newInstance().getMCPersonaContactsByParentPersonLeadIds(leadIds,AccessLevel.SYSTEM_MODE)){
                 System.assert(con.Parent_Person_Lead__r.Work_Email__c.contains('updated'),'Work Email should be updated');
             }
+        }
+    }
+
+    @isTest
+    private static void testContactPrimaryEmailIsEmptyAndConvertLeadToContact() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Integer numOfRecords = 10;
+            List<Lead> leads = new List<Lead>();
+            for(Integer i = 0; i <= numOfRecords; i++){
+                leads.add(new Lead(
+                    FirstName = 'Test' + i,
+                    LastName = 'Record' + i,
+                    Company = 'TestCompany',
+                    Phone = '012345678',
+                    Street = 'TestStreet',
+                    State = 'TestState',
+                    City = 'TestCity',
+                    Country = 'Japan',
+                    PostalCode = '4102',
+                    Email = 'test@record.com' + i,
+                    MobilePhone = '012345678',
+                    Personal_Mobile__c = '012345678',
+                    Company_Category__c = 'Corporate',
+                    ABN__c = '000',
+                    LeadABNEntity_Validation__c = 'Valid',
+                    LeadAddress_Validation__c = 'Valid',
+                    LeadMobile_Validation__c = 'Valid',
+                    Mobile_No_Locale__c = '012345678',
+                    LeadPersonalMobile_Validation__c = 'Valid',
+                    LeadPhone_Validation__c = 'Valid',
+                    LinkedIn_Profile_URL__c = 'test@record.com',
+                    WorkPhone_Validation__c = 'Valid',
+                    Phone_No_Locale__c  = '012345678',
+                    Lead_Type__c = 'Learner'
+                ));
+            }
+            
+            Database.SaveResult[] srLeadList = LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.SYSTEM_MODE);
+            Set<Id> leadIds = new Set<Id>();            
+            for (Database.SaveResult sr : srLeadList) {
+                if (sr.isSuccess()) {
+                    leadIds.add(sr.getId());
+                }
+            }
+            
+            List<Contact> contactList = new List<Contact>();
+            for(Integer i = 0; i <= numOfRecords; i++){
+                contactList.add(new Contact(FirstName = 'Test' + i, LastName = 'Record' + i, Work_Email__c = 'test@record.com' + i, Company_Name__c = 'mcTestCompany', RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID));
+            }
+            Test.startTest();
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            for(Lead rec: [SELECT Id,IsConverted,Status FROM Lead WHERE Id IN: leadIds]){
+                System.assertEquals(true, rec.IsConverted, 'Lead is not converted');
+                System.assertEquals('Qualified', rec.Status, 'Lead is not converted');
+            }
+            
+        }
+    }
+    
+    @isTest
+    private static void testLeadWorkEmailIsPopulatedAndConvertLeadToContact() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            
+            Integer numOfRecords = 5;
+            List<Contact> contactList = new List<Contact>();
+            for(Integer i = 0; i <= numOfRecords; i++){
+                contactList.add(new Contact(FirstName = 'Test' + i, LastName = 'Record' + i, Company_Name__c = 'mcTestCompany', RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID));
+            }             
+            Database.SaveResult[] srContactList = ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
+            Set<Id> contactIds = new Set<Id>();            
+            for (Database.SaveResult sr : srContactList) {
+                if (sr.isSuccess()) {
+                    contactIds.add(sr.getId());
+                }
+            }
+            Test.startTest();        
+            List<Lead> leads = new List<Lead>();
+            for(Integer i = 0; i <= numOfRecords; i++){
+                leads.add(new Lead(
+                    FirstName = 'Test' + i,
+                    LastName = 'Record' + i,
+                    Company = 'TestCompany',
+                    Phone = '012345678',
+                    Street = 'TestStreet',
+                    State = 'TestState',
+                    City = 'TestCity',
+                    Country = 'Japan',
+                    PostalCode = '4102',
+                    Work_Email__c = 'testLead@record.com' + i,
+                    MobilePhone = '012345678',
+                    Personal_Mobile__c = '012345678',
+                    Company_Category__c = 'Corporate',
+                    ABN__c = '000',
+                    LeadABNEntity_Validation__c = 'Valid',
+                    LeadAddress_Validation__c = 'Valid',
+                    LeadMobile_Validation__c = 'Valid',
+                    Mobile_No_Locale__c = '012345678',
+                    LeadPersonalMobile_Validation__c = 'Valid',
+                    LeadPhone_Validation__c = 'Valid',
+                    LinkedIn_Profile_URL__c = 'test@record.com',
+                    WorkPhone_Validation__c = 'Valid',
+                    Phone_No_Locale__c  = '012345678',
+                    Lead_Type__c = 'Learner'
+                ));
+            }
+                                  
+            Database.SaveResult[] srLeadList = LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
+                         
+            Set<Id> leadIds = new Set<Id>();            
+            for (Database.SaveResult sr : srLeadList) {
+                if (sr.isSuccess()) {
+                    leadIds.add(sr.getId());
+                }
+            }
+            
+            List<Contact> updateContactList = [SELECT Id FROM Contact WHERE Id IN: contactIds];
+            Integer i = 0;
+            for(Contact con: updateContactList){
+                con.Email = 'testLead@record.com' + i;
+                i++;
+            }
+
+            
+            ContactsDAO.newInstance().updateRecords(updateContactList, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            for(Lead rec: [SELECT Id,IsConverted,Status FROM Lead WHERE Id IN: leadIds ]){
+                System.assertEquals(true, rec.IsConverted, 'Lead is not converted');
+                System.assertEquals('Qualified', rec.Status, 'Lead is not converted');
+            }
+            
         }
     }
 }
