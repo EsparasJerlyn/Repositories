@@ -20,14 +20,14 @@ public with sharing class StewardshipUpdateCustomValidationTest {
             List<Plan_Activity__c> planActivityList = TestDataFactory.createPlanActivityRecords(5);
             List<Stewardship__c> stewardshipList = TestDataFactory.createStewardshipRecords(StewardshipsDAO.INDIVIDUAL_STEWARDSHIP_RECTYPE_ID,1);
 
-            StewardshipsDAO.newInstance().insertRecords(stewardshipList, false, AccessLevel.SYSTEM_MODE);
+            StewardshipsDAO.newInstance().insertRecords(stewardshipList, false, AccessLevel.USER_MODE);
 
             for(Plan_Activity__c plan : planActivityList){
                 plan.Stewardship__c = stewardshipList[0].Id;
                 newPlanActivityList.add(plan);
             }
 
-            PlanActivitiesDAO.newInstance().insertRecords(newPlanActivityList, false, AccessLevel.SYSTEM_MODE);
+            PlanActivitiesDAO.newInstance().insertRecords(newPlanActivityList, false, AccessLevel.USER_MODE);
         }
     }
 
