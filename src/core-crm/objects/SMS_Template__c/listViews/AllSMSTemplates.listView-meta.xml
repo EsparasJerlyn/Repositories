@@ -9,6 +9,10 @@
     <filterScope>Everything</filterScope>
     <label>All SMS Templates</label>
     <sharedTo>
+        <group>Development_Team</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
         <role>Future_Student_Super_User_Domestic</role>
         <role>Future_Student_Super_User_International</role>
         <role>System_Administrator</role>

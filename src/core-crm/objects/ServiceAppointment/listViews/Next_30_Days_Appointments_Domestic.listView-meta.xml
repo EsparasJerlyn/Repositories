@@ -27,6 +27,10 @@
     </filters>
     <label>Next 30 Days Appointments - Domestic</label>
     <sharedTo>
+        <group>Development_Team</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
         <roleAndSubordinatesInternal>Future_Student_Super_User_Domestic</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>
