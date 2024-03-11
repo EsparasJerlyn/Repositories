@@ -20,10 +20,6 @@
     </filters>
     <label>My Active Lists</label>
     <sharedTo>
-        <group>Advancement_Manager</group>
-        <group>Advancement_Operations_Manager</group>
-        <group>Donor_Engagement_Manager</group>
-        <group>Fundraiser</group>
-        <group>Fundraising_Manager</group>
+        <group>Advancement</group>
     </sharedTo>
 </ListView>
