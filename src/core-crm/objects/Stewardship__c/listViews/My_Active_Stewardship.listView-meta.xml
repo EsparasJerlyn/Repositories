@@ -13,7 +13,7 @@
         <operation>equals</operation>
         <value>Active</value>
     </filters>
-    <label>My Active Stewardship</label>
+    <label>My Active Stewardships</label>
     <sharedTo>
         <group>Donor_Engagement_Manager</group>
     </sharedTo>
