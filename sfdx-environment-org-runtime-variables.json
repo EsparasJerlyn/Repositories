@@ -1,7 +1,8 @@
 {
   "files":[
     "src/core-crm/customMetadata/Auto_Priority_Assignment_Configuration.Case_Integration_User.md-meta.xml",
-    "src/core-crm/customMetadata/Auto_Priority_Assignment_Configuration.Website_Integration_User.md-meta.xml"
+    "src/core-crm/customMetadata/Auto_Priority_Assignment_Configuration.Website_Integration_User.md-meta.xml",
+    "src/src-env-specific-alias/default/customMetadata/Scheduler_Configuration.Default.md-meta.xml"
   ],
   "values": {
     "SFDX_ORG_INSTANCE_NAME_LOWER": "{SFDX_ORG_INSTANCE_NAME_LOWER}",
