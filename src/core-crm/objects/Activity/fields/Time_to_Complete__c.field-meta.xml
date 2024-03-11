@@ -3,7 +3,7 @@
     <fullName>Time_to_Complete__c</fullName>
     <externalId>false</externalId>
     <label>Time to Complete (hours)</label>
-    <precision>3</precision>
+    <precision>4</precision>
     <required>false</required>
     <scale>1</scale>
     <type>Number</type>
