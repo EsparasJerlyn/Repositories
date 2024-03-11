@@ -4,7 +4,7 @@
  *
  * @author Accenture-
  *
- * @history
+ * @history 
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                           |
  *    |--------------------------------|-----------------------|------------------------|----------------------------------------------------------|
@@ -15,8 +15,9 @@
  *    | kenneth.f.alsay                | December 11, 2023     | DEPP-7394              | Added convert email string to lower case before matching |
  *    | kenneth.f.alsay                | December 27, 2023     |                        | Removed unused variables                                 |
  */
-public without sharing class ServiceAppointmentTriggerHelper {
 
+public without sharing class ServiceAppointmentTriggerHelper {
+// ADD COMMENT
     /**
      * @description update the Contact or Lead and its related Marketing Segmentation record from Service Appointment
      *

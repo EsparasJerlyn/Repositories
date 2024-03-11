@@ -1,8 +1,9 @@
 {
-  "trailingComma": "none",
   "endOfLine": "lf",
   "useTabs": false,
   "tabWidth": 2,
+  "plugins": ["prettier-plugin-apex"],
+  "trailingComma": "none",
   "overrides": [
     {
       "files": "*.{cls,apexc,trigger}",
@@ -26,13 +27,12 @@
     {
       "files": "**/lwc/**/*.html",
       "options": {
-        "parser": "lwc",
-        "bracketSameLine": true
+        "parser": "lwc"
       }
     },
     {
       "files": "*.{cmp,page,component}",
-      "options": { "parser": "html", "bracketSameLine": true }
+      "options": { "parser": "html" }
     },
     {
       "files": "*-meta.xml",
