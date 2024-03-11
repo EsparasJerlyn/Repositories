@@ -33,7 +33,9 @@ public with sharing class GroupRegistrationCtrlTest {
 
     @isTest
     static void cceBulkRegistrationTest(){
+        system.debug('soqllimit1'+Limits.getDMLStatements());
         createCCERecord();
+        system.debug('soqllimit2'+Limits.getDMLStatements());
         System.runAs(TestDataFactory.getProgramAdminUser()){
             List<hed__Course_Offering__c> offerings = [SELECT Id From hed__Course_Offering__c WITH SECURITY_ENFORCED LIMIT 1];
             List<Contact> contactList = createContactList(3);
