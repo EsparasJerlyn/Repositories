@@ -55,9 +55,9 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
 
   set fieldsToSearch(value) {
     try {
+      this._fieldsToSearch = value;
+      this.visibleFields_ToSearchNames = value;
       const parsedValue = JSON.parse(value);
-      this._fieldsToSearch = parsedValue;
-      this.visibleFields_ToSearchNames = parsedValue;
       this.fieldCollection_toSearch = parsedValue.map((field) => field.name);
     } catch (error) {
       const logger = this.template.querySelector("c-logger");
