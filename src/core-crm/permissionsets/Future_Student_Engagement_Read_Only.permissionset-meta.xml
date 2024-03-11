@@ -1789,11 +1789,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Knowledge__kav.Article_Details__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.ABN__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5926,15 +5921,6 @@
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Knowledge__kav</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
@@ -6174,10 +6160,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Knowledge__kav.Informational_Article</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -6211,10 +6193,6 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>Application_Preference__c</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
