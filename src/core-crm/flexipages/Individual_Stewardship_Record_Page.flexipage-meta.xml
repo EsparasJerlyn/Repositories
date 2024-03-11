@@ -396,7 +396,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByParent</name>
-                    <value>(Stage != &apos;Completed&apos; AND Stage != &apos;Inactive&apos;)</value>
+                    <value>Stage__c != &apos;Completed&apos; AND Stage__c != &apos;Inactive&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
