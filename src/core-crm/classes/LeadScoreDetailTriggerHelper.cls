@@ -15,6 +15,7 @@
       |                                |                       |                        | the lead score is below threshold only if the    |
       |                                |                       |                        | QUT_Applicant flag is false                      |
       | roy.nino.s.regala              | Feb 5, 2024           | DEPP-7742              | update to a without sharing context for site user|
+      | arsenio.jr.dayrit              | Feb 7, 2024           | DEPP-8267              | update SetLeadFlag method minimumThreshold       |
  */
 public with sharing class LeadScoreDetailTriggerHelper {
     /**
@@ -190,14 +191,18 @@ public with sharing class LeadScoreDetailTriggerHelper {
     private static void setLeadFlags(Map<Id, Decimal> leadToScoreMap, Decimal minimumThreshold) {
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         Lead leadRecord;
-
         if (!leadToScoreMap.keySet().isEmpty()) {
+            Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack = new Map<String, Nurture_Track_Configuration__c>();
+
+            // Populate mapOfNurtureTrack with nurturing track records for Strong Interest
+            populateNurtureTrackMap(mapOfNurtureTrack);      
             for (
                 Lead lead : LeadsDAO.newInstance()
                     .getLeadsByIdSet(leadToScoreMap.keySet(), AccessLevel.SYSTEM_MODE)
             ) {
                 Decimal totalLeadScore = leadToScoreMap.get(lead.Id);
                 String newStatus = LeadScoreService.getLeadStatus(totalLeadScore);
+                minimumThreshold = getMinScore(lead.Marketing_Segmentation__r.My_Citizenship_Status__c, mapOfNurtureTrack);
                 boolean isAboveThreshold = minimumThreshold != null && 
                         LeadScoreService.isLeadScoreInRange(
                                 totalLeadScore,
@@ -258,9 +263,13 @@ public with sharing class LeadScoreDetailTriggerHelper {
      * @param String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack
      */     
     private static Decimal getMinScore(String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack) {
-        if (citizenshipStatus == 'Domestic' || citizenshipStatus == 'International') {
-            String cadenceName = (citizenshipStatus == 'International') ? NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL : NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
-            return mapOfNurtureTrack.get(cadenceName)?.Lead_Score_Threshold__c;
+        Set<String> citizenshipStatusDomesticSet = new Set<String>{'Domestic','Australian Citizen or Permanent Resident','New Zealand Citizen'};
+        Set<String> citizenshipStatusInternationalSet = new Set<String>{'International','International Student'};
+        if (citizenshipStatusDomesticSet.contains(citizenshipStatus)) {
+            return mapOfNurtureTrack.get( NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL)?.Lead_Score_Threshold__c;
+        }
+        else if(citizenshipStatusInternationalSet.contains(citizenshipStatus)){
+            return mapOfNurtureTrack.get(  NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL)?.Lead_Score_Threshold__c;
         }
         return null;
     }

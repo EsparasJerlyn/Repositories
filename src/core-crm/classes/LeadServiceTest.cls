@@ -148,7 +148,7 @@ private class LeadServiceTest {
                         Email = 'new' + i + EMAIL,
                         Work_Email__c = 'newwork' + i + EMAIL,
                         Email_Opt_In_DateTime__c = Date.today(),
-                        Lead_Source_Category__c = ''
+                        Lead_Source_Category__c = 'Partner Sourced'
                     )
                 );
             }
