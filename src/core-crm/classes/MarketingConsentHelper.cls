@@ -158,5 +158,4 @@ public without sharing class MarketingConsentHelper {
 
 		return marSeg;
 	}
-
 }

@@ -720,7 +720,8 @@
         </connector>
         <filterFormula>AND(
     {!$Record.RecordType.DeveloperName} = &apos;Research_Partnership&apos;,
-    ISPICKVAL({!$Record.StageName}, &apos;Executed&apos;)
+    ISPICKVAL({!$Record.StageName}, &apos;Executed&apos;),
+    ISPICKVAL({!$Record__Prior.StageName}, &apos;Contract&apos;)
 )</filterFormula>
         <object>Opportunity</object>
         <recordTriggerType>Update</recordTriggerType>

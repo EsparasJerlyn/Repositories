@@ -299,9 +299,11 @@ public with sharing class GroupRegistrationCtrlTest {
             contact.hed__AlternateEmail__c = 'test@email.com';
             contact.Registered_Email__c = 'workemail@email.com';
             contact.AccountId = account.Id;
+            
             Test.startTest();
             insert contact;
             Test.stopTest();
+
             List<AccountContactRelation> acrList = new List<AccountContactRelation>([
                 SELECT ContactId 
                 FROM AccountContactRelation 
