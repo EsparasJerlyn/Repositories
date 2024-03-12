@@ -17,4 +17,5 @@ public interface IListsDAO extends DmlInterface {
         String filterString,
         AccessLevel accessLevel
     );
+    List<List__c> getRecordsBySetIds(Set<Id> ids);
 }

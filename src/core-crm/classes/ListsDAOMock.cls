@@ -70,4 +70,14 @@ public inherited sharing class ListsDAOMock extends DmlBaseMock implements IList
 
         return listRecList;
     }
+
+    public List<List__c> getRecordsBySetIds(Set<Id> ids) {
+        List<List__c> listRecords = new List<List__c>();
+        for (List__c record : listsMap.values()) {
+            if (ids.contains(record.Id)) {
+                listRecords.add(record);
+            }
+        }
+        return listRecords;
+    }
 }
