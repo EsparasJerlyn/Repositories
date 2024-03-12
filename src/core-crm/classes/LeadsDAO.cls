@@ -312,7 +312,7 @@ public inherited sharing class LeadsDAO extends DmlBase implements ILeadsDAO {
         Set<String> workEmails,
         AccessLevel accessLevel
     ) {
-        if(!emails.isEmpty() && accessLevel != null) {
+        if((!emails.isEmpty() || !workEmails.isEmpty())  && accessLevel != null) {
             return Database.query(
                 'SELECT Id, Email, Work_Email__c, Name FROM Lead ' +
                 'WHERE ((Email IN :emails OR Email IN :workEmails) ' +

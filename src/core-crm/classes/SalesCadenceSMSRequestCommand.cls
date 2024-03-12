@@ -152,6 +152,7 @@ public with sharing class SalesCadenceSMSRequestCommand implements IRequestComma
                         Message_Content__c =  commsQueue.Message__c,
                         ActivityDate = System.today(),
                         Sender__c = senderNumber,
+                        Receiver__c = commsQueue.Mobile__c,
                         Priority = 'Normal'
                     )
                 );
