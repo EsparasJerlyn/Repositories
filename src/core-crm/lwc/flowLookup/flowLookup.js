@@ -55,8 +55,8 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
 
   set fieldsToSearch(value) {
     try {
-      this._fieldsToSearch = value;
-      this.visibleFields_ToSearchNames = value;
+      this._fieldsToSearch = value.toString();
+      this.visibleFields_ToSearchNames = value.toString();
     } catch (error) {
       const logger = this.template.querySelector("c-logger");
       if (logger) {
@@ -71,7 +71,6 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
 
   @track _fieldsToSearch;
   @api visibleFields_ToSearchNames;
-  @api fieldCollection_toSearch = [];
 
   @api get fieldsToDisplay() {
     return this._fieldsToDisplay;
@@ -411,7 +410,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       this.resetRecentlyViewed();
     } else {
       this.isLoading = true;
-      const logger = this.template.querySelector("c-logger");
+      const logger = this.templacate.querySelector("c-logger");
 
       search({
         searchTerm: searchText,
