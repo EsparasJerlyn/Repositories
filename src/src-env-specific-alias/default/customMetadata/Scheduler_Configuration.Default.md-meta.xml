@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Appointment_Base_URL__c</field>
-        <value xsi:type="xsd:string"></value>
+        <value xsi:type="xsd:string">https://{SFDX_ORG_MY_DOMAIN}{SFDX_ORG_MY_DOMAIN_SANDBOX_NAME}.sandbox.my.site.com/study/resource/BookableAppointmentUpdate</value>
     </values>
 </CustomMetadata>
