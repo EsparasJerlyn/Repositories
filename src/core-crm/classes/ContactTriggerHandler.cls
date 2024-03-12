@@ -6,36 +6,38 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                  |
-      |--------------------------------|-----------------------|------------------------|---------------------------------|
-      | john.bo.a.pineda               | April 21, 2022        | DEPP-1211              | Created file                    |
-      | Ana                            | 29/4/22               | DEPP-1418              | Create child MC persona         |
-      | angelika.j.s.galang            | May 17, 2022          | DEPP-1455              | Added global duplicates handler |
-      | alexander.cadalin              | June 22, 2022         | DEPP-3056              | + detectDuplicatesInEmails()    |
-      |                                |                       |                        | - 1455 global dupes handler     |
-      |                                |                       |                        |                                 |
-      | eccarius.munoz                 | June 28, 2022         | DEPP-3235              | Added handling of exact match   |
-      |                                |                       |                        | of lead in after update.        |
-      | eugene.andrew.abuan            | June 29,2022          | DEPP-3339              | Added logic in After Update if  |
-      |                                |                       |                        | QUT_Username & QUT_Idenitiy_Id  |
-      |                                |                       |                        | is populated                    |
-      |                                |                       |                        |                                 |
-      | eugene.andrew.abuan            | July 01, 2022         | DEPP-3387              | Updated logic for QUT_Username  |
-      |                                |                       |                        | in AfterUpdate                  |
-      | roy.nino.s.regala              | July 30, 2022         | DEPP-3577              | removed send welcome email logic|
-      | eugene.andrew.abuan            | August 04, 2022       | DEPP-3677              | Added logic for send welcome    |
-      |                                |                       |                        | for Online Self-paced           |
-      | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation            |
-      | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation    |
-      | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic|
-      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method  |
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag      |
-      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentation|
-      | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added lead score calculation    |
-      | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | updated creation of marketing   |
-      | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | segmentation to future          |
-      | kenneth.f.alsay                | December 06, 2023     | DEPP-7339              | updated query in sendWelcomeEmail|
-      | kenneth.f.alsay                | December 27, 2023     |                        | removed unused variable         |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | john.bo.a.pineda               | April 21, 2022        | DEPP-1211              | Created file                                    |
+      | Ana                            | 29/4/22               | DEPP-1418              | Create child MC persona                         |
+      | angelika.j.s.galang            | May 17, 2022          | DEPP-1455              | Added global duplicates handler                 |
+      | alexander.cadalin              | June 22, 2022         | DEPP-3056              | + detectDuplicatesInEmails()                    |
+      |                                |                       |                        | - 1455 global dupes handler                     |
+      |                                |                       |                        |                                                 |
+      | eccarius.munoz                 | June 28, 2022         | DEPP-3235              | Added handling of exact match                   |
+      |                                |                       |                        | of lead in after update.                        |
+      | eugene.andrew.abuan            | June 29,2022          | DEPP-3339              | Added logic in After Update if                  |
+      |                                |                       |                        | QUT_Username & QUT_Idenitiy_Id                  |
+      |                                |                       |                        | is populated                                    |
+      |                                |                       |                        |                                                 |
+      | eugene.andrew.abuan            | July 01, 2022         | DEPP-3387              | Updated logic for QUT_Username                  |
+      |                                |                       |                        | in AfterUpdate                                  |
+      | roy.nino.s.regala              | July 30, 2022         | DEPP-3577              | removed send welcome email logic                |
+      | eugene.andrew.abuan            | August 04, 2022       | DEPP-3677              | Added logic for send welcome                    |
+      |                                |                       |                        | for Online Self-paced                           |
+      | john.m.tambasen                | September 23, 2022    | DEPP-4367              | birthdate validation                            |
+      | rhea.b.torres                  | November 24, 2022     | DEPP-4628              | Welcome Email implementation                    |
+      | roy.nino.s.regala              | February 20, 2022     | DEPP-5221              | Added opt in and out dates logic                |
+      | mark.j.mahilum                 | July 23, 2023         | DEPP-5799              | Added setQUTPersonaFlag method                  |
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | Added updateCanNurtureFlag                      |
+      | julie.jane.alegre              | Sept 14, 2023         | DEPP-6679              | Added createMarketingSegmentation               |
+      | eccarius.munoz                 | October 05, 2023      | DEPP-5866              | Added lead score calculation                    |
+      | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | updated creation of marketing                   |
+      | roy.nino.s.regala              | November 01, 2023     | DEPP-7105              | segmentation to future                          |
+      | kenneth.f.alsay                | December 06, 2023     | DEPP-7339              | updated query in sendWelcomeEmail               |
+      | kenneth.f.alsay                | December 27, 2023     |                        | removed unused variable                         |
+      | mark.j.mahilum                 | February 29, 2024     | DEPP-7739              | Move up the method fastFieldUpdateAndValidation |
+      |                                |                       |                        | on beforeUpdate trigger event                   |
  */
 public without sharing class ContactTriggerHandler implements Disableable, BeforeInsert, BeforeUpdate, AfterInsert, AfterUpdate {
 
@@ -78,12 +80,12 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
     ContactImageHelper.validateContactImageFile(
       (List<Contact>) newItems.values()
     );
+    ContactTriggerHelper.fastFieldUpdateAndValidation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     // Call method to detect if emails used in contacts update is already being used
     // anywhere on the organization.
     MarketingConsentHelper.setOptOutAndInDates((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactDuplicatesHelper.detectDuplicatesInEmails((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.createAccountContactRelationRecords((List<Contact>) newItems.values(),(Map<Id, Contact>) oldItems);
-    ContactTriggerHelper.fastFieldUpdateAndValidation((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     FutureStudentJourneyStatusHelper.setFutureStudentJourneyStatus((List<Contact>) newItems.values(), (Map<Id, Contact>) oldItems);
     ContactTriggerHelper.updateMovingToBrisbane(newItems, oldItems);
   }
@@ -100,13 +102,13 @@ public without sharing class ContactTriggerHandler implements Disableable, Befor
 
     Set<Id> contactsWithNoSegmentations = newMap.keySet();
     contactsWithNoSegmentations.removeAll(contactsWithNewMarketingSegmentations);
-    ContactTriggerHelper.createMarketingSegmentation(contactsWithNoSegmentations);
-
+    
     MarketingConsentHelper.processMarketingConsent((List<Contact>) newItems.values(), null);
     ContactTriggerMDMIntegration.logMDMStudents(newMap.values());
     setContactOwner((List<Contact>) newItems.values());
     ContactTriggerHelper.mapMarketingFields((List<Contact>)newMap.values(),null);
     ContactLeadScoreHelper.processLeadScoreCalculation((List<Contact>) newItems.values(), null);
+    ContactTriggerHelper.createMarketingSegmentation(contactsWithNoSegmentations);
   }
 
   /**

@@ -7,12 +7,18 @@
 *     | Developer                 | Date                  | JIRA                | Change Summary                                                   |
       |---------------------------|-----------------------|---------------------|------------------------------------------------------------------|
       | rhea.b.torres             | November 29, 2022     | DEPP-4199           | Created file                                                     |
+      | roy.nino.s.regala         | Feb 23, 2024          | DEPP-7738           | optimized setup data                                             |
 */
 @isTest
 public with sharing class EmailTriggerBatchHelperTest {
 
     @TestSetup
     static void makeData(){
+
+      Test.startTest();
+      TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+      Test.stopTest();
+
       final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()
           .get('Student')
           .getRecordTypeId();
@@ -22,8 +28,6 @@ public with sharing class EmailTriggerBatchHelperTest {
       final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
       final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
       
-      TestDataFactory.generateTestUsers();
-
       System.runAs(TestDataFactory.getprogramadminUser()){
         final String STR_EMAIL_TEMPLATE = 'Test Email Template';
 

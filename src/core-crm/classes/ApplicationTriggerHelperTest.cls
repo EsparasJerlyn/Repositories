@@ -15,6 +15,7 @@
       |                           |                       | DEPP-6653    |                                                                     |
       |                           |                       | DEPP-6654    |                                                                     |  
       | nicole.genon              | Oct. 4, 2023          | DEPP-6821    | Added Citizenship_Status__c field mapping for QTAC matching         |
+      | roy.nino.s.regala         | Feb, 23, 2024         | DEPP-7738    | optimized creation of data setup                                    |
 */
 @isTest
 private class ApplicationTriggerHelperTest {
@@ -26,6 +27,7 @@ private class ApplicationTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
+        Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
         TestDataFactory.loadEDATriggers();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -46,6 +48,7 @@ private class ApplicationTriggerHelperTest {
             List<Marketing_Interaction__c> marketingInteractionList = TestDataFactory.createMarketingInteractionRecords(newContacts[0].Id, 1, 'QTAC');
             MarketingInteractionsDAO.newInstance().insertRecords(marketingInteractionList, false, AccessLevel.SYSTEM_MODE);
         }
+        Test.stopTest();
     }
 
     @isTest
