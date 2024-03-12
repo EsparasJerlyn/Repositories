@@ -15,6 +15,6 @@
     </filters>
     <label>My Active Stewardships</label>
     <sharedTo>
-        <group>Donor_Engagement_Manager</group>
+        <group>Advancement</group>
     </sharedTo>
 </ListView>
