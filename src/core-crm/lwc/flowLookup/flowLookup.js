@@ -410,7 +410,7 @@ export default class FlowLookup extends NavigationMixin(LightningElement) {
       this.resetRecentlyViewed();
     } else {
       this.isLoading = true;
-      const logger = this.templacate.querySelector("c-logger");
+      const logger = this.template.querySelector("c-logger");
 
       search({
         searchTerm: searchText,
