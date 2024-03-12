@@ -2238,6 +2238,12 @@
                     <stringValue>RecordType.DeveloperName = &apos;Business_Organization&apos;</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>OrganisationGivingOppportunityAccount</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -2309,6 +2315,12 @@
                     <elementReference>ContextualRoleToCreate.Contact__c</elementReference>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>identifier</name>
+                <value>
+                    <stringValue>OrganisationGivingOppportunityContact</stringValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
@@ -2331,10 +2343,20 @@
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Organisation_Giving_New_Contact_Checkbox</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>OrganisationGivingContributor_Error_Message</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(186, 5, 23);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(186, 5, 23); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -2343,6 +2365,13 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Organisation_Giving_New_Contact_Checkbox</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
                     </rightValue>
                 </conditions>
             </visibilityRule>
@@ -2463,6 +2492,27 @@
                         <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;You have entered an invalid format.&lt;/span&gt;&lt;/p&gt;</errorMessage>
                         <formulaExpression>REGEX( {!OrganisationGivingOpp_Mobile} ,&quot;^[0-9]*$&quot;)</formulaExpression>
                     </validationRule>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>ContextualRoleToCreate.Contextual_Role__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <name>OrganisationGivingContributorNewContact_Error_Message</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(186, 5, 23);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>OrganisationGivingScreenContextualRoleIsEmpty</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>

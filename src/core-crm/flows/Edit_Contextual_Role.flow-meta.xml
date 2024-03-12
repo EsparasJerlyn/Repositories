@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>4802</locationX>
+        <locationX>5066</locationX>
         <locationY>1250</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
@@ -43,7 +43,7 @@
     <assignments>
         <name>Assign_AccountId_from_FacultyAccountId</name>
         <label>Assign AccountId from FacultyAccountId</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -59,7 +59,7 @@
     <assignments>
         <name>Assign_AccountId_from_ResearchCentreAccountId</name>
         <label>Assign AccountId from ResearchCentreAccountId</label>
-        <locationX>2954</locationX>
+        <locationX>3218</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -75,7 +75,7 @@
     <assignments>
         <name>Assign_AccountId_from_SchoolAccountId</name>
         <label>Assign AccountId from SchoolAccountId</label>
-        <locationX>3482</locationX>
+        <locationX>3746</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>SelectedAccountId</assignToReference>
@@ -91,7 +91,7 @@
     <assignments>
         <name>Assign_Board_of_Directors_Variables</name>
         <label>Assign Board of Directors Variables</label>
-        <locationX>4010</locationX>
+        <locationX>4274</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -137,7 +137,7 @@
     <assignments>
         <name>Assign_Contributors_Variables</name>
         <label>Assign Contributors Variables</label>
-        <locationX>2690</locationX>
+        <locationX>2954</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -153,7 +153,7 @@
     <assignments>
         <name>Assign_Funding_Bodies_Variables</name>
         <label>Assign Funding Bodies Variables</label>
-        <locationX>3746</locationX>
+        <locationX>4010</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -208,7 +208,7 @@
     <assignments>
         <name>Assign_Public_Officers_Variables</name>
         <label>Assign Public Officers Variables</label>
-        <locationX>4274</locationX>
+        <locationX>4538</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -224,7 +224,7 @@
     <assignments>
         <name>Assign_Research_School_Faculty_Variables</name>
         <label>Assign Research, School, Faculty Variables</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
@@ -321,15 +321,39 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_value_to_isOrganisationOppShowError_variable</name>
+        <label>Assign value to isOrganisationOppShowError variable</label>
+        <locationX>2426</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>isOrganisationOppShowError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Opportunity_Organisation_Giving_Contributors_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Opportunity_Organisation_Giving_Contributor_Variables</name>
         <label>Opportunity Organisation Giving Contributor Variables</label>
-        <locationX>2426</locationX>
-        <locationY>566</locationY>
+        <locationX>2690</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>Get_Contextual_Role_Record.Role_Is_Active__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>OrganisationGivingOppIsActive</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isOrganisationOppShowError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
         <connector>
@@ -339,7 +363,7 @@
     <assignments>
         <name>Set_Account_ID</name>
         <label>Set Account ID</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>InitialAccountId</assignToReference>
@@ -355,7 +379,7 @@
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>2294</locationX>
+        <locationX>2426</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -494,6 +518,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Contextual_Role_Organisation_Giving</name>
+        <label>Check Contextual Role - Organisation Giving</label>
+        <locationX>2558</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>Opportunity_Organisation_Giving_Contributor_Variables</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Contextual_Role_Record.Contextual_Role__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_value_to_isOrganisationOppShowError_variable</targetReference>
+            </connector>
+            <label>Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Opportunity_Record_Type</name>
         <label>Check Opportunity Record Type</label>
         <locationX>1634</locationX>
@@ -537,7 +586,7 @@
     <decisions>
         <name>Check_Parent</name>
         <label>Check Parent Details</label>
-        <locationX>1766</locationX>
+        <locationX>1898</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Contributors_Screen</targetReference>
@@ -608,7 +657,7 @@
     <decisions>
         <name>Contextual_role_group</name>
         <label>Contextual role group</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Assign_AccountId_from_SchoolAccountId</targetReference>
@@ -670,7 +719,7 @@
     <recordLookups>
         <name>Get_Contextual_Role_Record</name>
         <label>Get Contextual Role Record</label>
-        <locationX>2294</locationX>
+        <locationX>2426</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -731,7 +780,7 @@
     <recordUpdates>
         <name>Update_Contextual_Role</name>
         <label>Update Contextual Role</label>
-        <locationX>2294</locationX>
+        <locationX>2426</locationX>
         <locationY>1142</locationY>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
@@ -941,7 +990,7 @@
     <screens>
         <name>Board_of_Directors_Screen</name>
         <label>Board of Directors Screen</label>
-        <locationX>4010</locationX>
+        <locationX>4274</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1335,7 +1384,7 @@
     <screens>
         <name>Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>2690</locationX>
+        <locationX>2954</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1487,7 +1536,7 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>4802</locationX>
+        <locationX>5066</locationX>
         <locationY>1358</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1503,7 +1552,7 @@
     <screens>
         <name>Funding_Bodies_Screen</name>
         <label>Funding Bodies Screen</label>
-        <locationX>3746</locationX>
+        <locationX>4010</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1857,13 +1906,13 @@
     <screens>
         <name>Opportunity_Organisation_Giving_Contributors_Screen</name>
         <label>Opportunity Organisation Giving Contributors Screen</label>
-        <locationX>2426</locationX>
+        <locationX>2558</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Opportunity_Organisation_Giving_Contributor_Variables</targetReference>
+            <targetReference>Check_Contextual_Role_Organisation_Giving</targetReference>
         </connector>
         <fields>
             <name>Copy_1_of_Copy_1_of_Copy_1_of_Contextual_Role_Summary4</name>
@@ -1990,6 +2039,21 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>Get_Contextual_Role_Record.Contextual_Role__c</objectFieldReference>
+                </fields>
+                <fields>
+                    <name>OrganisationOppErrorMessage</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(186, 5, 23);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>isOrganisationOppShowError</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -2235,7 +2299,7 @@
     <screens>
         <name>Public_Officers_Screen</name>
         <label>Public Officers Screen</label>
-        <locationX>4274</locationX>
+        <locationX>4538</locationX>
         <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2387,7 +2451,7 @@
     <screens>
         <name>Research_Screen</name>
         <label>Research, School, Faculty Screen</label>
-        <locationX>3218</locationX>
+        <locationX>3482</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3047,7 +3111,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>2168</locationX>
+        <locationX>2300</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Contextual_Role_Record</targetReference>
@@ -3076,7 +3140,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>isOrganisationOppErrorMessage</name>
+        <name>isOrganisationOppShowError</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
