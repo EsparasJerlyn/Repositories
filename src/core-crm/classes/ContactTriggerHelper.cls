@@ -23,6 +23,9 @@
       | roy.nino.s.regala              | Dec 02, 2023          | DEPP-6979              | updated contact parent child syncing flow to trigger      |
       | sebastianne.k.trias            | Dec 21, 2023          | DEPP-7182              | Add method updateSyncToMCField method from       |
       |                                |                       |                        | ContactSyncFlow                                  |
+      | roy.nino.s.regala              | Feb 23, 2023          | DEPP-7738              | Updated creation of segmentation to sync         |
+      | mark.j.mahilum                 | Feb 29, 2024          | DEPP-7739              | Added method to Fixed issue with Lead to Contact |
+      |                                |                       |                        | conversion mapping                               |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -52,6 +55,9 @@ public without sharing class ContactTriggerHelper {
             if (!isPerson) {
                 continue;
             }
+
+            //This method check if redundant email value is duplicated in the other contact email fields.
+			checkIfEmailIsAlreadyMatchOnContactLeadConversion(con,oldItems);
 
             setCanNurtureFlag(con, contactsToRecalculate, oldItems); //sets can nurture flag
             setQUTPersonaFlag(con); //sets QUT_Staff__c(Persona Flags) of Contact
@@ -131,9 +137,9 @@ public without sharing class ContactTriggerHelper {
                 personContactIds.add(con.Id);
             }
         }
-
-        //get exsiting MC child personas if there are person contacts inserted or updated
-        if (!personContactIds.isEmpty()) {
+        boolean personContactsUpdated = !personContactIds.isEmpty() && oldItems != null;
+        //get exsiting MC child personas if there are person contacts updated
+        if (personContactsUpdated) {
             existingChildMCContacts = ContactsDAO.newInstance()
                 .getMCPersonaContactsByParentPersonContactIds(
                     personContactIds,
@@ -683,7 +689,6 @@ public without sharing class ContactTriggerHelper {
      *
      * @param Set<Id> contactIds
      */
-    @future
     public static void createMarketingSegmentation(Set<Id> contactIds) {
         List<Marketing_Segmentation__c> marketingSegToInsert = new List<Marketing_Segmentation__c>();
         Map<Id, Marketing_Segmentation__c> marketingSegMap = new Map<Id, Marketing_Segmentation__c>();
@@ -890,6 +895,37 @@ public without sharing class ContactTriggerHelper {
         }
         if( ( !isUpdate || isPrimaryEmailChanged || isMobilePhoneChanged ) && ( newItems.Email != null || newItems.MobilePhone != null) ){
             newItems.Sync_To_MC__c = true;
+        }
+    }
+
+    /**
+     * Checks if the email fields on a contact have been modified during lead conversion and performs actions accordingly.
+     * This method ensures that redundant email information is not duplicated in the contact fields.
+     * 
+     * @param con The Contact object representing the converted lead.
+     * @param oldMap A map containing the old values of the contacts before conversion.
+     */    
+    private static void checkIfEmailIsAlreadyMatchOnContactLeadConversion(Contact con, Map<Id, Contact> oldMap){
+        
+        if(oldMap == null){
+            return;
+        }
+        
+        Boolean isEmailChanged = oldMap.get(con.Id).Email == NULL &&  con.Email != oldMap.get(con.Id).Email;
+        Boolean isWorkEmailChanged = oldMap.get(con.Id).Work_Email__c == NULL &&  con.Work_Email__c != oldMap.get(con.Id).Work_Email__c;
+               
+        if(isEmailChanged){
+            Boolean isPersonalEmailMatch = con.Email == con.Work_Email__c || con.Email == con.QUT_Learner_Email__c || con.Email == con.QUT_Staff_Email__c;
+            if (isPersonalEmailMatch) {
+                con.Email = '';
+            }
+        }
+        
+        if(isWorkEmailChanged){
+            Boolean isWorkEmailMatch = con.Work_Email__c == con.Email || con.Work_Email__c == con.QUT_Learner_Email__c || con.Work_Email__c == con.QUT_Staff_Email__c;
+            if (isWorkEmailMatch) {
+                con.Work_Email__c = '';
+            }
         }
     }
 }

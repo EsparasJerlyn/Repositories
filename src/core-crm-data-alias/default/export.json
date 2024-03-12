@@ -357,6 +357,14 @@
             "useCSVValuesMapping": true,
             "targetObject": "International_Tier__c",
             "importCSVFilesAsIs": true
+        },
+        {
+            "query": "SELECT Payment_URL__c,GL_Code__c,TransType_Invoice__c,TransType_PayNow__c FROM CCE_Payment_Gateway_Settings__c",
+            "operation": "Upsert",
+            "externalId": "GL_Code__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "CCE_Payment_Gateway_Settings__c",
+            "importCSVFilesAsIs": true
         }
     ]
 }
