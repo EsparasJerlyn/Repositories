@@ -26,7 +26,7 @@ public with sharing class GroupRegistrationHelperTest {
     @testSetup
     static void setupData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_Sys_Admin'});
         Test.stopTest();
     }
 
@@ -47,10 +47,7 @@ public with sharing class GroupRegistrationHelperTest {
             registrationDetails.contacts = contactList;
             registrationDetails.priceBookEntryId = pbEntryList[0].Id;
 
-            
-            Test.startTest();
             String response = GroupRegistrationCtrl.bulkRegister(registrationDetails);
-            Test.stopTest();
 
             System.assertEquals('Success', response, 'Failed to register CB learners.');
         }
@@ -301,7 +298,10 @@ public with sharing class GroupRegistrationHelperTest {
             contact.hed__AlternateEmail__c = 'test@email.com';
             contact.Registered_Email__c = 'workemail@email.com';
             contact.AccountId = account.Id;
+
+            Test.startTest();
             insert contact;
+            Test.stopTest();
             
             List<AccountContactRelation> acrList = new List<AccountContactRelation>([
                 SELECT ContactId 
