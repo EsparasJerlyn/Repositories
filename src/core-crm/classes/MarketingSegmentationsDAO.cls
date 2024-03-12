@@ -11,6 +11,7 @@
       | roy.nino.s.regala              | November 01, 2023     | DEPP-7060              | Added field for getMarketingSegmentationByContactOrLead   |
       | johanna.a.gibas                | Jan 04, 2024          | ApexCRUDViolationFix   | Added method for getExistingMarketingSegmentations        |
       | roy.nino.s.regala              | Jan 11, 2024          | DEPP-7142              | Added fields used for marketing segmentation calculation  |
+      | roy.nino.s.regala              | Feb 23, 2024          | DEPP-7738              | Added checker to reduce soqls                             |
  */
 public inherited sharing class MarketingSegmentationsDAO extends DmlBase implements IMarketingSegmentationsDAO {
 
@@ -57,6 +58,11 @@ public inherited sharing class MarketingSegmentationsDAO extends DmlBase impleme
         Set<Id> contactIds,
         AccessLevel accessLevel
     ) {
+
+        if (contactIds.isEmpty()) {
+            return new List<Marketing_Segmentation__c>();
+        }
+
         String marketingSegmentationQuery = 
             'SELECT' +
             ' Id, Contact__c, My_Primary_Study_Level__c, My_Expected_Admission_Year__c, My_Citizenship_Status__c ' +
