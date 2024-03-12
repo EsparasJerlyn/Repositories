@@ -14,8 +14,8 @@
  *    | ryan.j.a.dela.cruz             | August 10, 2023       | DEPP-6335              | Added Risk                     |
  *    | eugene.andrew.abuan            | August 14, 2023       | DEPP-6331              | Added IP Relationship Mngmnt   |
  *    | kenneth.f.alsay                | February 28, 2024     | DEPP-7883              | Added Plan Activity            |
- *    | eugene.andrew.abuan            | March 12, 2024        | DEPP-7917              | Added Stewardship__c in Oppty  |
- *    |                                |                       |                        | and Documents                  |
+ *    | eugene.andrew.abuan            | March 12, 2024        | DEPP-7917              | Added Stewardship__c in Oppty, |
+ *    |                                |                       |                        | Documents, and Plan Activity   |
 
 
  
@@ -63,7 +63,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Opportunity Outcome'
         },
         Plan_Activity__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Opportunity__c',
+            'ParentFields' => 'Opportunity__c,Stewardship__c',
             'ObjectLabel' => 'Plan Activity'
         },
         Relationship_Manager__c.SObjectType => new Map<String, String>{
