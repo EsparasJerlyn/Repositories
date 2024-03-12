@@ -2188,9 +2188,9 @@
         <label>Contributor Screen for Organisation Giving</label>
         <locationX>3812</locationX>
         <locationY>782</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <targetReference>Check_Organisation_Giving_Contextual_Role</targetReference>
         </connector>
@@ -2356,7 +2356,7 @@
         </fields>
         <fields>
             <name>OrganisationGivingContributor_Error_Message</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(186, 5, 23); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(186, 5, 23);&quot;&gt;Mandatory Field&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
