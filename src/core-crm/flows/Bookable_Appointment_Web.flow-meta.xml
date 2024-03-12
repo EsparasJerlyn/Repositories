@@ -4,8 +4,8 @@
         <description>Logs an Error to the Nebula Logger when Getting a data</description>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>842</locationX>
-        <locationY>782</locationY>
+        <locationX>1580</locationX>
+        <locationY>938</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -44,8 +44,8 @@
         <description>Saves the Error Action for Nebula Logger</description>
         <name>Save_Log</name>
         <label>Save Log</label>
-        <locationX>842</locationX>
-        <locationY>890</locationY>
+        <locationX>1580</locationX>
+        <locationY>1046</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -59,8 +59,8 @@
     <assignments>
         <name>Prepare_Service_Appointment_Data</name>
         <label>Prepare Service Appointment Data</label>
-        <locationX>578</locationX>
-        <locationY>890</locationY>
+        <locationX>1316</locationX>
+        <locationY>1046</locationY>
         <assignmentItems>
             <assignToReference>ServiceAppointment.CaseId__c</assignToReference>
             <operator>Assign</operator>
@@ -166,6 +166,13 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ServiceAppointmentRecordTypeId</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Appointment_Scheduler_Subflow</targetReference>
         </connector>
@@ -173,8 +180,8 @@
     <assignments>
         <name>Set_Validation_Error_To_True</name>
         <label>Set Validation Error To True</label>
-        <locationX>314</locationX>
-        <locationY>458</locationY>
+        <locationX>1052</locationX>
+        <locationY>506</locationY>
         <assignmentItems>
             <assignToReference>ValidationField</assignToReference>
             <operator>Assign</operator>
@@ -183,15 +190,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Schedule_Advisor_Appointment</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Validation_Error_Assignment</name>
         <label>Validation Error Assignment</label>
-        <locationX>578</locationX>
-        <locationY>458</locationY>
+        <locationX>1316</locationX>
+        <locationY>506</locationY>
         <assignmentItems>
             <assignToReference>ValidationField</assignToReference>
             <operator>Assign</operator>
@@ -206,8 +212,8 @@
     <assignments>
         <name>Website_Override_Values</name>
         <label>Website Override Values</label>
-        <locationX>578</locationX>
-        <locationY>782</locationY>
+        <locationX>1316</locationX>
+        <locationY>938</locationY>
         <assignmentItems>
             <assignToReference>Phone</assignToReference>
             <operator>Assign</operator>
@@ -236,8 +242,8 @@
     <decisions>
         <name>Check_Profile</name>
         <label>Check Profile</label>
-        <locationX>248</locationX>
-        <locationY>134</locationY>
+        <locationX>986</locationX>
+        <locationY>182</locationY>
         <defaultConnector>
             <targetReference>Schedule_Advisor_Appointment</targetReference>
         </defaultConnector>
@@ -261,8 +267,8 @@
     <decisions>
         <name>Check_Validation_Length</name>
         <label>Check Validation Length</label>
-        <locationX>446</locationX>
-        <locationY>350</locationY>
+        <locationX>1184</locationX>
+        <locationY>398</locationY>
         <defaultConnector>
             <targetReference>Validation_Error_Assignment</targetReference>
         </defaultConnector>
@@ -346,7 +352,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -359,11 +365,11 @@
     <recordLookups>
         <name>Get_Account_Id</name>
         <label>Get Account Id</label>
-        <locationX>578</locationX>
-        <locationY>674</locationY>
+        <locationX>1316</locationX>
+        <locationY>722</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Website_Override_Values</targetReference>
+            <targetReference>Get_Service_Appointment_RecordType</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
@@ -394,14 +400,13 @@
     <recordLookups>
         <name>Get_Account_Record_Type_Id</name>
         <label>Get Account Record Type Id</label>
-        <locationX>578</locationX>
-        <locationY>566</locationY>
+        <locationX>1316</locationX>
+        <locationY>614</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Account_Id</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
@@ -427,12 +432,45 @@
         <sortField>Id</sortField>
         <sortOrder>Asc</sortOrder>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Service_Appointment_RecordType</name>
+        <label>Get Service Appointment RecordType</label>
+        <locationX>1316</locationX>
+        <locationY>830</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Website_Override_Values</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Future_Student_Appointment</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ServiceAppointment</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>ServiceAppointmentRecordTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
     <runInMode>DefaultMode</runInMode>
     <screens>
         <name>Do_Not_Have_Access_Screen</name>
         <label>Do Not Have Access Screen</label>
-        <locationX>50</locationX>
-        <locationY>242</locationY>
+        <locationX>788</locationX>
+        <locationY>290</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -448,8 +486,8 @@
     <screens>
         <name>ErrorScreen</name>
         <label>Error Screen</label>
-        <locationX>842</locationX>
-        <locationY>998</locationY>
+        <locationX>1580</locationX>
+        <locationY>1154</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -464,8 +502,8 @@
     <screens>
         <name>Schedule_Advisor_Appointment</name>
         <label>Schedule Advisor Appointment</label>
-        <locationX>446</locationX>
-        <locationY>242</locationY>
+        <locationX>1184</locationX>
+        <locationY>290</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -500,6 +538,7 @@
             </defaultValue>
             <fieldText>First Name</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(234, 0, 30);&quot;&gt;* Please enter first name with a maximum limit of 40.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -514,6 +553,7 @@
             </defaultValue>
             <fieldText>Last Name</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <validationRule>
                 <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(234, 0, 30);&quot;&gt;* Please enter last name with a maximum limit of 80.&lt;/span&gt;&lt;/p&gt;</errorMessage>
@@ -536,6 +576,7 @@
                     <elementReference>Web_Email.value</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -548,6 +589,7 @@
             </defaultValue>
             <fieldText>Mobile Locale</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -578,6 +620,7 @@
                     <elementReference>Web_Mobile_No_Locale.value</elementReference>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
@@ -590,6 +633,7 @@
             </defaultValue>
             <fieldText>Which option best describes you?</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -601,6 +645,7 @@
             </defaultValue>
             <fieldText>Country of citizenship</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -622,6 +667,7 @@
             </defaultValue>
             <fieldText>Country of residency</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -648,6 +694,7 @@
             </defaultValue>
             <fieldText>Which option best describes what you would like to talk about?</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -662,6 +709,7 @@
             </defaultValue>
             <fieldText>Please provide any additional information to help us prepare for your appointment.</fieldText>
             <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -687,6 +735,7 @@
             </defaultValue>
             <fieldText>By submitting this form, you understand that QUT is collecting your personal information.</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
@@ -698,8 +747,8 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>122</locationX>
-        <locationY>0</locationY>
+        <locationX>860</locationX>
+        <locationY>48</locationY>
         <connector>
             <targetReference>Check_Profile</targetReference>
         </connector>
@@ -708,8 +757,8 @@
     <subflows>
         <name>Appointment_Scheduler_Subflow</name>
         <label>Appointment Scheduler Subflow</label>
-        <locationX>578</locationX>
-        <locationY>998</locationY>
+        <locationX>1316</locationX>
+        <locationY>1154</locationY>
         <flowName>Appointment_Scheduler</flowName>
         <inputAssignments>
             <name>fromWebsite</name>
@@ -811,6 +860,13 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>ServiceAppointment</objectType>
+    </variables>
+    <variables>
+        <name>ServiceAppointmentRecordTypeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>Set_Parent_Record_Id</name>

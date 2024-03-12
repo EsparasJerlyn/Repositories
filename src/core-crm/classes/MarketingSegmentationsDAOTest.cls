@@ -52,6 +52,21 @@ public with sharing class MarketingSegmentationsDAOTest {
     }
 
     @isTest
+    static void getMarketingSegmentationByContactIdsNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator mockContact = new MockIdGenerator(Contact.SObjectType);
+            List<Marketing_Segmentation__c> marketingSegmentationList = MarketingSegmentationsDAO.newInstance()
+                .getMarketingSegmentationByContactIds(
+                    new Set<Id>{mockContact.getMockId()},
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(marketingSegmentationList.isEmpty(), 'marketingSegmentationList should be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     static void getMarketingSegmentationByLeadIdsTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -117,12 +132,12 @@ public with sharing class MarketingSegmentationsDAOTest {
             List<Contact> contactList = TestDataFactory.createTestContactRecords(0,1);
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
             System.assert(
-                MarketingSegmentationsDAO.newInstance()
+                !MarketingSegmentationsDAO.newInstance()
                     .getExistingMarketingSegmentations(
                         new Map<String, Contact>{contactList[0].Email => contactList[0]},
                         AccessLevel.SYSTEM_MODE)
                     .isEmpty(),
-                'Marketing segmentation retrieved is not empty'
+                'Marketing segmentation retrieved must not be empty'
             );
         }
         Test.stopTest();
