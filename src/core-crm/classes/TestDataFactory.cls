@@ -3822,6 +3822,32 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating test Plan Activity records
+     * @params
+     * numOfPlanActivites - number of records to create
+     * stewardshipId - Id of the stewardship the Plan Activity record will be related to
+     * @return planActivities - List of Plan Activity records created
+     */
+    public static List<Plan_Activity__c> createPlanActivityRecordsWithStewardship(
+        Integer numOfPlanActivities,
+        Id stewardshipId
+    ) {
+        List<Plan_Activity__c> planActivities = new List<Plan_Activity__c>();
+        for (Integer i = 0; i < numOfPlanActivities; i++) {
+            planActivities.add(
+                new Plan_Activity__c(
+                    Status__c = 'Pending',
+                    Outcome__c = 'Test Outcome ' + i,
+                    Contact_Channel__c = 'Email',
+                    Description__c = 'Test Description',
+                    Stewardship__c = stewardshipId
+                )
+            );
+        }
+        return planActivities;
+    }
+
+    /**
      * @description Method for creating test Lead Score Configuration records
      * @return List<Lead_Score_Configuration__c> leadScoreConfigurationList - List of Lead Score Configuration Records
      */
