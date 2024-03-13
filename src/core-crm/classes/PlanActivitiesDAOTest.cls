@@ -67,4 +67,30 @@ public with sharing class PlanActivitiesDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getPlanActivityRecordsWithOpportunityIds() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
+                .getPlanActivityRecordsWithOpportunityIds(new Set<Id>(),AccessLevel.USER_MODE);
+            System.assert(planActivitiesList.isEmpty(), 'planActivitiesList should not be empty');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getPlanActivityRecordsWithOpportunityIdsNotEmpty() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            MockIdGenerator opportunityMock = new MockIdGenerator(Opportunity.SObjectType);
+            List<Plan_Activity__c> planActivitiesList = PlanActivitiesDAO.newInstance()
+                .getPlanActivityRecordsWithOpportunityIds(
+                    new Set<Id>{opportunityMock.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            System.assert(planActivitiesList.isEmpty(), 'planActivitiesList should not be empty');
+        }
+        Test.stopTest();
+    }
 }

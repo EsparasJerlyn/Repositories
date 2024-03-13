@@ -35,12 +35,14 @@
         Set<Id> opptyIds,
         AccessLevel accessLevel
     ) {
-        return Database.query(
-            'SELECT Id, Status__c, Opportunity__c ' +
-                'FROM Plan_Activity__c ' +
-                'WHERE Opportunity__c IN :opptyIds ',
-				accessLevel
-        );
+        if(!opptyIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Id, Status__c, Opportunity__c ' +
+                    'FROM Plan_Activity__c ' +
+                    'WHERE Opportunity__c IN :opptyIds ',
+                    accessLevel
+            );
+        }  else { return new List<Plan_Activity__c>(); }
     }
 
     public static IPlanActivitiesDAO newInstance() {
