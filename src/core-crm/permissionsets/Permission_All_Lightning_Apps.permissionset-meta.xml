@@ -81,10 +81,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
-        <application>standard__AdvancedTherapyManagement</application>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
         <application>standard__AllTabSet</application>
         <visible>true</visible>
     </applicationVisibilities>
