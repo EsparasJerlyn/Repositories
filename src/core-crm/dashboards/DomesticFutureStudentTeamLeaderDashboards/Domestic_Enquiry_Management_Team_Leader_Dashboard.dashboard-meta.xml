@@ -368,7 +368,8 @@
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <runningUser>cicd.integration@qut.edu.au.dep</runningUser>
+    <owner>cicd.integration@qut.edu.au.dep</owner>
+    <runningUser>m2.mckee@qut.edu.au.dep</runningUser>
     <textColor>#000000</textColor>
     <title>Domestic Enquiry Management Team Leader Dashboard</title>
     <titleColor>#000000</titleColor>
