@@ -45,6 +45,7 @@
  *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
  *    | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Added object mapping for Plan_Activity object                 |
+ *    | nicole.genon                   | March 7, 2023         | DEPP-7922              | Added object mapping for Stewardship__c Object                | 
  */
 public class ImplementationSelector { 
 
@@ -129,6 +130,7 @@ public class ImplementationSelector {
             Risk__c.SObjectType => RisksDAO.class,
             ServiceAppointment.SObjectType => ServiceAppointmentsDAO.class,
             SMS_Template__c.SObjectType => SMSTemplatesDAO.class,
+            Stewardship__c.SObjectType => StewardshipsDAO.class,
             Task.SObjectType => TasksDAO.class,
             User.SObjectType => UsersDAO.class,
             UserAppInfo.SObjectType => UserAppInfosDAO.class,
