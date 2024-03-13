@@ -8,7 +8,7 @@
     <label>List Contributor</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>(1 OR 2 OR 3) AND 4</booleanFilter>
+        <booleanFilter>(1 OR 2 OR 3 OR 5 OR 6 OR 7 OR 8 OR 9 OR 10) AND 4</booleanFilter>
         <filterItems>
             <field>User.UserRole.Name</field>
             <operation>equals</operation>
@@ -28,6 +28,36 @@
             <field>User.IsActive</field>
             <operation>equals</operation>
             <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Fundraiser</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Fundraiser Manager</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Advancement Manager</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Advancement Operations Manager</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Executive Director Advancement</value>
+        </filterItems>
+        <filterItems>
+            <field>User.UserRole.Name</field>
+            <operation>equals</operation>
+            <value>Donor Engagement Manager</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
