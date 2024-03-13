@@ -34,8 +34,10 @@ private class LeadScoreCalculatorServiceTest {
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_POSTGRAD
             );
 
+            Test.startTest();
             setupRecordForCase();
             setupRecordForMktgInt();
+            Test.stopTest();
         }
     }
 
