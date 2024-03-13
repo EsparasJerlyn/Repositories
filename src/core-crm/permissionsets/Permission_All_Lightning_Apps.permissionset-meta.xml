@@ -165,10 +165,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
-        <application>standard__ThreatDetection</application>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
         <application>standard__TrustCard</application>
         <visible>true</visible>
     </applicationVisibilities>
