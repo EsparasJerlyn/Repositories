@@ -145,10 +145,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
-        <application>standard__PublicSectorInspectionManagement</application>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
         <application>standard__QueueManagement</application>
         <visible>true</visible>
     </applicationVisibilities>
