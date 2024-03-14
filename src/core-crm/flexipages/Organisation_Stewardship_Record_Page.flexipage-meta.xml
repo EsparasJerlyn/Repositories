@@ -683,11 +683,9 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByParent</name>
-                    <value>Stage__c != &apos;Completed&apos; AND Stage__c != &apos;Inactive&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos;</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
