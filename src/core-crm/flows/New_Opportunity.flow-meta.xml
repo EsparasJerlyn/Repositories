@@ -103,6 +103,23 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Opportunity_Record_Type</name>
+        <label>Assign Opportunity Record Type</label>
+        <locationX>1106</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>OpportunityRecord.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SelectedRecordTypeId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>What_Record_Type_Is_Selected_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>AssignAccountNameCreated</name>
         <label>AssignAccountNameCreated</label>
         <locationX>3504</locationX>
@@ -1628,25 +1645,25 @@
         <inputAssignments>
             <field>Giving_Category_Comment__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Category_Comment_Input</elementReference>
+                <elementReference>OpportunityDetails_LongText_Giving_Category_Comment_Input</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Giving_Category__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Category_Input</elementReference>
+                <elementReference>OpportunityRecord.Giving_Category__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Giving_Faculty_Comment__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Faculty_Comment_Input</elementReference>
+                <elementReference>OpportunityDetails_LongText_Giving_Faculty_Comment_Input</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Giving_Faculty__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Faculty_Input</elementReference>
+                <elementReference>OpportunityRecord.Giving_Faculty__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1717,25 +1734,25 @@
         <inputAssignments>
             <field>Giving_Category_Comment__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Category_Comment_Input</elementReference>
+                <elementReference>OpportunityDetails_LongText_Giving_Category_Comment_Input</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Giving_Category__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Category_Input</elementReference>
+                <elementReference>OpportunityRecord.Giving_Category__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Giving_Faculty_Comment__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Faculty_Comment_Input</elementReference>
+                <elementReference>OpportunityDetails_LongText_Giving_Faculty_Comment_Input</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Giving_Faculty__c</field>
             <value>
-                <elementReference>OpportunityDetails_Giving_Faculty_Input</elementReference>
+                <elementReference>OpportunityRecord.Giving_Faculty__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3149,22 +3166,16 @@
                     <isRequired>false</isRequired>
                 </fields>
                 <fields>
-                    <name>OpportunityDetails_Giving_Category_Input</name>
-                    <choiceReferences>Opportunity_Giving_Category</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Giving Category</fieldText>
-                    <fieldType>MultiSelectCheckboxes</fieldType>
+                    <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <objectFieldReference>OpportunityRecord.Giving_Category__c</objectFieldReference>
                 </fields>
                 <fields>
-                    <name>OpportunityDetails_Giving_Faculty_Input</name>
-                    <choiceReferences>Opportunity_Giving_Faculty_Category</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Giving Faculty</fieldText>
-                    <fieldType>MultiSelectCheckboxes</fieldType>
+                    <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <objectFieldReference>OpportunityRecord.Giving_Faculty__c</objectFieldReference>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -3194,18 +3205,16 @@
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
-                    <name>OpportunityDetails_Giving_Category_Comment_Input</name>
-                    <dataType>String</dataType>
+                    <name>OpportunityDetails_LongText_Giving_Category_Comment_Input</name>
                     <fieldText>Giving Category Comment</fieldText>
-                    <fieldType>InputField</fieldType>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
                 <fields>
-                    <name>OpportunityDetails_Giving_Faculty_Comment_Input</name>
-                    <dataType>String</dataType>
+                    <name>OpportunityDetails_LongText_Giving_Faculty_Comment_Input</name>
                     <fieldText>Giving Faculty Comment</fieldText>
-                    <fieldType>InputField</fieldType>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
@@ -3220,6 +3229,7 @@
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
@@ -3282,8 +3292,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>What_Record_Type_Is_Selected_0</targetReference>
+            <targetReference>Assign_Opportunity_Record_Type</targetReference>
         </connector>
         <fields>
             <name>rb_RecordTypesAdvOpportunityManagement</name>
@@ -3501,6 +3510,14 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>OpportunityRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
     </variables>
     <variables>
         <name>PersonContactRecordTypeId</name>
