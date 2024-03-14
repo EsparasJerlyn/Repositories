@@ -294,7 +294,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>To_Affiliate_Account_and_Contact</targetReference>
+            <targetReference>Check_Account_and_Contact_Affiliation</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -378,6 +378,31 @@
             <stringValue>Research Partnership</stringValue>
         </value>
     </constants>
+    <decisions>
+        <name>Check_Account_and_Contact_Affiliation</name>
+        <label>Check Account and Contact Affiliation</label>
+        <locationX>3526</locationX>
+        <locationY>2876</locationY>
+        <defaultConnector>
+            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Check_Account_and_Contact_Affiliation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>to_Affiliate_Account_Checkbox</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Contact_Affiliation</targetReference>
+            </connector>
+            <label>Is True - Account and Contact Affiliation</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
@@ -720,7 +745,7 @@
         <name>Is_Record_Type_Research_Partnership_Or_Commercialisation</name>
         <label>Is Record Type Research Partnership Or Commercialisation</label>
         <locationX>3526</locationX>
-        <locationY>3440</locationY>
+        <locationY>3176</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Research_Partnership</name>
@@ -813,31 +838,6 @@
                 <targetReference>CollectOpportunitySummaryScreen</targetReference>
             </connector>
             <label>Summary Collection Opportunity</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>To_Affiliate_Account_and_Contact</name>
-        <label>To Affiliate Account and Contact</label>
-        <locationX>3526</locationX>
-        <locationY>2876</locationY>
-        <defaultConnector>
-            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Check_Account_and_Contact_Affiliation</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>to_Affiliate_Account_Checkbox</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_Affiliation_for_Account_and_Contact</targetReference>
-            </connector>
-            <label>Check Account and Contact Affiliation</label>
         </rules>
     </decisions>
     <decisions>
@@ -1258,7 +1258,7 @@
         <name>Create_Commercialisation_Opportunity</name>
         <label>Create Commercialisation Opportunity</label>
         <locationX>3130</locationX>
-        <locationY>3548</locationY>
+        <locationY>3284</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1297,7 +1297,7 @@
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
         <locationX>3526</locationX>
-        <locationY>3830</locationY>
+        <locationY>3566</locationY>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
         </connector>
@@ -1441,7 +1441,7 @@
         <locationY>2636</locationY>
         <assignRecordIdToReference>ContactId</assignRecordIdToReference>
         <connector>
-            <targetReference>To_Affiliate_Account_and_Contact</targetReference>
+            <targetReference>Check_Account_and_Contact_Affiliation</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -1557,7 +1557,7 @@
         <name>Create_Research_Partnership_Opportunity</name>
         <label>Create Research Partnership Opportunity</label>
         <locationX>2602</locationX>
-        <locationY>3548</locationY>
+        <locationY>3284</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1608,7 +1608,7 @@
         <name>CreateIndividualGivingOpportunity</name>
         <label>Create Individual Giving Opportunity</label>
         <locationX>3658</locationX>
-        <locationY>3548</locationY>
+        <locationY>3284</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <isGoTo>true</isGoTo>
@@ -1696,7 +1696,7 @@
         <name>CreateOrganisationGivingOpportunity</name>
         <label>Create Organisation Giving Opportunity</label>
         <locationX>4186</locationX>
-        <locationY>3548</locationY>
+        <locationY>3284</locationY>
         <assignRecordIdToReference>OpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
@@ -1846,67 +1846,6 @@
         </outputAssignments>
     </recordLookups>
     <recordLookups>
-        <name>Get_Affiliation_for_Account_and_Contact</name>
-        <label>Get Affiliation for Account and Contact</label>
-        <locationX>2998</locationX>
-        <locationY>2984</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_Contact_Record</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>hed__Contact__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>ContactId</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>hed__Account__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>AccountId</elementReference>
-            </value>
-        </filters>
-        <object>hed__Affiliation__c</object>
-        <outputAssignments>
-            <assignToReference>AffiliationId</assignToReference>
-            <field>Id</field>
-        </outputAssignments>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Contact_Record</name>
-        <label>Get Contact Record</label>
-        <locationX>2998</locationX>
-        <locationY>3092</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>UpdateAffiliationRecord</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>ContactId</elementReference>
-            </value>
-        </filters>
-        <object>Contact</object>
-        <outputAssignments>
-            <assignToReference>ContactJobTitle</assignToReference>
-            <field>Title</field>
-        </outputAssignments>
-    </recordLookups>
-    <recordLookups>
         <name>Get_Opportunity_Contextual_Role_Record_Id</name>
         <label>Get Opportunity Contextual Role Record Id</label>
         <locationX>3526</locationX>
@@ -2043,34 +1982,6 @@
             <field>Id</field>
         </outputAssignments>
     </recordLookups>
-    <recordUpdates>
-        <name>UpdateAffiliationRecord</name>
-        <label>Update Affiliation Record</label>
-        <locationX>2998</locationX>
-        <locationY>3200</locationY>
-        <connector>
-            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>AffiliationId</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Job_Title__c</field>
-            <value>
-                <elementReference>ContactJobTitle</elementReference>
-            </value>
-        </inputAssignments>
-        <object>hed__Affiliation__c</object>
-    </recordUpdates>
     <screens>
         <name>Collect_Account_Details</name>
         <label>Collect Account Details</label>
@@ -3369,10 +3280,38 @@
     </start>
     <status>Active</status>
     <subflows>
+        <name>Check_Contact_Affiliation</name>
+        <label>Check Contact Affiliation</label>
+        <locationX>3394</locationX>
+        <locationY>2984</locationY>
+        <connector>
+            <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
+        </connector>
+        <flowName>Check_Contact_Affiliation</flowName>
+        <inputAssignments>
+            <name>AccountId</name>
+            <value>
+                <elementReference>AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>ContactId</name>
+            <value>
+                <elementReference>ContactId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>JobTitle</name>
+            <value>
+                <elementReference>ContactJobTitle</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
         <locationX>1843</locationX>
-        <locationY>4154</locationY>
+        <locationY>3890</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
             <name>RecordTypeId</name>
