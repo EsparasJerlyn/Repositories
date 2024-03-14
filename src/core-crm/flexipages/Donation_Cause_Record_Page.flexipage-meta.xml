@@ -77,9 +77,9 @@
                 <identifier>force_detailPanel2</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Published</rightValue>
+                        <leftValue>{!Record.Is_For_Public_Giving__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Yes</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -98,9 +98,9 @@
                 <identifier>flexipage_richText2</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Published</rightValue>
+                        <leftValue>{!Record.Is_For_Public_Giving__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Yes</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
