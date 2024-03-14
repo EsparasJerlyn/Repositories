@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DashboardFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>Future_Student_Super_User_Domestic</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>Future_Student_Team_Leader_Domestic</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
         <accessLevel>View</accessLevel>
         <sharedTo>Future_Student_Agent_Domestic</sharedTo>
         <sharedToType>Role</sharedToType>
@@ -11,19 +21,29 @@
         <sharedToType>Role</sharedToType>
     </folderShares>
     <folderShares>
-        <accessLevel>View</accessLevel>
-        <sharedTo>Future_Student_Team_Leader_Domestic</sharedTo>
-        <sharedToType>Role</sharedToType>
-    </folderShares>
-    <folderShares>
-        <accessLevel>Manage</accessLevel>
-        <sharedTo>Future_Student_Super_User_Domestic</sharedTo>
-        <sharedToType>Role</sharedToType>
-    </folderShares>
-    <folderShares>
         <accessLevel>Manage</accessLevel>
         <sharedTo>System_Administrator</sharedTo>
         <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>Development_Team</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>System_Administrator</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>EditAllContents</accessLevel>
+        <sharedTo>System_Administrator_Modify_All_Data</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>System_Administrator_Read_Only</sharedTo>
+        <sharedToType>Group</sharedToType>
     </folderShares>
     <name>Domestic Future Student Dashboards</name>
 </DashboardFolder>
