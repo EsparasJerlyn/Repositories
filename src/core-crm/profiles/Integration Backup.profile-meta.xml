@@ -291,5 +291,11 @@
         <endAddress>131.181.158.153</endAddress>
         <startAddress>131.181.158.153</startAddress>
     </loginIpRanges>
+    <loginIpRanges>
+        <description>QUT Corporate Limited Network</description>
+        <endAddress>131.181.158.157</endAddress>
+        <startAddress>131.181.158.157</startAddress>
+    </loginIpRanges>
+
     <userLicense>Salesforce</userLicense>
 </Profile>
