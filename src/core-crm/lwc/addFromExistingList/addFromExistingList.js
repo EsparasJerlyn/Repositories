@@ -17,6 +17,7 @@ import getListMembers from '@salesforce/apex/CustomHeaderContainerCtrl.getListMe
 import bulkSaveListMember from '@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember';
 import getUserHasListContributor from "@salesforce/apex/CustomHeaderContainerCtrl.getUserHasListContributor";
 import getDefaultListContributor from '@salesforce/apex/ListMemberAddModalController.getDefaultListContributor';
+import getListContributorByIds from '@salesforce/apex/ListMemberImportModalCtrl.getListContributorByIds';
 
 import LIST_COLUMN_1 from '@salesforce/schema/List__c.Column_1__c';
 import LIST_COLUMN_2 from '@salesforce/schema/List__c.Column_2__c';
