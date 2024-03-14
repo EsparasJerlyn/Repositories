@@ -24,7 +24,7 @@
     </types>
     <types>
         <!--Start DEPP-8290-->
-        <members>Account.All_Advancement_Share</members>
+        <members>Document__c.All_Advancement_Share</members>
         <!--Start DEPP-8290-->
         <name>SharingCriteriaRule</name>
     </types>
