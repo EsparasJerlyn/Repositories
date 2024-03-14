@@ -12079,7 +12079,11 @@
         <field>Donation__c.Is_Anonymous_Donation__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Donation_Cause__c.Is_For_Private_Giving__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
         <editable>true</editable>
         <field>Donation__c.Matching_Code__c</field>
         <readable>true</readable>
@@ -12102,6 +12106,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Donation__c.Opportunity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Donation_Cause__c.Owner_Full_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
