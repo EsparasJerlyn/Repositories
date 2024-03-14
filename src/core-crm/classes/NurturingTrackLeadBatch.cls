@@ -10,6 +10,7 @@
       | mark.j.mahilum                 | July 23, 2023         | DEPP-6105              | Created file                        |
       | arsenio.jr.dayrit              | September 08, 2023    | DEPP-5652              | Added field in Lead Query           |
       | arsenio.jr.dayrit              | October 12, 2023      | DEPP-6901              | Added field in Lead Query filter    |
+      | mark.j.mahilum                 | March 14, 2024        | DEPP-8308              | Added lead type filter = 'Learner'  |
  */
 public class NurturingTrackLeadBatch implements Database.Batchable<sObject> {
 
@@ -19,12 +20,14 @@ public class NurturingTrackLeadBatch implements Database.Batchable<sObject> {
     * @return query - filtered query records
     */
     public Database.QueryLocator start(Database.BatchableContext bc){
+        String leadType = LeadsDAO.LEARNER_LEAD_TYPE; //NOPMD This is use in the queryFilter below
         String queryFilter =  'SELECT Id, Can_Nurture__c, Lead_Score__c, Calculated_Cadence__c, Lead_Source_Category__c, HasOptedOutOfEmail, ' +
                               'Marketing_Segmentation__r.My_Citizenship_Status__c, Marketing_Segmentation__r.My_Country_Of_Citizenship__c ' +
                               'FROM Lead ' + 
                               'WHERE (Can_Nurture__c = TRUE ' +
             				  'OR Calculated_Cadence__c !=NULL) ' +
             				  'AND IsConverted = FALSE ' +
+            				  'AND Lead_Type__c = : leadType ' +
                               'AND Marketing_Segmentation__r.My_Citizenship_Status__c !=NULL ';
         return Database.getQueryLocator(queryFilter);
     }
