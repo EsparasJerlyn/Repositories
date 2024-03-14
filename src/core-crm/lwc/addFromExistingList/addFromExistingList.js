@@ -260,13 +260,12 @@ export default class AddFromExistingList extends LightningElement {
                     const listContributorRecord = await getUserHasListContributor({ listId: this.listId, userId: userInfo.Id });
 
                     let listContributors = await getListContributorByIds({ listId: this.listId, contributorIds: listContributorRecord[0].Id });
-                    
                     listMembers.forEach((obj) => {
                         obj.List_Contributor__c = listContributorRecord[0].Id;
-                        obj.List_Contributor__r = listContributors[0].List_Contributor__r.Name;
+                        obj.List_Contributor__r = listContributors[0];
 
                         if (listContributorRecord && listContributorRecord.length) {
-                            obj.ListContributorName = listContributors[0].Name;
+                            obj.ListContributorName = listContributors[0].List_Contributor__r.Name;
                             obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${listContributorRecord[0].Id}/view`;
                         }
                     })
