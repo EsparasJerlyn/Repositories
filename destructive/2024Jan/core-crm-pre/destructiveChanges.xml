@@ -22,5 +22,11 @@
         <!--End DEPP-7993-->
         <name>PermissionSet</name>
     </types>
+    <types>
+        <!--Start DEPP-8290-->
+        <members>Account.All_Advancement_Share</members>
+        <!--Start DEPP-8290-->
+        <name>SharingCriteriaRule</name>
+    </types>
     <version>59.0</version> 
 </Package>
