@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>3482</locationX>
-        <locationY>782</locationY>
+        <locationX>3614</locationX>
+        <locationY>974</locationY>
         <actionName>c:detailPageNavigation</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -466,7 +466,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Recordtype_for_Opportunity_Indivual_Giving</targetReference>
+                <targetReference>Get_Stewardship_Record</targetReference>
             </connector>
             <label>Is Stewardship</label>
         </rules>
@@ -506,6 +506,31 @@
                 <targetReference>Check_Commercialisation_Stage</targetReference>
             </connector>
             <label>Is Commercialisation</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Stewardship_Recordtype</name>
+        <label>Check Stewardship Recordtype</label>
+        <locationX>3614</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>Get_Recordtype_for_Opportunity_Indivual_Giving</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Organisation_Stewardship</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Stewardship_Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Organisation_Stewardship</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Recordtype_for_Opportunity_Organisation_Giving</targetReference>
+            </connector>
+            <label>Is Organisation Stewardship</label>
         </rules>
     </decisions>
     <decisions>
@@ -836,8 +861,8 @@
     <recordCreates>
         <name>Create_Stewardship_Opportunity</name>
         <label>Create Stewardship Opportunity</label>
-        <locationX>3482</locationX>
-        <locationY>674</locationY>
+        <locationX>3614</locationX>
+        <locationY>866</locationY>
         <assignRecordIdToReference>StewardshipOpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
@@ -846,6 +871,12 @@
             <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>Get_Stewardship_Record.Account__c</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <field>Amount</field>
             <value>
@@ -861,7 +892,7 @@
         <inputAssignments>
             <field>Contact__c</field>
             <value>
-                <elementReference>StewardshipContactId</elementReference>
+                <elementReference>Get_Stewardship_Record.Contact__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -903,7 +934,7 @@
         <inputAssignments>
             <field>RecordTypeId</field>
             <value>
-                <elementReference>OpportunityIndiviualGivingRecTypeId</elementReference>
+                <elementReference>OpportunityRecTypeId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1134,16 +1165,12 @@
     <recordLookups>
         <name>Get_Recordtype_for_Opportunity_Indivual_Giving</name>
         <label>Get Recordtype for Opportunity Indivual Giving</label>
-        <locationX>3482</locationX>
-        <locationY>350</locationY>
+        <locationX>3746</locationX>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Stewardship_Record</targetReference>
+            <targetReference>NewOpportunityFromStewardship</targetReference>
         </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>
@@ -1161,7 +1188,37 @@
         </filters>
         <object>RecordType</object>
         <outputAssignments>
-            <assignToReference>OpportunityIndiviualGivingRecTypeId</assignToReference>
+            <assignToReference>OpportunityRecTypeId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Recordtype_for_Opportunity_Organisation_Giving</name>
+        <label>Get Recordtype for Opportunity Organisation Giving</label>
+        <locationX>3482</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>NewOpportunityFromStewardship</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Organisation_Giving</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Opportunity</stringValue>
+            </value>
+        </filters>
+        <object>RecordType</object>
+        <outputAssignments>
+            <assignToReference>OpportunityRecTypeId</assignToReference>
             <field>Id</field>
         </outputAssignments>
     </recordLookups>
@@ -1200,11 +1257,11 @@
     <recordLookups>
         <name>Get_Stewardship_Record</name>
         <label>Get Stewardship Record</label>
-        <locationX>3482</locationX>
-        <locationY>458</locationY>
+        <locationX>3614</locationX>
+        <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>NewOpportunityFromStewardship</targetReference>
+            <targetReference>Check_Stewardship_Recordtype</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -1218,11 +1275,9 @@
                 <elementReference>ParentId</elementReference>
             </value>
         </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Stewardship__c</object>
-        <outputAssignments>
-            <assignToReference>StewardshipContactId</assignToReference>
-            <field>Contact__c</field>
-        </outputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordRollbacks>
         <name>Roll_Back_Records</name>
@@ -1364,8 +1419,8 @@
     <screens>
         <name>NewOpportunityFromStewardship</name>
         <label>New Opportunity From Stewardship</label>
-        <locationX>3482</locationX>
-        <locationY>566</locationY>
+        <locationX>3614</locationX>
+        <locationY>758</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1560,14 +1615,14 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>OpportunityIndiviualGivingRecTypeId</name>
+        <name>OpportunityNameFinal</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>OpportunityNameFinal</name>
+        <name>OpportunityRecTypeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
