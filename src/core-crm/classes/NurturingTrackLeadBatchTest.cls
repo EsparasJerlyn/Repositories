@@ -9,6 +9,7 @@
       |--------------------------------|-----------------------|------------------------|-----------------------------------------------|
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                  |
       | mark.j.mahilum                 | Sept 08, 2023         | DEPP-6479              | Added test method to cover exception handling |
+      | mark.j.mahilum                 | March 14, 2024        | DEPP-8038              | Added lead type to lead record creation       |
  */
 @isTest
 public with sharing class NurturingTrackLeadBatchTest {
@@ -171,7 +172,8 @@ public with sharing class NurturingTrackLeadBatchTest {
                     Email = i + EMAIL,
                     Can_Nurture__c = TRUE,
                     Work_Email__c = 'work' + i + EMAIL,
-                    Company = 'Learner' + i
+                    Company = 'Learner' + i,
+                    Lead_Type__c = LeadsDAO.LEARNER_LEAD_TYPE
                 )
             );
         }
