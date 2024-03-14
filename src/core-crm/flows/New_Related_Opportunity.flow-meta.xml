@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>3614</locationX>
-        <locationY>974</locationY>
+        <locationX>3746</locationX>
+        <locationY>1022</locationY>
         <actionName>c:detailPageNavigation</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -155,7 +155,7 @@
     <assignments>
         <name>Assign_Modal_Title</name>
         <label>Assign Modal Title</label>
-        <locationX>2822</locationX>
+        <locationX>3086</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -437,7 +437,7 @@
     <decisions>
         <name>Check_Parent_Object</name>
         <label>Check Parent Object</label>
-        <locationX>2822</locationX>
+        <locationX>3086</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -511,7 +511,7 @@
     <decisions>
         <name>Check_Stewardship_Recordtype</name>
         <label>Check Stewardship Recordtype</label>
-        <locationX>3614</locationX>
+        <locationX>3746</locationX>
         <locationY>458</locationY>
         <defaultConnector>
             <targetReference>Get_Recordtype_for_Opportunity_Indivual_Giving</targetReference>
@@ -861,8 +861,8 @@
     <recordCreates>
         <name>Create_Stewardship_Opportunity</name>
         <label>Create Stewardship Opportunity</label>
-        <locationX>3614</locationX>
-        <locationY>866</locationY>
+        <locationX>3746</locationX>
+        <locationY>914</locationY>
         <assignRecordIdToReference>StewardshipOpportunityId</assignRecordIdToReference>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
@@ -1165,12 +1165,16 @@
     <recordLookups>
         <name>Get_Recordtype_for_Opportunity_Indivual_Giving</name>
         <label>Get Recordtype for Opportunity Indivual Giving</label>
-        <locationX>3746</locationX>
+        <locationX>4010</locationX>
         <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>NewOpportunityFromStewardship</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>
@@ -1201,6 +1205,10 @@
         <connector>
             <targetReference>NewOpportunityFromStewardship</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>
@@ -1257,7 +1265,7 @@
     <recordLookups>
         <name>Get_Stewardship_Record</name>
         <label>Get Stewardship Record</label>
-        <locationX>3614</locationX>
+        <locationX>3746</locationX>
         <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1419,8 +1427,8 @@
     <screens>
         <name>NewOpportunityFromStewardship</name>
         <label>New Opportunity From Stewardship</label>
-        <locationX>3614</locationX>
-        <locationY>758</locationY>
+        <locationX>3746</locationX>
+        <locationY>806</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1526,13 +1534,13 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>2696</locationX>
+        <locationX>2960</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Modal_Title</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>Clone_Records_Owner_Id</name>
         <dataType>String</dataType>
