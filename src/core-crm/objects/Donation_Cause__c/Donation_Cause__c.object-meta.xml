@@ -156,7 +156,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Donation Cause</label>
     <nameField>
-        <label>Donation Cause Reference</label>
+        <label>Donation Cause</label>
         <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
