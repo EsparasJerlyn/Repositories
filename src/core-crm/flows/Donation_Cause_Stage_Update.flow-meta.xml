@@ -22,7 +22,28 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Published</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3) AND 4 AND 5 AND 6 AND (7 OR (8 AND 9))</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Ready_For_Publishing__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.QUT_Giving_Publish_Start_Date__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.QUT_Giving_Publish_End_Date__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <conditions>
                 <leftValueReference>$Record.Ready_For_Publishing__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -38,6 +59,20 @@
                 </rightValue>
             </conditions>
             <conditions>
+                <leftValueReference>$Record.QUT_Giving_Publish_End_Date__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
                 <leftValueReference>$Record.Stage__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
@@ -45,16 +80,15 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_End_Date__c</leftValueReference>
-                <operator>GreaterThan</operator>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <elementReference>$Flow.CurrentDate</elementReference>
+                    <stringValue>Archived</stringValue>
                 </rightValue>
             </conditions>
             <connector>
                 <targetReference>Set_Stage_to_Published</targetReference>
             </connector>
-            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
             <label>Published</label>
         </rules>
     </decisions>
