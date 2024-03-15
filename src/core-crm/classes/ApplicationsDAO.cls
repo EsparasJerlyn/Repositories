@@ -307,5 +307,17 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         );
     }
 
+    public List<hed__Application__c> getApplicationsByLeadIdOrContactId(Set<String> recordIds, String accessLevel) {
+        return Database.query(
+            'SELECT Id, hed__Applicant__c,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c, Lead__c,hed__Application_Date__c,Lead__r.Lead_Score__c, Application_Status__c,RecordTypeId, ' +
+            'Applied_Intake_Study_Period__c, Offer_Status__c, Calculated_Intake_Date__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
+            'Is_Agent_Assisted__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE (Lead__c IN :recordIds OR hed__Applicant__c IN :recordIds) ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
     
 }
