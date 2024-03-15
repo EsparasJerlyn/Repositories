@@ -78,6 +78,7 @@ public class ImplementationSelector {
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
+            Donation_Cause__c.SObjectType => DonationCausesDAO.class,
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,
