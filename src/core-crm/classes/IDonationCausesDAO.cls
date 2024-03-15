@@ -10,4 +10,5 @@
 */
 
  public interface IDonationCausesDAO extends DmlInterface {
+      Database.QueryLocator queryLocatorGetDonatioCausesForStageUpdate();
  }

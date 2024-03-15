@@ -10,7 +10,9 @@
 
 */
 
- public inherited sharing class DonationCausesDAO extends DmlBase implements IDonationCausesDAO {
+public inherited sharing class DonationCausesDAO extends DmlBase implements IDonationCausesDAO {
+    public static final String DC_PUBLISHED = 'Published';
+
     public Schema.SObjectType getSObjectType() {
         return Donation_Cause__c.SObjectType;
     }
@@ -19,5 +21,23 @@
         return (IDonationCausesDAO) ImplementationSelector.DAO.newInstance(
             Donation_Cause__c.SObjectType
         );
+    }
+
+    public Database.QueryLocator queryLocatorGetDonatioCausesForStageUpdate() {
+        String stageToPublishRule =
+            ' (Ready_For_Publishing__c = True ' +
+            'AND QUT_Giving_Publish_Start_Date__c <= TODAY ' +
+            'AND QUT_Giving_Publish_End_Date__c > TODAY ' +
+            'AND Stage__c != ' +
+            DC_PUBLISHED +
+            ')';
+
+        String queryFilter =
+            'SELECT Id, Ready_For_Publishing__c,QUT_Giving_Publish_Start_Date__c, QUT_Giving_Publish_End_Date__c, Stage__c  ' +
+            'FROM Donation_Cause__c ' +
+            'WHERE ' +
+            stageToPublishRule;
+
+        return Database.getQueryLocator(queryFilter);
     }
 }
