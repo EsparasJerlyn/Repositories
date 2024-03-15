@@ -76,7 +76,7 @@
                 <leftValueReference>$Record.Stage__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <elementReference>Published</elementReference>
+                    <stringValue>Published</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
