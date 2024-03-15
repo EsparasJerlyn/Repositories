@@ -24,6 +24,35 @@ private class DonationCausesDAOTest {
     }
 
     @isTest
+    private static void getDonationCausesBySetRecordIdsTest(){
+        System.runAs(TestDataFactory.getDonorEngagementManager()){
+            Test.startTest();
+            MockIdGenerator mockIdGen = new MockIdGenerator(Donation_Cause__c.SObjectType);
+            List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
+                .getDonationCausesBySetRecordIds(
+                    new Set<Id>{mockIdGen.getMockId()},
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(dcList.isEmpty(), 'ContactList should be empty.');
+        }
+    }
+
+    @isTest
+    private static void getDonationCausesBySetRecordIdsEmptyTest(){
+        System.runAs(TestDataFactory.getDonorEngagementManager()){
+            Test.startTest();
+            List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
+                .getDonationCausesBySetRecordIds(
+                    new Set<Id>(),
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(dcList.isEmpty(), 'ContactList should be empty.');
+        }
+    }
+
+    @isTest
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDonorEngagementManager()) {

@@ -19,7 +19,7 @@ private class Donation_Cause_Child_Product_Update_Test {
     }
 
     @isTest
-    private static void forPublishedBatchTest() {
+    private static void forAvailableOnCartTrueAndFalseTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
@@ -61,6 +61,27 @@ private class Donation_Cause_Child_Product_Update_Test {
                     true,
                     prd.Available_on_Cart__c,
                     'Available_on_Cart__c should be true'
+                );
+            }
+
+            for (Donation_Cause__c dc : donationCauseList) {
+                dc.Stage__c = '';
+            }
+
+            DonationCausesDAO.newInstance()
+                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+
+            for (
+                Product2 prd : ProductsDAO.newInstance()
+                    .getProductById(
+                        (new Map<Id, Product2>(productList)).keySet(),
+                        AccessLevel.USER_MODE
+                    )
+            ) {
+                System.assertEquals(
+                    false,
+                    prd.Available_on_Cart__c,
+                    'Available_on_Cart__c should be false'
                 );
             }
         }
