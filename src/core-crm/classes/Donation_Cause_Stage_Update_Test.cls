@@ -54,4 +54,42 @@ private class Donation_Cause_Stage_Update_Test {
             }
         }
     }
+
+    @isTest
+    private static void forNotPublishedBatchTest() {
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+                100
+            );
+
+            DonationCausesDAO.newInstance()
+                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+
+            for (Donation_Cause__c dc : donationCauseList) {
+                dc.Stage__c = DonationCausesDAO.DC_ARCHIVED;
+                dc.Ready_For_Publishing__c = true;
+                dc.QUT_Giving_Publish_Start_Date__c = System.Today();
+                dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+            }
+
+            Test.startTest();
+            DonationCausesDAO.newInstance()
+                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (
+                Donation_Cause__c dc : DonationCausesDAO.newInstance()
+                    .getDonationCausesBySetRecordIds(
+                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                        AccessLevel.USER_MODE
+                    )
+            ) {
+                System.assertNotEquals(
+                    DonationCausesDAO.DC_PUBLISHED,
+                    dc.Stage__c,
+                    'Stage should be published'
+                );
+            }
+        }
+    }
 }
