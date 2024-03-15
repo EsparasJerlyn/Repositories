@@ -9,7 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
  *    |--------------------------------|-----------------------|------------------------|----------------------------------------------|
  *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                                 |
- *    | ryan.j.a.dela.cruz             | June 23, 2023         | DEPP-5935              | 100% Code Coverage of FlowLookupController   |
+ *    | ryan.j.a.dela.cruz             | June 23, 2023         | DEPP-5935              | 100% Code Coverage of FlowLookupController   | 
  */
 @isTest
 public class FlowLookupControllerTest {
