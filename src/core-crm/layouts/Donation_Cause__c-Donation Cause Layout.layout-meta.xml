@@ -48,8 +48,6 @@
                 <behavior>Edit</behavior>
                 <field>Is_For_Public_Giving__c</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OwnerId</field>
