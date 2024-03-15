@@ -17,6 +17,7 @@ import getListMembers from '@salesforce/apex/CustomHeaderContainerCtrl.getListMe
 import bulkSaveListMember from '@salesforce/apex/ListMemberImportModalCtrl.bulkSaveListMember';
 import getUserHasListContributor from "@salesforce/apex/CustomHeaderContainerCtrl.getUserHasListContributor";
 import getDefaultListContributor from '@salesforce/apex/ListMemberAddModalController.getDefaultListContributor';
+import getListContributorByIds from '@salesforce/apex/ListMemberImportModalCtrl.getListContributorByIds';
 
 import LIST_COLUMN_1 from '@salesforce/schema/List__c.Column_1__c';
 import LIST_COLUMN_2 from '@salesforce/schema/List__c.Column_2__c';
@@ -257,16 +258,15 @@ export default class AddFromExistingList extends LightningElement {
                     this.errorMessage = "Selected List doesn't have List Member or its List Member Status is not equal to Qualified.";
                 } else if (hasExistingListMemberContact) {
                     const listContributorRecord = await getUserHasListContributor({ listId: this.listId, userId: userInfo.Id });
-                    
-                    let listContributors = await getListContributorByIds({ listId: this.listId, contributorIds: listContributorRecord[0] });
 
+                    let listContributors = await getListContributorByIds({ listId: this.listId, contributorIds: listContributorRecord[0].Id });
                     listMembers.forEach((obj) => {
-                        obj.List_Contributor__c = this.defaultContributor;
-                        obj.List_Contributor__r = JSON.parse(JSON.stringify(userInfo));
+                        obj.List_Contributor__c = listContributorRecord[0].Id;
+                        obj.List_Contributor__r = listContributors[0];
 
-                        if (listContributors && listContributors.length) {
+                        if (listContributorRecord && listContributorRecord.length) {
                             obj.ListContributorName = listContributors[0].List_Contributor__r.Name;
-                            obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${listContributors[0].Id}/view`;
+                            obj.ListContributorUrl = `/lightning/r/List_Contributor__c/${listContributorRecord[0].Id}/view`;
                         }
                     })
 
