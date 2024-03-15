@@ -12181,16 +12181,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Is_QUT_Giving_Cause__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Donation_Cause__c.Is_Staff_Giving_Cause__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Donation_Cause__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
