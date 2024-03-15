@@ -1540,7 +1540,7 @@
             <targetReference>Assign_Modal_Title</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>Clone_Records_Owner_Id</name>
         <dataType>String</dataType>
