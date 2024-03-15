@@ -58,6 +58,7 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
         return dc.Ready_For_Publishing__c == true &&
             dc.QUT_Giving_Publish_Start_Date__c <= System.today() &&
             dc.QUT_Giving_Publish_End_Date__c > System.today() &&
+            dc.Stage__c != DonationCausesDAO.DC_PUBLISHED &&
             dc.Stage__c != DonationCausesDAO.DC_PUBLISHED;
     }
 

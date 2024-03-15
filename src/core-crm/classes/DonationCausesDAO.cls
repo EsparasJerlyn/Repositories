@@ -11,7 +11,9 @@
 */
 
 public inherited sharing class DonationCausesDAO extends DmlBase implements IDonationCausesDAO {
+
     public static final String DC_PUBLISHED = 'Published';
+    public static final String DC_ARCHIVED = 'Archived';
 
     public Schema.SObjectType getSObjectType() {
         return Donation_Cause__c.SObjectType;
@@ -28,8 +30,8 @@ public inherited sharing class DonationCausesDAO extends DmlBase implements IDon
             ' (Ready_For_Publishing__c = True ' +
             'AND QUT_Giving_Publish_Start_Date__c <= TODAY ' +
             'AND QUT_Giving_Publish_End_Date__c > TODAY ' +
-            'AND Stage__c != ' +
-            DC_PUBLISHED +
+            'AND Stage__c !=: DC_PUBLISHED ' +
+            'AND Stage__c !=: DC_ARCHIVED ' +
             ')';
 
         String queryFilter =
