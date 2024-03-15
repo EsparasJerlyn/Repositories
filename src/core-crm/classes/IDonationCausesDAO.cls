@@ -11,4 +11,5 @@
 
  public interface IDonationCausesDAO extends DmlInterface {
       Database.QueryLocator queryLocatorGetDonatioCausesForStageUpdate();
+      List<Donation_Cause__c> getDonationCausesBySetRecordIds(Set<Id> recordIds, AccessLevel accessLevel);
  }

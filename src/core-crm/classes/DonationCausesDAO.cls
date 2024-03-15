@@ -11,7 +11,6 @@
 */
 
 public inherited sharing class DonationCausesDAO extends DmlBase implements IDonationCausesDAO {
-
     public static final String DC_PUBLISHED = 'Published';
     public static final String DC_ARCHIVED = 'Archived';
 
@@ -41,5 +40,19 @@ public inherited sharing class DonationCausesDAO extends DmlBase implements IDon
             stageToPublishRule;
 
         return Database.getQueryLocator(queryFilter);
+    }
+
+    public List<Donation_Cause__c> getDonationCausesBySetRecordIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ) {
+        if (!recordIds.isEmpty() && accessLevel != null) {
+            return Database.query(
+                'SELECT Stage__c, Id ' + 'FROM Donation_Cause__c WHERE Id IN :recordIds',
+                accessLevel
+            );
+        } else {
+            return new List<Donation_Cause__c>();
+        }
     }
 }

@@ -11,9 +11,9 @@
  */
 public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject> {
     /**
-     * @description to publish Corporate Bundle product requests
+     * @description to get Donation Cause for stage update
      * @param bc - BatchableContext
-     * @return query - filtered query of asset records
+     * @return query - filtered query of donation cause records
      */
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return DonationCausesDAO.newInstance().queryLocatorGetDonatioCausesForStageUpdate();
@@ -22,7 +22,7 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
     /**
      * @description Method to execute the batch
      * @param bc - BatchableContext
-     * @param assetList - List of assets
+     * @param donationCausesList - List of Donation Cause Records
      */
     public void execute(Database.BatchableContext bc, List<Donation_Cause__c> donationCausesList) {
         try {
@@ -44,7 +44,7 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
             }
         } catch (Exception e) {
             Logger.error(
-                    'Exception caught in method execute in Apex class DonationCaseStageUpdateBatch.'
+                    'Exception caught in method execute in Apex class DonationCauseStageUpdateBatch.'
                 )
                 .setExceptionDetails(e);
         } finally {

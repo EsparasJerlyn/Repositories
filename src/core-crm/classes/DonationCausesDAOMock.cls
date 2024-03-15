@@ -24,4 +24,17 @@ public inherited sharing class DonationCausesDAOMock extends DmlBaseMock impleme
     public Database.QueryLocator queryLocatorGetDonatioCausesForStageUpdate() {
         return null;
     }
+
+    public List<Donation_Cause__c> getDonationCausesBySetRecordIds(
+        Set<Id> recordIds,
+        AccessLevel accessLevel
+    ) {
+        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
+        for (Donation_Cause__c record : donationCausesMap.values()) {
+            if (recordIds.contains(record.Id)) {
+                donationCauseList.add(record);
+            }
+        }
+        return donationCauseList;
+    }
 }
