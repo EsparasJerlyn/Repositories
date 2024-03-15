@@ -14,31 +14,7 @@
     <picklistValues>
         <picklist>Contextual_Role__c</picklist>
         <values>
-            <fullName>Academic</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Assistant</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Board Chairman</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Board Vice-Chairman</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branding Manager</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Chief Investigator</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Co-Investigator</fullName>
             <default>false</default>
         </values>
         <values>
@@ -46,87 +22,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Faculty</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Finance Manager</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Funding Body</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inventor</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Lead Researcher</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Lead Trainer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ORS Contact</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Partner</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Partner Contact</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Primary Contact</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Primary Partner Contact</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Public Officer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Relationship Manager</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Research Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Researcher</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>School</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Secondary Investigator</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Support</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Trainer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Training Support</fullName>
             <default>false</default>
         </values>
     </picklistValues>
