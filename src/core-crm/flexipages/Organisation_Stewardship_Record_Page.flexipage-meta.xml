@@ -344,6 +344,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>dynamicDataTableInput</name>
+                    <value>Organisation Giving</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>editActionType</name>
@@ -354,11 +355,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>icon</name>
-                    <value>standard:custom</value>
+                    <value>standard:opportunity</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionType</name>
-                    <value>Default</value>
+                    <value>Screen Flow</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionTypeLabel</name>
@@ -366,6 +367,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newScreenFlowApiName</name>
+                    <value>New_Related_Opportunity</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentRecord</name>
@@ -380,10 +382,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFields</name>
-                    <value>[{&quot;label&quot;:&quot;Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Opportunity Code&quot;,&quot;fieldName&quot;:&quot;Opportunity_Code__c&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;StageName&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
+                    <value>[{&quot;label&quot;:&quot;Opportunity Name&quot;,&quot;fieldName&quot;:&quot;Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Opportunity Code&quot;,&quot;fieldName&quot;:&quot;Opportunity_Code__c&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;label&quot;:&quot;Owner&quot;,&quot;fieldName&quot;:&quot;Owner.Name&quot;,&quot;type&quot;:&quot;url&quot;},{&quot;label&quot;:&quot;Stage&quot;,&quot;fieldName&quot;:&quot;StageName&quot;,&quot;type&quot;:&quot;text&quot;}]</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
+                    <value>RecordType.DeveloperName = &apos;Organisation_Giving&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
@@ -411,9 +414,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByParent</name>
+                    <value>Stage__c != &apos;Completed&apos; AND Stage__c != &apos;Inactive&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
+                    <value>UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos;</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable2</identifier>
