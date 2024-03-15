@@ -3,6 +3,7 @@
     <description>Permission set group to be added to System Administrator - Read Only users</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Persona System Administrator - Read Only</label>
+    <permissionSets>Access_Create_and_Customize_List_Views</permissionSets>
     <permissionSets>Permission_API_Enabled</permissionSets>
     <permissionSets>Permission_All_Apex_Classes_and_VF_Pages</permissionSets>
     <permissionSets>Permission_All_Custom_Settings_and_Custom_Metadata</permissionSets>
