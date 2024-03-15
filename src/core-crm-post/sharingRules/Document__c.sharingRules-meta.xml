@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>All_Advancement_Share</fullName>
+        <fullName>ADV_Donor_Engagement_Manager_Share_Parent_Stewardship</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Document records to Fundraising Manager with all Advancement persona when under Opportunity or Stewardship</description>
-        <label>All Advancement Share</label>
+        <description>Share Document records to Donor Engagement Manager when under Stewardship</description>
+        <label>ADV Donor Engagement Manager Share - Parent Stewardship</label>
         <sharedTo>
-            <group>Advancement</group>
+            <group>Donor_Engagement_Manager</group>
         </sharedTo>
-        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
-            <field>Opportunity__c</field>
+            <field>Stewardship__c</field>
             <operation>notEqual</operation>
             <value></value>
         </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>All_Advancement_Share_Parent_Opportunity</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Document records to all Advancement persona when under Opportunity</description>
+        <label>All Advancement Share - Parent Opportunity</label>
+        <sharedTo>
+            <group>Advancement</group>
+        </sharedTo>
         <criteriaItems>
-            <field>Stewardship__c</field>
+            <field>Opportunity__c</field>
             <operation>notEqual</operation>
             <value></value>
         </criteriaItems>
