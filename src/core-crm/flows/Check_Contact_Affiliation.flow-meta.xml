@@ -52,6 +52,13 @@
                 <elementReference>JobTitle</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AffiliationRecord.hed__StartDate__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Update_Affiliation_Record</targetReference>
         </connector>
@@ -94,6 +101,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>JobTitle</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AffiliationToCreate.hed__StartDate__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
             </value>
         </assignmentItems>
         <connector>
