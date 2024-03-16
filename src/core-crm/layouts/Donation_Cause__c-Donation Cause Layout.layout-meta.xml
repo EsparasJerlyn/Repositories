@@ -23,12 +23,20 @@
                 <field>Activation_Start_Date__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Owner_Full_Name__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Donation_Cause_Code__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Donation_Cause__c</field>
+                <behavior>Edit</behavior>
+                <field>Is_For_Private_Giving__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_For_Staff_Giving__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
