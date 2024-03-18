@@ -44,7 +44,6 @@ export default class CustomHeaderButtons extends LightningElement {
     _listId;
     csvtemp;
     listMemberColumns = [LIST_STAGE];
-    stageValue;
     result;
     showModal;
     showStatusPicklist;
@@ -103,16 +102,7 @@ export default class CustomHeaderButtons extends LightningElement {
     get isDownloadCSVDisabled() {
         return this.listStageValue === "Distribute" ? false : true;
     }
-
-    // @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
-    //     wiredList(responseData) {
-    //     const { data, error } = responseData;
-    //     if (data) {
-    //         const fields = data.fields;
-    //         this.stageValue = fields.Stage__c.value;
-    //     }
-    // }
-
+    
     recordTypeField = [LIST_RECORD_TYPE];
     @wire(getRecord, { recordId: "$listId", fields: "$recordTypeField" })
         wireRecordType(responseData) {
