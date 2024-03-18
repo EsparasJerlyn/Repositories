@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission set group to be assigned to Executive Director Advancement</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Executive Director Advancement</label>
+    <mutingPermissionSets>Executive_Director_Advancement_Muted</mutingPermissionSets>
+    <permissionSets>Advancement_Base</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

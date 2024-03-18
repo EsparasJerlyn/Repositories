@@ -8,6 +8,21 @@
     </types>
     -->
     <types>
+        <!-- Start DEPP-8054 -->
+         <members>Stewardship__c.Stewardship_Type__c</members>
+         <members>Stewardship__c.Stewardship_Tier__c</members>
+         <members>Stewardship__c.Completion_Reason__c</members>
+         <members>Stewardship__c.Lost_Reason__c</members>
+         <members>Stewardship__c.Lost_Summary__c</members>
+        <!-- End DEPP-8054 -->
+        <!-- Start DEPP-8056 -->
+        <members>Donation_Cause__c.Donation_Cause__c</members>
+        <members>Donation_Cause__c.Is_QUT_Giving_Cause__c</members>
+        <members>Donation_Cause__c.Is_Staff_Giving_Cause__c</members>
+        <!-- Start DEPP-8056 -->
+        <name>CustomField</name>
+    </types>    
+    <types>
         <!--Start DEPP-6659-->
         <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
         <members>Applicatioon_SAMS_Legacy_Record_Page</members>
@@ -43,6 +58,10 @@
         <members>Case.Closure_Details_min_length</members>
         <members>Case.Priority_is_required</members>
         <!-- (End) DEPP-7673 -->
+        <!-- (Start) DEPP-8056 -->
+        <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_Start_Date_Required</members>
+        <!-- (End) DEPP-8056 -->
         <name>ValidationRule</name>
     <!-- <types> -->
       <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
@@ -54,6 +73,18 @@
       <!--(End) DEPP-7474 -->
       <!-- <name>PermissionSetGroup</name>
   </types> -->
+    </types>
+    <types>
+        <!--(Start) DEPP-8114-->
+        <members>Stewardship</members>
+        <!--(End) DEPP-8114-->
+        <name>PathAssistant</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-7233 Created a wrong file name--> 
+        <members>Fundraising</members>
+        <!--(End) DEPP-8114-->
+        <name>PermissionSetGroup</name>
     </types>
     <version>59.0</version> 
 </Package>

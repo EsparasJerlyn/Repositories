@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
+    <applicationVisibilities>
+        <application>Advancement</application>
+        <default>true</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Standard</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout> 
+        <recordType>Opportunity.Individual_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout>
+        <recordType>Opportunity.Organisation_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Plan_Activity__c-Plan Activity Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout> 
+        <recordType>Stewardship__c.Individual_Stewardship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stewardship__c-Advancement Stewardship Layout</layout>
+        <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+    </layoutAssignments>
+</Profile>

@@ -20,6 +20,16 @@
         <won>false</won>
     </standardValue>
     <standardValue>
+        <fullName>Qualify</fullName>
+        <default>false</default>
+        <description>The qualification stage has two key aspects to completing this stage. Information Gathering (to inform QUT) And High Level Faculty Approval for Academic Opportunities</description>
+        <label>Qualify</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>25</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
         <fullName>Collaborate</fullName>
         <default>false</default>
         <label>Collaborate</label>
@@ -47,15 +57,6 @@
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>Submitted</fullName>
-        <default>false</default>
-        <label>Submitted</label>
-        <closed>false</closed>
-        <forecastCategory>Pipeline</forecastCategory>
-        <probability>60</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
         <fullName>Negotiate</fullName>
         <default>false</default>
         <label>Negotiate</label>
@@ -65,13 +66,21 @@
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>Qualify</fullName>
+        <fullName>Cultivation</fullName>
         <default>false</default>
-        <description>The qualification stage has two key aspects to completing this stage. Information Gathering (to inform QUT) And High Level Faculty Approval for Academic Opportunities</description>
-        <label>Qualify</label>
+        <label>Cultivation</label>
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
-        <probability>25</probability>
+        <probability>50</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Submitted</fullName>
+        <default>false</default>
+        <label>Submitted</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>60</probability>
         <won>false</won>
     </standardValue>
     <standardValue>
@@ -85,10 +94,37 @@
         <won>false</won>
     </standardValue>
     <standardValue>
+        <fullName>Solicitation</fullName>
+        <default>false</default>
+        <label>Solicitation</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>75</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Contract</fullName>
+        <default>false</default>
+        <label>Contract</label>
+        <closed>false</closed>
+        <forecastCategory>Pipeline</forecastCategory>
+        <probability>75</probability>
+        <won>false</won>
+    </standardValue>
+    <standardValue>
         <fullName>Closed Won</fullName>
         <default>false</default>
         <description>Sold!</description>
         <label>Closed Won</label>
+        <closed>true</closed>
+        <forecastCategory>Closed</forecastCategory>
+        <probability>100</probability>
+        <won>true</won>
+    </standardValue>
+    <standardValue>
+        <fullName>Executed</fullName>
+        <default>false</default>
+        <label>Executed</label>
         <closed>true</closed>
         <forecastCategory>Closed</forecastCategory>
         <probability>100</probability>
@@ -103,24 +139,6 @@
         <forecastCategory>Omitted</forecastCategory>
         <probability>0</probability>
         <won>false</won>
-    </standardValue>
-    <standardValue>
-        <fullName>Contract</fullName>
-        <default>false</default>
-        <label>Contract</label>
-        <closed>false</closed>
-        <forecastCategory>Pipeline</forecastCategory>
-        <probability>75</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
-        <fullName>Executed</fullName>
-        <default>false</default>
-        <label>Executed</label>
-        <closed>true</closed>
-        <forecastCategory>Closed</forecastCategory>
-        <probability>100</probability>
-        <won>true</won>
     </standardValue>
     <standardValue>
         <fullName>Discontinued</fullName>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Organisation Giving Opportunity</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Cultivation stage is where the Fundraiser details the strategy and steps to cultivate and then solicit the prospect for a major gift. &lt;/li&gt;&lt;li&gt;Relevant activity during this step should be added and outcome must be recorded for each cultivation step.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Cultivation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&amp;#39;Discontinued’ indicates that the opportunity has been lost. The ‘Loss Reason’ and ‘Loss Reason Explanation’ fields provide reasoning for the loss.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Discontinued</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Executed’ indicates that the Contract has been executed and is in effect.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Executed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;‘Identify’ indicates that you have identified a new opportunity from advancement with a prospective donor.&lt;/li&gt;&lt;li&gt;Complete the ‘Description’ section under the ‘Details’ tab by updating the ‘Giving Category’, and ‘Faculty Category’ fields. Other fields are pre-populated; however, may be updated.&lt;/li&gt;&lt;li&gt;Use ‘Notes’ to record relevant information to help you manage the relationship and/or opportunity. Use the ‘Activity’ panel to record your interactions and track tasks.&lt;/li&gt;&lt;li&gt;Record the documents that have been created with links to where they are stored under the &amp;#39;Documents’ tab.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Identify</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Qualify stage indicates you are qualifying the donor opportunity and completing the Linkage, Interest and Ability Ranking under the ‘Qualify’ tab.&lt;/li&gt;&lt;li&gt;Once the qualification is complete, proceed to Cultivation stage. Use the ‘IS Qialified&amp;#39; and &amp;#39;Qualification Summary’ to support the findings. &lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Qualify</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Solicitation stage is where the Fundraiser formalises the major gift ask, providing the written proposal/Gift Management Plan to the prospect.&lt;/li&gt;&lt;li&gt;All proposed donation records must be added under Donation section, such as One off donation for saving Koala etc. &lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Solicitation</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Organisation_Giving</recordTypeName>
+</PathAssistant>

@@ -13,6 +13,7 @@
  *    | roy.nino.s.regala         | July 11, 2023         | DEPP-5459            | removed isvalidurl and only subscribe to event channel on new and edit      |
  *    | eugene.andrew.abuan       | August 14, 2023       | DEPP-6331            | Added newActionTypeLabel property                                           |
  *    | roy.nino.s.regala         | August 25, 2023       | DEPP-6348            | flatten inner fields,added user access checker, and dynamic link access     |
+ *    | roy.nino.s.regala         | Feb 28, 2023          | DEPP-8155            | enable locking of edit button of related list by parent field               |
  *
  */
 import { LightningElement, api, track, wire } from "lwc";
@@ -70,10 +71,11 @@ export default class DynamicDataTable extends NavigationMixin(
   recordCount = 0;
   dataTableIsLoading = false;
   subscription = {};
-  visibilityCheckResult = false;
   userId = Id;
   isCustom = true;
   userAccessInfo = [];
+  visibilityCheckResultByUser = false;
+  visibilityCheckResultByParent = false;
   /*USER EXPERIENCE VARIABLES END */
 
   /* GETTERS START */
@@ -135,7 +137,7 @@ export default class DynamicDataTable extends NavigationMixin(
 
   get isShowNewButton() {
     //if visiblity is controlled and show new button is checked
-    return this.visibilityCheckResult && this.showNewButton;
+    return this.visibilityCheckResultByUser && this.visibilityCheckResultByParent  && this.showNewButton;
   }
 
   get newActionLabel() {
@@ -301,7 +303,8 @@ export default class DynamicDataTable extends NavigationMixin(
           result.recordCount
         );
         this.recordCount = result.recordCount;
-        this.visibilityCheckResult = result.hasVisibility;
+        this.visibilityCheckResultByUser = result.hasAcessByUser;
+        this.visibilityCheckResultByParent = result.hasAccessByParent;
       })
       .catch((error) => {
         if (logger) {
@@ -419,8 +422,8 @@ export default class DynamicDataTable extends NavigationMixin(
     let actions = [];
     if (
       this.userAccessInfo &&
-      this.userAccessInfo.find((key) => key.RecordId == row.Id).HasEditAccess ==
-        true
+      this.userAccessInfo.find((key) => key.RecordId == row.Id).HasEditAccess &&
+      this.visibilityCheckResultByParent
     ) {
       actions.push({
         label: "Edit",

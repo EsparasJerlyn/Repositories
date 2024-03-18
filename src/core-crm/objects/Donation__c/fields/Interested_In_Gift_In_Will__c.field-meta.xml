@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interested_In_Gift_In_Will__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates a donor is interested in leaving a gift to QUT in their Will. This is captured during the online donation transaction process.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates a donor is interested in leaving a gift to QUT in their Will. This is captured during the online donation transaction process.</inlineHelpText>
+    <label>Interested In Gift-In-Will</label>
+    <securityClassification>Official</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

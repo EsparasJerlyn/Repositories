@@ -4,7 +4,7 @@
     <columns>TITLE</columns>
     <columns>URL_NAME</columns>
     <columns>VERSION_NUMBER</columns>
-    <columns>RECORD_TYPE</columns>
+    <columns>RECORDTYPE</columns>
     <columns>PUBLISH_STATUS</columns>
     <filterScope>Everything</filterScope>
     <label>All - International</label>
@@ -12,4 +12,4 @@
         <role>System_Administrator</role>
         <roleAndSubordinatesInternal>Future_Student_Super_User_International</roleAndSubordinatesInternal>
     </sharedTo>
-</ListView> 
+</ListView>

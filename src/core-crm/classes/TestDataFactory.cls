@@ -70,7 +70,8 @@
  *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,             |
                                                                                   QUT_Corporate_Engagement_Manager users and Engagement Opportunity records
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
- *
+ *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
+ *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                 |
  **/
 
 @isTest
@@ -115,7 +116,9 @@ public class TestDataFactory {
         'Alumni_Engagement_Manager',
         'QUT_Alumni_Engagement_Manager',
         'QUT_Corporate_Engagement_Manager',
-        'QUT_International_Future_Student_Agent'
+        'QUT_International_Future_Student_Agent',
+        'QUT_Advancement_Manager',
+        'QUT_Donor_Engagement_Manager'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -2327,6 +2330,36 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating Advancement Manager
+     * @param void
+     * @return advancementManager - Advancement Manager
+     */
+    public static User getAdvancementManager() {
+        User advancementManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Advancement_Manager%'
+            LIMIT 1
+        ];
+        return advancementManager;
+    }
+
+    /**
+     * @description Method for creating Donor Engagement Manager
+     * @param void
+     * @return DonorEngagementManager - Donor Engagement Manager
+     */
+    public static User getDonorEngagementManager() {
+        User advancementManager = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Donor_Engagement_Manager%'
+            LIMIT 1
+        ];
+        return advancementManager;
+    }
+
+    /**
      * @description Method for creating Learning Designer
      * @param void
      * @return learningDesigner - Learning Designer
@@ -3123,6 +3156,34 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            }else if(name == 'QUT_Advancement_Manager'){
+                userName = 'QUT_Advancement_Manager';
+                profileName = 'Advancement';
+                roleName = 'Advancement Manager';
+                permSets = 'Advancement_Base';
+                publicGroups = 'Advancement Manager';
+                isServiceCloudUser = false;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }else if(name == 'QUT_Donor_Engagement_Manager'){
+                userName = 'QUT_Donor_Engagement_Manager';
+                profileName = 'Advancement';
+                roleName = 'Donor Engagement Manager';
+                permSets = 'Advancement_Base';
+                publicGroups = 'Donor Engagement Manager';
+                isServiceCloudUser = false;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
             /** START - Creation of  Alumni and Corporate Engagement Manager Users */
             else if (name == 'QUT_Alumni_Engagement_Manager') {
@@ -3733,6 +3794,59 @@ public class TestDataFactory {
         }
         return packageComponentList;
     }
+
+    
+    /**
+     * @description Method for creating test Plan Activity records
+     * @params
+     * numOfPlanActivites - number of records to create
+     * oppOd - Id of the Opportunity the Plan Activity record will be related to
+     * @return planActivities - List of Plan Activity records created
+     */
+    public static List<Plan_Activity__c> createPlanActivityRecords(
+        Integer numOfPlanActivities,
+        Id opptyId
+    ) {
+        List<Plan_Activity__c> planActivities = new List<Plan_Activity__c>();
+        for (Integer i = 0; i < numOfPlanActivities; i++) {
+            planActivities.add(
+                new Plan_Activity__c(
+                    Status__c = 'Pending',
+                    Outcome__c = 'Test Outcome',
+                    Contact_Channel__c = 'Email',
+                    Description__c = 'Test Description'
+                )
+            );
+        }
+        return planActivities;
+    }
+
+    /**
+     * @description Method for creating test Plan Activity records
+     * @params
+     * numOfPlanActivites - number of records to create
+     * stewardshipId - Id of the stewardship the Plan Activity record will be related to
+     * @return planActivities - List of Plan Activity records created
+     */
+    public static List<Plan_Activity__c> createPlanActivityRecordsWithStewardship(
+        Integer numOfPlanActivities,
+        Id stewardshipId
+    ) {
+        List<Plan_Activity__c> planActivities = new List<Plan_Activity__c>();
+        for (Integer i = 0; i < numOfPlanActivities; i++) {
+            planActivities.add(
+                new Plan_Activity__c(
+                    Status__c = 'Pending',
+                    Outcome__c = 'Test Outcome ' + i,
+                    Contact_Channel__c = 'Email',
+                    Description__c = 'Test Description',
+                    Stewardship__c = stewardshipId
+                )
+            );
+        }
+        return planActivities;
+    }
+
     /**
      * @description Method for creating test Lead Score Configuration records
      * @return List<Lead_Score_Configuration__c> leadScoreConfigurationList - List of Lead Score Configuration Records
@@ -4181,5 +4295,29 @@ public class TestDataFactory {
         }
 
         return engagementOpp;
+    }
+
+    /**
+     * @description Method for creating test Stewardship records
+     * @params
+     * numOfRecords - number of records to create
+     * @return stewardshipList - List of Stewardship records created
+     */
+    public static List<Stewardship__c> createStewardshipRecords(
+        Id recordTypeId,
+        Integer numOfRecords
+    ) {
+        List<Stewardship__c> stewardshipList = new List<Stewardship__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            stewardshipList.add(
+                new Stewardship__c(
+                    Stage__c = 'Active',
+                    Start_Date__c = System.today() + 30,
+                    Completion_Summary__c = 'Test',
+                    RecordTypeId = recordTypeId
+                )
+            );
+        }
+        return stewardshipList;
     }
 }

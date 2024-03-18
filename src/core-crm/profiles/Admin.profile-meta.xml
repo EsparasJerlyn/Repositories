@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Advancement</application>
+        <default>true</default>
+        <visible>true</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>ActionCtrl</apexClass>
         <enabled>true</enabled>
@@ -5868,6 +5873,14 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Offering_Evaluation_Setting__mdt-Offering Evaluation Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout> 
+        <recordType>Opportunity.Individual_Giving</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Advancement Opportunity Layout</layout>
+        <recordType>Opportunity.Organisation_Giving</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-QUTeX Opportunity Layout</layout>

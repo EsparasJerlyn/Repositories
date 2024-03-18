@@ -13,6 +13,13 @@
  *    | eugene.andrew.abuan            | August 01, 2023       | DEPP-6141              | Added Relationship Manager     |
  *    | ryan.j.a.dela.cruz             | August 10, 2023       | DEPP-6335              | Added Risk                     |
  *    | eugene.andrew.abuan            | August 14, 2023       | DEPP-6331              | Added IP Relationship Mngmnt   |
+ *    | kenneth.f.alsay                | February 28, 2024     | DEPP-7883              | Added Plan Activity            |
+ *    | eugene.andrew.abuan            | March 12, 2024        | DEPP-7917              | Added Stewardship__c in Oppty, |
+ *    |                                |                       |                        | Documents, and Plan Activity   |
+
+
+ 
+ * 
 
  */
 public with sharing class DynamicDatatableEventService {
@@ -28,7 +35,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Contextual Role'
         },
         Document__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c,IP_Management__c,Opportunity__c,Opportunity_Outcome__c',
+            'ParentFields' => 'Engagement__c,IP_Management__c,Opportunity__c,Opportunity_Outcome__c,Stewardship__c',
             'ObjectLabel' => 'Document'
         },
         Finance_Summary__c.SObjectType => new Map<String, String>{
@@ -48,12 +55,16 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Milestone'
         },
         Opportunity.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Engagement__c',
+            'ParentFields' => 'Engagement__c,Stewardship__c',
             'ObjectLabel' => 'Opportunity'
         },
         Opportunity_Outcome__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Opportunity__c',
             'ObjectLabel' => 'Opportunity Outcome'
+        },
+        Plan_Activity__c.SObjectType => new Map<String, String>{
+            'ParentFields' => 'Opportunity__c,Stewardship__c',
+            'ObjectLabel' => 'Plan Activity'
         },
         Relationship_Manager__c.SObjectType => new Map<String, String>{
             'ParentFields' => 'Account__c,Contact__c',
