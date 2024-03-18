@@ -59,13 +59,4 @@ public inherited sharing class ListsDAO extends DmlBase implements IListsDAO{
             accessLevel
         );
     }
-
-    public static List<List__c> getRecordsBySetIds(Set<Id> ids){
-        return [ //NOPMD
-            SELECT Id, Name, List_Name__c, Stage__c
-            FROM List__c
-            WHERE ID IN :ids
-            WITH USER_MODE
-        ];
-    }
 }

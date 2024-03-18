@@ -76,15 +76,4 @@ public with sharing class ListsDAOTest {
         }
         Test.stopTest();
     }
-
-    @isTest
-    static void getRecordsBySetIdsTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getAdvancementManager()) {
-            List<List__c> listRecords = ListsDAO.newInstance()
-                .getRecordsBySetIds(new Set<Id>());
-            System.assert(listRecords.isEmpty(), 'listRecords should not be empty');
-        }
-        Test.stopTest();
-    }
 }
