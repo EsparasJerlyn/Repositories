@@ -26,7 +26,7 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
      */
     public void execute(Database.BatchableContext bc, List<Donation_Cause__c> donationCausesList) {
         try {
-            Map<Id, Donation_Cause__c> donationCausesToUpdate = new Map<Id, Donation_Cause__c>();
+            List<Donation_Cause__c> donationCausesToUpdate = new List<Donation_Cause__c>();
 
             for (Donation_Cause__c dc : donationCausesList) {
                 if (isForPublish(dc)) {
@@ -40,7 +40,7 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
 
             if (!donationCausesToUpdate.isEmpty()) {
                 DonationCausesDAO.newInstance()
-                    .updateRecords(donationCausesToUpdate.values(), false, AccessLevel.SYSTEM_MODE);
+                    .updateRecords(donationCausesToUpdate, false, AccessLevel.SYSTEM_MODE);
             }
         } catch (Exception e) {
             Logger.error(
@@ -59,15 +59,15 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
             dc.QUT_Giving_Publish_Start_Date__c <= System.today() &&
             dc.QUT_Giving_Publish_End_Date__c > System.today() &&
             dc.Stage__c != DonationCausesDAO.DC_PUBLISHED &&
-            dc.Stage__c != DonationCausesDAO.DC_PUBLISHED;
+            dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
     }
 
     private void buildDonationCausesWithNewStage(
-        Map<Id, Donation_Cause__c> donationCausesToUpdate,
+        List<Donation_Cause__c> donationCausesToUpdate,
         Donation_Cause__c dc,
         String stage
     ) {
-        donationCausesToUpdate.put(dc.Id, new Donation_Cause__c(Id = dc.Id, Stage__c = stage));
+        donationCausesToUpdate.add(new Donation_Cause__c(Id = dc.Id, Stage__c = stage));
     }
 
     @SuppressWarnings('PMD.EmptyStatementBlock')
