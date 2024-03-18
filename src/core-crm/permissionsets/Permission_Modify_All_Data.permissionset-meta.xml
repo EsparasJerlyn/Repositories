@@ -3930,6 +3930,10 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>ModifyMetadata</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>OverrideForecasts</name>
     </userPermissions>
     <userPermissions>
