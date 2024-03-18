@@ -18,6 +18,11 @@
                 <label>System Administrator</label>
             </value>
             <value>
+                <fullName>System Administrator - Modify All Data</fullName>
+                <default>false</default>
+                <label>System Administrator - Modify All Data</label>
+            </value>
+            <value>
                 <fullName>System Administrator - Read Only</fullName>
                 <default>false</default>
                 <label>System Administrator - Read Only</label>
