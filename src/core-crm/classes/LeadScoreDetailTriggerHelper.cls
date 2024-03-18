@@ -158,9 +158,10 @@ public with sharing class LeadScoreDetailTriggerHelper {
                 Contact con : ContactsDAO.newInstance()
                     .getPersonContactsBySetIds(contactToScoreMap.keySet(), AccessLevel.SYSTEM_MODE)
             ) {
+                boolean isPartnerSourced = con.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
                 minimumThreshold = getMinScore(con.hed__Citizenship_Status__c, mapOfNurtureTrack);
                 Decimal totalLeadScore = contactToScoreMap.get(con.Id);
-                boolean newCanNuture = con.QUT_Applicant__c || LeadScoreService.isLeadScoreInRange(totalLeadScore, minimumThreshold, null);
+                boolean newCanNuture = con.QUT_Applicant__c || LeadScoreService.isLeadScoreInRange(totalLeadScore, minimumThreshold, null) || isPartnerSourced;
                 boolean newQUTLead = totalLeadScore > 0;
 
                 //if any of the fields above are changed by recalculation
@@ -200,6 +201,9 @@ public with sharing class LeadScoreDetailTriggerHelper {
                 Lead lead : LeadsDAO.newInstance()
                     .getLeadsByIdSet(leadToScoreMap.keySet(), AccessLevel.SYSTEM_MODE)
             ) {
+                if(lead.Lead_Type__c != LeadsDAO.LEARNER_LEAD_TYPE){
+                    continue;
+                }                
                 Decimal totalLeadScore = leadToScoreMap.get(lead.Id);
                 String newStatus = LeadScoreService.getLeadStatus(totalLeadScore);
                 minimumThreshold = getMinScore(lead.Marketing_Segmentation__r.My_Citizenship_Status__c, mapOfNurtureTrack);
@@ -209,18 +213,18 @@ public with sharing class LeadScoreDetailTriggerHelper {
                                 minimumThreshold,
                                 null
                         ) &&
-                        lead.Lead_Source_Category__c != 'Partner Sourced';
+                        lead.Lead_Source_Category__c != LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
                 String newJourneyStatus = totalLeadScore > 0 ? LeadsDAO.EXPLORE_JOURNEY_STATUS : '';
 
                 //if any of the fields above is changed by recalculation, then lead is for update
-                boolean isForUdpate =
+                boolean isForUpdate =
                     lead.Can_Nurture__c != isAboveThreshold ||
                     lead.Future_Student_Journey_Status__c != newJourneyStatus ||
                     lead.Status != newStatus;
 
-                boolean isPartnerSourced = lead.Lead_Source_Category__c == 'Partner Sourced';
+                boolean isPartnerSourced = lead.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
               
-                if (isForUdpate) {
+                if (isForUpdate) {
                     leadRecord = new Lead();
                     leadRecord.Id = lead.Id;
                     leadRecord.Can_Nurture__c = isPartnerSourced? true : isAboveThreshold;

@@ -373,7 +373,6 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             newApplicationsSecond[0].Calculated_Intake_Date__c = Date.today().addMonths(4);
             newApplicationsSecond[0].Offered_Program_Plan__c = programList[0].Id;
             newApplicationsSecond[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
-
             newApplications.addAll(newApplicationsSecond);
             
             Test.stopTest();
@@ -402,7 +401,6 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
                 Completed_Cadence_Status__c ='Successful'
             ));
             CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
-
             // call method
             List<Contact> processContacts = NurturingTrackContactService.processContactForEntryAndExit(new Map<Id, Contact>(newContacts));
             // assert

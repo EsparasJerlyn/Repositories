@@ -260,6 +260,52 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>ServiceAppointment.No_Answer_SMS</value>
+                            <visibilityRule>
+                                <booleanFilter>(1 AND 2) OR (3 AND 4) OR (5 AND 6) OR (7 AND 8)</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Contact__r.ContactMobile_Locale__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Australia (+61)</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Contact__r.ContactMobile_Validation__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LeadId__r.LeadMobile_Locale__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Australia (+61)</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LeadId__r.LeadMobile_Validation__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.CaseId__r.Contact.ContactMobile_Locale__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Australia (+61)</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.CaseId__r.Contact.ContactMobile_Validation__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Valid</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.CaseId__r.Lead__r.LeadMobile_Locale__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Australia (+61)</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.CaseId__r.Lead__r.LeadMobile_Validation__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Valid</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Edit</value>
                         </valueListItems>
                         <valueListItems>
