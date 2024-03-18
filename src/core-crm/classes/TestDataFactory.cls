@@ -1941,7 +1941,6 @@ public class TestDataFactory {
                 new List_Member__c(
                    List__c = listId,
                    Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
-                   List_Member_Status__c = ListMembersDAO.ON_HOLD_LIST_MEMBER_STATUS,
                    List_Member__c = listMemberId
                 )
             );
@@ -1965,7 +1964,7 @@ public class TestDataFactory {
                 new List_Member__c(
                    List__c = listrecords[i].Id,
                    Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
-                   List_Member__c = listMemberId
+                   List_Member__c = listMemberId 
                 )
             );
         }

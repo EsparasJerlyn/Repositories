@@ -12,7 +12,6 @@
 */
 public inherited sharing class ListMembersDAO extends DmlBase implements IListMembersDAO{
     public static final String ACCEPTED_ACTIVITY_STATUS = 'Accepted';
-    public static final String ON_HOLD_LIST_MEMBER_STATUS = 'On Hold';
     public static final String DUPLICATE_ERROR_MESSAGE = 'List Member is already in the list';
     public Schema.SObjectType getSObjectType() {
         return List_Member__c.SObjectType; 

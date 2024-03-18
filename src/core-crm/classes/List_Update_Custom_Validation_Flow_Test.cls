@@ -11,7 +11,7 @@
       | jerlyn.esparas            | March 12,2024         | DEPP-7944    | created file                                              |
 */
 @isTest
-public class List_Custom_Validation_Flow_Test {
+public class List_Update_Custom_Validation_Flow_Test {
 	
     @testSetup
     static void makeData(){
@@ -38,19 +38,25 @@ public class List_Custom_Validation_Flow_Test {
         System.runAs(TestDataFactory.getAdvancementManager()){
 
             List<List__c> listRecords = ListsDAO.newInstance().getListRecords(1);
+            List<List_Member__c> newListMemberRecToUpdate = new List<List_Member__c>();
             List<List_Member__c> newListMemberRec = ListMembersDAO.newInstance().getListMembersByListIdAndStatus(new Set<Id>{listRecords[0].Id},'Qualified', AccessLevel.USER_MODE);
             
             Test.startTest();
             for(List_Member__c listMemRec : newListMemberRec){
                 listMemRec.List_Member_Status__c = 'On Hold';
+                newListMemberRecToUpdate.add(listMemRec);
             }
             ListMembersDAO.newInstance().updateRecords(newListMemberRec, false, AccessLevel.USER_MODE);
-            Test.stopTest();
+            
             listRecords[0].Stage__c = 'Distribute';
             Database.SaveResult[] srList = ListsDAO.newInstance().updateRecords(listRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+            
+            List<List__c> updateListRecord = ListsDAO.getRecordsBySetIds(new Set<Id>{listRecords[0].Id});
             for (Database.SaveResult sr : srList) {
                 System.assert(sr.isSuccess(), 'A record was saved.'); 
             }
+            System.assert(updateListRecord[0].Stage__c.equals('Distribute'), 'Stage value is Distribute.');
         }
     }
 }
