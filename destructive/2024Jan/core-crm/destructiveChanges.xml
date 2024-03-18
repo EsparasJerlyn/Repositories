@@ -15,6 +15,11 @@
          <members>Stewardship__c.Lost_Reason__c</members>
          <members>Stewardship__c.Lost_Summary__c</members>
         <!-- End DEPP-8054 -->
+        <!-- Start DEPP-8056 -->
+        <members>Donation_Cause__c.Donation_Cause__c</members>
+        <members>Donation_Cause__c.Is_QUT_Giving_Cause__c</members>
+        <members>Donation_Cause__c.Is_Staff_Giving_Cause__c</members>
+        <!-- Start DEPP-8056 -->
         <name>CustomField</name>
     </types>    
     <types>
@@ -53,6 +58,10 @@
         <members>Case.Closure_Details_min_length</members>
         <members>Case.Priority_is_required</members>
         <!-- (End) DEPP-7673 -->
+        <!-- (Start) DEPP-8056 -->
+        <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_Start_Date_Required</members>
+        <!-- (End) DEPP-8056 -->
         <name>ValidationRule</name>
     <!-- <types> -->
       <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
