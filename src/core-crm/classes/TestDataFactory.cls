@@ -1941,7 +1941,7 @@ public class TestDataFactory {
                 new List_Member__c(
                    List__c = listId,
                    Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
-                   List_Member__c = listMemberId
+                   List_Member__c = listMemberId 
                 )
             );
         }
