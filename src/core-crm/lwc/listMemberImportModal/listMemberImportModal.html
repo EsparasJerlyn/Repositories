@@ -29,6 +29,7 @@
                         <lightning-input type="file" accept=".csv" onchange={handleUploadCSV}></lightning-input>
                     </div>
                     <lightning-datatable
+                        class="slds-max-medium-table_stacked"
                         key-field="id"
                         columns={columns}
                         data={data}
