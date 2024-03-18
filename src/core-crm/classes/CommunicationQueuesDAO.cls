@@ -11,6 +11,7 @@
       |                                |                       |                        |                                                               |
       | mark.j.mahilum                 | Oct 17, 2023          | DEPP-6926              | Added method getCommsQueueRecordsByStatusAndLastModifiedToday |
       |                                |                       |                        | to get the record updated today                               |
+      | alexander.cadalin              | March 07, 2024        | DEPP-8035              | Added queryLocatorNoAnswerSMSQueue                            |
  */
 public with sharing class CommunicationQueuesDAO extends DmlBase implements ICommunicationQueuesDAO{
 
@@ -18,6 +19,7 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
     public static final String STATUS_SENT = System.Label.PL_CommsQueue_Sent;
     public static final String STATUS_FAILED = System.Label.PL_CommsQueue_Failed;
     public static final String STATUS_RETRY = System.Label.PL_CommsQueue_Retry;
+    public static final String BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS = 'Domestic No Answer SMS';
     public static final Set<String> EMAIL_STATUS_FOR_SENDING = new Set<String>{
         STATUS_SCHEDULED,
         STATUS_RETRY
@@ -39,15 +41,28 @@ public with sharing class CommunicationQueuesDAO extends DmlBase implements ICom
         String query =
             'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c, Mobile__c, Message__c, Due_Date__c, Type__c  ' + 
             'FROM Communication_Queue__c ' + 
-            'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING ORDER BY CreatedDate ';
+            'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING ' +
+            'AND Business_Process__c != :BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS ' +
+            'ORDER BY CreatedDate ';
         return Database.getQueryLocator(query);
     }
 
     public Database.QueryLocator queryLocatorSentCommunicationQueue() {        
         String query =
             'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c  ' + 
-              'FROM Communication_Queue__c ' + 
-             'WHERE Status__c IN: EMAIL_STATUS_FOR_COMPLETION';
+            'FROM Communication_Queue__c ' + 
+            'WHERE Status__c IN: EMAIL_STATUS_FOR_COMPLETION ' +
+            'AND Business_Process__c != :BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS';
+        return Database.getQueryLocator(query);
+    }
+
+    public Database.QueryLocator queryLocatorNoAnswerSMSQueue() {
+        String query = 
+            'SELECT Id, Status__c, WhoId__c, Retry_Count__c, Sender__c, Business_Process__c, Template_Id__c, ActionCadenceStepTrackerId__c, Mobile__c, Message__c, Due_Date__c, Type__c  ' + 
+            'FROM Communication_Queue__c ' + 
+            'WHERE Status__c IN: EMAIL_STATUS_FOR_SENDING ' +
+            'AND Business_Process__c = :BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS ' +
+            'ORDER BY CreatedDate ';
         return Database.getQueryLocator(query);
     }
 
