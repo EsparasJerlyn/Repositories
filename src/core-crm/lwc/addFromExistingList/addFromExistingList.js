@@ -65,7 +65,7 @@ export default class AddFromExistingList extends LightningElement {
         LIST_COLUMN_8,
         LIST_COLUMN_9,
         LIST_COLUMN_10
-   ];
+    ];
 
     @api
     get tableColumns() {
@@ -134,7 +134,7 @@ export default class AddFromExistingList extends LightningElement {
 
         this.selectListColumns = selectListColumns;
         this.selectColumnLabels = selectColumnLabels;
-   }
+    }
 
     // sets header change
     handleHeaderChange(event) {
@@ -337,12 +337,12 @@ export default class AddFromExistingList extends LightningElement {
 
                     listmembers.push(obj);
                 }
-           });
+            });
 
-           return listmembers;
+            return listmembers;
         }
 
-       return false;
+        return false;
     }
 
     reloadListMembersTable() {
