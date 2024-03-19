@@ -5,7 +5,6 @@
     <externalId>false</externalId>
     <inlineHelpText>Identifies whether the Designation is intended to be published on the internal QUT Staff Portal.</inlineHelpText>
     <label>Is For Staff Giving</label>
-    <securityClassification>Official</securityClassification>
     <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
