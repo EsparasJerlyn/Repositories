@@ -98,9 +98,9 @@ public with sharing class CaseEmailFollowUp_FlowTest {
 
             Test.startTest();
             CaseEmailFlowHelper.sendCustomEmail(new List<CaseEmailFlowHelper.EmailParameters>{emailParams});
+            System.assertEquals(1, Limits.getEmailInvocations(),'Number of email invocations not as expected');
             Test.stopTest();
 
-            System.assertEquals(0, Limits.getEmailInvocations(),'Number of email invocations not as expected');
         }
     }
 
