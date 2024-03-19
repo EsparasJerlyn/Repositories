@@ -10,6 +10,9 @@
         <recordType>Application_Preference__c.QTAC</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Breach__c-Breach Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Case-Case Layout</layout>
         <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
     </layoutAssignments>
