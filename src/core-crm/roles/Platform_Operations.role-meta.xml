@@ -2,8 +2,8 @@
 <Role xmlns="http://soap.sforce.com/2006/04/metadata">
     <caseAccessLevel>Edit</caseAccessLevel>
     <contactAccessLevel>None</contactAccessLevel>
-    <description>Operations</description>
+    <description>Platform Operations</description>
     <mayForecastManagerShare>false</mayForecastManagerShare>
-    <name>Operations</name>
+    <name>Platform Operations</name>
     <opportunityAccessLevel>None</opportunityAccessLevel>
 </Role>
