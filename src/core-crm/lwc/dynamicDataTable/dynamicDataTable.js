@@ -21,6 +21,7 @@ import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableD
 import { NavigationMixin } from "lightning/navigation";
 import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
+import { getRecord } from 'lightning/uiRecordApi';
 import getCurrentUserNavigationType from "@salesforce/apex/UserInfoService.getCurrentUserNavigationType";
 import { isValidUrl } from "c/lwcUtility";
 import Id from "@salesforce/user/Id";
@@ -85,6 +86,14 @@ export default class DynamicDataTable extends NavigationMixin(
       ? true
       : false;
   }
+
+  get reactiveRecordId() {
+    return this.recordId;
+  }
+
+  get reactiveParentId(){
+    return this.parentRecord + '.Id';
+  }  
 
   get numberOfRowsDisplay() {
     if (this.recordCount > 10) {
@@ -246,6 +255,14 @@ export default class DynamicDataTable extends NavigationMixin(
     paramsMap["visibilityByUser"] = this.visibilityByUser;
     paramsMap["visibilityByParent"] = this.visibilityByParent;
     return paramsMap;
+  }
+  
+  @wire(getRecord, { recordId: '$reactiveRecordId', fields: ['$reactiveParentId'] })
+  wiredRecord(result) {
+    this.record = result;
+    if (result.data) {
+        this.handleRefreshData()
+    }
   }
 
   //loads the datatable column,data, and recordcount
