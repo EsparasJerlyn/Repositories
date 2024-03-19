@@ -4,8 +4,8 @@
         <description>[Future Student Enquiry] - New Enquiry Acknowledgement Email Follow-up</description>
         <name>Send_Follow_Up_Email</name>
         <label>Send Follow Up Email</label>
-        <locationX>308</locationX>
-        <locationY>600</locationY>
+        <locationX>176</locationX>
+        <locationY>647</locationY>
         <actionName>CaseEmailFlowHelper</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -46,8 +46,8 @@
     <assignments>
         <name>Add_Merge_Fields</name>
         <label>Add Merge Fields</label>
-        <locationX>308</locationX>
-        <locationY>492</locationY>
+        <locationX>176</locationX>
+        <locationY>539</locationY>
         <assignmentItems>
             <assignToReference>MergeFields</assignToReference>
             <operator>Add</operator>
@@ -69,8 +69,8 @@
     <assignments>
         <name>Assign_Merge_Fields</name>
         <label>Assign Merge Fields</label>
-        <locationX>308</locationX>
-        <locationY>384</locationY>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>SuppliedName.mergeField</assignToReference>
             <operator>Assign</operator>
@@ -89,7 +89,7 @@
             <assignToReference>EmailTemplateDeveloperName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Future_Student_Enquiry_New_Enquiry_Acknowledgement_Email_Follow_up_1708588496628</stringValue>
+                <stringValue>Future_Student_Enquiry_New_Enquiry_Acknowledgement_Email_Initial_1708587231806</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -132,8 +132,8 @@
         </value>
     </constants>
     <environments>Default</environments>
-    <interviewLabel>Case {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Case Email Follow Up</label>
+    <interviewLabel>Case Email INTL {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case Email International Ack</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -156,8 +156,8 @@
     <recordLookups>
         <name>Get_Organization_Wide_From_Email_Address</name>
         <label>Get Organization Wide From Email Address</label>
-        <locationX>308</locationX>
-        <locationY>276</locationY>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Merge_Fields</targetReference>
@@ -177,29 +177,18 @@
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Organization_Wide_From_Email_Address</targetReference>
+        </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterFormula>AND(
     ISPICKVAL({!$Record.Status}, &apos;Created&apos;),
     NOT(ISBLANK({!$Record.SuppliedEmail})),
     {!$Record.RecordType.DeveloperName} = &apos;International_Future_Student_Enquiry&apos;,
-    OR(
-        ISPICKVAL({!$Record.Origin}, &apos;Email&apos;),
-        ISPICKVAL({!$Record.Origin}, &apos;Website&apos;)
-    )
+    ISPICKVAL({!$Record.Origin}, &apos;Website&apos;)
 )</filterFormula>
         <object>Case</object>
-        <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <scheduledPaths>
-            <name>X6_Days_After_Created_Date</name>
-            <connector>
-                <targetReference>Get_Organization_Wide_From_Email_Address</targetReference>
-            </connector>
-            <label>6 Days After Created Date</label>
-            <offsetNumber>6</offsetNumber>
-            <offsetUnit>Days</offsetUnit>
-            <recordField>CreatedDate</recordField>
-            <timeSource>RecordField</timeSource>
-        </scheduledPaths>
+        <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
