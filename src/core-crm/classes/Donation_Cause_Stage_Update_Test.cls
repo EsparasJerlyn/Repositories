@@ -7,7 +7,9 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
+      | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                 |
+      | eugene.andrew.abuan            | March 19, 2024        | DEPP-8211              | Added Active Stage           | 
+
  */
 @isTest
 private class Donation_Cause_Stage_Update_Test {
