@@ -232,10 +232,11 @@ export default class CustomHeaderContainer extends LightningElement {
 
             if (this.objectApiName === 'List__c') {
                 this.listId = this.recordId;
-                this.fetchListContributors();
             } else if (this.objectApiName === 'Engagement_Opportunity__c') {
-                this.fetchList();
-            }           
+                await this.fetchList();
+            }
+
+            this.fetchListContributors();
         } else if (this.tableColumnType === 'Engage' && this.objectApiName === 'Engagement_Opportunity__c') {
             this.tableColumns = this.engageColumns;
             await this.fetchList();
