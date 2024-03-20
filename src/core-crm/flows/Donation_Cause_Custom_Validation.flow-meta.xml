@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <customErrors>
+        <name>Section_Content_Required</name>
+        <label>Section Content Required</label>
+        <locationX>314</locationX>
+        <locationY>647</locationY>
+        <customErrorMessages>
+            <errorMessage>Section 1 Content is required.</errorMessage>
+            <fieldSelection>Ready_For_Publishing__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Section_Header_and_Content_Required</name>
+        <label>Section Header and Content Required</label>
+        <locationX>50</locationX>
+        <locationY>647</locationY>
+        <customErrorMessages>
+            <errorMessage>Section 1 Header and Content are required.</errorMessage>
+            <fieldSelection>Ready_For_Publishing__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Section_Header_Required</name>
+        <label>Section Header Required</label>
+        <locationX>578</locationX>
+        <locationY>647</locationY>
+        <customErrorMessages>
+            <errorMessage>Section 1 Header is required.</errorMessage>
+            <fieldSelection>Ready_For_Publishing__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>Check_Product_Fields</name>
+        <label>Check Product Fields</label>
+        <locationX>446</locationX>
+        <locationY>539</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Section_1_Header_and_Content_Are_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product.Section_1_Content__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product.Section_1_Heading__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Section_Header_and_Content_Required</targetReference>
+            </connector>
+            <label>Section 1 Header and Content Are Empty</label>
+        </rules>
+        <rules>
+            <name>Section_1_Heading_is_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product.Section_1_Heading__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Section_Content_Required</targetReference>
+            </connector>
+            <label>Section 1 Heading is Empty</label>
+        </rules>
+        <rules>
+            <name>Section_1_Content_is_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product.Section_1_Content__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Section_Header_Required</targetReference>
+            </connector>
+            <label>Section 1 Content is Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Product_Has_Detail_Page_field</name>
+        <label>Check Product Has Detail Page field</label>
+        <locationX>732</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Has_Detail_Page_is_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product.Has_Detail_Page__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Product_Fields</targetReference>
+            </connector>
+            <label>Has Detail Page is True</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Donation Cause Custom Error Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Donation Cause Custom Validation</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Product</name>
+        <label>Get Product</label>
+        <locationX>732</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Product_Has_Detail_Page_field</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Donation_Cause__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product2</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>606</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Product</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Ready_For_Publishing__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Ready_For_Publishing__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Donation_Cause__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Title_Image_URL_is_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+
+ISCHANGED(Ready_For_Publishing__c),
+Ready_For_Publishing__c = true,
+ISBLANK(Title_Image_URL__c)
+)</errorConditionFormula>
+    <errorDisplayField>Title_Image_URL__c</errorDisplayField>
+    <errorMessage>Mandatory Field</errorMessage>
+</ValidationRule>
