@@ -4334,8 +4334,7 @@ public class TestDataFactory {
         for (Integer i = 0; i < numOfRecords; i++) {
             donationCauseList.add(
                 new Donation_Cause__c(
-                    Activation_Start_Date__c = System.Today(),
-                    Donation_Cause_Code__c = 'TESTCODE' + i
+                    Activation_Start_Date__c = System.Today()
                 )
             );
         }

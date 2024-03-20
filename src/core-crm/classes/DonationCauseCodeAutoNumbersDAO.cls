@@ -7,7 +7,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | vincent.ferrer                 | March  18, 2024          | DEPP-8200              | Created file
+      | vincent.ferrer                 | March  18, 2024       | DEPP-8200              | Created file                 |
  */
 public inherited sharing class DonationCauseCodeAutoNumbersDAO extends DmlBase implements IDonationCauseCodeAutoNumbersDAO {
     public Schema.SObjectType getSObjectType() {
