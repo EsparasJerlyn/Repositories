@@ -152,7 +152,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Product2</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
