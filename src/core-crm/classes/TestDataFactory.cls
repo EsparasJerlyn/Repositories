@@ -1941,7 +1941,7 @@ public class TestDataFactory {
                 new List_Member__c(
                    List__c = listId,
                    Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
-                   List_Member__c = listMemberId
+                   List_Member__c = listMemberId 
                 )
             );
         }
@@ -1964,7 +1964,7 @@ public class TestDataFactory {
                 new List_Member__c(
                    List__c = listrecords[i].Id,
                    Activity_Status__c = ListMembersDAO.ACCEPTED_ACTIVITY_STATUS,
-                   List_Member__c = listMemberId
+                   List_Member__c = listMemberId 
                 )
             );
         }
@@ -4319,5 +4319,26 @@ public class TestDataFactory {
             );
         }
         return stewardshipList;
+    }
+
+    /**
+     * @description Method for creating test Donation Causes records
+     * @params
+     * numOfRecords - number of records to create
+     * @return donationCauseList - List of Donation Cause records created
+     */
+    public static List<Donation_Cause__c> createDonationCauseRecords(
+        Integer numOfRecords
+    ) {
+        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationCauseList.add(
+                new Donation_Cause__c(
+                    Activation_Start_Date__c = System.Today(),
+                    Donation_Cause_Code__c = 'TESTCODE' + i
+                )
+            );
+        }
+        return donationCauseList;
     }
 }

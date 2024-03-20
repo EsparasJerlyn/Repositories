@@ -55,15 +55,17 @@
             engage-tab={engageTab}
         ></c-list-member-status-modal>
 
-        <c-list-member-import-modal
-            list-id={_listId}
-            onreloadlistmemberstable={reloadListMembersTable}
-            is-show-modal={isShowImportCSVModal}
-            table-columns={tableColumns}
-            record-data={recordData}
-            object-api-name={objectApiName}
-            onchangeshowimportmodal={changeShowImportCSVModal}
-        ></c-list-member-import-modal>
+        <template if:true={_listId}>
+            <c-list-member-import-modal
+                list-id={_listId}
+                onreloadlistmemberstable={reloadListMembersTable}
+                is-show-modal={isShowImportCSVModal}
+                table-columns={tableColumns}
+                record-data={recordData}
+                object-api-name={objectApiName}
+                onchangeshowimportmodal={changeShowImportCSVModal}
+            ></c-list-member-import-modal>
+        </template>
 
         <c-add-from-existing-list
             list-id={_listId}

@@ -44,7 +44,6 @@ export default class CustomHeaderButtons extends LightningElement {
     _listId;
     csvtemp;
     listMemberColumns = [LIST_STAGE];
-    stageValue;
     result;
     showModal;
     showStatusPicklist;
@@ -74,7 +73,7 @@ export default class CustomHeaderButtons extends LightningElement {
     get isDisabledButton() {
         let isDisabled = true;
         if (this.isContributorLinkToList) {
-            isDisabled =  this.stageValue === "Distribute" || this.stageValue === "Closed" || this.isEnableTableWithValidation ? true : false;
+            isDisabled =  this.listStageValue === "Distribute" || this.listStageValue === "Closed" || this.isEnableTableWithValidation ? true : false;
         }
 
         return isDisabled;
@@ -83,10 +82,10 @@ export default class CustomHeaderButtons extends LightningElement {
     get isDisabledBulkStatusChangeButton() {
         let isDisabled = true;
         if(this.isOwner){
-            isDisabled = (this.recordType === 'Distributed_List' && this.stageValue === "In Progress") || 
-                         (this.recordType === 'Engagement_Opportunity' && this.isEngageTab === false) || 
+            isDisabled = (this.recordType === 'Distributed_List' && this.listStageValue === "In Progress") || 
+                         (this.recordType === 'Engagement_Opportunity' && this.isEngageTab === true) || 
                          (this.recordType === 'Engagement_Opportunity' && !this.isContributorLinkToList) || 
-                         this.stageValue === "Closed" ? true : false;
+                         this.listStageValue === "Closed" ? true : false;
         }
         return isDisabled;
     }
@@ -94,25 +93,16 @@ export default class CustomHeaderButtons extends LightningElement {
     get isDisabledAddFromExistingListButton() {
         let isDisabled = true;
         if (this.isContributorLinkToList) {
-            isDisabled = this.stageValue === "Distribute" || this.stageValue === "Closed" ? true : false;
+            isDisabled = this.listStageValue === "Distribute" || this.listStageValue === "Closed" ? true : false;
         }
 
         return isDisabled;
     }
 
     get isDownloadCSVDisabled() {
-        return this.stageValue === "Distribute" ? false : true;
+        return this.listStageValue === "Distribute" ? false : true;
     }
-
-    @wire(getRecord, { recordId: "$recordId", fields: "$listMemberColumns" })
-        wiredList(responseData) {
-        const { data, error } = responseData;
-        if (data) {
-            const fields = data.fields;
-            this.stageValue = fields.Stage__c.value;
-        }
-    }
-
+    
     recordTypeField = [LIST_RECORD_TYPE];
     @wire(getRecord, { recordId: "$listId", fields: "$recordTypeField" })
         wireRecordType(responseData) {

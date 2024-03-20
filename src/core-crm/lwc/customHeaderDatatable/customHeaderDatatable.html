@@ -2,6 +2,7 @@
     <lightning-card>
         <template if:true={isTableWithValidation}>
             <lightning-datatable
+                class="slds-max-medium-table_stacked"
                 key-field="Id"
                 columns={_recordDataToAddColumn}
                 data={_recordDataToAdd}
@@ -29,6 +30,7 @@
         </template>
         <template if:false={isTableWithValidation}>
             <c-custom-datatable-columned
+                class="slds-max-medium-table_stacked"
                 key-field="id"
                 data={recordDataCopy}
                 columns={columns}

@@ -6,16 +6,16 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | john.bo.a.pineda               | May 2, 2022           | DEPP-2403              | Created file                 |
-      | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store     |
-      | kathy.cornejo                  | July 1, 2022          | DEPP-3303,3367         | Updated decommission logic   |
-      | eugene.andrew.abuan            | July 29, 2022         | DEPP-3534              | Added Do no show start date logic   |
-      | eugene.andrew.abuan            | August 15, 2022       | DEPP-2665              | Updated IncludeProductToStore       |
-      | eugene.andrew.abuan            | September 2, 2022     | DEPP-3762              | Updated validateDoNotShowStartDate  |
-      | eugene.andrew.abuan            | September 5, 2022     | DEPP-4102              | Added Program without Pathway       |
-      |                                |                       |                        |                                     |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                          |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------|
+      | john.bo.a.pineda               | May 2, 2022           | DEPP-2403              | Created file                            |
+      | john.bo.a.pineda               | May 13, 2022          | DEPP-2591              | Updated to load to Store                |
+      | kathy.cornejo                  | July 1, 2022          | DEPP-3303,3367         | Updated decommission logic              |
+      | eugene.andrew.abuan            | July 29, 2022         | DEPP-3534              | Added Do no show start date logic       |
+      | eugene.andrew.abuan            | August 15, 2022       | DEPP-2665              | Updated IncludeProductToStore           |
+      | eugene.andrew.abuan            | September 2, 2022     | DEPP-3762              | Updated validateDoNotShowStartDate      |
+      | eugene.andrew.abuan            | September 5, 2022     | DEPP-4102              | Added Program without Pathway           |
+      | roy.nino.s.regala              | March, 15, 2022       | DEPP-8210              | Isolate child products of donation cause|
 
  */
 public without sharing class Product2TriggerHandler implements Disableable, BeforeUpdate, AfterUpdate {
@@ -645,7 +645,9 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         && prod.Child_Of_Prescribed_Program__c == false //do not include child of prescribed program
       ) {
         prod.Available_on_Cart__c = true;
-      } else {
+        //only set to false if not a child of donation cause for now.
+        //this added logic might be updated in the future
+      } else if(prod.Donation_Cause__c == null){ 
         prod.Available_on_Cart__c = false;
       } 
 
@@ -655,7 +657,10 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod2Old.get(prod.Id).Publishing_End_date__c !=
         prod.Publishing_End_date__c) && 
         prod.Decommission_Product__c == true && 
-        prod.Publishing_End_date__c <= date.today()
+        prod.Publishing_End_date__c <= date.today() &&
+        //only set deactivate if not a child of donation cause.
+        //this logic might be updated in the future
+        prod.Donation_Cause__c == null 
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;
