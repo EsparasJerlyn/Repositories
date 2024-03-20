@@ -51,36 +51,20 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
-    <assignments>
-        <name>Count_Related_Product2</name>
-        <label>Count Related Product2</label>
-        <locationX>314</locationX>
-        <locationY>431</locationY>
-        <assignmentItems>
-            <assignToReference>Product2Checker</assignToReference>
-            <operator>AssignCount</operator>
-            <value>
-                <elementReference>Get_Related_Product2</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Check_Product2_Child_Record</targetReference>
-        </connector>
-    </assignments>
     <decisions>
         <name>Check_Product2_Child_Record</name>
         <label>Check Product2 Child Record</label>
         <locationX>314</locationX>
-        <locationY>539</locationY>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Product2Exists</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Product2Checker</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>Get_Related_Product2</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <numberValue>0.0</numberValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -116,7 +100,7 @@
         <name>Create_Child_Record</name>
         <label>Create Child Record</label>
         <locationX>50</locationX>
-        <locationY>647</locationY>
+        <locationY>539</locationY>
         <faultConnector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
@@ -155,7 +139,7 @@
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Count_Related_Product2</targetReference>
+            <targetReference>Check_Product2_Child_Record</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
@@ -168,7 +152,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Product2</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
@@ -198,12 +182,4 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <variables>
-        <name>Product2Checker</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <scale>0</scale>
-    </variables>
 </Flow>
