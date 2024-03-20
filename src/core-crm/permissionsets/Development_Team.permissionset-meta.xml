@@ -2591,6 +2591,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>hed__Course_Offering__c.LMS_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>hed__Plan_Requirement__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>

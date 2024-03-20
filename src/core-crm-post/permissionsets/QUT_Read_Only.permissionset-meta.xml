@@ -11093,6 +11093,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>hed__Course_Offering__c.LMS_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>hed__Credential__c.hed__Abbreviation__c</field>
         <readable>true</readable>
     </fieldPermissions>
