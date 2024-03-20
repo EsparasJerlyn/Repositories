@@ -14,6 +14,7 @@
  *    | eugene.andrew.abuan       | August 14, 2023       | DEPP-6331            | Added newActionTypeLabel property                                           |
  *    | roy.nino.s.regala         | August 25, 2023       | DEPP-6348            | flatten inner fields,added user access checker, and dynamic link access     |
  *    | roy.nino.s.regala         | Feb 28, 2023          | DEPP-8155            | enable locking of edit button of related list by parent field               |
+ *    | roy.nino.s.regala         | March 19, 2024        | DEPP-7885            | refresh table on parent updates                                             |
  *
  */
 import { LightningElement, api, track, wire } from "lwc";
@@ -21,6 +22,7 @@ import getTableDataWrapper from "@salesforce/apex/DynamicDataTableCtrl.getTableD
 import { NavigationMixin } from "lightning/navigation";
 import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
+import { getRecord } from 'lightning/uiRecordApi';
 import getCurrentUserNavigationType from "@salesforce/apex/UserInfoService.getCurrentUserNavigationType";
 import { isValidUrl } from "c/lwcUtility";
 import Id from "@salesforce/user/Id";
@@ -85,6 +87,14 @@ export default class DynamicDataTable extends NavigationMixin(
       ? true
       : false;
   }
+
+  get reactiveRecordId() {
+    return this.recordId;
+  }
+
+  get reactiveParentId(){
+    return this.parentRecord + '.Id';
+  }  
 
   get numberOfRowsDisplay() {
     if (this.recordCount > 10) {
@@ -246,6 +256,14 @@ export default class DynamicDataTable extends NavigationMixin(
     paramsMap["visibilityByUser"] = this.visibilityByUser;
     paramsMap["visibilityByParent"] = this.visibilityByParent;
     return paramsMap;
+  }
+  
+  @wire(getRecord, { recordId: '$reactiveRecordId', fields: ['$reactiveParentId'] })
+  wiredRecord(result) {
+    this.record = result;
+    if (result.data) {
+        this.handleRefreshData()
+    }
   }
 
   //loads the datatable column,data, and recordcount
