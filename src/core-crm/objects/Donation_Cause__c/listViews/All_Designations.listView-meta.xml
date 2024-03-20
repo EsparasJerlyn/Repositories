@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>All_Donation_Causes</fullName>
+    <fullName>All_Designations</fullName>
     <columns>NAME</columns>
-    <columns>Donation_Cause_Code__c</columns>
+    <columns>Designation_Code__c</columns>
     <columns>Stage__c</columns>
     <columns>Owner_Full_Name__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
-    <label>All Donation Causes</label>
+    <label>All Designations</label>
     <sharedTo>
         <group>Advancement</group>
     </sharedTo>

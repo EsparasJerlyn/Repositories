@@ -143,7 +143,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Donation Cause stores the donation cause (or ‘designation’) data that a donor can donate to as well as data relating to setting up a new donation cause and publishing the cause on the QUT website.</description>
+    <description>Designation stores the designation (or ‘designation’) data that a donor can donate to as well as data relating to setting up a new designation and publishing the cause on the QUT website.</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -154,15 +154,15 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Donation Cause</label>
+    <label>Designation</label>
     <nameField>
-        <label>Donation Cause</label>
+        <label>Designation</label>
         <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Donation Causes</pluralLabel>
+    <pluralLabel>Designations</pluralLabel>
     <searchLayouts>
-        <searchResultsAdditionalFields>Donation_Cause_Code__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Designation_Code__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Stage__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Owner_Full_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
