@@ -482,8 +482,4 @@
     <layoutAssignments>
         <layout>hed__Program_Plan__c-Program Page Layout</layout>
     </layoutAssignments>
-    <tabVisibilities>
-        <tab>Breach__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
 </Profile>
