@@ -44,7 +44,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.hed__Program_Plan__c</fieldItem>
                 <identifier>Recordhed_Program_Plan_cField</identifier>
@@ -67,7 +67,7 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Commencement_Date__c</fieldItem>
-                <identifier>RecordCommencement_Date_cField2</identifier>
+                <identifier>RecordCommencement_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -77,7 +77,99 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Discontinued_Date__c</fieldItem>
-                <identifier>RecordDiscontinued_Date_cField2</identifier>
+                <identifier>RecordDiscontinued_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-4002a26c-f10c-425e-8050-aa5ef9fccc7c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__Admission_Date__c</fieldItem>
+                <identifier>Recordhed_Admission_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__Enrollment_Status__c</fieldItem>
+                <identifier>Recordhed_Enrollment_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Completion_Date__c</fieldItem>
+                <identifier>RecordCompletion_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Academic_Status__c</fieldItem>
+                <identifier>RecordAcademic_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-4e267836-df43-4f02-9701-5201248e138d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-4002a26c-f10c-425e-8050-aa5ef9fccc7c</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-4e267836-df43-4f02-9701-5201248e138d</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d4af89b5-5475-4e60-8151-0677b8c2a6b4</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.hed__GPA__c</fieldItem>
+                <identifier>Recordhed_GPA_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -117,63 +209,13 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Visa_Status__c</fieldItem>
-                <identifier>RecordVisa_Status_cField2</identifier>
+                <identifier>RecordVisa_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-20e01279-b7f6-4f8e-b7d8-00e262838e0a</name>
+        <name>Facet-adb67ab4-795e-4de7-9309-1dcf58f65e97</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Name</fieldItem>
-                <identifier>RecordNameField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.hed__Admission_Date__c</fieldItem>
-                <identifier>Recordhed_Admission_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Enrollment_Status__c</fieldItem>
-                <identifier>Recordhed_Enrollment_Status_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Completion_Date__c</fieldItem>
-                <identifier>RecordCompletion_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.hed__GPA__c</fieldItem>
-                <identifier>Recordhed_GPA_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -204,7 +246,7 @@
                 <identifier>RecordVisa_End_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-2f6ff679-acf3-403b-9737-3d1ba574af9e</name>
+        <name>Facet-e4772f82-5cd5-45c1-af4c-35498cb6d478</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -212,23 +254,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-20e01279-b7f6-4f8e-b7d8-00e262838e0a</value>
+                    <value>Facet-adb67ab4-795e-4de7-9309-1dcf58f65e97</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column</identifier>
+                <identifier>flexipage_column5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-2f6ff679-acf3-403b-9737-3d1ba574af9e</value>
+                    <value>Facet-e4772f82-5cd5-45c1-af4c-35498cb6d478</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column2</identifier>
+                <identifier>flexipage_column6</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-65efed33-42e2-4286-a73f-e82c73ac4fa2</name>
+        <name>Facet-fc1776a5-4da7-415a-867d-1a569c27b2d1</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -236,7 +278,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-65efed33-42e2-4286-a73f-e82c73ac4fa2</value>
+                    <value>Facet-d4af89b5-5475-4e60-8151-0677b8c2a6b4</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>horizontalAlignment</name>
@@ -244,10 +286,28 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Summary</value>
+                    <value>Program Enrollment Summary</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection</identifier>
+                <identifier>flexipage_fieldSection2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-fc1776a5-4da7-415a-867d-1a569c27b2d1</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Program Enrollment Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-749017cd-147e-4945-8e56-67ed2a59b359</name>
