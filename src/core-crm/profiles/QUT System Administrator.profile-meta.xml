@@ -248,6 +248,9 @@
         <layout>SMS_Template__c-SMS Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Success_Plan__c-Success Plan Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Task-SMS Layout</layout>
         <recordType>Task.SMS</recordType>
     </layoutAssignments>

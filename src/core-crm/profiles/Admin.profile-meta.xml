@@ -6074,6 +6074,9 @@
         <layout>Solution-Solution Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Success_Plan__c-Success Plan Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Task-SMS Layout</layout>
         <recordType>Task.SMS</recordType>
     </layoutAssignments>
