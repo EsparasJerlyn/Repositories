@@ -1,10 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Action</name>
+        <label>Error Action</label>
+        <locationX>842</locationX>
+        <locationY>431</locationY>
+        <actionName>FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Save_Log</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Donation_Cause_Create_Child_Product</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>loggingLevelName</name>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error in Donation Cause Create Child Product</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>FlowLogEntry</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Save_Log</name>
+        <label>Save Log</label>
+        <locationX>842</locationX>
+        <locationY>539</locationY>
+        <actionName>Logger</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>Logger</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Count_Related_Product2</name>
         <label>Count Related Product2</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>Product2Checker</assignToReference>
@@ -20,7 +70,7 @@
     <decisions>
         <name>Check_Product2_Child_Record</name>
         <label>Check Product2 Child Record</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>539</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -67,6 +117,10 @@
         <label>Create Child Record</label>
         <locationX>50</locationX>
         <locationY>647</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>Description</field>
             <value>
@@ -97,12 +151,15 @@
     <recordLookups>
         <name>Get_Related_Product2</name>
         <label>Get Related Product2</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Count_Related_Product2</targetReference>
         </connector>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Donation_Cause__c</field>
@@ -116,7 +173,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>56</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Related_Product2</targetReference>
