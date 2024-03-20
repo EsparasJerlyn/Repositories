@@ -6812,6 +6812,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
+        <tab>Breach__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>International_Tier__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
