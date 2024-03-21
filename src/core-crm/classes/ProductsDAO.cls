@@ -28,7 +28,7 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             return new List<Product2>();
         }
         return Database.query(
-            'SELECT Id, Name, Donation_Cause__c, Description, Overview__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c, Available_on_Cart__c ' +
+            'SELECT Id, Name, Description, Overview__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c, Available_on_Cart__c ' +
             'FROM Product2 ' +
             'WHERE Id IN :productIdSet ',
             accessLevel
