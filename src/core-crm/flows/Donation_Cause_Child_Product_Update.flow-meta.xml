@@ -101,6 +101,18 @@
                 <elementReference>AvailableOnCartFormula</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>$Record.Donation_Cause_Description__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>$Record.Name</elementReference>
+            </value>
+        </inputAssignments>
         <object>Product2</object>
     </recordUpdates>
     <start>

@@ -20,6 +20,25 @@
         <members>Donation_Cause__c.Is_QUT_Giving_Cause__c</members>
         <members>Donation_Cause__c.Is_Staff_Giving_Cause__c</members>
         <!-- Start DEPP-8056 -->
+        <!-- Start DEPP-7239 -->
+        <members>Product2.Ranking__c</members>
+        <members>Product2.Section_4_Heading__c</members>
+        <members>Product2.Section_4_Content__c</members>
+        <members>Product2.Section_4_Image_Video_URL__c</members>
+        <members>Product2.Section_4_Image_Video_Page_Location__c</members>
+        <members>Product2.Section_5_Heading__c</members>
+        <members>Product2.Section_5_Content__c</members>
+        <members>Product2.Section_5_Image_Video_URL__c</members>
+        <members>Product2.Section_5_Image_Video_Page_Location__c</members>
+        <members>Product2.Section_6_Heading__c</members>
+        <members>Product2.Section_6_Content__c</members>
+        <members>Product2.Section_6_Image_Video_URL__c</members>
+        <members>Product2.Section_6_Image_Video_Page_Location__c</members>
+        <members>Product2.Section_7_Heading__c</members>
+        <members>Product2.Section_7_Content__c</members>
+        <members>Product2.Section_7_Image_Video_URL__c</members>
+        <members>Product2.Section_7_Image_Video_Page_Location__c</members>
+        <!-- End DEPP-7239 -->
         <name>CustomField</name>
     </types>    
     <types>
