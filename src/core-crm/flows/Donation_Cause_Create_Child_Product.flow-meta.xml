@@ -162,14 +162,8 @@
         <connector>
             <targetReference>Get_Related_Product2</targetReference>
         </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
-        <filters>
-            <field>Is_For_Public_Giving__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
         <filters>
             <field>Is_For_Public_Giving__c</field>
             <operator>EqualTo</operator>

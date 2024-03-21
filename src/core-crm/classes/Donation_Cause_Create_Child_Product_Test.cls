@@ -39,34 +39,15 @@ private class Donation_Cause_Create_Child_Product_Test {
                 .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
-            List <Product2> prodList =  ProductsDAO.newInstance().getProductById(new Map<Id, Donation_Cause__c>(donationCauseList).keySet(), AccessLevel.USER_MODE);
-            
-            for (Donation_Cause__c donCauseRec: donationCauseList) {
-                Boolean isCreated = checkDonationCauseId (donCauseRec.Id, prodList);
-
-                if(!isCreated){
-                    System.AssertEquals(
-                        donCauseRec.Is_For_Public_Giving__c,
-                        DC_PUBLICGIVING,
-                        'Product has been created for Donation Cause Record'
-                    );
-                } else {
-                    System.AssertEquals(
-                        donCauseRec.Is_For_Public_Giving__c,
-                        DC_PUBLICGIVING,
-                        'Product should be created'
-                    );
-                }     
+            for (
+                Donation_Cause__c eachDonCause : DonationCausesDAO.newInstance()
+                    .getDonationCausesBySetRecordIds(
+                        (new Map <Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                         AccessLevel.USER_MODE
+                )
+             ) {
+                system.assert(!eachDonCause.Products__r.isEmpty(), 'Products should be created');   
             }
         }
     }
-
-    private static Boolean checkDonationCauseId (Id donationCauseId, List<Product2> productList){
-        Boolean isCreated = False;
-        for (Product2 eachProd : productList) {
-            if (eachProd.Donation_Cause__c == donationCauseId) {
-                isCreated = true;
-            } 
-        } return isCreated;
     }
-}
