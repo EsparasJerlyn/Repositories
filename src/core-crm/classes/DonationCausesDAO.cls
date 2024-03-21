@@ -52,7 +52,7 @@ public inherited sharing class DonationCausesDAO extends DmlBase implements IDon
             'FROM Donation_Cause__c ' +
             'WHERE ' +
             stageToPublishRule +
-            'OR ' +
+            ' OR ' +
             stageToActiveRule;
 
         return Database.getQueryLocator(queryFilter);
