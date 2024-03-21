@@ -31,7 +31,7 @@ private class Donation_Cause_Create_Child_Product_Test {
                 .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
 
             for (Donation_Cause__c dc : donationCauseList) {
-                dc.Is_For_Public_Giving__c = 'Yes';
+                dc.Is_For_Public_Giving__c = DC_PUBLICGIVING;
             }
 
             Test.startTest();
