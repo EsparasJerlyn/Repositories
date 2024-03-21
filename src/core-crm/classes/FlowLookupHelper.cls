@@ -363,7 +363,7 @@ public inherited sharing class FlowLookupHelper {
             fieldMap.get(searchField).getDescribe().getType().name() == 'Email' ||
             fieldMap.get(searchField).getDescribe().getType().name() == 'Picklist')
         ) {
-            searchFieldList.add(searchField + ' LIKE \'%' + searchTerm + '%\'');
+            searchFieldList.add(searchField + ' LIKE \'%' + String.escapeSingleQuotes(searchTerm) + '%\'');
         }
     }
 }
