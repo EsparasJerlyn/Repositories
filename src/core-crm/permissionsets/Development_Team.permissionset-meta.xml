@@ -1026,11 +1026,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Case__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Engagement_List_Configuration__c.Communication_Channel__c</field>
         <readable>true</readable>
     </fieldPermissions>
