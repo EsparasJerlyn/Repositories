@@ -21,7 +21,7 @@
         <sharedToType>Group</sharedToType>
     </folderShares>
     <folderShares>
-        <accessLevel>EditAllContents</accessLevel>
+        <accessLevel>Manage</accessLevel>
         <sharedTo>System_Administrator</sharedTo>
         <sharedToType>Group</sharedToType>
     </folderShares>
