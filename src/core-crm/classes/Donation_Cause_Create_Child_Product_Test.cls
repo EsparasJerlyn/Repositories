@@ -18,6 +18,14 @@ private class Donation_Cause_Create_Child_Product_Test {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
         Test.stopTest();
+
+        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        donationCauseCodeAutoNum.Donation_Cause__c = 1;
+        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+        );
     }
 
     @isTest
