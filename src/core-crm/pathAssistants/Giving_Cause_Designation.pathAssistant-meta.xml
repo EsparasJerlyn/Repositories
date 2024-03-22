@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
     <active>true</active>
-    <entityName>Donation_Cause__c</entityName>
+    <entityName>Designation__c</entityName>
     <fieldName>Stage__c</fieldName>
-    <masterLabel>Donation Cause</masterLabel>
+    <masterLabel>Giving Cause - Designation</masterLabel>
     <pathAssistantSteps>
-        <info>&lt;ul&gt;&lt;li&gt;‘Active’ indicates that the Giving Cause is not available on QUT Givings webpage for public to donate. However, the system will continue to process recurring donations for the cause.&lt;/li&gt;&lt;li&gt;An active donation cause may be also available to Staff for internal giving.&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;‘Active’ indicates that the Giving Cause is not available on QUT Givings webpage for public to donate. However, the system will continue to process recurring donations for the cause.&lt;/li&gt;&lt;li&gt;An active donation cause may be also available to Staff for internal giving.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
         <picklistValueName>Active</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;ul&gt;&lt;li&gt;‘Archive’ indicates that the Giving Cause has been discontinued and none of the donation records are active for receiving the donations.&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;‘Archive’ indicates that the Giving Cause has been discontinued and none of the donation records are active for receiving the donations.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
         <picklistValueName>Archived</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
@@ -17,8 +17,8 @@
         <picklistValueName>Define</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
-        <info>&lt;ul&gt;&lt;li&gt;‘Published’ indicates that the Giving Cause is available on QUT Givings webpage for public to donate.&lt;/li&gt;&lt;/ul&gt;</info>
+        <info>&lt;ul&gt;&lt;li&gt;‘Published’ indicates that the Giving Cause is available on QUT Givings webpage for public to donate.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
         <picklistValueName>Published</picklistValueName>
     </pathAssistantSteps>
-    <recordTypeName>__MASTER__</recordTypeName>
+    <recordTypeName>Giving_Cause</recordTypeName>
 </PathAssistant>

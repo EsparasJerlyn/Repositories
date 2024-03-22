@@ -97,6 +97,9 @@
         <!--(Start) DEPP-8114-->
         <members>Stewardship</members>
         <!--(End) DEPP-8114-->
+        <!--(Start) DEPP-8207-->
+        <members>Donation_Cause</members>
+        <!--(End) DEPP-8207-->
         <name>PathAssistant</name>
     </types>
     <types>
