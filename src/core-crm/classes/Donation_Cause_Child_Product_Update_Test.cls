@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
+      | eugene.andrew.abuan            | March 22, 2024        | DEPP-8200              | Added Donation Cause in Setup|
  */
 @isTest
 private class Donation_Cause_Child_Product_Update_Test {
@@ -15,6 +16,15 @@ private class Donation_Cause_Child_Product_Update_Test {
     static void setupData() {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+
+        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        donationCauseCodeAutoNum.Donation_Cause__c = 1;
+        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+            );
+
         Test.stopTest();
     }
 

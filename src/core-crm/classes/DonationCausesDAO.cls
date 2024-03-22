@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------------------------|
       | roy.nino.s.regala              | March 14, 2024        | DEPP-8210              | Created file                                   |
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage params for query Selector   |         
+      | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause Code in query by Id       |
 
 */
 
@@ -64,7 +65,7 @@ public inherited sharing class DonationCausesDAO extends DmlBase implements IDon
     ) {
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Stage__c, Id, (Select Id FROM Products__r) ' + 'FROM Donation_Cause__c WHERE Id IN :recordIds',
+                'SELECT Stage__c, Id, Donation_Cause_Code__c, (Select Id FROM Products__r) ' + 'FROM Donation_Cause__c WHERE Id IN :recordIds',
                 accessLevel
             );
         } else {

@@ -106,7 +106,7 @@
         </rules>
         <rules>
             <name>Active</name>
-            <conditionLogic>(1 OR 2 OR 3 OR 4 OR 5) AND 6 AND 7 AND 8 AND (9 OR 10 OR 11) AND 12 AND 13</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3 OR 4 OR 5 OR 14) AND 6 AND 7 AND (8 OR 9 OR 10 OR 11) AND 12 AND 13</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Activation_Start_Date__c</leftValueReference>
                 <operator>IsChanged</operator>
@@ -198,6 +198,13 @@
                     <stringValue>Archived</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>IsNew</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Set_Stage_to_Active</targetReference>
             </connector>
@@ -206,6 +213,11 @@
     </decisions>
     <description>Triggered Flow that contains the Donation Cause Stage Business Rules</description>
     <environments>Default</environments>
+    <formulas>
+        <name>IsNew</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
     <interviewLabel>Donation Cause Stage Update {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Donation Cause Stage Update</label>
     <processMetadataValues>
