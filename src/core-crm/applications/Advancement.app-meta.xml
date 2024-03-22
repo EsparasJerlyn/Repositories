@@ -250,62 +250,62 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Designation_Record_Page</content>
+        <content>Donation_Cause_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation_Cause__c</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>Advancement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Designation_Record_Page</content>
+        <content>Donation_Cause_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation_Cause__c</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>Advancement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Designation_Record_Page</content>
+        <content>Donation_Cause_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation_Cause__c</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Designation_Record_Page</content>
+        <content>Donation_Cause_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation_Cause__c</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Designation_Record_Page</content>
+        <content>Donation_Cause_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation_Cause__c</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Designation_Record_Page</content>
+        <content>Donation_Cause_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation_Cause__c</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Opportunity</tabs>
-    <tabs>Designation__c</tabs>
+    <tabs>Donation_Cause__c</tabs>
     <tabs>Stewardship__c</tabs>
     <tabs>List__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
-            <tab>Designation__c</tab>
+            <tab>Donation_Cause__c</tab>
         </mappings>
         <mappings>
             <tab>List__c</tab>
