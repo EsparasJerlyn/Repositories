@@ -159,9 +159,10 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Engagement List Criteria</label>
     <nameField>
+        <displayFormat>ELC-{000000}</displayFormat>
         <label>Engagement List Criteria Name</label>
         <trackHistory>true</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Engagement List Criteria</pluralLabel>
     <searchLayouts></searchLayouts>
