@@ -124,21 +124,24 @@ public with sharing class CodeGeneratorService {
      */
     public static void generateCodeForDonationCauseRecords(List<Donation_Cause__c> newItems) {
         Donation_Cause_Code_Auto_Number__c donCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        Integer autoNumber = Integer.valueOf(donCauseCodeAutoNum.Donation_Cause__c);
-        for(Donation_Cause__c newItem : newItems) {
-            
+        
+        if(donCauseCodeAutoNum.Donation_Cause__c != null){
+            Integer autoNumber = Integer.valueOf(donCauseCodeAutoNum.Donation_Cause__c);
+
+            for(Donation_Cause__c newItem : newItems) {
                 String codePrefix = 'ADVDC';
                 String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
                 newItem.Donation_Cause_Code__c = codePrefix + ':' + codeNumber;
                 autoNumber++;
-            
-        }
-        donCauseCodeAutoNum.Donation_Cause__c = autoNumber;
-        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Donation_Cause_Code_Auto_Number__c>{donCauseCodeAutoNum}, 
-            false, 
-            AccessLevel.SYSTEM_MODE
+            }
+
+            donCauseCodeAutoNum.Donation_Cause__c = autoNumber;
+            DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
+                new List<Donation_Cause_Code_Auto_Number__c>{donCauseCodeAutoNum}, 
+                false, 
+                AccessLevel.SYSTEM_MODE
             );
+        }
     }
     
     /** 

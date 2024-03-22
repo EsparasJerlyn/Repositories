@@ -87,6 +87,12 @@
         <relatedList>RelatedActivityList</relatedList>
     </relatedLists>
     <relatedLists>
+        <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <relatedList>RelatedContentNoteList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>PRODUCT2.NAME</fields>
         <fields>PRODUCT2.CUSTOMER_PRODUCT_ID</fields>
         <fields>PRODUCT2.DESCRIPTION</fields>
@@ -111,7 +117,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBn0000033QU5</masterLabel>
+        <masterLabel>00hBm000004FoOn</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

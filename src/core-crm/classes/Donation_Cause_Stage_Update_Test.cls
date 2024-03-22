@@ -17,6 +17,15 @@ private class Donation_Cause_Stage_Update_Test {
     static void setupData() {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+
+        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        donationCauseCodeAutoNum.Donation_Cause__c = 1;
+        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+            );
+            
         Test.stopTest();
     }
 
