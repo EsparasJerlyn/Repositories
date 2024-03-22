@@ -65,7 +65,7 @@ public inherited sharing class DonationCausesDAO extends DmlBase implements IDon
     ) {
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Stage__c, Id, Donation_Cause_Code__c ' + 'FROM Donation_Cause__c WHERE Id IN :recordIds',
+                'SELECT Stage__c, Id, Donation_Cause_Code__c, (Select Id FROM Products__r) ' + 'FROM Donation_Cause__c WHERE Id IN :recordIds',
                 accessLevel
             );
         } else {
