@@ -3,7 +3,7 @@
     <fullName>Migration_Key__c</fullName>
     <caseSensitive>true</caseSensitive>
     <description>Used for migration data provenance and migration activity</description>
-    <externalId>false</externalId>
+    <externalId>true</externalId>
     <label>Migration Key</label>
     <length>255</length>
     <required>false</required>

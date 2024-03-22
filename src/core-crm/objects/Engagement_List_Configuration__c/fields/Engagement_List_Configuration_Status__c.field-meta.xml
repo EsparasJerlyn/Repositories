@@ -14,9 +14,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Draft (Default)</fullName>
-                <default>false</default>
-                <label>Draft (Default)</label>
+                <fullName>Draft</fullName>
+                <default>true</default>
+                <label>Draft</label>
             </value>
             <value>
                 <fullName>Pending Approval</fullName>

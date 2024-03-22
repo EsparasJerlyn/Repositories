@@ -3,7 +3,7 @@
     <fullName>Migration_ID__c</fullName>
     <caseSensitive>true</caseSensitive>
     <description>Used by migration framework for data movement</description>
-    <externalId>false</externalId>
+    <externalId>true</externalId>
     <label>Migration ID</label>
     <length>255</length>
     <required>false</required>

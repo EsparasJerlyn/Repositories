@@ -3,7 +3,7 @@
     <fullName>External_ID__c</fullName>
     <caseSensitive>true</caseSensitive>
     <description>Used by integration to maintain external source data</description>
-    <externalId>false</externalId>
+    <externalId>true</externalId>
     <label>External ID</label>
     <length>255</length>
     <required>false</required>
