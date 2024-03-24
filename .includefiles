@@ -2,4 +2,6 @@
 #
 
 
-## R1B release files already in main branch. Remove after release/IT1Feb is deployed to production
+## Files already in main branch
+
+src/core-crm/email/QUTIntFutureStudentAppointmentTemplates-meta.xml
