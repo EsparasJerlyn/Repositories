@@ -115,6 +115,28 @@ public class FlowLookupControllerTest {
     }
 
     @isTest
+    private static void getContactSearchResultForPartnershipManagerTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1); 
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+
+            String whereClause = 'Name = \'Test0 Contact0\'';
+            List<SObject> records = FlowLookupController.search(
+                'test',
+                'Contact',
+                'Name',
+                'Id',
+                1,
+                whereClause,
+                'Name DESC'
+            );
+            System.assertEquals(1, records.size(), '1 record should be returned in this test case');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
     private static void getSearchResultMultipleFieldsForOperationsManagerTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getOperationsManager()) {
