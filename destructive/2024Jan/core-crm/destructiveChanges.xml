@@ -19,6 +19,10 @@
         <members>Donation_Cause__c.Donation_Cause__c</members>
         <members>Donation_Cause__c.Is_QUT_Giving_Cause__c</members>
         <members>Donation_Cause__c.Is_Staff_Giving_Cause__c</members>
+        <members>Donation_Cause__c.Is_For_Private_Giving__c</members>
+        <members>Donation_Cause__c.Is_For_Public_Giving__c</members>
+        <members>Donation_Cause__c.Is_For_Staff_Giving__c</members>
+        <members>Donation_Cause__c.Owner_Full_Name__c</members>
         <!-- Start DEPP-8056 -->
         <!-- Start DEPP-7239 -->
         <members>Product2.Ranking__c</members>
