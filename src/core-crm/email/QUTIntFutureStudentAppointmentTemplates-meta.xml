@@ -5,7 +5,11 @@
         <sharedTo>Future_Student_Super_User_International</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
-
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>System_Administrator</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
     <folderShares>
         <accessLevel>View</accessLevel>
         <sharedTo>Future_Student_Super_User_International</sharedTo>
