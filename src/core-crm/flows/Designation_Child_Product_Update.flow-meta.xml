@@ -20,7 +20,7 @@
         <inputParameters>
             <name>flowName</name>
             <value>
-                <stringValue>Donation Cause Child Product Update</stringValue>
+                <stringValue>Designation Child Product Update</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -32,7 +32,7 @@
         <inputParameters>
             <name>message</name>
             <value>
-                <stringValue>Error on Donation Cause Child Product Update</stringValue>
+                <stringValue>Error on Designation Child Product Update</stringValue>
             </value>
         </inputParameters>
         <nameSegment>FlowLogEntry</nameSegment>
@@ -51,15 +51,15 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
-    <description>Trigger Flow that contains business rules related to child products of a Donation Cause.</description>
+    <description>Trigger Flow that contains business rules related to child products of a Designation.</description>
     <environments>Default</environments>
     <formulas>
         <name>AvailableOnCartFormula</name>
         <dataType>Boolean</dataType>
         <expression>ISPICKVAL({!$Record.Stage__c}, &apos;Published&apos;)</expression>
     </formulas>
-    <interviewLabel>Donation Cause Child Product Update {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Donation Cause Child Product Update</label>
+    <interviewLabel>Designation Child Product Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Designation Child Product Update</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

@@ -1,5 +1,5 @@
 /**
- * @description test class for DonationCauseStageUpdateBatch
+ * @description test class for DesignationStageUpdateBatch
  * 
  * @author Accenture
  *
@@ -12,7 +12,7 @@
 
  */
 @isTest
-private class DonationCauseStageUpdateBatchTest {
+private class DesignationStageUpdateBatchTest {
     @testSetup
     static void setupDate() {
         Test.startTest();
@@ -23,26 +23,26 @@ private class DonationCauseStageUpdateBatchTest {
     @isTest
     private static void forPublishedBatchTest() {
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 1
             );
 
-            donationCauseList[0].Ready_For_Publishing__c = true;
-            donationCauseList[0].QUT_Giving_Publish_Start_Date__c = System.Today();
-            donationCauseList[0].QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+            designationList[0].Ready_For_Publishing__c = true;
+            designationList[0].QUT_Giving_Publish_Start_Date__c = System.Today();
+            designationList[0].QUT_Giving_Publish_End_Date__c = System.Today() + 1;
 
-            DonationCausesDAO.newInstance()
-                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
             Test.startTest();
-            DonationCauseStageUpdateBatch batch = new DonationCauseStageUpdateBatch();
+            DesignationStageUpdateBatch batch = new DesignationStageUpdateBatch();
             Database.executeBatch(batch);
             Test.stopTest();
 
             System.assertEquals(
-                DonationCausesDAO.DC_PUBLISHED,
-                DonationCausesDAO.newInstance()
-                        .getDonationCausesBySetRecordIds(new Set<Id>{ donationCauseList[0].Id }, AccessLevel.SYSTEM_MODE)[0]
+                DesignationsDAO.DC_PUBLISHED,
+                DesignationsDAO.newInstance()
+                        .getDesignationsBySetRecordIds(new Set<Id>{ designationList[0].Id }, AccessLevel.SYSTEM_MODE)[0]
                     .Stage__c,
                 'Stage should be published'
             );
@@ -52,26 +52,26 @@ private class DonationCauseStageUpdateBatchTest {
     @isTest
     private static void forActiveBatchTest() {
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 1
             );
-            donationCauseList[0].QUT_Giving_Publish_Start_Date__c = System.Today() + 1;
-            donationCauseList[0].Ready_For_Publishing__c = true;
-            donationCauseList[0].QUT_Giving_Publish_End_Date__c = System.Today();
-            donationCauseList[0].Activation_End_Date__c = System.Today() + 1;
+            designationList[0].QUT_Giving_Publish_Start_Date__c = System.Today() + 1;
+            designationList[0].Ready_For_Publishing__c = true;
+            designationList[0].QUT_Giving_Publish_End_Date__c = System.Today();
+            designationList[0].Activation_End_Date__c = System.Today() + 1;
 
-            DonationCausesDAO.newInstance()
-                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
             Test.startTest();
-            DonationCauseStageUpdateBatch batch = new DonationCauseStageUpdateBatch();
+            DesignationStageUpdateBatch batch = new DesignationStageUpdateBatch();
             Database.executeBatch(batch);
             Test.stopTest();
 
             System.assertEquals(
-                DonationCausesDAO.DC_ACTIVE,
-                DonationCausesDAO.newInstance()
-                        .getDonationCausesBySetRecordIds(new Set<Id>{ donationCauseList[0].Id }, AccessLevel.SYSTEM_MODE)[0]
+                DesignationsDAO.DC_ACTIVE,
+                DesignationsDAO.newInstance()
+                        .getDesignationsBySetRecordIds(new Set<Id>{ designationList[0].Id }, AccessLevel.SYSTEM_MODE)[0]
                     .Stage__c,
                 'Stage should be Active'
             );

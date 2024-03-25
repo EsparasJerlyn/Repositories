@@ -26,7 +26,7 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
         );
     }
 
-    public Database.QueryLocator queryLocatorDesignationsForStageUpdate() {
+    public Database.QueryLocator queryLocatorGetDesignationsForStageUpdate() {
         String stageToPublishRule =
             ' (Ready_For_Publishing__c = True ' +
             'AND QUT_Giving_Publish_Start_Date__c <= TODAY ' +

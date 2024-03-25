@@ -1,6 +1,6 @@
 /**
- * @description Batch Class to update Donation Cause Stages
- * 
+ * @description Batch Class to update Designation Stages
+ *
  * @author Accenture
  *
  * @history
@@ -10,50 +10,50 @@
       | roy.nino.s.regala   	       | March 14, 2024        | DEPP-8210              | Created file                 |
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage           |
  */
-public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject> {
+public class DesignationStageUpdateBatch implements Database.Batchable<sObject> {
     /**
-     * @description to get Donation Cause for stage update
+     * @description to get Designation for stage update
      * @param bc - BatchableContext
-     * @return query - filtered query of donation cause records
+     * @return query - filtered query of Designation records
      */
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return DonationCausesDAO.newInstance().queryLocatorGetDonatioCausesForStageUpdate();
+        return DesignationsDAO.newInstance().queryLocatorGetDesignationsForStageUpdate();
     }
 
     /**
      * @description Method to execute the batch
      * @param bc - BatchableContext
-     * @param donationCausesList - List of Donation Cause Records
+     * @param designationList - List of Designation Records
      */
-    public void execute(Database.BatchableContext bc, List<Donation_Cause__c> donationCausesList) {
+    public void execute(Database.BatchableContext bc, List<Designation__c> designationList) {
         try {
-            List<Donation_Cause__c> donationCausesToUpdate = new List<Donation_Cause__c>();
+            List<Designation__c> designationsToUpdate = new List<Designation__c>();
 
-            for (Donation_Cause__c dc : donationCausesList) {
+            for (Designation__c dc : designationList) {
                 if (isForPublish(dc)) {
-                    buildDonationCausesWithNewStage(
-                        donationCausesToUpdate,
+                    buildDesignationWithNewStage(
+                        designationsToUpdate,
                         dc,
-                        DonationCausesDAO.DC_PUBLISHED
+                        DesignationsDAO.DC_PUBLISHED
                     );
                 }
 
                 if(isForActive(dc)){
-                    buildDonationCausesWithNewStage(
-                        donationCausesToUpdate,
+                    buildDesignationWithNewStage(
+                        designationsToUpdate,
                         dc,
-                        DonationCausesDAO.DC_ACTIVE
+                        DesignationsDAO.DC_ACTIVE
                     );
                 }
             }
 
-            if (!donationCausesToUpdate.isEmpty()) {
-                DonationCausesDAO.newInstance()
-                    .updateRecords(donationCausesToUpdate, false, AccessLevel.SYSTEM_MODE);
+            if (!designationsToUpdate.isEmpty()) {
+                DesignationsDAO.newInstance()
+                    .updateRecords(designationsToUpdate, false, AccessLevel.SYSTEM_MODE);
             }
         } catch (Exception e) {
             Logger.error(
-                    'Exception caught in method execute in Apex class DonationCauseStageUpdateBatch.'
+                    'Exception caught in method execute in Apex class DesignationStageUpdateBatch.'
                 )
                 .setExceptionDetails(e);
         } finally {
@@ -63,15 +63,15 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
         }
     }
 
-    private boolean isForPublish(Donation_Cause__c dc) {
+    private boolean isForPublish(Designation__c dc) {
         return dc.Ready_For_Publishing__c == true &&
             dc.QUT_Giving_Publish_Start_Date__c <= System.today() &&
             dc.QUT_Giving_Publish_End_Date__c > System.today() &&
-            dc.Stage__c != DonationCausesDAO.DC_PUBLISHED &&
-            dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
+            dc.Stage__c != DesignationsDAO.DC_PUBLISHED &&
+            dc.Stage__c != DesignationsDAO.DC_ARCHIVED;
     }
 
-    private boolean isForActive(Donation_Cause__c dc){
+    private boolean isForActive(Designation__c dc){
         return dc.Activation_Start_Date__c <= System.today() &&
             dc.Activation_End_Date__c > System.today() &&
             ( dc.Ready_For_Publishing__c == false ||
@@ -79,16 +79,16 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
             dc.QUT_Giving_Publish_Start_Date__c > System.today() ||
             dc.QUT_Giving_Publish_End_Date__c < System.today()
             ) &&
-            dc.Stage__c != DonationCausesDAO.DC_ACTIVE &&
-            dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
+            dc.Stage__c != DesignationsDAO.DC_ACTIVE &&
+            dc.Stage__c != DesignationsDAO.DC_ARCHIVED;
     }
 
-    private void buildDonationCausesWithNewStage(
-        List<Donation_Cause__c> donationCausesToUpdate,
-        Donation_Cause__c dc,
+    private void buildDesignationWithNewStage(
+        List<Designation__c> designationsToUpdate,
+        Designation__c dc,
         String stage
     ) {
-        donationCausesToUpdate.add(new Donation_Cause__c(Id = dc.Id, Stage__c = stage));
+        designationsToUpdate.add(new Designation__c(Id = dc.Id, Stage__c = stage));
     }
 
     @SuppressWarnings('PMD.EmptyStatementBlock')

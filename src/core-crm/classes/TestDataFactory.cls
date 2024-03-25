@@ -4322,22 +4322,22 @@ public class TestDataFactory {
     }
 
     /**
-     * @description Method for creating test Donation Causes records
+     * @description Method for creating test Designations records
      * @params
      * numOfRecords - number of records to create
-     * @return donationCauseList - List of Donation Cause records created
+     * @return designationList - List of Designation records created
      */
-    public static List<Donation_Cause__c> createDonationCauseRecords(
+    public static List<Designation__c> createDesignationRecords(
         Integer numOfRecords
     ) {
-        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
+        List<Designation__c> designationList = new List<Designation__c>();
         for (Integer i = 0; i < numOfRecords; i++) {
-            donationCauseList.add(
-                new Donation_Cause__c(
+            designationList.add(
+                new Designation__c(
                     Activation_Start_Date__c = System.Today()
                 )
             );
         }
-        return donationCauseList;
+        return designationList;
     }
 }

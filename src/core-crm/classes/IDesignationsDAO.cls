@@ -10,6 +10,6 @@
 */
 
  public interface IDesignationsDAO extends DmlInterface {
-      Database.QueryLocator queryLocatorGetDonatioCausesForStageUpdate();
-      List<Donation_Cause__c> getDonationCausesBySetRecordIds(Set<Id> recordIds, AccessLevel accessLevel);
+      Database.QueryLocator queryLocatorGetDesignationsForStageUpdate();
+      List<Donation_Cause__c> getDesignationsBySetRecordIds(Set<Id> recordIds, AccessLevel accessLevel);
  }

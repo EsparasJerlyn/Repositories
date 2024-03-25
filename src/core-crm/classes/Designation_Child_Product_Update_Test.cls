@@ -7,7 +7,7 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
+      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 |
  */
 @isTest
 private class Designation_Child_Product_Update_Test {
@@ -21,11 +21,11 @@ private class Designation_Child_Product_Update_Test {
     @isTest
     private static void forAvailableOnCartTrueAndFalseTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Designation__c> designationList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100
             );
 
-            DonationCausesDAO.newInstance()
+            DesignationsDAO.newInstance()
                 .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
             List<Product2> productList = TestDataFactory.createTestProductRecords(100);
@@ -46,7 +46,7 @@ private class Designation_Child_Product_Update_Test {
             }
 
             Test.startTest();
-            DonationCausesDAO.newInstance()
+            DesignationsDAO.newInstance()
                 .updateRecords(designationList, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
@@ -68,7 +68,7 @@ private class Designation_Child_Product_Update_Test {
                 dc.Stage__c = '';
             }
 
-            DonationCausesDAO.newInstance()
+            DesignationsDAO.newInstance()
                 .updateRecords(designationList, false, AccessLevel.USER_MODE);
 
             for (

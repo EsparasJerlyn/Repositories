@@ -1,6 +1,6 @@
 /**
- * @description Scheduler for DonationCauseStageUpdateBatch
- * 
+ * @description Scheduler for DesignationStageUpdateBatch
+ *
  * @author Accenture
  *
  * @history
@@ -9,13 +9,13 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala		       | March. 15, 2022       | DEPP-8210              | Created file                 | 
  */
-public with sharing class DonationCauseStageUpdateScheduler implements Schedulable {
-    
+public with sharing class DesignationStageUpdateScheduler implements Schedulable {
+
     /**
     * @description Method for calling Publishing End Date batch job
     */
     public void execute (SchedulableContext context){
-        DonationCauseStageUpdateBatch batch = new DonationCauseStageUpdateBatch();
+        DesignationStageUpdateBatch batch = new DesignationStageUpdateBatch();
 		Database.executeBatch(batch);
     }
 }

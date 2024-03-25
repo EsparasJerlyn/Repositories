@@ -1,5 +1,5 @@
 /**
- * @description test class for Donation_Cause_Stage_Update Flow
+ * @description test class for Designation_Stage_Update Flow
  * 
  * @author Accenture
  *
@@ -12,7 +12,7 @@
 
  */
 @isTest
-private class Donation_Cause_Stage_Update_Test {
+private class Designation_Stage_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
@@ -23,33 +23,33 @@ private class Donation_Cause_Stage_Update_Test {
     @isTest
     private static void forPublishedBatchTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100
             );
 
-            DonationCausesDAO.newInstance()
-                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
-            for (Donation_Cause__c dc : donationCauseList) {
+            for (Designation__c dc : designationList) {
                 dc.Ready_For_Publishing__c = true;
                 dc.QUT_Giving_Publish_Start_Date__c = System.Today();
                 dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
             }
 
             Test.startTest();
-            DonationCausesDAO.newInstance()
-                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .updateRecords(designationList, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (
-                Donation_Cause__c dc : DonationCausesDAO.newInstance()
-                    .getDonationCausesBySetRecordIds(
-                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                Designation__c dc : DesignationsDAO.newInstance()
+                    .getDesignationsBySetRecordIds(
+                        (new Map<Id, Designation__c>(designationList)).keySet(),
                         AccessLevel.USER_MODE
                     )
             ) {
                 System.assertEquals(
-                    DonationCausesDAO.DC_PUBLISHED,
+                    DesignationsDAO.DC_PUBLISHED,
                     dc.Stage__c,
                     'Stage should be published'
                 );
@@ -60,34 +60,34 @@ private class Donation_Cause_Stage_Update_Test {
     @isTest
     private static void forNotPublishedBatchTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100
             );
 
-            DonationCausesDAO.newInstance()
-                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
-            for (Donation_Cause__c dc : donationCauseList) {
-                dc.Stage__c = DonationCausesDAO.DC_ARCHIVED;
+            for (Designation__c dc : designationList) {
+                dc.Stage__c = DesignationsDAO.DC_ARCHIVED;
                 dc.Ready_For_Publishing__c = true;
                 dc.QUT_Giving_Publish_Start_Date__c = System.Today();
                 dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
             }
 
             Test.startTest();
-            DonationCausesDAO.newInstance()
-                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .updateRecords(designationList, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (
-                Donation_Cause__c dc : DonationCausesDAO.newInstance()
-                    .getDonationCausesBySetRecordIds(
-                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                Designation__c dc : DesignationsDAO.newInstance()
+                    .getDesignationsBySetRecordIds(
+                        (new Map<Id, Designation__c>(designationList)).keySet(),
                         AccessLevel.USER_MODE
                     )
             ) {
                 System.assertNotEquals(
-                    DonationCausesDAO.DC_PUBLISHED,
+                    DesignationsDAO.DC_PUBLISHED,
                     dc.Stage__c,
                     'Stage should be published'
                 );
@@ -98,32 +98,32 @@ private class Donation_Cause_Stage_Update_Test {
     @isTest
     private static void forActiveBatchTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100
             );
 
-            DonationCausesDAO.newInstance()
-                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
-            for (Donation_Cause__c dc : donationCauseList) {
+            for (Designation__c dc : designationList) {
                 dc.Ready_For_Publishing__c = false;
                 dc.Activation_End_Date__c = System.Today() + 1;
             }
 
             Test.startTest();
-            DonationCausesDAO.newInstance()
-                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .updateRecords(designationList, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (
-                Donation_Cause__c dc : DonationCausesDAO.newInstance()
-                    .getDonationCausesBySetRecordIds(
-                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                Designation__c dc : DesignationsDAO.newInstance()
+                    .getDesignationsBySetRecordIds(
+                        (new Map<Id, Designation__c>(designationList)).keySet(),
                         AccessLevel.USER_MODE
                     )
             ) {
                 System.assertEquals(
-                    DonationCausesDAO.DC_ACTIVE,
+                    DesignationsDAO.DC_ACTIVE,
                     dc.Stage__c,
                     'Stage should be Active'
                 );
@@ -134,33 +134,33 @@ private class Donation_Cause_Stage_Update_Test {
     @isTest
     private static void forNotActiveBatchTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 100
             );
 
-            DonationCausesDAO.newInstance()
-                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
-            for (Donation_Cause__c dc : donationCauseList) {
-                dc.Stage__c = DonationCausesDAO.DC_ARCHIVED;
+            for (Designation__c dc : designationList) {
+                dc.Stage__c = DesignationsDAO.DC_ARCHIVED;
                 dc.Ready_For_Publishing__c = false;
                 dc.Activation_End_Date__c = System.Today() + 1;
             }
 
             Test.startTest();
-            DonationCausesDAO.newInstance()
-                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance()
+                .updateRecords(designationList, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (
-                Donation_Cause__c dc : DonationCausesDAO.newInstance()
-                    .getDonationCausesBySetRecordIds(
-                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                Designation__c dc : DesignationsDAO.newInstance()
+                    .getDesignationsBySetRecordIds(
+                        (new Map<Id, Designation__c>(designationList)).keySet(),
                         AccessLevel.USER_MODE
                     )
             ) {
                 System.assertNotEquals(
-                    DonationCausesDAO.DC_ACTIVE,
+                    DesignationsDAO.DC_ACTIVE,
                     dc.Stage__c,
                     'Stage should not be Active'
                 );
