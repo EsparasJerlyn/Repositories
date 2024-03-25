@@ -12146,7 +12146,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Donation_Cause_Code__c</field>
+        <field>Designation__c.Designation_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
