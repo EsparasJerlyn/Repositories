@@ -5645,6 +5645,10 @@
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Account-Academic Program</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AccountBrand-Account Brand Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5778,6 +5782,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Country_Locale_Metadata__mdt-Country Locale Metadata Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Course_Connection_Assessment__c-Course Connection Assessment Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>CredentialStuffingEventStore-Credential Stuffing Event Store Layout</layout>

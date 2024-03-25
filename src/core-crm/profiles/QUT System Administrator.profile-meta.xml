@@ -35,6 +35,9 @@
         <recordType>Contact.Person</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Course_Connection_Assessment__c-Course Connection Assessment Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -42,6 +45,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Outlook-Outlook Integration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Academic Program</layout>
+        <recordType>Account.Academic_Program</recordType>
     </layoutAssignments>
     <layoutAssignments>
      <layout>Account-Administrative Account Layout</layout>
