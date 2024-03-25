@@ -6004,6 +6004,9 @@
         <layout>ProfileSkillUser-Skill User Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Program_Enrollment_Breach__c-Program Breach Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Program_Offering__c-Program Offering Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

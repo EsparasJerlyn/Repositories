@@ -241,6 +241,9 @@
         <recordType>Opportunity.Research_Partnership</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Program_Enrollment_Breach__c-Program Breach Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Promotion-promotion Layout</layout>
     </layoutAssignments>
      <layoutAssignments>
