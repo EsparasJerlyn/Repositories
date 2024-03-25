@@ -7,16 +7,14 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                 |
-      | eugene.andrew.abuan            | March 19, 2024        | DEPP-8211              | Added Active Stage           | 
-
+      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
  */
 @isTest
 private class Donation_Cause_Stage_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager'  });
 
         Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         donationCauseCodeAutoNum.Donation_Cause__c = 1;
@@ -172,6 +170,43 @@ private class Donation_Cause_Stage_Update_Test {
                     DonationCausesDAO.DC_ACTIVE,
                     dc.Stage__c,
                     'Stage should not be Active'
+                );
+            }
+        }
+    }
+
+    @isTest
+    private static void forArchivedBatchTest() {
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+                100
+            );
+
+            DonationCausesDAO.newInstance()
+                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+
+            for (Donation_Cause__c dc : donationCauseList) {
+                dc.Archived_Date__c = System.Today();
+                dc.Archived_Comment__c = 'Test Archived';
+                dc.Archived_Reason__c = 'Other';
+            }
+
+            Test.startTest();
+            DonationCausesDAO.newInstance()
+                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (
+                Donation_Cause__c dc : DonationCausesDAO.newInstance()
+                    .getDonationCausesBySetRecordIds(
+                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                        AccessLevel.USER_MODE
+                    )
+            ) {
+                System.assertEquals(
+                    DonationCausesDAO.DC_ARCHIVED,
+                    dc.Stage__c,
+                    'Stage should be archived'
                 );
             }
         }
