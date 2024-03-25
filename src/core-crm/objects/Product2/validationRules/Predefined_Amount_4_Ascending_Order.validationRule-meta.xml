@@ -4,7 +4,12 @@
     <active>true</active>
     <errorConditionFormula>AND(
 NOT(ISNULL(Donation_Cause__c)),
-Predefined_Amount_4__c &lt; Predefined_Amount_3__c
+ISCHANGED(Predefined_Amount_4__c),
+OR(
+Predefined_Amount_1__c &gt; Predefined_Amount_4__c,
+Predefined_Amount_2__c &gt; Predefined_Amount_4__c,
+Predefined_Amount_3__c &gt; Predefined_Amount_4__c
+)
 )</errorConditionFormula>
     <errorDisplayField>Predefined_Amount_4__c</errorDisplayField>
     <errorMessage>The predefined amount values should be in ascending order.</errorMessage>

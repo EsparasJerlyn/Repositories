@@ -9,5 +9,5 @@ Ready_For_Publishing__c = true,
 QA_Completed__c = false
 )</errorConditionFormula>
     <errorDisplayField>QA_Completed__c</errorDisplayField>
-    <errorMessage>QA must be complete before cause is ready for publishing</errorMessage>
+    <errorMessage>QA must be complete before cause is ready for publishing.</errorMessage>
 </ValidationRule>

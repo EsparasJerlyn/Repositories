@@ -4,11 +4,12 @@
     <active>true</active>
     <errorConditionFormula>AND
 (
- NOT(ISNULL(Donation_Cause__c)),
+NOT(ISNULL(Donation_Cause__c)),
+ISCHANGED(Predefined_Amount_1__c),
 OR(
 ISBLANK(Predefined_Amount_1__c),
 Predefined_Amount_1__c =0
 ))</errorConditionFormula>
     <errorDisplayField>Predefined_Amount_1__c</errorDisplayField>
-    <errorMessage>Enter a valid amount</errorMessage>
+    <errorMessage>Enter a valid amount.</errorMessage>
 </ValidationRule>
