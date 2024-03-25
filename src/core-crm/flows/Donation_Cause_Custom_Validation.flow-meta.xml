@@ -38,12 +38,12 @@
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <customErrors>
-        <name>Donation_Cause_Name_Description_or_Title_Image_URL</name>
-        <label>Donation Cause Name, Description, or Title Image URL</label>
+        <name>Description_or_Title_Image_URL</name>
+        <label>Description or Title Image URL</label>
         <locationX>50</locationX>
         <locationY>539</locationY>
         <customErrorMessages>
-            <errorMessage>You cannot proceed to publishing if Donation Cause Name, Description, or Title Image URL are not populated.</errorMessage>
+            <errorMessage>You cannot proceed to publishing if Description or Title Image URL are not populated.</errorMessage>
             <fieldSelection>Ready_For_Publishing__c</fieldSelection>
             <isFieldError>true</isFieldError>
         </customErrorMessages>
@@ -66,15 +66,8 @@
         <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Donation_Cause_Name_Product_Description_or_Product_Title_Image_URL_is_Blank</name>
+            <name>Description_or_Product_Title_Image_URL_is_Blank</name>
             <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Name</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
             <conditions>
                 <leftValueReference>Get_Product.Description__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -90,9 +83,9 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Donation_Cause_Name_Description_or_Title_Image_URL</targetReference>
+                <targetReference>Description_or_Title_Image_URL</targetReference>
             </connector>
-            <label>Donation Cause Name, Product Description or Product Title Image URL is Blank</label>
+            <label>Product Description or Product Title Image URL is Blank</label>
         </rules>
         <rules>
             <name>Section_Heading_1_or_Section_Content_1_is_Blank</name>
