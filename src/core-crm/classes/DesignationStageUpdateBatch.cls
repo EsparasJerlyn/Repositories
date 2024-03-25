@@ -9,6 +9,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala   	       | March 14, 2024        | DEPP-8210              | Created file                 |
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage           |
+      | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage         |
  */
 public class DesignationStageUpdateBatch implements Database.Batchable<sObject> {
     /**
@@ -35,6 +36,14 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
                         designationsToUpdate,
                         dc,
                         DesignationsDAO.DC_PUBLISHED
+                    );
+                }
+
+                if (isForArchived(dc)) {
+                    buildDonationCausesWithNewStage(
+                        donationCausesToUpdate,
+                        dc,
+                        DonationCausesDAO.DC_ARCHIVED
                     );
                 }
 
@@ -81,6 +90,12 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
             ) &&
             dc.Stage__c != DesignationsDAO.DC_ACTIVE &&
             dc.Stage__c != DesignationsDAO.DC_ARCHIVED;
+    }
+
+    private boolean isForArchived(Donation_Cause__c dc) {
+        return (dc.Archived_Date__c <= System.today() ||
+            dc.Activation_End_Date__c <= System.today()) &&
+            dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
     }
 
     private void buildDesignationWithNewStage(
