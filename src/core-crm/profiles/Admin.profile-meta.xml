@@ -5780,6 +5780,9 @@
         <layout>Country_Locale_Metadata__mdt-Country Locale Metadata Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Course_Connection_Assessment__c-Course Connection Assessment Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CredentialStuffingEventStore-Credential Stuffing Event Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

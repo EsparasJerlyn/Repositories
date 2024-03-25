@@ -35,6 +35,9 @@
         <recordType>Contact.Person</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Course_Connection_Assessment__c-Course Connection Assessment Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
     <layoutAssignments>
