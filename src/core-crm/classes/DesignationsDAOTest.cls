@@ -1,5 +1,5 @@
 /**
- * @description test class for DonationCausesDAOTest.
+ * @description test class for DesignationsDAOTest.
  * @author Accenture
  *
  * @history
@@ -9,7 +9,7 @@
  *    | roy.nino.s.regala              | March 15, 2023      | DEPP-8210              | Created file                              |
  */
 @isTest
-private class DonationCausesDAOTest {
+private class DesignationsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(
@@ -17,19 +17,19 @@ private class DonationCausesDAOTest {
         );
     }
     @isTest
-    private static void queryLocatorGetDonatioCausesForStageUpdateTest(){
+    private static void queryLocatorDesignationsForStageUpdateTest(){
         System.runAs(TestDataFactory.getDonorEngagementManager()){
-            System.assert(DonationCausesDAO.newInstance().queryLocatorGetDonatioCausesForStageUpdate() != null, 'SOQL should not be null');
+            System.assert(DesignationsDAO.newInstance().queryLocatorDesignationsForStageUpdate() != null, 'SOQL should not be null');
         }
     }
 
     @isTest
-    private static void getDonationCausesBySetRecordIdsTest(){
+    private static void getDesignationsBySetRecordIdsTest(){
         System.runAs(TestDataFactory.getDonorEngagementManager()){
             Test.startTest();
-            MockIdGenerator mockIdGen = new MockIdGenerator(Donation_Cause__c.SObjectType);
-            List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
-                .getDonationCausesBySetRecordIds(
+            MockIdGenerator mockIdGen = new MockIdGenerator(Designation__c.SObjectType);
+            List<Designation__c> dcList = DesignationsDAO.newInstance()
+                .getDesignationsBySetRecordIds(
                     new Set<Id>{mockIdGen.getMockId()},
                     AccessLevel.USER_MODE
                 );
@@ -39,11 +39,11 @@ private class DonationCausesDAOTest {
     }
 
     @isTest
-    private static void getDonationCausesBySetRecordIdsEmptyTest(){
+    private static void getDesignationsBySetRecordIdsEmptyTest(){
         System.runAs(TestDataFactory.getDonorEngagementManager()){
             Test.startTest();
-            List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
-                .getDonationCausesBySetRecordIds(
+            List<Designation__c> dcList = DesignationsDAO.newInstance()
+                .getDesignationsBySetRecordIds(
                     new Set<Id>(),
                     AccessLevel.USER_MODE
                 );
@@ -56,7 +56,7 @@ private class DonationCausesDAOTest {
     static void newInstanceTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            System.assert(DonationCausesDAO.newInstance() != null, 'DonationCausesDAO instance is null');
+            System.assert(DesignationsDAO.newInstance() != null, 'DesignationsDAO instance is null');
         }
         Test.stopTest();
     }
@@ -65,8 +65,8 @@ private class DonationCausesDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
             System.assert(
-                new DonationCausesDAO().getSObjectType() == Donation_Cause__c.SObjectType,
-                'SObject is not Donation_Cause__c'
+                new DesignationsDAO().getSObjectType() == Designation__c.SObjectType,
+                'SObject is not Designation__c'
             );
         }
         Test.stopTest();
