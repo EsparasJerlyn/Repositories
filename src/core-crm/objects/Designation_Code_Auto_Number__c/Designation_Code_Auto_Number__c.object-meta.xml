@@ -2,6 +2,6 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <customSettingsType>Hierarchy</customSettingsType>
     <enableFeeds>false</enableFeeds>
-    <label>Donation Cause Code Auto Number</label>
+    <label>Designation Code Auto Number</label>
     <visibility>Public</visibility>
 </CustomObject>

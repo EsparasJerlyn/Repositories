@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Donation_Cause__c</fullName>
+    <fullName>Designation__c</fullName>
     <defaultValue>1</defaultValue>
     <externalId>false</externalId>
-    <label>Donation Cause</label>
+    <label>Designation</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
