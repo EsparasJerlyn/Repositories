@@ -3,8 +3,10 @@
     <fullName>QA_Completed_Must_Be_True</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-
-ISCHANGED(Ready_For_Publishing__c),
+OR(
+ISNEW(),
+ISCHANGED(Ready_For_Publishing__c)
+),
 Ready_For_Publishing__c = true,
 QA_Completed__c = false
 )</errorConditionFormula>

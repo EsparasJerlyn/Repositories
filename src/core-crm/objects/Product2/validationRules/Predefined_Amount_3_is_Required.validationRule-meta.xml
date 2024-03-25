@@ -5,7 +5,11 @@
     <errorConditionFormula>AND
 (
 NOT(ISNULL(Donation_Cause__c)),
-ISCHANGED(Predefined_Amount_3__c),
+
+OR(
+ISNEW(),
+ISCHANGED(Predefined_Amount_3__c)),
+
 OR(
 ISBLANK(Predefined_Amount_3__c),
 Predefined_Amount_3__c =0

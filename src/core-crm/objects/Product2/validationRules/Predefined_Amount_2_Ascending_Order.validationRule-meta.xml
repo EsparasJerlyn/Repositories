@@ -4,7 +4,11 @@
     <active>true</active>
     <errorConditionFormula>AND(
 NOT(ISNULL(Donation_Cause__c)),
-ISCHANGED(Predefined_Amount_2__c),
+
+OR(
+ISNEW(),
+ISCHANGED(Predefined_Amount_2__c)),
+
 OR(
 Predefined_Amount_1__c &gt; Predefined_Amount_2__c,
 Predefined_Amount_2__c &gt; Predefined_Amount_3__c,
