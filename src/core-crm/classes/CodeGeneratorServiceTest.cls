@@ -6,13 +6,14 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file
+      | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file                 |
+      | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause         |
  */
 @isTest
 public class CodeGeneratorServiceTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' , 'QUT_Donor_Engagement_Manager' });
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
         opptyCodeAutoNum.International_Projects_Unit__c = 1;
@@ -37,6 +38,14 @@ public class CodeGeneratorServiceTest {
         engCodeAutoNum.Research_Partnership__c = 1;
         EngagementCodeAutoNumbersDAO.newInstance().upsertRecords(
             new List<Engagement_Code_Auto_Number__c>{engCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+            );
+        
+        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        donationCauseCodeAutoNum.Donation_Cause__c = 1;
+        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
             false, 
             AccessLevel.USER_MODE
             );
@@ -240,5 +249,34 @@ public class CodeGeneratorServiceTest {
     }
     /**
      * TEST STOP: CodeGeneratorService.generateCodeForOpportunityOutcomeRecords()
+     */
+
+    /** 
+     * TEST START: CodeGeneratorService.generateCodeForDonationCauseRecords()
+     */
+    @isTest
+    private static void createDonationCauseRecords() {
+
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+            List<Donation_Cause__c> newItems = TestDataFactory.createDonationCauseRecords(100);
+            Test.startTest();
+                CodeGeneratorService.generateCodeForDonationCauseRecords(newItems);
+                Donation_Cause_Code_Auto_Number__c dcCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+            Test.stopTest();
+
+            Integer count = 1;
+            for(Donation_Cause__c newItem : newItems) {
+                System.assertEquals(
+                    'ADVDC:' + String.valueOf(count).leftPad(5, '0'),
+                    newItem.Donation_Cause_Code__c,
+                    'Incorrect code.');
+                count++;
+            }
+            System.assertEquals(101, dcCodeAutoNum.Donation_Cause__c, 'Incorrect final auto-number value.');
+        }
+    }
+
+    /**
+     * TEST STOP: CodeGeneratorService.generateCodeForDonationCauseRecords()
      */
 }
