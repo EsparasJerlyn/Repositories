@@ -89,7 +89,7 @@
         </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Donation_Cause__c</field>
+            <field>Designation__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>$Record.Id</elementReference>
@@ -104,7 +104,7 @@
         <inputAssignments>
             <field>Description</field>
             <value>
-                <elementReference>$Record.Donation_Cause_Description__c</elementReference>
+                <elementReference>$Record.Designation_Description__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -129,7 +129,7 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
-        <object>Donation_Cause__c</object>
+        <object>Designation__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>

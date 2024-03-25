@@ -1,5 +1,5 @@
 /**
- * @description test class for Donation_Cause_Child_Product_Update Flow
+ * @description test class for Designation_Child_Product_Update Flow
  * 
  * @author Accenture
  *
@@ -10,7 +10,7 @@
       | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
  */
 @isTest
-private class Donation_Cause_Child_Product_Update_Test {
+private class Designation_Child_Product_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
@@ -21,25 +21,25 @@ private class Donation_Cause_Child_Product_Update_Test {
     @isTest
     private static void forAvailableOnCartTrueAndFalseTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+            List<Designation__c> designationList = TestDataFactory.createDonationCauseRecords(
                 100
             );
 
             DonationCausesDAO.newInstance()
-                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+                .insertRecords(designationList, false, AccessLevel.USER_MODE);
 
             List<Product2> productList = TestDataFactory.createTestProductRecords(100);
 
             Integer count = 0;
 
             for (Product2 prd : productList) {
-                prd.Donation_Cause__c = donationCauseList[0].Id;
+                prd.Designation__c = designationList[0].Id;
                 count++;
             }
 
             ProductsDAO.newInstance().insertRecords(productList, false, AccessLevel.USER_MODE);
 
-            for (Donation_Cause__c dc : donationCauseList) {
+            for (Designation__c dc : designationList) {
                 dc.Ready_For_Publishing__c = true;
                 dc.QUT_Giving_Publish_Start_Date__c = System.Today();
                 dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
@@ -47,7 +47,7 @@ private class Donation_Cause_Child_Product_Update_Test {
 
             Test.startTest();
             DonationCausesDAO.newInstance()
-                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+                .updateRecords(designationList, false, AccessLevel.USER_MODE);
             Test.stopTest();
 
             for (
@@ -64,12 +64,12 @@ private class Donation_Cause_Child_Product_Update_Test {
                 );
             }
 
-            for (Donation_Cause__c dc : donationCauseList) {
+            for (Designation__c dc : designationList) {
                 dc.Stage__c = '';
             }
 
             DonationCausesDAO.newInstance()
-                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+                .updateRecords(designationList, false, AccessLevel.USER_MODE);
 
             for (
                 Product2 prd : ProductsDAO.newInstance()

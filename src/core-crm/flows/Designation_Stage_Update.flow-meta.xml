@@ -204,10 +204,10 @@
             <label>Active</label>
         </rules>
     </decisions>
-    <description>Triggered Flow that contains the Donation Cause Stage Business Rules</description>
+    <description>Triggered Flow that contains the Designation Cause Stage Business Rules</description>
     <environments>Default</environments>
-    <interviewLabel>Donation Cause Stage Update {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Donation Cause Stage Update</label>
+    <interviewLabel>Designation Cause Stage Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Designation Cause Stage Update</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -233,7 +233,7 @@
         <connector>
             <targetReference>Evaluate_Stage_Criteria</targetReference>
         </connector>
-        <object>Donation_Cause__c</object>
+        <object>Designation__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
