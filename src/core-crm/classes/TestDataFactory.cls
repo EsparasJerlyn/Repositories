@@ -4335,7 +4335,9 @@ public class TestDataFactory {
             donationCauseList.add(
                 new Donation_Cause__c(
                     Activation_Start_Date__c = System.Today(),
-                    Donation_Cause_Code__c = 'TESTCODE' + i
+                    Donation_Cause_Code__c = 'TESTCODE' + i,
+                    Name = 'Test Donation' + i,
+                    Donation_Cause_Description__c = 'Test'
                 )
             );
         }
