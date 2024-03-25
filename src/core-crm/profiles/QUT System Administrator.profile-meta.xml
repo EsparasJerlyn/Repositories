@@ -47,6 +47,10 @@
         <layout>Outlook-Outlook Integration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Account-Academic Program</layout>
+        <recordType>Account.Academic_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
      <layout>Account-Administrative Account Layout</layout>
         <recordType>Account.Administrative</recordType>
     </layoutAssignments>
