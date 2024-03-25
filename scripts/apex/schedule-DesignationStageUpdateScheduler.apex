@@ -2,7 +2,6 @@ System.debug(LoggingLevel.DEBUG, 'schedule-DesignationStageUpdateScheduler.apex'
 
 String cronExp = Label.Designation_Cron_Expression;
 String ClassName='DesignationStageUpdateScheduler';
-String ClassName='DesignationStageUpdateScheduler';
 
 list<AsyncApexJob> aJob= [
     SELECT Id, Status, ApexClassID

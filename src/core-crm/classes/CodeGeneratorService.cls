@@ -17,7 +17,7 @@
       | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INTERNATIONAL_GIVING_RECTYPE_ID record types generate code         |
       |                                |                       |                        | Add ORGANISATION_GIVING_RECTYPE_ID record types generate code          |
       | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code        |
-      | neil.s.h.lesidan               | March 25, 2024        | DEPP-8210              | change method and variable naming to Designation                       |
+      | neil.s.h.lesidan               | March 25, 2024        | DEPP-8210              | Change method and variable naming to Designation                       |
  */
 public with sharing class CodeGeneratorService {
     /**
@@ -124,7 +124,7 @@ public with sharing class CodeGeneratorService {
      * Generate code for Designation__c.Designation__c following the format "ADVDC:00001"
      */
     public static void generateCodeForDesignationRecords(List<Designation__c> newItems) {
-        Donation_Cause_Code_Auto_Number__c donCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        Designation_Code_Auto_Number__c donCauseCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
 
         if(donCauseCodeAutoNum.Designation__c != null){
             Integer autoNumber = Integer.valueOf(donCauseCodeAutoNum.Designation__c);
@@ -137,8 +137,8 @@ public with sharing class CodeGeneratorService {
             }
 
             donCauseCodeAutoNum.Designation__c = autoNumber;
-            DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-                new List<Donation_Cause_Code_Auto_Number__c>{donCauseCodeAutoNum},
+            DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+                new List<Designation_Code_Auto_Number__c>{donCauseCodeAutoNum},
                 false,
                 AccessLevel.SYSTEM_MODE
             );
