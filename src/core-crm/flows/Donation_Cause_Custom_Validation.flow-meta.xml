@@ -1,107 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>60.0</apiVersion>
+    <actionCalls>
+        <name>Error_Action</name>
+        <label>Error Action</label>
+        <locationX>842</locationX>
+        <locationY>431</locationY>
+        <actionName>FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Donation Cause Custom Validation</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>loggingLevelName</name>
+            <value>
+                <stringValue>error</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error in Donation Cause Custom Validation</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>FlowLogEntry</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>59.0</apiVersion>
     <customErrors>
-        <name>Section_Content_Required</name>
-        <label>Section Content Required</label>
-        <locationX>314</locationX>
-        <locationY>647</locationY>
-        <customErrorMessages>
-            <errorMessage>Section 1 Content is required.</errorMessage>
-            <fieldSelection>Ready_For_Publishing__c</fieldSelection>
-            <isFieldError>true</isFieldError>
-        </customErrorMessages>
-    </customErrors>
-    <customErrors>
-        <name>Section_Header_and_Content_Required</name>
-        <label>Section Header and Content Required</label>
+        <name>Donation_Cause_Name_Description_or_Title_Image_URL</name>
+        <label>Donation Cause Name, Description, or Title Image URL</label>
         <locationX>50</locationX>
-        <locationY>647</locationY>
+        <locationY>539</locationY>
         <customErrorMessages>
-            <errorMessage>Section 1 Header and Content are required.</errorMessage>
+            <errorMessage>You cannot proceed to publishing if Donation Cause Name, Description, or Title Image URL are not populated.</errorMessage>
             <fieldSelection>Ready_For_Publishing__c</fieldSelection>
             <isFieldError>true</isFieldError>
         </customErrorMessages>
     </customErrors>
     <customErrors>
-        <name>Section_Header_Required</name>
-        <label>Section Header Required</label>
-        <locationX>578</locationX>
-        <locationY>647</locationY>
+        <name>Product_Section_Heading_1_and_Section_Content_1_Error</name>
+        <label>Product Section Heading 1 and Section Content 1 Error</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
         <customErrorMessages>
-            <errorMessage>Section 1 Header is required.</errorMessage>
+            <errorMessage>You cannot proceed to publishing if Section Heading 1 or Section 1 Content is blank.</errorMessage>
             <fieldSelection>Ready_For_Publishing__c</fieldSelection>
             <isFieldError>true</isFieldError>
         </customErrorMessages>
     </customErrors>
     <decisions>
-        <name>Check_Product_Fields</name>
-        <label>Check Product Fields</label>
-        <locationX>446</locationX>
-        <locationY>539</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Section_1_Header_and_Content_Are_Empty</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Product.Section_1_Content__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Product.Section_1_Heading__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Section_Header_and_Content_Required</targetReference>
-            </connector>
-            <label>Section 1 Header and Content Are Empty</label>
-        </rules>
-        <rules>
-            <name>Section_1_Heading_is_Empty</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Product.Section_1_Heading__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Section_Content_Required</targetReference>
-            </connector>
-            <label>Section 1 Heading is Empty</label>
-        </rules>
-        <rules>
-            <name>Section_1_Content_is_Empty</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Product.Section_1_Content__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Section_Header_Required</targetReference>
-            </connector>
-            <label>Section 1 Content is Empty</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_Product_Has_Detail_Page_field</name>
-        <label>Check Product Has Detail Page field</label>
-        <locationX>732</locationX>
+        <name>Check_Fields</name>
+        <label>Check Fields</label>
+        <locationX>314</locationX>
         <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Has_Detail_Page_is_True</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Donation_Cause_Name_Product_Description_or_Product_Title_Image_URL_is_Blank</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Name</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product.Description__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product.Title_Image_URL__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Donation_Cause_Name_Description_or_Title_Image_URL</targetReference>
+            </connector>
+            <label>Donation Cause Name, Product Description or Product Title Image URL is Blank</label>
+        </rules>
+        <rules>
+            <name>Section_Heading_1_or_Section_Content_1_is_Blank</name>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Product.Has_Detail_Page__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -109,10 +104,24 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Product.Section_1_Heading__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Product.Section_1_Content__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Check_Product_Fields</targetReference>
+                <targetReference>Product_Section_Heading_1_and_Section_Content_1_Error</targetReference>
             </connector>
-            <label>Has Detail Page is True</label>
+            <label>Section Heading 1 or Section Content 1 is Blank</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -140,12 +149,15 @@
     <recordLookups>
         <name>Get_Product</name>
         <label>Get Product</label>
-        <locationX>732</locationX>
+        <locationX>314</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Product_Has_Detail_Page_field</targetReference>
+            <targetReference>Check_Fields</targetReference>
         </connector>
+        <faultConnector>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Donation_Cause__c</field>
@@ -159,7 +171,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>606</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Product</targetReference>
