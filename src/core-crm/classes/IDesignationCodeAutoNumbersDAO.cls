@@ -8,6 +8,6 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | vincent.ferrer              | March 18, 2024          | DEPP-8200              | created file
  */
-public interface IDonationCauseCodeAutoNumbersDAO extends DmlInterface {
+public interface IDesignationCodeAutoNumbersDAO extends DmlInterface {
     Donation_Cause_Code_Auto_Number__c getOrganizationalDefaults();
 }

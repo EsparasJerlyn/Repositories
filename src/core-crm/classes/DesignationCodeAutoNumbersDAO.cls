@@ -9,16 +9,16 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | vincent.ferrer                 | March  18, 2024       | DEPP-8200              | Created file                 |
  */
-public inherited sharing class DonationCauseCodeAutoNumbersDAO extends DmlBase implements IDonationCauseCodeAutoNumbersDAO {
+public inherited sharing class DesignationCodeAutoNumbersDAO extends DmlBase implements IDesignationCodeAutoNumbersDAO {
     public Schema.SObjectType getSObjectType() {
-        return Donation_Cause_Code_Auto_Number__c.SObjectType;
+        return Designation_Code_Auto_Number__c.SObjectType;
     }
 
-    public static IDonationCauseCodeAutoNumbersDAO newInstance() {
-        return (IDonationCauseCodeAutoNumbersDAO) ImplementationSelector.DAO.newInstance(Donation_Cause_Code_Auto_Number__c.SObjectType);
+    public static IDesignationCodeAutoNumbersDAO newInstance() {
+        return (IDesignationCodeAutoNumbersDAO) ImplementationSelector.DAO.newInstance(Designation_Code_Auto_Number__c.SObjectType);
     }
 
-    public static Donation_Cause_Code_Auto_Number__c getOrganizationalDefaults() {
-        return Donation_Cause_Code_Auto_Number__c.getOrgDefaults();
+    public static Designation_Code_Auto_Number__c getOrganizationalDefaults() {
+        return Designation_Code_Auto_Number__c.getOrgDefaults();
     }
 }

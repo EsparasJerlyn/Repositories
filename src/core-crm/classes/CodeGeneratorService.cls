@@ -16,7 +16,8 @@
       |                                |                       |                        | record types not in recordTypeToCodePartsMap                           |
       | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INTERNATIONAL_GIVING_RECTYPE_ID record types generate code         |
       |                                |                       |                        | Add ORGANISATION_GIVING_RECTYPE_ID record types generate code          |
-      | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code       |
+      | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code        |
+      | neil.s.h.lesidan               | March 25, 2024        | DEPP-8210              | change method and variable naming to Designation                       |
  */
 public with sharing class CodeGeneratorService {
     /**
@@ -85,12 +86,12 @@ public with sharing class CodeGeneratorService {
         opptyOutCodeAutoNum.Research_Commercialisation_Project__c = recordTypeToCodePartsMap.get(OpportunityOutcomesDAO.RESEARCHCOMMERCIALISATIONPROJECT_RECTYPE_ID).autoNumber;
         opptyOutCodeAutoNum.Start_Up__c = recordTypeToCodePartsMap.get(OpportunityOutcomesDAO.STARTUP_RECTYPE_ID).autoNumber;
         OpportunityOutcomeCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Opportunity_Outcome_Code_Auto_Number__c>{opptyOutCodeAutoNum}, 
-            false, 
+            new List<Opportunity_Outcome_Code_Auto_Number__c>{opptyOutCodeAutoNum},
+            false,
             AccessLevel.SYSTEM_MODE
             );
     }
-    
+
     /**
      * Generate code for Engagement__c.Engagement_Code__c following the format "AAA:00000"
      * The first three characters are based on the record type of the opportunity outcome record.
@@ -113,38 +114,38 @@ public with sharing class CodeGeneratorService {
         engCodeAutoNum.Commercialisation__c = recordTypeToCodePartsMap.get(EngagementsDAO.COMMERCIALISATION_RECTYPE_ID).autoNumber;
         engCodeAutoNum.Research_Partnership__c = recordTypeToCodePartsMap.get(EngagementsDAO.RESEARCHPARTNERSHIP_RECTYPE_ID).autoNumber;
         EngagementCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Engagement_Code_Auto_Number__c>{engCodeAutoNum}, 
-            false, 
+            new List<Engagement_Code_Auto_Number__c>{engCodeAutoNum},
+            false,
             AccessLevel.SYSTEM_MODE
             );
     }
 
     /**
-     * Generate code for Donation_Cause__c.Donation_Cause_Code__c following the format "ADVDC:00001"
+     * Generate code for Designation__c.Designation__c following the format "ADVDC:00001"
      */
-    public static void generateCodeForDonationCauseRecords(List<Donation_Cause__c> newItems) {
+    public static void generateCodeForDesignationRecords(List<Designation__c> newItems) {
         Donation_Cause_Code_Auto_Number__c donCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        
-        if(donCauseCodeAutoNum.Donation_Cause__c != null){
-            Integer autoNumber = Integer.valueOf(donCauseCodeAutoNum.Donation_Cause__c);
 
-            for(Donation_Cause__c newItem : newItems) {
+        if(donCauseCodeAutoNum.Designation__c != null){
+            Integer autoNumber = Integer.valueOf(donCauseCodeAutoNum.Designation__c);
+
+            for(Designation__c newItem : newItems) {
                 String codePrefix = 'ADVDC';
                 String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
-                newItem.Donation_Cause_Code__c = codePrefix + ':' + codeNumber;
+                newItem.Designation__c = codePrefix + ':' + codeNumber;
                 autoNumber++;
             }
 
-            donCauseCodeAutoNum.Donation_Cause__c = autoNumber;
+            donCauseCodeAutoNum.Designation__c = autoNumber;
             DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-                new List<Donation_Cause_Code_Auto_Number__c>{donCauseCodeAutoNum}, 
-                false, 
+                new List<Donation_Cause_Code_Auto_Number__c>{donCauseCodeAutoNum},
+                false,
                 AccessLevel.SYSTEM_MODE
             );
         }
     }
-    
-    /** 
+
+    /**
      * A class containing the basic parts of a code. The original parts is based on DEPP-5594, basically in the
      * form of "AAA:00000". The parts of the original CodeParts are the prefix and the number. For reusability's sake,
      * only the number itself without the padding zeroes is stored here.

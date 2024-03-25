@@ -8,9 +8,9 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | created file
  */
-trigger DonationCauseTrigger on Donation_Cause__c(before insert) {
+trigger DesignationTrigger on Designation__c(before insert) {
     TriggerDispatcher.dispatch(
-        TriggerHandlerFactory.getHandlersForSObjectType('Donation_Cause__c'),
+        TriggerHandlerFactory.getHandlersForSObjectType('Designation__c'),
         Trigger.operationType
     );
 }
