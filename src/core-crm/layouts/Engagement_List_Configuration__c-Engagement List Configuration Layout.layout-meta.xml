@@ -44,7 +44,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>End_Date_c__c</field>
+                <field>End_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
