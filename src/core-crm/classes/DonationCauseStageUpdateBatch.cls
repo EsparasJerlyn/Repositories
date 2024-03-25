@@ -7,7 +7,9 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala   	       | March 14, 2024        | DEPP-8210              | Created file                 | 
+      | roy.nino.s.regala   	       | March 14, 2024        | DEPP-8210              | Created file                 |
+      | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage           |
+      | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage         |
  */
 public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject> {
     /**
@@ -36,6 +38,22 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
                         DonationCausesDAO.DC_PUBLISHED
                     );
                 }
+                
+                if (isForArchived(dc)) {
+                    buildDonationCausesWithNewStage(
+                        donationCausesToUpdate,
+                        dc,
+                        DonationCausesDAO.DC_ARCHIVED
+                    );
+                }
+
+                if(isForActive(dc)){
+                    buildDonationCausesWithNewStage(
+                        donationCausesToUpdate,
+                        dc,
+                        DonationCausesDAO.DC_ACTIVE
+                    );
+                }
             }
 
             if (!donationCausesToUpdate.isEmpty()) {
@@ -59,6 +77,24 @@ public class DonationCauseStageUpdateBatch implements Database.Batchable<sObject
             dc.QUT_Giving_Publish_Start_Date__c <= System.today() &&
             dc.QUT_Giving_Publish_End_Date__c > System.today() &&
             dc.Stage__c != DonationCausesDAO.DC_PUBLISHED &&
+            dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
+    }
+
+    private boolean isForActive(Donation_Cause__c dc){
+        return dc.Activation_Start_Date__c <= System.today() &&
+            dc.Activation_End_Date__c > System.today() &&
+            ( dc.Ready_For_Publishing__c == false ||
+            dc.QUT_Giving_Publish_Start_Date__c == null ||
+            dc.QUT_Giving_Publish_Start_Date__c > System.today() ||
+            dc.QUT_Giving_Publish_End_Date__c < System.today()
+            ) &&
+            dc.Stage__c != DonationCausesDAO.DC_ACTIVE &&
+            dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
+    }
+
+    private boolean isForArchived(Donation_Cause__c dc) {
+        return (dc.Archived_Date__c <= System.today() ||
+            dc.Activation_End_Date__c <= System.today()) &&
             dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
     }
 

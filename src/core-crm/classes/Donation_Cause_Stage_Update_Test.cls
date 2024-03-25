@@ -14,7 +14,16 @@ private class Donation_Cause_Stage_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager'  });
+
+        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        donationCauseCodeAutoNum.Donation_Cause__c = 1;
+        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+            );
+            
         Test.stopTest();
     }
 
@@ -88,6 +97,116 @@ private class Donation_Cause_Stage_Update_Test {
                     DonationCausesDAO.DC_PUBLISHED,
                     dc.Stage__c,
                     'Stage should be published'
+                );
+            }
+        }
+    }
+
+    @isTest
+    private static void forActiveBatchTest() {
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+                100
+            );
+
+            DonationCausesDAO.newInstance()
+                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+
+            for (Donation_Cause__c dc : donationCauseList) {
+                dc.Ready_For_Publishing__c = false;
+                dc.Activation_End_Date__c = System.Today() + 1;
+            }
+
+            Test.startTest();
+            DonationCausesDAO.newInstance()
+                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (
+                Donation_Cause__c dc : DonationCausesDAO.newInstance()
+                    .getDonationCausesBySetRecordIds(
+                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                        AccessLevel.USER_MODE
+                    )
+            ) {
+                System.assertEquals(
+                    DonationCausesDAO.DC_ACTIVE,
+                    dc.Stage__c,
+                    'Stage should be Active'
+                );
+            }
+        }
+    }
+
+    @isTest
+    private static void forNotActiveBatchTest() {
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+                100
+            );
+
+            DonationCausesDAO.newInstance()
+                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+
+            for (Donation_Cause__c dc : donationCauseList) {
+                dc.Stage__c = DonationCausesDAO.DC_ARCHIVED;
+                dc.Ready_For_Publishing__c = false;
+                dc.Activation_End_Date__c = System.Today() + 1;
+            }
+
+            Test.startTest();
+            DonationCausesDAO.newInstance()
+                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (
+                Donation_Cause__c dc : DonationCausesDAO.newInstance()
+                    .getDonationCausesBySetRecordIds(
+                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                        AccessLevel.USER_MODE
+                    )
+            ) {
+                System.assertNotEquals(
+                    DonationCausesDAO.DC_ACTIVE,
+                    dc.Stage__c,
+                    'Stage should not be Active'
+                );
+            }
+        }
+    }
+
+    @isTest
+    private static void forArchivedBatchTest() {
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+                100
+            );
+
+            DonationCausesDAO.newInstance()
+                .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+
+            for (Donation_Cause__c dc : donationCauseList) {
+                dc.Archived_Date__c = System.Today();
+                dc.Archived_Comment__c = 'Test Archived';
+                dc.Archived_Reason__c = 'Other';
+            }
+
+            Test.startTest();
+            DonationCausesDAO.newInstance()
+                .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (
+                Donation_Cause__c dc : DonationCausesDAO.newInstance()
+                    .getDonationCausesBySetRecordIds(
+                        (new Map<Id, Donation_Cause__c>(donationCauseList)).keySet(),
+                        AccessLevel.USER_MODE
+                    )
+            ) {
+                System.assertEquals(
+                    DonationCausesDAO.DC_ARCHIVED,
+                    dc.Stage__c,
+                    'Stage should be archived'
                 );
             }
         }
