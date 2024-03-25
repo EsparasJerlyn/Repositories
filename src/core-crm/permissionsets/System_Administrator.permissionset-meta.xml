@@ -11993,7 +11993,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.End_Date_c__c</field>
+        <field>Engagement_List_Configuration__c.End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12003,7 +12003,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.External_ID__c</field>
+        <field>Engagement_List_Configuration__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12023,7 +12023,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Migration_ID__c</field>
+        <field>Engagement_List_Configuration__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12039,76 +12039,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Configuration__c.Qualtrics_Instrument_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.SMS_Template__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Briefing_Notes__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Communication_Channel__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Email_Template__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.End_Date_c__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Engagement_List_Configuration_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.External_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.External_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Max_Number_Of_Call_Attempts__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Migration_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Migration_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Engagement_List_Configuration__c.Purpose__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12178,7 +12108,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.External_ID__c</field>
+        <field>Engagement_List_Criteria__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12223,17 +12153,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Engagement_List_Criteria__c.Migration_ID__c</field>
+        <field>Engagement_List_Criteria__c.Migration_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Engagement_List_Criteria__c.Migration_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Engagement_List_Criteria__c.Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
