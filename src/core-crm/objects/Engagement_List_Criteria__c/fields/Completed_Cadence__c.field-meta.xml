@@ -14,14 +14,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Domestic Accepted</fullName>
+                <fullName>Domestic Accepted and Admitted</fullName>
                 <default>false</default>
-                <label>Domestic Accepted</label>
-            </value>
-            <value>
-                <fullName>Admitted</fullName>
-                <default>false</default>
-                <label>Admitted</label>
+                <label>Domestic Accepted and Admitted</label>
             </value>
         </valueSetDefinition>
     </valueSet>
