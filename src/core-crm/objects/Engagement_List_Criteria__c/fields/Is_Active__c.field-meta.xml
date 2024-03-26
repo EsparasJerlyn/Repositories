@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>End_Date_c__c</fullName>
-    <description>The date the engagement list configuration was deactivated</description>
+    <fullName>Is_Active__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates that engagement list criteria is active or not</description>
     <externalId>false</externalId>
-    <label>End Date</label>
-    <required>false</required>
+    <label>Is Active</label>
     <securityClassification>Official</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Date</type>
+    <type>Checkbox</type>
 </CustomField>

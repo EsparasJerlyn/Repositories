@@ -4,6 +4,6 @@
     <fields>Name</fields>
     <fields>Engagement_List_Configuration_Status__c</fields>
     <fields>Start_Date__c</fields>
-    <fields>End_Date_c__c</fields>
+    <fields>End_Date__c</fields>
     <label>Engagement List Configuration Compact Layout</label>
 </CompactLayout>
