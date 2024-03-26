@@ -127,5 +127,17 @@
         <members>Donation_Cause__c.My_Open_Donation_Causes</members>
         <name>ListView</name>
     </types>
+    <types>
+        <!--(Start) DEPP-8200-->
+        <members>DonationCauseCodeAutoNumbersDAO</members>
+        <members>DonationCauseCodeAutoNumbersDAOMock</members>
+        <members>DonationCauseCodeAutoNumbersDAOTest</members>
+        <members>DonationCauseTriggerHandler</members>
+        <members>DonationCauseTriggerHandlerTest</members>
+        <members>IDonationCauseCodeAutoNumbersDAO</members>
+        <members></members>
+        <!--(End) DEPP-8200-->
+        <name>ApexClass</name>
+    </types>
     <version>59.0</version> 
 </Package>
