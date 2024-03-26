@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Academic Status</label>
     <required>false</required>
-    <securityClassification>Official</securityClassification>
+    <securityClassification>Sensitive</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
