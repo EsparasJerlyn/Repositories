@@ -160,5 +160,11 @@
         <!--(End) DEPP-8200-->
         <name>CustomObject</name>
     </types>
+    <types>
+        <!--(Start) DEPP-8200-->
+        <members>Donation_Cause_Stage_Update</members>
+        <!--(End) DEPP-8200-->
+        <name>Flow</name>
+    </types>
     <version>59.0</version> 
 </Package>
