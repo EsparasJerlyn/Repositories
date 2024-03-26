@@ -6090,6 +6090,9 @@
         <layout>Solution-Solution Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Success_Action__c-Success Action Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Success_Plan__c-Success Plan Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
