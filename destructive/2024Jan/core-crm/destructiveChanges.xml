@@ -115,5 +115,11 @@
         <!--(End) DEPP-8114-->
         <name>PermissionSetGroup</name>
     </types>
+    <types>
+        <!--(Start) DEPP-7231-->
+        <members>Donation_Cause__c</members>
+        <name>CustomTab</name>
+        <!--(End)DEPP-7231-->
+    </types>
     <version>59.0</version> 
 </Package>
