@@ -14943,11 +14943,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>et4ae5__IndividualEmailResult__c.et4ae5__DMTrackingId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>et4ae5__IndividualEmailResult__c.et4ae5__DateBounced__c</field>
         <readable>true</readable>
     </fieldPermissions>
