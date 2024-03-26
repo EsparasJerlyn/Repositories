@@ -145,5 +145,11 @@
         <!--(End) DEPP-820-0-->
         <name>ApexTrigger</name>
     </types>
+    <types>
+        <!--(Start) DEPP-8200-->
+        <members>TriggerHandler.Donation_Cause_c</members>
+        <!--(End) DEPP-8200-->
+        <name>CustomMetadata</name>
+    </types>
     <version>59.0</version> 
 </Package>
