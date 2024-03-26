@@ -226,6 +226,9 @@
         <label>Create IP Management Relationship Record</label>
         <locationX>842</locationX>
         <locationY>758</locationY>
+        <connector>
+            <targetReference>Redirect_to_Parent</targetReference>
+        </connector>
         <faultConnector>
             <targetReference>Log_Error</targetReference>
         </faultConnector>
@@ -435,6 +438,19 @@
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>Redirect_to_Parent</name>
+        <label>Redirect to Parent</label>
+        <locationX>842</locationX>
+        <locationY>866</locationY>
+        <flowName>Detail_Page_Navigation</flowName>
+        <inputAssignments>
+            <name>RecordTypeId</name>
+            <value>
+                <elementReference>ParentId</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <variables>
         <name>DynamicDataTableInput</name>
         <dataType>String</dataType>
