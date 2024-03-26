@@ -8,7 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                 |
-      | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage           |         
+      | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage           |
 
  */
 @isTest
@@ -28,8 +28,8 @@ private class DesignationStageUpdateBatchTest {
             );
 
             designationList[0].Ready_For_Publishing__c = true;
-            designationList[0].QUT_Giving_Publish_Start_Date__c = System.Today();
-            designationList[0].QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+            designationList[0].Public_Giving_Publish_Start_Date__c = System.Today();
+            designationList[0].Public_Giving_Publish_End_Date__c = System.Today() + 1;
 
             DesignationsDAO.newInstance()
                 .insertRecords(designationList, false, AccessLevel.USER_MODE);
@@ -55,9 +55,9 @@ private class DesignationStageUpdateBatchTest {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
                 1
             );
-            designationList[0].QUT_Giving_Publish_Start_Date__c = System.Today() + 1;
+            designationList[0].Public_Giving_Publish_Start_Date__c = System.Today() + 1;
             designationList[0].Ready_For_Publishing__c = true;
-            designationList[0].QUT_Giving_Publish_End_Date__c = System.Today();
+            designationList[0].Public_Giving_Publish_End_Date__c = System.Today();
             designationList[0].Activation_End_Date__c = System.Today() + 1;
 
             DesignationsDAO.newInstance()

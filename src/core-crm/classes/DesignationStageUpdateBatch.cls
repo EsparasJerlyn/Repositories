@@ -40,10 +40,10 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
                 }
 
                 if (isForArchived(dc)) {
-                    buildDonationCausesWithNewStage(
-                        donationCausesToUpdate,
+                    buildDesignationWithNewStage(
+                        designationsToUpdate,
                         dc,
-                        DonationCausesDAO.DC_ARCHIVED
+                        DesignationsDAO.DC_ARCHIVED
                     );
                 }
 
@@ -74,8 +74,8 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
 
     private boolean isForPublish(Designation__c dc) {
         return dc.Ready_For_Publishing__c == true &&
-            dc.QUT_Giving_Publish_Start_Date__c <= System.today() &&
-            dc.QUT_Giving_Publish_End_Date__c > System.today() &&
+            dc.Public_Giving_Publish_Start_Date__c <= System.today() &&
+            dc.Public_Giving_Publish_End_Date__c > System.today() &&
             dc.Stage__c != DesignationsDAO.DC_PUBLISHED &&
             dc.Stage__c != DesignationsDAO.DC_ARCHIVED;
     }
@@ -84,18 +84,18 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
         return dc.Activation_Start_Date__c <= System.today() &&
             dc.Activation_End_Date__c > System.today() &&
             ( dc.Ready_For_Publishing__c == false ||
-            dc.QUT_Giving_Publish_Start_Date__c == null ||
-            dc.QUT_Giving_Publish_Start_Date__c > System.today() ||
-            dc.QUT_Giving_Publish_End_Date__c < System.today()
+            dc.Public_Giving_Publish_Start_Date__c == null ||
+            dc.Public_Giving_Publish_Start_Date__c > System.today() ||
+            dc.Public_Giving_Publish_End_Date__c < System.today()
             ) &&
             dc.Stage__c != DesignationsDAO.DC_ACTIVE &&
             dc.Stage__c != DesignationsDAO.DC_ARCHIVED;
     }
 
-    private boolean isForArchived(Donation_Cause__c dc) {
+    private boolean isForArchived(Designation__c dc) {
         return (dc.Archived_Date__c <= System.today() ||
             dc.Activation_End_Date__c <= System.today()) &&
-            dc.Stage__c != DonationCausesDAO.DC_ARCHIVED;
+            dc.Stage__c != DesignationsDAO.DC_ARCHIVED;
     }
 
     private void buildDesignationWithNewStage(

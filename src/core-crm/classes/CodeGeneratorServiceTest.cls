@@ -42,10 +42,10 @@ public class CodeGeneratorServiceTest {
             AccessLevel.USER_MODE
             );
         
-        Designation_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        donationCauseCodeAutoNum.Designation__c = 1;
-        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Designation_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+        Designation_Code_Auto_Number__c designationCauseCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        designationCauseCodeAutoNum.Designation__c = 1;
+        DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Designation_Code_Auto_Number__c>{designationCauseCodeAutoNum}, 
             false, 
             AccessLevel.USER_MODE
             );
@@ -261,14 +261,14 @@ public class CodeGeneratorServiceTest {
             List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100);
             Test.startTest();
                 CodeGeneratorService.generateCodeForDesignationRecords(newItems);
-                Designation_Code_Auto_Number__c dcCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+                Designation_Code_Auto_Number__c dcCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
 
             Integer count = 1;
             for(Designation__c newItem : newItems) {
                 System.assertEquals(
                     'ADVDC:' + String.valueOf(count).leftPad(5, '0'),
-                    newItem.Designation__c,
+                    newItem.Designation_Code__c,
                     'Incorrect code.');
                 count++;
             }

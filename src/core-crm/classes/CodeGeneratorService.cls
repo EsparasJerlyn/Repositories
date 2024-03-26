@@ -132,7 +132,7 @@ public with sharing class CodeGeneratorService {
             for(Designation__c newItem : newItems) {
                 String codePrefix = 'ADVDC';
                 String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
-                newItem.Designation__c = codePrefix + ':' + codeNumber;
+                newItem.Designation_Code__c = codePrefix + ':' + codeNumber;
                 autoNumber++;
             }
 

@@ -1,5 +1,5 @@
 /**
- * @description test class for DesignationsDAOTest.
+ * @description test class for DesignationsDAO.
  * @author Accenture
  *
  * @history
@@ -19,7 +19,7 @@ private class DesignationsDAOTest {
     @isTest
     private static void queryLocatorDesignationsForStageUpdateTest(){
         System.runAs(TestDataFactory.getDonorEngagementManager()){
-            System.assert(DesignationsDAO.newInstance().queryLocatorDesignationsForStageUpdate() != null, 'SOQL should not be null');
+            System.assert(DesignationsDAO.newInstance().queryLocatorGetDesignationsForStageUpdate() != null, 'SOQL should not be null');
         }
     }
 

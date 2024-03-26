@@ -1,5 +1,5 @@
 /**
- * @description Mock DAO Class for Designation Code Auto Number custom setting. 
+ * @description Mock DAO Class for Designation Code Auto Number custom setting.
  * @author Accenture
  *
  * @history
