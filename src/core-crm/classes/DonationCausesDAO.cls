@@ -9,7 +9,7 @@
       | roy.nino.s.regala              | March 14, 2024        | DEPP-8210              | Created file                                   |
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage params for query Selector   |         
       | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause Code in query by Id       |
-
+      | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage params for query Selector |
 */
 
 public inherited sharing class DonationCausesDAO extends DmlBase implements IDonationCausesDAO {
@@ -46,15 +46,23 @@ public inherited sharing class DonationCausesDAO extends DmlBase implements IDon
             'AND Stage__c !=: DC_ACTIVE '+
             'AND Stage__C !=: DC_ARCHIVED)';
 
+        String stageToArchivedRule =
+            ' ( (Archived_Date__c <= TODAY ' +
+            'OR Activation_End_Date__c <= TODAY) ' +
+            'AND Stage__c !=: DC_ARCHIVED ' +
+            ')';
+
 
         String queryFilter =
             'SELECT Id, Ready_For_Publishing__c,QUT_Giving_Publish_Start_Date__c, QUT_Giving_Publish_End_Date__c, Stage__c, ' +
-                     'Activation_Start_Date__c, Activation_End_Date__c ' +
+                     'Activation_Start_Date__c, Activation_End_Date__c,Archived_Date__c ' +
             'FROM Donation_Cause__c ' +
             'WHERE ' +
             stageToPublishRule +
             ' OR ' +
-            stageToActiveRule;
+            stageToActiveRule +
+            'OR ' +
+            stageToArchivedRule;
 
         return Database.getQueryLocator(queryFilter);
     }
