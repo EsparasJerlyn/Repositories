@@ -14,15 +14,15 @@ public with sharing class DesignationTriggerHandlerTest {
 	@testSetup
     static void setup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
-        Designation_Code_Auto_Number__c designationCodeAutoNum = designationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         designationCodeAutoNum.Designation__c = 1;
         designationCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
+            new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum},
             false,
             AccessLevel.USER_MODE
             );
     }
-    
+
     @isTest
     private static void createDesignationCodeTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
@@ -31,7 +31,7 @@ public with sharing class DesignationTriggerHandlerTest {
 
             DesignationsDAO.newInstance().insertRecords(designationList, false, AccessLevel.USER_MODE);
 
-            Designation_Code_Auto_Number__c designationCodeAutoNum = designationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+            Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
 
             Integer count = 1;
@@ -44,7 +44,6 @@ public with sharing class DesignationTriggerHandlerTest {
                 count++;
             }
             System.assertEquals(101, designationCodeAutoNum.Designation__c, 'Incorrect latest ADVDC code auto-number value.');
-
         }
     }
 }

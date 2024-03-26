@@ -73,7 +73,7 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
     ) {
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Stage__c, Id ' + 'FROM Designation__c WHERE Id IN :recordIds',
+                'SELECT Id, Stage__c, Designation_Code__c ' + 'FROM Designation__c WHERE Id IN :recordIds',
                 accessLevel
             );
         } else {

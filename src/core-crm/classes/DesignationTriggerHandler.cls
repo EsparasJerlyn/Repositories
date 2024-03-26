@@ -10,9 +10,9 @@
  */
 public with sharing class DesignationTriggerHandler implements Disableable, BeforeInsert {
     public void beforeInsert(List<Sobject> newItems) {
-        CodeGeneratorService.generateCodeForDesignationRecords((List<Donation_Cause__c>)newItems);
+        CodeGeneratorService.generateCodeForDesignationRecords((List<Designation__c>)newItems);
     }
-    
+
     public Boolean isDisabled() {
         final TriggerBypassStrategy bypass = new TriggerBypassStrategy();
         return bypass.isDisabled();

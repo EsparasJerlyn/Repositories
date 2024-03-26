@@ -41,8 +41,8 @@ private class Designation_Child_Product_Update_Test {
 
             for (Designation__c dc : designationList) {
                 dc.Ready_For_Publishing__c = true;
-                dc.QUT_Giving_Publish_Start_Date__c = System.Today();
-                dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+                dc.Public_Giving_Publish_Start_Date__c = System.Today();
+                dc.Public_Giving_Publish_End_Date__c = System.Today() + 1;
             }
 
             Test.startTest();

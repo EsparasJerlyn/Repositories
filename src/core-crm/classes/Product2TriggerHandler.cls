@@ -645,9 +645,9 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         && prod.Child_Of_Prescribed_Program__c == false //do not include child of prescribed program
       ) {
         prod.Available_on_Cart__c = true;
-        //only set to false if not a child of donation cause for now.
+        //only set to false if not a child of designation cause for now.
         //this added logic might be updated in the future
-      } else if(prod.Donation_Cause__c == null){ 
+      } else if(prod.Designation__c == null){ 
         prod.Available_on_Cart__c = false;
       } 
 
@@ -658,9 +658,9 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Publishing_End_date__c) && 
         prod.Decommission_Product__c == true && 
         prod.Publishing_End_date__c <= date.today() &&
-        //only set deactivate if not a child of donation cause.
+        //only set deactivate if not a child of designation cause.
         //this logic might be updated in the future
-        prod.Donation_Cause__c == null 
+        prod.Designation__c == null 
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;
