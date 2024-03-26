@@ -83,6 +83,11 @@
         <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date</members>
         <members>Donation_Cause__c.QUT_Giving_Publish_Start_Date_Required</members>
         <!-- (End) DEPP-8056 -->
+        <!--(Start) DEPP-8212 -->
+        <members>Donation_Cause__c.Archived_Comment_is_Required</members>
+        <members>Donation_Cause__c.Archived_Date_is_Required</members>
+        <members>Donation_Cause__c.Archived_Reason_is_Required</members>
+        <!--(End)DEPP-8212-->
         <name>ValidationRule</name>
     <!-- <types> -->
       <!--(Start) DEPP-7474, Refer to this Manual Step -> DEPP-7671 -->
