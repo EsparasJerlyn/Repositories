@@ -21,6 +21,10 @@
     </filters>
     <label>My Opportunities - CONTRACT</label>
     <sharedTo>
+        <group>Development_Team</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
         <role>System_Administrator</role>
         <roleAndSubordinatesInternal>QUTeX_Leadership</roleAndSubordinatesInternal>
     </sharedTo>
