@@ -189,6 +189,13 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Assessment_Name__c</fields>
+        <fields>Submission_Date__c</fields>
+        <fields>Assessment_Grade__c</fields>
+        <relatedList>Course_Connection_Assessment__c.Course_Connection__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <relatedList>Session__c.Course_Connection__c</relatedList>
     </relatedLists>
     <relatedLists>
