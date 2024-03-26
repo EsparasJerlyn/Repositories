@@ -4327,20 +4327,20 @@ public class TestDataFactory {
      * numOfRecords - number of records to create
      * @return donationCauseList - List of Donation Cause records created
      */
-    public static List<Donation_Cause__c> createDonationCauseRecords(
+    public static List<Designation__c> createDesignationRecords(
         Integer numOfRecords
     ) {
-        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
+        List<Designation__c> designationList = new List<Designation__c>();
         for (Integer i = 0; i < numOfRecords; i++) {
-            donationCauseList.add(
-                new Donation_Cause__c(
+            designationList.add(
+                new Designation__c(
                     Activation_Start_Date__c = System.Today(),
-                    Donation_Cause_Code__c = 'TESTCODE' + i,
+                    Designation_Code__c = 'TESTCODE' + i,
                     Name = 'Test Donation' + i,
-                    Donation_Cause_Description__c = 'Test'
+                    Designation_Description__c = 'Test'
                 )
             );
         }
-        return donationCauseList;
+        return designationList;
     }
 }
