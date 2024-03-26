@@ -39,6 +39,9 @@
         <members>Product2.Section_7_Image_Video_URL__c</members>
         <members>Product2.Section_7_Image_Video_Page_Location__c</members>
         <!-- End DEPP-7239 -->
+        <!--(Start) DEPP-8200-->
+        <members>Donation_Cause_Code_Auto_Number__c.Donation_Cause__c</members>
+        <!--(End) DEPP-8200-->
         <name>CustomField</name>
     </types>    
     <types>
@@ -150,6 +153,12 @@
         <members>TriggerHandler.Donation_Cause_c</members>
         <!--(End) DEPP-8200-->
         <name>CustomMetadata</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-8200-->
+        <members>Donation_Cause_Code_Auto_Number__c</members>
+        <!--(End) DEPP-8200-->
+        <name>CustomObject</name>
     </types>
     <version>59.0</version> 
 </Package>
