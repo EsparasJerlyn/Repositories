@@ -121,5 +121,11 @@
         <name>CustomTab</name>
         <!--(End)DEPP-7231-->
     </types>
+    <types>
+        <members>Donation_Cause__c.All_Donation_Causes</members>
+        <members>Donation_Cause__c.All_Open_Donation_Causes</members>
+        <members>Donation_Cause__c.My_Open_Donation_Causes</members>
+        <name>ListView</name>
+    </types>
     <version>59.0</version> 
 </Package>
