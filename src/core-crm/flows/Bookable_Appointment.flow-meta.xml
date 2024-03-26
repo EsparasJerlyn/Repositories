@@ -363,6 +363,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>ServiceAppointment.Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ContactId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ServiceAppointment.LeadId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LeadId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>ServiceAppointment.My_Citizenship_Status__c</assignToReference>
             <operator>Assign</operator>
             <value>
