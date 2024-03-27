@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Error_Action</name>
         <label>Error Action</label>
-        <locationX>7354</locationX>
-        <locationY>3080</locationY>
+        <locationX>7618</locationX>
+        <locationY>1106</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,7 +43,7 @@
     <assignments>
         <name>Assign_Academic_Modal_Title</name>
         <label>Assign Academic Modal Title</label>
-        <locationX>5506</locationX>
+        <locationX>5770</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -59,7 +59,7 @@
     <assignments>
         <name>Assign_Board_of_Directors_Modal_Title</name>
         <label>Assign Board of Directors Modal Title</label>
-        <locationX>6562</locationX>
+        <locationX>7486</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -75,8 +75,8 @@
     <assignments>
         <name>Assign_Commercialisation_Contributor_Modal_Title</name>
         <label>Assign Commercialisation Contributor Modal Title</label>
-        <locationX>3284</locationX>
-        <locationY>2156</locationY>
+        <locationX>1634</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
             <operator>Assign</operator>
@@ -91,7 +91,7 @@
     <assignments>
         <name>Assign_Contextual_Role_Independent_Fields</name>
         <label>Assign Contextual Role Independent Fields</label>
-        <locationX>3636</locationX>
+        <locationX>4428</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.RecordTypeId</assignToReference>
@@ -114,7 +114,7 @@
     <assignments>
         <name>Assign_Contributor_Modal_Title</name>
         <label>Assign Contributor Modal Title</label>
-        <locationX>4714</locationX>
+        <locationX>2954</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -130,7 +130,7 @@
     <assignments>
         <name>Assign_Funding_Bodies_Modal_Title</name>
         <label>Assign Funding Bodies Modal Title</label>
-        <locationX>6298</locationX>
+        <locationX>6562</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -162,7 +162,7 @@
     <assignments>
         <name>Assign_Modal_Title_for_IP_Management_Contributor</name>
         <label>Assign Modal Title for IP Management Contributor</label>
-        <locationX>4978</locationX>
+        <locationX>5242</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -178,7 +178,7 @@
     <assignments>
         <name>Assign_New_Contact_to_Contextual_Role</name>
         <label>Assign New Contact to Contextual Role</label>
-        <locationX>3746</locationX>
+        <locationX>4010</locationX>
         <locationY>1430</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Contact__c</assignToReference>
@@ -194,7 +194,7 @@
     <assignments>
         <name>Assign_Organisation_Giving_Contact_to_Create</name>
         <label>Assign Organisation Giving Contact to Create</label>
-        <locationX>3746</locationX>
+        <locationX>4010</locationX>
         <locationY>1214</locationY>
         <assignmentItems>
             <assignToReference>Contact_To_Create.FirstName</assignToReference>
@@ -252,7 +252,7 @@
     <assignments>
         <name>Assign_Organisation_Giving_Contributor_Modal_Title</name>
         <label>Assign Organisation Giving Contributor Modal Title</label>
-        <locationX>3812</locationX>
+        <locationX>4076</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -268,7 +268,7 @@
     <assignments>
         <name>Assign_Organisation_Giving_Custom_Error_Value</name>
         <label>Assign Organisation Giving Custom Error Value</label>
-        <locationX>3482</locationX>
+        <locationX>3746</locationX>
         <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>OrganisationGivingScreenContextualRoleIsEmpty</assignToReference>
@@ -285,8 +285,8 @@
     <assignments>
         <name>Assign_Parent_Engagement_Id</name>
         <label>Assign Parent Engagement Id</label>
-        <locationX>3372</locationX>
-        <locationY>2780</locationY>
+        <locationX>7090</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Engagement__c</assignToReference>
             <operator>Assign</operator>
@@ -295,14 +295,15 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Parent_IP_Management_Id</name>
         <label>Assign Parent IP Management Id</label>
-        <locationX>3900</locationX>
-        <locationY>2780</locationY>
+        <locationX>7882</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.IP_Management__c</assignToReference>
             <operator>Assign</operator>
@@ -311,14 +312,52 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Parent_Object_Record</name>
+        <label>Assign Parent Object Record</label>
+        <locationX>4428</locationX>
+        <locationY>2348</locationY>
+        <assignmentItems>
+            <assignToReference>ParentObjectRecord</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ParentEngagementId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ParentObjectRecord</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ParentOpportunityId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ParentObjectRecord</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ParentOpporunityOutcomeId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ParentObjectRecord</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ParentIPManagementId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Redirect_to_Parent</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Parent_Opportunity_Id</name>
         <label>Assign Parent Opportunity Id</label>
-        <locationX>3108</locationX>
-        <locationY>2780</locationY>
+        <locationX>6826</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Opportunity__c</assignToReference>
             <operator>Assign</operator>
@@ -327,14 +366,15 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Parent_Opportunity_Outcome_Id</name>
         <label>Assign Parent Opportunity Outcome Id</label>
-        <locationX>3636</locationX>
-        <locationY>2780</locationY>
+        <locationX>7354</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Opportunity_Outcome__c</assignToReference>
             <operator>Assign</operator>
@@ -365,7 +405,7 @@
     <assignments>
         <name>Assign_Public_Officers_Modal_Title</name>
         <label>Assign Public Officers Modal Title</label>
-        <locationX>6826</locationX>
+        <locationX>8410</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -391,7 +431,6 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
         </connector>
     </assignments>
@@ -408,14 +447,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
             <targetReference>Call_Complex_Contextual_Role_Flow</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Research_School_Faculty_Modal_Title</name>
         <label>Assign Research, School, Faculty Modal Title</label>
-        <locationX>6034</locationX>
+        <locationX>6298</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -431,7 +469,7 @@
     <assignments>
         <name>Assign_RoleIsActive_Value</name>
         <label>Assign RoleIsActive Value</label>
-        <locationX>4142</locationX>
+        <locationX>4406</locationX>
         <locationY>1730</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -448,7 +486,7 @@
     <assignments>
         <name>Assign_Startup_Contributor_Modal_Title</name>
         <label>Assign Startup Contributor Modal Title</label>
-        <locationX>2514</locationX>
+        <locationX>2690</locationX>
         <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -464,7 +502,7 @@
     <assignments>
         <name>Assign_Training_Team_Modal_Title</name>
         <label>Assign Training Team Modal Title</label>
-        <locationX>5770</locationX>
+        <locationX>6034</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -480,7 +518,7 @@
     <assignments>
         <name>Assign_User_Input_as_Temporary_Values</name>
         <label>Assign User Input as Temporary Values</label>
-        <locationX>3482</locationX>
+        <locationX>3746</locationX>
         <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>OrganisationGivingCreateNewContact</assignToReference>
@@ -531,8 +569,8 @@
     <assignments>
         <name>Assign_Values_to_ContextualRolesToCreate</name>
         <label>Assign Values to ContextualRolesToCreate</label>
-        <locationX>3636</locationX>
-        <locationY>2564</locationY>
+        <locationX>7486</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleToCreate.Is_QUT_Internal_Participant__c</assignToReference>
             <operator>Assign</operator>
@@ -561,7 +599,7 @@
     <assignments>
         <name>Assign_Variables_For_Academic</name>
         <label>Assign Variables For Academic</label>
-        <locationX>5506</locationX>
+        <locationX>5770</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -578,13 +616,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Board_of_Directors</name>
         <label>Assign Variables For Board of Directors</label>
-        <locationX>6562</locationX>
+        <locationX>7486</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -607,8 +646,8 @@
     <assignments>
         <name>Assign_Variables_For_Commercialisation_Contributors</name>
         <label>Assign Variables For Commercialisation Contributors</label>
-        <locationX>3284</locationX>
-        <locationY>2372</locationY>
+        <locationX>1634</locationX>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
             <operator>Assign</operator>
@@ -624,13 +663,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Contributors</name>
         <label>Assign Variables For Contributors</label>
-        <locationX>4714</locationX>
+        <locationX>2954</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -647,7 +687,7 @@
     <assignments>
         <name>Assign_Variables_For_Funding_Bodies</name>
         <label>Assign Variables For Funding Bodies</label>
-        <locationX>6298</locationX>
+        <locationX>6562</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -657,6 +697,7 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
@@ -711,13 +752,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Public_Officers</name>
         <label>Assign Variables For Public Officers</label>
-        <locationX>6826</locationX>
+        <locationX>8410</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -727,13 +769,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Research_School_Faculty</name>
         <label>Assign Variables For Research, School, Faculty</label>
-        <locationX>6034</locationX>
+        <locationX>6298</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -764,13 +807,14 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Variables_For_Startup_Contributors</name>
         <label>Assign Variables For Startup Contributors</label>
-        <locationX>2514</locationX>
+        <locationX>2690</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -794,7 +838,7 @@
     <assignments>
         <name>Assign_Variables_For_Training_Team</name>
         <label>Assign Variables For Training Team</label>
-        <locationX>5770</locationX>
+        <locationX>6034</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>RoleIsActive</assignToReference>
@@ -804,6 +848,7 @@
             </value>
         </assignmentItems>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Values_to_ContextualRolesToCreate</targetReference>
         </connector>
     </assignments>
@@ -818,7 +863,7 @@
     <decisions>
         <name>Check_Contextual_Role_Group</name>
         <label>Check Contextual Role Group</label>
-        <locationX>3636</locationX>
+        <locationX>4428</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -959,7 +1004,7 @@
     <decisions>
         <name>Check_Contributor_Parent</name>
         <label>Check Contributor Parent</label>
-        <locationX>3284</locationX>
+        <locationX>3438</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <isGoTo>true</isGoTo>
@@ -1037,7 +1082,7 @@
     <decisions>
         <name>Check_create_new_contact</name>
         <label>Check create new contact</label>
-        <locationX>4142</locationX>
+        <locationX>4406</locationX>
         <locationY>998</locationY>
         <defaultConnector>
             <targetReference>Check_Contact_Affiliation</targetReference>
@@ -1062,7 +1107,7 @@
     <decisions>
         <name>Check_Engagement_RecordType</name>
         <label>Check Engagement RecordType</label>
-        <locationX>1326</locationX>
+        <locationX>1370</locationX>
         <locationY>566</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1157,10 +1202,9 @@
     <decisions>
         <name>Check_Opportunity_Outcome_Record_Type</name>
         <label>Check Opportunity Outcome Record Type</label>
-        <locationX>2558</locationX>
+        <locationX>2690</locationX>
         <locationY>566</locationY>
         <defaultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Assign_Contributor_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -1175,6 +1219,7 @@
                 </rightValue>
             </conditions>
             <connector>
+                <isGoTo>true</isGoTo>
                 <targetReference>Assign_Commercialisation_Contributor_Modal_Title</targetReference>
             </connector>
             <label>Is Research Commercialisation Project</label>
@@ -1224,9 +1269,10 @@
     <decisions>
         <name>Check_Opportunity_Record_Type</name>
         <label>Check Opportunity Record Type</label>
-        <locationX>4010</locationX>
+        <locationX>4230</locationX>
         <locationY>566</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Assign_Contributor_Modal_Title</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -1241,6 +1287,7 @@
                 </rightValue>
             </conditions>
             <connector>
+                <isGoTo>true</isGoTo>
                 <targetReference>Assign_Commercialisation_Contributor_Modal_Title</targetReference>
             </connector>
             <label>Is Commercialisation Opportuntity</label>
@@ -1264,7 +1311,7 @@
     <decisions>
         <name>Check_Organisation_Giving_Contextual_Role</name>
         <label>Check Organisation Giving Contextual Role</label>
-        <locationX>3812</locationX>
+        <locationX>4076</locationX>
         <locationY>890</locationY>
         <defaultConnector>
             <targetReference>Check_create_new_contact</targetReference>
@@ -1289,9 +1336,10 @@
     <decisions>
         <name>Check_Parent_Object_Type</name>
         <label>Check Parent Object Type</label>
-        <locationX>3636</locationX>
-        <locationY>2672</locationY>
+        <locationX>7486</locationX>
+        <locationY>782</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Create_Contextual_Role_Record</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -1412,6 +1460,26 @@
         <dataType>String</dataType>
         <expression>IF({!Get_Opportunity.RecordType.DeveloperName}=&apos;Organisation_Giving&apos;, {!Get_Opportunity.Account.Id}, null)</expression>
     </formulas>
+    <formulas>
+        <name>ParentEngagementId</name>
+        <dataType>String</dataType>
+        <expression>IF({!ParentObjectApiName} = &quot;Engagement__c&quot;,{!ParentId},&quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>ParentIPManagementId</name>
+        <dataType>String</dataType>
+        <expression>IF({!ParentObjectApiName} = &quot;IP_Management__c&quot;,{!ParentId},&quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>ParentOpportunityId</name>
+        <dataType>String</dataType>
+        <expression>IF({!ParentObjectApiName} = &quot;Opportunity&quot;,{!ParentId},&quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>ParentOpporunityOutcomeId</name>
+        <dataType>String</dataType>
+        <expression>IF({!ParentObjectApiName} = &quot;Opportunity_Outcome__c&quot;,{!ParentId},&quot;&quot;)</expression>
+    </formulas>
     <interviewLabel>Create or Edit Contextual Role {!$Flow.CurrentDateTime}</interviewLabel>
     <label>New Contextual Role</label>
     <processMetadataValues>
@@ -1436,8 +1504,11 @@
     <recordCreates>
         <name>Create_Contextual_Role_Record</name>
         <label>Create Contextual Role Record</label>
-        <locationX>3636</locationX>
-        <locationY>2972</locationY>
+        <locationX>7354</locationX>
+        <locationY>998</locationY>
+        <connector>
+            <targetReference>Assign_Parent_Object_Record</targetReference>
+        </connector>
         <faultConnector>
             <targetReference>Error_Action</targetReference>
         </faultConnector>
@@ -1446,7 +1517,7 @@
     <recordCreates>
         <name>Create_Organisation_New_Contact</name>
         <label>Create Organisation New Contact</label>
-        <locationX>3746</locationX>
+        <locationX>4010</locationX>
         <locationY>1322</locationY>
         <connector>
             <targetReference>Assign_New_Contact_to_Contextual_Role</targetReference>
@@ -1460,7 +1531,7 @@
     <recordLookups>
         <name>Get_IP_Management</name>
         <label>Get IP Management</label>
-        <locationX>4978</locationX>
+        <locationX>5242</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1481,7 +1552,7 @@
     <recordLookups>
         <name>Get_Opportunity</name>
         <label>Get Opportunity</label>
-        <locationX>4010</locationX>
+        <locationX>4230</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1502,7 +1573,7 @@
     <recordLookups>
         <name>Get_Opportunity_Outcome</name>
         <label>Get Opportunity Outcome</label>
-        <locationX>2558</locationX>
+        <locationX>2690</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1548,7 +1619,7 @@
     <recordLookups>
         <name>Get_Parent_Engagement_Record</name>
         <label>Get Parent Engagement Record</label>
-        <locationX>1326</locationX>
+        <locationX>1370</locationX>
         <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1573,7 +1644,7 @@
     <recordLookups>
         <name>Get_Person_Record_Type</name>
         <label>Get Person Record Type</label>
-        <locationX>3746</locationX>
+        <locationX>4010</locationX>
         <locationY>1106</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1606,8 +1677,8 @@
     <recordRollbacks>
         <name>Roll_Back_Records</name>
         <label>Roll Back Records</label>
-        <locationX>7354</locationX>
-        <locationY>3188</locationY>
+        <locationX>7618</locationX>
+        <locationY>1214</locationY>
         <connector>
             <targetReference>Error</targetReference>
         </connector>
@@ -1615,7 +1686,7 @@
     <screens>
         <name>Academics_Involved_Screen</name>
         <label>Academics Involved Screen</label>
-        <locationX>5506</locationX>
+        <locationX>5770</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1810,7 +1881,7 @@
     <screens>
         <name>Board_of_Directors_Screen</name>
         <label>Board of Directors Screen</label>
-        <locationX>6562</locationX>
+        <locationX>7486</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1967,8 +2038,8 @@
     <screens>
         <name>ComOppOutcomeContributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>3284</locationX>
-        <locationY>2264</locationY>
+        <locationX>1634</locationX>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2186,7 +2257,7 @@
     <screens>
         <name>Contributor_Screen_for_Organisation_Giving</name>
         <label>Contributor Screen for Organisation Giving</label>
-        <locationX>3812</locationX>
+        <locationX>4076</locationX>
         <locationY>782</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -2556,7 +2627,7 @@
     <screens>
         <name>Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>4714</locationX>
+        <locationX>2954</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2708,8 +2779,8 @@
     <screens>
         <name>Error</name>
         <label>Error</label>
-        <locationX>7354</locationX>
-        <locationY>3296</locationY>
+        <locationX>7618</locationX>
+        <locationY>1322</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2724,7 +2795,7 @@
     <screens>
         <name>Funding_Bodies_Screen</name>
         <label>Funding Bodies Screen</label>
-        <locationX>6298</locationX>
+        <locationX>6562</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3181,7 +3252,7 @@
     <screens>
         <name>Public_Officers_Screen</name>
         <label>Public Officers Screen</label>
-        <locationX>6826</locationX>
+        <locationX>8410</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3327,7 +3398,7 @@
     <screens>
         <name>Research_Centre_School_Faculty_Screen</name>
         <label>Research Centre, School, Faculty Screen</label>
-        <locationX>6034</locationX>
+        <locationX>6298</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3588,7 +3659,7 @@
     <screens>
         <name>Startup_Contributors_Screen</name>
         <label>Contributors Screen</label>
-        <locationX>2514</locationX>
+        <locationX>2690</locationX>
         <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3807,7 +3878,7 @@
     <screens>
         <name>Training_Team_Screen</name>
         <label>Training Team Screen</label>
-        <locationX>5770</locationX>
+        <locationX>6034</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3951,7 +4022,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>3510</locationX>
+        <locationX>4302</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Contextual_Role_Independent_Fields</targetReference>
@@ -3961,8 +4032,11 @@
     <subflows>
         <name>Call_Complex_Contextual_Role_Flow</name>
         <label>Call Complex Contextual Role Flow</label>
-        <locationX>4978</locationX>
-        <locationY>674</locationY>
+        <locationX>3438</locationX>
+        <locationY>2156</locationY>
+        <connector>
+            <targetReference>Assign_Parent_Object_Record</targetReference>
+        </connector>
         <flowName>New_Contextual_Role_Complex</flowName>
         <inputAssignments>
             <name>DynamicDataTableInput</name>
@@ -3993,7 +4067,7 @@
     <subflows>
         <name>Check_Contact_Affiliation</name>
         <label>Check Contact Affiliation</label>
-        <locationX>4142</locationX>
+        <locationX>4406</locationX>
         <locationY>1622</locationY>
         <connector>
             <targetReference>Assign_RoleIsActive_Value</targetReference>
@@ -4015,6 +4089,19 @@
             <name>JobTitle</name>
             <value>
                 <elementReference>OrganisationGivingOpp_Job_Title</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Redirect_to_Parent</name>
+        <label>Redirect to Parent</label>
+        <locationX>4428</locationX>
+        <locationY>2456</locationY>
+        <flowName>Detail_Page_Navigation</flowName>
+        <inputAssignments>
+            <name>RecordTypeId</name>
+            <value>
+                <elementReference>ParentObjectRecord</elementReference>
             </value>
         </inputAssignments>
     </subflows>
@@ -4114,6 +4201,13 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ParentObjectRecord</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
