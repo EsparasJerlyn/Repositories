@@ -8,6 +8,36 @@
     </types>
     -->
     <types>
+        <members>Donation_Cause_Child_Product_Update_Test</members>
+        <members>Donation_Cause_Stage_Update_Test</members>
+        <members>IDonationCausesDAO</members>
+        <members>DonationCausesDAO</members>
+        <members>DonationCausesDAOTest</members>
+        <members>DonationCausesDAOMock</members>
+        <members>IDonationCauseCodeAutoNumbersDAO</members>
+        <members>DonationCauseCodeAutoNumbersDAO</members>
+        <members>DonationCauseCodeAutoNumbersDAOTest</members>
+        <members>DonationCauseCodeAutoNumbersDAOMock</members>
+        <members>DonationCauseStageUpdateBatch</members>
+        <members>DonationCauseStageUpdateBatchTest</members>
+        <members>DonationCauseStageUpdateScheduler</members>
+        <members>DonationCauseStageUpdateSchedulerTest</members>
+        <members>DonationCauseTriggerHandler</members>
+        <members>DonationCauseTriggerHandlerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-5797 -->
+        <members>DonationCauseTrigger</members>
+        <members>DonationCauseTrigger</members>
+        <name>ApexTrigger</name>
+        <!--(End) DEPP-5797 -->
+    </types>
+    <types>
+        <members>TriggerHandler.Donation_Cause_c</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
         <!-- Start DEPP-8054 -->
          <members>Stewardship__c.Stewardship_Type__c</members>
          <members>Stewardship__c.Stewardship_Tier__c</members>
@@ -63,6 +93,8 @@
         <members>Case_Clear_Closure_Fields</members>
         <members>Case_Pending_Closure_to_Closed</members>
         <!--(End) DEPP-5906-->
+        <members>Donation_Cause_Child_Product_Update</members>
+        <members>Donation_Cause_Stage_Update</members>
         <name>Flow</name>
     </types>
     <types>

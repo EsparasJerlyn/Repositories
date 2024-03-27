@@ -8,6 +8,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 |
+      | eugene.andrew.abuan            | March 22, 2024        | DEPP-8200              | Added Donation Cause in Setup|
  */
 @isTest
 private class Designation_Child_Product_Update_Test {
