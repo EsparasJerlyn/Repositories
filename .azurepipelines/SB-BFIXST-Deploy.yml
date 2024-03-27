@@ -42,7 +42,7 @@ parameters:
 - name: BUILD_PACKAGE_FROM
   displayName: Build Package From
   type: string
-  default: Default Behaviour
+  default: Diff from main
   values:
   - Default Behaviour
   - Diff from main
