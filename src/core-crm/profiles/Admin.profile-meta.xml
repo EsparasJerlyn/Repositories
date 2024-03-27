@@ -225,10 +225,6 @@
         <layout>Knowledge__kav-Knowledge Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Contact-Contact Page Layout</layout>
-        <recordType>Contact.Person</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Lead-QUTeX Leads</layout>
     </layoutAssignments>
     <layoutAssignments>
