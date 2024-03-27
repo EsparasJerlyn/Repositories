@@ -7,12 +7,13 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseIdTest
  */
 @isTest
 public with sharing class ProductsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Advancement_Manager'});
     }
 
     @isTest
@@ -69,4 +70,19 @@ public with sharing class ProductsDAOTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void getProductByDonationCauseIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductByDonationCauseId(
+                        new Set<Id>(),
+                        AccessLevel.USER_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
 }
