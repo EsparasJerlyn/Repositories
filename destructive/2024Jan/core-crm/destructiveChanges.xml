@@ -27,11 +27,9 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <!--(Start) DEPP-5797 -->
         <members>DonationCauseTrigger</members>
         <members>DonationCauseTrigger</members>
         <name>ApexTrigger</name>
-        <!--(End) DEPP-5797 -->
     </types>
     <types>
         <members>TriggerHandler.Donation_Cause_c</members>
