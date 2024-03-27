@@ -42,6 +42,30 @@
         <!--(Start) DEPP-8200-->
         <members>Donation_Cause_Code_Auto_Number__c.Donation_Cause__c</members>
         <!--(End) DEPP-8200-->
+        <!--(Start) DEPP-7767-->
+        <members>Donation_Cause__c.Activation_End_Date__c</members>
+        <members>Donation_Cause__c.Activation_Start_Date__c</members>
+        <members>Donation_Cause__c.Archived_Comment__c</members>
+        <members>Donation_Cause__c.Archived_Date__c</members>
+        <members>Donation_Cause__c.Archived_Reason__c</members>
+        <members>Donation_Cause__c.Donation_Cause_Code__c</members>
+        <members>Donation_Cause__c.Donation_Cause_Description__c</members>
+        <members>Donation_Cause__c.External_Id__c</members>
+        <members>Donation_Cause__c.External_Key__c</members>
+        <members>Donation_Cause__c.Giving_Category__c</members>
+        <members>Donation_Cause__c.Is_For_Private_Giving__c</members>
+        <members>Donation_Cause__c.Is_For_Public_Giving__c</members>
+        <members>Donation_Cause__c.Is_For_Staff_Giving__c</members>
+        <members>Donation_Cause__c.Migration_Id__c</members>
+        <members>Donation_Cause__c.Migration_Key__c</members>
+        <members>Donation_Cause__c.Owner_Full_Name__c</members>
+        <members>Donation_Cause__c.QA_Completed__c</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_End_Date__c</members>
+        <members>Donation_Cause__c.QUT_Giving_Publish_Start_Date__c</members>
+        <members>Donation_Cause__c.Ready_For_Publishing__c</members>
+        <members>Donation_Cause__c.Staff_Giving_Portal_Publish_End_Date__c</members>
+        <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date__c</members>
+        <members>Donation_Cause__c.Stage__c</members>
         <name>CustomField</name>
     </types>    
     <types>
