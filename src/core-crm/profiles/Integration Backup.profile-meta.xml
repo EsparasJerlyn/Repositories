@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <layoutAssignments>
+        <layout>Application_Preference__c-StudyLink</layout>
+        <recordType>Application_Preference__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Application_Preference__c-QTAC Layout</layout>
+        <recordType>Application_Preference__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout</layout>
+        <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout</layout>
+        <recordType>Case.International_Future_Student_Enquiry</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+        <recordType>Contact.MC_Persona</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+        <recordType>Contact.Person</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-QUTeX Leads</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>International_Tier__c-International Tier Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Outlook-Outlook Integration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+     <layout>Account-Administrative Account Layout</layout>
+        <recordType>Account.Administrative</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Business Organization Layout</layout>
+        <recordType>Account.Business_Organization</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.Educational_Institution</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-University And Educational Layout</layout>
+        <recordType>Account.University_Department</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document - Board Meeting Minutes Page Layout</layout>
+        <recordType>Document__c.Board_Meeting_Minutes</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document - Shareholder and Constitution Amendment Page Layout</layout>
+        <recordType>Document__c.Shareholder_and_Constitution_Amendment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Document__c-Document Page Layout</layout>
+        <recordType>Document__c.Standard</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Dividend Summary Page Layout</layout>
+        <recordType>Finance_Summary__c.Dividend_Summary</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - QUT Finance System Page Layout</layout>
+        <recordType>Finance_Summary__c.QUT_Finance_System</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Valuation Page Layout</layout>
+        <recordType>Finance_Summary__c.Valuation</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Course Financial Split Page Layout</layout>
+        <recordType>Financial_Split__c.Course_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Funding Body Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Funding_Body</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Funding Body Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Funding_Body</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Account Revenue FS Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Account_Revenue_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Financial_Split__c-Financial Split - Opportunity Outcome Contact Revenue FS Page Layout</layout>
+        <recordType>Financial_Split__c.Opportunity_Outcome_Contact_Revenue_Financial_Split</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WebCart-Cart Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CartItem-Cart Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-QTAC Application Layout</layout>
+        <recordType>hed__Application__c.QTAC</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS CIAnywhere Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_CIAnywhere</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-SAMS Legacy Application Layout</layout>
+        <recordType>hed__Application__c.SAMS_Legacy</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-StudyLink Application Layout</layout>
+        <recordType>hed__Application__c.StudyLink</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Application__c-hed__EDA Application Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Default</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-CCE Group Coaching Layout</layout>
+        <recordType>hed__Course__c.Group_Coaching</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-CCE Individual Coaching Layout</layout>
+        <recordType>hed__Course__c.Individual_Coaching</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Activity Page Layout</layout>
+        <recordType>hed__Course__c.OPE_Activity</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Module Page Layout</layout>
+        <recordType>hed__Course__c.Module</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Short Course Page Layout</layout>
+        <recordType>hed__Course__c.Short_Course</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course__c-OPE Unit Page Layout</layout>
+        <recordType>hed__Course__c.Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Page Layout</layout>
+        <recordType>hed__Program_Plan__c.Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-Program Without Pathway Layout</layout>
+        <recordType>hed__Program_Plan__c.Program_Without_Pathway</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Program_Plan__c-QUT Program Plan Layout</layout>
+        <recordType>hed__Program_Plan__c.QUT_Program</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management - Design Rights Page Layout</layout>
+        <recordType>IP_Management__c.Design_Rights</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management - Patent Page Layout</layout>
+        <recordType>IP_Management__c.Patent</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management - Plant Breeders Rights Page Layout</layout>
+        <recordType>IP_Management__c.Plant_Breeders_Rights</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management__c-IP Management - Trademark Page Layout</layout>
+        <recordType>IP_Management__c.Trademark</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Engagement Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Engagement_Relationship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Opportunity Outcome Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Outcome_Relationship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>IP_Management_Relationship__c-IP Management Relationship - IP Opportunity Relationship Page Layout</layout>
+        <recordType>IP_Management_Relationship__c.IP_Opportunity_Relationship</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Coupon-Coupon Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Faculty</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>hed__Course_Enrollment__c-QUT Course Connection Layout</layout>
+        <recordType>hed__Course_Enrollment__c.Student</recordType>
+    </layoutAssignments>
+     <layoutAssignments>
+        <layout>Lead_Score_Detail__c-Lead Score Detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Industry Engagement Layout</layout>
+        <recordType>Opportunity.Commercialisation</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Industry Engagement Layout</layout>
+        <recordType>Opportunity.International_Projects_Unit</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Industry Engagement Layout</layout>
+        <recordType>Opportunity.Research_Partnership</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Promotion-promotion Layout</layout>
+    </layoutAssignments>
+     <layoutAssignments>
+        <layout>hed__Course_Offering__c-QUT Course Offering Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Account Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Relationship_Manager__c-Relationship Manager - Contact Relationship Manager Page Layout</layout>
+        <recordType>Relationship_Manager__c.Contact_Relationship_Manager</recordType>
+    </layoutAssignments>       
+    <layoutAssignments>
+        <layout>Risk__c-Risk Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SMS_Template__c-SMS Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-SMS Layout</layout>
+        <recordType>Task.SMS</recordType>
+    </layoutAssignments>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>13.236.99.148</endAddress>
+        <startAddress>13.236.99.148</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>13.211.16.11</endAddress>
+        <startAddress>13.211.16.11</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>3.104.209.136</endAddress>
+        <startAddress>3.104.209.136</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.ownbackup.com &amp; au1.owndata.com</description>
+        <endAddress>3.104.212.142</endAddress>
+        <startAddress>3.104.212.142</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.archiver.ownbackup.com &amp; au1.archive.owndata.com</description>
+        <endAddress>54.79.91.194</endAddress>
+        <startAddress>54.79.91.194</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.archiver.ownbackup.com &amp; au1.archive.owndata.com</description>
+        <endAddress>3.104.161.68</endAddress>
+        <startAddress>3.104.161.68</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>au1.archiver.ownbackup.com &amp; au1.archive.owndata.com</description>
+        <endAddress>13.55.207.198</endAddress>
+        <startAddress>13.55.207.198</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>QUT Corporate Network</description>
+        <endAddress>131.181.158.153</endAddress>
+        <startAddress>131.181.158.153</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>QUT Corporate Limited Network</description>
+        <endAddress>131.181.158.157</endAddress>
+        <startAddress>131.181.158.157</startAddress>
+    </loginIpRanges>
+
+    <userLicense>Salesforce</userLicense>
+</Profile>
