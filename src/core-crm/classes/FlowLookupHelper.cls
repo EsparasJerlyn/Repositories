@@ -6,10 +6,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                    |
- *    |--------------------------------|-----------------------|------------------------|-----------------------------------|
- *    | ryan.j.a.dela.cruz             | June 7, 2023          | DEPP-5385              | Created file                      |
- *    | ryan.j.a.dela.cruz             | October 19, 2023      | DEPP-6928/DEPP-6973    | Added fullName and email search   |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+ *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
+ *    | ryan.j.a.dela.cruz             | June 7, 2023          | DEPP-5385              | Created file                                   |
+ *    | ryan.j.a.dela.cruz             | October 19, 2023      | DEPP-6928/DEPP-6973    | Added fullName and email search                |
+ *    | sebastianne.k.trias            | March 22, 2024        | DEPP-8185              | Added SOSL in buildSearchFieldString method    |
  */
 public inherited sharing class FlowLookupHelper {
     /**
@@ -168,25 +169,50 @@ public inherited sharing class FlowLookupHelper {
         String whereClause,
         String searchFieldString,
         String orderByClause,
-        Integer numRecordsToReturn
+        Integer numRecordsToReturn,
+        Boolean useSOSL,
+        String searchTerm
     ) {
-        String queryString = 'SELECT ' + fieldsToReturn + ' FROM ' + objectName;
+        String queryString = '';
+        if (useSOSL)
+        {
+            searchTerm = '*'+searchTerm+'*';
+            queryString = 'FIND \'' +String.escapeSingleQuotes(searchTerm)+ '*\' IN NAME FIELDS RETURNING '+objectName+ '('+fieldsToReturn+'';
+            if (!String.isBlank(whereClause) || !String.isBlank(searchFieldString)) {
+                queryString += ' WHERE ';
+                if (!String.isBlank(whereClause) && !String.isBlank(searchFieldString)) {
+                    queryString += '(' + searchFieldString + ') AND (' + whereClause + ')';
+                } else {
+                    queryString += String.isBlank(searchFieldString) ? whereClause : searchFieldString;
+                }
+            }
+            if (!String.isBlank(orderByClause)) {
+                queryString += ' ORDER BY ' + orderByClause;
+            }
+            if (numRecordsToReturn > 0) {
+                queryString += ' LIMIT ' + numRecordsToReturn;
+            }
+            queryString += ')';
+        }
+        else
+        { 
+            queryString = 'SELECT ' + fieldsToReturn + ' FROM ' + objectName;
 
-        if (!String.isBlank(whereClause) || !String.isBlank(searchFieldString)) {
-            queryString += ' WHERE ';
-            if (!String.isBlank(whereClause) && !String.isBlank(searchFieldString)) {
-                queryString += '(' + searchFieldString + ') AND (' + whereClause + ')';
-            } else {
-                queryString += String.isBlank(searchFieldString) ? whereClause : searchFieldString;
+            if (!String.isBlank(whereClause) || !String.isBlank(searchFieldString)) {
+                queryString += ' WHERE ';
+                if (!String.isBlank(whereClause) && !String.isBlank(searchFieldString)) {
+                    queryString += '(' + searchFieldString + ') AND (' + whereClause + ')';
+                } else {
+                    queryString += String.isBlank(searchFieldString) ? whereClause : searchFieldString;
+                }
+            }
+            if (!String.isBlank(orderByClause)) {
+                queryString += ' ORDER BY ' + orderByClause;
+            }
+            if (numRecordsToReturn > 0) {
+                queryString += ' LIMIT ' + numRecordsToReturn;
             }
         }
-        if (!String.isBlank(orderByClause)) {
-            queryString += ' ORDER BY ' + orderByClause;
-        }
-        if (numRecordsToReturn > 0) {
-            queryString += ' LIMIT ' + numRecordsToReturn;
-        }
-
         return queryString;
     }
 
@@ -363,7 +389,7 @@ public inherited sharing class FlowLookupHelper {
             fieldMap.get(searchField).getDescribe().getType().name() == 'Email' ||
             fieldMap.get(searchField).getDescribe().getType().name() == 'Picklist')
         ) {
-            searchFieldList.add(searchField + ' LIKE \'%' + searchTerm + '%\'');
+            searchFieldList.add(searchField + ' LIKE \'%' + String.escapeSingleQuotes(searchTerm) + '%\'');
         }
     }
 }
