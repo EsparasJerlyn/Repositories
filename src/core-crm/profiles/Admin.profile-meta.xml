@@ -134,6 +134,10 @@
         <recordType>Contact.MC_Persona</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact-Contact Page Layout</layout>
+        <recordType>Contact.Person</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ContactPointEmail-Contact Point Email Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -515,9 +519,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>WebCart-Cart Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>CartItem-Cart Item Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>hed__Application__c-QTAC Application Layout</layout>
