@@ -20,7 +20,7 @@ public class DonationCauseCustomValidationFlowTest {
             new List<String>{ 'QUT_Advancement_Manager'}
         );
         System.runAs(TestDataFactory.getAdvancementManager()){
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(1);
+            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(100);
             donationCauseList[0].Is_For_Public_Giving__c = 'Yes';
             donationCauseList[0].QA_Completed__c = true;
             donationCauseList[0].QUT_Giving_Publish_Start_Date__c = Date.today();
@@ -32,18 +32,26 @@ public class DonationCauseCustomValidationFlowTest {
     public static void checkProductDescription(){
         System.runAs(TestDataFactory.getAdvancementManager()){
             List<Donation_Cause__c> donationCauseList = DonationCausesDAO.newInstance().getDonationCauseByNameStart('Test Donation', AccessLevel.USER_MODE);
-            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(new Set<Id>{ donationCauseList[0].Id }, AccessLevel.USER_MODE);
+            Set<Id> donationCauseIdSet = (new Map<Id,SObject>(donationCauseList)).keySet();
+            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(donationCauseIdSet, AccessLevel.USER_MODE);
             
             Test.startTest();
-            products[0].Description__c = '';
-            products[0].Title_Image_URL__c = 'test.com';
-		
-            donationCauseList[0].Ready_For_Publishing__c = true;
+            for(Product2 product : products){
+				product.Description__c = '';
+            	product.Title_Image_URL__c = 'test.com';
+            }
+
+            for(Donation_Cause__c donationCause : donationCauseList){
+                donationCause.Ready_For_Publishing__c = true;
+            }
+            
             ProductsDAO.newInstance().updateRecords(products, false, AccessLevel.USER_MODE);
             DonationCausesDAO.newInstance().updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
             
-            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(new Set<Id> {donationCauseList[0].Id}, AccessLevel.USER_MODE);
-            System.Assert(donationCauseToCheck[0].Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(donationCauseIdSet, AccessLevel.USER_MODE);
+            for(Donation_Cause__c donationCause : donationCauseToCheck){
+                System.Assert(donationCause.Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            }
             Test.stopTest();
 		}
     }
@@ -52,17 +60,25 @@ public class DonationCauseCustomValidationFlowTest {
     public static void checkProductTitleImageURL(){
         System.runAs(TestDataFactory.getAdvancementManager()){
             List<Donation_Cause__c> donationCauseList = DonationCausesDAO.newInstance().getDonationCauseByNameStart('Test Donation', AccessLevel.USER_MODE);
-            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(new Set<Id>{ donationCauseList[0].Id }, AccessLevel.USER_MODE);
+            Set<Id> donationCauseIdSet = (new Map<Id,SObject>(donationCauseList)).keySet();
+            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(donationCauseIdSet, AccessLevel.USER_MODE);
             
             Test.startTest();
-            products[0].Description__c = 'Test Description';
-		
-            donationCauseList[0].Ready_For_Publishing__c = true;
+            for(Product2 product : products){
+				product.Description__c = 'Test Description';
+            }
+
+            for(Donation_Cause__c donationCause : donationCauseList){
+                donationCause.Ready_For_Publishing__c = true;
+            }
+            
             ProductsDAO.newInstance().updateRecords(products, false, AccessLevel.USER_MODE);
             DonationCausesDAO.newInstance().updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
             
-            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(new Set<Id> {donationCauseList[0].Id}, AccessLevel.USER_MODE);
-            System.Assert(donationCauseToCheck[0].Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(donationCauseIdSet, AccessLevel.USER_MODE);
+            for(Donation_Cause__c donationCause : donationCauseToCheck){
+                System.Assert(donationCause.Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            }
             Test.stopTest();
 		}
     }
@@ -71,21 +87,28 @@ public class DonationCauseCustomValidationFlowTest {
     public static void checkProductSection1Heading(){
         System.runAs(TestDataFactory.getAdvancementManager()){
             List<Donation_Cause__c> donationCauseList = DonationCausesDAO.newInstance().getDonationCauseByNameStart('Test Donation', AccessLevel.USER_MODE);
-            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(new Set<Id>{ donationCauseList[0].Id }, AccessLevel.USER_MODE);
+            Set<Id> donationCauseIdSet = (new Map<Id,SObject>(donationCauseList)).keySet();
+            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(donationCauseIdSet, AccessLevel.USER_MODE);
             
             Test.startTest();
-            products[0].Description__c = 'Test Description';
-            products[0].Title_Image_URL__c = 'imageurl.com';
-            products[0].Has_Detail_Page__c = true;
-            products[0].Section_1_Heading__c = '';
-			products[0].Section_1_Content__c = 'Test Content';
+            for(Product2 product : products){
+				product.Description__c = 'Test Description';
+                product.Title_Image_URL__c = 'imageurl.com';
+                product.Has_Detail_Page__c = true;
+                product.Section_1_Content__c = 'Test Content';
+            }
 		
-            donationCauseList[0].Ready_For_Publishing__c = true;
+            for(Donation_Cause__c donationCause : donationCauseList){
+                donationCause.Ready_For_Publishing__c = true;
+            }
+            
             ProductsDAO.newInstance().updateRecords(products, false, AccessLevel.USER_MODE);
             DonationCausesDAO.newInstance().updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
             
-            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(new Set<Id> {donationCauseList[0].Id}, AccessLevel.USER_MODE);
-            System.Assert(donationCauseToCheck[0].Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(donationCauseIdSet, AccessLevel.USER_MODE);
+            for(Donation_Cause__c donationCause : donationCauseToCheck){
+                System.Assert(donationCause.Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            }
             Test.stopTest();
 		}
     }
@@ -94,21 +117,24 @@ public class DonationCauseCustomValidationFlowTest {
     public static void checkProductSection1Content(){
         System.runAs(TestDataFactory.getAdvancementManager()){
             List<Donation_Cause__c> donationCauseList = DonationCausesDAO.newInstance().getDonationCauseByNameStart('Test Donation', AccessLevel.USER_MODE);
-            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(new Set<Id>{ donationCauseList[0].Id }, AccessLevel.USER_MODE);
+            Set<Id> donationCauseIdSet = (new Map<Id,SObject>(donationCauseList)).keySet();
+            List<Product2> products = ProductsDAO.newInstance().getProductByDonationCauseId(donationCauseIdSet, AccessLevel.USER_MODE);
             
             Test.startTest();
-            products[0].Description__c = 'Test Description';
-            products[0].Title_Image_URL__c = 'imageurl.com';
-            products[0].Has_Detail_Page__c = true;
-            products[0].Section_1_Heading__c = 'Test Heading';
-			products[0].Section_1_Content__c = '';
+            for(Product2 product : products){
+				product.Description__c = 'Test Description';
+                product.Title_Image_URL__c = 'imageurl.com';
+                product.Has_Detail_Page__c = true;
+                product.Section_1_Heading__c = 'Test Heading';
+            }
 		
-            donationCauseList[0].Ready_For_Publishing__c = true;
             ProductsDAO.newInstance().updateRecords(products, false, AccessLevel.USER_MODE);
             DonationCausesDAO.newInstance().updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
             
-            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(new Set<Id> {donationCauseList[0].Id}, AccessLevel.USER_MODE);
-            System.Assert(donationCauseToCheck[0].Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            List<Donation_Cause__c> donationCauseToCheck = DonationCausesDAO.newInstance().getDonationCausesBySetRecordIds(donationCauseIdSet, AccessLevel.USER_MODE);
+            for(Donation_Cause__c donationCause : donationCauseToCheck){
+                System.Assert(donationCause.Ready_For_Publishing__c == false, 'Donation cause was updated.');
+            }
             Test.stopTest();
 		}
     }
