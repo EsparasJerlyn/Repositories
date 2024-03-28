@@ -28,6 +28,10 @@
     </filters>
     <label>Today&apos;s Appointments - International</label>
     <sharedTo>
+        <group>Development_Team</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
         <roleAndSubordinatesInternal>Future_Student_Super_User_International</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

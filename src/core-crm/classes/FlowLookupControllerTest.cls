@@ -9,7 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                               |
  *    |--------------------------------|-----------------------|------------------------|----------------------------------------------|
  *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                                 |
- *    | ryan.j.a.dela.cruz             | June 23, 2023         | DEPP-5935              | 100% Code Coverage of FlowLookupController   |
+ *    | ryan.j.a.dela.cruz             | June 23, 2023         | DEPP-5935              | 100% Code Coverage of FlowLookupController   | 
  */
 @isTest
 public class FlowLookupControllerTest {
@@ -104,6 +104,28 @@ public class FlowLookupControllerTest {
                 'test',
                 'Account',
                 'Name,Phone',
+                'Id',
+                1,
+                whereClause,
+                'Name DESC'
+            );
+            System.assertEquals(1, records.size(), '1 record should be returned in this test case');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    private static void getContactSearchResultForPartnershipManagerTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+            List<Contact> contactList = TestDataFactory.createTestContactRecords(1); 
+            ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
+
+            String whereClause = 'Name = \'Test0 Contact0\'';
+            List<SObject> records = FlowLookupController.search(
+                'test',
+                'Contact',
+                'Name',
                 'Id',
                 1,
                 whereClause,
