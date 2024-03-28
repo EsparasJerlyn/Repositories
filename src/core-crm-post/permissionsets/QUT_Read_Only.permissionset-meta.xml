@@ -3163,6 +3163,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Designation__c.Designation_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Document__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3384,11 +3389,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Donation_Cause__c.Archived_Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Designation__c.Designation_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

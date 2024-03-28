@@ -2634,6 +2634,11 @@
         <editable>true</editable>
         <field>Expression_of_Interest__c.Migration_Id__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Designation__c.Designation_Code__c</field>
+        <readable>true</readable>
     </fieldPermissions>	  	
     <fieldPermissions>
         <editable>true</editable>
@@ -2882,7 +2887,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Designation__c.Designation_Code__c</field>
+        <field>Donation_Cause__c.Donation_Cause_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
