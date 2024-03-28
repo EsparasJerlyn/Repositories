@@ -58,7 +58,7 @@
         <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Product2Exists</name>
+            <name>Does_Not_Exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Related_Product2</leftValueReference>
@@ -70,10 +70,10 @@
             <connector>
                 <targetReference>Create_Child_Record</targetReference>
             </connector>
-            <label>Product2Exists</label>
+            <label>Does Not Exist</label>
         </rules>
     </decisions>
-    <description>Creates new product when public giving is changed to true and no child produc2 is linked to the record.</description>
+    <description>Creates new product when public giving is changed to true and no child product2 is linked to the record.</description>
     <environments>Default</environments>
     <interviewLabel>Donation Cause Create Child Product {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Donation Cause Create Child Product</label>
@@ -172,7 +172,7 @@
             </value>
         </filters>
         <object>Donation_Cause__c</object>
-        <recordTriggerType>Update</recordTriggerType>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
