@@ -1,5 +1,5 @@
 /**
- * @description Interface for Opportunity Outcome Code Auto Number DAO
+ * @description Interface for Designation Code Auto Number DAO
  * @author Accenture
  *
  * @history
@@ -8,6 +8,6 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | vincent.ferrer              | March 18, 2024          | DEPP-8200              | created file
  */
-public interface IDonationCauseCodeAutoNumbersDAO extends DmlInterface {
-    Donation_Cause_Code_Auto_Number__c getOrganizationalDefaults();
+public interface IDesignationCodeAutoNumbersDAO extends DmlInterface {
+    Designation_Code_Auto_Number__c getOrganizationalDefaults();
 }

@@ -1,5 +1,5 @@
 /**
- * @description test class for Donation Cause Code Auto Numbers DAO
+ * @description test class for Designation Code Auto Numbers DAO
  * @author Accenture
  *
  * @history
@@ -9,7 +9,7 @@
       | eugene.andrew.abuan            | March 20, 2023        | DEPP-8200              | Created file                 |
  */
 @isTest
-private class DonationCauseCodeAutoNumbersDAOTest {
+private class DesignationCodeAutoNumbersDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin' });
@@ -20,8 +20,8 @@ private class DonationCauseCodeAutoNumbersDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             System.assert(
-                DonationCauseCodeAutoNumbersDAO.newInstance() != null,
-                'DonationCauseCodeAutoNumbersDAO instance is null'
+                DesignationCodeAutoNumbersDAO.newInstance() != null,
+                'DesignationCodeAutoNumbersDAO instance is null'
             );
         }
         Test.stopTest();
@@ -32,8 +32,8 @@ private class DonationCauseCodeAutoNumbersDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             System.assert(
-                new DonationCauseCodeAutoNumbersDAO().getSObjectType() == Donation_Cause_Code_Auto_Number__c.SObjectType,
-                'SObject is not Donation_Cause_Code_Auto_Number__c'
+                new DesignationCodeAutoNumbersDAO().getSObjectType() == Designation_Code_Auto_Number__c.SObjectType,
+                'SObject is not Designation_Code_Auto_Number__c'
             );
         }
         Test.stopTest();
@@ -44,7 +44,7 @@ private class DonationCauseCodeAutoNumbersDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             System.assert(
-                DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults() == new Donation_Cause_Code_Auto_Number__c(),
+                DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults() == new Designation_Code_Auto_Number__c(),
                 'Org defaults is not a new instance of the setting'
             );
         }

@@ -1168,7 +1168,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Document__c.Donation_Cause__c</field>
+        <field>Document__c.Designation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1198,27 +1198,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Activation_End_Date__c</field>
+        <field>Designation__c.Activation_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Archived_Comment__c</field>
+        <field>Designation__c.Archived_Comment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Archived_Date__c</field>
+        <field>Designation__c.Archived_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Archived_Reason__c</field>
+        <field>Designation__c.Archived_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Donation_Cause_Description__c</field>
+        <field>Designation__c.Designation_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1228,62 +1228,62 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Giving_Category__c</field>
+        <field>Designation__c.Giving_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Is_For_Private_Giving__c</field>
+        <field>Designation__c.Is_For_Private_Giving__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Is_For_Staff_Giving__c</field>
+        <field>Designation__c.Is_For_Staff_Giving__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Is_For_Public_Giving__c</field>
+        <field>Designation__c.Is_For_Public_Giving__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Owner_Full_Name__c</field>
+        <field>Designation__c.Owner_Full_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.QA_Completed__c</field>
+        <field>Designation__c.QA_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.QUT_Giving_Publish_End_Date__c</field>
+        <field>Designation__c.QUT_Giving_Publish_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.QUT_Giving_Publish_Start_Date__c</field>
+        <field>Designation__c.QUT_Giving_Publish_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Ready_For_Publishing__c</field>
+        <field>Designation__c.Ready_For_Publishing__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Staff_Giving_Portal_Publish_End_Date__c</field>
+        <field>Designation__c.Staff_Giving_Portal_Publish_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date__c</field>
+        <field>Designation__c.Staff_Giving_Portal_Publish_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation_Cause__c.Stage__c</field>
+        <field>Designation__c.Stage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2123,7 +2123,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product2.Donation_Cause__c</field>
+        <field>Product2.Designation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2875,7 +2875,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>Donation_Cause__c</object>
+        <object>Designation__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -3035,7 +3035,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
-        <tab>Donation_Cause__c</tab>
+        <tab>Designation__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
