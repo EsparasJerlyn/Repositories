@@ -1,5 +1,5 @@
 /**
- * @description trigger for object Designation
+ * @description trigger for object opportunity
  * @author Accenture
  *
  * @history
@@ -8,9 +8,9 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | created file
  */
-trigger DesignationTrigger on Designation__c(before insert) {
+trigger DonationCauseTrigger on Donation_Cause__c(before insert) {
     TriggerDispatcher.dispatch(
-        TriggerHandlerFactory.getHandlersForSObjectType('Designation__c'),
+        TriggerHandlerFactory.getHandlersForSObjectType('Donation_Cause__c'),
         Trigger.operationType
     );
 }
