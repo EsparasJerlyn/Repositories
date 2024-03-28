@@ -274,15 +274,14 @@
             <label>Archived</label>
         </rules>
     </decisions>
-    <description>Triggered Flow that contains the Donation Cause Stage Business Rules</description>
     <environments>Default</environments>
     <formulas>
         <name>IsNew</name>
         <dataType>Boolean</dataType>
         <expression>ISNEW()</expression>
     </formulas>
-    <interviewLabel>Donation Cause Stage Update {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Donation Cause Stage Update</label>
+    <interviewLabel>Designation Stage Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Designation Stage Update</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -308,7 +307,7 @@
         <connector>
             <targetReference>Evaluate_Stage_Criteria</targetReference>
         </connector>
-        <object>Donation_Cause__c</object>
+        <object>Designation__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
