@@ -1,5 +1,5 @@
 /**
- * @description test class for Designation_Child_Product_Update Flow
+ * @description test class for Donation_Cause_Child_Product_Update Flow
  * 
  * @author Accenture
  *
@@ -11,16 +11,16 @@
       | eugene.andrew.abuan            | March 22, 2024        | DEPP-8200              | Added Donation Cause in Setup|
  */
 @isTest
-private class Designation_Child_Product_Update_Test {
+private class Donation_Cause_Child_Product_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager' });
 
-        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        designationCodeAutoNum.Designation__c = 1;
-        DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
+        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        donationCauseCodeAutoNum.Donation_Cause__c = 1;
+        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
             false, 
             AccessLevel.USER_MODE
             );
