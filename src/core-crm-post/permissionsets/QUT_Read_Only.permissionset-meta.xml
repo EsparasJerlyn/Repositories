@@ -5418,6 +5418,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.Is_Influenced_Revenue__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.Is_Qualified__c</field>
         <readable>true</readable>
     </fieldPermissions>
