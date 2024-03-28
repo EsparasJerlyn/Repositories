@@ -28,7 +28,7 @@ public with sharing class DesignationTriggerHandlerTest {
             Test.startTest();
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(100);
 
-            DesignationsDAO.newInstance().insertRecords(designationList, true, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance().insertRecords(designationList, false, AccessLevel.USER_MODE);
 
             Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
