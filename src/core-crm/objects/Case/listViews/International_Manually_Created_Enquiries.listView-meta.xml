@@ -27,5 +27,9 @@
     <label>International Manually Created Enquiries</label>
     <sharedTo>
         <group>Future_Students_International</group>
+        <group>Development_Team</group>
+        <group>System_Administrator</group>
+        <group>System_Administrator_Modify_All_Data</group>
+        <group>System_Administrator_Read_Only</group>
     </sharedTo>
 </ListView>
