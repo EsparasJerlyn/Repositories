@@ -85,4 +85,20 @@ public with sharing class ProductsDAOTest {
         }
         Test.stopTest();
     }
+
+    static void getProductByDonationCauseIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            MockIdGenerator builderForDonationCause = new MockIdGenerator(Donation_Cause__c.sObjectType);
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductByDonationCauseId(
+                        new Set<Id>{builderForDonationCause.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
 }

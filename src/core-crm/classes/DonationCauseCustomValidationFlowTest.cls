@@ -1,7 +1,7 @@
 /**
- * @description Tests the Donation Cause Custom Validation Flow
+ * @description Tests the Donation Cause Update - Custom Validation Flow
  *
- * @see Donation_Cause_Custom_Validation_Flow
+ * @see Donation_Cause_Update_Custom_Validation_Flow
  *
  * @author Accenture
  *
@@ -20,11 +20,13 @@ public class DonationCauseCustomValidationFlowTest {
             new List<String>{ 'QUT_Advancement_Manager'}
         );
         System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(100);
             donationCauseList[0].Is_For_Public_Giving__c = 'Yes';
             donationCauseList[0].QA_Completed__c = true;
             donationCauseList[0].QUT_Giving_Publish_Start_Date__c = Date.today();
             DonationCausesDAO.newInstance().insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            Test.stopTest();
         }
     }
     
@@ -126,6 +128,10 @@ public class DonationCauseCustomValidationFlowTest {
                 product.Title_Image_URL__c = 'imageurl.com';
                 product.Has_Detail_Page__c = true;
                 product.Section_1_Heading__c = 'Test Heading';
+            }
+            
+            for(Donation_Cause__c donationCause : donationCauseList){
+                donationCause.Ready_For_Publishing__c = true;
             }
 		
             ProductsDAO.newInstance().updateRecords(products, false, AccessLevel.USER_MODE);

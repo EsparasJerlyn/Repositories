@@ -1,47 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionCalls>
-        <name>Error_Action</name>
-        <label>Error Action</label>
-        <locationX>842</locationX>
-        <locationY>431</locationY>
-        <actionName>FlowLogEntry</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>faultMessage</name>
-            <value>
-                <elementReference>$Flow.FaultMessage</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>flowName</name>
-            <value>
-                <stringValue>Donation Cause Custom Validation</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>loggingLevelName</name>
-            <value>
-                <stringValue>error</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>message</name>
-            <value>
-                <stringValue>Error in Donation Cause Custom Validation</stringValue>
-            </value>
-        </inputParameters>
-        <nameSegment>FlowLogEntry</nameSegment>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <customErrors>
         <name>Description_or_Title_Image_URL</name>
         <label>Description or Title Image URL</label>
         <locationX>50</locationX>
-        <locationY>539</locationY>
+        <locationY>503</locationY>
         <customErrorMessages>
             <errorMessage>You cannot proceed to publishing if Description or Title Image URL are not populated.</errorMessage>
             <fieldSelection>Ready_For_Publishing__c</fieldSelection>
@@ -52,7 +16,7 @@
         <name>Product_Section_Heading_1_and_Section_Content_1_Error</name>
         <label>Product Section Heading 1 and Section Content 1 Error</label>
         <locationX>314</locationX>
-        <locationY>539</locationY>
+        <locationY>503</locationY>
         <customErrorMessages>
             <errorMessage>You cannot proceed to publishing if Section Heading 1 or Section 1 Content is blank.</errorMessage>
             <fieldSelection>Ready_For_Publishing__c</fieldSelection>
@@ -63,7 +27,7 @@
         <name>Check_Fields</name>
         <label>Check Fields</label>
         <locationX>314</locationX>
-        <locationY>431</locationY>
+        <locationY>395</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Description_or_Product_Title_Image_URL_is_Blank</name>
@@ -118,8 +82,8 @@
         </rules>
     </decisions>
     <environments>Default</environments>
-    <interviewLabel>Donation Cause Custom Error Flow {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Donation Cause Custom Validation</label>
+    <interviewLabel>Donation Cause Update - Custom Validation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Donation Cause Update - Custom Validation</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -143,14 +107,11 @@
         <name>Get_Product</name>
         <label>Get Product</label>
         <locationX>314</locationX>
-        <locationY>323</locationY>
+        <locationY>287</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Fields</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Donation_Cause__c</field>
@@ -186,7 +147,7 @@
         </filters>
         <object>Donation_Cause__c</object>
         <recordTriggerType>Update</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>
