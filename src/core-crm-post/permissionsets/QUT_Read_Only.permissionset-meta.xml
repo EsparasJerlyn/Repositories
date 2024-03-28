@@ -3393,6 +3393,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Donation_Cause__c.Donation_Cause_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Donation_Cause__c.Donation_Cause_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
