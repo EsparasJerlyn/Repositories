@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>All_Research_Partnership_Opportunities</fullName>
+    <fullName>All_Research_Partnership</fullName>
     <columns>OPPORTUNITY.NAME</columns>
     <columns>ACCOUNT.NAME</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
@@ -8,5 +8,5 @@
     <columns>OPPORTUNITY.AMOUNT</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Mine</filterScope>
-    <label>All Research Partnership Opportunities</label>
+    <label>All Research Partnership</label>
 </ListView>
