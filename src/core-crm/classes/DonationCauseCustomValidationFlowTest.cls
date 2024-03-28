@@ -22,9 +22,11 @@ public class DonationCauseCustomValidationFlowTest {
         System.runAs(TestDataFactory.getAdvancementManager()){
             Test.startTest();
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(100);
-            donationCauseList[0].Is_For_Public_Giving__c = 'Yes';
-            donationCauseList[0].QA_Completed__c = true;
-            donationCauseList[0].QUT_Giving_Publish_Start_Date__c = Date.today();
+            for(Donation_Cause__c donationCause : donationCauseList){
+                donationCause.Is_For_Public_Giving__c = 'Yes';
+                donationCause.QA_Completed__c = true;
+                donationCause.QUT_Giving_Publish_Start_Date__c = Date.today();
+            }
             DonationCausesDAO.newInstance().insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
             Test.stopTest();
         }
