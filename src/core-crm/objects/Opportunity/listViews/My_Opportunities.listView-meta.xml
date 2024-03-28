@@ -6,7 +6,7 @@
     <columns>OPPORTUNITY.AMOUNT</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
-    <columns>CORE.USERS.ALIAS</columns>
+    <columns>CORE.USERS.FULL_NAME</columns>
     <filterScope>Mine</filterScope>
     <label>My Opportunities</label>
     <sharedTo>
