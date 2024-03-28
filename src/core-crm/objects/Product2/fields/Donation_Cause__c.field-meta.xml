@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Designation__c</fullName>
+    <fullName>Donation_Cause__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Lookup to Designation record.</description>
+    <description>Lookup to Donation Cause record.</description>
     <externalId>false</externalId>
-    <label>Designation</label>
-    <referenceTo>Designation__c</referenceTo>
+    <label>Donation Cause</label>
+    <referenceTo>Donation_Cause__c</referenceTo>
     <relationshipLabel>Products</relationshipLabel>
     <relationshipName>Products</relationshipName>
     <required>false</required>
