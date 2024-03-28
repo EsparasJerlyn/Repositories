@@ -1,5 +1,5 @@
 /**
- * @description test class for Donation_Cause_Stage_Update Flow
+ * @description test class for Designation_Stage_Update Flow
  * 
  * @author Accenture
  *
@@ -10,16 +10,16 @@
       | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
  */
 @isTest
-private class Donation_Cause_Stage_Update_Test {
+private class Designation_Stage_Update_Test {
     @testSetup
     static void setupData() {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager'  });
 
-        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        donationCauseCodeAutoNum.Donation_Cause__c = 1;
-        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        designationCodeAutoNum.Designation__c = 1;
+        DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
             false, 
             AccessLevel.USER_MODE
             );

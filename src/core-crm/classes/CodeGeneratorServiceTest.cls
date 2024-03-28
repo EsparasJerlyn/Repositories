@@ -42,10 +42,10 @@ public class CodeGeneratorServiceTest {
             AccessLevel.USER_MODE
             );
         
-        Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        donationCauseCodeAutoNum.Donation_Cause__c = 1;
-        DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
-            new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        designationCodeAutoNum.Designation__c = 1;
+        DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
             false, 
             AccessLevel.USER_MODE
             );
@@ -252,31 +252,31 @@ public class CodeGeneratorServiceTest {
      */
 
     /** 
-     * TEST START: CodeGeneratorService.generateCodeForDonationCauseRecords()
+     * TEST START: CodeGeneratorService.generateCodeForDesignationRecords()
      */
     @isTest
-    private static void createDonationCauseRecords() {
+    private static void createDesignationRecords() {
 
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
-            List<Donation_Cause__c> newItems = TestDataFactory.createDonationCauseRecords(100);
+            List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100);
             Test.startTest();
-                CodeGeneratorService.generateCodeForDonationCauseRecords(newItems);
-                Donation_Cause_Code_Auto_Number__c dcCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+                CodeGeneratorService.generateCodeForDesignationRecords(newItems);
+                Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
 
             Integer count = 1;
-            for(Donation_Cause__c newItem : newItems) {
+            for(Designation__c newItem : newItems) {
                 System.assertEquals(
                     'ADVDC:' + String.valueOf(count).leftPad(5, '0'),
-                    newItem.Donation_Cause_Code__c,
+                    newItem.Designation_Code__c,
                     'Incorrect code.');
                 count++;
             }
-            System.assertEquals(101, dcCodeAutoNum.Donation_Cause__c, 'Incorrect final auto-number value.');
+            System.assertEquals(101, designationCodeAutoNum.Designation__c, 'Incorrect final auto-number value.');
         }
     }
 
     /**
-     * TEST STOP: CodeGeneratorService.generateCodeForDonationCauseRecords()
+     * TEST STOP: CodeGeneratorService.generateCodeForDesignationRecords()
      */
 }
