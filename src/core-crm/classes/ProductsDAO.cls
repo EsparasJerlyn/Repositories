@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseId
  */
 public inherited sharing class ProductsDAO extends DmlBase implements IProductsDAO{
 
@@ -31,6 +32,21 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             'SELECT Id, Name, Description, Overview__c, Evolve_with_QUTeX__c, Who_Should_Participate__c, Core_Concepts__c, More_Details__c, Available_on_Cart__c ' +
             'FROM Product2 ' +
             'WHERE Id IN :productIdSet ',
+            accessLevel
+        );
+    }
+
+    public List<Product2> getProductByDonationCauseId(
+        Set<Id> donationCauseIds,
+        AccessLevel accessLevel
+    ){
+        if(donationCauseIds.isEmpty()){
+            return new List<Product2>();
+        }
+        return Database.query(
+            'SELECT Id, Name, Description__c, Title_Image_URL__c, Donation_Cause__c ' +
+            'FROM Product2 ' +
+            'WHERE Donation_Cause__c IN :donationCauseIds ',
             accessLevel
         );
     }
