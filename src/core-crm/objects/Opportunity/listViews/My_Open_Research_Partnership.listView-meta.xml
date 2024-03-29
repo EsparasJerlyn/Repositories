@@ -7,7 +7,7 @@
     <columns>OPPORTUNITY.STAGE_NAME</columns>
     <columns>CORE.USERS.FULL_NAME</columns>
     <columns>OPPORTUNITY.CREATED_DATE</columns>
-    <filterScope>Everything</filterScope>
+    <filterScope>Mine</filterScope>
     <filters>
         <field>OPPORTUNITY.RECORDTYPE</field>
         <operation>equals</operation>
