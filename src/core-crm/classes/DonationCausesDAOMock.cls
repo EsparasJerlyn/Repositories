@@ -7,6 +7,8 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
       |--------------------------------|-----------------------|------------------------|------------------------------------------------|
       | roy.nino.s.regala              | March 14, 2024        | DEPP-8210              | Created file                                   |
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getDonationCauseByNameStart              |
+
 */
 @isTest
 public inherited sharing class DonationCausesDAOMock extends DmlBaseMock implements IDonationCausesDAO {
@@ -32,6 +34,19 @@ public inherited sharing class DonationCausesDAOMock extends DmlBaseMock impleme
         List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
         for (Donation_Cause__c record : donationCausesMap.values()) {
             if (recordIds.contains(record.Id)) {
+                donationCauseList.add(record);
+            }
+        }
+        return donationCauseList;
+    }
+
+    public List<Donation_Cause__c> getDonationCauseByNameStart(
+        String nameStart,
+        AccessLevel accessLevel
+    ) {
+        List<Donation_Cause__c> donationCauseList = new List<Donation_Cause__c>();
+        for (Donation_Cause__c record : donationCausesMap.values()) {
+            if ((record.Name).startsWith(nameStart)) {
                 donationCauseList.add(record);
             }
         }
