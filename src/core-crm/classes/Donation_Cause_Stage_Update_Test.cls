@@ -5,9 +5,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                                    |
+      | eugene.andrew.abuan            | March 19, 2024        | DEPP-8211              | Added Active Stage                              | 
+      | kenneth.f.alsay                | April 1, 2024         | DEPP-8209              | Added field values to pass new validation rules |
+
  */
 @isTest
 private class Donation_Cause_Stage_Update_Test {
@@ -41,6 +44,7 @@ private class Donation_Cause_Stage_Update_Test {
                 dc.Ready_For_Publishing__c = true;
                 dc.QUT_Giving_Publish_Start_Date__c = System.Today();
                 dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+                dc.QA_Completed__c = true;
             }
 
             Test.startTest();
@@ -63,7 +67,8 @@ private class Donation_Cause_Stage_Update_Test {
             }
         }
     }
-
+    
+    
     @isTest
     private static void forNotPublishedBatchTest() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
@@ -79,13 +84,14 @@ private class Donation_Cause_Stage_Update_Test {
                 dc.Ready_For_Publishing__c = true;
                 dc.QUT_Giving_Publish_Start_Date__c = System.Today();
                 dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+                dc.QA_Completed__c = true;
             }
 
             Test.startTest();
             DonationCausesDAO.newInstance()
                 .updateRecords(donationCauseList, false, AccessLevel.USER_MODE);
             Test.stopTest();
-
+            
             for (
                 Donation_Cause__c dc : DonationCausesDAO.newInstance()
                     .getDonationCausesBySetRecordIds(
