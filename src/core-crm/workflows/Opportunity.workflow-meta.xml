@@ -29,7 +29,7 @@
         <recipients>
             <type>owner</type>
         </recipients>
-        <senderAddress>test-qutex@yopmail.com</senderAddress>
+        <senderAddress>{QUTEX_ORG_WIDE_EMAIL}</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>unfiled$public/Rejected_Proposal_Email_Template</template>
     </alerts>

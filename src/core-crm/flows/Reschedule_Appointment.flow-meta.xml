@@ -5,7 +5,7 @@
         <name>Error_Action</name>
         <label>Error Action</label>
         <locationX>1106</locationX>
-        <locationY>1106</locationY>
+        <locationY>998</locationY>
         <actionName>FlowLogEntry</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -44,7 +44,7 @@
         <name>Save_Appointment</name>
         <label>Save Appointment</label>
         <locationX>578</locationX>
-        <locationY>998</locationY>
+        <locationY>890</locationY>
         <actionName>saveAppointment</actionName>
         <actionType>saveAppointment</actionType>
         <connector>
@@ -78,7 +78,7 @@
         <name>Save_Log</name>
         <label>Save Log</label>
         <locationX>1106</locationX>
-        <locationY>1214</locationY>
+        <locationY>1106</locationY>
         <actionName>Logger</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -93,7 +93,7 @@
         <name>Set_Appointment_Fields</name>
         <label>Set Appointment Fields</label>
         <locationX>578</locationX>
-        <locationY>890</locationY>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>serviceAppointmentFields</assignToReference>
             <operator>Assign</operator>
@@ -109,21 +109,7 @@
         <name>Set_Initial_Values</name>
         <label>Set Initial Values</label>
         <locationX>578</locationX>
-        <locationY>566</locationY>
-        <assignmentItems>
-            <assignToReference>serviceResourceId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>assignedResourceRecord.ServiceResourceId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>workTypeGroupId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>workTypeGroupId</elementReference>
-            </value>
-        </assignmentItems>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>DefaultTimeZone</assignToReference>
             <operator>Assign</operator>
@@ -149,7 +135,7 @@
         <locationX>446</locationX>
         <locationY>350</locationY>
         <defaultConnector>
-            <targetReference>Assigned_Resource</targetReference>
+            <targetReference>Set_Initial_Values</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -232,36 +218,10 @@
     </processMetadataValues>
     <processType>Appointments</processType>
     <recordLookups>
-        <name>Assigned_Resource</name>
-        <label>Assigned Resource</label>
-        <locationX>578</locationX>
-        <locationY>458</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Set_Initial_Values</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Error_Action</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>ServiceAppointmentId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>ServiceAppointment.Id</elementReference>
-            </value>
-        </filters>
-        <object>AssignedResource</object>
-        <outputReference>assignedResourceRecord</outputReference>
-        <queriedFields>Id</queriedFields>
-        <queriedFields>ServiceResourceId</queriedFields>
-    </recordLookups>
-    <recordLookups>
         <name>getWorkTypeRecord</name>
         <label>getWorkTypeRecord</label>
         <locationX>578</locationX>
-        <locationY>674</locationY>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>TimeSlotScreen</targetReference>
@@ -332,7 +292,7 @@
         <name>Update_Appointment</name>
         <label>Update Appointment</label>
         <locationX>578</locationX>
-        <locationY>1214</locationY>
+        <locationY>1106</locationY>
         <faultConnector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Action</targetReference>
@@ -344,7 +304,7 @@
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
         <locationX>578</locationX>
-        <locationY>1106</locationY>
+        <locationY>998</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -368,7 +328,7 @@
         <name>Error_Screen</name>
         <label>Error Screen</label>
         <locationX>1106</locationX>
-        <locationY>1322</locationY>
+        <locationY>1214</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -400,7 +360,7 @@
         <name>TimeSlotScreen</name>
         <label>Time Slot Screen</label>
         <locationX>578</locationX>
-        <locationY>782</locationY>
+        <locationY>674</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -411,12 +371,6 @@
             <name>flowTimeslot</name>
             <extensionName>runtime_appointmentbooking:flowTimeslot</extensionName>
             <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>serviceResources</name>
-                <value>
-                    <elementReference>serviceResources</elementReference>
-                </value>
-            </inputParameters>
             <inputParameters>
                 <name>showTimeZonePicklist</name>
                 <value>
@@ -445,12 +399,6 @@
                 <name>isHideSkip</name>
                 <value>
                     <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>serviceResourceId</name>
-                <value>
-                    <elementReference>serviceResourceId</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -540,7 +488,7 @@
             <inputParameters>
                 <name>isAnonymousBooking</name>
                 <value>
-                    <elementReference>ServiceAppointment.IsAnonymousBooking</elementReference>
+                    <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
@@ -576,6 +524,10 @@
             <outputParameters>
                 <assignToReference>engagementChannelTypeId</assignToReference>
                 <name>engagementChannelType</name>
+            </outputParameters>
+            <outputParameters>
+                <assignToReference>serviceResourceId</assignToReference>
+                <name>serviceResourceId</name>
             </outputParameters>
         </fields>
         <showFooter>true</showFooter>
