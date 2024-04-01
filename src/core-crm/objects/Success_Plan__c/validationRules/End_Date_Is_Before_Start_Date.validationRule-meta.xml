@@ -4,6 +4,7 @@
     <active>true</active>
     <description>Validates End Date if before Start Date</description>
     <errorConditionFormula>AND(
+  NOT( ISNULL( End_Date__c ) ),
   OR(
     ISNEW(),
     ISCHANGED( End_Date__c )
