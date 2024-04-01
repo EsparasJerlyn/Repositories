@@ -5,11 +5,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                 |
-      | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage           |         
-      | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage         |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                                    |
+      | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage                              |         
+      | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage                            |
+      | kenneth.f.alsay                | April 1, 2024         | DEPP-8209              | Added field values to pass new validation rules |
+
  */
 @isTest
 private class DonationCauseStageUpdateBatchTest {
@@ -30,6 +32,7 @@ private class DonationCauseStageUpdateBatchTest {
             donationCauseList[0].Ready_For_Publishing__c = true;
             donationCauseList[0].QUT_Giving_Publish_Start_Date__c = System.Today();
             donationCauseList[0].QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+            donationCauseList[0].QA_Completed__c = true;
 
             DonationCausesDAO.newInstance()
                 .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
@@ -55,10 +58,11 @@ private class DonationCauseStageUpdateBatchTest {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 1
             );
-            donationCauseList[0].QUT_Giving_Publish_Start_Date__c = System.Today() + 1;
+            donationCauseList[0].QUT_Giving_Publish_Start_Date__c = System.Today();
             donationCauseList[0].Ready_For_Publishing__c = true;
             donationCauseList[0].QUT_Giving_Publish_End_Date__c = System.Today() - 1;
             donationCauseList[0].Activation_End_Date__c = System.Today() + 1;
+            donationCauseList[0].QA_Completed__c = true;
 
             DonationCausesDAO.newInstance()
                 .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
