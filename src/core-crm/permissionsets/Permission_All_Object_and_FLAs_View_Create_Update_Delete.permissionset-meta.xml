@@ -14943,6 +14943,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>et4ae5__IndividualEmailResult__c.et4ae5__DMTrackingId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>et4ae5__IndividualEmailResult__c.et4ae5__DateBounced__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -20823,6 +20828,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>DataCommunicationCapDef</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>DataConnInteractionStudio</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -20914,6 +20928,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>DataConnectorUpload</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>DataGraphDefinition</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
