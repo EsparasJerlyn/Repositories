@@ -38,6 +38,7 @@ public class ApplicantFlagBatch implements Database.Batchable<sObject> {
             ContactPersonaFlagsService.updateContactApplicantFlag(contactIds);
 
         } catch (Exception e) {
+            NebulaLoggerService.logExceptionDetails('Exception caught in ApplicantFlagBatch.cls',e);
             throw e;
         }
     }

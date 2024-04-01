@@ -25,28 +25,25 @@ public with sharing class ApplicantFlagBatchTest {
             List<Contact> newContacts = new List<Contact>();
             newContacts.add(
                 new Contact(
-                    FirstName = 'Test FirstName',
-                    LastName =  'Test LastName',
+                    FirstName = 'Test FirstName1',
+                    LastName =  '1LastName',
                     BirthDate = Date.valueOf('2000-06-28'),
-                    Email = 'email@test.com',
-                    QUT_Learner_Email__c = 'learneremail@test.com' ,
-                    QUT_Staff_Email__c = 'staffemail@test.com',
-                    Work_Email__c = 'workemail@test.com',
+                    Email = '1email@test.com',
+                    QUT_Learner_Email__c = 'learner1email@test.com' ,
+                    QUT_Staff_Email__c = 'staff1email@test.com',
+                    Work_Email__c = 'work1email@test.com',
                     hed__Preferred_Email__c = 'Alternate Email',
-                    hed__AlternateEmail__c = 'altemail@test.com',
+                    hed__AlternateEmail__c = '1email@test.com',
                     RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
                 )
             );
-
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
-
             ApplicationsDAO.newInstance()
                 .insertRecords(
                     createTestApplicationRecords(newContacts,'Existing',ApplicationsDAO.QTAC_RECTYPE_ID),
                     false,
                     AccessLevel.SYSTEM_MODE
                 );
-
             List<Contact> updateContacts = new List<Contact>();
             for(Contact con : newContacts){
                 con.QUT_Applicant__c = true;
@@ -54,13 +51,13 @@ public with sharing class ApplicantFlagBatchTest {
             }
             update updateContacts;
         }
-
         System.runAs(TestDataFactory.getPortalSysAdminUser()) {
             Test.startTest();
                 ApplicantFlagBatch batch = new ApplicantFlagBatch();
                 Database.executeBatch(batch);
+                System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'ApplicantFlagBatch'].isEmpty() , 'ApplicantFlagBatch Job was not executed');
             Test.stopTest();
-            System.assert(![SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'ApplicantFlagBatch'].isEmpty() , 'ApplicantFlagBatch Job was not executed');
+            System.assert(![SELECT Id FROM Contact WHERE Email = '1email@test.com' AND QUT_Applicant__c = false ].isEmpty() , 'Contact Applicant Flag was not updated');
         }
     }
 
@@ -69,10 +66,10 @@ public with sharing class ApplicantFlagBatchTest {
         for (Contact con: conList) {
             newApplications.add(
                 new hed__Application__c(
-                    FirstName__c = 'Test FirstName',
-                    LastName__c = 'Test LastName',
+                    FirstName__c = 'Test First' +con.FirstName,
+                    LastName__c = 'Test Last' +con.LastName,
                     BirthDate__c = Date.valueOf('2000-06-28'),
-                    Email__c = 'testmail@mail.test',
+                    Email__c = 'workTest'+con.Email,
                     Is_Active__c = true,
                     hed__Applicant__c = con.Id,
                     Calculated_Intake_Date__c = Date.today().addDays(-1),
@@ -82,5 +79,4 @@ public with sharing class ApplicantFlagBatchTest {
         }
         return newApplications;
     }
-
 }
