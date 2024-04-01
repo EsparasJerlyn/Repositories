@@ -10,6 +10,8 @@
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage params for query Selector   |
       | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause Code in query by Id       |
       | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage params for query Selector |
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getDonationCauseBySetNames               |
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added Ready_For_Publishing__c in query by Id   |
 */
 
 public inherited sharing class DesignationsDAO extends DmlBase implements IDesignationsDAO {
@@ -73,7 +75,24 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
     ) {
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Stage__c, Designation_Code__c ' + 'FROM Designation__c WHERE Id IN :recordIds',
+                'SELECT Stage__c, Id, Designation_Code__c, Ready_For_Publishing__c, (Select Id FROM Products__r)' + 'FROM Designation__c WHERE Id IN :recordIds',
+                accessLevel
+            );
+        } else {
+            return new List<Designation__c>();
+        }
+    }
+
+    public List<Designation__c> getDesignationByNameStart(
+        String nameStart,
+        AccessLevel accessLevel 
+    ){
+        if (nameStart != null && accessLevel != null) {
+            nameStart += '%';
+            return Database.query(
+                'SELECT Id, Name, Ready_For_Publishing__c ' + 
+                'FROM Designation__c ' + 
+                'WHERE Name LIKE :nameStart ',
                 accessLevel
             );
         } else {

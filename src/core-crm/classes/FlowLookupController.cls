@@ -9,6 +9,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                 |
  *    |--------------------------------|-----------------------|------------------------|--------------------------------|
  *    | ryan.j.a.dela.cruz             | June 6, 2023          | DEPP-5385              | Created file                   |
+ *    | sebastianne.k.trias            | March 22, 2024        | DEPP-8185              | Added SOSL in search method    |
  */
 public inherited sharing class FlowLookupController {
     /**
@@ -48,6 +49,33 @@ public inherited sharing class FlowLookupController {
             objectName
         );
 
+        if(objectName == 'Contact'){
+
+            String queryStringSOSL = FlowLookupHelper.buildQueryString(
+                objectName,
+                fieldsToReturn,
+                whereClause,
+                null,
+                orderByClause,
+                numRecordsToReturn,
+                true,
+                searchTerm
+            );
+
+            List<List<Contact>> soslResult = search.query(queryStringSOSL); 
+            
+            List<String> contactIds = new List<String>();
+            
+            for(Contact con : soslResult[0]){
+                contactIds.add('\''+con.Id+'\'');
+            }
+            
+            if(!contactIds.isEmpty()){
+                searchFieldString += ' OR ID IN ('+String.join(contactIds,',')+')';
+            }
+
+        }
+
         // Refactored code block 3: Build the query string
         String queryString = FlowLookupHelper.buildQueryString(
             objectName,
@@ -55,7 +83,9 @@ public inherited sharing class FlowLookupController {
             whereClause,
             searchFieldString,
             orderByClause,
-            numRecordsToReturn
+            numRecordsToReturn,
+            false,
+            searchTerm
         );
 
         returnRecords = Database.query(queryString);

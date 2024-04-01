@@ -7,13 +7,14 @@
  *    | Developer Email                | Date                | JIRA                   | Change Summary                            |
  *    |--------------------------------|---------------------|------------------------|-------------------------------------------|
  *    | roy.nino.s.regala              | March 15, 2023      | DEPP-8210              | Created file                              |
+ *    | kenneth.f.alsay                | March 27, 2023      | DEPP-8209              | Added getDonationCauseByNameStartTest     |
  */
 @isTest
 private class DesignationsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Donor_Engagement_Manager' }
+            new List<String>{ 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager' }
         );
     }
     @isTest
@@ -70,6 +71,20 @@ private class DesignationsDAOTest {
             );
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void getDesignationByNameStartTest(){
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            List<Donation_Cause__c> dcList = DonationCausesDAO.newInstance()
+                .getDesignationByNameStart(
+                    'Test',
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(dcList.isEmpty(), 'DonationList should be empty.');
+        }
     }
 
 }

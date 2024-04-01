@@ -430,8 +430,12 @@ export default class OptionSelector extends LightningElement {
         // If the option's label matches the search text, display it. Also optionally check the option's sublabel and value.
         // Check if the search value is defined, and if so, check that as well. This is added because the search value may be different from the label
         // If the label is empty but matches the search value we want to hide the result
+
+        let isSearchTextInLabel = searchText.split(" ").every(text => option.label.toLowerCase().includes(text));
+
         if (
-          option.label?.toLowerCase().includes(searchText) ||
+          isSearchTextInLabel ||
+
           (this.includeValueInFilter &&
             option.value &&
             option.value.toLowerCase().includes(searchText)) ||
