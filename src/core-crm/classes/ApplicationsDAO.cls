@@ -279,10 +279,6 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
             'FROM hed__Application__c ' +
             'WHERE hed__Applicant__r.QUT_Applicant__c = true ' +
             'AND Calculated_Intake_Date__c < TODAY ' +
-            'AND ( (RecordTypeId = :QTAC_RECTYPE_ID AND Is_Active__c = TRUE) ' +
-            'OR (RecordTypeId = :STUDYLINK_RECTYPE_ID AND Application_Status__c NOT IN :studyLinkStatuses) ' +
-            'OR ( (RecordTypeId = :SAMS_LEGACY_RECTYPE_ID OR RecordTypeId = :SAMS_CIANYWHERE_RECTYPE_ID ) ' +
-            'AND Application_Status__c NOT IN :samsStatuses) ) ' +
             'WITH ' +
             String.escapeSingleQuotes(accessLevel);
         return Database.getQueryLocator(query);
