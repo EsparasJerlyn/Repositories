@@ -58,7 +58,7 @@
     <assignments>
         <name>Assign_Contextual_Role_Object_Values</name>
         <label>Assign Contextual Role Object Values</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>1448</locationY>
         <assignmentItems>
             <assignToReference>ContextualRoleObject.RecordTypeId</assignToReference>
@@ -81,7 +81,7 @@
     <assignments>
         <name>Assign_Header_Title_Contact</name>
         <label>Assign Header Title Contact</label>
-        <locationX>3636</locationX>
+        <locationX>3768</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
@@ -122,7 +122,7 @@
     <assignments>
         <name>AssignAccountNameCreated</name>
         <label>AssignAccountNameCreated</label>
-        <locationX>3504</locationX>
+        <locationX>3636</locationX>
         <locationY>1040</locationY>
         <assignmentItems>
             <assignToReference>AccountNameAssignment</assignToReference>
@@ -138,7 +138,7 @@
     <assignments>
         <name>AssignHeaderTitleFundingBodies</name>
         <label>AssignHeaderTitleFundingBodies</label>
-        <locationX>3108</locationX>
+        <locationX>3240</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
@@ -154,7 +154,7 @@
     <assignments>
         <name>AssignHeaderTitleOrganisation</name>
         <label>Assign Header Title Organisation</label>
-        <locationX>3900</locationX>
+        <locationX>4032</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
@@ -177,7 +177,7 @@
     <assignments>
         <name>AssignHeaderTitlePartners</name>
         <label>AssignHeaderTitlePartners</label>
-        <locationX>3372</locationX>
+        <locationX>3504</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
@@ -193,7 +193,7 @@
     <assignments>
         <name>AssignModalTitle</name>
         <label>AssignModalTitle</label>
-        <locationX>1843</locationX>
+        <locationX>1909</locationX>
         <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>modalTitle</assignToReference>
@@ -209,7 +209,7 @@
     <assignments>
         <name>AssignPrimaryContactContributorsContextualValue</name>
         <label>Assign  Primary Contact and Contributors Contextual Value</label>
-        <locationX>5242</locationX>
+        <locationX>5506</locationX>
         <locationY>1448</locationY>
         <assignmentItems>
             <assignToReference>HeaderTitle</assignToReference>
@@ -247,7 +247,7 @@
     <assignments>
         <name>AssignSelectedAccount</name>
         <label>AssignSelectedAccount</label>
-        <locationX>3768</locationX>
+        <locationX>3900</locationX>
         <locationY>1040</locationY>
         <assignmentItems>
             <assignToReference>AccountId</assignToReference>
@@ -284,7 +284,7 @@
     <assignments>
         <name>AssignSelectedContactId</name>
         <label>AssignSelectedContactId</label>
-        <locationX>3922</locationX>
+        <locationX>4054</locationX>
         <locationY>2528</locationY>
         <assignmentItems>
             <assignToReference>ContactId</assignToReference>
@@ -381,7 +381,7 @@
     <decisions>
         <name>Check_Account_and_Contact_Affiliation</name>
         <label>Check Account and Contact Affiliation</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>2876</locationY>
         <defaultConnector>
             <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
@@ -406,7 +406,7 @@
     <decisions>
         <name>Check_User_Role</name>
         <label>Check User Role</label>
-        <locationX>1843</locationX>
+        <locationX>1909</locationX>
         <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Record_Type_Selection_Industry_Engagement</targetReference>
@@ -644,7 +644,7 @@
     <decisions>
         <name>Is_Create_New_Account_Selected</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>3636</locationX>
+        <locationX>3768</locationX>
         <locationY>932</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedAccount</targetReference>
@@ -669,7 +669,7 @@
     <decisions>
         <name>Is_Create_New_Account_Selected_0</name>
         <label>Is Create New Account Selected?</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>1964</locationY>
         <defaultConnector>
             <targetReference>Is_Create_New_Contact_Selected</targetReference>
@@ -719,7 +719,7 @@
     <decisions>
         <name>Is_Create_New_Contact_Selected</name>
         <label>Is Create New Contact Selected?</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>2420</locationY>
         <defaultConnector>
             <targetReference>AssignSelectedContactId</targetReference>
@@ -744,7 +744,7 @@
     <decisions>
         <name>Is_Record_Type_Research_Partnership_Or_Commercialisation</name>
         <label>Is Record Type Research Partnership Or Commercialisation</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>3176</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -811,7 +811,7 @@
     <decisions>
         <name>Opportunity_Display</name>
         <label>Opportunity Display</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>1664</locationY>
         <defaultConnector>
             <targetReference>Collect_Opportunity_Details</targetReference>
@@ -843,7 +843,7 @@
     <decisions>
         <name>What_Record_Type_Is_Selected</name>
         <label>What Record Type Is Selected?</label>
-        <locationX>3636</locationX>
+        <locationX>3768</locationX>
         <locationY>1232</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -902,7 +902,7 @@
     <decisions>
         <name>What_Record_Type_Is_Selected_0</name>
         <label>What Record Type Is Selected?</label>
-        <locationX>3636</locationX>
+        <locationX>3768</locationX>
         <locationY>458</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1158,7 +1158,7 @@
         <description>Create New Account Record if Create New Account is selected</description>
         <name>Create_Account_Record</name>
         <label>Create Account Record</label>
-        <locationX>3130</locationX>
+        <locationX>3262</locationX>
         <locationY>2180</locationY>
         <assignRecordIdToReference>AccountId</assignRecordIdToReference>
         <connector>
@@ -1296,7 +1296,7 @@
     <recordCreates>
         <name>Create_Contextual_Role</name>
         <label>Create Contextual Role</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>3566</locationY>
         <connector>
             <targetReference>Detail_Page_Navigation</targetReference>
@@ -1437,7 +1437,7 @@
     <recordCreates>
         <name>Create_New_Contact_Record</name>
         <label>Create New Contact Record</label>
-        <locationX>3130</locationX>
+        <locationX>3262</locationX>
         <locationY>2636</locationY>
         <assignRecordIdToReference>ContactId</assignRecordIdToReference>
         <connector>
@@ -1667,6 +1667,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Is_Influenced_Revenue__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Is_Influenced_Revenue__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Name</field>
             <value>
                 <elementReference>ADVI_Opportunity_Name_Input</elementReference>
@@ -1701,6 +1707,10 @@
         <connector>
             <targetReference>Create_Contextual_Role</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Action</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>AccountId</field>
             <value>
@@ -1756,6 +1766,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Is_Influenced_Revenue__c</field>
+            <value>
+                <elementReference>OpportunityRecord.Is_Influenced_Revenue__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Name</field>
             <value>
                 <elementReference>ADVO_Opportunity_Name_Input</elementReference>
@@ -1784,7 +1800,7 @@
     <recordLookups>
         <name>Get_Account_Record_Type</name>
         <label>Get Account Record Type</label>
-        <locationX>3130</locationX>
+        <locationX>3262</locationX>
         <locationY>2072</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1848,7 +1864,7 @@
     <recordLookups>
         <name>Get_Opportunity_Contextual_Role_Record_Id</name>
         <label>Get Opportunity Contextual Role Record Id</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>1340</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1917,7 +1933,7 @@
         <description>Gets the Person recordtype for contact.</description>
         <name>Get_Person_RecordType</name>
         <label>Get Person RecordType</label>
-        <locationX>3130</locationX>
+        <locationX>3262</locationX>
         <locationY>2528</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1951,7 +1967,7 @@
     <recordLookups>
         <name>GetAdvancementOpportunityContextualRoleRecordId</name>
         <label>Get Advancement Opportunity Contextual Role Record Id</label>
-        <locationX>5242</locationX>
+        <locationX>5506</locationX>
         <locationY>1340</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1985,7 +2001,7 @@
     <screens>
         <name>Collect_Account_Details</name>
         <label>Collect Account Details</label>
-        <locationX>3636</locationX>
+        <locationX>3768</locationX>
         <locationY>824</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2262,7 +2278,7 @@
     <screens>
         <name>Collect_Contact_Details</name>
         <label>Collect Contact Details</label>
-        <locationX>3526</locationX>
+        <locationX>3658</locationX>
         <locationY>1556</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -2740,7 +2756,7 @@
     <screens>
         <name>Collect_Opportunity_Details</name>
         <label>Collect Opportunity Details</label>
-        <locationX>3658</locationX>
+        <locationX>3790</locationX>
         <locationY>1772</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3004,7 +3020,7 @@
     <screens>
         <name>CollectOpportunitySummaryScreen</name>
         <label>Collect Opportunity Summary Screen</label>
-        <locationX>3394</locationX>
+        <locationX>3526</locationX>
         <locationY>1772</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -3107,6 +3123,12 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>OpportunityRecord.Is_Influenced_Revenue__c</objectFieldReference>
                 </fields>
                 <fields>
                     <name>OpportunityDetails_Description_Input</name>
@@ -3247,7 +3269,7 @@
     <screens>
         <name>Record_Type_Selection_Industry_Engagement</name>
         <label>Record Type Selection (Industry Engagement)</label>
-        <locationX>3636</locationX>
+        <locationX>3768</locationX>
         <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -3272,7 +3294,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1717</locationX>
+        <locationX>1783</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>AssignModalTitle</targetReference>
@@ -3282,7 +3304,7 @@
     <subflows>
         <name>Check_Contact_Affiliation</name>
         <label>Check Contact Affiliation</label>
-        <locationX>3394</locationX>
+        <locationX>3526</locationX>
         <locationY>2984</locationY>
         <connector>
             <targetReference>Is_Record_Type_Research_Partnership_Or_Commercialisation</targetReference>
@@ -3310,7 +3332,7 @@
     <subflows>
         <name>Detail_Page_Navigation</name>
         <label>Detail Page Navigation</label>
-        <locationX>1843</locationX>
+        <locationX>1909</locationX>
         <locationY>3890</locationY>
         <flowName>Detail_Page_Navigation</flowName>
         <inputAssignments>
