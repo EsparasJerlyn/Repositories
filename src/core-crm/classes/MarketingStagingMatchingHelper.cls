@@ -12,6 +12,8 @@
       | roy.nino.s.regala              | July 20, 2022         | DEPP-3535              | Updated logic to update mobile and birthdate   |
       | kenneth.f.alsay                | January 3, 2024       |                        | Fixed excessive param list                     |
       | mark.j.mahilum                 | March 06, 2024        | DEPP-8008              | Added fieldmapping for lead source and category|
+      | eccarius.munoz                 | March 26, 2024        | DEPP-8008              | Added fieldmapping for studylink app source    |
+      
  */
 public without sharing class MarketingStagingMatchingHelper{
 
@@ -208,6 +210,11 @@ public without sharing class MarketingStagingMatchingHelper{
             }
             
         }else{
+            Marketing_Staging__c marketingStaging = (Marketing_Staging__c) marketingStage;
+            if(marketingStaging.Application_Source__c == 'StudyLink'){
+                obj.put('LeadSource', LeadsDAO.LEAD_SOURCE_STUDYLINK_STUDYLINK_UNSUBMITTED);
+                obj.put('Lead_Source_Category__c', LeadsDAO.LEAD_SOURCE_CATEGORY_STUDY_APPLICATION);
+            }
             obj.put('Company','Learner');
             obj.put('Lead_Type__c','Learner');
             finalMaping = LEAD_FIELDS;
