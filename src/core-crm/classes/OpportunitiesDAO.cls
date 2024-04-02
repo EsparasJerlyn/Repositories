@@ -15,7 +15,7 @@
       | marygrace.li@qut.edu.au        | August 7, 2023        | DEPP-6275              | Updated to Pure_Project_ID__c field                                    |
  *    | kenneth.f.alsay                | November 7, 2023      | DEPP-7000              | Added Corporate Partnership record type                                |
  *    | kenneth.f.alsay                | February 1, 2024      | DEPP-6938              | Added StageName to getRecordsBySetIds, getRecordsByStageName           |
- *    | neil.s.h.lesidan               | March 4, 2024         | DEPP-7880              | Added get record type Id INTERNATIONAL_GIVING_RECTYPE_ID               |
+ *    | neil.s.h.lesidan               | March 4, 2024         | DEPP-7880              | Added get record type Id INDIVIDUAL_GIVING_RECTYPE_ID               |
  */
 public inherited sharing class OpportunitiesDAO extends DmlBase implements IOpportunitiesDAO {
     public static final Id COMMERCIALIZATION_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
@@ -30,7 +30,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 	public static final Id CORPORATEPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Corporate_Partnership')
         .getRecordTypeId();
-	public static final Id INTERNATIONAL_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+	public static final Id INDIVIDUAL_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Individual_Giving')
         .getRecordTypeId();
 	public static final Id ORGANISATION_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
@@ -38,6 +38,7 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
         .getRecordTypeId();
 
     public static final String IDENTIFY_STAGE = 'Identify';
+    public static final String SOLICITATION_STAGE = 'Solicitation';
     public Schema.SObjectType getSObjectType() {
         return Opportunity.SObjectType;
     }
