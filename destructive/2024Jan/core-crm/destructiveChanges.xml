@@ -91,6 +91,7 @@
         <members>Case_Clear_Closure_Fields</members>
         <members>Case_Pending_Closure_to_Closed</members>
         <!--(End) DEPP-5906-->
+        <members>Donation_Cause_Create_Child_Product</members>
         <name>Flow</name>
     </types>
     <types>
@@ -164,6 +165,7 @@
         <members>DonationCauseCodeAutoNumbersDAOTest</members>
         <members>DonationCauseTriggerHandler</members>
         <members>DonationCauseTriggerHandlerTest</members>
+        <members>Donation_Cause_Create_Child_Product_Test</members>
         <members>IDonationCauseCodeAutoNumbersDAO</members>
         <members>IDonationCausesDAO</members>
         <members>DonationCausesDAO</members>
