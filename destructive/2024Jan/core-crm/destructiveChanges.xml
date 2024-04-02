@@ -165,7 +165,10 @@
         <members>DonationCauseTriggerHandler</members>
         <members>DonationCauseTriggerHandlerTest</members>
         <members>IDonationCauseCodeAutoNumbersDAO</members>
-        <members></members>
+        <members>IDonationCausesDAO</members>
+        <members>DonationCausesDAO</members>
+        <members>DonationCausesDAOMock</members>
+        <members>DonationCausesDAOTest</members>
         <!--(End) DEPP-8200-->
         <name>ApexClass</name>
     </types>
