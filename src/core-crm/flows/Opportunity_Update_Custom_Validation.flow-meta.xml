@@ -22,6 +22,16 @@
         </customErrorMessages>
     </customErrors>
     <customErrors>
+        <name>Donations_Must_be_Declined_Error</name>
+        <label>Donations Must be Declined Error</label>
+        <locationX>2162</locationX>
+        <locationY>719</locationY>
+        <customErrorMessages>
+            <errorMessage>The Donation Record Stage must be Declined to mark an opportunity as Discontinued</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
         <name>No_Accepted_or_Completed_Donations</name>
         <label>No Accepted or Completed Donations</label>
         <locationX>1634</locationX>
@@ -42,9 +52,31 @@
         </customErrorMessages>
     </customErrors>
     <decisions>
+        <name>Check_Non_Declined_Donation_Records</name>
+        <label>Check Non-Declined Donation Records</label>
+        <locationX>2294</locationX>
+        <locationY>611</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Show_Discontinued_Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Non_declined_Donations</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Donations_Must_be_Declined_Error</targetReference>
+            </connector>
+            <label>Show Discontinued Error</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Record_Type</name>
         <label>Check Record Type</label>
-        <locationX>1799</locationX>
+        <locationX>2129</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -193,7 +225,7 @@
     <decisions>
         <name>Stage_Value_Update</name>
         <label>Stage Value Update</label>
-        <locationX>1172</locationX>
+        <locationX>1392</locationX>
         <locationY>395</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -254,6 +286,21 @@
                 <targetReference>Get_Proposed_Donations</targetReference>
             </connector>
             <label>Stage Updated to Executed</label>
+        </rules>
+        <rules>
+            <name>Stage_Updated_to_Discontinued</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Discontinued</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Non_declined_Donations</targetReference>
+            </connector>
+            <label>Stage Updated to Discontinued</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -356,6 +403,49 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <description>Gets child Donation records with Stage = Proposed, Accepted or Completed</description>
+        <name>Get_Non_declined_Donations</name>
+        <label>Get Non-declined Donations</label>
+        <locationX>2294</locationX>
+        <locationY>503</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Non_Declined_Donation_Records</targetReference>
+        </connector>
+        <filterLogic>(1 OR 2 OR 3) AND 4</filterLogic>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Proposed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Accepted</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Donation__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Plan_Activity_Record</name>
         <label>Get Plan Activity Record</label>
         <locationX>182</locationX>
@@ -412,7 +502,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>1673</locationX>
+        <locationX>2003</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Record_Type</targetReference>

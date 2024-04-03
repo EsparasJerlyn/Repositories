@@ -5,10 +5,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 |
-      | eugene.andrew.abuan            | March 22, 2024        | DEPP-8200              | Added Donation Cause in Setup|
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                                    |
+      | eugene.andrew.abuan            | March 22, 2024        | DEPP-8200              | Added Donation Cause in Setup                   |
+      | kenneth.f.alsay                | April 1, 2024         | DEPP-8209              | Added field values to pass new validation rules |
+
  */
 @isTest
 private class Designation_Child_Product_Update_Test {
@@ -35,6 +37,8 @@ private class Designation_Child_Product_Update_Test {
 
             for (Product2 prd : productList) {
                 prd.Designation__c = designationList[0].Id;
+                prd.Description__c = 'Test Description';
+                prd.Title_Image_URL__c = 'imageurl.com';
                 count++;
             }
 
@@ -44,6 +48,7 @@ private class Designation_Child_Product_Update_Test {
                 dc.Ready_For_Publishing__c = true;
                 dc.Public_Giving_Publish_Start_Date__c = System.Today();
                 dc.Public_Giving_Publish_End_Date__c = System.Today() + 1;
+                QA_Completed__c = true;
             }
 
             Test.startTest();

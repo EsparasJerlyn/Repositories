@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                 |
-      | eugene.andrew.abuan            | March 19, 2024        | DEPP-8211              | Added Active Stage           | 
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | roy.nino.s.regala              | March 15, 2024        | DEPP-8210              | Created file                                    |
+      | eugene.andrew.abuan            | March 19, 2024        | DEPP-8211              | Added Active Stage                              |
+      | kenneth.f.alsay                | April 1, 2024         | DEPP-8209              | Added field values to pass new validation rules |
 
  */
 @isTest
@@ -34,6 +35,7 @@ private class Designation_Stage_Update_Test {
                 dc.Ready_For_Publishing__c = true;
                 dc.Public_Giving_Publish_Start_Date__c = System.Today();
                 dc.Public_Giving_Publish_End_Date__c = System.Today() + 1;
+                dc.QA_Completed__c = true;
             }
 
             Test.startTest();
@@ -72,6 +74,7 @@ private class Designation_Stage_Update_Test {
                 dc.Ready_For_Publishing__c = true;
                 dc.Public_Giving_Publish_Start_Date__c = System.Today();
                 dc.Public_Giving_Publish_End_Date__c = System.Today() + 1;
+                dc.QA_Completed__c = true;
             }
 
             Test.startTest();
