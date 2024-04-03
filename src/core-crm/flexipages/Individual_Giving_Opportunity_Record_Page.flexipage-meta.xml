@@ -104,6 +104,16 @@
                 <identifier>RecordGiving_Faculty_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Description</fieldItem>
+                <identifier>RecordDescriptionField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-ea33639c-9286-4eeb-8717-8b943d96af1d</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -134,8 +144,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Description</fieldItem>
-                <identifier>RecordDescriptionField</identifier>
+                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
+                <identifier>RecordIs_Influenced_Revenue_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -236,6 +246,16 @@
                 <identifier>RecordGiving_Faculty_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Description</fieldItem>
+                <identifier>RecordDescriptionField2</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-28tbtcjk4xj</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -266,8 +286,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Description</fieldItem>
-                <identifier>RecordDescriptionField2</identifier>
+                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
+                <identifier>RecordIs_Influenced_Revenue_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

@@ -5,10 +5,12 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                 | 
-      | eugene.andrew.abuan            | March 22, 2024        | DEPP-8200              | Added Donation Cause in Setup|
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
+      | roy.nino.s.regala              | March, 15, 2024       | DEPP-8210              | Created file                                    | 
+      | eugene.andrew.abuan            | March 22, 2024        | DEPP-8200              | Added Donation Cause in Setup                   |
+      | kenneth.f.alsay                | April 1, 2024         | DEPP-8209              | Added field values to pass new validation rules |
+
  */
 @isTest
 private class Donation_Cause_Child_Product_Update_Test {
@@ -44,6 +46,8 @@ private class Donation_Cause_Child_Product_Update_Test {
 
             for (Product2 prd : productList) {
                 prd.Donation_Cause__c = donationCauseList[0].Id;
+                prd.Description__c = 'Test Description';
+                prd.Title_Image_URL__c = 'imageurl.com';
                 count++;
             }
 
@@ -53,6 +57,7 @@ private class Donation_Cause_Child_Product_Update_Test {
                 dc.Ready_For_Publishing__c = true;
                 dc.QUT_Giving_Publish_Start_Date__c = System.Today();
                 dc.QUT_Giving_Publish_End_Date__c = System.Today() + 1;
+                dc.QA_Completed__c = true;
             }
 
             Test.startTest();

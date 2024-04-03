@@ -1,28 +1,35 @@
 {
   "files":[
     "src/core-crm/settings/Case.settings-meta.xml",
-    "src/core-crm/customMetadata/MySampleCustomMetadata.X1.md-meta.xml"
+    "src/core-crm/customMetadata/MySampleCustomMetadata.X1.md-meta.xml",
+    "src/core-crm/workflows/Opportunity.workflow-meta.xml",
+    "src/core-crm/workflows/Questionnaire_Response_Summary__c.workflow-meta.xml"
   ],
   "env":{
     "prod":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "studyatqut@qut.edu.au",
-      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "qut.direct@qut.edu.au"
+      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "qut.direct@qut.edu.au",
+      "QUTEX_ORG_WIDE_EMAIL" : "qutex@qut.edu.au"
     },
     "stagingfc":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "testdomestic@qut.edu.au",
-      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "testinternational@qut.edu.au"
+      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "testinternational@qut.edu.au",
+      "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@qut.edu.au"
     },
     "uat":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "testdomestic@qut.edu.au",
-      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "testinternational@qut.edu.au"
+      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "testinternational@qut.edu.au",
+      "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@qut.edu.au"
     },
     "sit":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "test-qut-domestic@yopmail.com",
-      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "test-qut-international@yopmail.com"
+      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "test-qut-international@yopmail.com",
+      "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@qut.edu.au"
     },
     "default":{
       "CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE" : "test-qut-domestic@yopmail.com",
-      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "test-qut-international@yopmail.com"
+      "CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE" : "test-qut-international@yopmail.com",
+      "QUTEX_ORG_WIDE_EMAIL" : "test-qutex@yopmail.com"
     }
   }
 }
