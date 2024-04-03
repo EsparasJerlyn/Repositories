@@ -3433,6 +3433,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Designation__c.Activation_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Designation__c.Archived_Comment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3454,6 +3459,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Designation__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Designation__c.Endowment_Account_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
