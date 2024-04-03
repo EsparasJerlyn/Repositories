@@ -132,4 +132,4 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
             );
         }  else { return new List<Opportunity>(); }
     }
-}
+} 
