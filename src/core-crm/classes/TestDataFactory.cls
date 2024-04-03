@@ -4343,4 +4343,27 @@ public class TestDataFactory {
         }
         return donationCauseList;
     }
-}
+
+    /**
+     * @description Method for creating test Donation records
+     * @params
+     * numOfRecords - number of records to create
+     * @return donationList - List of Donation records created
+     */
+    public static List<Donation__c> createDonationRecordsWithOpportunity(
+        Integer numOfRecords,
+        Id opportunityId
+    ) {
+        List<Donation__c> donationCauseList = new List<Donation__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationCauseList.add(
+                new Donation__c(
+                    Donation_Type__c = 'Influenced Revenue',
+                    Stage__c = 'Proposed',
+                    Opportunity__c = opportunityId
+                )
+            );
+        }
+        return donationCauseList;
+    }
+} 

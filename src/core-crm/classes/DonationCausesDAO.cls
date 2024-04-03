@@ -10,8 +10,9 @@
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage params for query Selector   |         
       | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause Code in query by Id       |
       | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage params for query Selector |
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getDonationCauseBySetNames               |
+      | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added Ready_For_Publishing__c in query by Id   |
 */
-
 public inherited sharing class DonationCausesDAO extends DmlBase implements IDonationCausesDAO {
     public static final String DC_PUBLISHED = 'Published';
     public static final String DC_ARCHIVED = 'Archived';
@@ -73,7 +74,24 @@ public inherited sharing class DonationCausesDAO extends DmlBase implements IDon
     ) {
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Stage__c, Id, Donation_Cause_Code__c, (Select Id FROM Products__r) ' + 'FROM Donation_Cause__c WHERE Id IN :recordIds',
+                'SELECT Stage__c, Id, Donation_Cause_Code__c, Ready_For_Publishing__c, (Select Id FROM Products__r)' + 'FROM Donation_Cause__c WHERE Id IN :recordIds',
+                accessLevel
+            );
+        } else {
+            return new List<Donation_Cause__c>();
+        }
+    }
+
+    public List<Donation_Cause__c> getDonationCauseByNameStart(
+        String nameStart,
+        AccessLevel accessLevel 
+    ){
+        if (nameStart != null && accessLevel != null) {
+            nameStart += '%';
+            return Database.query(
+                'SELECT Id, Name, Ready_For_Publishing__c ' + 
+                'FROM Donation_Cause__c ' + 
+                'WHERE Name LIKE :nameStart ',
                 accessLevel
             );
         } else {
