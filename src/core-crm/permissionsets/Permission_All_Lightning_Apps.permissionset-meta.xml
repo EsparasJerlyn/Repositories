@@ -157,6 +157,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>Student_Success_Configuration</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>trailheadapp__Trailhead_Tracker</application>
         <visible>true</visible>
     </applicationVisibilities>

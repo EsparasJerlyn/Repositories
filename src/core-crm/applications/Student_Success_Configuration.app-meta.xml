@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#113B71</headerColor>
+        <logo>QUT_logo_Blue_RGB_PNG_11</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>This app has been created to manage engagement lists and other outreach features.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Student Success Configuration</label>
+    <navType>Console</navType>
+    <tabs>hed__Course__c</tabs>
+    <tabs>Engagement_List_Configuration__c</tabs>
+    <tabs>standard-EmailTemplate</tabs>
+    <tabs>SMS_Template__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Student_Success_Configuration_UtilityBar</utilityBar>
+    <workspaceConfig>
+        <mappings>
+            <tab>Engagement_List_Configuration__c</tab>
+        </mappings>
+        <mappings>
+            <tab>SMS_Template__c</tab>
+        </mappings>
+        <mappings>
+            <tab>hed__Course__c</tab>
+        </mappings>
+        <mappings>
+            <tab>standard-EmailTemplate</tab>
+        </mappings>
+    </workspaceConfig>
+</CustomApplication>
