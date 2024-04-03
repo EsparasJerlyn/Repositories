@@ -3538,6 +3538,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Designation__c.Study_Association__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Document__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -25053,6 +25058,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Contextual_Role__c.Opportunity_Role</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Designation__c.Endowment</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Designation__c.Giving_To_Cause</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

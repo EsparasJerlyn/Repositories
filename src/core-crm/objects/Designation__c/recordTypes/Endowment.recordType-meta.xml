@@ -42,39 +42,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Is_For_Private_Giving__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Is_For_Public_Giving__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Is_For_Staff_Giving__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Stage__c</picklist>
         <values>
             <fullName>Active</fullName>
@@ -86,65 +53,6 @@
         </values>
         <values>
             <fullName>Define</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Study_Association__c</picklist>
-        <values>
-            <fullName>Architecture and Built Environment</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Communication</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Creative Industries</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Design</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Education</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Engineering</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Information Technology and Games</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Justice</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Languages</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Law</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mathematics</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Science</fullName>
             <default>false</default>
         </values>
     </picklistValues>

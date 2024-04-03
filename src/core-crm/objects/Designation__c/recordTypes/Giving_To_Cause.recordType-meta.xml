@@ -16,17 +16,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Endowment_Account_Type__c</picklist>
-        <values>
-            <fullName>Non-Perpetual</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Perpetual</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Giving_Category__c</picklist>
         <values>
             <fullName>Support Community</fullName>
@@ -90,65 +79,6 @@
         </values>
         <values>
             <fullName>Published</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Study_Association__c</picklist>
-        <values>
-            <fullName>Architecture and Built Environment</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Communication</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Creative Industries</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Design</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Education</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Engineering</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Information Technology and Games</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Justice</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Languages</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Law</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mathematics</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Science</fullName>
             <default>false</default>
         </values>
     </picklistValues>
