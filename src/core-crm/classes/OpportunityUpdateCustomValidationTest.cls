@@ -6,9 +6,11 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary         |
-      |---------------------------|-----------------------|--------------|------------------------|
-      | nicole.genon    	      | February 29, 2024     | DEPP-7905    | Created file           |
+ *    | Developer                 | Date                  | JIRA              | Change Summary                                           |
+      |---------------------------|-----------------------|-------------------|----------------------------------------------------------|
+      | nicole.genon    	      | February 29, 2024     | DEPP-7905         | Created file                                             |
+      | kenneth.f.alsay           | March 29, 2024        | DEPP-8165,8166    | Added methods opportunityWithDonationsNotDeclinedTest &  |
+      |                           |                       |                   | opportunityWithDonationsDeclinedTest                     |
 */
 @isTest
 public with sharing class OpportunityUpdateCustomValidationTest {
@@ -203,6 +205,62 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
             List<Opportunity> oppUpdatedRecords = OpportunitiesDAO.getRecordsBySetIds(new Set<Id>{oppRecords[0].Id});
             System.assert(oppUpdatedRecords[0].StageName.equals('Executed'), 'Stage value is successfully changed to Executed.');
+        }
+    }
+
+    @isTest
+    private static void opportunityWithDonationsNotDeclinedTest(){
+		System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Donation__c> relatedDonations = DonationsDAO.getDonationsByOpportunityIds(new Set<Id>{oppList[0].Id},AccessLevel.USER_MODE);
+
+            for(Donation__c don : relatedDonations){
+                don.Stage__c = 'Accepted';
+            }
+
+            DonationsDAO.newInstance().updateRecords(relatedDonations, false, AccessLevel.USER_MODE);
+        }
+        System.runAs(TestDataFactory.getAdvancementManager()){
+			Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            oppRecords[0].StageName = 'Discontinued' ;
+            oppRecords[0].Loss_Reason__c = 'Change of Mind' ;
+            oppRecords[0].Loss_Reason_Explanation__c = 'Test Loss Reason Explanation' ;
+            OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Database.SaveResult[] srList = OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            for (Database.SaveResult sr : srList) {
+                System.assert(!sr.isSuccess(), 'A record was saved.'); 
+            }
+            Test.stopTest();
+        }
+    }
+    
+    @isTest
+    private static void opportunityWithDonationsDeclinedTest(){
+		System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Donation__c> relatedDonations = DonationsDAO.getDonationsByOpportunityIds(new Set<Id>{oppList[0].Id},AccessLevel.USER_MODE);
+
+            for(Donation__c don : relatedDonations){
+                don.Stage__c = 'Declined';
+            }
+
+            DonationsDAO.newInstance().updateRecords(relatedDonations, false, AccessLevel.USER_MODE);
+        }
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            oppRecords[0].StageName = 'Discontinued' ;
+            oppRecords[0].Loss_Reason__c = 'Change of Mind' ;
+            oppRecords[0].Loss_Reason_Explanation__c = 'Test Loss Reason Explanation' ;
+            OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Database.SaveResult[] srList = OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record was not saved.'); 
+            }
+            Test.stopTest();
         }
     }
 }
