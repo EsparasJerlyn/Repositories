@@ -274,6 +274,10 @@ public with sharing class MarketingStagingMatchingHelperTest{
             System.assertEquals([SELECT Id FROM Marketing_Course_Application__c LIMIT 50].size(),50, 'Number of application created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Interaction__c LIMIT 50].size(),50, 'Number of Interaction created did not match');
             System.assertEquals([SELECT Id FROM Marketing_Segmentation__c LIMIT 50].size(),50, 'Number of segmentation created did not match');
+            System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null 
+                AND Lead__r.LeadSource = 'Studylink Unsubmitted' AND Lead__r.Lead_Source_Category__c = 'Study Application' LIMIT 50].size(),25, 'Lead Source and Lead Source Category must be for StudyLink.');
+            System.assertEquals([SELECT Id FROM Marketing_Staging__c WHERE Lead__c != null 
+                AND Lead__r.LeadSource != 'Studylink Unsubmitted' AND Lead__r.Lead_Source_Category__c != 'Study Application' LIMIT 50].size(),25, 'Lead Source and Lead Source Category are incorrect.');
         }
     }
  }

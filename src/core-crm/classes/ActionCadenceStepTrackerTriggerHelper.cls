@@ -16,6 +16,7 @@
       | mark.j.mahilum                 | Oct 25, 2023          | DEPP-6985              | Added SMS logic               |
       | mark.j.mahilum                 | Nov 11, 2023          | DEPP-7110              | Added logic to delete SMS     |
       |                                |                       |                        | completed tasks               |
+      | mark.j.mahilum                 | April 01, 2024        | DEPP-8370              | Added checking for mobilephone|
  */
 public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
@@ -168,12 +169,22 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
         
         for(Id targetId: targetIds){
             if(contactMap.containsKey(targetId)){
-                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);               
-                targetMobilePhones.put(targetId,mobilePhoneNumber);
+                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);                
+                //Trim the mobilePhoneNumber string to remove leading and trailing whitespace
+                //check if max character for mobile number exceeded
+                Boolean isExceeded = (mobilePhoneNumber.trim().length() > 13);
+                if(!isExceeded){
+                   targetMobilePhones.put(targetId,mobilePhoneNumber); 
+                }
             }
             if(leadMap.containsKey(targetId)){
-                String mobilePhoneNumber = '+' + String.valueOf(contactMap.get(targetId).MobilePhone);
-                targetMobilePhones.put(targetId,mobilePhoneNumber);
+                String mobilePhoneNumber = '+' + String.valueOf(leadMap.get(targetId).MobilePhone);                
+                //Trim the mobilePhoneNumber string to remove leading and trailing whitespace
+                //check if max character for mobile number exceeded
+                Boolean isExceeded = (mobilePhoneNumber.trim().length() > 13);
+                if(!isExceeded){
+                    targetMobilePhones.put(targetId,mobilePhoneNumber); 
+                }
             }
         }
         return targetMobilePhones;
