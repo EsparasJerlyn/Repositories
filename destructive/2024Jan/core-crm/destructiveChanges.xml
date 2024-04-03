@@ -67,6 +67,12 @@
         <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date__c</members>
         <members>Donation_Cause__c.Stage__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-7231-->
+        <members>Donation_Cause__c</members>
+        <!--(End)DEPP-7231-->
+        <name>CustomTab</name>
     </types>    
     <types>
         <!--Start DEPP-6659-->
@@ -144,18 +150,13 @@
         <name>PermissionSetGroup</name>
     </types>
     <types>
-        <members>Opportunity.IPU_Opportunities</members>
-        <members>Opportunity.Research_Partnership_Opportunities</members>
-        <members>Opportunity.Commercialisation_Opportunities</members>
-        <!--(Start) DEPP-7231-->
-        <members>Donation_Cause__c</members>
-        <name>CustomTab</name>
-        <!--(End)DEPP-7231-->
-    </types>
-    <types>
         <members>Donation_Cause__c.All_Donation_Causes</members>
         <members>Donation_Cause__c.All_Open_Donation_Causes</members>
         <members>Donation_Cause__c.My_Open_Donation_Causes</members>
+        <members>List__c.Distributed_List</members>
+        <members>Opportunity.IPU_Opportunities</members>
+        <members>Opportunity.Research_Partnership_Opportunities</members>
+        <members>Opportunity.Commercialisation_Opportunities</members>
         <name>ListView</name>
     </types>
     <types>
