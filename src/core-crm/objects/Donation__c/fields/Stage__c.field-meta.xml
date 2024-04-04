@@ -31,11 +31,6 @@
                 <label>Accepted</label>
             </value>
             <value>
-                <fullName>Active</fullName>
-                <default>false</default>
-                <label>Active</label>
-            </value>
-            <value>
                 <fullName>Received</fullName>
                 <default>false</default>
                 <label>Received</label>
@@ -49,6 +44,17 @@
                 <fullName>Cancelled</fullName>
                 <default>false</default>
                 <label>Cancelled</label>
+            </value>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Active</label>
             </value>
         </valueSetDefinition>
     </valueSet>
