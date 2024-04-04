@@ -12061,6 +12061,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Donation__c.Instalment_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Donation__c.Instalment_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
