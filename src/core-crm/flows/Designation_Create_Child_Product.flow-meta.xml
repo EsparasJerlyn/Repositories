@@ -73,7 +73,7 @@
             <label>Product Does Not Exist</label>
         </rules>
     </decisions>
-    <description>Trigger flow that creates a child record when no product is linked and public giving is updated to be true.</description>
+    <description>Trigger flow that creates a child record when no product is linked.</description>
     <environments>Default</environments>
     <interviewLabel>Designation Create Child Product {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Designation Create Child Product</label>
@@ -108,7 +108,7 @@
         <inputAssignments>
             <field>Description</field>
             <value>
-                <elementReference>$Record.Designation_Description__c</elementReference>
+                <elementReference>$Record.Description__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -162,17 +162,8 @@
         <connector>
             <targetReference>Get_Related_Product</targetReference>
         </connector>
-        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Is_For_Public_Giving__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
         <object>Designation__c</object>
-        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
