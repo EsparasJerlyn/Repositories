@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Designation main record page</description>
+    <description>Designation record page assigned to Giving to Cause record type</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
