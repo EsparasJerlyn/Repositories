@@ -2712,22 +2712,37 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            }
-            //Previous Persona
-            else if (name == 'QUT_Developer') {
-                userName = 'QUT_Developer';
-                profileName = 'Development Team Base';
+            } else if (name == 'Development_Team') { //QUT_Developer
+                userName = 'Development_Team';
+                profileName = 'Internal Base';
                 roleName = '';
-                permSets = 'Development_Team';
-                publicGroups = '';
+                permSets = 'Permission Multi-Factor Authentication for User Interface Logins';
+                permSetGroups = 'Persona Development Team';
+                publicGroups = 'Development Team';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
-                isMarketingUser = false;
+                isMarketingUser = true;
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            }
+            //Previous Persona
+            // else if (name == 'QUT_Developer') {
+            //     userName = 'QUT_Developer';
+            //     profileName = 'Development Team Base';
+            //     roleName = '';
+            //     permSets = 'Development_Team';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = true;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             // } else if (name == 'QUT_Read_Only') {
             //     userName = 'QUT_Read_Only';
             //     profileName = 'QUT Read Only';
