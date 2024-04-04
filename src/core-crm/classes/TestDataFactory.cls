@@ -4350,7 +4350,7 @@ public class TestDataFactory {
      * numOfRecords - number of records to create
      * @return donationList - List of Donation records created
      */
-    public static List<Donation__c> createDonationRecordsWithOpportunity(
+    public static List<Donation__c> createDonationRecordsWithOpportunity (
         Integer numOfRecords,
         Id opportunityId
     ) {
