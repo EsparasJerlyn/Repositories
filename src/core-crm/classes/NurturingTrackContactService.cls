@@ -42,6 +42,8 @@
       | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Renamed International Offer to Acceptance (add - Direct) and created new nurture   |
       |                                |                       |                        | track named International Offer to Acceptance - Agent                              |
       | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added new entry and exit criteria for InternationalPreApplicationPartnerSourced    |
+      | mark.j.mahilum                 | April 04, 2024        | DEPP-8450              | Updated created date logic to make sure that only the date value is getting match  |
+      |                                |                       |                        | to the exact date today                                                            |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList = new List<hed__Application__c>();
@@ -2221,7 +2223,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             app.hed__Applicant__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
             app.hed__Applicant__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
-            (app.CreatedDate <= System.Now() && app.CreatedDate >= System.Now().addYears(-3))
+            (app.CreatedDate.Date() <= Date.Today() && app.CreatedDate.Date() >= Date.Today().addYears(-3))
         ) {
             return true;
         }
@@ -2233,7 +2235,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
             app.hed__Applicant__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
             app.hed__Applicant__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
-            (app.CreatedDate <= System.Now() && app.CreatedDate >= System.Now().addYears(-3))
+            (app.CreatedDate.Date() <= Date.Today() && app.CreatedDate.Date() >= Date.Today().addYears(-3))
         ) {
             return true;
         }
@@ -2285,7 +2287,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
     }
 
     private static boolean checkCaseCreatedDate(Case caseRec){
-        return (caseRec.CreatedDate <= System.Now() && caseRec.CreatedDate >= System.Now().addMonths(-3) && caseRec.Category__c != null);
+        return (caseRec.CreatedDate.Date() <= Date.Today() && caseRec.CreatedDate.Date() >= Date.Today().addMonths(-3) && caseRec.Category__c != null);
     }
 
     private static Set<Id> getContactIdsWithApplication(List<hed__Application__c> applications){
@@ -2574,8 +2576,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
             
             // Check if the application was created within the specified time range
             Boolean isInitiallyCreatedWithinTimeRange =
-                application.CreatedDate <= System.today() &&
-                application.CreatedDate >= System.today().addYears(-3);
+                application.CreatedDate.Date() <= Date.Today() &&
+                application.CreatedDate.Date() >= Date.Today().addYears(-3);
             
             // get contact related to application
             Contact relatedContact = internationalExitContactMap.get(application.hed__Applicant__c);
@@ -2752,8 +2754,8 @@ public with sharing class NurturingTrackContactService { //NOPMD
             
             // Check if the application was created within the specified time range
             Boolean isInitiallyCreatedWithinTimeRange =
-                application.CreatedDate <= System.today() &&
-                application.CreatedDate >= System.today().addYears(-years);
+                application.CreatedDate.Date() <= Date.Today() &&
+                application.CreatedDate.Date() >= Date.Today().addYears(-years);
             
             // If the application meets both criteria, add the associated contact ID to the set
             if(
