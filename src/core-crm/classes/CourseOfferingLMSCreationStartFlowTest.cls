@@ -14,7 +14,7 @@
 public with sharing class CourseOfferingLMSCreationStartFlowTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator', 'QUT_ESB'});
         System.runAs(TestDataFactory.getESBIntegrationUser()){
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));

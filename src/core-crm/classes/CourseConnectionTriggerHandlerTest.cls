@@ -14,7 +14,7 @@
 | Ana                            | 29/4/22               | DEPP-2361              | Updated Test Class to include changes for DEPP-2361.     |
 | john.bo.a.pineda               | June 23, 2022         | DEPP-3222              | Updated Test Class to include changes for DEPP-3222.     |
 | rhea.b.torres                  | August 18, 2022       | DEPP-2002              | Updated Test Class to include changes for DEPP-2002.     |
-| kenneth.f.alsay                | December 06, 2023     | DEPP-7339              | Added QUT_Program_Administrator to generateTestUsers     |
+| kenneth.f.alsay                | December 06, 2023     | DEPP-7339              | Added QUTeX_Program_Administrator to generateTestUsers     |
  */
 @isTest
 public with sharing class CourseConnectionTriggerHandlerTest{
@@ -30,7 +30,7 @@ public with sharing class CourseConnectionTriggerHandlerTest{
   @testSetup
   static void makeData(){
     Test.startTest();
-      TestDataFactory.generateTestUsers(new List<String> {'QUT_Program_Administrator'});
+      TestDataFactory.generateTestUsers(new List<String> {'QUTeX_Program_Administrator'});
     Test.stopTest();
   }
 

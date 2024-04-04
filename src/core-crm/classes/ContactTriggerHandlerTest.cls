@@ -42,7 +42,7 @@ public with sharing class ContactTriggerHandlerTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB','QUT_Sys_Admin'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB','QUT_Sys_Admin'});
 
         System.runAs(TestDataFactory.getESBIntegrationUser()){
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();

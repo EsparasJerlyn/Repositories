@@ -25,7 +25,7 @@ private class ContactTriggerHelperTest {
     @testSetup 
     static void setupMethod() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator','QUT_ESB'});
         TestDataFactory.loadEDATriggers();
         Test.stopTest();
 

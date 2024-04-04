@@ -21,7 +21,7 @@ public with sharing class NurturingTrackLeadServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator', 'QUT_ESB'});
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {            
             List<Account> newAccounts = new List<Account>();

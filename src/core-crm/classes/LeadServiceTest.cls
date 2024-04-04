@@ -26,7 +26,7 @@ private class LeadServiceTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB' });
 
         List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
         Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();

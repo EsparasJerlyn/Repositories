@@ -14,7 +14,7 @@ public with sharing class AdhocCommunicationBatchTest {
 
     @testSetup 
     static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager'} );
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator', 'QUT_IE_Partnership_Manager'} );
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
             Account acc = TestDataFactory.createTestAccount(false);
