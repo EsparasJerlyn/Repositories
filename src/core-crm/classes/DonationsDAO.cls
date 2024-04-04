@@ -4,9 +4,9 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
-      |--------------------------------|-----------------------|------------------------|------------------------------------------------|
-      | nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                   |
+ *    |  Developer Email                | Date                  | JIRA                   | Change Summary                                 |
+      |---------------------------------|-----------------------|------------------------|------------------------------------------------|
+      |  nicole.genon                   | March 29, 2024        | DEPP-8167              | Created file                                   |
 */
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
 

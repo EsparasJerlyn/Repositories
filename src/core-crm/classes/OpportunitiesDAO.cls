@@ -30,10 +30,10 @@ public inherited sharing class OpportunitiesDAO extends DmlBase implements IOppo
 	public static final Id CORPORATEPARTNERSHIP_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Corporate_Partnership')
         .getRecordTypeId();
-	public static final Id INDIVIDUAL_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+	public static final Id INDIVIDUAL_GIVING_RECTYPE_ID  = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Individual_Giving')
         .getRecordTypeId();
-	public static final Id ORGANISATION_GIVING_RECTYPE_ID = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
+	public static final Id ORGANISATION_GIVING_RECTYPE_ID  = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName()
         .get('Organisation_Giving')
         .getRecordTypeId();
 
