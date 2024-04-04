@@ -6,11 +6,6 @@
         <label>af-ZA</label>
     </customValue>
     <customValue>
-        <fullName>sq-AL</fullName>
-        <default>false</default>
-        <label>sq-AL</label>
-    </customValue>
-    <customValue>
         <fullName>am-ET</fullName>
         <default>false</default>
         <label>am-ET</label>
@@ -76,11 +71,6 @@
         <label>ar-SA</label>
     </customValue>
     <customValue>
-        <fullName>ar-SD</fullName>
-        <default>false</default>
-        <label>ar-SD</label>
-    </customValue>
-    <customValue>
         <fullName>ar-SY</fullName>
         <default>false</default>
         <label>ar-SY</label>
@@ -106,9 +96,14 @@
         <label>hy-AM</label>
     </customValue>
     <customValue>
-        <fullName>az-AZ</fullName>
+        <fullName>as-in</fullName>
         <default>false</default>
-        <label>az-AZ</label>
+        <label>as-in</label>
+    </customValue>
+    <customValue>
+        <fullName>ba-ru</fullName>
+        <default>false</default>
+        <label>ba-ru</label>
     </customValue>
     <customValue>
         <fullName>bn-BD</fullName>
@@ -131,19 +126,24 @@
         <label>be-BY</label>
     </customValue>
     <customValue>
-        <fullName>bs-BA</fullName>
-        <default>false</default>
-        <label>bs-BA</label>
-    </customValue>
-    <customValue>
         <fullName>bg-BG</fullName>
         <default>false</default>
         <label>bg-BG</label>
     </customValue>
     <customValue>
-        <fullName>my-MM</fullName>
+        <fullName>bo-cn</fullName>
         <default>false</default>
-        <label>my-MM</label>
+        <label>bo-cn</label>
+    </customValue>
+    <customValue>
+        <fullName>br-fr</fullName>
+        <default>false</default>
+        <label>br-fr</label>
+    </customValue>
+    <customValue>
+        <fullName>nb-no</fullName>
+        <default>false</default>
+        <label>nb-no</label>
     </customValue>
     <customValue>
         <fullName>ca-ES</fullName>
@@ -151,24 +151,14 @@
         <label>ca-ES</label>
     </customValue>
     <customValue>
-        <fullName>zh-CN-PINYIN</fullName>
+        <fullName>co-fr</fullName>
         <default>false</default>
-        <label>zh-CN-PINYIN</label>
-    </customValue>
-    <customValue>
-        <fullName>zh-CN-STROKE</fullName>
-        <default>false</default>
-        <label>zh-CN-STROKE</label>
+        <label>co-fr</label>
     </customValue>
     <customValue>
         <fullName>zh-CN</fullName>
         <default>false</default>
         <label>zh-CN</label>
-    </customValue>
-    <customValue>
-        <fullName>zh-HK-STROKE</fullName>
-        <default>false</default>
-        <label>zh-HK-STROKE</label>
     </customValue>
     <customValue>
         <fullName>zh-HK</fullName>
@@ -181,24 +171,19 @@
         <label>zh-MO</label>
     </customValue>
     <customValue>
-        <fullName>zh-MY</fullName>
-        <default>false</default>
-        <label>zh-MY</label>
-    </customValue>
-    <customValue>
         <fullName>zh-SG</fullName>
         <default>false</default>
         <label>zh-SG</label>
     </customValue>
     <customValue>
-        <fullName>zh-TW-STROKE</fullName>
-        <default>false</default>
-        <label>zh-TW-STROKE</label>
-    </customValue>
-    <customValue>
         <fullName>zh-TW</fullName>
         <default>false</default>
         <label>zh-TW</label>
+    </customValue>
+    <customValue>
+        <fullName>hr-ba</fullName>
+        <default>false</default>
+        <label>hr-ba</label>
     </customValue>
     <customValue>
         <fullName>hr-HR</fullName>
@@ -216,11 +201,6 @@
         <label>da-DK</label>
     </customValue>
     <customValue>
-        <fullName>nl-AW</fullName>
-        <default>false</default>
-        <label>nl-AW</label>
-    </customValue>
-    <customValue>
         <fullName>nl-BE</fullName>
         <default>false</default>
         <label>nl-BE</label>
@@ -231,19 +211,9 @@
         <label>nl-NL</label>
     </customValue>
     <customValue>
-        <fullName>nl-SR</fullName>
+        <fullName>dv-mv</fullName>
         <default>false</default>
-        <label>nl-SR</label>
-    </customValue>
-    <customValue>
-        <fullName>dz-BT</fullName>
-        <default>false</default>
-        <label>dz-BT</label>
-    </customValue>
-    <customValue>
-        <fullName>en-AG</fullName>
-        <default>false</default>
-        <label>en-AG</label>
+        <label>dv-mv</label>
     </customValue>
     <customValue>
         <fullName>en-AU</fullName>
@@ -251,39 +221,9 @@
         <label>en-AU</label>
     </customValue>
     <customValue>
-        <fullName>en-BS</fullName>
-        <default>false</default>
-        <label>en-BS</label>
-    </customValue>
-    <customValue>
-        <fullName>en-BB</fullName>
-        <default>false</default>
-        <label>en-BB</label>
-    </customValue>
-    <customValue>
-        <fullName>en-BE</fullName>
-        <default>false</default>
-        <label>en-BE</label>
-    </customValue>
-    <customValue>
         <fullName>en-BZ</fullName>
         <default>false</default>
         <label>en-BZ</label>
-    </customValue>
-    <customValue>
-        <fullName>en-BM</fullName>
-        <default>false</default>
-        <label>en-BM</label>
-    </customValue>
-    <customValue>
-        <fullName>en-BW</fullName>
-        <default>false</default>
-        <label>en-BW</label>
-    </customValue>
-    <customValue>
-        <fullName>en-CM</fullName>
-        <default>false</default>
-        <label>en-CM</label>
     </customValue>
     <customValue>
         <fullName>en-CA</fullName>
@@ -291,74 +231,9 @@
         <label>en-CA</label>
     </customValue>
     <customValue>
-        <fullName>en-KY</fullName>
-        <default>false</default>
-        <label>en-KY</label>
-    </customValue>
-    <customValue>
-        <fullName>en-CY</fullName>
-        <default>false</default>
-        <label>en-CY</label>
-    </customValue>
-    <customValue>
-        <fullName>en-ER</fullName>
-        <default>false</default>
-        <label>en-ER</label>
-    </customValue>
-    <customValue>
-        <fullName>en-SZ</fullName>
-        <default>false</default>
-        <label>en-SZ</label>
-    </customValue>
-    <customValue>
-        <fullName>en-FK</fullName>
-        <default>false</default>
-        <label>en-FK</label>
-    </customValue>
-    <customValue>
-        <fullName>en-FJ</fullName>
-        <default>false</default>
-        <label>en-FJ</label>
-    </customValue>
-    <customValue>
-        <fullName>en-GM</fullName>
-        <default>false</default>
-        <label>en-GM</label>
-    </customValue>
-    <customValue>
-        <fullName>en-DE</fullName>
-        <default>false</default>
-        <label>en-DE</label>
-    </customValue>
-    <customValue>
-        <fullName>en-GH</fullName>
-        <default>false</default>
-        <label>en-GH</label>
-    </customValue>
-    <customValue>
-        <fullName>en-GI</fullName>
-        <default>false</default>
-        <label>en-GI</label>
-    </customValue>
-    <customValue>
-        <fullName>en-GY</fullName>
-        <default>false</default>
-        <label>en-GY</label>
-    </customValue>
-    <customValue>
-        <fullName>en-HK</fullName>
-        <default>false</default>
-        <label>en-HK</label>
-    </customValue>
-    <customValue>
         <fullName>en-IN</fullName>
         <default>false</default>
         <label>en-IN</label>
-    </customValue>
-    <customValue>
-        <fullName>en-ID</fullName>
-        <default>false</default>
-        <label>en-ID</label>
     </customValue>
     <customValue>
         <fullName>en-IE</fullName>
@@ -366,34 +241,9 @@
         <label>en-IE</label>
     </customValue>
     <customValue>
-        <fullName>en-IL</fullName>
-        <default>false</default>
-        <label>en-IL</label>
-    </customValue>
-    <customValue>
         <fullName>en-JM</fullName>
         <default>false</default>
         <label>en-JM</label>
-    </customValue>
-    <customValue>
-        <fullName>en-KE</fullName>
-        <default>false</default>
-        <label>en-KE</label>
-    </customValue>
-    <customValue>
-        <fullName>en-LR</fullName>
-        <default>false</default>
-        <label>en-LR</label>
-    </customValue>
-    <customValue>
-        <fullName>en-MG</fullName>
-        <default>false</default>
-        <label>en-MG</label>
-    </customValue>
-    <customValue>
-        <fullName>en-MW</fullName>
-        <default>false</default>
-        <label>en-MW</label>
     </customValue>
     <customValue>
         <fullName>en-MY</fullName>
@@ -401,44 +251,9 @@
         <label>en-MY</label>
     </customValue>
     <customValue>
-        <fullName>en-MT</fullName>
-        <default>false</default>
-        <label>en-MT</label>
-    </customValue>
-    <customValue>
-        <fullName>en-MU</fullName>
-        <default>false</default>
-        <label>en-MU</label>
-    </customValue>
-    <customValue>
-        <fullName>en-NA</fullName>
-        <default>false</default>
-        <label>en-NA</label>
-    </customValue>
-    <customValue>
-        <fullName>en-NL</fullName>
-        <default>false</default>
-        <label>en-NL</label>
-    </customValue>
-    <customValue>
         <fullName>en-NZ</fullName>
         <default>false</default>
         <label>en-NZ</label>
-    </customValue>
-    <customValue>
-        <fullName>en-NG</fullName>
-        <default>false</default>
-        <label>en-NG</label>
-    </customValue>
-    <customValue>
-        <fullName>en-PK</fullName>
-        <default>false</default>
-        <label>en-PK</label>
-    </customValue>
-    <customValue>
-        <fullName>en-PG</fullName>
-        <default>false</default>
-        <label>en-PG</label>
     </customValue>
     <customValue>
         <fullName>en-PH</fullName>
@@ -446,39 +261,9 @@
         <label>en-PH</label>
     </customValue>
     <customValue>
-        <fullName>en-RW</fullName>
-        <default>false</default>
-        <label>en-RW</label>
-    </customValue>
-    <customValue>
-        <fullName>en-WS</fullName>
-        <default>false</default>
-        <label>en-WS</label>
-    </customValue>
-    <customValue>
-        <fullName>en-SC</fullName>
-        <default>false</default>
-        <label>en-SC</label>
-    </customValue>
-    <customValue>
-        <fullName>en-SL</fullName>
-        <default>false</default>
-        <label>en-SL</label>
-    </customValue>
-    <customValue>
         <fullName>en-SG</fullName>
         <default>false</default>
         <label>en-SG</label>
-    </customValue>
-    <customValue>
-        <fullName>en-SX</fullName>
-        <default>false</default>
-        <label>en-SX</label>
-    </customValue>
-    <customValue>
-        <fullName>en-SB</fullName>
-        <default>false</default>
-        <label>en-SB</label>
     </customValue>
     <customValue>
         <fullName>en-ZA</fullName>
@@ -486,34 +271,14 @@
         <label>en-ZA</label>
     </customValue>
     <customValue>
-        <fullName>en-SH</fullName>
+        <fullName>en-zw</fullName>
         <default>false</default>
-        <label>en-SH</label>
-    </customValue>
-    <customValue>
-        <fullName>en-TZ</fullName>
-        <default>false</default>
-        <label>en-TZ</label>
-    </customValue>
-    <customValue>
-        <fullName>en-TO</fullName>
-        <default>false</default>
-        <label>en-TO</label>
+        <label>en-zw</label>
     </customValue>
     <customValue>
         <fullName>en-TT</fullName>
         <default>false</default>
         <label>en-TT</label>
-    </customValue>
-    <customValue>
-        <fullName>en-UG</fullName>
-        <default>false</default>
-        <label>en-UG</label>
-    </customValue>
-    <customValue>
-        <fullName>en-AE</fullName>
-        <default>false</default>
-        <label>en-AE</label>
     </customValue>
     <customValue>
         <fullName>en-GB</fullName>
@@ -526,11 +291,6 @@
         <label>en-US</label>
     </customValue>
     <customValue>
-        <fullName>en-VU</fullName>
-        <default>false</default>
-        <label>en-VU</label>
-    </customValue>
-    <customValue>
         <fullName>et-EE</fullName>
         <default>false</default>
         <label>et-EE</label>
@@ -539,6 +299,11 @@
         <fullName>fi-FI</fullName>
         <default>false</default>
         <label>fi-FI</label>
+    </customValue>
+    <customValue>
+        <fullName>fo-fo</fullName>
+        <default>false</default>
+        <label>fo-fo</label>
     </customValue>
     <customValue>
         <fullName>fr-BE</fullName>
@@ -551,24 +316,9 @@
         <label>fr-CA</label>
     </customValue>
     <customValue>
-        <fullName>fr-KM</fullName>
-        <default>false</default>
-        <label>fr-KM</label>
-    </customValue>
-    <customValue>
         <fullName>fr-FR</fullName>
         <default>false</default>
         <label>fr-FR</label>
-    </customValue>
-    <customValue>
-        <fullName>fr-GN</fullName>
-        <default>false</default>
-        <label>fr-GN</label>
-    </customValue>
-    <customValue>
-        <fullName>fr-HT</fullName>
-        <default>false</default>
-        <label>fr-HT</label>
     </customValue>
     <customValue>
         <fullName>fr-LU</fullName>
@@ -576,19 +326,9 @@
         <label>fr-LU</label>
     </customValue>
     <customValue>
-        <fullName>fr-MR</fullName>
-        <default>false</default>
-        <label>fr-MR</label>
-    </customValue>
-    <customValue>
         <fullName>fr-MC</fullName>
         <default>false</default>
         <label>fr-MC</label>
-    </customValue>
-    <customValue>
-        <fullName>fr-MA</fullName>
-        <default>false</default>
-        <label>fr-MA</label>
     </customValue>
     <customValue>
         <fullName>fr-CH</fullName>
@@ -596,9 +336,9 @@
         <label>fr-CH</label>
     </customValue>
     <customValue>
-        <fullName>fr-WF</fullName>
+        <fullName>fy-nl</fullName>
         <default>false</default>
-        <label>fr-WF</label>
+        <label>fy-nl</label>
     </customValue>
     <customValue>
         <fullName>ka-GE</fullName>
@@ -611,14 +351,14 @@
         <label>de-AT</label>
     </customValue>
     <customValue>
-        <fullName>de-BE</fullName>
-        <default>false</default>
-        <label>de-BE</label>
-    </customValue>
-    <customValue>
         <fullName>de-DE</fullName>
         <default>false</default>
         <label>de-DE</label>
+    </customValue>
+    <customValue>
+        <fullName>de-li</fullName>
+        <default>false</default>
+        <label>de-li</label>
     </customValue>
     <customValue>
         <fullName>de-LU</fullName>
@@ -631,11 +371,6 @@
         <label>de-CH</label>
     </customValue>
     <customValue>
-        <fullName>el-CY</fullName>
-        <default>false</default>
-        <label>el-CY</label>
-    </customValue>
-    <customValue>
         <fullName>el-GR</fullName>
         <default>false</default>
         <label>el-GR</label>
@@ -646,24 +381,9 @@
         <label>gu-IN</label>
     </customValue>
     <customValue>
-        <fullName>ht-HT</fullName>
+        <fullName>he-il</fullName>
         <default>false</default>
-        <label>ht-HT</label>
-    </customValue>
-    <customValue>
-        <fullName>ht-US</fullName>
-        <default>false</default>
-        <label>ht-US</label>
-    </customValue>
-    <customValue>
-        <fullName>haw-US</fullName>
-        <default>false</default>
-        <label>haw-US</label>
-    </customValue>
-    <customValue>
-        <fullName>iw-IL</fullName>
-        <default>false</default>
-        <label>iw-IL</label>
+        <label>he-il</label>
     </customValue>
     <customValue>
         <fullName>hi-IN</fullName>
@@ -686,9 +406,29 @@
         <label>in-ID</label>
     </customValue>
     <customValue>
+        <fullName>ig-ng</fullName>
+        <default>false</default>
+        <label>ig-ng</label>
+    </customValue>
+    <customValue>
+        <fullName>ii-cn</fullName>
+        <default>false</default>
+        <label>ii-cn</label>
+    </customValue>
+    <customValue>
         <fullName>ga-IE</fullName>
         <default>false</default>
         <label>ga-IE</label>
+    </customValue>
+    <customValue>
+        <fullName>gd-gb</fullName>
+        <default>false</default>
+        <label>gd-gb</label>
+    </customValue>
+    <customValue>
+        <fullName>gl-es</fullName>
+        <default>false</default>
+        <label>gl-es</label>
     </customValue>
     <customValue>
         <fullName>it-IT</fullName>
@@ -726,11 +466,6 @@
         <label>km-KH</label>
     </customValue>
     <customValue>
-        <fullName>ko-KP</fullName>
-        <default>false</default>
-        <label>ko-KP</label>
-    </customValue>
-    <customValue>
         <fullName>ko-KR</fullName>
         <default>false</default>
         <label>ko-KR</label>
@@ -756,11 +491,6 @@
         <label>lt-LT</label>
     </customValue>
     <customValue>
-        <fullName>lu-CD</fullName>
-        <default>false</default>
-        <label>lu-CD</label>
-    </customValue>
-    <customValue>
         <fullName>lb-LU</fullName>
         <default>false</default>
         <label>lb-LU</label>
@@ -769,6 +499,11 @@
         <fullName>mk-MK</fullName>
         <default>false</default>
         <label>mk-MK</label>
+    </customValue>
+    <customValue>
+        <fullName>mn-mn</fullName>
+        <default>false</default>
+        <label>mn-mn</label>
     </customValue>
     <customValue>
         <fullName>ms-BN</fullName>
@@ -796,14 +531,14 @@
         <label>mr-IN</label>
     </customValue>
     <customValue>
-        <fullName>sh-ME-USD</fullName>
+        <fullName>se-se</fullName>
         <default>false</default>
-        <label>sh-ME-USD</label>
+        <label>se-se</label>
     </customValue>
     <customValue>
-        <fullName>sh-ME</fullName>
+        <fullName>si-lk</fullName>
         <default>false</default>
-        <label>sh-ME</label>
+        <label>si-lk</label>
     </customValue>
     <customValue>
         <fullName>ne-NP</fullName>
@@ -831,39 +566,14 @@
         <label>pl-PL</label>
     </customValue>
     <customValue>
-        <fullName>pt-AO</fullName>
-        <default>false</default>
-        <label>pt-AO</label>
-    </customValue>
-    <customValue>
         <fullName>pt-BR</fullName>
         <default>false</default>
         <label>pt-BR</label>
     </customValue>
     <customValue>
-        <fullName>pt-CV</fullName>
-        <default>false</default>
-        <label>pt-CV</label>
-    </customValue>
-    <customValue>
-        <fullName>pt-MZ</fullName>
-        <default>false</default>
-        <label>pt-MZ</label>
-    </customValue>
-    <customValue>
         <fullName>pt-PT</fullName>
         <default>false</default>
         <label>pt-PT</label>
-    </customValue>
-    <customValue>
-        <fullName>pt-ST</fullName>
-        <default>false</default>
-        <label>pt-ST</label>
-    </customValue>
-    <customValue>
-        <fullName>ro-MD</fullName>
-        <default>false</default>
-        <label>ro-MD</label>
     </customValue>
     <customValue>
         <fullName>ro-RO</fullName>
@@ -876,74 +586,29 @@
         <label>rm-CH</label>
     </customValue>
     <customValue>
-        <fullName>rn-BI</fullName>
-        <default>false</default>
-        <label>rn-BI</label>
-    </customValue>
-    <customValue>
-        <fullName>ru-AM</fullName>
-        <default>false</default>
-        <label>ru-AM</label>
-    </customValue>
-    <customValue>
-        <fullName>ru-BY</fullName>
-        <default>false</default>
-        <label>ru-BY</label>
-    </customValue>
-    <customValue>
-        <fullName>ru-KZ</fullName>
-        <default>false</default>
-        <label>ru-KZ</label>
-    </customValue>
-    <customValue>
-        <fullName>ru-KG</fullName>
-        <default>false</default>
-        <label>ru-KG</label>
-    </customValue>
-    <customValue>
-        <fullName>ru-LT</fullName>
-        <default>false</default>
-        <label>ru-LT</label>
-    </customValue>
-    <customValue>
-        <fullName>ru-MD</fullName>
-        <default>false</default>
-        <label>ru-MD</label>
-    </customValue>
-    <customValue>
-        <fullName>ru-PL</fullName>
-        <default>false</default>
-        <label>ru-PL</label>
-    </customValue>
-    <customValue>
         <fullName>ru-RU</fullName>
         <default>false</default>
         <label>ru-RU</label>
     </customValue>
     <customValue>
-        <fullName>ru-UA</fullName>
+        <fullName>rw-rw</fullName>
         <default>false</default>
-        <label>ru-UA</label>
+        <label>rw-rw</label>
     </customValue>
     <customValue>
-        <fullName>sm-WS</fullName>
+        <fullName>sa-in</fullName>
         <default>false</default>
-        <label>sm-WS</label>
+        <label>sa-in</label>
     </customValue>
     <customValue>
-        <fullName>sm-US</fullName>
+        <fullName>sq-al</fullName>
         <default>false</default>
-        <label>sm-US</label>
+        <label>sq-al</label>
     </customValue>
     <customValue>
-        <fullName>sr-BA</fullName>
+        <fullName>sv-fi</fullName>
         <default>false</default>
-        <label>sr-BA</label>
-    </customValue>
-    <customValue>
-        <fullName>sr-CS</fullName>
-        <default>false</default>
-        <label>sr-CS</label>
+        <label>sv-fi</label>
     </customValue>
     <customValue>
         <fullName>sh-BA</fullName>
@@ -951,14 +616,14 @@
         <label>sh-BA</label>
     </customValue>
     <customValue>
-        <fullName>sh-CS</fullName>
+        <fullName>se-fi</fullName>
         <default>false</default>
-        <label>sh-CS</label>
+        <label>se-fi</label>
     </customValue>
     <customValue>
-        <fullName>sr-RS</fullName>
+        <fullName>se-no</fullName>
         <default>false</default>
-        <label>sr-RS</label>
+        <label>se-no</label>
     </customValue>
     <customValue>
         <fullName>sk-SK</fullName>
@@ -969,16 +634,6 @@
         <fullName>sl-SI</fullName>
         <default>false</default>
         <label>sl-SI</label>
-    </customValue>
-    <customValue>
-        <fullName>so-DJ</fullName>
-        <default>false</default>
-        <label>so-DJ</label>
-    </customValue>
-    <customValue>
-        <fullName>so-SO</fullName>
-        <default>false</default>
-        <label>so-SO</label>
     </customValue>
     <customValue>
         <fullName>es-AR</fullName>
@@ -1004,11 +659,6 @@
         <fullName>es-CR</fullName>
         <default>false</default>
         <label>es-CR</label>
-    </customValue>
-    <customValue>
-        <fullName>es-CU</fullName>
-        <default>false</default>
-        <label>es-CU</label>
     </customValue>
     <customValue>
         <fullName>es-DO</fullName>
@@ -1096,24 +746,9 @@
         <label>sv-SE</label>
     </customValue>
     <customValue>
-        <fullName>tl-PH</fullName>
-        <default>false</default>
-        <label>tl-PH</label>
-    </customValue>
-    <customValue>
-        <fullName>tg-TJ</fullName>
-        <default>false</default>
-        <label>tg-TJ</label>
-    </customValue>
-    <customValue>
         <fullName>ta-IN</fullName>
         <default>false</default>
         <label>ta-IN</label>
-    </customValue>
-    <customValue>
-        <fullName>ta-LK</fullName>
-        <default>false</default>
-        <label>ta-LK</label>
     </customValue>
     <customValue>
         <fullName>te-IN</fullName>
@@ -1131,14 +766,29 @@
         <label>th-TH</label>
     </customValue>
     <customValue>
-        <fullName>ti-ET</fullName>
+        <fullName>tk-tm</fullName>
         <default>false</default>
-        <label>ti-ET</label>
+        <label>tk-tm</label>
+    </customValue>
+    <customValue>
+        <fullName>tn-za</fullName>
+        <default>false</default>
+        <label>tn-za</label>
     </customValue>
     <customValue>
         <fullName>tr-TR</fullName>
         <default>false</default>
         <label>tr-TR</label>
+    </customValue>
+    <customValue>
+        <fullName>tt-ru</fullName>
+        <default>false</default>
+        <label>tt-ru</label>
+    </customValue>
+    <customValue>
+        <fullName>ug-cn</fullName>
+        <default>false</default>
+        <label>ug-cn</label>
     </customValue>
     <customValue>
         <fullName>uk-UA</fullName>
@@ -1149,11 +799,6 @@
         <fullName>ur-PK</fullName>
         <default>false</default>
         <label>ur-PK</label>
-    </customValue>
-    <customValue>
-        <fullName>uz-LATN-UZ</fullName>
-        <default>false</default>
-        <label>uz-LATN-UZ</label>
     </customValue>
     <customValue>
         <fullName>vi-VN</fullName>
@@ -1169,16 +814,6 @@
         <fullName>xh-ZA</fullName>
         <default>false</default>
         <label>xh-ZA</label>
-    </customValue>
-    <customValue>
-        <fullName>ji-US</fullName>
-        <default>false</default>
-        <label>ji-US</label>
-    </customValue>
-    <customValue>
-        <fullName>yo-BJ</fullName>
-        <default>false</default>
-        <label>yo-BJ</label>
     </customValue>
     <customValue>
         <fullName>zu-ZA</fullName>
@@ -2606,6 +2241,36 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>zu_ZA</label>
+    </customValue>
+    <customValue>
+        <fullName>oc-fr</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>oc-fr</label>
+    </customValue>
+    <customValue>
+        <fullName>or-in</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>or-in</label>
+    </customValue>
+    <customValue>
+        <fullName>pa-in</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>pa-in</label>
+    </customValue>
+    <customValue>
+        <fullName>wo-sn</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>wo-sn</label>
+    </customValue>
+    <customValue>
+        <fullName>yo-ng</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>yo-ng</label>
     </customValue>
     <description>List of country locales for marketing</description>
     <masterLabel>Country Locale</masterLabel>
