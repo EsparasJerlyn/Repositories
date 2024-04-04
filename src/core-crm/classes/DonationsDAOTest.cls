@@ -11,7 +11,7 @@
 @isTest
 private class DonationsDAOTest {
     @testSetup
-    static void testSetup() {
+    static void testSetup () {
         TestDataFactory.generateTestUsers(
             new List<String>{ 'QUT_Sys_Admin' }
         );

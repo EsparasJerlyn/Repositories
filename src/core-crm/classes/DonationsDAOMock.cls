@@ -10,7 +10,7 @@
 */
 @isTest
 public inherited sharing class DonationsDAOMock extends DmlBaseMock implements IDonationsDAO {
-    public Map<Id, Donation__c> donationsMap;
+    public Map<Id, Donation__c> donationsMap ;
 
     public Schema.SObjectType getSObjectType() {
         return Donation__c.SObjectType;
