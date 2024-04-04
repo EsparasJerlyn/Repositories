@@ -39,8 +39,21 @@
         <members>Product2.Section_7_Image_Video_URL__c</members>
         <members>Product2.Section_7_Image_Video_Page_Location__c</members>
         <!-- End DEPP-7239 -->
+        <!-- Start DEPP-8405 -->
+        <members>Donation__c.Donation_Amount__c</members>
+        <members>Donation__c.Donation_Cause__c</members>
+        <members>Donation__c.Donation_Type__c</members>
+        <members>Donation__c.Expected_Total_Amount__c</members>
+        <members>Donation__c.Final_Installment_Date__c</members>
+        <members>Donation__c.First_Installment_Date__c</members>
+        <members>Donation__c.Installment_Amount__c</members>
+        <members>Donation__c.Installment_Date__c</members>
+        <members>Donation__c.Installment_Frequency__c</members>
+        <members>Donation__c.Next_Installment_Date__c</members>
+        <members>Donation__c.Schedule_Type__c</members>
+        <!-- End DEPP-8405 -->
         <name>CustomField</name>
-    </types>    
+    </types>
     <types>
         <!--Start DEPP-6659-->
         <members>Applicatioon_SAMS_CIAnywhere_Record_Page</members>
