@@ -14,7 +14,7 @@
       | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file                                                           |
       | kenneth.f.alsay                | November 6, 2023      | DEPP-7000              | Updated generateCodeForOpportunityOutcomeRecords to exclude            |
       |                                |                       |                        | record types not in recordTypeToCodePartsMap                           |
-      | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INTERNATIONAL_GIVING_RECTYPE_ID record types generate code         |
+      | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INDIVIDUAL_GIVING_RECTYPE_ID record types generate code            |
       |                                |                       |                        | Add ORGANISATION_GIVING_RECTYPE_ID record types generate code          |
       | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code       |
  */
@@ -26,7 +26,7 @@ public with sharing class CodeGeneratorService {
 	public static void generateOpportunityCodeForOpportunityRecords(List<Opportunity> newItems) {
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         Map<Id, CodeParts> recordTypeToCodePartsMap = new Map<Id, CodeParts>();
-        recordTypeToCodePartsMap.put(OpportunitiesDAO.INTERNATIONAL_GIVING_RECTYPE_ID, new CodeParts('ADVI', opptyCodeAutoNum.Individual_Giving__c));
+        recordTypeToCodePartsMap.put(OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID, new CodeParts('ADVI', opptyCodeAutoNum.Individual_Giving__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID, new CodeParts('ADVO', opptyCodeAutoNum.Organisation_Giving__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID, new CodeParts('INPO', opptyCodeAutoNum.International_Projects_Unit__c));
         recordTypeToCodePartsMap.put(OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID, new CodeParts('RCO', opptyCodeAutoNum.Commercialisation__c));
@@ -47,7 +47,7 @@ public with sharing class CodeGeneratorService {
             }
         }
 
-        opptyCodeAutoNum.Individual_Giving__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.INTERNATIONAL_GIVING_RECTYPE_ID).autoNumber;
+        opptyCodeAutoNum.Individual_Giving__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.Organisation_Giving__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.ORGANISATION_GIVING_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.International_Projects_Unit__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID).autoNumber;
         opptyCodeAutoNum.Commercialisation__c = recordTypeToCodePartsMap.get(OpportunitiesDAO.COMMERCIALIZATION_RECTYPE_ID).autoNumber;
