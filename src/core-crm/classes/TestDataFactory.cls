@@ -82,9 +82,9 @@ public class TestDataFactory {
     private static final TestUserGenerator TEST_USER_GENERATOR = new TestUserGenerator();
     private static final List<String> USER_ATTRIB_LIST = new List<String>{
         //Previous List
-        // 'QUT_System_Administrator',
+        // 'QUT_System_Administrator', done
         // 'QUT_Developer',
-        // 'QUT_Read_Only',
+        // 'QUT_Read_Only', done
         // 'QUT_Sys_Admin',
         // 'QUT_Form_Builder',
         // 'QUT_Website_Integration_User',
@@ -2667,7 +2667,7 @@ public class TestDataFactory {
         private UserAttributeClass(String name) {
             // users below match personas on the following page https://wiki.qut.edu.au/display/DEP/User+Onboarding+Guide
             /** START - Creation of Integration/System Users */
-            if(name == 'System_Administrator'){     //QUT_System_Administrator
+            if (name == 'System_Administrator'){     //QUT_System_Administrator
                 userName = 'System_Administrator';
                 profileName = 'System Administrator';
                 roleName = '';
@@ -2681,6 +2681,37 @@ public class TestDataFactory {
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;
                 isPortal = false;
+                contactId = null;
+            } else if (name == 'System_Administrator_Modify_All_Data') {
+                userName = 'System_Administrator_Modify_All_Data';
+                profileName = 'Internal Base';
+                roleName = '';
+                permSets = 'Permission Multi-Factor Authentication for User Interface Logins';
+                permSetGroups = 'Persona System Administrator - Modify All Data';
+                publicGroups = 'System Administrator - Modify All Data';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = true;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'System_Administrator_Read_Only') { //QUT_Read_Only
+                userName = 'System_Administrator_Read_Only';
+                profileName = 'Internal Base';
+                roleName = '';
+                permSets = 'Permission Multi-Factor Authentication for User Interface Logins';
+                permSetGroups = 'Persona System Administrator - Read Only';
+                publicGroups = 'System Administrator - Read Only';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = true;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
             //Previous Persona
             else if (name == 'QUT_Developer') {
@@ -2697,20 +2728,20 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Read_Only') {
-                userName = 'QUT_Read_Only';
-                profileName = 'QUT Read Only';
-                roleName = '';
-                permSets = 'Integration_Person';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = true;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_Read_Only') {
+            //     userName = 'QUT_Read_Only';
+            //     profileName = 'QUT Read Only';
+            //     roleName = '';
+            //     permSets = 'Integration_Person';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = true;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             // } else if (name == 'QUT_System_Administrator') {
             //     userName = 'QUT_System_Administrator';
             //     profileName = 'QUT System Administrator';
