@@ -15,7 +15,7 @@ public with sharing class SalesCadenceSMSRequestCommandTest {
 
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
         System.runAs(TestDataFactory.getSystemAdminUser()) { 
 
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();

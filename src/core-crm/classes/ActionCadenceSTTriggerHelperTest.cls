@@ -16,7 +16,7 @@ private class ActionCadenceSTTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
     }
     
     @isTest static void testInsertCommunicationQueueCreation() {

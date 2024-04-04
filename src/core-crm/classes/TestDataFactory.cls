@@ -63,10 +63,11 @@
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
  *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
  *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
- *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
+ *    | nicole.genon              | November 23, 2021     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     
  *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
- *
+ *    | julie.jane.alegre         | April 04, 2024        | DEP-8016            | Test Data Factory Update / Clean                                        |
+ * 
  **/
 
 @isTest
@@ -80,34 +81,37 @@ public class TestDataFactory {
     private static final String TEST_PRICEBOOK2_NAME = 'Test Pricebook2';
     private static final TestUserGenerator TEST_USER_GENERATOR = new TestUserGenerator();
     private static final List<String> USER_ATTRIB_LIST = new List<String>{
-        'QUT_System_Administrator',
-        'QUT_Developer',
-        'QUT_Read_Only',
-        'QUT_Sys_Admin',
-        'QUT_Form_Builder',
-        'QUT_Website_Integration_User',
-        'QUT_Marketing_Cloud',
-        'QUT_ESB',
-        'QUT_Data_Migration',
-        'QUT_Chatter_Free',
-        'QUT_Executive_Director',
-        'QUT_Business_Manager',
-        'QUT_OPE_Director',
-        'QUT_Portfolio_Coordinator',
-        'QUT_Product_Admin',
-        'QUT_Learning_Innovation_Manager',
-        'QUT_Learning_Designer',
-        'QUT_Partnership_Manager',
-        'QUT_Program_Coordinator',
-        'QUT_Program_Administrator',
-        'QUT_Marketing_Manager',
-        'QUT_Quality_Assurance',
-        'QUT_Digital_Marketing_Officer',
-        'QUT_Digital_Communication_Officer',
-        'QUT_IE_Partnership_Manager',
-        'QUT_Operations_Manager',
-        'QUT_Domestic_Future_Student_Agent',
-        'QUT_International_Future_Student_Agent'
+        //Previous List
+        // 'QUT_System_Administrator',
+        // 'QUT_Developer',
+        // 'QUT_Read_Only',
+        // 'QUT_Sys_Admin',
+        // 'QUT_Form_Builder',
+        // 'QUT_Website_Integration_User',
+        // 'QUT_Marketing_Cloud',
+        // 'QUT_ESB',
+        // 'QUT_Data_Migration',
+        // 'QUT_Chatter_Free',
+        // 'QUT_Executive_Director',
+        // 'QUT_Business_Manager',
+        // 'QUT_OPE_Director',
+        // 'QUT_Portfolio_Coordinator',
+        // 'QUT_Product_Admin',
+        // 'QUT_Learning_Innovation_Manager',
+        // 'QUT_Learning_Designer',
+        // 'QUT_Partnership_Manager',
+        // 'QUT_Program_Coordinator',
+        // 'QUT_Program_Administrator',
+        // 'QUT_Marketing_Manager',
+        // 'QUT_Quality_Assurance',
+        // 'QUT_Digital_Marketing_Officer',
+        // 'QUT_Digital_Communication_Officer',
+        // 'QUT_IE_Partnership_Manager',
+        // 'QUT_Operations_Manager',
+        // 'QUT_Domestic_Future_Student_Agent',
+        // 'QUT_International_Future_Student_Agent',
+        //newList 
+        'System_Administrator'
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
@@ -2287,7 +2291,7 @@ public class TestDataFactory {
         User sysAdmin = [
             SELECT Id
             FROM User
-            WHERE Username LIKE 'QUT_System_Administrator%'
+            WHERE Username LIKE 'System_Administrator%'
             LIMIT 1
         ];
         return sysAdmin;
@@ -2298,8 +2302,10 @@ public class TestDataFactory {
         private Map<String, Id> profileMap;
         private Map<String, Id> roleMap;
         private Map<String, Id> permSetMap;
+        private Map<String, Id> permSetGroupMap;
         private List<User> addUsers = new List<User>{};
         private List<String> addPermSets = new List<String>{};
+        private List<String> addPermSetGroups = new List<String>{};
         private List<String> addGroups = new List<String>{};
         private Map<String, String> usermap;
 
@@ -2308,6 +2314,8 @@ public class TestDataFactory {
             addUsers = new List<User>();
             //instantiate list of permission set assignments
             addPermSets = new List<String>();
+            //instantiate list of permission set groups
+            addPermSetGroups = new List<String>();
             //instantitate list of group assignments
             addGroups = new List<String>();
             List<String> listPortalUserNames = new List<String>();
@@ -2334,6 +2342,7 @@ public class TestDataFactory {
                 }
 
                 addPermissionAssignment();
+                addPermissionSetGroupAssignment();
                 addPublicGroupAssignment();
             }
 
@@ -2345,6 +2354,8 @@ public class TestDataFactory {
             addUsers = new List<User>();
             //instantiate list of permission set assignments
             addPermSets = new List<String>();
+            //instantiate list of permission set groups
+            addPermSetGroups = new List<String>();
             //instantitate list of group assignments
             addGroups = new List<String>();
             //get portal sys admin user as running user for creating new users
@@ -2364,6 +2375,7 @@ public class TestDataFactory {
                 }
 
                 addPermissionAssignment();
+                addPermissionSetGroupAssignment();
                 addPublicGroupAssignment();
             }
             //End System.runAs
@@ -2481,6 +2493,22 @@ public class TestDataFactory {
             }
         }
 
+        private void addPermissionSetGroupAssignment() {
+            // insert perm sets group if not null
+            if (addPermSetGroups != null && addPermSetGroups.size() > 0) {
+                list<PermissionSetGroup> addPSG = new List<PermissionSetGroup>{};
+                for (String i : addPermSetGroups) {
+                    List<String> res = i.split('%%');
+                    addPSG.add(
+                        new PermissionSetGroup(
+                            DeveloperName = permSetGroupMap.get(res[1])
+                        )
+                    );
+                }
+                insert addPSG;
+            }
+        }
+
         private void addPublicGroupAssignment() {
             // insert Group if not null
             if (addGroups != null && addGroups.size() > 0) {
@@ -2518,6 +2546,13 @@ public class TestDataFactory {
                 list<PermissionSet> pmList = [SELECT Id, Name FROM PermissionSet];
                 for (PermissionSet i : pmList) {
                     permSetMap.put(i.Name, i.Id);
+                }
+            }
+            if (permSetGroupMap == null) {
+                permSetGroupMap = new Map<String, Id>{};
+                list<PermissionSetGroup> pmgList = [SELECT Id, DeveloperName FROM PermissionSetGroup];
+                for (PermissionSetGroup i : pmgList) {
+                    permSetGroupMap.put(i.DeveloperName, i.Id);
                 }
             }
             if (groupMap == null) {
@@ -2617,6 +2652,7 @@ public class TestDataFactory {
         private String profileName { get; set; }
         private String roleName { get; set; }
         private String permSets { get; set; }
+        private String permSetGroups { get; set;  }
         private String publicGroups { get; set; }
         private Boolean isServiceCloudUser { get; set; }
         private Boolean isFlowUser { get; set; }
@@ -2631,7 +2667,23 @@ public class TestDataFactory {
         private UserAttributeClass(String name) {
             // users below match personas on the following page https://wiki.qut.edu.au/display/DEP/User+Onboarding+Guide
             /** START - Creation of Integration/System Users */
-            if (name == 'QUT_Developer') {
+            if(name == 'System_Administrator'){     //QUT_System_Administrator
+                userName = 'System_Administrator';
+                profileName = 'System Administrator';
+                roleName = '';
+                permSets = '';
+                permSetGroups = 'Persona System Administrator';
+                publicGroups = 'System Administrator';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = true;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+            }
+            //Previous Persona
+            else if (name == 'QUT_Developer') {
                 userName = 'QUT_Developer';
                 profileName = 'Development Team Base';
                 roleName = '';
@@ -2659,20 +2711,20 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_System_Administrator') {
-                userName = 'QUT_System_Administrator';
-                profileName = 'QUT System Administrator';
-                roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = true;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_System_Administrator') {
+            //     userName = 'QUT_System_Administrator';
+            //     profileName = 'QUT System Administrator';
+            //     roleName = 'System Administrator';
+            //     permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = true;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             } else if (name == 'QUT_Sys_Admin') {
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
