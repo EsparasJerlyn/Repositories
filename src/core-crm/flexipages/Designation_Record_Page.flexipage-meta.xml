@@ -83,8 +83,8 @@
                     <name>uiBehavior</name>
                     <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Designation_Description__c</fieldItem>
-                <identifier>RecordDesignation_Description__cField3</identifier>
+                <fieldItem>Record.Description__c</fieldItem>
+                <identifier>RecordDescription__cField3</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-33d6cff4-dd77-435f-8beb-e44e2cf90ffd</name>
@@ -149,7 +149,7 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-    <itemInstances>
+        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -459,8 +459,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Designation_Description__c</fieldItem>
-                <identifier>RecordDesignation_Description__cField</identifier>
+                <fieldItem>Record.Description__c</fieldItem>
+                <identifier>RecordDescription__cField</identifier>
                 <visibilityRule>
                     <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
                     <criteria>
@@ -487,8 +487,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Designation_Description__c</fieldItem>
-                <identifier>RecordDesignation_Description__cField2</identifier>
+                <fieldItem>Record.Description__c</fieldItem>
+                <identifier>RecordDescription__cField2</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR (2 AND 3)</booleanFilter>
                     <criteria>
@@ -534,6 +534,58 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-94d5dccc-637f-49e7-8fb9-4724d9ea0089</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Giving_Category__c</fieldItem>
+                <identifier>RecordGiving_Category_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-b1eb3666-94a2-4b48-a92c-e6ad3ccfe365</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Study_Association__c</fieldItem>
+                <identifier>RecordStudy_Association_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-940466c6-d088-46a0-8653-bbaf5ddaf75d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-b1eb3666-94a2-4b48-a92c-e6ad3ccfe365</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-940466c6-d088-46a0-8653-bbaf5ddaf75d</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column12</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-fa229b99-e80b-4e0b-85ec-c22fcba74599</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -659,7 +711,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-     <componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-d38727a0-5385-4fa8-a91c-94f9850221ee</value>
                 </componentInstanceProperties>
@@ -973,6 +1025,30 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-fa229b99-e80b-4e0b-85ec-c22fcba74599</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Categorisation</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection6</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.CreatedBy.Username}</leftValue>
