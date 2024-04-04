@@ -125,7 +125,8 @@ public class TestDataFactory {
         'QUTeX_Partnership_Manager',
         'QUTeX_Program_Coordinator',
         'QUTeX_Program_Administrator',
-        'Marketing_Manager'
+        'Marketing_Manager',
+        'Marketing_Partnership_Manager'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2907,8 +2908,23 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Marketing_Partnership_Manager') { //new 
+                userName = 'Marketing_Partnership_Manager';
+                profileName = 'QUTeX';
+                roleName = 'Marketing Super User';
+                permSets = 'QUTeX Base,QUTeX CCE,Marketing';
+                permSetGroups = '';
+                publicGroups = '';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
-            //Previous Persona 
+            //Previous Persona  Marketing Partnership Manager
             // else if (name == 'QUT_Developer') {
             //     userName = 'QUT_Developer';
             //     profileName = 'Development Team Base';
