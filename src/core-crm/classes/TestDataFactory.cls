@@ -4360,7 +4360,7 @@ public class TestDataFactory {
                     Activation_Start_Date__c = System.Today(),
                     Designation_Code__c = 'TESTCODE' + i,
                     Name = 'Test Donation' + i,
-                    Designation_Description__c = 'Test'
+                    Description__c = 'Test'
                 )
             );
         }
