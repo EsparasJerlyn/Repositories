@@ -116,7 +116,8 @@ public class TestDataFactory {
         'System_Administrator_Read_Only',
         'Development_Team',
         'QUTeX_Executive_Director',
-        'QUTeX_Business_Manager'
+        'QUTeX_Business_Manager',
+        'QUTeX_Director_of_OPE'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2763,8 +2764,23 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'QUTeX_Director_of_OPE') { //QUT_OPE_Director
+                userName = 'QUTeX_Director_of_OPE';
+                profileName = 'QUTeX';
+                roleName = 'QUTeX Super User';
+                permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE,QUTeX Leader,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender,DocuSign User,Permission API Enabled';
+                permSetGroups = '';
+                publicGroups = '';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
-            //Previous Persona
+            //Previous Persona 
             // else if (name == 'QUT_Developer') {
             //     userName = 'QUT_Developer';
             //     profileName = 'Development Team Base';
@@ -2937,20 +2953,20 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            } else if (name == 'QUT_OPE_Director') {
-                userName = 'QUT_OPE_Director';
-                profileName = 'QUTeX';
-                roleName = 'QUTeX Super User';
-                permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_OPE_Director') {
+            //     userName = 'QUT_OPE_Director';
+            //     profileName = 'QUTeX';
+            //     roleName = 'QUTeX Super User';
+            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = false;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             } else if (name == 'QUT_Portfolio_Coordinator') {
                 userName = 'QUT_Portfolio_Coordinator';
                 profileName = 'QUTeX';
