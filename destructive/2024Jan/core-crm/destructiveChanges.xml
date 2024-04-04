@@ -47,7 +47,6 @@
         <members>Applicatioon_SAMS_Legacy_Record_Page</members>
         <!--End DEPP-6659-->
         <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
-        <members>Donation_Cause_Record_Page</members><!--DEPP-8205-->
         <name>FlexiPage</name>
     </types>
     <!-- <types> -->
@@ -68,7 +67,6 @@
     </types>
     <types>
         <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
-        <members>Donation_Cause__c-Donation Cause Layout</members><!--DEPP-8205-->
         <name>Layout</name>
     </types>
     <types>
