@@ -12,7 +12,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Designation Summary</label>
+        <label>Donation Cause Summary</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -28,7 +28,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Designation_Description__c</field>
+                <field>Donation_Cause_Description__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -105,7 +105,7 @@
         <fields>PRODUCT2.NAME</fields>
         <fields>PRODUCT2.CUSTOMER_PRODUCT_ID</fields>
         <fields>PRODUCT2.DESCRIPTION</fields>
-        <relatedList>Product2.Designation__c</relatedList>
+        <relatedList>Product2.Donation_Cause__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
@@ -118,7 +118,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Document__c.Designation__c</relatedList>
+        <relatedList>Document__c.Donation_Cause__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
