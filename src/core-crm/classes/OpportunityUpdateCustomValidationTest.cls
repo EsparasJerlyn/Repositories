@@ -6,9 +6,11 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary         |
-      |---------------------------|-----------------------|--------------|------------------------|
-      | nicole.genon    	      | February 29, 2024     | DEPP-7905    | Created file           |
+ *    | Developer                 | Date                  | JIRA              | Change Summary                                           |
+      |---------------------------|-----------------------|-------------------|----------------------------------------------------------|
+      | nicole.genon    	      | February 29, 2024     | DEPP-7905         | Created file                                             |
+      | kenneth.f.alsay           | March 29, 2024        | DEPP-8165,8166    | Added methods opportunityWithDonationsNotDeclinedTest &  |
+      |                           |                       |                   | opportunityWithDonationsDeclinedTest                     |
 */
 @isTest
 public with sharing class OpportunityUpdateCustomValidationTest {
@@ -17,7 +19,7 @@ public with sharing class OpportunityUpdateCustomValidationTest {
 
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin', 'QUT_Advancement_Manager'});
     	System.runAs(TestDataFactory.getAdvancementManager()) {
             List<Account> accountRecord = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_UNIV_DEP_ID);
             accountRecord[0].Organization_Unit_Level__c ='2';
@@ -43,7 +45,34 @@ public with sharing class OpportunityUpdateCustomValidationTest {
                 con.Role_Is_Active__c = true;
                 contextualRoleRecords.add(con);
             }
-            ContextualRolesDAO.newInstance().insertRecords(contextualRoleRecords, false, AccessLevel.USER_MODE);  
+            ContextualRolesDAO.newInstance().insertRecords(contextualRoleRecords, false, AccessLevel.USER_MODE);
+
+            List<Opportunity> individualOpportunityRecords = TestDataFactory.createTestOpportunityRecords(
+                1,'OppTest',OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID);
+            individualOpportunityRecords[0].Description = 'Test';
+            individualOpportunityRecords[0].ContactId = newContacts[0].Id;
+            individualOpportunityRecords[0].Contact__c = newContacts[0].Id;
+            individualOpportunityRecords[0].Donor_Linkage_Rank__c = 'Low Level of Connection';
+            individualOpportunityRecords[0].Donor_Interest_Rank__c = 'Unknown or not assessed';
+            individualOpportunityRecords[0].Donor_Ability_Rank__c = '$250K - $500K';
+            individualOpportunityRecords[0].Probability_Of_Success__c = '60%';
+            individualOpportunityRecords[0].Qualification_Summary__c = 'Test';
+            individualOpportunityRecords[0].Is_Qualified__c = true;
+            individualOpportunityRecords[0].Solicitation_Sub_Stage__c = 'Agreement';
+            individualOpportunityRecords[0].Due_Diligence_Summary__c = 'Test';
+            individualOpportunityRecords[0].Due_Diligence_Completed__c = true;
+            individualOpportunityRecords[0].Is_Agreement_Signed__c = true;
+            individualOpportunityRecords[0].StageName = OpportunitiesDAO.SOLICITATION_STAGE;
+
+            OpportunitiesDAO.newInstance().insertRecords(individualOpportunityRecords, false, AccessLevel.USER_MODE);
+        }
+
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            List<Donation__c> donationRecords = TestDataFactory.createDonationRecordsWithOpportunity(10,oppRecords[0].Id);
+
+            DonationsDAO.newInstance().insertRecords(donationRecords, false, AccessLevel.USER_MODE);
         }
     }
 
@@ -109,6 +138,129 @@ public with sharing class OpportunityUpdateCustomValidationTest {
             for (Database.SaveResult sr : srList) {
                 System.assert(!sr.isSuccess(), 'A record was saved.'); 
             }
+        }
+    }
+
+    @isTest
+    private static void checkStageUpdateWithProposedDonations() {
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            oppRecords[0].StageName = 'Executed' ;
+            OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            List<Opportunity> oppUpdatedRecords = OpportunitiesDAO.getRecordsBySetIds(new Set<Id>{oppRecords[0].Id});
+            System.assert(oppUpdatedRecords[0].StageName.equals('Solicitation'), 'Stage value is Solicitation.');
+        }
+    }
+
+    @isTest
+    private static void checkStageUpdateWithNoAcceptedOrCompletedDonations() {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Donation__c> relatedDonations = DonationsDAO.getDonationsByOpportunityIds(new Set<Id>{oppList[0].Id},AccessLevel.USER_MODE);
+
+            for(Donation__c don : relatedDonations){
+                don.Stage__c = 'Active';
+            }
+
+            DonationsDAO.newInstance().updateRecords(relatedDonations, false, AccessLevel.USER_MODE);
+        }
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+
+            Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            oppRecords[0].StageName = 'Executed' ;
+            OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            List<Opportunity> oppUpdatedRecords = OpportunitiesDAO.getRecordsBySetIds(new Set<Id>{oppRecords[0].Id});
+            System.assert(oppUpdatedRecords[0].StageName.equals('Solicitation'), 'Stage value is Solicitation.');
+        }
+    }
+
+    @isTest
+    private static void checkStageUpdateWithAcceptedOrCompletedDonations() {
+        System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Donation__c> relatedDonations = DonationsDAO.getDonationsByOpportunityIds(new Set<Id>{oppList[0].Id},AccessLevel.USER_MODE);
+
+            for(Donation__c don : relatedDonations){
+                don.Stage__c = 'Accepted';
+            }
+
+            DonationsDAO.newInstance().updateRecords(relatedDonations, false, AccessLevel.USER_MODE);
+        }
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+
+            Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            oppRecords[0].StageName = 'Executed' ;
+            OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            List<Opportunity> oppUpdatedRecords = OpportunitiesDAO.getRecordsBySetIds(new Set<Id>{oppRecords[0].Id});
+            System.assert(oppUpdatedRecords[0].StageName.equals('Executed'), 'Stage value is successfully changed to Executed.');
+        }
+    }
+
+    @isTest
+    private static void opportunityWithDonationsNotDeclinedTest(){
+		System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Donation__c> relatedDonations = DonationsDAO.getDonationsByOpportunityIds(new Set<Id>{oppList[0].Id},AccessLevel.USER_MODE);
+
+            for(Donation__c don : relatedDonations){
+                don.Stage__c = 'Accepted';
+            }
+
+            DonationsDAO.newInstance().updateRecords(relatedDonations, false, AccessLevel.USER_MODE);
+        }
+        System.runAs(TestDataFactory.getAdvancementManager()){
+			Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            oppRecords[0].StageName = 'Discontinued' ;
+            oppRecords[0].Loss_Reason__c = 'Change of Mind' ;
+            oppRecords[0].Loss_Reason_Explanation__c = 'Test Loss Reason Explanation' ;
+            OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Database.SaveResult[] srList = OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            for (Database.SaveResult sr : srList) {
+                System.assert(!sr.isSuccess(), 'A record was saved.'); 
+            }
+            Test.stopTest();
+        }
+    }
+    
+    @isTest
+    private static void opportunityWithDonationsDeclinedTest(){
+		System.runAs(TestDataFactory.getPortalSysAdminUser()) {
+            List<Opportunity> oppList = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+            List<Donation__c> relatedDonations = DonationsDAO.getDonationsByOpportunityIds(new Set<Id>{oppList[0].Id},AccessLevel.USER_MODE);
+
+            for(Donation__c don : relatedDonations){
+                don.Stage__c = 'Declined';
+            }
+
+            DonationsDAO.newInstance().updateRecords(relatedDonations, false, AccessLevel.USER_MODE);
+        }
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            Test.startTest();
+            List<Opportunity> oppRecords = OpportunitiesDAO.getOpportunityByRecordTypeIds(new Set<Id>{OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID},AccessLevel.USER_MODE);
+
+            oppRecords[0].StageName = 'Discontinued' ;
+            oppRecords[0].Loss_Reason__c = 'Change of Mind' ;
+            oppRecords[0].Loss_Reason_Explanation__c = 'Test Loss Reason Explanation' ;
+            OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            Database.SaveResult[] srList = OpportunitiesDAO.newInstance().updateRecords(oppRecords, false, AccessLevel.USER_MODE);
+            for (Database.SaveResult sr : srList) {
+                System.assert(sr.isSuccess(), 'A record was not saved.'); 
+            }
+            Test.stopTest();
         }
     }
 }
