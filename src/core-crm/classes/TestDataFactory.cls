@@ -121,7 +121,8 @@ public class TestDataFactory {
         'QUTeX_Portfolio_Coordinator',
         'QUTeX_Product_Administrator',
         'QUTeX_Learning_Innovation_Manager',
-        'QUTeX_Learning_Designer'
+        'QUTeX_Learning_Designer',
+        'QUTeX_Partnership_Manager'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2198,7 +2199,7 @@ public class TestDataFactory {
         User partnershipManager = [
             SELECT Id
             FROM User
-            WHERE Username LIKE 'QUT_Partnership_Manager%'
+            WHERE Username LIKE 'QUTeX_Partnership_Manager%'
             LIMIT 1
         ];
         return partnershipManager;
@@ -2843,7 +2844,22 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } 
+            } else if (name == 'QUTeX_Partnership_Manager') { //QUT_Partnership_Manager
+                userName = 'QUTeX_Partnership_Manager';
+                profileName = 'QUTeX';
+                roleName = 'QUTeX Super User';
+                permSets = 'QUTeX Base,QUTeX CCE,QUTeX Leader,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender;DocuSign User,Permission API Enabled,Corporate Bundle';
+                permSetGroups = '';
+                publicGroups = 'Partnership Manager';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            }
             //Previous Persona 
             // else if (name == 'QUT_Developer') {
             //     userName = 'QUT_Developer';
@@ -3087,21 +3103,21 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            } else if (name == 'QUT_Partnership_Manager') {
-                userName = 'QUT_Partnership_Manager';
-                profileName = 'QUTeX';
-                roleName = 'QUTeX Super User';
-                //TODO: Add Product_Administration permset when approved in Onboarding Guide
-                permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_Partnership_Manager') {
+            //     userName = 'QUT_Partnership_Manager';
+            //     profileName = 'QUTeX';
+            //     roleName = 'QUTeX Super User';
+            //     //TODO: Add Product_Administration permset when approved in Onboarding Guide
+            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = false;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             } else if (name == 'QUT_Program_Coordinator') { 
                 userName = 'QUT_Program_Coordinator';
                 profileName = 'QUTeX';
