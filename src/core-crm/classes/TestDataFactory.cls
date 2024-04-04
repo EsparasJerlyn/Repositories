@@ -122,7 +122,8 @@ public class TestDataFactory {
         'QUTeX_Product_Administrator',
         'QUTeX_Learning_Innovation_Manager',
         'QUTeX_Learning_Designer',
-        'QUTeX_Partnership_Manager'
+        'QUTeX_Partnership_Manager',
+        'QUTeX_Program_Coordinator'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2859,6 +2860,21 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'QUTeX_Program_Coordinator') { //QUT_Program_Coordinator
+                userName = 'QUTeX_Program_Coordinator';
+                profileName = 'QUTeX';
+                roleName = 'QUTeX User';
+                permSets = 'QUTeX Base,QUTeX CCE';
+                permSetGroups = '';
+                publicGroups = '';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
             //Previous Persona 
             // else if (name == 'QUT_Developer') {
@@ -3118,20 +3134,20 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            } else if (name == 'QUT_Program_Coordinator') { 
-                userName = 'QUT_Program_Coordinator';
-                profileName = 'QUTeX';
-                roleName = 'QUTeX User';
-                permSets = 'QUTeX_Base,QUTeX_CCE';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_Program_Coordinator') { 
+            //     userName = 'QUT_Program_Coordinator';
+            //     profileName = 'QUTeX';
+            //     roleName = 'QUTeX User';
+            //     permSets = 'QUTeX_Base,QUTeX_CCE';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = false;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             } else if (name == 'QUT_Program_Administrator') {
                 userName = 'QUT_Program_Administrator';
                 profileName = 'QUTeX';
