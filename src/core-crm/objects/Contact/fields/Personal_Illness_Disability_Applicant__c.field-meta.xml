@@ -5,7 +5,7 @@
     <description>Recent application by Contact has flagged Personal Illness Disability applicant.</description>
     <externalId>false</externalId>
     <label>Personal Illness Disability Applicant</label>
-    <securityClassification>Official</securityClassification>
+    <securityClassification>Sensitive</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
