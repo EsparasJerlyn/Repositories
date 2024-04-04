@@ -32,7 +32,7 @@ private class OpportunitiesDAOTest {
         List<Opportunity> opptyListWildCardBefore = TestDataFactory.createTestOpportunityWithStageRecords(
             200,
             'Wildcard Opportunities',
-            OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
+            OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
             'Test Description'
@@ -40,7 +40,7 @@ private class OpportunitiesDAOTest {
         List<Opportunity> opptyListWildCardAfter = TestDataFactory.createTestOpportunityWithStageRecords(
             200,
             'Opportunities wildcard',
-            OpportunitiesDAO.INTERNATIONALPROJECTSUNIT_RECTYPE_ID,
+            OpportunitiesDAO.INDIVIDUAL_GIVING_RECTYPE_ID,
             'Contract',
             accountList[0].Id,
             'Test Description'

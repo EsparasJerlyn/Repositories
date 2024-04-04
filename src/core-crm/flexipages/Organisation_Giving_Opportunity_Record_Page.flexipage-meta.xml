@@ -133,6 +133,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
+                <identifier>RecordIs_Influenced_Revenue_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Description</fieldItem>
                 <identifier>RecordDescriptionField</identifier>
             </fieldInstance>
@@ -257,6 +267,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Start_Date__c</fieldItem>
                 <identifier>RecordStart_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Influenced_Revenue__c</fieldItem>
+                <identifier>RecordIs_Influenced_Revenue_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
