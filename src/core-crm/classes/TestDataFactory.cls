@@ -120,7 +120,8 @@ public class TestDataFactory {
         'QUTeX_Director_of_OPE',
         'QUTeX_Portfolio_Coordinator',
         'QUTeX_Product_Administrator',
-        'QUTeX_Learning_Innovation_Manager'
+        'QUTeX_Learning_Innovation_Manager',
+        'QUTeX_Learning_Designer'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2257,7 +2258,7 @@ public class TestDataFactory {
         User learningDesigner = [
             SELECT Id
             FROM User
-            WHERE Username LIKE 'QUT_Learning_Designer%'
+            WHERE Username LIKE 'QUTeX_Learning_Designer%'
             LIMIT 1
         ];
         return learningDesigner;
@@ -2827,7 +2828,22 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            }
+            } else if (name == 'QUTeX_Learning_Designer') { //QUT_Learning_Designer
+                userName = 'QUTeX_Learning_Designer';
+                profileName = 'QUTeX';
+                roleName = 'QUTeX User';
+                permSets = 'QUTeX Base,QUTeX CCE,Product Administration';
+                permSetGroups = '';
+                publicGroups = '';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } 
             //Previous Persona 
             // else if (name == 'QUT_Developer') {
             //     userName = 'QUT_Developer';
@@ -3057,20 +3073,20 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            } else if (name == 'QUT_Learning_Designer') {
-                userName = 'QUT_Learning_Designer';
-                profileName = 'QUTeX';
-                roleName = 'QUTeX User';
-                permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_Learning_Designer') {
+            //     userName = 'QUT_Learning_Designer';
+            //     profileName = 'QUTeX';
+            //     roleName = 'QUTeX User';
+            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = false;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             } else if (name == 'QUT_Partnership_Manager') {
                 userName = 'QUT_Partnership_Manager';
                 profileName = 'QUTeX';
