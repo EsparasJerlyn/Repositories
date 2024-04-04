@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Research_Partnership_Opportunities</fullName>
+    <fullName>All_Research_Partnership</fullName>
     <columns>OPPORTUNITY.NAME</columns>
     <columns>Opportunity_Code__c</columns>
     <columns>OPPORTUNITY.RECORDTYPE</columns>
@@ -13,8 +13,12 @@
         <operation>equals</operation>
         <value>Opportunity.Research_Partnership</value>
     </filters>
-    <label>Research Partnership Opportunities</label>
+    <label>All Research Partnership</label>
     <sharedTo>
+        <group>Commercialisation_Operations_Manager</group>
+        <group>Commercialisation_Partnership_Manager</group>
+        <group>IPU_Operations_Manager</group>
+        <group>IPU_Partnership_Manager</group>
         <group>Research_Operations_Manager</group>
         <group>Research_Partnership_Manager</group>
     </sharedTo>
