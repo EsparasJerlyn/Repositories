@@ -14,7 +14,7 @@
     <customErrors>
         <name>Donation_has_Proposed_Records</name>
         <label>Donation has Proposed Records</label>
-        <locationX>1370</locationX>
+        <locationX>1106</locationX>
         <locationY>719</locationY>
         <customErrorMessages>
             <errorMessage>Ensure none of the Donation Records are in Proposed stage.</errorMessage>
@@ -24,7 +24,7 @@
     <customErrors>
         <name>Donations_Must_be_Declined_Error</name>
         <label>Donations Must be Declined Error</label>
-        <locationX>2162</locationX>
+        <locationX>1898</locationX>
         <locationY>719</locationY>
         <customErrorMessages>
             <errorMessage>The Donation Record Stage must be Declined to mark an opportunity as Discontinued</errorMessage>
@@ -34,7 +34,7 @@
     <customErrors>
         <name>No_Accepted_or_Completed_Donations</name>
         <label>No Accepted or Completed Donations</label>
-        <locationX>1634</locationX>
+        <locationX>1370</locationX>
         <locationY>935</locationY>
         <customErrorMessages>
             <errorMessage>Ensure one of the donation record is either in Accepted or Completed stage.</errorMessage>
@@ -45,7 +45,7 @@
         <name>No_Active_Primary_Contact</name>
         <label>No Active Primary Contact</label>
         <locationX>842</locationX>
-        <locationY>827</locationY>
+        <locationY>719</locationY>
         <customErrorMessages>
             <errorMessage>You must have an active Primary contact under the Contributor section of Relationships tab.</errorMessage>
             <isFieldError>false</isFieldError>
@@ -54,7 +54,7 @@
     <decisions>
         <name>Check_Non_Declined_Donation_Records</name>
         <label>Check Non-Declined Donation Records</label>
-        <locationX>2294</locationX>
+        <locationX>2030</locationX>
         <locationY>611</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -76,7 +76,7 @@
     <decisions>
         <name>Check_Record_Type</name>
         <label>Check Record Type</label>
-        <locationX>2129</locationX>
+        <locationX>1997</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -103,38 +103,9 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Stage_Update_Value</name>
-        <label>Check Stage Update Value</label>
-        <locationX>908</locationX>
-        <locationY>503</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Stage_Update_to_Qualify</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record__Prior.StageName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Identify</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.StageName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Qualify</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Get_Contextual_Role</targetReference>
-            </connector>
-            <label>Stage Update to Qualify</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Has_Accepted_or_Completed_Donations</name>
         <label>Has Accepted or Completed Donations</label>
-        <locationX>1766</locationX>
+        <locationX>1502</locationX>
         <locationY>827</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -156,7 +127,7 @@
     <decisions>
         <name>Has_Proposed_Donations</name>
         <label>Has Proposed Donations</label>
-        <locationX>1568</locationX>
+        <locationX>1304</locationX>
         <locationY>611</locationY>
         <defaultConnector>
             <targetReference>Get_Accepted_or_Completed_Donations</targetReference>
@@ -182,7 +153,7 @@
         <name>Is_Contextual_Role_Records_Populated</name>
         <label>Is Contextual Role Records Populated</label>
         <locationX>710</locationX>
-        <locationY>719</locationY>
+        <locationY>611</locationY>
         <defaultConnector>
             <targetReference>No_Active_Primary_Contact</targetReference>
         </defaultConnector>
@@ -225,7 +196,7 @@
     <decisions>
         <name>Stage_Value_Update</name>
         <label>Stage Value Update</label>
-        <locationX>1392</locationX>
+        <locationX>1304</locationX>
         <locationY>395</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -251,7 +222,7 @@
             <label>Stage Update to Solicitation</label>
         </rules>
         <rules>
-            <name>Is_Organisation_Giving</name>
+            <name>Stage_Updated_to_Qualify</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
@@ -260,10 +231,24 @@
                     <stringValue>Organisation_Giving</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.StageName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Identify</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Qualify</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Check_Stage_Update_Value</targetReference>
+                <targetReference>Get_Contextual_Role</targetReference>
             </connector>
-            <label>Is Organisation Giving</label>
+            <label>Stage Updated to Qualify</label>
         </rules>
         <rules>
             <name>Stage_Updated_to_Executed</name>
@@ -328,7 +313,7 @@
     <recordLookups>
         <name>Get_Accepted_or_Completed_Donations</name>
         <label>Get Accepted or Completed Donations</label>
-        <locationX>1766</locationX>
+        <locationX>1502</locationX>
         <locationY>719</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -364,7 +349,7 @@
         <name>Get_Contextual_Role</name>
         <label>Get Contextual Role</label>
         <locationX>710</locationX>
-        <locationY>611</locationY>
+        <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Is_Contextual_Role_Records_Populated</targetReference>
@@ -406,7 +391,7 @@
         <description>Gets child Donation records with Stage = Proposed, Accepted or Completed</description>
         <name>Get_Non_declined_Donations</name>
         <label>Get Non-declined Donations</label>
-        <locationX>2294</locationX>
+        <locationX>2030</locationX>
         <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -476,7 +461,7 @@
     <recordLookups>
         <name>Get_Proposed_Donations</name>
         <label>Get Proposed Donations</label>
-        <locationX>1568</locationX>
+        <locationX>1304</locationX>
         <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -502,7 +487,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>2003</locationX>
+        <locationX>1871</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Record_Type</targetReference>
