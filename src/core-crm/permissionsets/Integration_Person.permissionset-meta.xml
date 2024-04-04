@@ -2642,6 +2642,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Document__c.Designation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Document__c.Document_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7568,6 +7573,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Designation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
