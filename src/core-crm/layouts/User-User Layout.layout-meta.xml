@@ -8,6 +8,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>QUT_Persona__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>et4ae5__ExactTargetForAppExchangeAdmin__c</field>
             </layoutItems>
             <layoutItems>

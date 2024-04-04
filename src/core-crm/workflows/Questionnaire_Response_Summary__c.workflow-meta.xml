@@ -8,7 +8,7 @@
             <field>Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>test-qutex@yopmail.com</senderAddress>
+        <senderAddress>{QUTEX_ORG_WIDE_EMAIL}</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>QUTeXSystemTemplates/Application_Email_Approved_1644399313099</template>
     </alerts>
@@ -20,7 +20,7 @@
             <field>Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>test-qutex@yopmail.com</senderAddress>
+        <senderAddress>{QUTEX_ORG_WIDE_EMAIL}</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>QUTeXSystemTemplates/Application_Email_Rejected_1644576710097</template>
     </alerts>

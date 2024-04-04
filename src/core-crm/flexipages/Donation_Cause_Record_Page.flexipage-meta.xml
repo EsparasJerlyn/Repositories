@@ -457,7 +457,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Donation_Cause_Description__c</fieldItem>
                 <identifier>RecordDonation_Cause_Description_cField</identifier>

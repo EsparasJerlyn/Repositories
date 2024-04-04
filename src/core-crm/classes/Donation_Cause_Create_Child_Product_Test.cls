@@ -29,7 +29,7 @@ private class Donation_Cause_Create_Child_Product_Test {
     }
 
     @isTest
-    private static void createDonCauseChildProd() {
+    private static void forPublicGivingOnUpdate() {
         System.runAs(TestDataFactory.getDonorEngagementManager()) {
             List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
                 100
@@ -38,8 +38,8 @@ private class Donation_Cause_Create_Child_Product_Test {
             DonationCausesDAO.newInstance()
                 .insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
 
-            for (Donation_Cause__c dc : donationCauseList) {
-                dc.Is_For_Public_Giving__c = DC_PUBLICGIVING;
+            for (Donation_Cause__c updateDC : donationCauseList) {
+                updateDC.Is_For_Public_Giving__c = DC_PUBLICGIVING;
             }
 
             Test.startTest();
@@ -48,14 +48,50 @@ private class Donation_Cause_Create_Child_Product_Test {
             Test.stopTest();
 
             for (
-                Donation_Cause__c eachDonCause : DonationCausesDAO.newInstance()
+                Donation_Cause__c eachDC : DonationCausesDAO.newInstance()
                     .getDonationCausesBySetRecordIds(
                         (new Map <Id, Donation_Cause__c>(donationCauseList)).keySet(),
                          AccessLevel.USER_MODE
                 )
              ) {
-                system.assert(!eachDonCause.Products__r.isEmpty(), 'Products should be created');   
+                system.assert(!eachDC.Products__r.isEmpty(), 'Products should be created');   
             }
         }
     }
+    
+    @isTest
+    private static void forPublicGivingOnInsert (){
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(
+                100
+            );
+	
+            List<Donation_Cause__c> insertDC = new List <Donation_Cause__c> ();
+            for (integer i = 0; i < donationCauseList.size(); i++)  {
+			insertDC.add(
+                new Donation_Cause__c(
+                    Name = 'Test' + i,
+                    Is_For_Public_Giving__c = 'Yes',
+                    Donation_Cause_Description__c = 'Test_Desc' + i,
+                    Activation_Start_Date__c = System.today()
+                )
+            );
+            } 
+            
+            Test.startTest();
+            DonationCausesDAO.newInstance()
+                .insertRecords(insertDC, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+            
+            for (
+                Donation_Cause__c eachDC : DonationCausesDAO.newInstance()
+                    .getDonationCausesBySetRecordIds(
+                        (new Map <Id, Donation_Cause__c>(insertDC)).keySet(),
+                         AccessLevel.USER_MODE
+                )
+             ) {
+                system.assert(!eachDC.Products__r.isEmpty(), 'Products should be created');   
+            }
     }
+    }
+}
