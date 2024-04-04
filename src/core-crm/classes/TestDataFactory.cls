@@ -126,7 +126,8 @@ public class TestDataFactory {
         'QUTeX_Program_Coordinator',
         'QUTeX_Program_Administrator',
         'Marketing_Manager',
-        'Marketing_Partnership_Manager'
+        'Marketing_Partnership_Manager',
+        'Marketing_Quality_Assurance'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2923,8 +2924,23 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Marketing_Quality_Assurance') { //QUT_Quality_Assurance
+                userName = 'Marketing_Quality_Assurance';
+                profileName = 'QUTeX';
+                roleName = 'Marketing User';
+                permSets = 'QUTeX Base,QUTeX CCE,Marketing';
+                permSetGroups = '';
+                publicGroups = '';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             }
-            //Previous Persona  Marketing Partnership Manager
+            //Previous Persona  Marketing_Quality_Assurance
             // else if (name == 'QUT_Developer') {
             //     userName = 'QUT_Developer';
             //     profileName = 'Development Team Base';
@@ -3282,20 +3298,20 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            } else if (name == 'QUT_Quality_Assurance') {
-                userName = 'QUT_Quality_Assurance';
-                profileName = 'QUTeX';
-                roleName = 'Marketing User';
-                permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_Quality_Assurance') {
+            //     userName = 'QUT_Quality_Assurance';
+            //     profileName = 'QUTeX';
+            //     roleName = 'Marketing User';
+            //     permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
+            //     publicGroups = '';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = false;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             } else if (name == 'QUT_Digital_Marketing_Officer') {
                 userName = 'QUT_Digital_Marketing_Officer';
                 profileName = 'Digital Marketing';
