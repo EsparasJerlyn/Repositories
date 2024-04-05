@@ -66,6 +66,9 @@
         <members>Donation_Cause__c.Staff_Giving_Portal_Publish_End_Date__c</members>
         <members>Donation_Cause__c.Staff_Giving_Portal_Publish_Start_Date__c</members>
         <members>Donation_Cause__c.Stage__c</members>
+        <!--Start DEPP-8454-->
+        <members>Document__c.Donation_Cause__c</members>
+        <!--End DEPP-8454-->
         <name>CustomField</name>
     </types>    
     <types>
