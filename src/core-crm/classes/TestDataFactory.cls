@@ -130,7 +130,8 @@ public class TestDataFactory {
         'Marketing_Quality_Assurance',
         'Digital_Marketing_Officer',
         'Marketing_Digital_Communication_Officer',
-        'Future_Student_Concierge_Domestic'
+        'Future_Student_Concierge_Domestic',
+        'Future_Student_Concierge_International'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2987,6 +2988,21 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Future_Student_Concierge_International') { //new
+                userName = 'Future_Student_Concierge_International';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Concierge - International';
+                permSets = '';
+                permSetGroups = 'Future Student Concierge - International';
+                publicGroups = 'Future Students - International';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             //} 
             //Previous Persona  Marketing_Digital_Communication_Officer
             // else if (name == 'QUT_Developer') {
@@ -3131,7 +3147,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            }
+            //}
             /** START - Creation of QUTeX Users */
             // else if (name == 'QUT_Executive_Director') {
             //     userName = 'QUT_Executive_Director';
@@ -3389,7 +3405,7 @@ public class TestDataFactory {
             //     isPortal = false;
             //     contactId = null;
             // }
-        //}
+        }
 
         private UserAttributeClass(String name, Id conId) {
             if (name == 'QUT_Corporate_Partner_Admin') {
