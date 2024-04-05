@@ -18,7 +18,7 @@ public class FlowLookupControllerTest {
         TestDataFactory.generateTestUsers(
             new List<String>{
                 'Industry_Partnership_Manager',
-                'QUT_Operations_Manager',
+                'Industry_Operations_Manager',
                 'QUT_Sys_Admin'
             }
         );

@@ -15,7 +15,7 @@
 private class DynamicQueryServiceTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager','Industry_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Operations_Manager','Industry_Partnership_Manager' });
 
         List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance()

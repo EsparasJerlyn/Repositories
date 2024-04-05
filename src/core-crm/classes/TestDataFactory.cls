@@ -143,7 +143,8 @@ public class TestDataFactory {
         'Future_Student_Super_User_Domestic',
         'Future_Student_Super_Team_Leader_International',
         'Future_Student_Super_User_International',
-        'Industry_Partnership_Manager'
+        'Industry_Partnership_Manager',
+        'Industry_Operations_Manager'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2235,7 +2236,7 @@ public class TestDataFactory {
         User operationsManager = [
             SELECT Id
             FROM User
-            WHERE Username LIKE 'QUT_Operations_Manager%'
+            WHERE Username LIKE 'Industry_Operations_Manager%'
             LIMIT 1
         ];
         return operationsManager;
@@ -3230,6 +3231,22 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Industry_Operations_Manager') { //QUT_Operations_Manager
+                userName = 'Industry_Operations_Manager';
+                profileName = 'Industry Engagement';
+                roleName = 'Operations Manager';
+                qutPersona = 'Industry Operations Manager';
+                permSets = '';
+                permSetGroups = 'Operations Manager';
+                publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             //} 
             //Previous Persona  Marketing_Digital_Communication_Officer
             // else if (name == 'QUT_Developer') {
@@ -3531,20 +3548,20 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            } else if (name == 'QUT_Operations_Manager') {
-                userName = 'QUT_Operations_Manager';
-                profileName = 'Industry Engagement';
-                roleName = 'Operations Manager';
-                permSets = 'Business_Development_Base';
-                publicGroups = 'Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
+            // } else if (name == 'QUT_Operations_Manager') {
+            //     userName = 'QUT_Operations_Manager';
+            //     profileName = 'Industry Engagement';
+            //     roleName = 'Operations Manager';
+            //     permSets = 'Business_Development_Base';
+            //     publicGroups = 'Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = false;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
             // } else if (name == 'QUT_Domestic_Future_Student_Agent') {
             //     userName = 'QUT_Domestic_Future_Student_Agent';
             //     profileName = 'Future Student Engagement';
