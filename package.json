@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "puppeteer": "^21.6.1"
+  },
+  "scripts": {
+    "installMAC": "npm install husky --save-dev && npm install fs xml2js shelljs chalk && chmod +x .husky/pre-commit && npx husky install",
+    "installWINDOWS": "npm install husky --save-dev && npm install fs xml2js shelljs chalk && npx husky install",
+    "precommit": "node scripts/js/update-components.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit"
+    }
+  },
+  "devDependencies": {
+    "chalk": "^5.3.0",
+    "fs": "^0.0.1-security",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "shelljs": "^0.8.5",
+    "xml2js": "^0.6.2"
+  }
+}
