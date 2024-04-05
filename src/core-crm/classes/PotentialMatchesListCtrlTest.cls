@@ -21,7 +21,7 @@ private class PotentialMatchesListCtrlTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'Future_Student_Agent_Domestic' });
 
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<Account> accList = TestDataFactory.createTestAccountRecords(1);

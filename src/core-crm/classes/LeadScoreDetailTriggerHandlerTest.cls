@@ -16,7 +16,7 @@ private class LeadScoreDetailTriggerHandlerTest {
 
     @testSetup
     static void setupMethod(){  
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator','QUT_Domestic_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator','Future_Student_Agent_Domestic' });
         System.runAs(TestDataFactory.getProgramAdminUser()){ 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     

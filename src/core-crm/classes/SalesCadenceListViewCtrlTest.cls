@@ -266,7 +266,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @isTest
     private static void testConvertDateTime() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic'});
 
         Datetime actualDatetime;
 
@@ -290,7 +290,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @istest
     private static void getRecentlyViewedTest(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic'});
 
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
             Test.startTest();
@@ -301,7 +301,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @istest
     private static void checkUserRoleTest(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent'});
+        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic'});
 
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()){
             Test.startTest();
@@ -312,7 +312,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
     @istest
     private static void getSearchedUsersTest(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Domestic_Future_Student_Agent','QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic','QUT_ESB'});
 
         System.runAs(TestDataFactory.getESBIntegrationUser()){
             Test.startTest();

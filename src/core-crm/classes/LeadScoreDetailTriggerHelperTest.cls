@@ -70,7 +70,7 @@ private class LeadScoreDetailTriggerHelperTest {
 
         NurtureTrackConfigurationsDAO.newInstance().insertRecords(configsList, true, AccessLevel.SYSTEM_MODE);
 
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator','QUT_Domestic_Future_Student_Agent', 'QUT_ESB'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator','Future_Student_Agent_Domestic', 'QUT_ESB'});
         System.runAs(TestDataFactory.getProgramAdminUser()){ 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);     
             AccountsDAO.newInstance().insertRecords(accounts, false, AccessLevel.USER_MODE);     

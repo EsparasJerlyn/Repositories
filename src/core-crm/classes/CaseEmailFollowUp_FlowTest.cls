@@ -17,7 +17,7 @@ public with sharing class CaseEmailFollowUp_FlowTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'Future_Student_Agent_Domestic' });
     }
     
     @IsTest

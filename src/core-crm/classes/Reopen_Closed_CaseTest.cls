@@ -18,7 +18,7 @@ public with sharing class Reopen_Closed_CaseTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'Future_Student_Agent_Domestic' });
         
         List<Contact> relatedContacts = TestDataFactory.createTestContactRecords(1);
         insert relatedContacts;
