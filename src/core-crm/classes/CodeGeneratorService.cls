@@ -14,7 +14,7 @@
       | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file                                                           |
       | kenneth.f.alsay                | November 6, 2023      | DEPP-7000              | Updated generateCodeForOpportunityOutcomeRecords to exclude            |
       |                                |                       |                        | record types not in recordTypeToCodePartsMap                           |
-      | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INDIVIDUAL_GIVING_RECTYPE_ID record types generate code         |
+      | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INDIVIDUAL_GIVING_RECTYPE_ID record types generate code            |
       |                                |                       |                        | Add ORGANISATION_GIVING_RECTYPE_ID record types generate code          |
       | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code        |
       | neil.s.h.lesidan               | March 25, 2024        | DEPP-8210              | Change method and variable naming to Designation                       |

@@ -139,6 +139,7 @@
         <members>Opportunity.IPU_Opportunities</members>
         <members>Opportunity.Research_Partnership_Opportunities</members>
         <members>Opportunity.Commercialisation_Opportunities</members>
+        <members>List__c.Distributed_List</members>
         <name>ListView</name>
     </types>
     <version>59.0</version> 
