@@ -13,7 +13,7 @@
 private class FinancialSplitTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager' });
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
@@ -29,7 +29,7 @@ private class FinancialSplitTriggerHandlerTest {
 
     @isTest
     private static void testPlatformEventInsertAndUpdate() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager' });
 
         List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);

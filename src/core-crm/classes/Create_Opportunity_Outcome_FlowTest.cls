@@ -45,7 +45,7 @@ public class Create_Opportunity_Outcome_FlowTest {
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
+            new List<String>{ 'Industry_Partnership_Manager', 'QUT_Operations_Manager' }
         );
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             // Create Opportunity records with RP record type

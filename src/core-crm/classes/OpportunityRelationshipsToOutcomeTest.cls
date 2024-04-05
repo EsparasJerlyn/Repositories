@@ -38,7 +38,7 @@ public with sharing class OpportunityRelationshipsToOutcomeTest {
             );
 
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
+            new List<String>{ 'Industry_Partnership_Manager', 'QUT_Operations_Manager' }
         );
 
         List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
