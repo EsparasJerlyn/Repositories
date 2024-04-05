@@ -81,36 +81,15 @@ public class TestDataFactory {
     private static final String TEST_PRICEBOOK2_NAME = 'Test Pricebook2';
     private static final TestUserGenerator TEST_USER_GENERATOR = new TestUserGenerator();
     private static final List<String> USER_ATTRIB_LIST = new List<String>{
-        //Previous List
-        // 'QUT_System_Administrator', done
-        // 'QUT_Developer',
-        // 'QUT_Read_Only', done
-        // 'QUT_Sys_Admin',
-        // 'QUT_Form_Builder',
-        // 'QUT_Website_Integration_User',
-        // 'QUT_Marketing_Cloud',
-        // 'QUT_ESB',
-        // 'QUT_Data_Migration',
-        // 'QUT_Chatter_Free',
-        // 'QUT_Executive_Director',
-        // 'QUT_Business_Manager',
-        // 'QUT_OPE_Director',
-        // 'QUT_Portfolio_Coordinator',
-        // 'QUT_Product_Admin',
-        // 'QUT_Learning_Innovation_Manager',
-        // 'QUT_Learning_Designer',
-        // 'QUT_Partnership_Manager',
-        // 'QUT_Program_Coordinator',
-        // 'QUT_Program_Administrator',
-        // 'QUT_Marketing_Manager',
-        // 'QUT_Quality_Assurance',
-        // 'QUT_Digital_Marketing_Officer',
-        // 'QUT_Digital_Communication_Officer',
-        // 'QUT_IE_Partnership_Manager',
-        // 'QUT_Operations_Manager',
-        // 'QUT_Domestic_Future_Student_Agent',
-        // 'QUT_International_Future_Student_Agent',
-        //newList 
+        //Previous List - need to clarify
+        'QUT_Sys_Admin',
+        'QUT_Form_Builder',
+        'QUT_Website_Integration_User',
+        'QUT_Marketing_Cloud',
+        'QUT_ESB',
+        'QUT_Data_Migration',
+        'QUT_Chatter_Free',
+        // new List
         'System_Administrator',
         'System_Administrator_Modify_All_Data',
         'System_Administrator_Read_Only',
@@ -3485,51 +3464,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            //} 
-            //Previous Persona  
-            // else if (name == 'QUT_Developer') {
-            //     userName = 'QUT_Developer';
-            //     profileName = 'Development Team Base';
-            //     roleName = '';
-            //     permSets = 'Development_Team';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = true;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Read_Only') {
-            //     userName = 'QUT_Read_Only';
-            //     profileName = 'QUT Read Only';
-            //     roleName = '';
-            //     permSets = 'Integration_Person';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = true;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_System_Administrator') {
-            //     userName = 'QUT_System_Administrator';
-            //     profileName = 'QUT System Administrator';
-            //     roleName = 'System Administrator';
-            //     permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = true;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            } else if (name == 'QUT_Sys_Admin') {  // need to clarify
+            } else if (name == 'QUT_Sys_Admin') {  // need to clarify - Used by other classes
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
@@ -3543,7 +3478,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Form_Builder') { //need to clarify
+            } else if (name == 'QUT_Form_Builder') { //need to clarify - Not used
                 userName = 'QUT_Form_Builder'; 
                 profileName = 'Integration Forms';
                 roleName = 'None';
@@ -3557,7 +3492,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Website_Integration_User') { //nee to clarify
+            } else if (name == 'QUT_Website_Integration_User') { //nee to clarify - Not Used
                 userName = 'QUT_Website_Integration_User';
                 profileName = 'Integration Website';
                 roleName = 'None';
@@ -3571,7 +3506,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Marketing_Cloud') { // need to lcarify
+            } else if (name == 'QUT_Marketing_Cloud') { // need to lcarify - Not Used
                 userName = 'QUT_Marketing_Cloud';
                 profileName = 'Integration Marketing';
                 roleName = 'None';
@@ -3585,7 +3520,7 @@ public class TestDataFactory {
                 isAppExchangeUser = true;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_ESB') { // need to clarify
+            } else if (name == 'QUT_ESB') { // need to clarify - Used by other classes
                 userName = 'QUT_ESB';
                 profileName = 'Integration';
                 roleName = 'None';
@@ -3599,7 +3534,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false; 
                 contactId = null;
-            } else if (name == 'QUT_Data_Migration') { //need to clarify
+            } else if (name == 'QUT_Data_Migration') { //need to clarify - Not Used
                 userName = 'QUT_Data_Migration';
                 profileName = 'Integration';
                 roleName = 'None';
@@ -3615,7 +3550,7 @@ public class TestDataFactory {
                 contactId = null;
             }
             /** START - Creation of General Users */
-            else if (name == 'QUT_Chatter_Free') {
+            else if (name == 'QUT_Chatter_Free') {   // need to clarify - Not Used
                 userName = 'QUT_Chatter_Free';
                 profileName = 'Chatter Free User';
                 roleName = '';
@@ -3629,268 +3564,11 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            //}
-            /** START - Creation of QUTeX Users */
-            // else if (name == 'QUT_Executive_Director') {
-            //     userName = 'QUT_Executive_Director';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX Leadership';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Marketing,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Business_Manager') {
-            //     userName = 'QUT_Business_Manager';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX Leadership';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_OPE_Director') {
-            //     userName = 'QUT_OPE_Director';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX Super User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Portfolio_Coordinator') {
-            //     userName = 'QUT_Portfolio_Coordinator';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX Super User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Product_Admin') {
-            //     userName = 'QUT_Product_Admin';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Learning_Innovation_Manager') {
-            //     userName = 'QUT_Learning_Innovation_Manager';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Learning_Designer') {
-            //     userName = 'QUT_Learning_Designer';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Partnership_Manager') {
-            //     userName = 'QUT_Partnership_Manager';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX Super User';
-            //     //TODO: Add Product_Administration permset when approved in Onboarding Guide
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Program_Coordinator') { 
-            //     userName = 'QUT_Program_Coordinator';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Program_Administrator') {
-            //     userName = 'QUT_Program_Administrator';
-            //     profileName = 'QUTeX';
-            //     roleName = 'QUTeX Super User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-            //     publicGroups = 'CCE Product Design,OPE Product Design';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_IE_Partnership_Manager') {
-            //     userName = 'QUT_IE_Partnership_Manager';
-            //     profileName = 'Industry Engagement';
-            //     roleName = 'Partnership Manager';
-            //     permSets = 'Business_Development_Base';
-            //     publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Operations_Manager') {
-            //     userName = 'QUT_Operations_Manager';
-            //     profileName = 'Industry Engagement';
-            //     roleName = 'Operations Manager';
-            //     permSets = 'Business_Development_Base';
-            //     publicGroups = 'Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Domestic_Future_Student_Agent') {
-            //     userName = 'QUT_Domestic_Future_Student_Agent';
-            //     profileName = 'Future Student Engagement';
-            //     roleName = 'Future Student Agent - Domestic';
-            //     permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_Domestic_Email_Access';
-            //     publicGroups = 'Future Students - Domestic';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = true;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // }else if (name == 'QUT_International_Future_Student_Agent') {
-            //     userName = 'QUT_International_Future_Student_Agent';
-            //     profileName = 'Future Student Engagement';
-            //     roleName = 'Future Student Agent - International';
-            //     permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access';
-            //     publicGroups = 'Future Students - International';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = true;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // }
-            // /** START - Creation of  Marketing Users */
-            // else if (name == 'QUT_Marketing_Manager') {
-            //     userName = 'QUT_Marketing_Manager';
-            //     profileName = 'Digital Marketing';
-            //     roleName = 'Marketing Super User';
-            //     permSets = 'Marketing';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Quality_Assurance') {
-            //     userName = 'QUT_Quality_Assurance';
-            //     profileName = 'QUTeX';
-            //     roleName = 'Marketing User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Digital_Marketing_Officer') {
-            //     userName = 'QUT_Digital_Marketing_Officer';
-            //     profileName = 'Digital Marketing';
-            //     roleName = 'Marketing User';
-            //     permSets = 'Marketing';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
-            // } else if (name == 'QUT_Digital_Communication_Officer') {
-            //     userName = 'QUT_Digital_Communication_Officer';
-            //     profileName = 'QUTeX';
-            //     roleName = 'Marketing User';
-            //     permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
-            //     publicGroups = '';
-            //     isServiceCloudUser = true;
-            //     isFlowUser = true;
-            //     isKnowledgeUser = false;
-            //     isMarketingUser = false;
-            //     isAppExchangeAdmin = false;
-            //     isAppExchangeUser = false;
-            //     isPortal = false;
-            //     contactId = null;
             }
         }
 
-        private UserAttributeClass(String name, Id conId) { //need to clarify
-            if (name == 'QUT_Corporate_Partner_Admin') {
+        private UserAttributeClass(String name, Id conId) { 
+            if (name == 'QUT_Corporate_Partner_Admin') {    //need to clarify
                 userName = 'QUT_Corporate_Partner_Admin';
                 profileName = 'Corporate Partner';
                 roleName = '';
