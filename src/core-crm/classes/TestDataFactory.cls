@@ -152,7 +152,13 @@ public class TestDataFactory {
         'Alumni_Engagement_Manager',
         'Corporate_Partnerships_Manager',
         'Corporate_Engagement_Manager',
-        'Corporate_Events_Manager'
+        'Corporate_Events_Manager',
+        'Fundraising_Manager',
+        'Fundraiser',
+        'Advancement_Manager',
+        'Advancement_Operations_Manager',
+        'Donor_Engagement_Manager',
+        'Executive_Director_Advancement'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -3383,6 +3389,102 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Fundraising_Manager') { //new
+                userName = 'Fundraising_Manager';
+                profileName = 'Advancement';
+                roleName = 'Fundraising Manager';
+                qutPersona = 'Fundraising Manager';
+                permSets = '';
+                permSetGroups = 'Fundraising Manager';
+                publicGroups = 'Fundraising Manager';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Fundraiser') { //new
+                userName = 'Fundraiser';
+                profileName = 'Advancement';
+                roleName = 'Fundraiser';
+                qutPersona = 'Fundraiser';
+                permSets = '';
+                permSetGroups = 'Fundraiser';
+                publicGroups = 'Fundraiser';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Advancement_Manager') { //new
+                userName = 'Advancement_Manager';
+                profileName = 'Advancement';
+                roleName = 'Advancement Manager';
+                qutPersona = 'Advancement Manager';
+                permSets = '';
+                permSetGroups = 'Advancement Manager';
+                publicGroups = 'Advancement Manager';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Advancement_Operations_Manager') { //new
+                userName = 'Advancement_Operations_Manager';
+                profileName = 'Advancement';
+                roleName = 'Advancement Operations Manager';
+                qutPersona = 'Advancement Operations Manager';
+                permSets = '';
+                permSetGroups = 'Advancement Operations Manager';
+                publicGroups = 'Advancement Operations Manager';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Donor_Engagement_Manager') { //new
+                userName = 'Donor_Engagement_Manager';
+                profileName = 'Advancement';
+                roleName = 'Donor Engagement Manager';
+                qutPersona = 'Donor Engagement Manager';
+                permSets = '';
+                permSetGroups = 'Donor Engagement Manager';
+                publicGroups = 'Donor Engagement Manager';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Executive_Director_Advancement') { //new
+                userName = 'Executive_Director_Advancement';
+                profileName = 'Advancement';
+                roleName = 'Executive Director Advancement';
+                qutPersona = 'Executive Director Advancement';
+                permSets = '';
+                permSetGroups = 'Executive Director Advancement';
+                publicGroups = 'Executive Director Advancement';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             //} 
             //Previous Persona  
             // else if (name == 'QUT_Developer') {
@@ -3469,7 +3571,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Marketing_Cloud') {
+            } else if (name == 'QUT_Marketing_Cloud') { // need to lcarify
                 userName = 'QUT_Marketing_Cloud';
                 profileName = 'Integration Marketing';
                 roleName = 'None';
@@ -3483,7 +3585,7 @@ public class TestDataFactory {
                 isAppExchangeUser = true;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_ESB') {
+            } else if (name == 'QUT_ESB') { // need to clarify
                 userName = 'QUT_ESB';
                 profileName = 'Integration';
                 roleName = 'None';
@@ -3495,9 +3597,9 @@ public class TestDataFactory {
                 isMarketingUser = false;
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;
-                isPortal = false;
+                isPortal = false; 
                 contactId = null;
-            } else if (name == 'QUT_Data_Migration') {
+            } else if (name == 'QUT_Data_Migration') { //need to clarify
                 userName = 'QUT_Data_Migration';
                 profileName = 'Integration';
                 roleName = 'None';
