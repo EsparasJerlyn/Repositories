@@ -141,7 +141,8 @@ public class TestDataFactory {
         'Future_Student_Reporting_Domestic',
         'Future_Student_Team_Leader_International',
         'Future_Student_Super_User_Domestic',
-        'Future_Student_Super_Team_Leader_International'
+        'Future_Student_Super_Team_Leader_International',
+        'Future_Student_Super_User_International'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -3187,6 +3188,22 @@ public class TestDataFactory {
                 qutPersona = 'Future Student Super Team Leader - International';
                 permSets = '';
                 permSetGroups = 'Future Student Team Leader - International;Future Student Super User - International';
+                publicGroups = 'Future Students - International';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Future_Student_Super_User_International') { //new
+                userName = 'Future_Student_Super_User_International';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Super User - International';
+                qutPersona = 'Future Student Super User - International';
+                permSets = '';
+                permSetGroups = 'Future Student Super User - International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
