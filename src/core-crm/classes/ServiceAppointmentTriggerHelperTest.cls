@@ -24,7 +24,7 @@ public with sharing class ServiceAppointmentTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic','QUT_International_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic','Future_Student_Agent_International' });
         // create lead
         List<Lead> newLead = TestDataFactory.createTestLeadRecords(0,1);
         LeadsDAO.newInstance().insertRecords(newLead, true, AccessLevel.SYSTEM_MODE);

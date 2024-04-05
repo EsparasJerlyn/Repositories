@@ -19,7 +19,7 @@ public with sharing class ServiceAppointmentServiceTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic','QUT_International_Future_Student_Agent'});
+        TestDataFactory.generateTestUsers(new List<String>{'Future_Student_Agent_Domestic','Future_Student_Agent_International'});
      
         List<Account> accList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.SYSTEM_MODE);

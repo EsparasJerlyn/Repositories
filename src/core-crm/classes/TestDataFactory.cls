@@ -135,7 +135,8 @@ public class TestDataFactory {
         'Future_Student_Concierge_International',
         'Future_Student_Agent_Domestic',
         'Future_Student_Agent_Super_User_Domestic',
-        'Future_Student_Super_Team_Leader_Domestic'
+        'Future_Student_Super_Team_Leader_Domestic',
+        'Future_Student_Agent_International'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2257,7 +2258,7 @@ public class TestDataFactory {
         User futureStudentAgent = [
             SELECT Id
             FROM User
-            WHERE Username LIKE 'QUT_International_Future_Student_Agent%'
+            WHERE Username LIKE 'Future_Student_Agent_International%'
             LIMIT 1
         ];
         return futureStudentAgent;
@@ -3094,6 +3095,22 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Future_Student_Agent_International') { //QUT_International_Future_Student_Agent
+                userName = 'Future_Student_Agent_International';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Agent - International';
+                qutPersona = 'Future Student Agent - International';
+                permSets = '';
+                permSetGroups = 'Future Student Agent - International';
+                publicGroups = 'Future Students - International';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             //} 
             //Previous Persona  Marketing_Digital_Communication_Officer
             // else if (name == 'QUT_Developer') {
@@ -3423,21 +3440,21 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            }else if (name == 'QUT_International_Future_Student_Agent') {
-                userName = 'QUT_International_Future_Student_Agent';
-                profileName = 'Future Student Engagement';
-                roleName = 'Future Student Agent - International';
-                permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access';
-                publicGroups = 'Future Students - International';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = true;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            }
+            // }else if (name == 'QUT_International_Future_Student_Agent') {
+            //     userName = 'QUT_International_Future_Student_Agent';
+            //     profileName = 'Future Student Engagement';
+            //     roleName = 'Future Student Agent - International';
+            //     permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access';
+            //     publicGroups = 'Future Students - International';
+            //     isServiceCloudUser = true;
+            //     isFlowUser = true;
+            //     isKnowledgeUser = true;
+            //     isMarketingUser = false;
+            //     isAppExchangeAdmin = false;
+            //     isAppExchangeUser = false;
+            //     isPortal = false;
+            //     contactId = null;
+            // }
             // /** START - Creation of  Marketing Users */
             // else if (name == 'QUT_Marketing_Manager') {
             //     userName = 'QUT_Marketing_Manager';
@@ -3495,7 +3512,7 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            // }
+            }
         }
 
         private UserAttributeClass(String name, Id conId) {
