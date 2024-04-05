@@ -117,7 +117,7 @@ public class TestDataFactory {
         'Development_Team',
         'QUTeX_Executive_Director',
         'QUTeX_Business_Manager',
-        'QUTeX_Director_of_OPE',
+        'QUTeX_Director_OPE',
         'QUTeX_Portfolio_Coordinator',
         'QUTeX_Product_Administrator',
         'QUTeX_Learning_Innovation_Manager',
@@ -129,7 +129,8 @@ public class TestDataFactory {
         'Marketing_Partnership_Manager',
         'Marketing_Quality_Assurance',
         'Digital_Marketing_Officer',
-        'Marketing_Digital_Communication_Officer'
+        'Marketing_Digital_Communication_Officer',
+        'Future_Student_Concierge_Domestic'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -2776,8 +2777,8 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUTeX_Director_of_OPE') { //QUT_OPE_Director
-                userName = 'QUTeX_Director_of_OPE';
+            } else if (name == 'QUTeX_Director_OPE') { //QUT_OPE_Director
+                userName = 'QUTeX_Director_OPE';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
                 permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE,QUTeX Leader,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender,DocuSign User,Permission API Enabled';
@@ -2956,7 +2957,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'Marketing_Digital_Communication_Officer') { //
+            } else if (name == 'Marketing_Digital_Communication_Officer') { //QUT_Marketing_Digital_Communication_Officer
                 userName = 'Marketing_Digital_Communication_Officer';
                 profileName = 'QUTeX';
                 roleName = 'Marketing User';
@@ -2971,7 +2972,22 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            }
+            } else if (name == 'Future_Student_Concierge_Domestic') { //new
+                userName = 'Future_Student_Concierge_Domestic';
+                profileName = 'Future Student Engagement';
+                roleName = 'Future Student Concierge - Domestic';
+                permSets = '';
+                permSetGroups = 'Future Student Concierge - Domestic';
+                publicGroups = 'Future Students - Domestic';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = true;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            //} 
             //Previous Persona  Marketing_Digital_Communication_Officer
             // else if (name == 'QUT_Developer') {
             //     userName = 'QUT_Developer';
@@ -3373,7 +3389,7 @@ public class TestDataFactory {
             //     isPortal = false;
             //     contactId = null;
             // }
-        }
+        //}
 
         private UserAttributeClass(String name, Id conId) {
             if (name == 'QUT_Corporate_Partner_Admin') {
