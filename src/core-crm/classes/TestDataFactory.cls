@@ -148,7 +148,8 @@ public class TestDataFactory {
         'Industry_VP_Business_Development',
         'Industry_Director_Business_Development',
         'Industry_Engagement_Super_User',
-        'Alumni_&_Corporate_Partnerships_Super_User'
+        'Alumni_&_Corporate_Partnerships_Super_User',
+        'Alumni_Engagement_Manager'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -3315,8 +3316,24 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Alumni_Engagement_Manager') { //new
+                userName = 'Alumni_Engagement_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Alumni Engagement';
+                qutPersona = 'Alumni Engagement Manager';
+                permSets = '';
+                permSetGroups = 'Alumni Engagement';
+                publicGroups = 'Alumni & Corporate Partnerships';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             //} 
-            //Previous Persona  Marketing_Digital_Communication_Officer
+            //Previous Persona  
             // else if (name == 'QUT_Developer') {
             //     userName = 'QUT_Developer';
             //     profileName = 'Development Team Base';
