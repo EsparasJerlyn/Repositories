@@ -40,7 +40,7 @@ public inherited sharing class DonationCausesDAOMock extends DmlBaseMock impleme
         return donationCauseList;
     }
 
-    public List<Donation_Cause__c> getDesignationByNameStart(
+    public List<Donation_Cause__c> getDonationCauseByNameStart(
         String nameStart,
         AccessLevel accessLevel
     ) {
