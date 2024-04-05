@@ -601,19 +601,9 @@
         <label>sa-in</label>
     </customValue>
     <customValue>
-        <fullName>sq-al</fullName>
-        <default>false</default>
-        <label>sq-al</label>
-    </customValue>
-    <customValue>
         <fullName>sv-fi</fullName>
         <default>false</default>
         <label>sv-fi</label>
-    </customValue>
-    <customValue>
-        <fullName>sh-BA</fullName>
-        <default>false</default>
-        <label>sh-BA</label>
     </customValue>
     <customValue>
         <fullName>se-fi</fullName>
@@ -2245,31 +2235,26 @@
     <customValue>
         <fullName>oc-fr</fullName>
         <default>false</default>
-        <isActive>false</isActive>
         <label>oc-fr</label>
     </customValue>
     <customValue>
         <fullName>or-in</fullName>
         <default>false</default>
-        <isActive>false</isActive>
         <label>or-in</label>
     </customValue>
     <customValue>
         <fullName>pa-in</fullName>
         <default>false</default>
-        <isActive>false</isActive>
         <label>pa-in</label>
     </customValue>
     <customValue>
         <fullName>wo-sn</fullName>
         <default>false</default>
-        <isActive>false</isActive>
         <label>wo-sn</label>
     </customValue>
     <customValue>
         <fullName>yo-ng</fullName>
         <default>false</default>
-        <isActive>false</isActive>
         <label>yo-ng</label>
     </customValue>
     <description>List of country locales for marketing</description>
