@@ -125,6 +125,7 @@ public class TestDataFactory {
         'QUTeX_Partnership_Manager',
         'QUTeX_Program_Coordinator',
         'QUTeX_Program_Administrator',
+        'QUTeX_Program_Administrator2',
         'Marketing_Manager',
         'Marketing_Partnership_Manager',
         'Marketing_Quality_Assurance',
@@ -2450,6 +2451,7 @@ public class TestDataFactory {
             u.EmailEncodingKey = 'UTF-8';
             u.LanguageLocaleKey = 'en_US';
             u.TimeZoneSidKey = 'Australia/Brisbane';
+            u.QUT_Persona__c = userClass.qutPersona;
             u.UserPermissionsInteractionUser = userClass.isServiceCloudUser;
             u.UserPermissionsSupportUser = userClass.isFlowUser;
             u.UserPermissionsKnowledgeUser = userClass.isKnowledgeUser;
@@ -2675,6 +2677,7 @@ public class TestDataFactory {
         private String userName { get; set; }
         private String profileName { get; set; }
         private String roleName { get; set; }
+        private String qutPersona { get; set; }
         private String permSets { get; set; }
         private String permSetGroups { get; set;  }
         private String publicGroups { get; set; }
@@ -2695,6 +2698,7 @@ public class TestDataFactory {
                 userName = 'System_Administrator';
                 profileName = 'System Administrator';
                 roleName = '';
+                qutPersona = 'System Administrator';
                 permSets = '';
                 permSetGroups = 'Persona System Administrator';
                 publicGroups = 'System Administrator';
@@ -2710,6 +2714,7 @@ public class TestDataFactory {
                 userName = 'System_Administrator_Modify_All_Data';
                 profileName = 'Internal Base';
                 roleName = '';
+                qutPersona = 'System Administrator - Modify All Data';
                 permSets = 'Permission Multi-Factor Authentication for User Interface Logins';
                 permSetGroups = 'Persona System Administrator - Modify All Data';
                 publicGroups = 'System Administrator - Modify All Data';
@@ -2725,6 +2730,7 @@ public class TestDataFactory {
                 userName = 'System_Administrator_Read_Only';
                 profileName = 'Internal Base';
                 roleName = '';
+                qutPersona = 'System Administrator - Read Only';
                 permSets = 'Permission Multi-Factor Authentication for User Interface Logins';
                 permSetGroups = 'Persona System Administrator - Read Only';
                 publicGroups = 'System Administrator - Read Only';
@@ -2740,6 +2746,7 @@ public class TestDataFactory {
                 userName = 'Development_Team';
                 profileName = 'Internal Base';
                 roleName = '';
+                qutPersona = 'Development Team';
                 permSets = 'Permission Multi-Factor Authentication for User Interface Logins';
                 permSetGroups = 'Persona Development Team';
                 publicGroups = 'Development Team';
@@ -2755,6 +2762,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Executive_Director';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Leadership';
+                qutPersona = 'QUTeX Executive Director';
                 permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE,QUTeX Leader,Marketing,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender,DocuSign User,Permission API Enabled';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2770,6 +2778,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Business_Manager';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Leadership';
+                qutPersona = 'QUTeX Business Manager';
                 permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE,QUTeX Leader,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender,DocuSign User,Permission API Enabled';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2785,6 +2794,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Director_OPE';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
+                qutPersona = 'QUTeX Director of OPE';
                 permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE,QUTeX Leader,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender,DocuSign User,Permission API Enabled';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2800,6 +2810,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Portfolio_Coordinator';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
+                qutPersona = 'QUTeX Portfolio Co-Ordinator';
                 permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE;QUTeX Leader';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2815,6 +2826,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Product_Administrator';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
+                qutPersona = 'QUTeX Product Administrator';
                 permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE,QUTeX Leader,Email Template Management';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2830,6 +2842,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Learning_Innovation_Manager';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
+                qutPersona = 'QUTeX Learning Innovation Manager';
                 permSets = 'QUTeX Base,QUTeX OPE,QUTeX CCE,QUTeX Leader';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2845,6 +2858,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Learning_Designer';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
+                qutPersona = 'QUTeX Learning Designer';
                 permSets = 'QUTeX Base,QUTeX CCE,Product Administration';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2860,6 +2874,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Partnership_Manager';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
+                qutPersona = 'QUTeX Partnership Manager';
                 permSets = 'QUTeX Base,QUTeX CCE,QUTeX Leader,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender;DocuSign User,Permission API Enabled,Corporate Bundle';
                 permSetGroups = '';
                 publicGroups = 'Partnership Manager';
@@ -2875,6 +2890,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Program_Coordinator';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
+                qutPersona = 'QUTeX Program Co-Ordinator';
                 permSets = 'QUTeX Base,QUTeX CCE';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2890,6 +2906,23 @@ public class TestDataFactory {
                 userName = 'QUTeX_Program_Administrator';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
+                qutPersona = 'QUTeX Program Administrator';
+                permSets = 'QUTeX Base,QUTeX CCE,QUTeX Leader,Product Administration,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender,DocuSign User,Permission API Enabled,Email Template Management';
+                permSetGroups = '';
+                publicGroups = 'OPE Product Design,CCE Product Design,Program Administrator';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'QUTeX_Program_Administrator2') { //QUT_Program_Administrator2
+                userName = 'QUTeX_Program_Administrator2';
+                profileName = 'QUTeX';
+                roleName = 'QUTeX Super User';
+                qutPersona = 'QUTeX Program Administrator 2';
                 permSets = 'QUTeX Base,QUTeX CCE,QUTeX Leader,Product Administration,DocuSign Document Generator,DocuSign Document Negotiator,DocuSign Sender,DocuSign User,Permission API Enabled,Email Template Management';
                 permSetGroups = '';
                 publicGroups = 'OPE Product Design,CCE Product Design,Program Administrator';
@@ -2905,6 +2938,7 @@ public class TestDataFactory {
                 userName = 'Marketing_Manager';
                 profileName = 'Digital Marketing';
                 roleName = 'Marketing Super User';
+                qutPersona = 'Marketing Manager'; 
                 permSets = 'Marketing';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2920,6 +2954,7 @@ public class TestDataFactory {
                 userName = 'Marketing_Partnership_Manager';
                 profileName = 'QUTeX';
                 roleName = 'Marketing Super User';
+                qutPersona = 'Marketing Partnership Manager';
                 permSets = 'QUTeX Base,QUTeX CCE,Marketing';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2935,6 +2970,7 @@ public class TestDataFactory {
                 userName = 'Marketing_Quality_Assurance';
                 profileName = 'QUTeX';
                 roleName = 'Marketing User';
+                qutPersona = 'Marketing Quality Assurance';
                 permSets = 'QUTeX Base,QUTeX CCE,Marketing';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2950,6 +2986,7 @@ public class TestDataFactory {
                 userName = 'Digital_Marketing_Officer';
                 profileName = 'Digital Marketing';
                 roleName = 'Marketing User';
+                qutPersona = 'Digital Marketing Officer';
                 permSets = 'Marketing';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2965,6 +3002,7 @@ public class TestDataFactory {
                 userName = 'Marketing_Digital_Communication_Officer';
                 profileName = 'QUTeX';
                 roleName = 'Marketing User';
+                qutPersona = 'Marketing Digital Communication Officer';
                 permSets = 'QUTeX Base,QUTeX CCE,Marketing';
                 permSetGroups = '';
                 publicGroups = '';
@@ -2980,6 +3018,7 @@ public class TestDataFactory {
                 userName = 'Future_Student_Concierge_Domestic';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Concierge - Domestic';
+                qutPersona = 'Future Student Concierge - Domestic';
                 permSets = '';
                 permSetGroups = 'Future Student Concierge - Domestic';
                 publicGroups = 'Future Students - Domestic';
@@ -2995,6 +3034,7 @@ public class TestDataFactory {
                 userName = 'Future_Student_Concierge_International';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Concierge - International';
+                qutPersona = 'Future Student Concierge - International';
                 permSets = '';
                 permSetGroups = 'Future Student Concierge - International';
                 publicGroups = 'Future Students - International';
@@ -3010,6 +3050,7 @@ public class TestDataFactory {
                 userName = 'Future_Student_Agent_Domestic';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
+                qutPersona = 'Future Student Agent - Domestic';
                 permSets = '';
                 permSetGroups = 'Future Student Agent - Domestic';
                 publicGroups = 'Future Students - Domestic';
@@ -3025,6 +3066,7 @@ public class TestDataFactory {
                 userName = 'Future_Student_Agent_Super_User_Domestic';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
+                qutPersona = 'Future Student Agent Super User - Domestic';
                 permSets = '';
                 permSetGroups = 'Future Student Super Agent,Future Student Agent';
                 publicGroups = 'Future Students - Domestic';
@@ -3040,6 +3082,7 @@ public class TestDataFactory {
                 userName = 'Future_Student_Super_Team_Leader_Domestic';
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Super User - Domestic';
+                qutPersona = 'Future Student Super Team Leader - Domestic';
                 permSets = '';
                 permSetGroups = 'Future Student Team Leader - Domestic,Future Student Super User - Domestic';
                 publicGroups = 'Future Students - Domestic';
