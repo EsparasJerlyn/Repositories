@@ -149,7 +149,10 @@ public class TestDataFactory {
         'Industry_Director_Business_Development',
         'Industry_Engagement_Super_User',
         'Alumni_&_Corporate_Partnerships_Super_User',
-        'Alumni_Engagement_Manager'
+        'Alumni_Engagement_Manager',
+        'Corporate_Partnerships_Manager',
+        'Corporate_Engagement_Manager',
+        'Corporate_Events_Manager'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -3332,6 +3335,54 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+            } else if (name == 'Corporate_Partnerships_Manager') { //new
+                userName = 'Corporate_Partnerships_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Partnerships';
+                qutPersona = 'Corporate Partnerships Manager';
+                permSets = '';
+                permSetGroups = 'Corporate Partnerships';
+                publicGroups = 'Alumni & Corporate Partnerships';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Corporate_Engagement_Manager') { //new
+                userName = 'Corporate_Engagement_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Engagement';
+                qutPersona = 'Corporate Engagement Manager';
+                permSets = '';
+                permSetGroups = 'Corporate Engagement';
+                publicGroups = 'Alumni & Corporate Partnerships';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Corporate_Events_Manager') { //new
+                userName = 'Corporate_Events_Manager';
+                profileName = 'Alumni & Corporate Partnerships';
+                roleName = 'Corporate Events';
+                qutPersona = 'Corporate Events Manager';
+                permSets = '';
+                permSetGroups = 'Corporate Events';
+                publicGroups = 'Alumni & Corporate Partnerships';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
             //} 
             //Previous Persona  
             // else if (name == 'QUT_Developer') {
@@ -3376,7 +3427,7 @@ public class TestDataFactory {
             //     isAppExchangeUser = false;
             //     isPortal = false;
             //     contactId = null;
-            } else if (name == 'QUT_Sys_Admin') {
+            } else if (name == 'QUT_Sys_Admin') {  // need to clarify
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
@@ -3390,8 +3441,8 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Form_Builder') {
-                userName = 'QUT_Form_Builder';
+            } else if (name == 'QUT_Form_Builder') { //need to clarify
+                userName = 'QUT_Form_Builder'; 
                 profileName = 'Integration Forms';
                 roleName = 'None';
                 permSets = 'Permission_API_Only_User,Integration_Forms';
@@ -3404,7 +3455,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Website_Integration_User') {
+            } else if (name == 'QUT_Website_Integration_User') { //nee to clarify
                 userName = 'QUT_Website_Integration_User';
                 profileName = 'Integration Website';
                 roleName = 'None';
@@ -3736,7 +3787,7 @@ public class TestDataFactory {
             }
         }
 
-        private UserAttributeClass(String name, Id conId) {
+        private UserAttributeClass(String name, Id conId) { //need to clarify
             if (name == 'QUT_Corporate_Partner_Admin') {
                 userName = 'QUT_Corporate_Partner_Admin';
                 profileName = 'Corporate Partner';
@@ -3751,7 +3802,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
-            } else if (name == 'QUT_Corporate_Partner_User') {
+            } else if (name == 'QUT_Corporate_Partner_User') {//need to clarify
                 userName = 'QUT_Corporate_Partner_User';
                 profileName = 'Corporate Partner';
                 roleName = '';
@@ -3765,7 +3816,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
-            } else if (name == 'QUT_OPE_Catalogue') {
+            } else if (name == 'QUT_OPE_Catalogue') {  // need to clarify
                 userName = 'QUT_OPE_Catalogue';
                 profileName = 'OPE Catalogue';
                 roleName = 'OPECatalogueCustomerUser';
