@@ -131,7 +131,7 @@ const start = async function(){
         fs.writeFileSync(permissionSet, '<?xml version="1.0" encoding="UTF-8"?>\n'+xml+'\n');
         //fs.appendFileSync(permissionSet, '\n');
 
-        //exec(`git add "${permissionSet}"`);
+        exec(`git add "${permissionSet}"`);
     };
     
 }
