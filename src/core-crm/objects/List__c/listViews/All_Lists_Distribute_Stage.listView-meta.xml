@@ -21,5 +21,6 @@
     <label>All Lists - Distribute Stage</label>
     <sharedTo>
         <group>Advancement</group>
+        <group>Alumni_Corporate_Partnerships</group>
     </sharedTo>
 </ListView>

@@ -70,6 +70,12 @@
         <members>Document__c.Donation_Cause__c</members>
         <!--End DEPP-8454-->
         <name>CustomField</name>
+    </types>
+    <types>
+        <!--(Start) DEPP-7231-->
+        <members>Donation_Cause__c</members>
+        <!--(End)DEPP-7231-->
+        <name>CustomTab</name>
     </types>    
     <types>
         <!--Start DEPP-6659-->
@@ -94,6 +100,7 @@
         <members>Case_Clear_Closure_Fields</members>
         <members>Case_Pending_Closure_to_Closed</members>
         <!--(End) DEPP-5906-->
+        <members>Donation_Cause_Create_Child_Product</members>
         <name>Flow</name>
     </types>
     <types>
@@ -146,18 +153,15 @@
         <name>PermissionSetGroup</name>
     </types>
     <types>
-        <members>Opportunity.IPU_Opportunities</members>
-        <members>Opportunity.Research_Partnership_Opportunities</members>
-        <members>Opportunity.Commercialisation_Opportunities</members>
-        <!--(Start) DEPP-7231-->
-        <members>Donation_Cause__c</members>
-        <name>CustomTab</name>
-        <!--(End)DEPP-7231-->
-    </types>
-    <types>
+        <!--(Start) DEPP-8389-->
         <members>Donation_Cause__c.All_Donation_Causes</members>
         <members>Donation_Cause__c.All_Open_Donation_Causes</members>
         <members>Donation_Cause__c.My_Open_Donation_Causes</members>
+        <!--(End) DEPP-8389-->
+        <members>List__c.Distributed_List</members>
+        <members>Opportunity.IPU_Opportunities</members>
+        <members>Opportunity.Research_Partnership_Opportunities</members>
+        <members>Opportunity.Commercialisation_Opportunities</members>
         <name>ListView</name>
     </types>
     <types>
@@ -167,6 +171,7 @@
         <members>DonationCauseCodeAutoNumbersDAOTest</members>
         <members>DonationCauseTriggerHandler</members>
         <members>DonationCauseTriggerHandlerTest</members>
+        <members>Donation_Cause_Create_Child_Product_Test</members>
         <members>IDonationCauseCodeAutoNumbersDAO</members>
         <members>IDonationCausesDAO</members>
         <members>DonationCausesDAO</members>
