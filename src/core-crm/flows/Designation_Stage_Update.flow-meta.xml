@@ -57,14 +57,14 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_Start_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_Start_Date__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_End_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_End_Date__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -78,14 +78,14 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_Start_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_Start_Date__c</leftValueReference>
                 <operator>LessThanOrEqualTo</operator>
                 <rightValue>
                     <elementReference>$Flow.CurrentDate</elementReference>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_End_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_End_Date__c</leftValueReference>
                 <operator>GreaterThan</operator>
                 <rightValue>
                     <elementReference>$Flow.CurrentDate</elementReference>
@@ -135,14 +135,14 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_Start_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_Start_Date__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_End_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_End_Date__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -177,21 +177,21 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_Start_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_Start_Date__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_Start_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_Start_Date__c</leftValueReference>
                 <operator>GreaterThan</operator>
                 <rightValue>
                     <elementReference>$Flow.CurrentDate</elementReference>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.QUT_Giving_Publish_End_Date__c</leftValueReference>
+                <leftValueReference>$Record.Public_Giving_Publish_End_Date__c</leftValueReference>
                 <operator>LessThan</operator>
                 <rightValue>
                     <elementReference>$Flow.CurrentDate</elementReference>

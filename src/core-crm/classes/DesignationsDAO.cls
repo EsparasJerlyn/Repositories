@@ -30,8 +30,8 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
     public Database.QueryLocator queryLocatorGetDesignationsForStageUpdate() {
         String stageToPublishRule =
             ' (Ready_For_Publishing__c = True ' +
-            'AND QUT_Giving_Publish_Start_Date__c <= TODAY ' +
-            'AND QUT_Giving_Publish_End_Date__c > TODAY ' +
+            'AND Public_Giving_Publish_Start_Date__c <= TODAY ' +
+            'AND Public_Giving_Publish_End_Date__c > TODAY ' +
             'AND Stage__c !=: DC_PUBLISHED ' +
             'AND Stage__c !=: DC_ARCHIVED ' +
             ')';
@@ -40,9 +40,9 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
             ' (Activation_Start_Date__c <= TODAY ' +
             'AND Activation_End_Date__c > TODAY '+
             'AND (Ready_For_Publishing__c = false '+
-            'OR QUT_Giving_Publish_Start_Date__c = null ' +
-            'OR QUT_Giving_Publish_Start_Date__c > TODAY '+
-            'OR QUT_Giving_Publish_End_Date__c < TODAY) ' +
+            'OR Public_Giving_Publish_Start_Date__c = null ' +
+            'OR Public_Giving_Publish_Start_Date__c > TODAY '+
+            'OR Public_Giving_Publish_End_Date__c < TODAY) ' +
             'AND Stage__c !=: DC_ACTIVE '+
             'AND Stage__C !=: DC_ARCHIVED)';
 
@@ -54,7 +54,7 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
 
 
         String queryFilter =
-            'SELECT Id, Ready_For_Publishing__c,QUT_Giving_Publish_Start_Date__c, QUT_Giving_Publish_End_Date__c, Stage__c, ' +
+            'SELECT Id, Ready_For_Publishing__c,Public_Giving_Publish_Start_Date__c, Public_Giving_Publish_End_Date__c, Stage__c, ' +
                      'Activation_Start_Date__c, Activation_End_Date__c,Archived_Date__c ' +
             'FROM Designation__c ' +
             'WHERE ' +
