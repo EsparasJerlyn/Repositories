@@ -601,6 +601,11 @@
         <label>sa-in</label>
     </customValue>
     <customValue>
+        <fullName>sq-al</fullName>
+        <default>false</default>
+        <label>sq-al</label>
+    </customValue>
+    <customValue>
         <fullName>sv-fi</fullName>
         <default>false</default>
         <label>sv-fi</label>
