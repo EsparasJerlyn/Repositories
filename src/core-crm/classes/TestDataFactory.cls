@@ -144,7 +144,8 @@ public class TestDataFactory {
         'Future_Student_Super_Team_Leader_International',
         'Future_Student_Super_User_International',
         'Industry_Partnership_Manager',
-        'Industry_Operations_Manager'
+        'Industry_Operations_Manager',
+        'Industry_VP_Business_Development'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
@@ -3239,6 +3240,22 @@ public class TestDataFactory {
                 permSets = '';
                 permSetGroups = 'Operations Manager';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = false;
+                contactId = null;
+            } else if (name == 'Industry_VP_Business_Development') { //new
+                userName = 'Industry_VP_Business_Development';
+                profileName = 'Industry Engagement';
+                roleName = 'VP Business Development';
+                qutPersona = 'Industry VP Business Development';
+                permSets = '';
+                permSetGroups = 'VPBD/Director';
+                publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager,Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
                 isKnowledgeUser = false;
