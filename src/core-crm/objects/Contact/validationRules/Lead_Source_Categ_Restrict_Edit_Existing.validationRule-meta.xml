@@ -4,7 +4,8 @@
     <active>true</active>
     <errorConditionFormula>AND(
  NOT(ISBLANK(TEXT(PRIORVALUE(Lead_Source_Category__c)))),
- ISCHANGED(Lead_Source_Category__c )
+ ISCHANGED(Lead_Source_Category__c ),
+ RecordType.Name = &apos;Person&apos;
 )</errorConditionFormula>
     <errorDisplayField>Lead_Source_Category__c</errorDisplayField>
     <errorMessage>Lead Source Category cannot be changed from it’s initial value.</errorMessage>

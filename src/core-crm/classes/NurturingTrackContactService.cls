@@ -38,10 +38,12 @@
       | arsenio.jr.dayrit              | Feb 23, 2024          | DEPP-7709              | Update handling for International International Strong Interest Pre –              |
       |                                |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
       | arsenio.jr.dayrit              | Feb 29, 2024          | DEPP-7595              | Update handling for Domestic First Offer To Acceptance entry method                |
-      |                                |                       |                        | and Domestic Accepted and Admitted entry method                                    |                             |                       |                        | Application Entry and International Application Submission - Direct Applicant Entry|
+      |                                |                       |                        | and Domestic Accepted and Admitted entry method                                    | 
       | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Renamed International Offer to Acceptance (add - Direct) and created new nurture   |
       |                                |                       |                        | track named International Offer to Acceptance - Agent                              |
       | mark.j.mahilum                 | March 04, 2024        | DEPP-7708              | Added new entry and exit criteria for InternationalPreApplicationPartnerSourced    |
+      | arsenio.jr.dayrit              | March 21, 2024        | DEPP-8349              | Update handling for Domestic First Offer To Acceptance entry method                |
+      |                                |                       |                        | and Domestic Accepted and Admitted entry method                                    | 
       | mark.j.mahilum                 | April 04, 2024        | DEPP-8450              | Updated created date logic to make sure that only the date value is getting match  |
       |                                |                       |                        | to the exact date today                                                            |
  */
@@ -55,7 +57,6 @@ public with sharing class NurturingTrackContactService { //NOPMD
     private static Map<String,Nurture_Track_Configuration__c>  nurturingTrackWithThresholdForEntry = new Map<String,Nurture_Track_Configuration__c>();
     private static Map<Id, Set<String>> applicantIdsWithCompletedCadence = new Map<Id, Set<String>>();
     private static Map<Id, Set<String>> applicantIdsWithAllCompletedCadence = new Map<Id, Set<String>>();
-    private static Map<String,String> contactWithValidProgramEnrollmentMap = new Map<String,String>();
     private static List<Case> caseList;
     private static Map<Id, Contact> domesticEntryContactMap = new Map<Id, Contact>();
     private static Map<Id, Contact> domesticExitContactMap = new Map<Id, Contact>();
@@ -1426,7 +1427,10 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> domesticFirstOffertoAcceptanceAutomated = new Map<Id, hed__Application__c>();
         Set<String> completedCadencesCopy = new Set<String>();
         Set<Id> applicationProgramUnderGrad = getapplicationProgramUnderGrad(applicationList);
-        Map<String,String> contactWithValidProgramEnrollmentAndQtac = checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet());
+        Map<String,String> contactWithNoCurrentProgramEnrollmentMap = new Map<String,String>();
+        Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap = new Map<String,String>();
+
+        checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet(), contactWithNoCurrentProgramEnrollmentMap,contactWithNoCurrentAdmittedProgramEnrollmentMap);
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED },
@@ -1443,9 +1447,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
                                                 application.Admission_Process__c != ApplicationsDAO.ADMISSION_PROCESS_RTN_QTAC;
 
             boolean isContactWithProgramEnrollmentNotAdmittedORWithQtact = (application.Related_QTAC_Application__c != null &&
-                                                                           contactWithValidProgramEnrollmentAndQtac.containsKey(application.hed__Applicant__c)) ||
-                                                                           (contactWithValidProgramEnrollmentAndQtac.containsKey(application.hed__Applicant__c) && 
-                                                                           contactWithValidProgramEnrollmentAndQtac.get(application.hed__Applicant__c) != ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED);
+                                                                            contactWithNoCurrentProgramEnrollmentMap.containsKey(application.hed__Applicant__c)) ||
+                                                                           (application.Related_QTAC_Application__c == null &&
+                                                                           contactWithNoCurrentAdmittedProgramEnrollmentMap.containsKey(application.hed__Applicant__c));
 
             boolean isAppForEntry = isValidRecordType &&
                                     domesticEntryContactMap.containsKey(application.hed__Applicant__c) &&
@@ -1457,6 +1461,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                                     //this should return true if one of the succeeding cadence is already in completedCadencesCopy
                                     !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.DOMESTIC_TRACK_SUCCEEDING_FIRST_OFFER) &&
                                     isApplicationProgramUnderGrad;
+        
             if (isAppForEntry) {
 
                 Boolean hasAutomatedCompletedCadence = filteredApplicantIdsWithCompletedCadence.containsKey(application.hed__Applicant__c);
@@ -2003,7 +2008,10 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<Id, hed__Application__c> domesticAcceptedApplicants = new Map<Id, hed__Application__c>();
         Set<String> completedCadencesCopy = new Set<String>();
         Set<Id> applicationProgramUnderGrad = getapplicationProgramUnderGrad(applicationList);
-        Map<String,String> contactWithValidProgramEnrollmentAndQtac = checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet());
+        Map<String,String> contactWithNoCurrentProgramEnrollmentMap = new Map<String,String>();
+        Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap = new Map<String,String>();
+
+        checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet(), contactWithNoCurrentProgramEnrollmentMap,contactWithNoCurrentAdmittedProgramEnrollmentMap);
         for (hed__Application__c app : applicationList) {
 
             Boolean isSAMSApplication = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
@@ -2011,9 +2019,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
             Boolean isSAMSLatestApplication = (app.Calculated_Intake_Date__c != NULL && app.Calculated_Intake_Date__c > Date.today());
             boolean isApplicationProgramUnderGrad = applicationProgramUnderGrad.contains(app.Id);
             boolean isContactWithProgramEnrollmentNotAdmittedORWithQtact = (app.Related_QTAC_Application__c != null &&
-                                                                           contactWithValidProgramEnrollmentAndQtac.containsKey(app.hed__Applicant__c)) ||
-                                                                           (contactWithValidProgramEnrollmentAndQtac.containsKey(app.hed__Applicant__c) && 
-                                                                           contactWithValidProgramEnrollmentAndQtac.get(app.hed__Applicant__c) != ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED);
+                                                                            contactWithNoCurrentProgramEnrollmentMap.containsKey(app.hed__Applicant__c)) ||
+                                                                           (app.Related_QTAC_Application__c == null &&
+                                                                            contactWithNoCurrentAdmittedProgramEnrollmentMap.containsKey(app.hed__Applicant__c));
 
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(app.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(app.hed__Applicant__c)):new Set<String>();
@@ -2713,22 +2721,21 @@ public with sharing class NurturingTrackContactService { //NOPMD
         }
         return contactIdsWithRestrictedSet;
     }
-    private static Map<String,String> checkContactWithValidProgramEnrollmentAndQtac(Set<Id> contactIds){
+    private static void checkContactWithValidProgramEnrollmentAndQtac(Set<Id> contactIds,Map<String,String> contactWithNoCurrentProgramEnrollmentMap, Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap){
         if(!contactIds.isEmpty()){
             for(hed__Program_Enrollment__c programEnrollment : ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactIds, AccessLevel.SYSTEM_MODE)){
                 if(!ProgramEnrollmentsDAO.ENROLLMENT_STATUS.contains(programEnrollment.Enrollment_Status__c) &&
                     programEnrollment.Enrollment_Status_Date__c != null && 
                     DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)){
-                    contactWithValidProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
+                        contactWithNoCurrentProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
                 }
                 else if(programEnrollment.Enrollment_Status__c != ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
                     programEnrollment.hed__Admission_Date__c != null &&
                     DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)){
-                     contactWithValidProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
+                        contactWithNoCurrentAdmittedProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
                 }
             }
         }
-            return contactWithValidProgramEnrollmentMap;
     }
 
    /**
