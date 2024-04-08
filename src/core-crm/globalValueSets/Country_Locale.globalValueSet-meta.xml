@@ -2070,6 +2070,31 @@
         <label>es_NI</label>
     </customValue>
     <customValue>
+        <fullName>oc-fr</fullName>
+        <default>false</default>
+        <label>oc-fr</label>
+    </customValue>
+    <customValue>
+        <fullName>or-in</fullName>
+        <default>false</default>
+        <label>or-in</label>
+    </customValue>
+    <customValue>
+        <fullName>pa-in</fullName>
+        <default>false</default>
+        <label>pa-in</label>
+    </customValue>
+    <customValue>
+        <fullName>wo-sn</fullName>
+        <default>false</default>
+        <label>wo-sn</label>
+    </customValue>
+    <customValue>
+        <fullName>yo-ng</fullName>
+        <default>false</default>
+        <label>yo-ng</label>
+    </customValue>
+    <customValue>
         <fullName>es_PA</fullName>
         <default>false</default>
         <isActive>false</isActive>
