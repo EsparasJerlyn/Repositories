@@ -5,12 +5,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                   |
- *    |--------------------------------|-----------------------|------------------------|--------------------------------------------------|
- *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                                     |
- *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds            |
- *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIdTest      |
- *    | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Added method getApplicationsActiveApplicantsTest |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                        |
+ *    |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------------------|
+ *    | mark.j.mahilum                 | June 19, 2023         | DEPP-5846              | Created File                                                          |
+ *    | mark.j.mahilum                 | July 03, 2023         | DEPP-5961              | Added method getApplicationsByLeadIds                                 |
+ *    | mark.j.mahilum                 | July 14, 2023         | DEPP-5799              | Added method getApplicationsByContactIdTest                           |
+ *    | mark.j.mahilum                 | Aug 31, 2023          | DEPP-6455              | Added method getApplicationsActiveApplicantsTest                      |
+ *    | sebastianne.k.trias            | March 28, 2024        | DEPP-8382              | Added method queryApplicationsByPastIntakeDateAndActiveApplicantsTest |
  */
 @isTest
 public with sharing class ApplicationsDAOTest {
@@ -129,5 +130,17 @@ public with sharing class ApplicationsDAOTest {
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
         }
         Test.stopTest();
+    }
+
+    @isTest
+    static void queryApplicationsByPastIntakeDateAndActiveApplicantsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                ApplicationsDAO.newInstance().queryApplicationsByPastIntakeDateAndActiveApplicants('SYSTEM_MODE') != null,
+                'Applications retrieved is null'
+            );
+            Test.stopTest();
+        }
     }
 }
