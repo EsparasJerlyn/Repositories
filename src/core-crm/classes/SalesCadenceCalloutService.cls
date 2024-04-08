@@ -26,6 +26,7 @@
  *    | roy.nino.s.regala              | Jan 3, 2024           | Shutdown PMD Fix       | Fixed method complexity pmd issues                                   |
  *    | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Changed getCompletedCadenceStatusMap datatype to Completed_Cadence,  |
  *    |                                |                       |                        |   and added QTAC Offer Round in updateTasks                          | 
+ *    | mark.j.mahilum                 | April 05, 2024        | DEPP-8378              | Fixed API Callout issue exception for assigned and remove callout    |
  */
 public with sharing class SalesCadenceCalloutService {//NOPMD this is a service class. high number of public methods and overall complexity are expected.
     
@@ -62,18 +63,8 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             }
         }
    		
-        Boolean isSendingRequestCompleted = false;
-        
-        if(!wrapper.inputs.isEmpty()){
-            isSendingRequestCompleted = sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT);            
-        }else{
-            isSendingRequestCompleted = true;
-        }
-        
-        if(isSendingRequestCompleted){
-            //create initial completed completed cadence without status
-            createInitialCompletedCadences(assignCadenceMap); 
-        }       
+		sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT,!wrapper.inputs.isEmpty(),assignCadenceMap);            
+     
     }
     
     /**
@@ -111,17 +102,8 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
             }
         }
         
-        Boolean isSendingRequestCompleted = false;
-        
-        if(!wrapper.inputs.isEmpty()){
-            isSendingRequestCompleted = sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT);
-        }else{
-            isSendingRequestCompleted = true;
-        }
-        
-        if(!manualRemoveCadenceMap.isEmpty() && isSendingRequestCompleted){
-            createCompletedCadence(manualRemoveCadenceMap,null);
-        }
+        sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT,!wrapper.inputs.isEmpty(),manualRemoveCadenceMap);
+
     }
 
     /**
@@ -136,7 +118,7 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
    
         if(!payload.inputs.isEmpty()){
-            sendRequest(JSON.serialize(payload, true), UPDATE_TARGET_CADENCE_ENDPOINT);            
+            sendRequest(JSON.serialize(payload, true), UPDATE_TARGET_CADENCE_ENDPOINT,true,null);            
         }
 
     }
@@ -262,34 +244,60 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
      * @param String requestBody - the content of the request
      * @param String endpoint - the endpoint of the callout request
      */ 
-    public static Boolean sendRequest(String requestBody,String endpoint) {
+    public static Boolean sendRequest(String requestBody,String endpoint, Boolean hasCallout, Map<String,String> manualCadenceMap ) {
         
         String salesCadenceEndpoint = URL.getSalesforceBaseUrl().toExternalForm() + endpoint;  
         
-        HttpRequest httpReq = new HttpRequest();
-        httpReq.setMethod('POST');
-        httpReq.setHeader('Authorization', 'OAuth ' + UserInfo.getSessionId());//NOPMD
-        httpReq.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());//NOPMD
-        httpReq.setEndpoint(salesCadenceEndpoint);
-        httpReq.setHeader('Content-Type', 'application/json');
-        httpReq.setBody(requestBody);        
-        try{
-            Http http = new Http();
-            HttpResponse httpResponse = http.send(httpReq);
-            if (httpResponse.getStatusCode() == 200) {
-                handleBulkErrors(
-                    'Exception caught in method sendRequest in class SalesCadenceCalloutService.',
-                    (List<Object>) JSON.deserializeUntyped(httpResponse.getBody())
-                );
-            } else {
-                throw new CalloutException(httpResponse.getBody());
+        if(hasCallout){
+            HttpRequest httpReq = new HttpRequest();
+            httpReq.setMethod('POST');
+            httpReq.setHeader('Authorization', 'OAuth ' + UserInfo.getSessionId());//NOPMD
+            httpReq.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());//NOPMD
+            httpReq.setEndpoint(salesCadenceEndpoint);
+            httpReq.setHeader('Content-Type', 'application/json');
+            httpReq.setBody(requestBody);        
+            try{
+                Http http = new Http();
+                HttpResponse httpResponse = http.send(httpReq);
+                if (httpResponse.getStatusCode() == 200) {
+                    handleBulkErrors(
+                        'Exception caught in method sendRequest in class SalesCadenceCalloutService.',
+                        (List<Object>) JSON.deserializeUntyped(httpResponse.getBody())
+                    );
+                    
+                    if(manualCadenceMap !=null && !manualCadenceMap.isEmpty()){
+                        if(endpoint == REMOVE_TARGET_CADENCE_ENDPOINT){
+                            createCompletedCadence(manualCadenceMap,null); 
+                        }                       
+                        if(endpoint == ASSIGN_TARGET_CADENCE_ENDPOINT){
+                            //create initial completed completed cadence without status
+                            createInitialCompletedCadences(manualCadenceMap); 
+                        }
+                    }
+                    
+                } else {
+                    throw new CalloutException(httpResponse.getBody());
+                }
+                return true;
+            }catch(Exception e){
+                Logger.error('Exception caught in method execute in Apex class SalesCadenceCalloutService.').setExceptionDetails(e);
+            } finally {
+                if(Logger.getBufferSize() > 0) {
+                    Logger.saveLog();
+                }
             }
-            return true;
-        }catch(Exception e){
-            Logger.error('Exception caught in method execute in Apex class SalesCadenceCalloutService.').setExceptionDetails(e);
-        } finally {
-            if(Logger.getBufferSize() > 0) {
-                Logger.saveLog();
+        }else{
+            if(manualCadenceMap !=null && !manualCadenceMap.isEmpty()){
+                
+                if(endpoint == REMOVE_TARGET_CADENCE_ENDPOINT){
+                    createCompletedCadence(manualCadenceMap,null); 
+                }
+                
+                if(endpoint == ASSIGN_TARGET_CADENCE_ENDPOINT){
+                    //create initial completed completed cadence without status
+                    createInitialCompletedCadences(manualCadenceMap); 
+                }
+                
             }
         }
         
