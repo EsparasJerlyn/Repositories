@@ -3480,21 +3480,7 @@ public class TestDataFactory {
         }
 
         private UserAttributeClass(String name, Id conId) { 
-            if (name == 'QUT_Corporate_Partner_Admin') {    //need to clarify - Not Used
-                userName = 'QUT_Corporate_Partner_Admin';
-                profileName = 'Corporate Partner';
-                roleName = '';
-                permSets = 'Corporate_Partner';
-                publicGroups = '';
-                isServiceCloudUser = false;
-                isFlowUser = false;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = true;
-                contactId = conId;
-            } else if (name == 'QUT_Corporate_Partner_User') {    //need to clarify - Used in other classes
+            if (name == 'QUT_Corporate_Partner_User') {    //need to reassess - Used in other classes
                 userName = 'QUT_Corporate_Partner_User';
                 profileName = 'Corporate Partner';
                 roleName = '';
@@ -3508,21 +3494,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
-            } else if (name == 'QUT_OPE_Catalogue') {  // need to clarify - Not Used
-                userName = 'QUT_OPE_Catalogue';
-                profileName = 'OPE Catalogue';
-                roleName = 'OPECatalogueCustomerUser';
-                permSets = 'OPE_Catalogue';
-                publicGroups = '';
-                isServiceCloudUser = false;
-                isFlowUser = false;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = true;
-                contactId = conId;
-            }
+            } 
         }
     }
 
