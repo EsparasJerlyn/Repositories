@@ -81,14 +81,9 @@ public class TestDataFactory {
     private static final String TEST_PRICEBOOK2_NAME = 'Test Pricebook2';
     private static final TestUserGenerator TEST_USER_GENERATOR = new TestUserGenerator();
     private static final List<String> USER_ATTRIB_LIST = new List<String>{
-        //Previous List - need to clarify
+        //Previous List - need to reassess
         'QUT_Sys_Admin',
-        'QUT_Form_Builder',
-        'QUT_Website_Integration_User',
-        'QUT_Marketing_Cloud',
         'QUT_ESB',
-        'QUT_Data_Migration',
-        'QUT_Chatter_Free',
         // new List
         'System_Administrator',
         'System_Administrator_Modify_All_Data',
@@ -2166,21 +2161,6 @@ public class TestDataFactory {
     }
 
     /**
-     * @description Method for getting Program Administrator
-     * @param void
-     * @return portalSysAdmin - QUTeX Program Admin User
-     */
-    public static User getMarketingCloudUser() {
-        User marketingCloud = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_Marketing_Cloud%'
-            LIMIT 1
-        ];
-        return marketingCloud;
-    }
-
-    /**
      * @description Method for creating Sys Admin Portal Owner
      * @param void
      * @return portalSysAdmin - Portal Sys Admin user
@@ -2278,21 +2258,6 @@ public class TestDataFactory {
             LIMIT 1
         ];
         return learningDesigner;
-    }
-
-    /**
-     * @description Method for getting integration website user
-     * @param void
-     * @return integWebSiteUser - Integration Website User
-     */
-    public static User getIntegrationWebsiteUser() {
-        User integWebSiteUser = [
-            SELECT Id
-            FROM User
-            WHERE Username LIKE 'QUT_Website_Integration_User%'
-            LIMIT 1
-        ];
-        return integWebSiteUser;
     }
 
     /**
@@ -2467,6 +2432,8 @@ public class TestDataFactory {
 
             // add permission sets
             collectPermissionSetAssignment(userClass.permSets, u);
+            //add permission group
+            collectPermissionSetGroup(userClass.permSetGroups, u);
             // add addGroups
             collectPublicGroupAssignment(userClass.publicGroups, u);
         }
@@ -2484,6 +2451,23 @@ public class TestDataFactory {
                 } else {
                     // has single perm set
                     addPermSets.add(u.UserName + '%%' + permSets.trim());
+                }
+            }
+        }
+
+        private void collectPermissionSetGroup(String permSetGroups, User u) {
+            // add permission sets
+            if (permSetGroups != null && permSetGroups != '') {
+                if (permSetGroups.contains(',')) {
+                    // has multiple perm set group
+                    List<String> res = permSetGroups.split(',');
+                    for (String r : res) {
+                        String permSetGroups = r.trim();
+                        addPermSetGroups.add(u.UserName + '%%' + permSetGroups);
+                    }
+                } else {
+                    // has single perm set group
+                    addPermSetGroups.add(u.UserName + '%%' + permSetGroups.trim());
                 }
             }
         }
@@ -3464,7 +3448,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Sys_Admin') {  // need to clarify - Used by other classes
+            } else if (name == 'QUT_Sys_Admin') {  // need to reassess - Used by other classes
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
@@ -3478,49 +3462,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
-            } else if (name == 'QUT_Form_Builder') { //need to clarify - Not used
-                userName = 'QUT_Form_Builder'; 
-                profileName = 'Integration Forms';
-                roleName = 'None';
-                permSets = 'Permission_API_Only_User,Integration_Forms';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            } else if (name == 'QUT_Website_Integration_User') { //nee to clarify - Not Used
-                userName = 'QUT_Website_Integration_User';
-                profileName = 'Integration Website';
-                roleName = 'None';
-                permSets = 'Permission_API_Only_User,Permission_API_Enabled,Lead_Forms,Product_Catalogue_Read_Only,Website_Connected_App';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            } else if (name == 'QUT_Marketing_Cloud') { // need to lcarify - Not Used
-                userName = 'QUT_Marketing_Cloud';
-                profileName = 'Integration Marketing';
-                roleName = 'None';
-                permSets = 'Permission_API_Only_User,Integration_Marketing,Marketing_Cloud_Connected_App';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = true;
-                isAppExchangeAdmin = true;
-                isAppExchangeUser = true;
-                isPortal = false;
-                contactId = null;
-            } else if (name == 'QUT_ESB') { // need to clarify - Used by other classes
+            } else if (name == 'QUT_ESB') { // need to reassess - Used by other classes
                 userName = 'QUT_ESB';
                 profileName = 'Integration';
                 roleName = 'None';
@@ -3533,36 +3475,6 @@ public class TestDataFactory {
                 isAppExchangeAdmin = false;
                 isAppExchangeUser = false;
                 isPortal = false; 
-                contactId = null;
-            } else if (name == 'QUT_Data_Migration') { //need to clarify - Not Used
-                userName = 'QUT_Data_Migration';
-                profileName = 'Integration';
-                roleName = 'None';
-                permSets = 'Permission_API_Only_User,Integration_Person';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            }
-            /** START - Creation of General Users */
-            else if (name == 'QUT_Chatter_Free') {   // need to clarify - Not Used
-                userName = 'QUT_Chatter_Free';
-                profileName = 'Chatter Free User';
-                roleName = '';
-                permSets = '';
-                publicGroups = '';
-                isServiceCloudUser = false;
-                isFlowUser = false;
-                isKnowledgeUser = false;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
                 contactId = null;
             }
         }
