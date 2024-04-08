@@ -14,5 +14,5 @@
         <restricted>true</restricted>
         <valueSetName>Giving_Category</valueSetName>
     </valueSet>
-    <visibleLines>4</visibleLines>
+    <visibleLines>3</visibleLines>
 </CustomField>

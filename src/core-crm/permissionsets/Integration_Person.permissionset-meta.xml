@@ -2322,6 +2322,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Document__c.Designation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Engagement_Score_Configuration__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
