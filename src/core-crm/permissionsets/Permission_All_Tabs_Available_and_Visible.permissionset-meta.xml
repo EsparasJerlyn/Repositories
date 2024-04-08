@@ -17,6 +17,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Designation__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Engagement__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
