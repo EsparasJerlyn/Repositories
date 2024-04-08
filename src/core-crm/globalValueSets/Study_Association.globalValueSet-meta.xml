@@ -70,7 +70,6 @@
         <default>false</default>
         <label>Science</label>
     </customValue>
-    <description>Study Area(s) the Designation relates to.</description>
     <masterLabel>Study Association</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
