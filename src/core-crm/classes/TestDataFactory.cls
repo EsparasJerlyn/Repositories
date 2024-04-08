@@ -2508,16 +2508,17 @@ public class TestDataFactory {
         private void addPermissionSetGroupAssignment() {
             // insert perm sets group if not null
             if (addPermSetGroups != null && addPermSetGroups.size() > 0) {
-                list<PermissionSetGroup> addPSG = new List<PermissionSetGroup>{};
+                list<PermissionSetAssignment> addPS = new List<PermissionSetAssignment>{};
                 for (String i : addPermSetGroups) {
                     List<String> res = i.split('%%');
-                    addPSG.add(
-                        new PermissionSetGroup(
-                            DeveloperName = permSetGroupMap.get(res[1])
+                    addPS.add(
+                        new PermissionSetAssignment(
+                            PermissionSetId = permSetGroupMap.get(res[1]),
+                            AssigneeId = usermap.get(res[0])
                         )
                     );
                 }
-                insert addPSG;
+                insert addPS;
             }
         }
 
