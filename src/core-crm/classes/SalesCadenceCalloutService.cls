@@ -688,5 +688,4 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
         return actMap;
     }
-    
 }

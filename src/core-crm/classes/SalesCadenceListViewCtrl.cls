@@ -18,6 +18,7 @@
  *    |                                |                       |                        | and added Related_QTAC_Application__r.QTAC_Offer_Round__c |
  *    | roy.nino.s.regala              | Nov 22, 2023          | DEPP-7283              | validate contact/lead before assigning to cadence and user|
  *    | roy.nino.s.regala              | Dec 11, 2023          | DEPP-7311              | Added assign to others logic and user filter              |
+*     | mark.j.mahilum                 | April 08, 2024        | DEPP-8378              | Updated method paramater of sendRequest                   |
  */
 public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class requires a lot of public variables
     private static final String ASSIGN_TARGET_CADENCE_ENDPOINT = System.Label.SalesCadenceAssignTargetEndpoint;
@@ -319,7 +320,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
      */
     @future(callout=true)
     public static void doNativeCallout(String payload, String endpointPath) {
-        SalesCadenceCalloutService.sendRequest(payLoad, endpointPath);
+        SalesCadenceCalloutService.sendRequest(payLoad, endpointPath,true,null);
 
         Map<String, Object> payLoadDataMap = (Map<String, Object>) JSON.deserializeUntyped(payload);
         //revert calculated cadence update, use the payload
