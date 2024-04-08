@@ -2462,8 +2462,8 @@ public class TestDataFactory {
                     // has multiple perm set group
                     List<String> res = permSetGroups.split(',');
                     for (String r : res) {
-                        String permSetGroups = r.trim();
-                        addPermSetGroups.add(u.UserName + '%%' + permSetGroups);
+                        String permSetGroup = r.trim();
+                        addPermSetGroups.add(u.UserName + '%%' + permSetGroup);
                     }
                 } else {
                     // has single perm set group
