@@ -747,8 +747,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Staff_Giving_Portal_Publish_End_Date__c</fieldItem>
-                <identifier>RecordStaff_Giving_Portal_Publish_End_Date_cField</identifier>
+                <fieldItem>Record.Staff_Giving_Publish_End_Date__c</fieldItem>
+                <identifier>RecordStaff_Giving_Publish_End_Date_cField</identifier>
                 <visibilityRule>
                     <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
                     <criteria>
@@ -775,8 +775,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Staff_Giving_Portal_Publish_End_Date__c</fieldItem>
-                <identifier>RecordStaff_Giving_Portal_Publish_End_Date_cField2</identifier>
+                <fieldItem>Record.Staff_Giving_Publish_End_Date__c</fieldItem>
+                <identifier>RecordStaff_Giving_Publish_End_Date_cField2</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR ( 2 AND 3)</booleanFilter>
                     <criteria>
