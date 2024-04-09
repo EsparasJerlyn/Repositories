@@ -78,6 +78,7 @@ public class ImplementationSelector {
             ContentVersion.SObjectType => ContentVersionsDAO.class,
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
+            Designation_Code_Auto_Number__c.SObjectType => DesignationCodeAutoNumbersDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
             Donation__c.SObjectType => DonationsDAO.class,
             Donation_Cause_Code_Auto_Number__c.SObjectType => DonationCauseCodeAutoNumbersDAO.class,
