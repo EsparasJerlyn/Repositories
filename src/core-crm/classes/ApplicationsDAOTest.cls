@@ -133,18 +133,6 @@ public with sharing class ApplicationsDAOTest {
     }
 
     @isTest
-    static void queryApplicationsByPastIntakeDateAndActiveApplicantsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
-            System.assert(
-                ApplicationsDAO.newInstance().queryApplicationsByPastIntakeDateAndActiveApplicants('SYSTEM_MODE') != null,
-                'Applications retrieved is null'
-            );
-            Test.stopTest();
-        }
-    }
-
-    @isTest
     static void getApplicationsByLeadIdOrContactIdTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
@@ -156,5 +144,16 @@ public with sharing class ApplicationsDAOTest {
             System.assert(applicationList.isEmpty(), 'applicationList should not be empty.');
         }
         Test.stopTest();
+    }
+    
+    static void queryApplicationsByPastIntakeDateAndActiveApplicantsTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                ApplicationsDAO.newInstance().queryApplicationsByPastIntakeDateAndActiveApplicants('SYSTEM_MODE') != null,
+                'Applications retrieved is null'
+            );
+            Test.stopTest();
+        }
     }
 }

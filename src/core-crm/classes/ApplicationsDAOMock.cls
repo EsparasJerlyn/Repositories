@@ -148,7 +148,7 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
 
         return applicationList;
     }
-
+    
     public Database.QueryLocator queryApplicationsByPastIntakeDateAndActiveApplicants(
         String accessLevel
     ) {

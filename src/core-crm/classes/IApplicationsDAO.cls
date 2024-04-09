@@ -44,13 +44,12 @@ public interface IApplicationsDAO extends DmlInterface{
         String accessLevel
     );
 
-    Database.QueryLocator queryApplicationsByPastIntakeDateAndActiveApplicants(
-        String accessLevel
-    );
-}
-
     List<hed__Application__c> getApplicationsByLeadIdOrContactId(
         Set<String> recordId,
+        String accessLevel
+    ); 
+
+    Database.QueryLocator queryApplicationsByPastIntakeDateAndActiveApplicants(
         String accessLevel
     );
 }
