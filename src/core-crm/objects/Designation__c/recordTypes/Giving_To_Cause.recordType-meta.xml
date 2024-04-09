@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Giving_To_Cause</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Giving_to_Cause_Compact_Layout</compactLayoutAssignment>
     <description>Create a Designation for a QUT Giving Cause.</description>
     <label>Giving To Cause</label>
     <picklistValues>

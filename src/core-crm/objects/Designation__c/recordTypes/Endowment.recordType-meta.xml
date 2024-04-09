@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Endowment</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Endowment_Compact_Layout</compactLayoutAssignment>
     <description>Create a Designation for an Endowment Fund.</description>
     <label>Endowment</label>
     <picklistValues>
