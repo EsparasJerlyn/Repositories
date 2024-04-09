@@ -2569,9 +2569,9 @@ public class TestDataFactory {
             }
             if (permsetGroupMap == null) {
                 permsetGroupMap = new Map<String, Id>{};
-                list<PermissionSetGroup> pmList = [SELECT Id, Name FROM PermissionSetGroup];
+                list<PermissionSetGroup> pmList = [SELECT Id, DeveloperName FROM PermissionSetGroup];
                 for (PermissionSetGroup i : pmList) {
-                    permsetGroupMap.put(i.Name, i.Id);
+                    permsetGroupMap.put(i.DeveloperName, i.Id);
                 }
             }
             if (groupMap == null) {
