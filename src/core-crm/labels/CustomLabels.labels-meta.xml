@@ -892,4 +892,11 @@
         <shortDescription>Recalculate Lead Score Cron Expression</shortDescription>
         <value>0 0 0 ? * MON-SUN</value>
     </labels>
+    <labels>
+        <fullName>Applicant_Flag_Cron_Expression</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Applicant Flag Batch Cron Expression</shortDescription>
+        <value>0 0 0 ? * *</value>
+    </labels>
 </CustomLabels>
