@@ -308,5 +308,4 @@ private class SalesCadenceCalloutServiceTest {
             System.assert([SELECT Id FROM Completed_Cadence__c].isEmpty() , 'Completed_Cadence__c record is not created');
         }
     }
-    
 }
