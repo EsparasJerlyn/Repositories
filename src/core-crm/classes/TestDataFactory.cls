@@ -2685,7 +2685,7 @@ public class TestDataFactory {
                 roleName = '';
                 qutPersona = 'System Administrator';
                 permSets = '';
-                permSetGroups = 'Persona System Administrator';
+                permSetGroups = 'Persona_System_Administrator';
                 publicGroups = 'System Administrator';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2701,7 +2701,7 @@ public class TestDataFactory {
                 roleName = '';
                 qutPersona = 'System Administrator - Modify All Data';
                 permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins';
-                permSetGroups = 'Persona System Administrator - Modify All Data';
+                permSetGroups = 'Persona_System_Administrator_Modify_All_Data';
                 publicGroups = 'System Administrator - Modify All Data';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2717,7 +2717,7 @@ public class TestDataFactory {
                 roleName = '';
                 qutPersona = 'System Administrator - Read Only';
                 permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins';
-                permSetGroups = 'Persona System Administrator - Read Only';
+                permSetGroups = 'Persona_System_Administrator_Read_Only';
                 publicGroups = 'System Administrator - Read Only';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2733,7 +2733,7 @@ public class TestDataFactory {
                 roleName = '';
                 qutPersona = 'Development Team';
                 permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins';
-                permSetGroups = 'Persona Development Team';
+                permSetGroups = 'Persona_Development_Team';
                 publicGroups = 'Development Team';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2907,7 +2907,7 @@ public class TestDataFactory {
                 userName = 'QUTeX_Program_Administrator2';
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
-                qutPersona = 'QUTeX Program Administrator 2';
+                qutPersona = 'QUTeX Program Administrator';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
                 permSetGroups = '';
                 publicGroups = 'OPE Product Design,CCE Product Design,Program Administrator';
@@ -3005,7 +3005,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Concierge - Domestic';
                 qutPersona = 'Future Student Concierge - Domestic';
                 permSets = '';
-                permSetGroups = 'Future Student Concierge - Domestic';
+                permSetGroups = 'Future_Student_Concierge_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3021,7 +3021,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Concierge - International';
                 qutPersona = 'Future Student Concierge - International';
                 permSets = '';
-                permSetGroups = 'Future Student Concierge - International';
+                permSetGroups = 'Future_Student_Concierge_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3037,7 +3037,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Agent - Domestic';
                 qutPersona = 'Future Student Agent - Domestic';
                 permSets = '';
-                permSetGroups = 'Future Student Agent - Domestic';
+                permSetGroups = 'Future_Student_Agent_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3053,7 +3053,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Agent - Domestic';
                 qutPersona = 'Future Student Agent Super User - Domestic';
                 permSets = '';
-                permSetGroups = 'Future Student Super Agent,Future Student Agent';
+                permSetGroups = 'Future_Student_Super_Agent_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3069,7 +3069,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Super User - Domestic';
                 qutPersona = 'Future Student Super Team Leader - Domestic';
                 permSets = '';
-                permSetGroups = 'Future Student Team Leader - Domestic,Future Student Super User - Domestic';
+                permSetGroups = 'Future_Student_Team_Leader_Domestic,Future_Student_Super_User_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3085,8 +3085,8 @@ public class TestDataFactory {
                 roleName = 'Future Student Agent - International';
                 qutPersona = 'Future Student Agent - International';
                 permSets = '';
-                permSetGroups = 'Future Student Agent - International';
-                publicGroups = 'Future Students - International';
+                permSetGroups = 'Future_Student_Agent_International';
+                publicGroups = 'Future_Students_International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
@@ -3101,7 +3101,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Team Leader - Domestic';
                 qutPersona = 'Future Student Team Leader - Domestic';
                 permSets = '';
-                permSetGroups = 'Future Student Team Leader - Domestic';
+                permSetGroups = 'Future_Student_Team_Leader_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3117,7 +3117,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Team Leader - Domestic';
                 qutPersona = 'Future Student Reporting - Domestic';
                 permSets = '';
-                permSetGroups = 'Future Student Reporting - Domestic';
+                permSetGroups = 'Future_Student_Reporting_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3133,7 +3133,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Team Leader - International';
                 qutPersona = 'Future Student Team Leader - International';
                 permSets = '';
-                permSetGroups = 'Future Student Team Leader - International';
+                permSetGroups = 'Future_Student_Team_Leader_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3149,7 +3149,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Super User - Domestic';
                 qutPersona = 'Future Student Super User - Domestic';
                 permSets = '';
-                permSetGroups = 'Future Student Super User - Domestic';
+                permSetGroups = 'Future_Student_Super_User_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3165,7 +3165,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Super User - International';
                 qutPersona = 'Future Student Super Team Leader - International';
                 permSets = '';
-                permSetGroups = 'Future Student Team Leader - International;Future Student Super User - International';
+                permSetGroups = 'Future_Student_Team_Leader_International,Future_Student_Super_User_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3181,7 +3181,7 @@ public class TestDataFactory {
                 roleName = 'Future Student Super User - International';
                 qutPersona = 'Future Student Super User - International';
                 permSets = '';
-                permSetGroups = 'Future Student Super User - International';
+                permSetGroups = 'Future_Student_Super_User_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3197,7 +3197,7 @@ public class TestDataFactory {
                 roleName = 'Partnership Manager';
                 qutPersona = 'Industry Partnership Manager';
                 permSets = '';
-                permSetGroups = 'Partnership Manager';
+                permSetGroups = 'Partnership_Manager';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3213,7 +3213,7 @@ public class TestDataFactory {
                 roleName = 'Operations Manager';
                 qutPersona = 'Industry Operations Manager';
                 permSets = '';
-                permSetGroups = 'Operations Manager';
+                permSetGroups = 'Operations_Manager';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3229,7 +3229,7 @@ public class TestDataFactory {
                 roleName = 'VP Business Development';
                 qutPersona = 'Industry VP Business Development';
                 permSets = '';
-                permSetGroups = 'VPBD/Director';
+                permSetGroups = 'VPBD_Director';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager,Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3245,7 +3245,7 @@ public class TestDataFactory {
                 roleName = 'Executive Director Business Development';
                 qutPersona = 'Industry Director Business Development';
                 permSets = '';
-                permSetGroups = 'VPBD/Director';
+                permSetGroups = 'VPBD_Director';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager,Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3261,7 +3261,7 @@ public class TestDataFactory {
                 roleName = 'Industry Engagement Super User';
                 qutPersona = 'Industry Engagement Super User';
                 permSets = '';
-                permSetGroups = 'Partnership Manager,Operations Manager';
+                permSetGroups = 'Partnership_Manager,Operations_Manager';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager,Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3277,7 +3277,7 @@ public class TestDataFactory {
                 roleName = 'Alumni & Corporate Partnerships Super User';
                 qutPersona = 'Alumni & Corporate Partnerships Super User';
                 permSets = '';
-                permSetGroups = 'Alumni & Corporate Partnerships Super User';
+                permSetGroups = 'Alumni_Corporate_Partnerships_Super_User';
                 publicGroups = 'Alumni & Corporate Partnerships';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3293,7 +3293,7 @@ public class TestDataFactory {
                 roleName = 'Alumni Engagement';
                 qutPersona = 'Alumni Engagement Manager';
                 permSets = '';
-                permSetGroups = 'Alumni Engagement';
+                permSetGroups = 'Alumni_Engagement';
                 publicGroups = 'Alumni & Corporate Partnerships';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3309,7 +3309,7 @@ public class TestDataFactory {
                 roleName = 'Corporate Partnerships';
                 qutPersona = 'Corporate Partnerships Manager';
                 permSets = '';
-                permSetGroups = 'Corporate Partnerships';
+                permSetGroups = 'Corporate_Partnerships';
                 publicGroups = 'Alumni & Corporate Partnerships';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3325,7 +3325,7 @@ public class TestDataFactory {
                 roleName = 'Corporate Engagement';
                 qutPersona = 'Corporate Engagement Manager';
                 permSets = '';
-                permSetGroups = 'Corporate Engagement';
+                permSetGroups = 'Corporate_Engagement';
                 publicGroups = 'Alumni & Corporate Partnerships';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3341,7 +3341,7 @@ public class TestDataFactory {
                 roleName = 'Corporate Events';
                 qutPersona = 'Corporate Events Manager';
                 permSets = '';
-                permSetGroups = 'Corporate Events';
+                permSetGroups = 'Corporate_Events';
                 publicGroups = 'Alumni & Corporate Partnerships';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3357,7 +3357,7 @@ public class TestDataFactory {
                 roleName = 'Fundraising Manager';
                 qutPersona = 'Fundraising Manager';
                 permSets = '';
-                permSetGroups = 'Fundraising Manager';
+                permSetGroups = 'Fundraising_Manager';
                 publicGroups = 'Fundraising Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3389,7 +3389,7 @@ public class TestDataFactory {
                 roleName = 'Advancement Manager';
                 qutPersona = 'Advancement Manager';
                 permSets = '';
-                permSetGroups = 'Advancement Manager';
+                permSetGroups = 'Advancement_Manager';
                 publicGroups = 'Advancement Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3405,7 +3405,7 @@ public class TestDataFactory {
                 roleName = 'Advancement Operations Manager';
                 qutPersona = 'Advancement Operations Manager';
                 permSets = '';
-                permSetGroups = 'Advancement Operations Manager';
+                permSetGroups = 'Advancement_Operations_Manager';
                 publicGroups = 'Advancement Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3421,7 +3421,7 @@ public class TestDataFactory {
                 roleName = 'Donor Engagement Manager';
                 qutPersona = 'Donor Engagement Manager';
                 permSets = '';
-                permSetGroups = 'Donor Engagement Manager';
+                permSetGroups = 'Donor_Engagement_Manager';
                 publicGroups = 'Donor Engagement Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3437,7 +3437,7 @@ public class TestDataFactory {
                 roleName = 'Executive Director Advancement';
                 qutPersona = 'Executive Director Advancement';
                 permSets = '';
-                permSetGroups = 'Executive Director Advancement';
+                permSetGroups = 'Executive_Director_Advancement';
                 publicGroups = 'Executive Director Advancement';
                 isServiceCloudUser = false;
                 isFlowUser = false;
