@@ -81,8 +81,6 @@ public class TestDataFactory {
     private static final TestUserGenerator TEST_USER_GENERATOR = new TestUserGenerator();
     private static final List<String> USER_ATTRIB_LIST = new List<String>{
         'QUT_System_Administrator',
-        'QUT_Developer',
-        'QUT_Read_Only',
         'QUT_Sys_Admin',
         'QUT_Form_Builder',
         'QUT_Website_Integration_User',
@@ -2682,45 +2680,19 @@ public class TestDataFactory {
         private Boolean isAppExchangeUser { get; set; }
         private Boolean isPortal { get; set; }
         private Id contactId { get; set; }
+        private String qutPersona { get; set; }
 
         //move to metadata if persona is finalized
         private UserAttributeClass(String name) {
             // users below match personas on the following page https://wiki.qut.edu.au/display/DEP/User+Onboarding+Guide
             /** START - Creation of Integration/System Users */
-            if (name == 'QUT_Developer') {
-                userName = 'QUT_Developer';
-                profileName = 'Development Team Base';
-                roleName = '';
-                permSets = 'Development_Team';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = true;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            } else if (name == 'QUT_Read_Only') {
-                userName = 'QUT_Read_Only';
-                profileName = 'QUT Read Only';
-                roleName = '';
-                permSets = 'Integration_Person';
-                publicGroups = '';
-                isServiceCloudUser = true;
-                isFlowUser = true;
-                isKnowledgeUser = true;
-                isMarketingUser = false;
-                isAppExchangeAdmin = false;
-                isAppExchangeUser = false;
-                isPortal = false;
-                contactId = null;
-            } else if (name == 'QUT_System_Administrator') {
+            if (name == 'QUT_System_Administrator') {
                 userName = 'QUT_System_Administrator';
-                profileName = 'QUT System Administrator';
-                roleName = 'System Administrator';
-                permSets = 'DocuSign_Administrator,DocuSign_Generator,DocuSign_Negotiator,DocuSign_User,System_Administrator';
-                publicGroups = '';
+                profileName = 'System Administrator';
+                roleName = '';
+                permSets = '';
+                permsetGroups = 'Persona_System_Administrator';
+                publicGroups = 'System_Administrator';
                 isServiceCloudUser = true;
                 isFlowUser = true;
                 isKnowledgeUser = true;
@@ -2729,6 +2701,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = 'System Administrator';
             } else if (name == 'QUT_Sys_Admin') {
                 userName = 'QUT_Sys_Admin';
                 profileName = 'QUT System Administrator';
