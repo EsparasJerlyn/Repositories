@@ -2716,6 +2716,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Form_Builder') {
                 userName = 'QUT_Form_Builder';
                 profileName = 'Integration Forms';
@@ -2730,6 +2731,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Website_Integration_User') {
                 userName = 'QUT_Website_Integration_User';
                 profileName = 'Integration Website';
@@ -2744,6 +2746,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Marketing_Cloud') {
                 userName = 'QUT_Marketing_Cloud';
                 profileName = 'Integration Marketing';
@@ -2758,6 +2761,7 @@ public class TestDataFactory {
                 isAppExchangeUser = true;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_ESB') {
                 userName = 'QUT_ESB';
                 profileName = 'Integration';
@@ -2772,6 +2776,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Data_Migration') {
                 userName = 'QUT_Data_Migration';
                 profileName = 'Integration';
@@ -2786,6 +2791,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             }
             /** START - Creation of General Users */
             else if (name == 'QUT_Chatter_Free') {
@@ -2802,6 +2808,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             }
             /** START - Creation of QUTeX Users */
             else if (name == 'QUT_Executive_Director') {
@@ -2818,6 +2825,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Business_Manager') {
                 userName = 'QUT_Business_Manager';
                 profileName = 'QUTeX';
@@ -2832,6 +2840,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_OPE_Director') {
                 userName = 'QUT_OPE_Director';
                 profileName = 'QUTeX';
@@ -2846,6 +2855,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Portfolio_Coordinator') {
                 userName = 'QUT_Portfolio_Coordinator';
                 profileName = 'QUTeX';
@@ -2860,6 +2870,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Product_Admin') {
                 userName = 'QUT_Product_Admin';
                 profileName = 'QUTeX';
@@ -2874,6 +2885,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Learning_Innovation_Manager') {
                 userName = 'QUT_Learning_Innovation_Manager';
                 profileName = 'QUTeX';
@@ -2888,6 +2900,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Learning_Designer') {
                 userName = 'QUT_Learning_Designer';
                 profileName = 'QUTeX';
@@ -2902,6 +2915,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Partnership_Manager') {
                 userName = 'QUT_Partnership_Manager';
                 profileName = 'QUTeX';
@@ -2917,6 +2931,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Program_Coordinator') {
                 userName = 'QUT_Program_Coordinator';
                 profileName = 'QUTeX';
@@ -2931,6 +2946,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Program_Administrator') {
                 userName = 'QUT_Program_Administrator';
                 profileName = 'QUTeX';
@@ -2945,6 +2961,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_IE_Partnership_Manager') {
                 userName = 'QUT_IE_Partnership_Manager';
                 profileName = 'Industry Engagement';
@@ -2959,6 +2976,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Operations_Manager') {
                 userName = 'QUT_Operations_Manager';
                 profileName = 'Industry Engagement';
@@ -2973,6 +2991,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Domestic_Future_Student_Agent') {
                 userName = 'QUT_Domestic_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
@@ -2987,6 +3006,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             }else if (name == 'QUT_International_Future_Student_Agent') {
                 userName = 'QUT_International_Future_Student_Agent';
                 profileName = 'Future Student Engagement';
@@ -3001,6 +3021,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             }
             /** START - Creation of  Marketing Users */
             else if (name == 'QUT_Marketing_Manager') {
@@ -3017,6 +3038,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Quality_Assurance') {
                 userName = 'QUT_Quality_Assurance';
                 profileName = 'QUTeX';
@@ -3031,6 +3053,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Digital_Marketing_Officer') {
                 userName = 'QUT_Digital_Marketing_Officer';
                 profileName = 'Digital Marketing';
@@ -3045,6 +3068,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             } else if (name == 'QUT_Digital_Communication_Officer') {
                 userName = 'QUT_Digital_Communication_Officer';
                 profileName = 'QUTeX';
@@ -3059,6 +3083,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false;
                 contactId = null;
+                qutPersona = '';
             }
         }
 
@@ -3077,6 +3102,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
+                qutPersona = '';
             } else if (name == 'QUT_Corporate_Partner_User') {
                 userName = 'QUT_Corporate_Partner_User';
                 profileName = 'Corporate Partner';
@@ -3091,6 +3117,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
+                qutPersona = '';
             } else if (name == 'QUT_OPE_Catalogue') {
                 userName = 'QUT_OPE_Catalogue';
                 profileName = 'OPE Catalogue';
@@ -3105,6 +3132,7 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
+                qutPersona = '';
             }
         }
     }
