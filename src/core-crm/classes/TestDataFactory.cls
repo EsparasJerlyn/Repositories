@@ -136,7 +136,9 @@ public class TestDataFactory {
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
-        'QUT_Corporate_Partner_User'
+        'QUT_Corporate_Partner_Admin',
+        'QUT_Corporate_Partner_User',
+        'QUT_OPE_Catalogue'
     };
     private static User portalSysAdmin;
 
@@ -3479,7 +3481,21 @@ public class TestDataFactory {
         }
 
         private UserAttributeClass(String name, Id conId) { 
-            if (name == 'QUT_Corporate_Partner_User') {    //need to reassess - Used in other classes
+            if (name == 'QUT_Corporate_Partner_Admin') {        //need to reassess - Used in other classes
+                userName = 'QUT_Corporate_Partner_Admin';
+                profileName = 'Corporate Partner';
+                roleName = '';
+                permSets = 'Corporate_Partner';
+                publicGroups = '';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = true;
+                contactId = conId;
+            } else if (name == 'QUT_Corporate_Partner_User') {  //need to reassess - Used in other classes
                 userName = 'QUT_Corporate_Partner_User';
                 profileName = 'Corporate Partner';
                 roleName = '';
@@ -3493,7 +3509,21 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = true;
                 contactId = conId;
-            } 
+            } else if (name == 'QUT_OPE_Catalogue') {       //need to reassess - Used in other classes
+                userName = 'QUT_OPE_Catalogue';
+                profileName = 'OPE Catalogue';
+                roleName = 'OPECatalogueCustomerUser';
+                permSets = 'OPE_Catalogue';
+                publicGroups = '';
+                isServiceCloudUser = false;
+                isFlowUser = false;
+                isKnowledgeUser = false;
+                isMarketingUser = false;
+                isAppExchangeAdmin = false;
+                isAppExchangeUser = false;
+                isPortal = true;
+                contactId = conId;
+            }
         }
     }
 
