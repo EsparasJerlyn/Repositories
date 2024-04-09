@@ -2298,16 +2298,23 @@ public class TestDataFactory {
         private Map<String, Id> profileMap;
         private Map<String, Id> roleMap;
         private Map<String, Id> permSetMap;
+        private Map<String, Id> permsetGroupMap;
         private List<User> addUsers = new List<User>{};
         private List<String> addPermSets = new List<String>{};
+        private List<String> addPermsetGroups = new List<String>{};
         private List<String> addGroups = new List<String>{};
         private Map<String, String> usermap;
 
+        /**
+         * Method that will create User Persona based on the provided list of usernames
+         */
         private List<User> generateTestUsers(List<String> userNames) {
             //instantiate list of users to be inserted
             addUsers = new List<User>();
             //instantiate list of permission set assignments
             addPermSets = new List<String>();
+            //instantiate list of permissionset group assignments
+            addPermsetGroups = new List<String>();
             //instantitate list of group assignments
             addGroups = new List<String>();
             List<String> listPortalUserNames = new List<String>();
@@ -2340,11 +2347,16 @@ public class TestDataFactory {
             return addUsers;
         }
 
+        /**
+         * Method that will create All Persona in DEP
+         */
         private List<User> generateTestUsers() {
             //instantiate list of users to be inserted
             addUsers = new List<User>();
             //instantiate list of permission set assignments
             addPermSets = new List<String>();
+            //instantiate list of permissionset group assignments
+            addPermsetGroups = new List<String>();
             //instantitate list of group assignments
             addGroups = new List<String>();
             //get portal sys admin user as running user for creating new users
@@ -2410,6 +2422,7 @@ public class TestDataFactory {
             u.alias = uid;
             u.ProfileId = profileMap.get(userClass.profileName);
             u.UserRoleId = roleMap.get(userClass.roleName);
+            u.QUT_Persona__c = userClass.qutPersona;
             u.LocaleSidKey = 'en_AU';
             u.EmailEncodingKey = 'UTF-8';
             u.LanguageLocaleKey = 'en_US';
@@ -2427,6 +2440,8 @@ public class TestDataFactory {
 
             // add permission sets
             collectPermissionSetAssignment(userClass.permSets, u);
+            // add permissiosetgroups
+            collectPermissionsetGrounpAssignment(userClass.permsetGroups, u);
             // add addGroups
             collectPublicGroupAssignment(userClass.publicGroups, u);
         }
@@ -2448,6 +2463,23 @@ public class TestDataFactory {
             }
         }
 
+        private void collectPermissionsetGroupAssignment(String permsetGroups, User u) {
+            // add permission sets
+            if (permsetGroups != null && permsetGroups != '') {
+                if (permsetGroups.contains(',')) {
+                    // has multiple perm sets
+                    List<String> res = permsetGroups.split(',');
+                    for (String r : res) {
+                        String permsetGroup = r.trim();
+                        addPermSets.add(u.UserName + '%%' + permsetGroup);
+                    }
+                } else {
+                    // has single permset group
+                    addPermSets.add(u.UserName + '%%' + permsetGroups.trim());
+                }
+            }
+        }
+
         private void collectPublicGroupAssignment(String publicGroups, User u) {
             // add addGroups
             if (publicGroups != null && publicGroups != '') {
@@ -2465,9 +2497,10 @@ public class TestDataFactory {
         }
 
         private void addPermissionAssignment() {
+            List<PermissionSetAssignment> addPS = new List<PermissionSetAssignment>{};
+
             // insert perm sets if not null
             if (addPermSets != null && addPermSets.size() > 0) {
-                list<PermissionSetAssignment> addPS = new List<PermissionSetAssignment>{};
                 for (String i : addPermSets) {
                     List<String> res = i.split('%%');
                     addPS.add(
@@ -2477,6 +2510,22 @@ public class TestDataFactory {
                         )
                     );
                 }
+            }
+
+            // insert permsetgroups if not null
+            if (addPermsetGroups != null && addPermsetGroups.size() > 0) {
+                for (String i : addPermsetGroups) {
+                    List<String> res = i.split('%%');
+                    addPS.add(
+                        new PermissionSetAssignment(
+                            PermissionSetId = permsetGroupMap.get(res[1]),
+                            AssigneeId = usermap.get(res[0])
+                        )
+                    );
+                }
+            }
+
+            if(addPS != null){
                 insert addPS;
             }
         }
@@ -2518,6 +2567,13 @@ public class TestDataFactory {
                 list<PermissionSet> pmList = [SELECT Id, Name FROM PermissionSet];
                 for (PermissionSet i : pmList) {
                     permSetMap.put(i.Name, i.Id);
+                }
+            }
+            if (permsetGroupMap == null) {
+                permsetGroupMap = new Map<String, Id>{};
+                list<PermissionSetGroup> pmList = [SELECT Id, Name FROM PermissionSetGroup];
+                for (PermissionSetGroup i : pmList) {
+                    permsetGroupMap.put(i.Name, i.Id);
                 }
             }
             if (groupMap == null) {
