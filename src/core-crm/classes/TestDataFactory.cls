@@ -2671,6 +2671,7 @@ public class TestDataFactory {
         private String profileName { get; set; }
         private String roleName { get; set; }
         private String permSets { get; set; }
+        private String permsetGroups { get; set; }
         private String publicGroups { get; set; }
         private Boolean isServiceCloudUser { get; set; }
         private Boolean isFlowUser { get; set; }
@@ -2707,6 +2708,7 @@ public class TestDataFactory {
                 profileName = 'QUT System Administrator';
                 roleName = 'System Administrator';
                 permSets = 'System_Administrator';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2722,6 +2724,7 @@ public class TestDataFactory {
                 profileName = 'Integration Forms';
                 roleName = 'None';
                 permSets = 'Permission_API_Only_User,Integration_Forms';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2737,6 +2740,7 @@ public class TestDataFactory {
                 profileName = 'Integration Website';
                 roleName = 'None';
                 permSets = 'Permission_API_Only_User,Permission_API_Enabled,Lead_Forms,Product_Catalogue_Read_Only,Website_Connected_App';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2752,6 +2756,7 @@ public class TestDataFactory {
                 profileName = 'Integration Marketing';
                 roleName = 'None';
                 permSets = 'Permission_API_Only_User,Integration_Marketing,Marketing_Cloud_Connected_App';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2767,6 +2772,7 @@ public class TestDataFactory {
                 profileName = 'Integration';
                 roleName = 'None';
                 permSets = 'Permission_API_Only_User,Integration_Person,Integration_Webcart';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2782,6 +2788,7 @@ public class TestDataFactory {
                 profileName = 'Integration';
                 roleName = 'None';
                 permSets = 'Permission_API_Only_User,Integration_Person';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2799,6 +2806,7 @@ public class TestDataFactory {
                 profileName = 'Chatter Free User';
                 roleName = '';
                 permSets = '';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2816,6 +2824,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Leadership';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Marketing,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2831,6 +2840,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Leadership';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2846,6 +2856,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2861,6 +2872,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2876,6 +2888,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2891,6 +2904,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2906,6 +2920,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2922,6 +2937,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Super User';
                 //TODO: Add Product_Administration permset when approved in Onboarding Guide
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2937,6 +2953,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX User';
                 permSets = 'QUTeX_Base,QUTeX_CCE';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2952,6 +2969,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'QUTeX Super User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
+                permsetGroups = '';
                 publicGroups = 'CCE Product Design,OPE Product Design';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2967,6 +2985,7 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Partnership Manager';
                 permSets = 'Business_Development_Base';
+                permsetGroups = '';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2982,6 +3001,7 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Operations Manager';
                 permSets = 'Business_Development_Base';
+                permsetGroups = '';
                 publicGroups = 'Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2997,6 +3017,7 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_Domestic_Email_Access';
+                permsetGroups = '';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3012,6 +3033,7 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - International';
                 permSets = 'Future_Student_Engagement,Run_Reports_and_Dashboards,Lightning_Scheduler_Administrator_V2,Lightning_Scheduler_User_V2,Future_Student_International_Email_Access';
+                permsetGroups = '';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3029,6 +3051,7 @@ public class TestDataFactory {
                 profileName = 'Digital Marketing';
                 roleName = 'Marketing Super User';
                 permSets = 'Marketing';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3044,6 +3067,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'Marketing User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3059,6 +3083,7 @@ public class TestDataFactory {
                 profileName = 'Digital Marketing';
                 roleName = 'Marketing User';
                 permSets = 'Marketing';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3074,6 +3099,7 @@ public class TestDataFactory {
                 profileName = 'QUTeX';
                 roleName = 'Marketing User';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3093,6 +3119,7 @@ public class TestDataFactory {
                 profileName = 'Corporate Partner';
                 roleName = '';
                 permSets = 'Corporate_Partner';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3108,6 +3135,7 @@ public class TestDataFactory {
                 profileName = 'Corporate Partner';
                 roleName = '';
                 permSets = 'Corporate_Partner';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3123,6 +3151,7 @@ public class TestDataFactory {
                 profileName = 'OPE Catalogue';
                 roleName = 'OPECatalogueCustomerUser';
                 permSets = 'OPE_Catalogue';
+                permsetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
