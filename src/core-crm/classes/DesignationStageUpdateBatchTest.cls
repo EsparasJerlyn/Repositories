@@ -60,8 +60,8 @@ private class DesignationStageUpdateBatchTest {
             );
             designationList[0].Public_Giving_Publish_Start_Date__c = System.Today() + 1;
             designationList[0].Ready_For_Publishing__c = true;
-            designationList[0].Public_Giving_Publish_End_Date__c = System.Today();
-            designationList[0].Activation_End_Date__c = System.Today() + 1;
+            designationList[0].Public_Giving_Publish_End_Date__c = System.Today() + 2;
+            designationList[0].Activation_End_Date__c = System.Today() + 2;
             designationList[0].QA_Completed__c = true;
 
             DesignationsDAO.newInstance()
