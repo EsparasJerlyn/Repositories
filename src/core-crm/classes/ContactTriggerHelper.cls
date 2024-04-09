@@ -682,7 +682,7 @@ public without sharing class ContactTriggerHelper {
                 assignContactToCadenceMap,
                 removeContactToCadenceMap
             );
-            SalesCadenceCalloutService.updateCompletedCadences(assignContactToCadenceMap);
+            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(assignContactToCadenceMap,removeContactToCadenceMap);
         }
     }
     /**
