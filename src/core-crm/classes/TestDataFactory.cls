@@ -2439,7 +2439,7 @@ public class TestDataFactory {
             // add permission sets
             collectPermissionSetAssignment(userClass.permSets, u);
             // add permissiosetgroups
-            collectPermissionsetGrounpAssignment(userClass.permsetGroups, u);
+            collectPermissionsetGroupAssignment(userClass.permsetGroups, u);
             // add addGroups
             collectPublicGroupAssignment(userClass.publicGroups, u);
         }
