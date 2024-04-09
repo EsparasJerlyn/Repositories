@@ -17,6 +17,7 @@
       | mark.j.mahilum                 | Nov 11, 2023          | DEPP-7110              | Added logic to delete SMS     |
       |                                |                       |                        | completed tasks               |
       | mark.j.mahilum                 | April 01, 2024        | DEPP-8370              | Added checking for mobilephone|
+      | mark.j.mahilum                 | April 08, 2024        | DEPP-8307              | Removed -1 days to duedate    |
  */
 public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
@@ -85,7 +86,7 @@ public with sharing class ActionCadenceStepTrackerTriggerHelper {
 
             if(ac.StepType =='SendAnEmail'){
                 Id emailAddressId = resolveOrgWideEmailAddress(ac, orgWideEmailAddress);
-                Date dueDate = ac.DueDateTime != NULL? Date.valueOf(ac.DueDateTime).addDays(-1):Date.today(); 
+                Date dueDate = ac.DueDateTime != NULL? Date.valueOf(ac.DueDateTime):Date.today(); 
                 commsQueueToInsert.add(
                     new Communication_Queue__c(
                         ActionCadenceStepTrackerId__c = ac.Id,

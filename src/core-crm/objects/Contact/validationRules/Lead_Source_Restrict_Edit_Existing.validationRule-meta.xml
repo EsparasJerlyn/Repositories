@@ -4,7 +4,8 @@
     <active>true</active>
     <errorConditionFormula>AND(
  NOT(ISBLANK(TEXT(PRIORVALUE(LeadSource)))),
- ISCHANGED(LeadSource)
+ ISCHANGED(LeadSource),
+ RecordType.Name = &apos;Person&apos;
 )</errorConditionFormula>
     <errorDisplayField>LeadSource</errorDisplayField>
     <errorMessage>Lead Source cannot be changed from it’s initial value</errorMessage>

@@ -25,7 +25,8 @@
  *    | johanna.a.gibas                | Nov 16, 2023          | DEPP-7118              | Replaced Closed - Contacted with Closed - No Further Action Required |
  *    | roy.nino.s.regala              | Jan 3, 2024           | Shutdown PMD Fix       | Fixed method complexity pmd issues                                   |
  *    | johanna.a.gibas                | Jan 15, 2024          | DEPP-7596              | Changed getCompletedCadenceStatusMap datatype to Completed_Cadence,  |
- *    |                                |                       |                        |   and added QTAC Offer Round in updateTasks                          | 
+ *    |                                |                       |                        |   and added QTAC Offer Round in updateTasks                          |
+ *    | mark.j.mahilum                 | April 08, 2024        | DEPP-8377              | Fixed callout issue and removed DML inside service callout           |
  */
 public with sharing class SalesCadenceCalloutService {//NOPMD this is a service class. high number of public methods and overall complexity are expected.
     
@@ -61,19 +62,10 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
                 wrapper.addInputData(assignCadenceMap.get(key), key,null);  
             }
         }
-   		
-        Boolean isSendingRequestCompleted = false;
         
         if(!wrapper.inputs.isEmpty()){
-            isSendingRequestCompleted = sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT);            
-        }else{
-            isSendingRequestCompleted = true;
+            sendRequest(JSON.serialize(wrapper,true), ASSIGN_TARGET_CADENCE_ENDPOINT);            
         }
-        
-        if(isSendingRequestCompleted){
-            //create initial completed completed cadence without status
-            createInitialCompletedCadences(assignCadenceMap); 
-        }       
     }
     
     /**
@@ -100,28 +92,16 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         ) {
             targetIdRunningCadence.add(aCadenceTracker.TargetId);
         }
-        
-        Map<String,String> manualRemoveCadenceMap = new Map<String,String>();
-        
+                
         for(String key: removeCadenceMap.keySet()){
             if(targetIdRunningCadence.contains(key)){
                 wrapper.addInputData(null, key,'ManuallyRemoved');                                                   
-            }else if(!removeCadenceMap.get(key).containsIgnoreCase('automated')){
-                manualRemoveCadenceMap.put(key,removeCadenceMap.get(key));
             }
         }
         
-        Boolean isSendingRequestCompleted = false;
-        
         if(!wrapper.inputs.isEmpty()){
-            isSendingRequestCompleted = sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT);
-        }else{
-            isSendingRequestCompleted = true;
-        }
-        
-        if(!manualRemoveCadenceMap.isEmpty() && isSendingRequestCompleted){
-            createCompletedCadence(manualRemoveCadenceMap,null);
-        }
+            sendRequest(JSON.serialize(wrapper,true),REMOVE_TARGET_CADENCE_ENDPOINT);
+        }  
     }
 
     /**
@@ -680,5 +660,33 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
         return actMap;
     }
-    
+	/**
+     * @description Create completed cadence when the assignedCadenceMap has value
+     *              Update completed cadence status when the removedCadenceMap has value
+     * 
+     * @param Map<String, String> assignedCadenceMap
+     * @param Map<String, String> removedCadenceMap
+     */    
+    public static void updateCreateCompletedCadenceRecords(Map<String, String> assignedCadenceMap, Map<String, String> removedCadenceMap) {      
+        
+        if(!assignedCadenceMap.isEmpty()){
+            //create initial completed completed cadence without status
+            createInitialCompletedCadences(assignedCadenceMap); 
+            updateCompletedCadences(assignedCadenceMap);
+        }
+        
+        if(!removedCadenceMap.isEmpty()){
+            Map<String,String> manualRemoveCadenceMap = new Map<String,String>();
+            
+            for(String key: removedCadenceMap.keySet()){
+                if(!removedCadenceMap.get(key).containsIgnoreCase('automated')){
+                    manualRemoveCadenceMap.put(key,removedCadenceMap.get(key));
+                }
+            }
+            
+            if(!manualRemoveCadenceMap.isEmpty()){
+                createCompletedCadence(manualRemoveCadenceMap,null);   
+            }               
+        } 
+    }
 }
