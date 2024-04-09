@@ -21,6 +21,7 @@
  *    |                                |                       |                        | getApplicationsByContactIds                                                   |
  *    | arsenio.jr.dayrit              | November 20, 2023     | DEPP-7268              | Added Offered_Program_Plan__r.Program_Level__c field in                       |         
  *    |                                |                       |                        | getAppsWithLatestCalculatedIntakeDateByApplicantIds                           |
+ *    | sebastianne.k.trias            | March 28, 2024        | DEPP-8382              | Added queryApplicationsByPastIntakeDateAndActiveApplicants method             |
  *    | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Added static values for application status                                    |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
@@ -307,6 +308,19 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         );
     }
 
+    public Database.QueryLocator queryApplicationsByPastIntakeDateAndActiveApplicants(
+        String accessLevel
+    ) {
+        String query =
+            'SELECT Id, hed__Applicant__c, hed__Applicant__r.QUT_Applicant__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE hed__Applicant__r.QUT_Applicant__c = true ' +
+            'AND Calculated_Intake_Date__c < TODAY ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel);
+        return Database.getQueryLocator(query);
+    }
+
     public List<hed__Application__c> getApplicationsByLeadIdOrContactId(Set<String> recordIds, String accessLevel) {
         return Database.query(
             'SELECT Id, hed__Applicant__c,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c, Lead__c,hed__Application_Date__c,Lead__r.Lead_Score__c, Application_Status__c,RecordTypeId, ' +
@@ -319,5 +333,5 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         );
     }
 
-    
+
 }
