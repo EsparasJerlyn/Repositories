@@ -72,7 +72,7 @@ public with sharing class LeadService {
                 assignLeadToCadenceMap,
                 removeLeadToCadenceMap
             );
-            SalesCadenceCalloutService.updateCompletedCadences(assignLeadToCadenceMap);
+            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(assignLeadToCadenceMap,removeLeadToCadenceMap);
         }
     }
 

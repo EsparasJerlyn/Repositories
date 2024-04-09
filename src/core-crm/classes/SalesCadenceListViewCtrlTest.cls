@@ -320,4 +320,5 @@ public with sharing class SalesCadenceListViewCtrlTest {
             Test.stopTest();
         }
     }
+    
 }
