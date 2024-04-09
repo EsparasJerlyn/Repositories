@@ -83,6 +83,7 @@ public class ImplementationSelector {
             Donation__c.SObjectType => DonationsDAO.class,
             Donation_Cause_Code_Auto_Number__c.SObjectType => DonationCauseCodeAutoNumbersDAO.class,
             Donation_Cause__c.SObjectType => DonationCausesDAO.class,
+            Designation__c.SObjectType => DesignationsDAO.class,
             EmailTemplate.SObjectType => EmailTemplatesDAO.class,
             Engagement__c.SObjectType => EngagementsDAO.class,
             Engagement_Code_Auto_Number__c.SobjectType => EngagementCodeAutoNumbersDAO.class,

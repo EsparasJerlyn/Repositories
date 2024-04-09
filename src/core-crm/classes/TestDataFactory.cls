@@ -4344,6 +4344,29 @@ public class TestDataFactory {
         return donationCauseList;
     }
 
+        /**
+     * @description Method for creating test Designation records
+     * @params
+     * numOfRecords - number of records to create
+     * @return designationList - List of Designation records created
+     */
+    public static List<Designation__c> createDesignationRecords(
+        Integer numOfRecords
+    ) {
+        List<Designation__c> designationList = new List<Designation__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            designationList.add(
+                new Designation__c(
+                    Activation_Start_Date__c = System.Today(),
+                    Designation_Code__c = 'TESTCODE' + i,
+                    Name = 'Test Donation' + i,
+                    Description__c = 'Test'
+                )
+            );
+        }
+        return designationList;
+    }
+
     /**
      * @description Method for creating test Donation records
      * @params
