@@ -2469,11 +2469,11 @@ public class TestDataFactory {
                     List<String> res = permsetGroups.split(',');
                     for (String r : res) {
                         String permsetGroup = r.trim();
-                        addPermSets.add(u.UserName + '%%' + permsetGroup);
+                        addPermsetGroups.add(u.UserName + '%%' + permsetGroup);
                     }
                 } else {
                     // has single permset group
-                    addPermSets.add(u.UserName + '%%' + permsetGroups.trim());
+                    addPermsetGroups.add(u.UserName + '%%' + permsetGroups.trim());
                 }
             }
         }
