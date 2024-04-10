@@ -2161,6 +2161,21 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for getting Program Administrator
+     * @param void
+     * @return portalSysAdmin - QUTeX Program Admin User
+     */
+    public static User getMarketingCloudUser() {
+        User marketingCloud = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'QUT_Marketing_Cloud%'
+            LIMIT 1
+        ];
+        return marketingCloud;
+    }
+
+    /**
      * @description Method for creating Sys Admin Portal Owner
      * @param void
      * @return portalSysAdmin - Portal Sys Admin user
@@ -3477,6 +3492,20 @@ public class TestDataFactory {
                 isAppExchangeUser = false;
                 isPortal = false; 
                 contactId = null;
+            }else if (name == 'QUT_Marketing_Cloud') {
+                userName = 'QUT_Marketing_Cloud';
+                profileName = 'Integration Marketing';
+                roleName = 'None';
+                permSets = 'Permission_API_Only_User,Integration_Marketing,Marketing_Cloud_Connected_App';
+                publicGroups = '';
+                isServiceCloudUser = true;
+                isFlowUser = true;
+                isKnowledgeUser = false;
+                isMarketingUser = true;
+                isAppExchangeAdmin = true;
+                isAppExchangeUser = true;
+                isPortal = false;
+                contactId = null;
             }
         }
 
@@ -3513,6 +3542,7 @@ public class TestDataFactory {
                 userName = 'QUT_OPE_Catalogue';
                 profileName = 'OPE Catalogue';
                 roleName = 'OPECatalogueCustomerUser';
+                qutPersona = 'Marketing Integration User',
                 permSets = 'OPE_Catalogue';
                 publicGroups = '';
                 isServiceCloudUser = false;
