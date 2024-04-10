@@ -21,6 +21,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Distribution_Management__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Engagement__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
