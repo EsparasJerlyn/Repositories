@@ -14,8 +14,10 @@ function exec(cmd, options) {
     return output;
 }
 
-const shouldFieldBeAddedToPermissionSet = function(field){
-    if(field['type'] != 'MasterDetail' && !field['required']){
+const shouldFieldBeAddedToPermissionSet = function(field_file_Result){
+    const fieldRequired = field_file_Result?.CustomField?.required?.[0] ?? null;
+    const fieldType = field_file_Result?.CustomField?.type?.[0] ?? null;
+    if(fieldType != 'MasterDetail' && fieldRequired != 'true'){
         return true;
     }
     return false;
@@ -23,7 +25,6 @@ const shouldFieldBeAddedToPermissionSet = function(field){
 
 const shouldFieldBeReadOnly = function(new_field){
     if(new_field.fieldType == 'Summary' || new_field.fieldFormula){
-        //console.log(`shouldFieldBeReadOnly = true`);
         return true;
     }
     return false;
@@ -32,13 +33,10 @@ const shouldFieldBeReadOnly = function(new_field){
 const start = async function(){
     
     const diff = exec(`git diff --cached --name-only --diff-filter=ACMRTUXB`, {trim: true});
-    //console.log('diff: ',diff)
     const lines = diff.split("\n");
-    //console.log('lines: ',lines)
 
     let new_fields = [];
     for (const line of lines){
-        //console.log('line: ',line)
         let match = line.match('(.+)(objects)(\/)(.+)(\/)(fields\/)(.+)(\.field-meta.xml)');
         if(!match) {
             continue;
@@ -51,7 +49,7 @@ const start = async function(){
         const ObjectPlusField = object_name+'.'+field_name
         const fieldFormula = field_file_Result?.CustomField?.formula?.[0] ?? null;
         const fieldType = field_file_Result?.CustomField?.type?.[0] ?? null;
-
+        
         if(shouldFieldBeAddedToPermissionSet(field_file_Result)){
             console.log('Pushing shouldFieldBeAddedToPermissionSet: ',ObjectPlusField)
             new_fields.push({ ObjectPlusField, fieldFormula, fieldType });
@@ -83,9 +81,7 @@ const start = async function(){
         }
 
         for(const new_field of new_fields){
-            
             console.log(`Adding field: ${new_field.ObjectPlusField} to ${permissionSet}`);
-
             var field_permission;
             var fieldReadWriteStatus = 'read'
 
