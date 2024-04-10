@@ -121,7 +121,10 @@ public class TestDataFactory {
         'Industry_Operations_Manager',
         'Industry_VP_Business_Development',
         'Industry_Director_Business_Development',
-        'Industry_Engagement_Super_User'
+        'Industry_Engagement_Super_User',
+        'QUT_Marketing_Cloud'
+
+
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
         'QUT_Corporate_Partner_Admin',
