@@ -3496,6 +3496,7 @@ public class TestDataFactory {
                 userName = 'QUT_Marketing_Cloud';
                 profileName = 'Integration Marketing';
                 roleName = 'None';
+                qutPersona = 'Marketing Integration User';
                 permSets = 'Permission_API_Only_User,Integration_Marketing,Marketing_Cloud_Connected_App';
                 publicGroups = '';
                 isServiceCloudUser = true;
@@ -3542,7 +3543,6 @@ public class TestDataFactory {
                 userName = 'QUT_OPE_Catalogue';
                 profileName = 'OPE Catalogue';
                 roleName = 'OPECatalogueCustomerUser';
-                qutPersona = 'Marketing Integration User',
                 permSets = 'OPE_Catalogue';
                 publicGroups = '';
                 isServiceCloudUser = false;
