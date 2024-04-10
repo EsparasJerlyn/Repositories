@@ -14,8 +14,12 @@ function exec(cmd, options) {
     return output;
 }
 
-const shouldFieldBeAddedToPermissionSet = function(field){
-    if(field['type'] != 'MasterDetail' && !field['required']){
+const shouldFieldBeAddedToPermissionSet = function(field_file_Result){
+    const fieldRequired = field_file_Result?.CustomField?.required?.[0] ?? null;
+    const fieldType = field_file_Result?.CustomField?.type?.[0] ?? null;
+    //console.log(`fieldType: ${fieldType}`);
+    //console.log(`fieldRequired: ${fieldRequired}`);
+    if(fieldType != 'MasterDetail' && fieldRequired != 'true'){
         return true;
     }
     return false;
@@ -51,7 +55,7 @@ const start = async function(){
         const ObjectPlusField = object_name+'.'+field_name
         const fieldFormula = field_file_Result?.CustomField?.formula?.[0] ?? null;
         const fieldType = field_file_Result?.CustomField?.type?.[0] ?? null;
-
+        
         if(shouldFieldBeAddedToPermissionSet(field_file_Result)){
             console.log('Pushing shouldFieldBeAddedToPermissionSet: ',ObjectPlusField)
             new_fields.push({ ObjectPlusField, fieldFormula, fieldType });
