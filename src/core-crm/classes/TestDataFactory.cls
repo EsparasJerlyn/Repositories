@@ -132,7 +132,8 @@ public class TestDataFactory {
         'Advancement_Manager',
         'Advancement_Operations_Manager',
         'Donor_Engagement_Manager',
-        'Executive_Director_Advancement'
+        'Executive_Director_Advancement',
+        'QUT_Marketing_Cloud'
 
     };
     private static final List<String> PORTAL_USERS_SET = new List<String>{
