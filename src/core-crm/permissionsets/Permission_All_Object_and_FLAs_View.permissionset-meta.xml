@@ -3873,6 +3873,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Donation__c.From_Designation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Donation__c.Has_Designation_Split__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3959,6 +3964,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Donation__c.Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Donation__c.To_Designation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
