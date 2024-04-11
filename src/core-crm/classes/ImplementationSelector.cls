@@ -47,6 +47,7 @@
  *    | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Added object mapping for Plan_Activity object                 |
  *    | nicole.genon                   | March 7, 2023         | DEPP-7922              | Added object mapping for Stewardship__c Object                | 
  *    | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Added object mapping for Donation_Cause_Code_Auto_Number__c Object               | 
+ *    | kenneth.f.alsay                | April 8, 2024         | DEPP-8399              | Added object mapping for Distribution_Management__c object    |
  */
 public class ImplementationSelector { 
 
@@ -78,7 +79,9 @@ public class ImplementationSelector {
             ContentVersion.SObjectType => ContentVersionsDAO.class,
             Contextual_Role__c.SObjectType => ContextualRolesDAO.class,
             Consultancy__c.SObjectType => ConsultanciesDAO.class,
+            Designation__c.SObjectType => DesignationsDAO.class,
             Designation_Code_Auto_Number__c.SObjectType => DesignationCodeAutoNumbersDAO.class,
+            Distribution_Management__c.SObjectType => DistributionManagementsDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
             Donation__c.SObjectType => DonationsDAO.class,
             Donation_Cause_Code_Auto_Number__c.SObjectType => DonationCauseCodeAutoNumbersDAO.class,
@@ -210,4 +213,3 @@ public class ImplementationSelector {
     public class DeveloperException extends Exception {
     }
 }
-

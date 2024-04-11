@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
       | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseIdTest
+      | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationIdTest & getProductByDesignationIdNotEmptyTest
  */
 @isTest
 public with sharing class ProductsDAOTest {
@@ -94,6 +95,38 @@ public with sharing class ProductsDAOTest {
                 ProductsDAO.newInstance()
                     .getProductByDonationCauseId(
                         new Set<Id>{builderForDonationCause.getMockId()},
+                        AccessLevel.SYSTEM_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getProductByDesignationIdTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductByDesignationId(
+                        new Set<Id>(),
+                        AccessLevel.USER_MODE)
+                    .isEmpty(),
+                'product retrieved is not empty'
+            );
+        }
+        Test.stopTest();
+    }
+
+    static void getProductByDesignationIdNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            MockIdGenerator builderForDesigntation = new MockIdGenerator(Designation__c.sObjectType);
+            System.assert(
+                ProductsDAO.newInstance()
+                    .getProductByDesignationId(
+                        new Set<Id>{builderForDesigntation.getMockId()},
                         AccessLevel.SYSTEM_MODE)
                     .isEmpty(),
                 'product retrieved is not empty'

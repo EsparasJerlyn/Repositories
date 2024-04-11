@@ -72,6 +72,7 @@
  *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
  *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
  *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                 |
+ *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                        |
  **/
 
 @isTest
@@ -4322,6 +4323,27 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating test Distribution Management records
+     * @params
+     * numOfRecords - number of records to create
+     * status - status of the records to create
+     * @return distributionManagementList - List of Distribution Management records created
+     */
+    public static List<Distribution_Management__c> createDistributionManagementRecords(
+        Integer numOfRecords,
+        String status
+    ) {
+        List<Distribution_Management__c> distributionManagementList = new List<Distribution_Management__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            distributionManagementList.add(
+                new Distribution_Management__c(
+                    Status__c = status
+                )
+            );
+        }
+        return distributionManagementList;
+    }
+    /**
      * @description Method for creating test Donation Causes records
      * @params
      * numOfRecords - number of records to create
@@ -4344,7 +4366,7 @@ public class TestDataFactory {
         return donationCauseList;
     }
 
-        /**
+    /**
      * @description Method for creating test Designation records
      * @params
      * numOfRecords - number of records to create
@@ -4359,7 +4381,7 @@ public class TestDataFactory {
                 new Designation__c(
                     Activation_Start_Date__c = System.Today(),
                     Designation_Code__c = 'TESTCODE' + i,
-                    Name = 'Test Donation' + i,
+                    Name = 'Test Designation ' + i,
                     Description__c = 'Test'
                 )
             );
@@ -4389,4 +4411,4 @@ public class TestDataFactory {
         }
         return donationCauseList;
     }
-} 
+}

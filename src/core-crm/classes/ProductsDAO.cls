@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
       | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseId
+      | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationId
  */
 public inherited sharing class ProductsDAO extends DmlBase implements IProductsDAO{
 
@@ -50,4 +51,19 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             accessLevel
         );
     }
+    
+    public List<Product2> getProductByDesignationId(
+        Set<Id> designationIds,
+        AccessLevel accessLevel
+    ){
+        if(designationIds.isEmpty()){
+            return new List<Product2>();
+        }
+        return Database.query(
+            'SELECT Id, Name, Description__c, Title_Image_URL__c, Designation__c ' +
+            'FROM Product2 ' +
+            'WHERE Designation__c IN :designationIds ',
+            accessLevel
+        );
+    }    
 }

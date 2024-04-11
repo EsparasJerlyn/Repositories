@@ -51,6 +51,20 @@ private class DesignationsDAOTest {
             System.assert(designationList.isEmpty(), 'designationList should be empty.');
         }
     }
+    
+    @isTest
+    private static void getDesignationsByNameStartTest(){
+		System.runAs(TestDataFactory.getDonorEngagementManager()){
+            Test.startTest();
+            List<Designation__c> designationList = DesignationsDAO.newInstance()
+                .getDesignationsByNameStart(
+                    'Test Designation',
+                    AccessLevel.USER_MODE
+                );
+            Test.stopTest();
+            System.assert(designationList.isEmpty(), 'designationList should be empty.');
+        }    
+    }
 
     @isTest
     static void newInstanceTest() {

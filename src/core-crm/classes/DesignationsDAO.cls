@@ -10,13 +10,21 @@
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage params for query Selector   |         
       | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Designation Code in query by Id       |
       | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage params for query Selector |
+      | kenneth.f.alsay                | April 05, 2024        | DEPP-8399              | Added getDesignationsByNameStart               |
+      | kenneth.f.alsay                | April 08, 2024        | DEPP-8399              | Added Record Type Ids                          |
 */
 
 public inherited sharing class DesignationsDAO extends DmlBase implements IDesignationsDAO {
     public static final String DC_PUBLISHED = 'Published';
     public static final String DC_ARCHIVED = 'Archived';
     public static final String DC_ACTIVE = 'Active';
-
+    public static final Id GIVING_TO_CAUSE_RECTYPE_ID = Schema.SObjectType.Designation__c.getRecordTypeInfosByDeveloperName()
+    .get('Giving_To_Cause')
+    .getRecordTypeId();
+    public static final Id ENDOWNMENT_RECTYPE_ID = Schema.SObjectType.Designation__c.getRecordTypeInfosByDeveloperName()
+    .get('Endowment')
+    .getRecordTypeId();
+    
     public Schema.SObjectType getSObjectType() {
         return Designation__c.SObjectType;
     }
@@ -73,7 +81,24 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
     ) {
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Stage__c, Id, Designation_Code__c, (Select Id FROM Products__r) ' + 'FROM Designation__c WHERE Id IN :recordIds',
+                'SELECT Stage__c, Id, Designation_Code__c, Ready_For_Publishing__c, (Select Id FROM Products__r) ' + 'FROM Designation__c WHERE Id IN :recordIds',
+                accessLevel
+            );
+        } else {
+            return new List<Designation__c>();
+        }
+    }
+
+    public List<Designation__c> getDesignationsByNameStart(
+        String nameStart,
+        AccessLevel accessLevel 
+    ){
+        if (nameStart != null && accessLevel != null) {
+            nameStart += '%';
+            return Database.query(
+                'SELECT Id, Name, Ready_For_Publishing__c ' + 
+                'FROM Designation__c ' + 
+                'WHERE Name LIKE :nameStart ',
                 accessLevel
             );
         } else {
