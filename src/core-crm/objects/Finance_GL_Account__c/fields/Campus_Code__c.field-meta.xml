@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campus_Code__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Not currently in use. It was originally included to comply with a standard that was being developed across a number of universities at the time of implementing the current Finance System, but was found not to be required for QUT.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Not currently in use. It was originally included to comply with a standard that was being developed across a number of universities at the time of implementing the current Finance System, but was found not to be required for QUT.</inlineHelpText>
+    <label>Campus Code</label>
+    <precision>1</precision>
+    <required>true</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
