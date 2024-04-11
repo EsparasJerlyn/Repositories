@@ -3918,6 +3918,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Donation__c.Installment_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Donation__c.Installment_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
