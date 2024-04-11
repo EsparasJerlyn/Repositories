@@ -4403,7 +4403,7 @@ public class TestDataFactory {
         for (Integer i = 0; i < numOfRecords; i++) {
             donationCauseList.add(
                 new Donation__c(
-                    // Donation_Type__c = 'Influenced Revenue', // removed field DEPP-8405
+                    Donation_Type__c = 'Influenced Revenue',
                     Stage__c = 'Proposed',
                     Opportunity__c = opportunityId
                 )
