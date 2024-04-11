@@ -226,21 +226,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.At_Risk_Rating__c</fieldItem>
-                <identifier>RecordAt_Risk_Rating_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Outreach_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Student_Success_Staff</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.ATSI_Code__c</fieldItem>
+                <identifier>RecordATSI_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -272,8 +259,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.First_in_Family_Applicant__c</fieldItem>
-                <identifier>RecordFirst_in_Family_Applicant_cField</identifier>
+                <fieldItem>Record.First_in_Family__c</fieldItem>
+                <identifier>RecordFirst_in_Family_cField</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
@@ -293,16 +280,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ATSI_Code__c</fieldItem>
-                <identifier>RecordATSI_Code_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>

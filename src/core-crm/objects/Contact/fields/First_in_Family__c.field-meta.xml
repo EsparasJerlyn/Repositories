@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Low_Socio_Economic_Status__c</fullName>
-    <description>The student’s low socio-economic status as determined by SA1 measure based on first known address</description>
+    <fullName>First_in_Family__c</fullName>
+    <description>This is initially set by data provided in the Application record</description>
     <externalId>false</externalId>
-    <label>Low Socio-Economic Status</label>
+    <label>First in Family</label>
     <required>false</required>
     <securityClassification>Sensitive</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>

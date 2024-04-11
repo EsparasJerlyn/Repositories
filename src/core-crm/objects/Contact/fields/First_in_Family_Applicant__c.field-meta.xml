@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Recent Application by contact has flagged First in Family applicant.</description>
     <externalId>false</externalId>
-    <label>First in Family</label>
+    <label>First in Family Applicant</label>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

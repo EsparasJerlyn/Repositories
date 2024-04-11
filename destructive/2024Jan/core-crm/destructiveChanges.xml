@@ -31,10 +31,10 @@
         <!--(End) DEPP-5906-->
         <name>Flow</name>
     </types>
-    <types>
-        <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
-        <name>Layout</name>
-    </types>
+        <types>
+            <members>Case-EDA Incident Layout</members><!--DEPP-5906-->
+            <name>Layout</name>
+        </types>
     <types>
         <!-- (Start) DEPP-7673 -->
         <members>Case.Case_Origin_is_required</members>
@@ -54,6 +54,12 @@
       <!--(End) DEPP-7474 -->
       <!-- <name>PermissionSetGroup</name>
   </types> -->
+    </types>
+    <types>
+        <!-- (Start) DEPP-8142 -->
+        <members>Contact.At_Risk_Rating__c</members>
+        <!--(End) DEPP-8142 -->
+        <name>CustomField</name>
     </types>
     <version>59.0</version> 
 </Package>
