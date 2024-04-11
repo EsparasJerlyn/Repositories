@@ -4358,7 +4358,7 @@ public class TestDataFactory {
         for (Integer i = 0; i < numOfRecords; i++) {
             donationCauseList.add(
                 new Donation__c(
-                    Donation_Type__c = 'Influenced Revenue',
+                    //Donation_Type__c = 'Influenced Revenue', // removed from DEPP-8405
                     Stage__c = 'Proposed',
                     Opportunity__c = opportunityId
                 )
