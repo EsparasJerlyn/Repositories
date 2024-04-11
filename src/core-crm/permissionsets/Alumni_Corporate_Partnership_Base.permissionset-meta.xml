@@ -29,6 +29,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DynamicRecordEditFormCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DynamicQueryService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -58,6 +62,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ListMemberImportModalCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ObjectDataSource</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <description>Give base access for Alumni &amp; Corporate Partnerships processes</description>
