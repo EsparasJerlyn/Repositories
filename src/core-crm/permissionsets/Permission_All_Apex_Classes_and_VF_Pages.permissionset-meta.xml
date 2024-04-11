@@ -1421,6 +1421,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DynamicRecordEditFormCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DynamicRecordEditFormCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DynamicQueryService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3586,6 +3594,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>OPE_and_CCE_Username_FormatTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ObjectDataSource</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ObjectDataSourceTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

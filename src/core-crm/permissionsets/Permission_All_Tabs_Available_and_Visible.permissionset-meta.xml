@@ -37,6 +37,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Finance_GL_Account__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>IP_Management_Relationship__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>

@@ -51,7 +51,7 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
             return new List<Distribution_Management__c>();
         }
         return Database.query(
-            'SELECT Id, Status__c, Designation__r.RecordTypeId, End_Date__c ' +
+            'SELECT Id, Status__c, Designation__c, Designation__r.RecordTypeId, End_Date__c ' +
             'FROM Distribution_Management__c ' +
             'WHERE Designation__c IN :designationIds ',
             accessLevel

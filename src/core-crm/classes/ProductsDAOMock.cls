@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | April 25, 2023        | DEPP-5567              | Created file
       | kenneth.f.alsay                | March 27, 2024        | DEPP-8209              | Added getProductByDonationCauseId
+      | kenneth.f.alsay                | April 4, 2024         | DEPP-8399              | Added getProductByDesignationId
  */
 @isTest
 public inherited sharing class ProductsDAOMock extends DmlBaseMock implements IProductsDAO {
@@ -49,4 +50,18 @@ public inherited sharing class ProductsDAOMock extends DmlBaseMock implements IP
         }
         return productList;
     }
+
+    public List<Product2> getProductByDesignationId(
+        Set<Id> designationIds,
+        AccessLevel accessLevel
+    ){
+        List<Product2> productList = new List<Product2>();
+        for (Product2 record : productsMap.values()) {
+            if (designationIds.contains(record.Designation__c)){
+                productList.add(record);
+            }
+        }
+        return productList;
+    }
 }
+

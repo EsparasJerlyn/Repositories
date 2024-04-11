@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Entity_Code__c</fullName>
+    <defaultValue>1</defaultValue>
+    <description>This segment is used to distinguish between legal entities.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This segment is used to distinguish between legal entities.</inlineHelpText>
+    <label>Entity Code</label>
+    <precision>1</precision>
+    <required>true</required>
+    <scale>0</scale>
+    <securityClassification>Official</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

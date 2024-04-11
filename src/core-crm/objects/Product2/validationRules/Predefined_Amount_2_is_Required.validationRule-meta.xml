@@ -4,7 +4,7 @@
     <active>true</active>
     <errorConditionFormula>AND
 (
-NOT(ISNULL(Donation_Cause__c)),
+NOT(ISNULL(Designation__c)),
 
 OR(
 ISNEW(),

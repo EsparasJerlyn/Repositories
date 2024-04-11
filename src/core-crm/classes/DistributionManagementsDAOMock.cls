@@ -8,6 +8,7 @@
       |--------------------------------|-----------------------|------------------------|------------------------------------------------|
       | kenneth.f.alsay                | April 8, 2024         | DEPP-8399              | Created file                                   |
 */
+@isTest
 public inherited sharing class DistributionManagementsDAOMock extends DmlBaseMock implements IDistributionManagementsDAO{
     public Map<Id, Distribution_Management__c> distributionManagementMap;
     
