@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Assessment_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Assessment__c</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#113B71</headerColor>
         <logo>QUT_logo_Blue_RGB_PNG_11</logo>
@@ -13,6 +22,14 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Student Success Configuration</label>
     <navType>Console</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Assessment_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Assessment__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Student Success</profile>
+    </profileActionOverrides>
     <tabs>hed__Course__c</tabs>
     <tabs>Engagement_List_Configuration__c</tabs>
     <tabs>standard-EmailTemplate</tabs>
