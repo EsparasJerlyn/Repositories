@@ -13,7 +13,7 @@
 public with sharing class OpportunityOutcomeTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager', 'Industry_Operations_Manager'});
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
@@ -261,7 +261,7 @@ public with sharing class OpportunityOutcomeTriggerHandlerTest {
 
     @isTest
     private static void updateOpportunityOutcomeRecords() {
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactory.getOperationsManager()) {
             Test.startTest();
             OpportunityOutcomesDAO.newInstance()
                 .insertRecords(

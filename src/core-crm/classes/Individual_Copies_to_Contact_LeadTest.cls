@@ -8,7 +8,10 @@
 private class Individual_Copies_to_Contact_LeadTest {
    
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        Test.startTest();
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Marketing_Cloud'});
+        Test.stopTest();
+
         insert(TestDataFactory.createTestContactRecords(1));
 		insert(TestDataFactory.createTestLeadRecords(1));
         insert(TestDataFactory.createTestIndividualRecords(1));

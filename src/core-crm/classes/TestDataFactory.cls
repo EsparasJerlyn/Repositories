@@ -2238,6 +2238,22 @@ public class TestDataFactory {
     }
 
     /**
+     * @description Method for creating Future Student Agent Super User Domestic
+     * @param void
+     * @return futureStudentSuperTeamLeader - Future Student Super Team Leader Domestic
+     */
+    public static User getDomesticFutureStudentSuperTeamLeader() {
+        User futureStudentSuperTeamLeader = [
+            SELECT Id
+            FROM User
+            WHERE Username LIKE 'Future_Student_Super_Team_Leader_Domestic%'
+            LIMIT 1
+        ];
+        return futureStudentSuperTeamLeader;
+    }
+
+
+    /**
      * @description Method for creating International Future Student Agent
      * @param void
      * @return futureStudentAgent - International Future Student Agent

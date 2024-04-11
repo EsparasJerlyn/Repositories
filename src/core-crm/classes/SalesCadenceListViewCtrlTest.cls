@@ -316,7 +316,7 @@ public with sharing class SalesCadenceListViewCtrlTest {
 
         System.runAs(TestDataFactory.getESBIntegrationUser()){
             Test.startTest();
-            System.assertEquals(1, SalesCadenceListViewCtrl.getSearchedUsers('QUT','Domestic').size(), 'there should be 1 user queried');
+            System.assertEquals(1, SalesCadenceListViewCtrl.getSearchedUsers('Future_Student_Agent_Domestic','Domestic').size(), 'there should be 1 user queried');
             Test.stopTest();
         }
     }
