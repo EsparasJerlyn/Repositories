@@ -4337,7 +4337,8 @@ public class TestDataFactory {
         for (Integer i = 0; i < numOfRecords; i++) {
             distributionManagementList.add(
                 new Distribution_Management__c(
-                    Status__c = status
+                    Status__c = status,
+                    Start_Date__c = System.Today() - 5
                 )
             );
         }
