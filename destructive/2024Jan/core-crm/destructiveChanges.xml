@@ -8,6 +8,20 @@
     </types>
     -->
     <types>
+        <!-- Start DEPP-8405 -->
+        <members>Donation__c.Donation_Amount__c</members>
+        <members>Donation__c.Donation_Cause__c</members>
+        <members>Donation__c.Donation_Type__c</members>
+        <members>Donation__c.Expected_Total_Amount__c</members>
+        <members>Donation__c.Final_Installment_Date__c</members>
+        <members>Donation__c.First_Installment_Date__c</members>
+        <members>Donation__c.Installment_Amount__c</members>
+        <members>Donation__c.Installment_Date__c</members>
+        <members>Donation__c.Installment_Frequency__c</members>
+        <members>Donation__c.Next_Installment_Date__c</members>
+        <members>Donation__c.Schedule_Type__c</members>
+        <!-- End DEPP-8405 -->
+        
         <!-- Start DEPP-8054 -->
          <members>Stewardship__c.Stewardship_Type__c</members>
          <members>Stewardship__c.Stewardship_Tier__c</members>
