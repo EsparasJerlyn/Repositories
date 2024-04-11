@@ -2913,7 +2913,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Donation__c.Cancellation_Reason__c</field>
-        <field>Donation__c.Cancellation_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3013,22 +3012,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation__c.Is_Fixed_Amount_Donation__c</field>
+        <field>Donation__c.Matching_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Donation__c.Next_Installment_Date__c</field>
+        <field>Donation__c.Next_Instalment_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Donation__c.Opportunity__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Donation__c.Owner_Full_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12658,6 +12652,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+<<<<<<< HEAD
         <object>Donation__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -12676,6 +12671,8 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+=======
+>>>>>>> 8c0c4b176 (DEPP-8405: Added Donations fields)
         <object>Engagement_Score_Configuration__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
