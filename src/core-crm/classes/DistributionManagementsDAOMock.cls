@@ -15,6 +15,10 @@ public inherited sharing class DistributionManagementsDAOMock extends DmlBaseMoc
     public Schema.SObjectType getSObjectType() {
         return Distribution_Management__c.SObjectType;
     }
+
+    public Database.QueryLocator queryLocatorGetDistributionMgtsForStatusUpdate() {
+        return null;
+    }
     
     public DistributionManagementsDAOMock() {
         super(new Map<Id, Distribution_Management__c>(), Schema.Distribution_Management__c.SObjectType);

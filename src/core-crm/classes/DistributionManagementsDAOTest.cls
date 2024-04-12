@@ -14,6 +14,13 @@ public with sharing class DistributionManagementsDAOTest {
     static void testSetup() {
         TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager'});
     }
+
+    @isTest
+    private static void queryLocatorGetDistributionMgtsForStatusUpdate(){
+        System.runAs(TestDataFactory.getAdvancementManager()){
+            System.assert(DistributionManagementsDAO.newInstance().queryLocatorGetDistributionMgtsForStatusUpdate() != null, 'SOQL should not be null');
+        }
+    }
     
     @isTest
     static void getDistributionManagementByDesignationIdTest() {
