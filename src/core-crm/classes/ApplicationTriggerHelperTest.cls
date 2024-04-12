@@ -28,7 +28,7 @@ private class ApplicationTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator', 'QUT_ESB' });
         TestDataFactory.loadEDATriggers();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Account> newAccounts = new List<Account>();

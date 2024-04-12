@@ -16,7 +16,7 @@ private class ApplicationPreferenceTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
         System.runAs(TestDataFactory.getSystemAdminUser()) {
 			Test.startTest();
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1,2);

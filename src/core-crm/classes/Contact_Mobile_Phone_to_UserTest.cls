@@ -16,7 +16,7 @@ public with sharing class Contact_Mobile_Phone_to_UserTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator' });
         Test.stopTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> contacts = TestDataFactory.createTestContactRecords(5);

@@ -23,7 +23,7 @@ private class ContactsDAOTest {
     @testSetup
     static void testSetup() {
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager', 'QUT_Domestic_Future_Student_Agent' }
+            new List<String>{ 'QUTeX_Program_Administrator', 'Industry_Partnership_Manager', 'Future_Student_Agent_Domestic' }
         );
     }
 

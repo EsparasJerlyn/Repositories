@@ -15,7 +15,7 @@
 public class AccountSyncFlowTest {
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator'});
         List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
         
         for(Account a : accounts){

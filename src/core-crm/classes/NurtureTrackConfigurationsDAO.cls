@@ -84,23 +84,50 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     };
 
     public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST = new Set<String>{
+        INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED, //International Pre-Application - Partner Sourced (Automated)
         INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED, //International Application Submission - Direct Applicant (Automated)
+        INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED, //International Application to Offer - Direct (Automated)
+        INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED, //International Application to Offer - Agent (Automated)
         INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
         INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED, //International Offer to Acceptance - Agent (Automated)
+        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_PARTNER_SOURCED = new Set<String>{
+        INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED, //International Application Submission - Direct Applicant (Automated)
+        INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED, //International Application to Offer - Direct (Automated)
+        INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED, //International Application to Offer - Agent (Automated)
+        INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED, //International Offer to Acceptance - Agent (Automated)
         INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
     public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_DIRECT_APPLICANT = new Set<String>{
+        INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED, //International Application to Offer - Direct (Automated)
+        INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED, //International Application to Offer - Agent (Automated)
         INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
         INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED, //International Offer to Acceptance - Agent (Automated)
+        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
+        DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
+    };
+
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_APPLICATION_TO_OFFER_AUTO = new Set<String>{
+        INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED, //International Offer to Acceptance - Agent (Automated)
         INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
     public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_APP_TO_OFFER = new Set<String>{
         INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
-        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL,//International Acceptance Deposit not Paid
+        INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED, //International Offer to Acceptance - Agent (Automated)
+        INTERNATIONAL_ACCEPTANCE_DEPOSIT_NOT_PAID_MANUAL, //International Acceptance Deposit not Paid
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
@@ -111,14 +138,6 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
     
     public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_ACCEPTANCE_DEPOSIT_NOT_PAID = new Set<String>{
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
-    };
-
-    public static final Set<String> INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_DIRECT = new Set<String>{
-        INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED //International Application to Offer - Direct (Automated)
-    };
-
-    public static final Set<String> INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AGENT = new Set<String>{
-        INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED //International Application to Offer - Direct (Automated)
     };
 
     public static final Set<String> INTERNATIONAL_PARTNER_SOURCED = new Set<String>{

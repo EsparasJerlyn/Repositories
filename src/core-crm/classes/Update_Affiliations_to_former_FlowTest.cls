@@ -31,7 +31,7 @@ public with sharing class Update_Affiliations_to_former_FlowTest {
         */
         TestDataFactory.configureAffiliationMapping();
         TestDataFactory.configureTDTMForCONPrimaryAfflsTDTM();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
     }
 
     /**

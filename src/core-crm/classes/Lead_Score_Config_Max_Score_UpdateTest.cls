@@ -21,7 +21,7 @@ private class Lead_Score_Config_Max_Score_UpdateTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
     }
     @isTest
     static void updateMaxScoreOnParentConfigurationTest() {

@@ -14,7 +14,7 @@
 public with sharing class ActionCadenceTrackersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin', 'QUT_Domestic_Future_Student_Agent' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin', 'Future_Student_Agent_Domestic' });
     }
 
     @isTest

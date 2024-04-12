@@ -22,6 +22,7 @@
  *    | arsenio.jr.dayrit              | November 20, 2023     | DEPP-7268              | Added Offered_Program_Plan__r.Program_Level__c field in                       |         
  *    |                                |                       |                        | getAppsWithLatestCalculatedIntakeDateByApplicantIds                           |
  *    | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Added static values for application status                                    |
+ *    | sebastianne.k.trias            | March 28, 2024        | DEPP-8382              | Added queryApplicationsByPastIntakeDateAndActiveApplicants method             |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
     public static final Id QTAC_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
@@ -320,4 +321,17 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     }
 
     
+    public Database.QueryLocator queryApplicationsByPastIntakeDateAndActiveApplicants(
+        String accessLevel
+    ) {
+        String query =
+            'SELECT Id, hed__Applicant__c, hed__Applicant__r.QUT_Applicant__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE hed__Applicant__r.QUT_Applicant__c = true ' +
+            'AND Calculated_Intake_Date__c < TODAY ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel);
+        return Database.getQueryLocator(query);
+    }
+
 }

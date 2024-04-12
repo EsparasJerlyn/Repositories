@@ -19,7 +19,7 @@ public class CourseOfferingTriggerHelperTest {
     public static void testSetup(){
         //create test user
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_Program_Administrator'}
+            new List<String>{ 'QUTeX_Program_Administrator'}
         );
         
         //create Test Account record
