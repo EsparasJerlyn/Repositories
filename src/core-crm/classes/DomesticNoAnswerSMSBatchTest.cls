@@ -13,7 +13,7 @@
 public with sharing class DomesticNoAnswerSMSBatchTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
         System.runAs(TestDataFactory.getSystemAdminUser()) {
             List<Communication_Queue__c> commQueues = new List<Communication_Queue__c>();
             commQueues.add(new Communication_Queue__c(

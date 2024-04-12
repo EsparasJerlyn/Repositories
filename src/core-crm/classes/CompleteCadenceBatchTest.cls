@@ -14,7 +14,7 @@ public with sharing class CompleteCadenceBatchTest {
     @TestSetup
     static void setupData(){
         
-        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
         System.runAs(TestDataFactory.getSystemAdminUser()) { 
             List<Nurture_Track_Configuration__c> initialNurtureList = TestDataFactory.createNurtureTrackConfigRecords(1);
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();

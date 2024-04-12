@@ -18,7 +18,7 @@ public with sharing class FinancialSplitsDAOTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator', 'Industry_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_IE_Partnership_Manager' });
          Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
         acc.RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
         acc.Organization_Unit_Level__c = '2';

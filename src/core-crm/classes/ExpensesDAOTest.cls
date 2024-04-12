@@ -12,7 +12,7 @@
 public with sharing class ExpensesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Operations_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
     }
 
     @isTest

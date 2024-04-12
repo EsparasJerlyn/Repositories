@@ -67,8 +67,7 @@ public class ProductDetailsCtrlTest {
 
     @testSetup
     static void setupMethod() {
-        Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator','QUT_Sys_Admin','QUT_OPE_Catalogue'});
+        TestDataFactory.generateTestUsers();
         EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(
                 1,
                 new Map<String, String>{ 'Send Register Interest Email' => 'Test Email Subject' }
@@ -83,7 +82,7 @@ public class ProductDetailsCtrlTest {
                 SetupOwnerId = UserInfo.getOrganizationId()
             );
             insert bypass;
-        
+            Test.startTest();
             User portalSysAdmin = TestDataFactory.getPortalSysAdminUser();
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(
                 Name = 'test123',
@@ -668,7 +667,7 @@ public class ProductDetailsCtrlTest {
 
         TestDataFactory.loadEDATriggers();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            
+            Test.startTest();
             WebStore testWebStoreCCE = new WebStore(Name = 'CCE', DefaultLanguage = 'en_US');
             insert testWebStoreCCE;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -702,7 +701,7 @@ public class ProductDetailsCtrlTest {
                 hed__AlternateEmail__c = 'test@email.com'
             );
             insert cceContact;
-            Test.startTest();
+
             //get the ACR list to check if exists
             List<AccountContactRelation> acrList = new List<AccountContactRelation>(
                 [
@@ -1110,6 +1109,7 @@ public class ProductDetailsCtrlTest {
 
         TestDataFactory.loadEDATriggers();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
             WebStore testWebStoreCCE = new WebStore(Name = 'CCE', DefaultLanguage = 'en_US');
             insert testWebStoreCCE;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -1143,7 +1143,7 @@ public class ProductDetailsCtrlTest {
                 hed__AlternateEmail__c = 'test@email.com'
             );
             insert cceContact;
-            Test.startTest();
+
             //get the ACR list to check if exists
             List<AccountContactRelation> acrList = new List<AccountContactRelation>(
                 [

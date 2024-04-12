@@ -14,7 +14,7 @@
 public with sharing class OpportunityOutcomeProjectNameCtrlTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Operations_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
 
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();

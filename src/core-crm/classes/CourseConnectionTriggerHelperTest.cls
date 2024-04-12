@@ -19,7 +19,7 @@ public class CourseConnectionTriggerHelperTest {
     public static void testSetup(){
         //create test user
         TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUTeX_Program_Administrator'}
+            new List<String>{ 'QUT_Program_Administrator'}
         );
         //create Course Connection Records
         List<hed__Course_Enrollment__c> courseConnectionRecords = TestDataFactory.createTestCourseConnectionRecordsByStatus(200, 'Active', 'Sent');

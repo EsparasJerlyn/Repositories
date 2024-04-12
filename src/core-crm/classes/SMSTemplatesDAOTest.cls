@@ -11,7 +11,7 @@
 public with sharing class SMSTemplatesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
     }
 
     @isTest

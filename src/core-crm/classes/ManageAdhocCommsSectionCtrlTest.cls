@@ -20,7 +20,7 @@ private class ManageAdhocCommsSectionCtrlTest {
 
     @testSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator'} );
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'} );
         System.runAs(TestDataFactory.getProgramAdminUser()){
             Test.startTest();
             Account acc = TestDataFactory.createTestAccount(false);

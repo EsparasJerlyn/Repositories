@@ -14,7 +14,7 @@
 public with sharing class LeadScoreMktgInteractionBatchTest {
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
         System.runAs(TestDataFactory.getSystemAdminUser()) { 
             Test.startTest();
             setupDomesticUndeterminedLeadScoreConfig(
