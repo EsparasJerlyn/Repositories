@@ -1271,14 +1271,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-<<<<<<< HEAD
         <field>Distribution_Split__c.GL_Account_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-=======
->>>>>>> 0185c6548 (DEPP-8405: revert back deletd Distribution_Management__c integ fields)
+        <field>Distribution_Split__c.GL_Account_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Document__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
