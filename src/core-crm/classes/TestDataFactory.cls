@@ -2533,7 +2533,6 @@ public class TestDataFactory {
                 list<PermissionSetAssignment> addPS = new List<PermissionSetAssignment>{};
                 for (String i : addPermSetGroups) {
                     List<String> res = i.split('%%');
-                    Test.calculatePermissionSetGroup(permSetGroupMap.get(res[1]));
                     addPS.add(
                         new PermissionSetAssignment(
                             PermissionSetGroupId = permSetGroupMap.get(res[1]),
@@ -2584,13 +2583,20 @@ public class TestDataFactory {
                     permSetMap.put(i.Name, i.Id);
                 }
             }
+
             if (permSetGroupMap == null) {
                 permSetGroupMap = new Map<String, Id>{};
-                list<PermissionSetGroup> pmgList = [SELECT Id, DeveloperName FROM PermissionSetGroup];
-                for (PermissionSetGroup i : pmgList) {
-                    permSetGroupMap.put(i.DeveloperName, i.Id);
+                list<PermissionSetGroup> pmgList = [SELECT Id, DeveloperName, Status FROM PermissionSetGroup];
+                for (PermissionSetGroup psg : pmgList) {
+                    // force calculation of the PSG if it is not already Updated
+                    if(psg.Status != 'Updated'){
+                        Test.calculatePermissionSetGroup(psg.Id);
+                    }
+                    
+                    permSetGroupMap.put(psg.DeveloperName, psg.Id);
                 }
             }
+
             if (groupMap == null) {
                 groupMap = new Map<String, Id>{};
                 list<Group> pmList = [SELECT Id, Name FROM Group];
