@@ -47,7 +47,9 @@
       | mark.j.mahilum                 | April 04, 2024        | DEPP-8450              | Updated created date logic to make sure that only the date value is getting match  |
       |                                |                       |                        | to the exact date today                                                            |
       | mark.j.mahilum                 | April 09, 2024        | DEPP-8473              | Updated checkContactWithValidProgramEnrollmentAndQtac to check if contact has no   |
-      |                                |                       |                        | related program enrollments
+      |                                |                       |                        | related program enrollments                                                        |
+      | mark.j.mahilum                 | April 12, 2024        | DEPP-8484              | Updated checkContactWithValidProgramEnrollmentAndQtac to check if contact has no   |
+      |                                |                       |                        | latest program enrollment or has no program enrollment = Admitted                  |
  */
 public with sharing class NurturingTrackContactService { //NOPMD
     private static List<hed__Application__c> applicationList = new List<hed__Application__c>();
@@ -1436,8 +1438,17 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<String,String> contactWithNoCurrentProgramEnrollmentMap = new Map<String,String>();
         Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap = new Map<String,String>();
         Set<Id> contactWithProgramEnrollments = new Set<Id>();
-
-        checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet(), contactWithNoCurrentProgramEnrollmentMap,contactWithNoCurrentAdmittedProgramEnrollmentMap,contactWithProgramEnrollments);
+		
+        List<hed__Program_Enrollment__c> contactProgramEnrollments = getRelatedContactProgramEnrollments(domesticEntryContactMap.keySet());
+        checkContactWithValidProgramEnrollmentAndQtac(contactProgramEnrollments, contactWithNoCurrentProgramEnrollmentMap,contactWithNoCurrentAdmittedProgramEnrollmentMap);
+        
+        
+        //Use for getting the latest program enrollment records related to contact
+        Set<Id> contactWithLatestProgramEnrollments = new Set<Id>();
+        Set<Id> contactWithLatestProgramAdmissions = new Set<Id>();
+        excludeContactHavingThisProgramEnrollments(contactProgramEnrollments,contactWithLatestProgramEnrollments,contactWithLatestProgramAdmissions,contactWithProgramEnrollments);
+        
+        
         Map<Id, Set<String>> filteredApplicantIdsWithCompletedCadence = NurturingTrackService.getFilteredApplicantWithCompletedCadence(
             domesticEntryContactMap.keySet(),
             new List<String>{ NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED },
@@ -1445,6 +1456,13 @@ public with sharing class NurturingTrackContactService { //NOPMD
         );
         // To group Automated and Manual Application
         for (hed__Application__c application : applicationList) {
+            
+            //removed contact having the program enrollment in the last 12 months from current date.
+            if(contactWithLatestProgramEnrollments.contains(application.hed__Applicant__c) || contactWithLatestProgramAdmissions.contains(application.hed__Applicant__c)){
+                continue;
+            }
+            
+            
             boolean isApplicationProgramUnderGrad = applicationProgramUnderGrad.contains(application.Id);
             //get a copy of completed cadences related to the contact regardless of status
             completedCadencesCopy = applicantIdsWithAllCompletedCadence.containsKey(application.hed__Applicant__c)?new Set<String>(applicantIdsWithAllCompletedCadence.get(application.hed__Applicant__c)):new Set<String>();
@@ -2021,15 +2039,30 @@ public with sharing class NurturingTrackContactService { //NOPMD
         Map<String,String> contactWithNoCurrentProgramEnrollmentMap = new Map<String,String>();
         Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap = new Map<String,String>();
         Set<Id> contactWithProgramEnrollments = new Set<Id>();
-        checkContactWithValidProgramEnrollmentAndQtac(domesticEntryContactMap.keySet(), contactWithNoCurrentProgramEnrollmentMap,contactWithNoCurrentAdmittedProgramEnrollmentMap,contactWithProgramEnrollments);
+        
+        List<hed__Program_Enrollment__c> contactProgramEnrollments = getRelatedContactProgramEnrollments(domesticEntryContactMap.keySet());
+        
+        checkContactWithValidProgramEnrollmentAndQtac(contactProgramEnrollments,contactWithNoCurrentProgramEnrollmentMap,contactWithNoCurrentAdmittedProgramEnrollmentMap);
+        
+        //Use for getting the latest program enrollment records related to contact
+        Set<Id> contactWithLatestProgramEnrollments = new Set<Id>();
+        Set<Id> contactWithLatestProgramAdmissions = new Set<Id>();
+        excludeContactHavingThisProgramEnrollments(contactProgramEnrollments,contactWithLatestProgramEnrollments,contactWithLatestProgramAdmissions,contactWithProgramEnrollments);
+
         for (hed__Application__c app : applicationList) {
+            
+            //removed contact having the program enrollment in the last 12 months from current date.
+            if(contactWithLatestProgramEnrollments.contains(app.hed__Applicant__c) || contactWithLatestProgramAdmissions.contains(app.hed__Applicant__c)){
+                continue;
+            }
 
             Boolean isSAMSApplication = (app.RecordTypeId == ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID || app.RecordTypeId == ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID);
             Boolean isProgramEnrollmentAdmitted = (app.Program_Enrollment__c != NULL && String.isNotBlank(app.Program_Enrollment__r.Enrollment_Status__c));
-            Boolean isSAMSLatestApplication = (app.Calculated_Intake_Date__c != NULL && app.Calculated_Intake_Date__c > Date.today());
+            Boolean isSAMSLatestApplication = (app.Calculated_Intake_Date__c != NULL && app.Calculated_Intake_Date__c >= Date.today());
             boolean isApplicationProgramUnderGrad = applicationProgramUnderGrad.contains(app.Id);
-            boolean isContactWithNoCurrentOrNoProgramEnrollmentAtAll = contactWithNoCurrentProgramEnrollmentMap.containsKey(app.hed__Applicant__c) || !contactWithProgramEnrollments.contains(app.hed__Applicant__c);
+            boolean isContactWithNoCurrentOrNoProgramEnrollmentAtAll = contactWithNoCurrentProgramEnrollmentMap.containsKey(app.hed__Applicant__c);
             boolean isContactWithProgramEnrollmentNotAdmittedORWithQtact = (app.Related_QTAC_Application__c != null &&
+                                                                            app.Related_QTAC_Application__r.Offer_Status__c == 'Accepted' &&
                                                                             isContactWithNoCurrentOrNoProgramEnrollmentAtAll) ||
                                                                            (app.Related_QTAC_Application__c == null &&
                                                                             contactWithNoCurrentAdmittedProgramEnrollmentMap.containsKey(app.hed__Applicant__c));
@@ -2732,25 +2765,73 @@ public with sharing class NurturingTrackContactService { //NOPMD
         }
         return contactIdsWithRestrictedSet;
     }
-    private static void checkContactWithValidProgramEnrollmentAndQtac(Set<Id> contactIds,
+    private static void checkContactWithValidProgramEnrollmentAndQtac(List<hed__Program_Enrollment__c> programEnrollments,
                                                                       Map<String,String> contactWithNoCurrentProgramEnrollmentMap, 
-                                                                      Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap,
-                                                                      Set<Id> contactsWithProgramEnrollments){
-        if(!contactIds.isEmpty()){
-            for(hed__Program_Enrollment__c programEnrollment : ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactIds, AccessLevel.SYSTEM_MODE)){
-                if(!ProgramEnrollmentsDAO.ENROLLMENT_STATUS.contains(programEnrollment.Enrollment_Status__c) &&
+                                                                      Map<String,String> contactWithNoCurrentAdmittedProgramEnrollmentMap
+                                                                     ){
+        if(!programEnrollments.isEmpty()){
+            
+            Set<String> programEnrollmentAdmittedEnrollmentStatus = new Set<String>{'Admitted','Leave of Absence'};
+            
+            for(hed__Program_Enrollment__c programEnrollment : programEnrollments){
+                
+                if(ProgramEnrollmentsDAO.ENROLLMENT_STATUS.contains(programEnrollment.Enrollment_Status__c) &&
                     programEnrollment.Enrollment_Status_Date__c != null && 
                     DateService.isDateLessThanAYear(programEnrollment.Enrollment_Status_Date__c)){
+                        
                         contactWithNoCurrentProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
                 }
-                else if(programEnrollment.Enrollment_Status__c != ProgramEnrollmentsDAO.ENROLLMENT_STATUS_ADMITTED &&
-                    programEnrollment.hed__Admission_Date__c != null &&
-                    DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)){
-                        contactWithNoCurrentAdmittedProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
-                }
-                contactsWithProgramEnrollments.add(programEnrollment.hed__Contact__c);
+                
+                if(programEnrollmentAdmittedEnrollmentStatus.contains(programEnrollment.Enrollment_Status__c) &&
+                   programEnrollment.hed__Admission_Date__c != null &&
+                   DateService.isDateLessThanAYear(programEnrollment.hed__Admission_Date__c)){
+                       
+                       contactWithNoCurrentAdmittedProgramEnrollmentMap.put(programEnrollment.hed__Contact__c,programEnrollment.Enrollment_Status__c);
+                }                
             }
         }
+    }
+    
+    private static void excludeContactHavingThisProgramEnrollments(List<hed__Program_Enrollment__c> programEnrollments,
+                                                                   Set<Id> contactWithLatestProgramEnrollments,
+                                                                   Set<Id> contactWithLatestProgramAdmissions,
+                                                                   Set<Id> contactsWithProgramEnrollments){
+        if(!programEnrollments.isEmpty()){
+            
+            Set<String> programEnrollmentAdmittedEnrollmentStatus = new Set<String>{'Admitted','Leave of Absence'};
+            
+            for(hed__Program_Enrollment__c programEnrollment : programEnrollments){
+                
+                //contactsWithProgramEnrollmentRecords
+                contactsWithProgramEnrollments.add(programEnrollment.hed__Contact__c);
+                
+                //contact having enrollment status 'Early Withdrawn, Withrawn, Conditionally Complete, Potentially Complete, Passed'
+                //Enrollment Status Date is less than a year = Current Date
+                if(ProgramEnrollmentsDAO.ENROLLMENT_STATUS.contains(programEnrollment.Enrollment_Status__c) &&
+                   programEnrollment.Enrollment_Status_Date__c != NULL &&
+                   programEnrollment.Enrollment_Status_Date__c > Date.today().addYears(-1))
+                {
+                    contactWithLatestProgramEnrollments.add(programEnrollment.hed__Contact__c);
+                }
+                
+                //contact having enrollment status 'Admitted','Leave of Absence'
+                //Admission Date is less than a year = Current Date
+                if(programEnrollmentAdmittedEnrollmentStatus.contains(programEnrollment.Enrollment_Status__c) &&
+                   programEnrollment.hed__Admission_Date__c != NULL &&
+                   programEnrollment.hed__Admission_Date__c > Date.today().addYears(-1))
+                {
+                    contactWithLatestProgramAdmissions.add(programEnrollment.hed__Contact__c);
+                }
+            }
+        }
+    }
+    
+    private static List<hed__Program_Enrollment__c> getRelatedContactProgramEnrollments(Set<Id> contactIds){ 
+        List<hed__Program_Enrollment__c> programEnrollments = new List<hed__Program_Enrollment__c>();
+        if(!contactIds.isEmpty()){
+            programEnrollments = ProgramEnrollmentsDAO.newInstance().getAllProgramEnrollmentsByContactId(contactIds, AccessLevel.SYSTEM_MODE);
+        }
+        return programEnrollments;
     }
 
    /**
