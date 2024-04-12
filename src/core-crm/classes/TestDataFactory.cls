@@ -2586,13 +2586,8 @@ public class TestDataFactory {
 
             if (permSetGroupMap == null) {
                 permSetGroupMap = new Map<String, Id>{};
-                list<PermissionSetGroup> pmgList = [SELECT Id, DeveloperName, Status FROM PermissionSetGroup];
+                list<PermissionSetGroup> pmgList = [SELECT Id, DeveloperName FROM PermissionSetGroup];
                 for (PermissionSetGroup psg : pmgList) {
-                    // force calculation of the PSG if it is not already Updated
-                    if(psg.Status != 'Updated'){
-                        Test.calculatePermissionSetGroup(psg.Id);
-                    }
-                    
                     permSetGroupMap.put(psg.DeveloperName, psg.Id);
                 }
             }
