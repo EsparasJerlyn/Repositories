@@ -2363,6 +2363,7 @@ public class TestDataFactory {
         }
 
         private List<User> generateTestUsers() {
+        
             //instantiate list of users to be inserted
             addUsers = new List<User>();
             //instantiate list of permission set assignments
@@ -2532,6 +2533,7 @@ public class TestDataFactory {
                 list<PermissionSetAssignment> addPS = new List<PermissionSetAssignment>{};
                 for (String i : addPermSetGroups) {
                     List<String> res = i.split('%%');
+                    Test.calculatePermissionSetGroup(permSetGroupMap.get(res[1]));
                     addPS.add(
                         new PermissionSetAssignment(
                             PermissionSetGroupId = permSetGroupMap.get(res[1]),
