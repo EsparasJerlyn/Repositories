@@ -37,4 +37,17 @@ public inherited sharing class DesignationsDAOMock extends DmlBaseMock implement
         }
         return designationList;
     }
+
+    public List<Designation__c> getDesignationsByNameStart(
+        String nameStart,
+        AccessLevel accessLevel 
+    ) {
+        List<Designation__c> designationList = new List<Designation__c>();
+        for (Designation__c record : designationsMap.values()) {
+            if ((record.Name).startsWith(nameStart)) {
+                designationList.add(record);
+            }
+        }
+        return designationList;
+    }
 }
