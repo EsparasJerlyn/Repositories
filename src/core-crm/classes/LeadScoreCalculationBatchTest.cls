@@ -15,7 +15,9 @@ public with sharing class LeadScoreCalculationBatchTest {
     
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        Test.startTest();
+            TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
+        Test.stopTest();
         System.runAs(TestDataFactory.getSystemAdminUser()) { 
 
             setupLeadScoreConfig(

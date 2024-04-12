@@ -20,7 +20,7 @@ private class ApplicationServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator' });
     }
 
     @isTest

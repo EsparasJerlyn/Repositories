@@ -23,7 +23,7 @@ private class SalesCadenceCalloutServiceTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator' });
         List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();
         Nurture_Track_Configuration__c nurtureConfig = new Nurture_Track_Configuration__c();
         nurtureConfig.Cadence_Name__c = 'Test Cadences automated';

@@ -19,7 +19,9 @@ public with sharing class EmployeeSelfRegistrationCtrlTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers();
+        Test.startTest();
+        TestDataFactory.generateTestUsers( new List<String>{'QUT_Sys_Admin'});
+        Test.stopTest();
     }
 
     @isTest

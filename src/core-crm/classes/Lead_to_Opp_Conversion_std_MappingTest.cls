@@ -23,7 +23,7 @@ private class Lead_to_Opp_Conversion_std_MappingTest{
     
     @testSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator' });
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Account> accounts = TestDataFactory.createTestAccountRecords(numberOfRecords);          
             List<Lead> leads = TestDataFactory.createTestLeadRecords(numberOfRecords);

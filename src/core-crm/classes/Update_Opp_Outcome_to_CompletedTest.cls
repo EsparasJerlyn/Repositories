@@ -8,7 +8,7 @@ public class Update_Opp_Outcome_to_CompletedTest {
     private static Date currentDate = System.today();
  @testSetup
     static void setupOpportunity(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager', 'Industry_Operations_Manager'});
         List<Opportunity> opportunities = TestDataFactory.createOpportunityRecords(1, 'OpportunityTest', OpportunitiesDAO.IDENTIFY_STAGE);
         OpportunitiesDAO.newInstance().insertRecords(opportunities, false,AccessLevel.USER_MODE);
     }

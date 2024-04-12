@@ -15,7 +15,7 @@
 public with sharing class IPManagementRelationTriggerHandlerTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Operations_Manager' });
         Opportunity_Outcome_Code_Auto_Number__c oppOutcomeCodeAutoNum = OpportunityOutcomeCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         oppOutcomeCodeAutoNum.Start_Up__c = 1;
         OpportunityOutcomeCodeAutoNumbersDAO.newInstance()
