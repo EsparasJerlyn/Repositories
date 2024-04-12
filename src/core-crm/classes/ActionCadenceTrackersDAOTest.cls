@@ -19,7 +19,7 @@ public with sharing class ActionCadenceTrackersDAOTest {
 
     @isTest
     static void getRunningACTrackerByTargetIdAndCadenceNameTest() {//NOPMD
-        Test.startTest(); 
+        Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<ActionCadenceTracker> actionCadenceTrackerList = ActionCadenceTrackersDAO.newInstance()
                 .getRunningACTrackerByTargetIdAndCadenceName(new Set<Id>(), new Set<String>(),'SYSTEM_MODE');

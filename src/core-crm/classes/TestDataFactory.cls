@@ -2363,7 +2363,6 @@ public class TestDataFactory {
         }
 
         private List<User> generateTestUsers() {
-        
             //instantiate list of users to be inserted
             addUsers = new List<User>();
             //instantiate list of permission set assignments
@@ -2583,20 +2582,13 @@ public class TestDataFactory {
                     permSetMap.put(i.Name, i.Id);
                 }
             }
-
             if (permSetGroupMap == null) {
                 permSetGroupMap = new Map<String, Id>{};
-                list<PermissionSetGroup> pmgList = [SELECT Id, DeveloperName, Status FROM PermissionSetGroup];
-                for (PermissionSetGroup psg : pmgList) {
-                    // force calculation of the PSG if it is not already Updated
-                    if(psg.Status != 'Updated'){
-                        Test.calculatePermissionSetGroup(psg.Id);
-                    }
-                    
-                    permSetGroupMap.put(psg.DeveloperName, psg.Id);
+                list<PermissionSetGroup> pmgList = [SELECT Id, DeveloperName FROM PermissionSetGroup];
+                for (PermissionSetGroup i : pmgList) {
+                    permSetGroupMap.put(i.DeveloperName, i.Id);
                 }
             }
-
             if (groupMap == null) {
                 groupMap = new Map<String, Id>{};
                 list<Group> pmList = [SELECT Id, Name FROM Group];
