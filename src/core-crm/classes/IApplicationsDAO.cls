@@ -48,7 +48,6 @@ public interface IApplicationsDAO extends DmlInterface{
         Set<String> recordId,
         String accessLevel
     ); 
-    
     Database.QueryLocator queryApplicationsByPastIntakeDateAndActiveApplicants(
         String accessLevel
     );
