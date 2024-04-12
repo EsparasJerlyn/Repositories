@@ -14,12 +14,12 @@
 public with sharing class ActionCadenceTrackersDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin', 'Future_Student_Agent_Domestic' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Sys_Admin', 'QUT_Domestic_Future_Student_Agent' });
     }
 
     @isTest
     static void getRunningACTrackerByTargetIdAndCadenceNameTest() {//NOPMD
-        Test.startTest(); 
+        Test.startTest();
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<ActionCadenceTracker> actionCadenceTrackerList = ActionCadenceTrackersDAO.newInstance()
                 .getRunningACTrackerByTargetIdAndCadenceName(new Set<Id>(), new Set<String>(),'SYSTEM_MODE');

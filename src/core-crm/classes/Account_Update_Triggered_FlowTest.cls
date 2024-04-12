@@ -16,7 +16,7 @@
 private class Account_Update_Triggered_FlowTest {
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
         List<Account> accList = TestDataFactory.createTestAccountRecords(100);
         for(Account acc : accList){
                 acc.AccountABNEntity_Validation__c = 'Valid';

@@ -15,7 +15,7 @@
 public with sharing class CommunicationQueuesDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator', 'System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_System_Administrator' });
     }
 
     @isTest

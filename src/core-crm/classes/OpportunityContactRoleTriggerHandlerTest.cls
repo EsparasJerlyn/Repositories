@@ -14,7 +14,7 @@
 private class OpportunityContactRoleTriggerHandlerTest {
     
     @testSetup static void setupMethod() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator'});
         System.runAs(TestDataFactory.getProgramAdminUser()) {
 
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();

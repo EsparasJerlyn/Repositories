@@ -16,7 +16,7 @@ public with sharing class EmailTriggerBatchHelperTest {
     static void makeData(){
 
       Test.startTest();
-      TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator' });
+      TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
       Test.stopTest();
 
       final Id STUDENT_RECTYPEID = Schema.SObjectType.hed__Course_Enrollment__c.getRecordTypeInfosByDeveloperName()

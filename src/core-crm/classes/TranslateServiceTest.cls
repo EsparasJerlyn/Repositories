@@ -17,7 +17,7 @@ public class TranslateServiceTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'System_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
         Test.stopTest();
     }
     

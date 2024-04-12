@@ -22,7 +22,7 @@ private class DynamicQueueableProcessTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator','QUT_ESB' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator','QUT_ESB' });
         Test.startTest();
         List<International_Tier__c> tierList = TestDataFactory.createInternationalTierRecords(new List<String>{'Wales','Australia'}, 'Tier 1',true);
         insert tierList;

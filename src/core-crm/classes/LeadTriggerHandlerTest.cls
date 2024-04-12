@@ -26,7 +26,7 @@ private class LeadTriggerHandlerTest {
 
     @testSetup static void setupMethod() {
         
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator'});
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'});
         Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next(); 
         insert acc;
 

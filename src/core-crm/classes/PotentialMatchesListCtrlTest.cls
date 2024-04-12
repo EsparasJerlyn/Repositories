@@ -21,14 +21,14 @@ private class PotentialMatchesListCtrlTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Future_Student_Agent_Domestic','Future_Student_Super_Team_Leader_Domestic' });
-        List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
-        System.runAs(TestDataFactory.getDomesticFutureStudentSuperTeamLeader()) {
-            WorkTypesDAO.newInstance().insertRecords(workTypes, true, AccessLevel.USER_MODE);
-        }
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Domestic_Future_Student_Agent' });
+
         System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
             List<Account> accList = TestDataFactory.createTestAccountRecords(1);
             AccountsDAO.newInstance().insertRecords(accList, false, AccessLevel.USER_MODE);
+
+            List<WorkType> workTypes = TestDataFactory.createTestWorkTypeRecords();
+            WorkTypesDAO.newInstance().insertRecords(workTypes, false, AccessLevel.USER_MODE);
 
             List<ServiceAppointment> serviceAppList = TestDataFactory.createTestServiceAppointmentRecords(1, accList[0].Id);
 

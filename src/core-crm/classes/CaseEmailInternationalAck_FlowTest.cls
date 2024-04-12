@@ -17,7 +17,7 @@ public with sharing class CaseEmailInternationalAck_FlowTest {
     
     @testSetup
     static void makeData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'Future_Student_Agent_International', 'Future_Student_Agent_Domestic' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_International_Future_Student_Agent', 'QUT_Domestic_Future_Student_Agent' });
     }
     
     @IsTest
