@@ -2715,8 +2715,8 @@ public class TestDataFactory {
                 profileName = 'System Administrator';
                 roleName = '';
                 qutPersona = 'System Administrator';
-                permSets = '';
-                permSetGroups = 'Persona_System_Administrator';
+                permSets = 'Access_Create_and_Customize_List_Views,CommerceAdmin,DocuSign_Administrator,CLM_Administrator,DocuSign_Generator,DocuSign_Negotiator,Marketing_Cloud_Connected_App,ExactTarget_Integration,ExactTarget_Integration_Admin,Marketing_Cloud_System_User,Permission_API_Enabled,Permission_All_Apex_Classes_and_VF_Pages,Permission_All_Custom_Settings_and_Custom_Metadata,Permission_All_Flows,Permission_All_Lightning_Apps,Permission_All_Object_and_FLAs_View_Create_Update_Delete,Permission_All_Tabs_Available_and_Visible,Permission_Enable_Inactive_User_Assignment,Permission_Export_Reports,Permission_Manage_Business_Hours_Holidays,Permission_Manage_Reports_and_Dashboards,Permission_Manage_Sharing,Permission_Manage_Users_Internal_and_External,Permission_Modify_All_Data,Permission_Query_All_Files_with_ViewAllData,Permission_Set_Audit_Fields_upon_Record_Creation,Permission_View_All_Data,Permission_View_All_Users,Permission_View_Roles_and_Role_Hierarchy,Permission_View_Setup_and_Configuration,Sprinklr_Admin,Th_Badge_Admin';
+                // permSetGroups = 'Persona_System_Administrator';
                 publicGroups = 'System Administrator';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2731,8 +2731,8 @@ public class TestDataFactory {
                 profileName = 'Internal Base';
                 roleName = '';
                 qutPersona = 'System Administrator - Modify All Data';
-                permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins';
-                permSetGroups = 'Persona_System_Administrator_Modify_All_Data';
+                permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins,Access_Create_and_Customize_List_Views,Permission_API_Enabled,Permission_All_Apex_Classes_and_VF_Pages,Permission_All_Custom_Settings_and_Custom_Metadata,Permission_All_Flows,Permission_All_Lightning_Apps,Permission_All_Object_and_FLAs_View_Create_Update_Delete,Permission_All_Tabs_Available_and_Visible,Permission_Export_Reports,Permission_Multi_Factor_Authentication_for_User_Interface_Logins,Permission_Query_All_Files_with_ViewAllData,Permission_View_All_Data,Permission_View_All_Users,Permission_View_Roles_and_Role_Hierarchy,Permission_View_Setup_and_Configuration,HighVelocitySalesCadenceCreatorIncluded';
+                // permSetGroups = 'Persona_System_Administrator_Modify_All_Data';
                 publicGroups = 'System Administrator - Modify All Data';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2747,8 +2747,8 @@ public class TestDataFactory {
                 profileName = 'Internal Base';
                 roleName = '';
                 qutPersona = 'System Administrator - Read Only';
-                permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins';
-                permSetGroups = 'Persona_System_Administrator_Read_Only';
+                permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins,Access_Create_and_Customize_List_Views,Permission_API_Enabled,Permission_All_Apex_Classes_and_VF_Pages,Permission_All_Custom_Settings_and_Custom_Metadata,Permission_All_Flows,Permission_All_Lightning_Apps,Permission_All_Object_and_FLAs_View,Permission_All_Tabs_Available_and_Visible,Permission_Export_Reports,Permission_Multi_Factor_Authentication_for_User_Interface_Logins,Permission_Query_All_Files_with_ViewAllData,Permission_View_All_Data,Permission_View_All_Users,Permission_View_Roles_and_Role_Hierarchy,Permission_View_Setup_and_Configuration';
+                // permSetGroups = 'Persona_System_Administrator_Read_Only';
                 publicGroups = 'System Administrator - Read Only';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2763,8 +2763,8 @@ public class TestDataFactory {
                 profileName = 'Internal Base';
                 roleName = '';
                 qutPersona = 'Development Team';
-                permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins';
-                permSetGroups = 'Persona_Development_Team';
+                permSets = 'Permission_Multi_Factor_Authentication_for_User_Interface_Logins,Access_Create_and_Customize_List_Views,Permission_API_Enabled,Permission_All_Apex_Classes_and_VF_Pages,Permission_All_Custom_Settings_and_Custom_Metadata,Permission_All_Flows,Permission_All_Lightning_Apps,Permission_All_Object_and_FLAs_View_Create_Update_Delete,Permission_All_Tabs_Available_and_Visible,Permission_Export_Reports,Permission_Multi_Factor_Authentication_for_User_Interface_Logins,Permission_Query_All_Files_with_ViewAllData,Permission_Set_Audit_Fields_upon_Record_Creation,Permission_View_All_Data,Permission_View_All_Users,Permission_View_Roles_and_Role_Hierarchy,Permission_View_Setup_and_Configuration,HighVelocitySalesCadenceCreatorIncluded';
+                // permSetGroups = 'Persona_Development_Team';
                 publicGroups = 'Development Team';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -2780,7 +2780,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Leadership';
                 qutPersona = 'QUTeX Executive Director';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Marketing,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2796,7 +2796,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Leadership';
                 qutPersona = 'QUTeX Business Manager';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2812,7 +2812,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Super User';
                 qutPersona = 'QUTeX Director of OPE';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2828,7 +2828,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Super User';
                 qutPersona = 'QUTeX Portfolio Co-Ordinator';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2844,7 +2844,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX User';
                 qutPersona = 'QUTeX Product Administrator';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Email_Template_Management';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2860,7 +2860,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX User';
                 qutPersona = 'QUTeX Learning Innovation Manager';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2876,7 +2876,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX User';
                 qutPersona = 'QUTeX Learning Designer';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Product_Administration';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2892,7 +2892,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Super User';
                 qutPersona = 'QUTeX Partnership Manager';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled,Corporate_Bundle';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = 'Partnership Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2908,7 +2908,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX User';
                 qutPersona = 'QUTeX Program Co-Ordinator';
                 permSets = 'QUTeX_Base,QUTeX_CCE';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2924,7 +2924,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Super User';
                 qutPersona = 'QUTeX Program Administrator';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = 'OPE Product Design,CCE Product Design,Program Administrator';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2940,7 +2940,7 @@ public class TestDataFactory {
                 roleName = 'QUTeX Super User';
                 qutPersona = 'QUTeX Program Administrator';
                 permSets = 'QUTeX_Base,QUTeX_CCE,QUTeX_Leader,Product_Administration,DocuSign_Generator,DocuSign_Negotiator,DocuSign_Sender,DocuSign_User,Permission_API_Enabled';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = 'OPE Product Design,CCE Product Design,Program Administrator';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2956,7 +2956,7 @@ public class TestDataFactory {
                 roleName = 'Marketing Super User';
                 qutPersona = 'Marketing Manager'; 
                 permSets = 'Marketing';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2972,7 +2972,7 @@ public class TestDataFactory {
                 roleName = 'Marketing Super User';
                 qutPersona = 'Marketing Partnership Manager';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -2988,7 +2988,7 @@ public class TestDataFactory {
                 roleName = 'Marketing User';
                 qutPersona = 'Marketing Quality Assurance';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3004,7 +3004,7 @@ public class TestDataFactory {
                 roleName = 'Marketing User';
                 qutPersona = 'Digital Marketing Officer';
                 permSets = 'Marketing';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3020,7 +3020,7 @@ public class TestDataFactory {
                 roleName = 'Marketing User';
                 qutPersona = 'Marketing Digital Communication Officer';
                 permSets = 'QUTeX_Base,QUTeX_CCE,Marketing';
-                permSetGroups = '';
+                // permSetGroups = '';
                 publicGroups = '';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3035,8 +3035,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Concierge - Domestic';
                 qutPersona = 'Future Student Concierge - Domestic';
-                permSets = '';
-                permSetGroups = 'Future_Student_Concierge_Domestic';
+                permSets = 'Future_Student_Domestic_Email_Access,Future_Student_Engagement,Google_Integration_User,Knowledge_User,Lightning_Scheduler_User_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded';
+                // permSetGroups = 'Future_Student_Concierge_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3051,8 +3051,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Concierge - International';
                 qutPersona = 'Future Student Concierge - International';
-                permSets = '';
-                permSetGroups = 'Future_Student_Concierge_International';
+                permSets = 'Future_Student_Engagement,Future_Student_International_Email_Access,Google_Integration_User,Knowledge_User,Lightning_Scheduler_User_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded';
+                // permSetGroups = 'Future_Student_Concierge_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3067,8 +3067,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
                 qutPersona = 'Future Student Agent - Domestic';
-                permSets = '';
-                permSetGroups = 'Future_Student_Agent_Domestic';
+                permSets = 'Future_Student_Domestic_Email_Access,Future_Student_Engagement,Google_Integration_User,Knowledge_User,Lightning_Scheduler_User_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User';
+                // permSetGroups = 'Future_Student_Agent_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3083,8 +3083,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - Domestic';
                 qutPersona = 'Future Student Agent Super User - Domestic';
-                permSets = '';
-                permSetGroups = 'Future_Student_Super_Agent_Domestic';
+                permSets = 'Future_Student_Engagement,Future_Student_Super_Agent,Google_Integration_User,Knowledge_User,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User';
+                // permSetGroups = 'Future_Student_Super_Agent_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3099,8 +3099,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Super User - Domestic';
                 qutPersona = 'Future Student Super Team Leader - Domestic';
-                permSets = '';
-                permSetGroups = 'Future_Student_Team_Leader_Domestic,Future_Student_Super_User_Domestic';
+                permSets = 'Future_Student_Domestic_Email_Access,Future_Student_Engagement,Google_Integration_User,Knowledge_User,Lightning_Scheduler_Administrator_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User,Email_SMS_Call_Scripts_Template_Editor,Future_Student_Config,Knowledge_Management,Manage_International_Tiers,Manage_Reports_and_Dashboards';
+                // permSetGroups = 'Future_Student_Team_Leader_Domestic,Future_Student_Super_User_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3115,8 +3115,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Agent - International';
                 qutPersona = 'Future Student Agent - International';
-                permSets = '';
-                permSetGroups = 'Future_Student_Agent_International';
+                permSets = 'Future_Student_Engagement,Future_Student_International_Email_Access,Google_Integration_User,Knowledge_User,Lightning_Scheduler_User_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User';
+                // permSetGroups = 'Future_Student_Agent_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3131,8 +3131,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Team Leader - Domestic';
                 qutPersona = 'Future Student Team Leader - Domestic';
-                permSets = '';
-                permSetGroups = 'Future_Student_Team_Leader_Domestic';
+                permSets = 'Future_Student_Domestic_Email_Access,Future_Student_Engagement,Google_Integration_User,Knowledge_User,Lightning_Scheduler_Administrator_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User';
+                // permSetGroups = 'Future_Student_Team_Leader_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3147,8 +3147,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Team Leader - Domestic';
                 qutPersona = 'Future Student Reporting - Domestic';
-                permSets = '';
-                permSetGroups = 'Future_Student_Reporting_Domestic';
+                permSets = 'Future_Student_Engagement_Read_Only,Knowledge_User,Run_Reports_and_Dashboards,Sales_Engagement_User_Included_Read_Only';
+                // permSetGroups = 'Future_Student_Reporting_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3163,8 +3163,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Team Leader - International';
                 qutPersona = 'Future Student Team Leader - International';
-                permSets = '';
-                permSetGroups = 'Future_Student_Team_Leader_International';
+                permSets = 'Future_Student_Engagement,Future_Student_International_Email_Access,Google_Integration_User,Knowledge_User,Lightning_Scheduler_Administrator_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User';
+                // permSetGroups = 'Future_Student_Team_Leader_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3179,8 +3179,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Super User - Domestic';
                 qutPersona = 'Future Student Super User - Domestic';
-                permSets = '';
-                permSetGroups = 'Future_Student_Super_User_Domestic';
+                permSets = 'Email_SMS_Call_Scripts_Template_Editor,Future_Student_Config,Future_Student_Domestic_Email_Access,Google_Integration_User,Knowledge_Management,Lightning_Scheduler_Administrator_V2,Manage_International_Tiers,Manage_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User';
+                // permSetGroups = 'Future_Student_Super_User_Domestic';
                 publicGroups = 'Future Students - Domestic';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3195,8 +3195,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Super User - International';
                 qutPersona = 'Future Student Super Team Leader - International';
-                permSets = '';
-                permSetGroups = 'Future_Student_Team_Leader_International,Future_Student_Super_User_International';
+                permSets = 'Future_Student_Engagement,Future_Student_International_Email_Access,Google_Integration_User,Knowledge_User,Lightning_Scheduler_Administrator_V2,Run_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User,Email_SMS_Call_Scripts_Template_Editor,Future_Student_Config,Knowledge_Management,Manage_International_Tiers,Manage_Reports_and_Dashboards';
+                // permSetGroups = 'Future_Student_Team_Leader_International,Future_Student_Super_User_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3211,8 +3211,8 @@ public class TestDataFactory {
                 profileName = 'Future Student Engagement';
                 roleName = 'Future Student Super User - International';
                 qutPersona = 'Future Student Super User - International';
-                permSets = '';
-                permSetGroups = 'Future_Student_Super_User_International';
+                permSets = 'Email_SMS_Call_Scripts_Template_Editor,Future_Student_Config,Future_Student_International_Email_Access,Google_Integration_User,Knowledge_Management,Lightning_Scheduler_Administrator_V2,Manage_International_Tiers,Manage_Reports_and_Dashboards,HighVelocitySalesUserIncluded,Sprinklr_User';
+                // permSetGroups = 'Future_Student_Super_User_International';
                 publicGroups = 'Future Students - International';
                 isServiceCloudUser = true;
                 isFlowUser = true;
@@ -3227,8 +3227,8 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Partnership Manager';
                 qutPersona = 'Industry Partnership Manager';
-                permSets = '';
-                permSetGroups = 'Partnership_Manager';
+                permSets = 'Business_Development_Base';
+                // permSetGroups = 'Partnership_Manager';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3243,8 +3243,8 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Operations Manager';
                 qutPersona = 'Industry Operations Manager';
-                permSets = '';
-                permSetGroups = 'Operations_Manager';
+                permSets = 'Business_Development_Base';
+                // permSetGroups = 'Operations_Manager';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3259,8 +3259,8 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'VP Business Development';
                 qutPersona = 'Industry VP Business Development';
-                permSets = '';
-                permSetGroups = 'VPBD_Director';
+                permSets = 'Business_Development_Base';
+                // permSetGroups = 'VPBD_Director';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager,Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3275,8 +3275,8 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Executive Director Business Development';
                 qutPersona = 'Industry Director Business Development';
-                permSets = '';
-                permSetGroups = 'VPBD_Director';
+                permSets = 'Business_Development_Base';
+                // permSetGroups = 'VPBD_Director';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager,Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
@@ -3291,8 +3291,8 @@ public class TestDataFactory {
                 profileName = 'Industry Engagement';
                 roleName = 'Industry Engagement Super User';
                 qutPersona = 'Industry Engagement Super User';
-                permSets = '';
-                permSetGroups = 'Partnership_Manager,Operations_Manager';
+                permSets = 'Business_Development_Base';
+                // permSetGroups = 'Partnership_Manager,Operations_Manager';
                 publicGroups = 'Research Partnership Manager,IPU Partnership Manager,Commercialisation Partnership Manager,Research Operations Manager,IPU Operations Manager,Commercialisation Operations Manager';
                 isServiceCloudUser = false;
                 isFlowUser = false;
