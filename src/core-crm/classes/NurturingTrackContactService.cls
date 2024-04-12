@@ -80,6 +80,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
         NurtureTrackConfigurationsDAO.DOMESTIC_DEFERRED_OFFER_TO_ACCEPTANCE_MANUAL,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED,
         NurtureTrackConfigurationsDAO.DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE,
         NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_AUTOMATED,
         NurtureTrackConfigurationsDAO.DOMESTIC_FIRST_OFFER_TO_ACCEPTANCE_MANUAL,
@@ -92,7 +93,9 @@ public with sharing class NurturingTrackContactService { //NOPMD
         NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED,
         NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
-        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+        NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_AGENT_AUTOMATED
     };
     private static Map<String,International_Tier__c> InternationalTierRestrictedMap = NurturingTrackService.getAllRestrictedCountry();
 
@@ -333,7 +336,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 !isPartnerSourced ||
                 //make sure that there are no completed cadence against any succeeding cadence
                 //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
-                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST)) {
+                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_PARTNER_SOURCED)) {
                 continue;
             }
 
@@ -1809,7 +1812,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 (application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID) &&
                 (ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)) &&
                 (application.Is_Agent_Assisted__c == false) &&
-                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_DIRECT));
+                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AUTO));
             if(isPassedCriteria) {
                 directApplicantsToOffer.put(application.Id, application);
             }
@@ -1882,7 +1885,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 (application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID) &&
                 (ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)) &&
                 (application.Is_Agent_Assisted__c == true) &&
-                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AGENT));
+                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AUTO));
             if(isPassedCriteria) {
                 directApplicantsToOffer.put(application.Id, application);
             }
