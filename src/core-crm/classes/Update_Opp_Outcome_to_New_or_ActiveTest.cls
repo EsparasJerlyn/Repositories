@@ -19,7 +19,7 @@ public class Update_Opp_Outcome_to_New_or_ActiveTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
 
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();

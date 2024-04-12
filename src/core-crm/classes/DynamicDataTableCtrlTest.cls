@@ -14,7 +14,7 @@
 private class DynamicDataTableCtrlTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
         System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
             Test.startTest();
             List<Account> accountListToInsert = TestDataFactory.createTestAccountRecords(1);

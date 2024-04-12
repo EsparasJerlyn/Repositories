@@ -12,7 +12,7 @@
 public with sharing class EngagementTriggerHandlerTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Partnership_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' });
         Engagement_Code_Auto_Number__c engCodeAutoNum = EngagementCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         engCodeAutoNum.Commercialisation__c = 1;
         engCodeAutoNum.Research_Partnership__c = 1;

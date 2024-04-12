@@ -18,7 +18,7 @@
 public with sharing class LeadsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator', 'Future_Student_Agent_Domestic' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_Domestic_Future_Student_Agent' });
     }
 
     @isTest

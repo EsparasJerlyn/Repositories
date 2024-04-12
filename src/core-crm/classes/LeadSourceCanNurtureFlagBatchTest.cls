@@ -21,7 +21,7 @@ public with sharing class LeadSourceCanNurtureFlagBatchTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUTeX_Program_Administrator' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
         System.runAs(TestDataFactory.getProgramAdminUser()) {           
             
             List<Nurture_Track_Configuration__c> nurtureList = new List<Nurture_Track_Configuration__c>();

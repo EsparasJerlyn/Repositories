@@ -27,7 +27,7 @@ public with sharing class GroupRegistrationCtrlTest {
     @testSetup
     static void setupData(){
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{'QUTeX_Program_Administrator','QUT_Sys_Admin'});
+        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_Sys_Admin'});
         Test.stopTest();
     }
 

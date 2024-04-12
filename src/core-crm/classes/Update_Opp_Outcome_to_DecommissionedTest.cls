@@ -40,7 +40,7 @@
                 AccessLevel.USER_MODE
             );
         
-            TestDataFactory.generateTestUsers(new List<String>{ 'Industry_Operations_Manager' });
+            TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Operations_Manager' });
             System.runAs(TestDataFactory.getOperationsManager()){
                 
             //creation of opportunity 
