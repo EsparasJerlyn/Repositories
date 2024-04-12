@@ -116,7 +116,7 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
         DOMESTIC_INTERNATIONAL_ENROLLMENT_CENSUS_CADENCE //Domestic and International Enrolment to Census
     };
 
-    public static final Set<String> INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_AUTO = new Set<String>{
+    public static final Set<String> INTERNATIONAL_TRACK_SUCCEEDING_APPLICATION_TO_OFFER_AUTO = new Set<String>{
         INTERNATIONAL_APPLICATION_TO_OFFER_MANUAL, //International Application to Offer
         INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED, //International Offer to Acceptance - Direct (Automated)
         INTERNATIONAL_OFFER_TO_ACCEPTANCE_AGENT_AUTOMATED, //International Offer to Acceptance - Agent (Automated)
