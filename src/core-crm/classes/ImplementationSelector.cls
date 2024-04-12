@@ -41,7 +41,7 @@
  *    | nicole.genon                   | November 22, 2023     | DEPP-7259              | Added object mapping for WorkType Object                             |
  *    | nicole.genon                   | November 24, 2023     | DEPP-7259              | Added object mapping for ServiceAppointment Object                   |
  *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | Added Object mapping for Program_Offering__c obj                     |
- *    | arsenio.jr.dayrit              | January 02, 2024      |  ApexCRUDViolationFix  | Added object mapping for BuyerGroups,                                |
+ *    | arsenio.jr.dayrit              | January 02, 2024      | ApexCRUDViolationFix   | Added object mapping for BuyerGroups,                                |
  *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product       |
  *    |                                |                       |                        | Product Category, Product Category Product Object                    |
  *    | kenneth.f.alsay                | February 29, 2024     | DEPP-7883              | Added object mapping for Plan_Activity object                        |
