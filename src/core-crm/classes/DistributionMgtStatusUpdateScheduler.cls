@@ -1,5 +1,5 @@
 /**
- * @description Scheduler for DesignationStageUpdateBatch
+ * @description Scheduler for DistributionMgtStatusUpdateBatch
  *
  * @author Accenture
  *
@@ -11,7 +11,7 @@
  */
 public with sharing class DistributionMgtStatusUpdateScheduler implements Schedulable{
     /**
-    * @description Method for calling Publishing End Date batch job
+    * @description Method for calling Distribution Management Status Update batch job
     */
     public void execute (SchedulableContext context){
         DistributionMgtStatusUpdateBatch batch = new DistributionMgtStatusUpdateBatch();
