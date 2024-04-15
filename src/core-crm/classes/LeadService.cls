@@ -131,12 +131,12 @@ public with sharing class LeadService {
         Set<Id> leadWithCompletedCadencePartnerSource = checkCompletedCadenceWithPartnerSource(newItems.keySet());
         for (Lead lead : newItems.values()) {
             Boolean hasLeadWithCompletedCadencePartnerSource = leadWithCompletedCadencePartnerSource.contains(lead.Id);
-            Boolean leadForUpdateFlagToFalse = lead.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED &&
+            Boolean leadWithPartnerSourcedCadenceForUpdateFlagToFalse = lead.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED &&
                                     !lead.IsConverted &&
                                     isForUpdate &&
                                     hasLeadWithCompletedCadencePartnerSource &&
                                     lead.Can_Nurture__c;
-            Boolean leadForUpdateFlagToTrue = isForUpdate &&
+            Boolean leadToPartnerSourcedForUpdateFlagToTrue = isForUpdate &&
                                     !lead.IsConverted &&
                                     oldItems.get(lead.Id).Lead_Source_Category__c != lead.Lead_Source_Category__c &&
                                     lead.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED &&
@@ -145,10 +145,10 @@ public with sharing class LeadService {
 
 
 
-            if(leadForUpdateFlagToFalse){
+            if(leadWithPartnerSourcedCadenceForUpdateFlagToFalse){
                 lead.Can_Nurture__c = false;
             }
-            else if (leadForUpdateFlagToTrue){
+            else if (leadToPartnerSourcedForUpdateFlagToTrue){
                 lead.Can_Nurture__c = true;
             }
 
