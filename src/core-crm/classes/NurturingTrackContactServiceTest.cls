@@ -2056,4 +2056,5 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         ));
         return intakePeriods;
     }
+    
 }
