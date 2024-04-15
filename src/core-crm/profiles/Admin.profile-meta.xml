@@ -482,6 +482,9 @@
         <layout>Solution-Solution Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Student_Sanction__c-Student Sanction Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Success_Action__c-Success Action Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

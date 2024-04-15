@@ -173,6 +173,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Student_Sanction__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Study_Area_Plan__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
