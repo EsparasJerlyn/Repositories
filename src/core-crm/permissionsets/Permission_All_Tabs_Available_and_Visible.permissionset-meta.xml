@@ -29,6 +29,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Engagement_List_Event__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Events</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -380,7 +384,7 @@
         <tab>standard-AnalyticsDataManager</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-ApiAnomalyEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -580,7 +584,7 @@
         <tab>standard-Coupon</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-CredentialStuffingEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -696,7 +700,7 @@
         <tab>standard-GuestBuyerProfile</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-GuestUserAnomalyEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -968,7 +972,7 @@
         <tab>standard-RefundLinePayment</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-ReportAnomalyEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -996,7 +1000,7 @@
         <tab>standard-ServiceTerritory</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-SessionHijackingEventStore</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -1060,7 +1064,7 @@
         <tab>standard-TaxTreatment</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-ThreatDetectionFeedback</tab>
         <visibility>Visible</visibility>
     </tabSettings>

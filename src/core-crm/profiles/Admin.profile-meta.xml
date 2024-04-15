@@ -192,6 +192,9 @@
         <layout>EngagementChannelType-Engagement Channel Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Engagement_List_Event__c-Engagement List Event Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Expression_of_Interest__c-Expression of Interest Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
