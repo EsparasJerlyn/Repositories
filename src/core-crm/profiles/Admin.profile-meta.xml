@@ -402,6 +402,9 @@
         <layout>PromotionMarketSegment-Promotion Market Segment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Qualtrics_Survey__c-Qualtrics Survey Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Question__c-Question Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

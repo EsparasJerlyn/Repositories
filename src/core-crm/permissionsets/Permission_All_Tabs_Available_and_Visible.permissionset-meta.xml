@@ -157,6 +157,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Qualtrics_Survey__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Questionnaire_Response_Summary__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
