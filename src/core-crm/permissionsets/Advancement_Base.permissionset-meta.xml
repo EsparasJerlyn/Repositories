@@ -3160,6 +3160,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>Task</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>et4ae5__Configuration__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -3244,6 +3253,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Stewardship__c.Organisation_Stewardship</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Standard</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
