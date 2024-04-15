@@ -196,5 +196,6 @@ public inherited sharing class NurtureTrackConfigurationsDAO extends DmlBase imp
             'WITH ' +
             String.escapeSingleQuotes(accessLevel)
         );
-    } 
+    }
+    
 } 
