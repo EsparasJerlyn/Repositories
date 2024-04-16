@@ -6,4 +6,7 @@
         <visible>true</visible>
     </applicationVisibilities>
     <userLicense>Salesforce</userLicense>
+    <layoutAssignments>
+        <layout>Student_Sanction__c-Student Sanction Page Layout</layout>
+    </layoutAssignments>
 </Profile>

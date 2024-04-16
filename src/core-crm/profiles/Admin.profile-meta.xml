@@ -192,6 +192,9 @@
         <layout>EngagementChannelType-Engagement Channel Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Engagement_List_Event__c-Engagement List Event Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Expression_of_Interest__c-Expression of Interest Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -399,6 +402,9 @@
         <layout>PromotionMarketSegment-Promotion Market Segment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Qualtrics_Survey__c-Qualtrics Survey Page Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Question__c-Question Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -474,6 +480,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Solution-Solution Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Student_Sanction__c-Student Sanction Page Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Success_Action__c-Success Action Page Layout</layout>
