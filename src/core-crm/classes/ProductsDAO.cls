@@ -66,4 +66,5 @@ public inherited sharing class ProductsDAO extends DmlBase implements IProductsD
             accessLevel
         );
     }    
+    
 }

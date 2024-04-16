@@ -8,6 +8,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <layoutAssignments>
+        <layout>Designation__c-Giving To Cause Designation Layout</layout> 
+        <recordType>Designation__c.Giving_To_Cause</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Document__c-Document Page Layout</layout>
         <recordType>Document__c.Standard</recordType>
     </layoutAssignments>

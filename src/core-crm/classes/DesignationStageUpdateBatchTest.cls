@@ -11,6 +11,8 @@
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage                              |
       | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage                            |
       | kenneth.f.alsay                | April 1, 2024         | DEPP-8209              | Added field values to pass new validation rules |
+      | eugene.andrew.abuan            | April 10, 2024        | DEPP-8390              | Added Designation Code and Recordtype           |
+
 
  */
 @isTest
@@ -19,6 +21,14 @@ private class DesignationStageUpdateBatchTest {
     static void setupDate() {
         Test.startTest();
         TestDataFactory.generateTestUsers(new List<String>{'QUT_Advancement_Manager' });
+
+        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        designationCodeAutoNum.Giving_To_Cause__c = 1;
+        DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+        );
         Test.stopTest();
     }
 
@@ -26,7 +36,8 @@ private class DesignationStageUpdateBatchTest {
     private static void forPublishedBatchTest() {
         System.runAs(TestDataFactory.getAdvancementManager()) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
-                1
+                1,
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
             );
 
             designationList[0].Ready_For_Publishing__c = true;
@@ -56,7 +67,8 @@ private class DesignationStageUpdateBatchTest {
     private static void forActiveBatchTest() {
         System.runAs(TestDataFactory.getAdvancementManager()) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
-                1
+                1,
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
             );
             designationList[0].Public_Giving_Publish_Start_Date__c = System.Today() + 1;
             designationList[0].Ready_For_Publishing__c = true;
@@ -91,7 +103,8 @@ private class DesignationStageUpdateBatchTest {
     private static void forArchivedBatchTest() {
         System.runAs(TestDataFactory.getAdvancementManager()) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
-                1
+                1,
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
             );
             designationList[0].Activation_Start_Date__c = System.Today() - 4;
             designationList[0].Archived_Date__c = System.Today() - 1;

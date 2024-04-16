@@ -21,7 +21,10 @@ public class DesignationUpdateValidationFlowTest {
         );
         System.runAs(TestDataFactory.getAdvancementManager()){
             Test.startTest();
-            List<Designation__C> designationList = TestDataFactory.createDesignationRecords(100);
+            List<Designation__C> designationList = TestDataFactory.createDesignationRecords(
+                100,
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
+            );
             for(Designation__C designation : designationList){
                 designation.Is_For_Public_Giving__c = 'Yes';
                 designation.QA_Completed__c = true;

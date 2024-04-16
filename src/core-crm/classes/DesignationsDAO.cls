@@ -8,16 +8,20 @@
       |--------------------------------|-----------------------|------------------------|------------------------------------------------|
       | roy.nino.s.regala              | March 14, 2024        | DEPP-8210              | Created file                                   |
       | eugene.andrew.abuan            | March 18, 2024        | DEPP-8211              | Added Active Stage params for query Selector   |         
-      | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Designation Code in query by Id       |
+      | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Designation Code in query by Id          |
       | nicole.genon                   | March 20, 2024        | DEPP-8212              | Added Archived Stage params for query Selector |
       | kenneth.f.alsay                | April 05, 2024        | DEPP-8399              | Added getDesignationsByNameStart               |
       | kenneth.f.alsay                | April 08, 2024        | DEPP-8399              | Added Record Type Ids                          |
+      | eugene.andrew.abuan            | April 10, 2024        | DEPP-8390              | Added Define Stage string                      |
+
 */
 
 public inherited sharing class DesignationsDAO extends DmlBase implements IDesignationsDAO {
+    
     public static final String DC_PUBLISHED = 'Published';
     public static final String DC_ARCHIVED = 'Archived';
     public static final String DC_ACTIVE = 'Active';
+    public static final String DC_DEFINE = 'Define';
     public static final Id GIVING_TO_CAUSE_RECTYPE_ID = Schema.SObjectType.Designation__c.getRecordTypeInfosByDeveloperName()
     .get('Giving_To_Cause')
     .getRecordTypeId();

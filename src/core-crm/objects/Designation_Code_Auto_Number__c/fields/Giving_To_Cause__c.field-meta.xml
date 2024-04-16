@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Designation__c</fullName>
-    <defaultValue>1</defaultValue>
+    <fullName>Giving_To_Cause__c</fullName>
+    <description>Designation Giving to Cause Auto Number</description>
     <externalId>false</externalId>
-    <label>Designation</label>
+    <label>Giving To Cause</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

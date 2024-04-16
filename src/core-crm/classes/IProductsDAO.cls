@@ -25,4 +25,5 @@ public interface IProductsDAO extends DmlInterface {
           Set<Id> designationIds,
           AccessLevel accessLevel
      );
+     
 }

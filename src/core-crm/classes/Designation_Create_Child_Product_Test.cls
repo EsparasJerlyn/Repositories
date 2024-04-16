@@ -7,7 +7,9 @@
  *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
       |--------------------------------|-----------------------|------------------------|------------------------------|
-      | kathleen.mae.caceres           | March, 20, 2024       | DEPP-8201              | Created file                 | 
+      | kathleen.mae.caceres           | March, 20, 2024       | DEPP-8201              | Created file                 |
+      | eugene.andrew.abuan            | April 10, 2024        | DEPP-8390              | Added Designation Recordtype |
+
  */
 @isTest
 private class Designation_Create_Child_Product_Test {
@@ -18,7 +20,7 @@ private class Designation_Create_Child_Product_Test {
         Test.stopTest();
 
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
-        designationCodeAutoNum.Designation__c = 1;
+        designationCodeAutoNum.Giving_To_Cause__c = 1;
         DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
             new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
             false, 
@@ -30,7 +32,8 @@ private class Designation_Create_Child_Product_Test {
     private static void createProductOnDesignationInsert (){
         System.runAs(TestDataFactory.getAdvancementManager()) {
             List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
-                100
+                100,
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
             );
             
             Test.startTest();

@@ -16,7 +16,8 @@
       |                                |                       |                        | record types not in recordTypeToCodePartsMap                           |
       | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INDIVIDUAL_GIVING_RECTYPE_ID record types generate code            |
       |                                |                       |                        | Add ORGANISATION_GIVING_RECTYPE_ID record types generate code          |
-      | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code       |
+      | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code        |
+      | eugene.andrew.abuan            | April 05, 2024        | DEPP-8390              | Added generationCodeForDesignationRecord                               |
  */
 public with sharing class CodeGeneratorService {
     /**
@@ -118,8 +119,7 @@ public with sharing class CodeGeneratorService {
             AccessLevel.SYSTEM_MODE
             );
     }
-
-    /**
+        /**
      * Generate code for Donation_Cause__c.Donation_Cause_Code__c following the format "ADVDC:00001"
      */
     public static void generateCodeForDonationCauseRecords(List<Donation_Cause__c> newItems) {
@@ -138,6 +138,37 @@ public with sharing class CodeGeneratorService {
             donCauseCodeAutoNum.Donation_Cause__c = autoNumber;
             DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
                 new List<Donation_Cause_Code_Auto_Number__c>{donCauseCodeAutoNum}, 
+                false, 
+                AccessLevel.SYSTEM_MODE
+            );
+        }
+    }
+
+    /**
+     * Generate code for Designation__c.Designation_Code__c following the format "ADVGC:00001"
+     * The first three characters are based on the record type of the opportunity outcome record.
+     */
+    public static void generateCodeForDesignationRecords(List<Designation__c> newItems) {
+        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        Map<Id, CodeParts> recordTypeToCodePartsMap = new Map<Id, CodeParts>();
+        recordTypeToCodePartsMap.put(DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID, new CodeParts('ADVGC', designationCodeAutoNum.Giving_To_Cause__c));
+
+        
+        if(designationCodeAutoNum.Giving_To_Cause__c != null){
+            for(Designation__c newItem : newItems) {
+                if(recordTypeToCodePartsMap.containsKey(newItem.RecordTypeId)) {
+                    String codePrefix = recordTypeToCodePartsMap.get(newItem.RecordTypeId).prefix;
+                    Integer autoNumber = Integer.valueOf(recordTypeToCodePartsMap.get(newItem.RecordTypeId).autoNumber);
+                    String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
+                    newItem.Designation_Code__c = codePrefix + ':' + codeNumber;
+                    autoNumber++;
+                    recordTypeToCodePartsMap.put(newItem.RecordTypeId, new CodeParts(codePrefix, autoNumber));
+                }
+            }
+            designationCodeAutoNum.Giving_To_Cause__c = recordTypeToCodePartsMap.get(DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID).autoNumber;
+
+            DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+                new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
                 false, 
                 AccessLevel.SYSTEM_MODE
             );

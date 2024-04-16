@@ -73,6 +73,8 @@
  *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
  *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                 |
  *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                        |
+ *    | eugene.andrew.abuan       | April 10, 2023      | DEPP-8390           | Added Create Designation with Recordtype                                  |
+
  **/
 
 @isTest
@@ -4337,7 +4339,8 @@ public class TestDataFactory {
         for (Integer i = 0; i < numOfRecords; i++) {
             distributionManagementList.add(
                 new Distribution_Management__c(
-                    Status__c = status
+                    Status__c = status,
+                    Start_Date__c = System.Today()
                 )
             );
         }
@@ -4357,7 +4360,6 @@ public class TestDataFactory {
             donationCauseList.add(
                 new Donation_Cause__c(
                     Activation_Start_Date__c = System.Today(),
-                    Donation_Cause_Code__c = 'TESTCODE' + i,
                     Name = 'Test Donation' + i,
                     Donation_Cause_Description__c = 'Test'
                 )
@@ -4373,16 +4375,17 @@ public class TestDataFactory {
      * @return designationList - List of Designation records created
      */
     public static List<Designation__c> createDesignationRecords(
-        Integer numOfRecords
+        Integer numOfRecords,
+        Id recordTypeId
     ) {
         List<Designation__c> designationList = new List<Designation__c>();
         for (Integer i = 0; i < numOfRecords; i++) {
             designationList.add(
                 new Designation__c(
                     Activation_Start_Date__c = System.Today(),
-                    Designation_Code__c = 'TESTCODE' + i,
                     Name = 'Test Designation ' + i,
-                    Description__c = 'Test'
+                    Description__c = 'Test',
+                    RecordTypeId = recordTypeId
                 )
             );
         }
@@ -4411,4 +4414,4 @@ public class TestDataFactory {
         }
         return donationCauseList;
     }
-}
+} 

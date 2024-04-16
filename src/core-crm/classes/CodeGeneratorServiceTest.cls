@@ -8,6 +8,8 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file                 |
       | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause         |
+      | eugene.andrew.abuan            | April 05, 2024        | DEPP-8390              | Added Designation Cause      |
+
  */
 @isTest
 public class CodeGeneratorServiceTest {
@@ -41,11 +43,19 @@ public class CodeGeneratorServiceTest {
             false, 
             AccessLevel.USER_MODE
             );
-        
+
         Donation_Cause_Code_Auto_Number__c donationCauseCodeAutoNum = DonationCauseCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         donationCauseCodeAutoNum.Donation_Cause__c = 1;
         DonationCauseCodeAutoNumbersDAO.newInstance().upsertRecords(
             new List<Donation_Cause_Code_Auto_Number__c>{donationCauseCodeAutoNum}, 
+            false, 
+            AccessLevel.USER_MODE
+            );
+        
+        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        designationCodeAutoNum.Giving_To_Cause__c = 1;
+        DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+            new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
             false, 
             AccessLevel.USER_MODE
             );
@@ -278,5 +288,34 @@ public class CodeGeneratorServiceTest {
 
     /**
      * TEST STOP: CodeGeneratorService.generateCodeForDonationCauseRecords()
+     */
+
+    /** 
+     * TEST START: CodeGeneratorService.generateCodeForDesignationRecords()
+     */
+    @isTest
+    private static void createDesignationRecords() {
+
+        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+            List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
+            Test.startTest();
+                CodeGeneratorService.generateCodeForDesignationRecords(newItems);
+                Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+            Test.stopTest();
+
+            Integer count = 1;
+            for(Designation__c newItem : newItems) {
+                System.assertEquals(
+                    'ADVGC:' + String.valueOf(count).leftPad(5, '0'),
+                    newItem.Designation_Code__c,
+                    'Incorrect code.');
+                count++;
+            }
+            System.assertEquals(101, designationCodeAutoNum.Giving_To_Cause__c, 'Incorrect final auto-number value.');
+        }
+    }
+
+    /**
+     * TEST STOP: CodeGeneratorService.generateCodeForDesignationRecords()
      */
 }

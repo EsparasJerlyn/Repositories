@@ -14,4 +14,5 @@ public interface IDesignationsDAO extends DmlInterface {
     Database.QueryLocator queryLocatorGetDesignationsForStageUpdate();
     List<Designation__c> getDesignationsBySetRecordIds(Set<Id> recordIds, AccessLevel accessLevel);
     List<Designation__c> getDesignationsByNameStart(String nameStart, AccessLevel accessLevel);
+    
 }

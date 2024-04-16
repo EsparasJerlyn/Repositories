@@ -39,6 +39,9 @@
         <members>Product2.Section_7_Image_Video_URL__c</members>
         <members>Product2.Section_7_Image_Video_Page_Location__c</members>
         <!-- End DEPP-7239 -->
+        <!--Start DEPP-8390-->
+            <members>Designation_Auto_Number__c.Designation__c</members>
+        <!--End DEPP-8390-->
         <name>CustomField</name>
     </types>    
     <types>
