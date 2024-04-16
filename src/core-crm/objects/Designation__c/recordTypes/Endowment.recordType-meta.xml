@@ -56,5 +56,9 @@
             <fullName>Define</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Published</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
 </RecordType>
