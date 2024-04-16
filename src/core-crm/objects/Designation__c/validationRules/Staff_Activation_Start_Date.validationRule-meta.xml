@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Staff_Activation_Start_Date</fullName>
     <active>true</active>
-    <description>Staff Giving Publish Start Date should be greater than and equal to Activation Start Date.</description>
+    <description>Staff Giving Publish Start Date should be greater than or equal to Activation Start Date.</description>
     <errorConditionFormula>AND(
     OR(
         ISNEW(),
@@ -11,5 +11,5 @@
     NOT(ISBLANK(Staff_Giving_Publish_Start_Date__c)),
     Staff_Giving_Publish_Start_Date__c &lt; Activation_Start_Date__c   
 )</errorConditionFormula>
-    <errorMessage>Staff Giving Publish Start Date should be greater than and equal to Activation Start Date</errorMessage>
+    <errorMessage>Staff Giving Publish Start Date should be greater than or equal to Activation Start Date</errorMessage>
 </ValidationRule>
