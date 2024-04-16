@@ -3,7 +3,7 @@
     <sharingOwnerRules>
         <fullName>ADV_Advancement_Manager_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Finance Summary records to Advancement Managers with Read/Write access</description>
+        <description>Share Distribution Management records to Advancement Managers with Read/Write access</description>
         <label>ADV Advancement Manager Share</label>
         <sharedTo>
             <group>Advancement_Manager</group>
@@ -15,7 +15,7 @@
     <sharingOwnerRules>
         <fullName>ADV_Advancement_Operations_Manager_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Finance Summary records to Advancement Operations Manager with Read/Write access</description>
+        <description>Share Distribution Management records to Advancement Operations Manager with Read/Write access</description>
         <label>ADV Advancement Operations Manager Share</label>
         <sharedTo>
             <group>Advancement_Operations_Manager</group>
@@ -27,7 +27,7 @@
     <sharingOwnerRules>
         <fullName>ADV_Fundraiser_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Finance Summary records to Fundraiser with Read/Write access</description>
+        <description>Share Distribution Management records to Fundraiser with Read/Write access</description>
         <label>ADV Fundraiser Share</label>
         <sharedTo>
             <group>Fundraiser</group>
@@ -39,25 +39,13 @@
     <sharingOwnerRules>
         <fullName>ADV_Fundraising_Manager_Share</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Finance Summary records to Fundraising Managers with Read/Write access</description>
+        <description>Share Distribution Management records to Fundraising Managers with Read/Write access</description>
         <label>ADV Fundraising Manager Share</label>
         <sharedTo>
             <group>Fundraising_Manager</group>
         </sharedTo>
         <sharedFrom>
             <group>Advancement</group>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>IE_Operations_Manager_Share</fullName>
-        <accessLevel>Edit</accessLevel>
-        <description>Share Finance Summary records to Operations Manager with Read/Write access</description>
-        <label>IE Operations Manager Share</label>
-        <sharedTo>
-            <role>Operations_Manager</role>
-        </sharedTo>
-        <sharedFrom>
-            <role>Operations_Manager</role>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>
