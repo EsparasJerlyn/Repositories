@@ -580,10 +580,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 !isAgentAssisted &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 ApplicationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                NurturingTrackService.isDateWithinRange(
-                    application.Calculated_Intake_Date__c,
-                    CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                    CURRENT_INTAKE_PERIOD.get('END_DATE')) &&
+                (application.Calculated_Intake_Date__c != null && application.Calculated_Intake_Date__c > Date.today()) &&
                 //make sure that there are no completed cadence against any succeeding cadence
                 //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
                 !completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_OFFER_TO_ACCEPTANCE)
@@ -623,7 +620,7 @@ public with sharing class NurturingTrackContactService { //NOPMD
                 application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID &&
                 application.Is_Agent_Assisted__c &&
                 ApplicationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK.contains(application.Application_Status__c) &&
-                application.Calculated_Intake_Date__c > Date.today() &&
+                (application.Calculated_Intake_Date__c != null && application.Calculated_Intake_Date__c > Date.today()) &&
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 //make sure that there are no completed cadence against any succeeding cadence
                 //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
@@ -798,18 +795,12 @@ public with sharing class NurturingTrackContactService { //NOPMD
             Boolean hasCalculatedCadence =
                 (application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_DIRECT_AUTOMATED) ||
                 (application.hed__Applicant__r.Calculated_Cadence__c == NurtureTrackConfigurationsDAO.INTERNATIONAL_OFFER_TO_ACCEPTANCE_MANUAL);
-            boolean isValidCalcIntakeDate = NurturingTrackService.isDateWithinRange(
-                                                application.Calculated_Intake_Date__c,
-                                                CURRENT_INTAKE_PERIOD.get('START_DATE'),
-                                                CURRENT_INTAKE_PERIOD.get('END_DATE')
-                                            );
             boolean isAppStatusValid = ApplicationsDAO.STATUS_SET_ACCEPTS_DECLINES_DEFERS_OFFER.contains(application.Application_Status__c);
             if (
                 internationalEntryContactMap.containsKey(application.hed__Applicant__c) &&
                 isStudyLinkRecordType &&
                 isAppStatusValid &&
-                hasCalculatedCadence &&
-                isValidCalcIntakeDate
+                hasCalculatedCadence
             ) {
                 contactsForUpdatingMap.put(
                     application.hed__Applicant__c,
