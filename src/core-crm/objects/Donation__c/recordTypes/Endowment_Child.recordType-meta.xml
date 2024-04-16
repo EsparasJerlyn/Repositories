@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Endowment_Child</fullName>
+    <active>true</active>
+    <description>Create a Child Donation record for an Endowment record that requires a Parent-Child relationship.</description>
+    <label>Endowment Child</label>
+</RecordType>
