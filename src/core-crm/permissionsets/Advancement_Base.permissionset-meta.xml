@@ -3497,6 +3497,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Donation__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>List__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
