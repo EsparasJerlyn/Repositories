@@ -114,7 +114,7 @@ const start = async function(){
                 });
                 if (targetRecord) {
                     check_fields = check_fields.filter(record => {
-                        return !(record.field === field_name);
+                        return !(record.ObjectPlusField === field_name);
                     });
                 }
             }
@@ -130,7 +130,7 @@ const start = async function(){
                 });
                 if (targetRecord) {
                     check_objects = check_objects.filter(record => {
-                        return !(record.object === object_name);
+                        return !(record.object_name === object_name);
                     });
                 }
             }
