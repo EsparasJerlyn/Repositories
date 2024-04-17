@@ -29225,6 +29225,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Case.Inbound_Enquiry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Contact.MC_Persona</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
