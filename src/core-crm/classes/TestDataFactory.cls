@@ -73,8 +73,8 @@
  *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
  *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                 |
  *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                        |
- *    | eugene.andrew.abuan       | April 10, 2023      | DEPP-8390           | Added Create Designation with Recordtype                                  |
-
+ *    | eugene.andrew.abuan       | April 10, 2023        | DEPP-8390           | Added Create Designation with Recordtype                                |
+ *    | nicole.genon              | April 11, 2024        | DEPP-8452           | Added method createDistributionManagementRecordsWithDesignation         |
  **/
 
 @isTest
@@ -4413,5 +4413,28 @@ public class TestDataFactory {
             );
         }
         return donationCauseList;
+    }
+
+    /**
+     * @description Method for creating test Distribution Management records
+     * @params
+     * numOfRecords - number of records to create
+     * @return dMList - List of Distribution Management records created
+     */
+    public static List<Distribution_Management__c> createDistributionManagementRecordsWithDesignation(
+        Integer numOfRecords,
+        Id designationId
+    ) {
+        List<Distribution_Management__c> dMList = new List<Distribution_Management__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            dMList.add(
+                new Distribution_Management__c(
+                    Designation__c = designationId,
+                    Start_Date__c = System.Today(),
+                    Status__c = 'Ready For Use'
+                )
+            );
+        }
+        return dMList;
     }
 } 

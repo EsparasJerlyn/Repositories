@@ -378,10 +378,14 @@
     <tabs>Designation__c</tabs>
     <tabs>Stewardship__c</tabs>
     <tabs>List__c</tabs>
+    <tabs>Distribution_Management__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
             <tab>Designation__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Distribution_Management__c</tab>
         </mappings>
         <mappings>
             <tab>List__c</tab>
