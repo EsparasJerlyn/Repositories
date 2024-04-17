@@ -49,7 +49,7 @@ export default class DynamicRecordEditForm extends LightningElement {
   setParameters() {
     let paramsMap = {};
     paramsMap["recordId"] = this.recordId;
-    paramsMap["parentRecord"] = 'Donation_Cause__c';
+    paramsMap["parentRecord"] = this.objectApiName;
     paramsMap["visibilityByUser"] = this.readOnlyByUser;
     paramsMap["visibilityByParent"] = this.readOnlyByParentField
     return paramsMap;

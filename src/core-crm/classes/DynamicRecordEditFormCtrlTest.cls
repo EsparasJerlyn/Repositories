@@ -7,6 +7,7 @@
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                          |
  *    |--------------------------------|-----------------------|------------------------|-----------------------------------------|
  *    | eugene.andrew.abuan            | March 27, 2024        | DEPP-8203              | Created File                            |
+ *    | kim.howard.capanas             | April 16, 2024        | DEPP-8393              | Update to designation test logic        |
  */
 
 
@@ -24,26 +25,20 @@ public class DynamicRecordEditFormCtrlTest {
     private static void getRecordIdsTest(){
         System.runAs(TestDataFactory.getAdvancementManager()) {
             // Create test records 
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(10);
-            DonationCausesDAO.newInstance().insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
-
-            List<Product2> productList = TestDataFactory.createTestProductRecords(10);
-            Integer count = 0;
-
-            for (Product2 prd : productList) {
-                prd.Donation_Cause__c = donationCauseList[0].Id;
-                count++;
-            }
-            ProductsDAO.newInstance().insertRecords(productList, false, AccessLevel.USER_MODE);
-
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
+                10, 
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
+            );
+            DesignationsDAO.newInstance().insertRecords(designationList, false, AccessLevel.USER_MODE);
+            List<Product2> product2RecList = ProductsDAO.newInstance().getProductByDesignationId(new Set<Id>{designationList[0].Id}, AccessLevel.USER_MODE);
 
             Test.startTest();
             // Call the method for getRecordIds
-            String recordId = DynamicRecordEditFormCtrl.getRecordIds(donationCauseList[0].Id, 'Product2');
+            String recordId = DynamicRecordEditFormCtrl.getRecordIds(designationList[0].Id, 'Product2');
             Test.stopTest();
 
             // Verify that the defualt value  is not null and has the expected value
-            System.assertEquals(productList[0].Id, recordId,'The recordId must be the same as the Product2Id');
+            System.assertEquals(product2RecList[0].Id, recordId,'The recordId must be the same as the Product2Id');
             System.assertNotEquals(null, recordId, 'DynamicRecordEditFormCtrl getReocrdIds must have a return value');
         }
     }
@@ -55,14 +50,17 @@ public class DynamicRecordEditFormCtrlTest {
             String visibilityByParentFilter = 'Stage__c ' + ' = \'' + stageNameVaue + '\''; 
             
             //Create Donation Cause Record
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(1);
-            donationCauseList[0].Stage__c = stageNameVaue;
-            DonationCausesDAO.newInstance().insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
+                10, 
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
+            );
+            designationList[0].Stage__c = stageNameVaue;
+            DesignationsDAO.newInstance().insertRecords(designationList, false, AccessLevel.USER_MODE);
             
             //Build Map for Visibility by Parent
             Map<String, String> visibilityByParentParamMap = new Map<String, String>{
-                'recordId' => donationCauseList[0].Id,
-                'parentRecord' => 'Donation_Cause__c',
+                'recordId' => designationList[0].Id,
+                'parentRecord' => 'Designation__c',
                 'visibilityByParent' => visibilityByParentFilter
             };
 
@@ -91,21 +89,24 @@ public class DynamicRecordEditFormCtrlTest {
         System.runAs(TestDataFactory.getAdvancementManager()) {
 
             //Create Test Data
-            List<Donation_Cause__c> donationCauseList = TestDataFactory.createDonationCauseRecords(10);
-            DonationCausesDAO.newInstance().insertRecords(donationCauseList, false, AccessLevel.USER_MODE);
+            List<Designation__c> designationList = TestDataFactory.createDesignationRecords(
+                10, 
+                DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
+            );
+            DesignationsDAO.newInstance().insertRecords(designationList, false, AccessLevel.USER_MODE);
 
             List<Product2> productList = TestDataFactory.createTestProductRecords(10);
             Integer count = 0;
 
             for (Product2 prd : productList) {
-                prd.Donation_Cause__c = donationCauseList[0].Id;
+                prd.Designation__c = designationList[0].Id;
                 prd.Has_Detail_Page__c = true;
                 count++;
             }
-            ProductsDAO.newInstance().insertRecords(productList, false, AccessLevel.USER_MODE);
+            DesignationsDAO.newInstance().insertRecords(productList, false, AccessLevel.USER_MODE);
 
             
-            //Build Parameter Map
+            //Build Parameter Map 
             Map<String, String> contentBlockVisibilityParamMap = new Map<String, String>{
                 'recordId' => productList[0].Id,
                 'childRecord' => 'Product2',

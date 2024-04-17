@@ -25,7 +25,7 @@ public with sharing class DynamicRecordEditFormCtrl {
         //For future development use the same logic to get values from other Object
         //todo make this method dynamic
         if (objectApiName == 'Product2') {
-            List<Product2> product2RecList = ProductsDAO.newInstance().getProductByDonationCauseId(new Set<Id>{Id.valueOf(recordId)}, AccessLevel.USER_MODE);
+            List<Product2> product2RecList = ProductsDAO.newInstance().getProductByDesignationId(new Set<Id>{Id.valueOf(recordId)}, AccessLevel.USER_MODE);
 
             recId = product2RecList.get(0).Id;
         }
