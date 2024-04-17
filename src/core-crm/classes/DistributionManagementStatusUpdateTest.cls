@@ -20,7 +20,7 @@ private class DistributionManagementStatusUpdateTest {
 
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
 
-        designationCodeAutoNum.Designation__c = 1;
+        designationCodeAutoNum.Giving_To_Cause__c = 1;
         DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
         new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum},
         false,AccessLevel.USER_MODE);
