@@ -16,6 +16,8 @@
       | eugene.andrew.abuan            | September 2, 2022     | DEPP-3762              | Updated validateDoNotShowStartDate      |
       | eugene.andrew.abuan            | September 5, 2022     | DEPP-4102              | Added Program without Pathway           |
       | roy.nino.s.regala              | March, 15, 2022       | DEPP-8210              | Isolate child products of donation cause|
+      | eugene.andrew.abuan            | April 10, 2022        | DEPP-8400              | Changed donation cause to designation   |
+
 
  */
 public without sharing class Product2TriggerHandler implements Disableable, BeforeUpdate, AfterUpdate {
@@ -647,7 +649,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Available_on_Cart__c = true;
         //only set to false if not a child of donation cause for now.
         //this added logic might be updated in the future
-      } else if(prod.Donation_Cause__c == null){ 
+      } else if(prod.Designation__c == null){ 
         prod.Available_on_Cart__c = false;
       } 
 
@@ -660,7 +662,7 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Publishing_End_date__c <= date.today() &&
         //only set deactivate if not a child of donation cause.
         //this logic might be updated in the future
-        prod.Donation_Cause__c == null 
+        prod.Designation__c == null 
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;
