@@ -165,7 +165,14 @@
     <pluralLabel>Donations</pluralLabel>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <excludedStandardButtons>New</excludedStandardButtons>
+        <searchResultsAdditionalFields>Account__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Contact__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>RECORDTYPE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Total_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Stage__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
