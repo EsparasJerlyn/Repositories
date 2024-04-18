@@ -101,6 +101,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 FirstName,
                 LastName,
                 Birthdate,
+                Matching_Firstname__c,
+                Matching_Lastname__c,
                 Email,
                 QUT_Learner_Email__c,
                 QUT_Staff_Email__c,

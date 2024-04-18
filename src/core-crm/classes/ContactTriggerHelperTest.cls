@@ -545,6 +545,17 @@ private class ContactTriggerHelperTest {
             
         }
     }
+
+    @isTest
+    private static void setMatchingfirstAndLastNameTest(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            String regexPattern = '[^a-zA-Z]';
+            for(Contact con: ContactsDAO.newInstance().getPersonContactsWithLimit(100)){
+                system.assertEquals(con.FirstName.replaceAll(regexPattern, ''),con.Matching_Firstname__c, 'FirstName without special characters should match with Matching_Firstname__c');
+                system.assertEquals(con.LastName.replaceAll(regexPattern, ''),con.Matching_Lastname__c, 'LastName without special characters should match with Matching_Lastname__c');
+            }
+        }
+    }
     
     @isTest
     private static void testLeadWorkEmailIsPopulatedAndConvertLeadToContact() {
