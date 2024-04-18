@@ -647,11 +647,13 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         && prod.Child_Of_Prescribed_Program__c == false //do not include child of prescribed program
       ) {
         prod.Available_on_Cart__c = true;
-        //only set to false if not a child of donation cause for now.
+        //only set to false if not a child of donation cause (Designation) for now.
         //this added logic might be updated in the future
-      } else if(prod.Designation__c == null){ 
+        // This should be updated to else if (prod.Designation__c == null) once the Donation Cause will be removed.
+      } else if((prod.Donation_Cause__c == null || prod.Designation__c != null) &&
+               (prod.Donation_Cause__c != null || prod.Designation__c == null)){ 
         prod.Available_on_Cart__c = false;
-      } 
+      }
 
       if( //make sure decomission product or publishing enddate is updated is updated DEPP-2820
         (prod2Old.get(prod.Id).Decommission_Product__c !=
@@ -660,9 +662,11 @@ public without sharing class Product2TriggerHandler implements Disableable, Befo
         prod.Publishing_End_date__c) && 
         prod.Decommission_Product__c == true && 
         prod.Publishing_End_date__c <= date.today() &&
-        //only set deactivate if not a child of donation cause.
-        //this logic might be updated in the future
-        prod.Designation__c == null 
+        //only set deactivate if not a child of donation cause (Designation).
+        //this logic might be updated in the future - Remove donation cause reference
+        // This should be updated to else if (prod.Designation__c == null) once the Donation Cause will be removed.
+        ((prod.Donation_Cause__c == null || prod.Designation__c != null) &&
+        (prod.Donation_Cause__c != null || prod.Designation__c == null))
       ){
         prod.IsActive = false;
         prod.Available_on_Cart__c = false;
