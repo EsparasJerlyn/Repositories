@@ -6161,6 +6161,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Case.Inbound_Enquiry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Relationship_Manager__c.Account_Relationship_Manager</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

@@ -24826,6 +24826,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Case.Inbound_Enquiry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Case.International_Future_Student_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
