@@ -61,5 +61,12 @@
         <!--(End) DEPP-8142 -->
         <name>CustomField</name>
     </types>
+    <types>
+        <!--Start DEPP-8242-->
+        <members>Case_Domestic_Future_Student_Path</members>
+        <members>Case_International_Future_Student_Path</members>
+        <!--End DEPP-8242-->
+        <name>PathAssistant</name>
+    </types>
     <version>59.0</version> 
 </Package>
