@@ -13,6 +13,9 @@
         <members>Applicatioon_SAMS_Legacy_Record_Page</members>
         <!--End DEPP-6659-->
         <members>Contact_Record_Page_Enquiry_Management_App</members><!--DEPP-7607-->
+        <!--Start DEPP-8075-->
+        <members>Student_Success_Configuration_UtilityBar</members>
+        <!--End DEPP-8075-->
         <name>FlexiPage</name>
     </types>
     <!-- <types> -->
@@ -60,6 +63,12 @@
         <members>Contact.At_Risk_Rating__c</members>
         <!--(End) DEPP-8142 -->
         <name>CustomField</name>
+    </types>
+    <types>
+         <!--DEPP-8075 Start-->
+         <members>Student_Success_Configuration</members>
+         <!-- DEPP-8075 End-->
+         <name>CustomApplication</name>
     </types>
     <version>59.0</version> 
 </Package>

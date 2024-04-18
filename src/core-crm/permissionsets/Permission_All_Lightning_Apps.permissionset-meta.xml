@@ -157,7 +157,7 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
-        <application>Student_Success_Configuration</application>
+        <application>Student_Success</application>
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
