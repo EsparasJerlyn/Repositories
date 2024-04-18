@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_date_must_be_greater_than_today</fullName>
+    <active>true</active>
+    <description>Ensures that the user can only progress to ready for use when the end date is not in the past.</description>
+    <errorConditionFormula>AND(
+    ISCHANGED(Status__c),
+    ISPICKVAL(Status__c, &quot;Ready For Use&quot;),
+    NOT(ISPICKVAL(PRIORVALUE(Status__c), &quot;Ready For Use&quot;)),
+    End_Date__c &lt;= TODAY()
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>End Date cannot be in the past.</errorMessage>
+</ValidationRule>
