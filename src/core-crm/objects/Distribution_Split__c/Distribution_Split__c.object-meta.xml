@@ -161,7 +161,7 @@
         <trackHistory>true</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Distributions Split</pluralLabel>
+    <pluralLabel>Distribution Splits</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
