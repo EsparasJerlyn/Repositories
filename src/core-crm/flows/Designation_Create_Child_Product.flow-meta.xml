@@ -118,6 +118,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Giving_Category__c</field>
+            <value>
+                <elementReference>$Record.Giving_Category__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>IsActive</field>
             <value>
                 <booleanValue>true</booleanValue>
@@ -127,6 +133,12 @@
             <field>Name</field>
             <value>
                 <elementReference>$Record.Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Study_Association__c</field>
+            <value>
+                <elementReference>$Record.Study_Association__c</elementReference>
             </value>
         </inputAssignments>
         <object>Product2</object>
