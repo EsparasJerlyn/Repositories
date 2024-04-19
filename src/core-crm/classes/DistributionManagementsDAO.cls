@@ -4,18 +4,21 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                         |
-      |--------------------------------|-----------------------|------------------------|--------------------------------------------------------|
-      | kenneth.f.alsay                | April 8, 2024         | DEPP-8399              | Created file                                           |
-      | kenneth.f.alsay                | April 11, 2024        | DEPP-8453              | Added queryLocatorGetDistributionMgtsForStatusUpdate   |
-      | nicole.genon                   | April 11, 2024        | DEPP-8452              | Added statusToActive queryLocatorGetDistributionMgtsForStatusUpdate
+
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                                     |
+      |--------------------------------|-----------------------|------------------------|----------------------------------------------------------------------------------------------------|
+      | kenneth.f.alsay                | April 8, 2024         | DEPP-8399              | Created file                                                                                       |
+      | kenneth.f.alsay                | April 11, 2024        | DEPP-8453              | Added queryLocatorGetDistributionMgtsForStatusUpdate                                               |
+      | nicole.genon                   | April 11, 2024        | DEPP-8452              | Added statusToActive queryLocatorGetDistributionMgtsForStatusUpdate                                |
+      | neil.s.h.lesidan               | April 11, 2024        | DEPP-8392              | Update query, method getDistributionManagementByDesignationId                                      |
 */
 public inherited sharing class DistributionManagementsDAO extends DmlBase implements IDistributionManagementsDAO {
     public static final String DM_ACTIVE = 'Active';
     public static final String DM_INACTIVE = 'Inactive';
     public static final String DM_READY_FOR_USE = 'Ready For Use';
     public static final String DESIGNATION_GIVING_TO_CAUSE_RECTYPE_ID = DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID;
-    
+    public static final String STATUS_DEFINE = 'Define';
+
     public Schema.SObjectType getSObjectType() {
         return Distribution_Management__c.SObjectType;
     }
@@ -25,7 +28,7 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
             Distribution_Management__c.SObjectType
         );
     }
-    
+
     public Database.QueryLocator queryLocatorGetDistributionMgtsForStatusUpdate() {
         //Status = Active
         //End Date <= Current Date
@@ -40,7 +43,7 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
         'AND Start_Date__c <= TODAY ' +
         'AND End_Date__c > TODAY ' +
         ')';
- 
+
         String queryFilter =
             'SELECT Id, Status__c, End_Date__c, Start_Date__c, Designation__r.RecordTypeId ' +
             'FROM Distribution_Management__c ' +
@@ -48,7 +51,7 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
             statusToInactive +
             ' OR ' +
             statusToActive ;
-        
+
         return Database.getQueryLocator(queryFilter);
     }
 
@@ -60,12 +63,12 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
             return new List<Distribution_Management__c>();
         }
         return Database.query(
-            'SELECT Id, Status__c, Designation__c, End_Date__c, Start_Date__c ' +
+            'SELECT Id, Status__c, Designation__c, End_Date__c, Start_Date__c, Name ' +
             'FROM Distribution_Management__c ' +
             'WHERE Designation__c IN :designationIds ',
             accessLevel
         );
-    } 
+    }
 
     public List<Distribution_Management__c> getDistributionManagementsBySetRecordIds(
         Set<Id> recordIds,
@@ -73,12 +76,12 @@ public inherited sharing class DistributionManagementsDAO extends DmlBase implem
     ) {
         if (!recordIds.isEmpty() && accessLevel != null) {
             return Database.query(
-                'SELECT Id, Designation__c, Start_Date__c, End_Date__c, Status__c ' + 
+                'SELECT Id, Designation__c, Start_Date__c, End_Date__c, Status__c ' +
                 'FROM Distribution_Management__c WHERE Id IN :recordIds',
                 accessLevel
             );
         } else {
             return new List<Distribution_Management__c>();
         }
-    } 
+    }
 }

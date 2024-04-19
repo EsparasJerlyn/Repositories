@@ -44,7 +44,7 @@
  *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
  *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
  *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |     
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
  *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
@@ -59,7 +59,7 @@
  *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
  *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base             |
  *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
- *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          | 
+ *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          |
  *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
  *    | kenneth.f.alsay           | September 22, 2023    | DEPP-6629           | Added method createTestCourseConnectionRecordsByStatus                  |
  *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
@@ -75,6 +75,8 @@
  *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                        |
  *    | eugene.andrew.abuan       | April 10, 2023        | DEPP-8390           | Added Create Designation with Recordtype                                |
  *    | nicole.genon              | April 11, 2024        | DEPP-8452           | Added method createDistributionManagementRecordsWithDesignation         |
+ *    | neil.s.h.lesidan          | April 11, 2024        | DEPP-8392           | Added method createTestFinanceGLAccountRecords                          |
+ *    |                           |                       |                     | Added method createTestDistributionSplitRecords                         |
  **/
 
 @isTest
@@ -3680,6 +3682,59 @@ public class TestDataFactory {
             );
         }
         return finSummaries;
+    }
+
+    /**
+     * @description Method for creating test Financeial GL Account records
+     * @return financeGlAccts - List of Finance GL Account created
+     */
+    public static List<Finance_GL_Account__c> createTestFinanceGLAccountRecords(
+        Integer numFinanceGlAccts,
+        Boolean isActive
+    ) {
+        List<Finance_GL_Account__c> financeGlAccts = new List<Finance_GL_Account__c>();
+
+        for (Integer i = 0; i < numFinanceGlAccts; i++) {
+            financeGlAccts.add(
+                new Finance_GL_Account__c(
+                    Name = 'Test' + i,
+                    Account_Code__c = 1230 + i,
+                    Activity_Code__c = 10 + i,
+                    Campus_Code__c = 1 + i,
+                    Entity_Code__c = 1 + i,
+                    GL_Account_Code__c = String.valueOf(123450 + i),
+                    Project_Code__c = 1230 + i,
+                    Responsibility_Centre_Code__c =  123450 + i,
+                    Type_Code__c = 1 + i,
+                    Is_Active__c = isActive
+                )
+            );
+        }
+        return financeGlAccts;
+    }
+
+    /**
+     * @description Method for creating test Distribution Split records
+     * @return distributionSplits - List of Finance GL Account created
+     */
+    public static List<Distribution_Split__c> createTestDistributionSplitRecords(
+        Integer numDistributionSplits,
+        Id distributionManagementId,
+        Id financeGlAcct
+    ) {
+        List<Distribution_Split__c> distributionSplits = new List<Distribution_Split__c>();
+
+        for (Integer i = 0; i < numDistributionSplits; i++) {
+            distributionSplits.add(
+                new Distribution_Split__c(
+                    Distribution_Management__c = distributionManagementId,
+                    Finance_GL_Account__c = financeGlAcct,
+                    Participating_Group__c = 'Test' + i,
+                    Percentage_Split__c = 10 + i
+                )
+            );
+        }
+        return distributionSplits;
     }
 
     /**

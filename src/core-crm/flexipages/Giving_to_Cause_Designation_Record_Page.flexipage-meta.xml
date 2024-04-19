@@ -1242,16 +1242,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Placeholder&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText</identifier>
+                <componentName>designationFinancials</componentName>
+                <identifier>c_designationFinancials</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-1ee75b63-9401-4edf-b669-d50af8745bb8</name>
