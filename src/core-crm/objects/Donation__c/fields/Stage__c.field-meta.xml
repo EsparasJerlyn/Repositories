@@ -21,14 +21,14 @@
                 <label>Proposed</label>
             </value>
             <value>
-                <fullName>Declined</fullName>
-                <default>false</default>
-                <label>Declined</label>
-            </value>
-            <value>
                 <fullName>Accepted</fullName>
                 <default>false</default>
                 <label>Accepted</label>
+            </value>
+            <value>
+                <fullName>Declined</fullName>
+                <default>false</default>
+                <label>Declined</label>
             </value>
             <value>
                 <fullName>Received</fullName>

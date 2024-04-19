@@ -3282,6 +3282,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Finance_Summary__c.Disbursable_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Finance_Summary__c.Dividend__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3292,12 +3297,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Finance_Summary__c.Funds_Retained_Opening_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Finance_Summary__c.Net_Profit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Finance_Summary__c.Opportunity_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Finance_Summary__c.Preserved_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

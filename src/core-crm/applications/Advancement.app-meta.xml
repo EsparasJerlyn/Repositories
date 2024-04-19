@@ -376,6 +376,7 @@
     <tabs>standard-Contact</tabs>
     <tabs>standard-Opportunity</tabs>
     <tabs>Designation__c</tabs>
+    <tabs>Donation__c</tabs>
     <tabs>Stewardship__c</tabs>
     <tabs>List__c</tabs>
     <tabs>Distribution_Management__c</tabs>
@@ -386,6 +387,9 @@
         </mappings>
         <mappings>
             <tab>Distribution_Management__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Donation__c</tab>
         </mappings>
         <mappings>
             <tab>List__c</tab>

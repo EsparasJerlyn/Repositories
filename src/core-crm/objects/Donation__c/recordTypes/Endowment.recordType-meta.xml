@@ -33,6 +33,10 @@
     <picklistValues>
         <picklist>Stage__c</picklist>
         <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
@@ -41,11 +45,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Proposed</fullName>
+            <fullName>Declined</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Accepted</fullName>
+            <fullName>Proposed</fullName>
             <default>false</default>
         </values>
     </picklistValues>

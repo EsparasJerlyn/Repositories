@@ -45,6 +45,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Proposed</fullName>
             <default>false</default>
         </values>

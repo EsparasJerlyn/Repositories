@@ -49,6 +49,8 @@
  *    | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Added object mapping for Donation_Cause_Code_Auto_Number__c object   |
  *    | kenneth.f.alsay                | April 8, 2024         | DEPP-8399              | Added object mapping for Distribution_Management__c object           |
  *    | ryan.j.a.dela.cruz             | April 12, 2024        | DEPP-8342              | Added object mapping for Designation__c object                       |
+ *    | neil.s.h.lesidan               | April 11, 2024        | DEPP-8392              | Added object mapping for Distribution_Split__c object                |
+ *    |                                |                       |                        | Added object mapping for Finance_GL_Account__c object                |
  */
 public class ImplementationSelector {
     // Configure and create the DAOFactory for this ImplementationSelector
@@ -82,6 +84,8 @@ public class ImplementationSelector {
             Designation__c.SObjectType => DesignationsDAO.class,
             Designation_Code_Auto_Number__c.SObjectType => DesignationCodeAutoNumbersDAO.class,
             Distribution_Management__c.SObjectType => DistributionManagementsDAO.class,
+            Distribution_Split__c.SObjectType => DistributionSplitsDAO.class,
+            Finance_GL_Account__c.SObjectType => FinanceGLAccountsDAO.class,
             Document__c.SObjectType => DocumentsDAO.class,
             Donation__c.SObjectType => DonationsDAO.class,
             Donation_Cause_Code_Auto_Number__c.SObjectType => DonationCauseCodeAutoNumbersDAO.class,
