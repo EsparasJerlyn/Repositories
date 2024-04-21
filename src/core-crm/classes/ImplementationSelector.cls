@@ -133,7 +133,7 @@ public class ImplementationSelector {
             WebStore.SOBjectType => WebStoresDAO.class,
             WorkType.SOBjectType => WorkTypesDAO.class
         }
-    ); 
+    );  
 
     /**
      * Class implements a DAO class factory

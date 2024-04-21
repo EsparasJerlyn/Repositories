@@ -247,4 +247,65 @@ private class SalesCadenceCalloutServiceTest {
             System.assert([SELECT Id FROM Completed_Cadence__c].isEmpty() , 'Completed_Cadence__c record is not created');
         }
     }
+    
+    @isTest
+    private static void testCompletedCadencesInitialCreation() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);  
+            List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            newContacts[0].Calculated_Cadence__c = 'Test Cadences automated';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.startTest();
+            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+            ImplementationSelector.DAO.setMock(new ActionCadenceTrackersDAOMock());
+            ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
+            Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+            
+            acTracker.add(new ActionCadenceTracker(TargetId = newContacts[0].Id, State = 'Completed'));
+            ActionCadenceTrackersDAO.newInstance().insertRecords(acTracker,true,AccessLevel.SYSTEM_MODE);
+            
+            Map<String, String> targetIdCadenceMap = new Map<String, String>{ newContacts[0].Id => 'Test Cadences automated'};
+                SalesCadenceCalloutService.createInitialCompletedCadences(targetIdCadenceMap);
+            
+            Test.stopTest();
+            System.assert([SELECT Id FROM Completed_Cadence__c].isEmpty() , 'Completed_Cadence__c record is not created');
+        }
+    }
+    
+    @isTest
+    private static void testUpdateCompletedCadencesOnRemoved() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> newContacts = TestDataFactory.createTestContactRecords(1);  
+            List<ActionCadenceTracker> acTracker = new List<ActionCadenceTracker>();
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            newContacts[0].Calculated_Cadence__c = 'Test Cadences automated';
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.startTest();
+            ImplementationSelector.DAO.setMock(new ContactsDAOMock());
+            ImplementationSelector.DAO.setMock(new ActionCadenceTrackersDAOMock());
+            ImplementationSelector.DAO.setMock(new CompletedCadencesDAOMock());
+            Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+            
+            acTracker.add(new ActionCadenceTracker(TargetId = newContacts[0].Id, State = 'Completed'));
+            ActionCadenceTrackersDAO.newInstance().insertRecords(acTracker,true,AccessLevel.SYSTEM_MODE);
+            
+            Nurture_Track_Configuration__c nurtureConfig = [SELECT Id from Nurture_Track_Configuration__c LIMIT 1];
+            
+            completedCadenceList.add(new Completed_Cadence__c(Contact__c = newContacts[0].Id, 
+                                                              Completed_Cadence_Status__c = CompletedCadencesDAO.CLOSED_FOLLOW_UP_STATUS,
+                                                              Nurture_Track_Configuration__c = nurtureConfig.Id ));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList,true,AccessLevel.SYSTEM_MODE);
+            
+            Map<String, String> targetIdCadenceMap = new Map<String, String>{ newContacts[0].Id => 'Test Cadences automated'};
+            SalesCadenceCalloutService.createCompletedCadence(targetIdCadenceMap,null);
+            
+            Test.stopTest();
+            System.assert([SELECT Id FROM Completed_Cadence__c].isEmpty() , 'Completed_Cadence__c record is not created');
+        }
+    }
 }
