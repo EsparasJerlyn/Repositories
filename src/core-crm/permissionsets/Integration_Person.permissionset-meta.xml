@@ -2957,6 +2957,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Donation__c.Amount_Paid_To_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Donation__c.Cancellation_Comment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2978,6 +2983,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Donation__c.Donate_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Donation__c.Donation_Asset__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3043,6 +3053,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Donation__c.Instalment_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Donation__c.Instalments_Paid__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
