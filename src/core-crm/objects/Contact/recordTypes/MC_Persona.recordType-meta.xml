@@ -2113,6 +2113,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Partner Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Referral Partner</fullName>
             <default>false</default>
         </values>
@@ -5286,6 +5290,13 @@
         </values>
         <values>
             <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lead_Source_Category__c</picklist>
+        <values>
+            <fullName>Partner Sourced</fullName>
             <default>false</default>
         </values>
     </picklistValues>

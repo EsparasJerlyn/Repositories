@@ -135,6 +135,8 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.primaryStudyInterest = record.Marketing_Segmentation__r.My_Primary_BSA__c;
             tempWrapper.leadScore = record.Lead_Score__c;
             tempWrapper.agentAssisted = record.Is_Agent_Assisted__c;
+            tempWrapper.residenceCountry = record.Country_of_Residency__c;
+            tempWrapper.partnerSourced = record.Partner_Sourced__c;
 
             if(!completedCadenceMap.containsKey(record.Id)){
                 recordDetailsWrapper.add(tempWrapper);
@@ -148,6 +150,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
             tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name;
             tempWrapper.qtacOfferRound = completedCadenceMap.get(record.Id).Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c;
+            tempWrapper.currentPreference = completedCadenceMap.get(record.Id).Application__r.Current_Preference__r.Name;
 
             recordDetailsWrapper.add(tempWrapper);
         }
@@ -191,6 +194,7 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
             tempWrapper.offeredPreferenceOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Preference__r.Faculty__c;
             tempWrapper.offeredProgram = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Name;
             tempWrapper.offeredProgramOwningFaculty = completedCadenceMap.get(record.Id).Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name;
+            tempWrapper.currentPreference = completedCadenceMap.get(record.Id).Application__r.Current_Preference__r.Name;
 
             recordDetailsWrapper.add(tempWrapper);
         }
@@ -511,5 +515,11 @@ public with sharing class SalesCadenceListViewCtrl { // NOPMD - wrapper class re
         public boolean agentAssisted { get; set; }
         @AuraEnabled
         public Decimal qtacOfferRound { get; set; } 
+        @AuraEnabled
+        public String residenceCountry {get; set;}
+        @AuraEnabled
+        public boolean partnerSourced {get;set;}
+        @AuraEnabled
+        public String currentPreference {get;set;}
     }
 }

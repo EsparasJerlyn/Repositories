@@ -27,6 +27,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
      * @param newItems - List of Lead.Trigger.new
      */
     public void beforeInsert(List<SObject> newItems) {
+        LeadService.setLeadSourceAndLeadSourceCategoryFields((List<Lead>) newItems);
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems, null);
     }
 
@@ -42,6 +43,7 @@ public without sharing class LeadTriggerHandler implements Disableable, BeforeIn
         LeadDuplicatesHelper.detectDuplicatesInEmails((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         LeadWithCaseHelper.updateCaseParentToContact((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
         LeadService.updateLeadStatus((List<Lead>) newItems.values());
+        LeadService.updateCanNurture((Map<Id,Lead>)newItems, (Map<Id, Lead>) oldItems);
     }
 
     /**
