@@ -52,7 +52,7 @@ export default class SalesCadenceListView extends LightningElement {
 
   internationalPreOrPostAcceptance = [
     'International Application to Offer',
-    'International Offer to Acceptance',
+    'International Offer to Acceptance - Direct',
     'International Acceptance Deposit not Paid'
   ];
 

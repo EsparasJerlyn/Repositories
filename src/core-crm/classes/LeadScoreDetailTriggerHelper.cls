@@ -15,6 +15,7 @@
       |                                |                       |                        | the lead score is below threshold only if the    |
       |                                |                       |                        | QUT_Applicant flag is false                      |
       | roy.nino.s.regala              | Feb 5, 2024           | DEPP-7742              | update to a without sharing context for site user|
+      | arsenio.jr.dayrit              | Feb 7, 2024           | DEPP-8267              | update SetLeadFlag method minimumThreshold       |
  */
 public with sharing class LeadScoreDetailTriggerHelper {
     /**
@@ -157,9 +158,10 @@ public with sharing class LeadScoreDetailTriggerHelper {
                 Contact con : ContactsDAO.newInstance()
                     .getPersonContactsBySetIds(contactToScoreMap.keySet(), AccessLevel.SYSTEM_MODE)
             ) {
+                boolean isPartnerSourced = con.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
                 minimumThreshold = getMinScore(con.hed__Citizenship_Status__c, mapOfNurtureTrack);
                 Decimal totalLeadScore = contactToScoreMap.get(con.Id);
-                boolean newCanNuture = con.QUT_Applicant__c || LeadScoreService.isLeadScoreInRange(totalLeadScore, minimumThreshold, null);
+                boolean newCanNuture = con.QUT_Applicant__c || LeadScoreService.isLeadScoreInRange(totalLeadScore, minimumThreshold, null) || isPartnerSourced;
                 boolean newQUTLead = totalLeadScore > 0;
 
                 //if any of the fields above are changed by recalculation
@@ -190,31 +192,42 @@ public with sharing class LeadScoreDetailTriggerHelper {
     private static void setLeadFlags(Map<Id, Decimal> leadToScoreMap, Decimal minimumThreshold) {
         Map<Id, Lead> leadToUpdateMap = new Map<Id, Lead>();
         Lead leadRecord;
-
         if (!leadToScoreMap.keySet().isEmpty()) {
+            Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack = new Map<String, Nurture_Track_Configuration__c>();
+
+            // Populate mapOfNurtureTrack with nurturing track records for Strong Interest
+            populateNurtureTrackMap(mapOfNurtureTrack);      
             for (
                 Lead lead : LeadsDAO.newInstance()
                     .getLeadsByIdSet(leadToScoreMap.keySet(), AccessLevel.SYSTEM_MODE)
             ) {
+                if(lead.Lead_Type__c != LeadsDAO.LEARNER_LEAD_TYPE){
+                    continue;
+                }                
                 Decimal totalLeadScore = leadToScoreMap.get(lead.Id);
                 String newStatus = LeadScoreService.getLeadStatus(totalLeadScore);
-                boolean isAboveThreshold = minimumThreshold != null && LeadScoreService.isLeadScoreInRange(
-                    totalLeadScore,
-                    minimumThreshold,
-                    null
-                );
+                minimumThreshold = getMinScore(lead.Marketing_Segmentation__r.My_Citizenship_Status__c, mapOfNurtureTrack);
+                boolean isAboveThreshold = minimumThreshold != null && 
+                        LeadScoreService.isLeadScoreInRange(
+                                totalLeadScore,
+                                minimumThreshold,
+                                null
+                        ) &&
+                        lead.Lead_Source_Category__c != LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
                 String newJourneyStatus = totalLeadScore > 0 ? LeadsDAO.EXPLORE_JOURNEY_STATUS : '';
 
                 //if any of the fields above is changed by recalculation, then lead is for update
-                boolean isForUdpate =
+                boolean isForUpdate =
                     lead.Can_Nurture__c != isAboveThreshold ||
                     lead.Future_Student_Journey_Status__c != newJourneyStatus ||
                     lead.Status != newStatus;
 
-                if (isForUdpate) {
+                boolean isPartnerSourced = lead.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
+              
+                if (isForUpdate) {
                     leadRecord = new Lead();
                     leadRecord.Id = lead.Id;
-                    leadRecord.Can_Nurture__c = isAboveThreshold;
+                    leadRecord.Can_Nurture__c = isPartnerSourced? true : isAboveThreshold;
                     leadRecord.Future_Student_Journey_Status__c = newJourneyStatus;
                     leadRecord.Status = newStatus;
                     leadToUpdateMap.put(lead.Id, leadRecord);
@@ -254,9 +267,13 @@ public with sharing class LeadScoreDetailTriggerHelper {
      * @param String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack
      */     
     private static Decimal getMinScore(String citizenshipStatus, Map<String, Nurture_Track_Configuration__c> mapOfNurtureTrack) {
-        if (citizenshipStatus == 'Domestic' || citizenshipStatus == 'International') {
-            String cadenceName = (citizenshipStatus == 'International') ? NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL : NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL;
-            return mapOfNurtureTrack.get(cadenceName)?.Lead_Score_Threshold__c;
+        Set<String> citizenshipStatusDomesticSet = new Set<String>{'Domestic','Australian Citizen or Permanent Resident','New Zealand Citizen'};
+        Set<String> citizenshipStatusInternationalSet = new Set<String>{'International','International Student'};
+        if (citizenshipStatusDomesticSet.contains(citizenshipStatus)) {
+            return mapOfNurtureTrack.get( NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL)?.Lead_Score_Threshold__c;
+        }
+        else if(citizenshipStatusInternationalSet.contains(citizenshipStatus)){
+            return mapOfNurtureTrack.get(  NurtureTrackConfigurationsDAO.INTERNATIONAL_STRONG_INTEREST_PRE_APPLICATION_MANUAL)?.Lead_Score_Threshold__c;
         }
         return null;
     }

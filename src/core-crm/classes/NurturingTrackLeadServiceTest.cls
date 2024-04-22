@@ -5,10 +5,11 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                 |
-      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                                            |
+      |--------------------------------|-----------------------|------------------------|-------------------------------------------------------------------------------------------|
+      | mark.j.mahilum                 | July 25, 2023         | DEPP-6105              | Created file                                                                              |
+      | mark.j.mahilum                 | Sept 07, 2023         | DEPP-6479              | Added calculated intake date                                                              |
+      | arsenio.jr.dayrit              | Feb 27, 2024          | DEPP-8133              | Updated test class method  International Application Submission - Direct Applicant Exit   |
  */
 @isTest
 public with sharing class NurturingTrackLeadServiceTest {
@@ -326,6 +327,68 @@ public with sharing class NurturingTrackLeadServiceTest {
     }
 
     @isTest
+    private static void testAutomaticInternationalDirectApplicantExit() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            leadList[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_AUTOMATED;
+            LeadsDAO.newInstance().updateRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            
+            // create application0
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            // assert
+            System.assertEquals(
+                '', processLeads[0].Calculated_Cadence__c, 'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
+    private static void testManualInternationalDirectApplicantExit() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+
+            leadList[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APP_SUBMISSION_DIRECT_APPLICANT_MANUAL;
+            LeadsDAO.newInstance().updateRecords(leadList, false, AccessLevel.SYSTEM_MODE);
+
+            Test.stopTest();
+
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            
+            // create application0
+            List<hed__Application__c> newApplications = createTestApplicationRecords(leadList, ApplicationsDAO.STUDYLINK_RECTYPE_ID, 'Submitted');
+            newApplications[0].Calculated_Intake_Date__c = Date.today().addMonths(4).addDays(1);
+            ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
+            // call method
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+            // assert
+            System.assertEquals(
+                '', processLeads[0].Calculated_Cadence__c, 'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+
+    @isTest
     private static void getDomesticStrongInterestPreApplicationForExitManualTest() {
         System.runAs(TestDataFactory.getESBIntegrationUser()) {
             Test.startTest();
@@ -506,6 +569,142 @@ public with sharing class NurturingTrackLeadServiceTest {
         }
     }
 
+    @isTest
+    private static void getEntryInternationalApplicationToOfferDirectAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Lead> leads = LeadsDAO.newInstance().getLeadsWithLimit(1);
+
+            List<Marketing_Segmentation__c> mseg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(
+                new Set<Id>{leads[0].Id},
+                AccessLevel.SYSTEM_MODE
+            );
+            mseg[0].My_Citizenship_Status__c = 'International Student';
+            MarketingSegmentationsDAO.newInstance().updateRecords(mseg, false, AccessLevel.SYSTEM_MODE);
+            
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                Lead__c = leads[0].Id,
+                Application_Status__c = 'Submitted',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leads));
+            Test.stopTest();
+
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED,
+                processLeads[0].Calculated_Cadence__c,
+                'Wrong calculated cadence.'
+            );
+        }
+    }
+
+    @isTest
+    private static void getExitInternationalApplicationToOfferDirectAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            List<Lead> leads = LeadsDAO.getLeadsWithLimit(1);
+            leads[0].Calculated_Cadence__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTOMATED;
+            LeadsDAO.newInstance().updateRecords(leads, false, AccessLevel.SYSTEM_MODE);
+
+            List<Marketing_Segmentation__c> mseg = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(
+                new Set<Id>{leads[0].Id},
+                AccessLevel.SYSTEM_MODE
+            );
+            mseg[0].My_Citizenship_Status__c = 'International Student';
+            MarketingSegmentationsDAO.newInstance().updateRecords(mseg, false, AccessLevel.SYSTEM_MODE);
+
+            leads = LeadsDAO.getLeadsWithLimit(1);
+
+            List<hed__Application__c> applications = new List<hed__Application__c>();
+            applications.add(new hed__Application__c(
+                RecordTypeId = ApplicationsDAO.STUDYLINK_RECTYPE_ID,
+                Lead__c = leads[0].Id,
+                Application_Status__c = 'Conditional Offer',
+                Is_Agent_Assisted__c = false,
+                Calculated_Intake_Date__c = Date.today() + 30
+            ));
+            ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leads));
+            Test.stopTest();
+
+            System.assert(processLeads.isEmpty() == false, 'No lead is updated.');
+            System.assertEquals('', processLeads[0].Calculated_Cadence__c, 'Calculated cadence is not cleared.');
+        }
+    }
+    
+    @isTest 
+    private static void testEntryInternationalPreApplicationPartnerSourcedManualTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+            
+            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            
+            List<Nurture_Track_Configuration__c> configList = NurtureTrackConfigurationsDAO.newInstance().getNurtureTrackByCadenceNames(
+                new Set<String> {NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED},
+                'SYSTEM_MODE'
+            );
+            
+            List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+            completedCadenceList.add(new Completed_Cadence__c(
+                Lead__c = leadList[0].Id,
+                Nurture_Track_Configuration__c = configList[0].Id
+            ));
+            CompletedCadencesDAO.newInstance().insertRecords(completedCadenceList, false, AccessLevel.SYSTEM_MODE);
+            
+            Test.stopTest();
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            leadList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
+
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+
+            // assert
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+                processLeads[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    } 
+    
+    @isTest 
+    private static void testEntryInternationalPreApplicationPartnerSourcedAutomatedTest() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+            Test.startTest();
+            List<Lead> leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            List<Marketing_Segmentation__c> marSegList = MarketingSegmentationsDAO.newInstance().getMarketingSegmentationByLeadIds(new Set<Id>{leadList[0].Id},AccessLevel.SYSTEM_MODE);
+            List<Marketing_Segmentation__c> marsSegToUpdate = new List<Marketing_Segmentation__c>();
+            marsSegToUpdate.add(new Marketing_Segmentation__c(Id = marSegList[0].Id, My_Citizenship_Status__c = 'International Student'));
+            MarketingSegmentationsDAO.newInstance().updateRecords(marsSegToUpdate,true,AccessLevel.SYSTEM_MODE);
+            
+            // SOQL the lead so it includes Marketing_Segmentation__r.My_Citizenship_Status__c
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            Test.stopTest();
+            leadList = LeadsDAO.newInstance().getLeadsWithLimit(1);
+            leadList[0].Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED;
+
+            List<Lead> processLeads = NurturingTrackLeadService.processLeadForEntryAndExit(new Map<Id, Lead>(leadList));
+
+            // assert
+            System.assertEquals(
+                NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+                processLeads[0].Calculated_Cadence__c, 
+                'Error, wrong calculated cadence value.'
+            );
+        }
+    }
+    
     /**
      * Generate nurture track configurations and return them as a list of records.
      * Some criterias will always read configs even if there are no valid records for entry/exit
@@ -551,6 +750,18 @@ public with sharing class NurturingTrackLeadServiceTest {
             Criteria_Type__c = 'Entry',
             Enquiry_Category_L1__c = 'Course information;Applying for a course',
             Lead_Score_Threshold__c = 180,
+            Status__c = 'Active'
+        ));
+        // INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_AUTOMATED,
+            Criteria_Type__c = 'Entry',
+            Status__c = 'Active'
+        ));
+        // INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL
+        configsList.add(new Nurture_Track_Configuration__c(
+            Cadence_Name__c = NurtureTrackConfigurationsDAO.INTERNATIONAL_PRE_APPLICATION_PARTNER_SOURCE_MANUAL,
+            Criteria_Type__c = 'Entry',
             Status__c = 'Active'
         ));
         return configsList;
