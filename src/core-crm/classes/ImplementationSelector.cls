@@ -155,7 +155,7 @@ public class ImplementationSelector {
             List_Contributor__c.SObjectType => ListContributorsDAO.class,
             WorkType.SOBjectType => WorkTypesDAO.class
         }
-    );
+    );  
 
     /**
      * Class implements a DAO class factory

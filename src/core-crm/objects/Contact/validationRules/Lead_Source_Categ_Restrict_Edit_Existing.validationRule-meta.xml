@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Source_Categ_Restrict_Edit_Existing</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(TEXT(PRIORVALUE(Lead_Source_Category__c)))),
+ ISCHANGED(Lead_Source_Category__c ),
+ RecordType.Name = &apos;Person&apos;
+)</errorConditionFormula>
+    <errorDisplayField>Lead_Source_Category__c</errorDisplayField>
+    <errorMessage>Lead Source Category cannot be changed from it’s initial value.</errorMessage>
+</ValidationRule>

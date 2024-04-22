@@ -27,6 +27,11 @@
         <label>Send SMS</label>
     </standardValue>
     <standardValue>
+        <fullName>Service Appt No Answer SMS</fullName>
+        <default>false</default>
+        <label>Service Appt No Answer SMS</label>
+    </standardValue>
+    <standardValue>
         <fullName>Other</fullName>
         <default>false</default>
         <label>Other</label>
