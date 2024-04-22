@@ -1,0 +1,7 @@
+Id,DeveloperName,SobjectType,Name
+0128q0000004JlaAAE,University_Department,Account,University Department
+0128q0000004JlWAAU,Business_Organization,Account,Business Organization
+0129200000001tnAAA,Activity,hed__Course__c,Activity
+0128q0000004JlqAAE,Student,hed__Course_Enrollment__c,Student
+012920000000HbxAAE,Activity,Product_Request__c,Activity
+012Bo0000000pSWIAY,OPE,Product_Specification__c,OPE

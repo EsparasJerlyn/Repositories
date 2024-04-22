@@ -21,6 +21,7 @@
  *    |                                |                       |                        | getApplicationsByContactIds                                                   |
  *    | arsenio.jr.dayrit              | November 20, 2023     | DEPP-7268              | Added Offered_Program_Plan__r.Program_Level__c field in                       |         
  *    |                                |                       |                        | getAppsWithLatestCalculatedIntakeDateByApplicantIds                           |
+ *    | eccarius.munoz                 | February 29, 2024     | DEPP-7838              | Added static values for application status                                    |
  *    | sebastianne.k.trias            | March 28, 2024        | DEPP-8382              | Added queryApplicationsByPastIntakeDateAndActiveApplicants method             |
  */
 public inherited sharing class ApplicationsDAO extends DmlBase implements IApplicationsDAO {
@@ -36,6 +37,26 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     public static final Id STUDYLINK_RECTYPE_ID = Schema.SObjectType.hed__Application__c.getRecordTypeInfosByDeveloperName()
         .get('StudyLink')
         .getRecordTypeId();
+
+    //Application Status
+    public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
+    public static final String STATUS_WITHDRAWN = 'Withdrawn';
+    public static final String STATUS_DECLINED = 'Declined';
+    public static final String STATUS_OFFERED = 'Offered';
+    public static final String STATUS_ACCEPTED = 'Accepted';
+    public static final String STATUS_DECLINED_BY_APPLICANT = 'Declined by Applicant';
+    public static final String STATUS_DEFERRAL_REQUESTED = 'Deferral Requested';
+    public static final String STATUS_ACCEPTANCE_PAYMENT_RECEIVED = 'Acceptance - Payment Received';
+    public static final String STATUS_ACCEPTANCE_NO_PAYMENT_REQUIRED = 'Acceptance - No Payment Required';
+    public static final String STATUS_ACCEPTANCE_PENDING_MORE_INFO = 'Acceptance - Pending More Information';
+    public static final String STATUS_ACCEPTANCE_PENDING_PAYMENT = 'Acceptance - Pending Payment';
+    public static final String STATUS_CONDITIONAL_ACCEPTANCE = 'Conditional Acceptance';
+    public static final String STATUS_CONDITIONAL_OFFER = 'Conditional Offer';
+    public static final String STATUS_UNCONDITIONAL_OFFER = 'Unconditional Offer';
+    public static final String STATUS_SUBMITTED = 'Submitted';
+
+    public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
+    public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';
 
     public static final Set<String> studyLinkStatuses = new Set<String>{
         'Accepted',
@@ -68,7 +89,8 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
     };
 
     public static final Set<String> INTERNATIONAL_OFFER_TO_ACCEPTANCE_FOR_STUDYLINK = new Set<String>{
-        'Unconditional Offer'
+        STATUS_CONDITIONAL_OFFER,
+        STATUS_UNCONDITIONAL_OFFER
     };
 
     public static final Set<String> DECLINED_OFFER_BY_APPLICATION_STATUSES_FOR_STUDYLINK = new Set<String>{
@@ -137,12 +159,27 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         'Under Assessment - Review'
     };
 
-    public static final String STATUS_DECLINED_BY_APP = 'Declined by applicant';
-    public static final String STATUS_WITHDRAWN = 'Withdrawn';
-    public static final String STATUS_DECLINED = 'Declined';
-    public static final String STATUS_OFFERED = 'Offered';
-    public static final String ADMISSION_PROCESS_RTN_DEFER = 'RTN_DEFER';
-    public static final String ADMISSION_PROCESS_RTN_QTAC = 'RTN_QTAC';
+    public static final Set<String> EXIT_STATUSES_INTERNATIONAL_APPLICATION_TO_OFFER_DIRECT_AUTO = new Set<String>{
+        'Conditional Offer',
+        'Unconditional Offer',
+        'Withdrawn',
+        'More Information Required',
+        'Unsuccessful',
+        'With Faculty',
+        'With Faculty - Academic'
+    };
+
+    public static final Set<String> STATUS_SET_ACCEPTS_DECLINES_DEFERS_OFFER = new Set<String>{
+        STATUS_ACCEPTANCE_NO_PAYMENT_REQUIRED,
+        STATUS_ACCEPTANCE_PAYMENT_RECEIVED,
+        STATUS_ACCEPTANCE_PENDING_MORE_INFO,
+        STATUS_ACCEPTANCE_PENDING_PAYMENT,
+        STATUS_ACCEPTED,
+        STATUS_DECLINED_BY_APPLICANT,
+        STATUS_DEFERRAL_REQUESTED,
+        STATUS_CONDITIONAL_ACCEPTANCE,
+        STATUS_WITHDRAWN
+    };
 
     public static IApplicationsDAO newInstance() {
         return (IApplicationsDAO) ImplementationSelector.DAO.newInstance(
@@ -253,9 +290,9 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         String accessLevel
     ) {
         return Database.query(
-            'SELECT Id,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c,hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c,CreatedDate, ' +
-                'Offered_Program_Plan__r.Availability_Start_Date__c,Offered_Program_Plan__r.Program_Level__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c,Related_QTAC_Application__r.Is_Active__c, ' +
-                'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c,Offer_Lapse_Date__c, ' +
+            'SELECT Id,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c,Program_Enrollment__r.Enrollment_Status_Date__c,Program_Enrollment__r.hed__Admission_Date__c, hed__Applicant__c,Application_Status__c,Offer_Status__c,Offered_Program_Plan__c,CreatedDate, ' +
+                'Offered_Program_Plan__r.Availability_Start_Date__c,Offered_Program_Plan__r.Program_Level__c,hed__Applicant__r.Lead_Source_Category__c,Lead__r.Lead_Source_Category__c, RecordTypeId,Admission_Process__c, QTAC_ApplicantID__c, Related_QTAC_Application__c,Related_QTAC_Application__r.Offer_Status__c,Related_QTAC_Application__r.Is_Active__c, ' +
+                'Applied_Intake_Study_Period__c, hed__Application_Status__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, Lead__r.Calculated_Cadence__c,Offer_Lapse_Date__c, ' +
                 'Is_Active__c, Is_Agent_Assisted__c, hed__Application_Date__c, Offer_Start_Date__c, hed__Applicant__r.Calculated_Cadence__c, ' +
                 'hed__Applicant__r.QUT_Applicant__c, hed__Applicant__r.Future_Student_Journey_Status__c, Offer_Status_Date__c, Lead__c, ' +
                 'hed__Applicant__r.QUT_Student__c, Calculated_Intake_Date__c, hed__Applicant__r.Lead_Score__c, hed__Initial_Creation_Date__c, Applied_Intake_Study_Period__r.Last_Admission_Date__c ' +
@@ -271,6 +308,19 @@ public inherited sharing class ApplicationsDAO extends DmlBase implements IAppli
         );
     }
 
+    public List<hed__Application__c> getApplicationsByLeadIdOrContactId(Set<String> recordIds, String accessLevel) {
+        return Database.query(
+            'SELECT Id, hed__Applicant__c,Program_Enrollment__c,Program_Enrollment__r.Enrollment_Status__c, Lead__c,hed__Application_Date__c,Lead__r.Lead_Score__c, Application_Status__c,RecordTypeId, ' +
+            'Applied_Intake_Study_Period__c, Offer_Status__c, Calculated_Intake_Date__c, Applied_Intake_Study_Period__r.hed__Start_Date__c, ' +
+            'Is_Agent_Assisted__c ' +
+            'FROM hed__Application__c ' +
+            'WHERE (Lead__c IN :recordIds OR hed__Applicant__c IN :recordIds) ' +
+            'WITH ' +
+            String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    
     public Database.QueryLocator queryApplicationsByPastIntakeDateAndActiveApplicants(
         String accessLevel
     ) {

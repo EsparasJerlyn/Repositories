@@ -17,6 +17,7 @@ public with sharing class LeadScoreConfigCountryTier extends LeadScoreConfigBase
     private Integer untieredUnrestricted = 0;
     private Integer untieredRestricted = 0;
     private Integer developedNations = 0;
+    private Integer unlisted = 0;
 
     public Integer getCountryTier1() {
         return countryTier1;
@@ -64,5 +65,13 @@ public with sharing class LeadScoreConfigCountryTier extends LeadScoreConfigBase
 
     public void setDevelopedNations(Integer developedNations) {
         this.developedNations = developedNations;
+    }
+
+    public Integer getUnlisted() {
+        return unlisted;
+    }
+
+    public void setUnlisted(Integer unlisted) {
+        this.unlisted = unlisted;
     }
 }
