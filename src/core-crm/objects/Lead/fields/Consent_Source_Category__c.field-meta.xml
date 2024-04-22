@@ -58,6 +58,11 @@
                 <default>false</default>
                 <label>Other</label>
             </value>
+            <value>
+                <fullName>Partner Sourced</fullName>
+                <default>false</default>
+                <label>Partner Sourced</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

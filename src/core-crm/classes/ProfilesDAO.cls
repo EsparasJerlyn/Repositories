@@ -8,12 +8,14 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | roy.nino.s.regala              | June 26, 2023         | DEPP-5411              | Created file
  */
-public inherited sharing class ProfilesDAO extends DmlBase implements IProfilesDAO{
+public inherited sharing class ProfilesDAO extends DmlBase implements IProfilesDAO{ 
 
 	public static List<String> ADMIN_PROFILES = new List<String>{
 		'QUT System Administrator',
 		'System Administrator'
 	};
+
+	public static String FUTURE_STUDENT_ENGAGEMENT_PROFILE = 'Future Student Engagement';
 
     public Schema.SObjectType getSObjectType()
 	{
@@ -30,7 +32,7 @@ public inherited sharing class ProfilesDAO extends DmlBase implements IProfilesD
             SELECT Id, Name
             FROM Profile
 			WHERE Id IN: profileIdSet 
-			WITH USER_MODE
+			WITH SYSTEM_MODE
         ];
 	}
 }

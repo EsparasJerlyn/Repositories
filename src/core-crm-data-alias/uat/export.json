@@ -97,6 +97,14 @@
             "importCSVFilesAsIs": true
         },
         {
+            "query": "SELECT Id, Name, AccountId, LastName, FirstName, hed__Chosen_Full_Name__c, Salutation, Email, MobilePhone, ContactMobile_Validation__c, Work_Email__c, QUT_Staff_Email__c, QUT_Employee_ID__c, QUT_Identity_ID__c, QUT_Student_ID__c, Birthdate, Migration_Key__c, Description, Company_Name__c, hed__Primary_Organization__c, $$Name$QUT_Staff_Email__c FROM Contact",
+            "operation": "Upsert",
+            "externalId": "Name;QUT_Staff_Email__c",
+            "useCSVValuesMapping": true,
+            "targetObject": "Contact",
+            "importCSVFilesAsIs": true
+        },
+        {
             "query": "Select Id, Name, Description, CanViewProduct, CanViewPrice, IsActive from CommerceEntitlementPolicy",
             "operation": "Upsert",
             "externalId": "Name",

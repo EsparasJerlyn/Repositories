@@ -12,7 +12,7 @@
  */
 public inherited sharing class LeadScoreCalculatorService {
 
-    public static final String STUDY_LEVEL_CITIZENSHIP_DOM_UG = 'Domestic Undergrad';
+    public static final String STUDY_LEVEL_CITIZENSHIP_DOM_UG = 'Domestic Undergrad'; 
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_PG = 'Domestic Postgrad';
     public static final String STUDY_LEVEL_CITIZENSHIP_DOM_UD = 'Domestic Undetermined';
     public static final String STUDY_LEVEL_CITIZENSHIP_INT_UG = 'International Undergrad';

@@ -93,4 +93,7 @@ stages:
           - template: yml/templates/sfdx-deploy-test-users.yml@SFDX-PIPELINES
             parameters:
               INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers: "${{ parameters.INCLUDE_SANDBOX_REFRESH_STEP_LoadUsers }}" 
+          - template: yml/templates/sfdx-delete-records.yml@SFDX-PIPELINES
+            parameters:
+              NO_OF_DAYS_TO_KEEP: "0" # CI=0, ST=7, SIT=14
           - template: yml/templates/sfdx-logout.yml@SFDX-PIPELINES

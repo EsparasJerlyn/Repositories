@@ -14,7 +14,7 @@
  */
 public with sharing class InternationalTiersDAO extends DmlBase implements IInternationalTiersDAO {
 
-    public static String TIER_CATEGORY_1 = 'Tier 1';
+    public static String TIER_CATEGORY_1 = 'Tier 1'; 
     public static String TIER_CATEGORY_2 = 'Tier 2';
     public static String TIER_CATEGORY_3 = 'Tier 3';
     public static String DEVELOPED_NATIONS = 'Developed Nations';
