@@ -10,7 +10,7 @@
  *    | kenneth.f.alsay                | September 25, 2023    | DEPP-6629              | added getRecordsLikeName                              |
  *    | julie.jane.alegre              | January 02, 2024      | ApexCRUDViolationFix   | added getCourseOfferingByRecordIds                    |
  *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseOfferingByProgramOfferingId |
- *    | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords |
+ *    | sebastianne.k.trias            | January 25, 2024      | DEPP-7481              | added queryLocatorGetPastActiveRecords                |
  */
 public inherited sharing class CourseOfferingsDAO extends DmlBase implements ICourseOfferingsDAO{
 
