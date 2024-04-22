@@ -22,7 +22,7 @@ public with sharing class AddAssociatedProductsCtrlTest {
     @testSetup
     static void setupMethod(){
         Test.startTest();
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Test.stopTest();
         
         List<PriceBookEntry> pbToInsert = new List<PriceBookEntry>();
@@ -108,7 +108,7 @@ public with sharing class AddAssociatedProductsCtrlTest {
     static void getAllProductsTest(){        
         List<AddAssociatedProductsCtrl.ProductDetails> productList = new List<AddAssociatedProductsCtrl.ProductDetails>();
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactorUser.selectUserQUTeXProgramAdministrator){
             String recordId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             productList = AddAssociatedProductsCtrl.getProducts(recordId, 'all');
         }          
@@ -123,7 +123,7 @@ public with sharing class AddAssociatedProductsCtrlTest {
     static void getAssociatedProductsTest() {
         List<AddAssociatedProductsCtrl.ProductDetails> productList = new List<AddAssociatedProductsCtrl.ProductDetails>();
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactorUser.selectUserQUTeXProgramAdministrator){
             String recordId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;
             productList = AddAssociatedProductsCtrl.getProducts(recordId, 'associated');
         }          
@@ -135,7 +135,7 @@ public with sharing class AddAssociatedProductsCtrlTest {
     static void getCourseRecordTypesTest(){        
         List<String> recordTypes = new List<String>();
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactorUser.selectUserQUTeXProgramAdministrator){
             recordTypes = AddAssociatedProductsCtrl.getCourseRecordTypes();
         }
         Test.stopTest();
@@ -146,7 +146,7 @@ public with sharing class AddAssociatedProductsCtrlTest {
     static void addAssociatedProductTest(){                
         String response;
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactorUser.selectUserQUTeXProgramAdministrator){
             String recordId = [SELECT Id FROM Product_Request__c LIMIT 1].Id;    
 
             List<String> productIds = new List<String>();  

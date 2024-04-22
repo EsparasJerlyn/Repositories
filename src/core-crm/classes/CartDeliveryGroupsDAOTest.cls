@@ -12,13 +12,13 @@
 public with sharing class CartDeliveryGroupsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(CartDeliveryGroupsDAO.newInstance() != null, 'CartDeliveryGroupsdao instance is null');
         }
         Test.stopTest();
@@ -27,7 +27,7 @@ public with sharing class CartDeliveryGroupsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CartDeliveryGroupsDAO().getSObjectType() == CartDeliveryGroup.SObjectType,
                 'SObject is not CartDeliveryGroup'

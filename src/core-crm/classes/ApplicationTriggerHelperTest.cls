@@ -28,9 +28,11 @@ private class ApplicationTriggerHelperTest {
     @testSetup
     static void testSetup() {
         Test.startTest();
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator', 'QUT_ESB' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
         TestDataFactory.loadEDATriggers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -48,12 +50,12 @@ private class ApplicationTriggerHelperTest {
             List<Marketing_Interaction__c> marketingInteractionList = TestDataFactory.createMarketingInteractionRecords(newContacts[0].Id, 1, 'QTAC');
             MarketingInteractionsDAO.newInstance().insertRecords(marketingInteractionList, false, AccessLevel.SYSTEM_MODE);
         }
-        Test.stopTest();
+        
     }
 
     @isTest
     private static void testApplicationInsertWithContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<Contact> newContacts = createTestContactRecords(0, 1);            
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
             
@@ -73,7 +75,7 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testApplicationUpdateRemoveContact() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
             List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'SYSTEM_MODE');   
@@ -100,7 +102,7 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testApplicationWithLeadApplicationStatusWithdrawn() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
             List<hed__Application__c> existingApplicationList = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'USER_MODE');   
             List<hed__Application__c> applicationToUpdateList = new List<hed__Application__c>();
@@ -124,7 +126,7 @@ private class ApplicationTriggerHelperTest {
 
     @isTest
     private static void updateCalculatedDateOnSamsApplicationRecordsTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> newContacts = createTestContactRecords(0, 1);
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
@@ -156,7 +158,7 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testUpdateRelatedContacts() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<hed__Application__c> applicationsToUpdate = [
                 SELECT Id, Is_Agent_Assisted__c, Is_International_Applicant__c,
                 Is_Personal_Illness_Disability_Applicant__c, Is_Elite_Athlete_Applicant__c, 
@@ -214,7 +216,7 @@ private class ApplicationTriggerHelperTest {
 
     @isTest
     private static void testUpdateContactWhenQTACAppIsInactive(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id;                
             List<hed__Application__c> applicationToUpdate = ApplicationsDAO.newInstance().getApplicationsByContactIds(new Set<Id>{contactId},'USER_MODE');   
             for(hed__Application__c app : applicationToUpdate){
@@ -247,7 +249,7 @@ private class ApplicationTriggerHelperTest {
 
     @isTest
     private static void testStudyLinkMarketingFields(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             //get the contact created in the setup with a study link application
             Id contactId = ContactsDAO.newInstance().getPersonContactsWithLimit(1).iterator().next()?.Id; 
             Contact con = ContactsDAO.newInstance().getPersonContactsBySetIds(new Set<Id>{contactId}, AccessLevel.SYSTEM_MODE)[0];
@@ -273,7 +275,8 @@ private class ApplicationTriggerHelperTest {
 
     @isTest
     private static void testStudyLinkMatching() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
             List<Contact> contacts = new List<Contact>{
                 createTestContactForApplicationMatching()
             };
@@ -286,7 +289,7 @@ private class ApplicationTriggerHelperTest {
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
             applications[0].hed__Applicant__c = contacts[0].Id;
-            Test.startTest();
+            
             ApplicationsDAO.newInstance().insertRecords(applications, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
 
@@ -309,7 +312,8 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testSAMSLegacyMatching() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
             List<Contact> contacts = new List<Contact>{
                 createTestContactForApplicationMatching()
             };
@@ -318,7 +322,7 @@ private class ApplicationTriggerHelperTest {
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID)
             };
-            Test.startTest();
+            
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
@@ -340,7 +344,8 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testSAMSCIAnywhereMatching() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
+            Test.startTest();
             List<Contact> contacts = new List<Contact>{
                 createTestContactForApplicationMatching()
             };
@@ -349,7 +354,7 @@ private class ApplicationTriggerHelperTest {
             List<hed__Application__c> applications = new List<hed__Application__c>{
                 createTestApplicationForContactMatching(ApplicationsDAO.SAMS_CIANYWHERE_RECTYPE_ID)
             };
-            Test.startTest();
+            
             applications[0].FirstName__c = contacts[0].FirstName;
             applications[0].LastName__c = contacts[0].LastName;
             applications[0].Email__c = contacts[0].Email;
@@ -372,7 +377,7 @@ private class ApplicationTriggerHelperTest {
     
     @isTest
     private static void testQTACMatching() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Contact> contacts = new List<Contact>{
                 new Contact(

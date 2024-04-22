@@ -16,12 +16,12 @@ private class ActionCadenceSTTriggerHelperTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
+        TestDataFactoryUser.generateUserSystemAdministrator();
     }
     
     @isTest static void testInsertCommunicationQueueCreation() {
         List<ActionCadenceStepTracker> acTracker = new List<ActionCadenceStepTracker>();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             ImplementationSelector.DAO.setMock(new ActionCadenceStepTrackersDAOMock());              
             acTracker = ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(new List<String>(), AccessLevel.SYSTEM_MODE);                                                
         }
@@ -53,7 +53,7 @@ private class ActionCadenceSTTriggerHelperTest {
     
     @isTest static void testInsertSMSCommunicationQueueCreation() {
         List<ActionCadenceStepTracker> acTracker = new List<ActionCadenceStepTracker>();
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             ImplementationSelector.DAO.setMock(new ActionCadenceStepTrackersDAOMock());              
             acTracker = ActionCadenceStepTrackersDAO.newInstance().getActionCadenceStepTrackerForEmail(new List<String>(), AccessLevel.SYSTEM_MODE);   
             

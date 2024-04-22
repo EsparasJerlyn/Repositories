@@ -16,8 +16,10 @@ private class ApplicationPreferenceTriggerHandlerTest {
     
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_ESB' });
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.USER_MODE);
@@ -33,7 +35,7 @@ private class ApplicationPreferenceTriggerHandlerTest {
 
     @isTest
     private static void insertTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             List<hed__Application__c> applicationList = [SELECT Id, RecordTypeId FROM hed__Application__c WHERE RecordTypeId =: ApplicationsDAO.QTAC_RECTYPE_ID WITH USER_MODE LIMIT 1];
             Test.startTest();
             List<Application_Preference__c> qtacAppPrefList = TestDataFactory.createApplicationPreferenceRecords(applicationList[0].Id, ApplicationPreferencesDAO.QTAC_RECTYPE_ID, 1);
@@ -51,7 +53,7 @@ private class ApplicationPreferenceTriggerHandlerTest {
 
     @isTest
     private static void updateTest() {
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
             Test.startTest();
             List<Application_Preference__c> appPrefListToUpdate = new List<Application_Preference__c>();
             List<Application_Preference__c> appPrefList = [SELECT Id, Preference_Number__c, Program_Name__c, Is_Current_Preference__c FROM Application_Preference__c WHERE Program_Name__c = 'App Pref 1' WITH USER_MODE LIMIT 1];    

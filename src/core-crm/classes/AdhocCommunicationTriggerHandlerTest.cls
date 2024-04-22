@@ -15,9 +15,11 @@ private class AdhocCommunicationTriggerHandlerTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'} );
-        System.runAs(TestDataFactory.getProgramAdminUser()){
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
+            
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -48,13 +50,12 @@ private class AdhocCommunicationTriggerHandlerTest {
             )); 
             CourseConnectionsDAO.newInstance().insertRecords(courseEnrollmentList, false, AccessLevel.SYSTEM_MODE);
 			
-            Test.stopTest();
         }
     }
 
     @isTest
     static void testBeforeInsertAdhocCommunicationTriggerHandler(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id programOfferingId = [Select Id From Program_Offering__c Limit 1]?.Id;
             List<Adhoc_Communication__c> adhocCommunicationList = TestDataFactory.createTestAdhocCommsRecords(1);
             adhocCommunicationList[0].Program_Offering__c = programOfferingId;
@@ -68,7 +69,7 @@ private class AdhocCommunicationTriggerHandlerTest {
     
    @isTest
     static void testBeforeUpdateAdhocCommunicationTriggerHandler() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id programOfferingId = [Select Id From Program_Offering__c Limit 1]?.Id;
             List<Adhoc_Communication__c> adhocCommunicationList = TestDataFactory.createTestAdhocCommsRecords(1);
             adhocCommunicationList[0].Program_Offering__c = programOfferingId;
