@@ -1,0 +1,2 @@
+Id,Name,Delivery_Type__c,IsActive__c,Registration_End_Date__c,Registration_Start_Date__c,Total_Number_of_Registered_Learners__c,Visible_on_Website__c,hed__Course__c,hed__End_Date__c,hed__Start_Date__c,hed__Term__c
+a0B92000000RyWLEA0,CourseOffering-Activity-000,Online Classroom,TRUE,2022-03-15,2022-03-01,1,FALSE,a0C92000001nM0PEAU,2022-03-31,2022-03-16,a0P92000000GTFlEAO

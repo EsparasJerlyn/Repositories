@@ -6,12 +6,15 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA         | Change Summary                               |
-      |---------------------------|-----------------------|--------------|----------------------------------------------|
-      | mark.j.mahilum            | June 13,2023          | DEPP-5798    | Created file                                 |
-      | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Updated test class to cover can nurture logic|
-      | julie.jane.alegre         | Sept 07, 2023         | DEPP-5965    | Add test method testCreateLeadScoreDetail    |
-      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class testCreateMarketingSegmentation|
+ *    | Developer                 | Date                  | JIRA         | Change Summary                                          |
+      |---------------------------|-----------------------|--------------|---------------------------------------------------------|
+      | mark.j.mahilum            | June 13,2023          | DEPP-5798    | Created file                                            |
+      | mark.j.mahilum            | July 28, 2023         | DEPP-6106    | Updated test class to cover can nurture logic           |
+      | julie.jane.alegre         | Sept 07, 2023         | DEPP-5965    | Add test method testCreateLeadScoreDetail               |
+      | julie.jane.alegre         | Sept 14, 2023         | DEPP-6679    | Added test class testCreateMarketingSegmentation        |
+      | eccarius.munoz            | March 5, 2024         | DEPP-7699    | Added test method for lead source and lead source       |
+      |                           |                       |              | category values when user profile is FSE.               |
+      | arsenio.jr.dayrit         | March 7, 2024         | DEPP-8069    | Added test method for create Lead Can Nurture           |
 */
 @isTest
 private class LeadServiceTest {
@@ -144,13 +147,14 @@ private class LeadServiceTest {
                         Id = ldList[i].Id,
                         Email = 'new' + i + EMAIL,
                         Work_Email__c = 'newwork' + i + EMAIL,
-                        Email_Opt_In_DateTime__c = Date.today()
+                        Email_Opt_In_DateTime__c = Date.today(),
+                        Lead_Source_Category__c = 'Partner Sourced'
                     )
                 );
             }
             
             Test.startTest();
-            LeadsDAO.newInstance().updateRecords(leadsToUpdate, true, AccessLevel.SYSTEM_MODE);
+            LeadsDAO.newInstance().updateRecords(leadsToUpdate, false, AccessLevel.SYSTEM_MODE);
             Test.stopTest();
             
             for (Lead lead :LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {  
@@ -200,6 +204,25 @@ private class LeadServiceTest {
             System.assert(lsdList.size() > 0, 'No record created');
         }
     }
+
+    @isTest
+    private static void testCreateLeadCanNurture() {
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {   
+            Test.startTest(); 
+            List<Lead> leads = TestDataFactory.createTestLeadRecords(recordsCount);
+            for(Lead lead : leads){   
+                lead.Company_Category__c = 'Corporate';
+                lead.Lead_Source_Category__c = 'Partner Sourced';
+            }   
+            LeadsDAO.newInstance().insertRecords(leads, false, AccessLevel.USER_MODE);
+            Test.stopTest();
+            List<Lead> leadList = [SELECT Id, Can_Nurture__c FROM Lead WHERE Lead_Source_Category__c = 'Partner Sourced'];
+            For(Lead lead : leadList){
+                System.assert(lead.Can_Nurture__c,'Can Nurture is not ticked');
+            }
+        }
+    }
+
     private static void convertLead(List<Lead> leads){
         List<Database.LeadConvert> leadstoConvert = new List<Database.LeadConvert>(); 
         LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted = true LIMIT 1];
@@ -237,6 +260,42 @@ private class LeadServiceTest {
             }
         }
     }
+
+    @isTest
+    private static void testSetLeadSourceAndLeadSourceCategoryFields() {
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            setupLeadScoreConfig(10);
+            Test.startTest();
+            String lastName = 'FSELead';
+            List<Lead> leadListToInsert = TestDataFactory.createTestLeadRecords(0, recordsCount);
+            for(Lead lead : leadListToInsert){
+                lead.LastName = lastName;
+                lead.Email = lastName + lead.Email;
+                lead.Work_Email__c = lastName + lead.Work_Email__c;
+            }
+
+            LeadsDAO.newInstance().insertRecords(leadListToInsert, true, AccessLevel.USER_MODE);
+            Test.stopTest();
+
+            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {
+                if(lead.LastName == lastName){
+                    System.assertEquals('Manual Create', lead.LeadSource, 'Lead Source did not match');
+                    System.assertEquals('Other', lead.Lead_Source_Category__c, 'Lead Source Category did not match');
+                }
+            }
+        }
+    }
+
+    @isTest
+    private static void testSetLeadSourceAndLeadSourceCategoryFieldsNonFSE() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            setupLeadScoreConfig(10);
+            for (Lead lead : LeadsDAO.newInstance().getLeadsWithLimit(recordsCount)) {
+                System.assertEquals(null, lead.LeadSource, 'Lead Source did not match');
+                System.assertEquals(null, lead.Lead_Source_Category__c, 'Lead Source Category did not match');
+            }
+        }
+    } 
 
     private static void setupLeadScoreConfig(Decimal maxScore){
         List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();

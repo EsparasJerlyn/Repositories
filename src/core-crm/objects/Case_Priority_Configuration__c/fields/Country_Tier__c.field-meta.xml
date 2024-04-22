@@ -34,14 +34,21 @@
                 <label>Developed Nations</label>
             </value>
             <value>
-                <fullName>Untiered - Unrestricted</fullName>
+                <fullName>Untiered</fullName>
                 <default>false</default>
-                <label>Untiered - Unrestricted</label>
+                <label>Untiered</label>
             </value>
             <value>
                 <fullName>Untiered - Restricted</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Untiered - Restricted</label>
+            </value>
+            <value>
+                <fullName>Untiered - Unrestricted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Untiered - Unrestricted</label>
             </value>
         </valueSetDefinition>
     </valueSet>

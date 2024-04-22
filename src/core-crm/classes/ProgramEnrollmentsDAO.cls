@@ -14,6 +14,14 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
 
+    public static final Set<String> ENROLLMENT_STATUS = new Set<String>{
+        'Early Withdrawn',
+        'Withdrawn',
+        'Passed',
+        'Conditionally Complete',
+        'Potentially Complete'
+    };
+
     public Schema.SObjectType getSObjectType(){
 		return hed__Program_Enrollment__c.SObjectType;
 	}
@@ -54,7 +62,7 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
 
     public List<hed__Program_Enrollment__c> getAllProgramEnrollmentsByContactId(Set<Id> contactIds, AccessLevel accessLevel){
         return Database.query(
-            'SELECT Id, hed__Account__c, hed__Contact__c, Enrollment_Status__c, Lead_Score_Reset__c ' +
+            'SELECT Id, hed__Account__c, hed__Contact__c, Enrollment_Status__c, Lead_Score_Reset__c, Enrollment_Status_Date__c, hed__Admission_Date__c ' +
               'FROM hed__Program_Enrollment__c ' +
              'WHERE hed__Contact__c IN :contactIds',
             accessLevel

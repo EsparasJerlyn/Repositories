@@ -8,5 +8,5 @@ ISPICKVAL(Stage_Name__c , &apos;Granted&apos;),
 ISBLANK(  Granted_Comment__c )
 )</errorConditionFormula>
     <errorDisplayField>Granted_Comment__c</errorDisplayField>
-    <errorMessage>Mandatory Field</errorMessage>
+    <errorMessage>Mandatory field</errorMessage>
 </ValidationRule>

@@ -273,6 +273,16 @@ public with sharing class NurturingTrackService { //NOPMD This is a service clas
         }
         return isContains;
     }
+
+    public static Map<String,International_Tier__c> getAllRestrictedCountry(){
+        Map<String,International_Tier__c> restrictedCountryMap = new Map<String,International_Tier__c>();
+        for(International_Tier__c it : InternationalTiersDAO.newInstance().getActiveInternationalTiers(AccessLevel.SYSTEM_MODE)){
+            if(it.Tier_Subcategory__c == InternationalTiersDAO.UNTIERED_SUBCATEGORY_RESTRICTED){
+                restrictedCountryMap.put(it.Country_Name__c,it);
+            }
+        }
+        return restrictedCountryMap;
+    }
     
     private static Integer getLength(Map<Id, Set<String>> completedCadenceByApplicantId, String applicantApiName,SObject application){
         Integer length = 0;
