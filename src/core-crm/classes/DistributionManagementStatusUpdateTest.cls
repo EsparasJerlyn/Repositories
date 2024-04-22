@@ -5,11 +5,13 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary                                  |
-      |--------------------------------|-----------------------|------------------------|-------------------------------------------------|
-      | nicole.genon                   | April 11, 2024        | DEPP-8452              | Created file                                    |
-      | kenneth.f.alsay                | April 12, 2024        | DEPP-8453              | Added forInactiveStatusOnCreateTest             |
-      |                                                                                 | Added forInactiveStatusOnUpdateTest             |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                                                        |
+      |--------------------------------|-----------------------|------------------------|-----------------------------------------------------------------------|
+      | nicole.genon                   | April 11, 2024        | DEPP-8452              | Created file                                                          |
+      | kenneth.f.alsay                | April 12, 2024        | DEPP-8453              | Added forInactiveStatusOnCreateTest                                   |
+      |                                                                                 | Added forInactiveStatusOnUpdateTest                                   |
+      | kenneth.f.alsay                | April 22, 2024        | DEPP-8392              | CI Error Fix after query updates on                                   |
+      |                                |                       |                        | DistributionManagementsDAO.getDistributionManagementByDesignationId   |
  */
 @isTest
 private class DistributionManagementStatusUpdateTest {
@@ -82,7 +84,17 @@ private class DistributionManagementStatusUpdateTest {
             DistributionManagementsDAO.newInstance()
                 .insertRecords(newDmList, false, AccessLevel.USER_MODE);
             
-            List<Distribution_Management__c> dMList = DistributionManagementsDAO.newInstance().getDistributionManagementByDesignationId(new Set<Id>{designationList[0].Id},AccessLevel.USER_MODE);
+            List<Distribution_Management__c> getDMList = DistributionManagementsDAO.newInstance().getDistributionManagementByDesignationId(new Set<Id>{designationList[0].Id},AccessLevel.USER_MODE);
+            List<Distribution_Management__c> dMList = new List<Distribution_Management__c>();
+            
+            for(Distribution_Management__c dm : getDMList){
+                dMList.add(new Distribution_Management__c (
+                	Id = dm.Id,
+                    Start_Date__c = dm.Start_Date__c,
+                    End_Date__c = dm.End_Date__c,
+                    Status__c = dm.Status__c
+                ));
+            }
 
             for(Distribution_Management__c rec : dMList){
                 rec.Start_Date__c = System.today();
@@ -155,8 +167,18 @@ private class DistributionManagementStatusUpdateTest {
             DistributionManagementsDAO.newInstance()
                 .insertRecords(dMList, false, AccessLevel.USER_MODE);
 
-            List<Distribution_Management__c> dMListToUpdate = DistributionManagementsDAO.newInstance().getDistributionManagementByDesignationId(new Set<Id>{designationList[0].Id},AccessLevel.USER_MODE);
-
+            List<Distribution_Management__c> getDMList = DistributionManagementsDAO.newInstance().getDistributionManagementByDesignationId(new Set<Id>{designationList[0].Id},AccessLevel.USER_MODE);
+            List<Distribution_Management__c> dMListToUpdate = new List<Distribution_Management__c>();
+            
+            for(Distribution_Management__c dm : getDMList){
+                dmListToUpdate.add(new Distribution_Management__c (
+                	Id = dm.Id,
+                    Start_Date__c = dm.Start_Date__c,
+                    End_Date__c = dm.End_Date__c,
+                    Status__c = dm.Status__c
+                ));
+            }
+            
             for(Distribution_Management__c rec : dMListToUpdate){
                 rec.Status__c = 'Active';
                 rec.End_Date__c = System.Today();
