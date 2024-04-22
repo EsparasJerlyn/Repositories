@@ -12,7 +12,13 @@
  */
 @isTest
 public with sharing class CaseMarketingHelperTest {
-
+    
+    private static final String FIRSTNAME = 'TestfirstName';
+    private static final String LASTNAME = 'Testlastname';
+    private static final String EMAIL = 'testmail@mail.test';
+    private static final String BIRTHDAY = '2000-06-28';
+    private static Integer recordsCount = 20;
+    
     @testSetup
     static void setupMethod() {
         Test.startTest();
@@ -119,5 +125,81 @@ public with sharing class CaseMarketingHelperTest {
                 System.assertEquals('Undergraduate', marseg.My_Primary_Study_Level__c,'My_Primary_Study_Level__c did not match');
             }
         }
+    }
+    
+    @isTest
+    static void insertCaseAssociatedToContact(){
+        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+                        
+            List<Contact> contactToUpdate = new List<Contact>();
+            Map<String,Contact> contactMap = new Map<String,Contact>();          
+            List<Contact> newContacts = createTestContactRecords(0, 50);  
+            for(Contact con:newContacts){
+                contactMap.put(con.Work_Email__c, con);
+            }            
+            ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE);
+                        
+            Test.startTest();
+            Set<Id> contactIds = new Set<Id>();
+            List<Case> cases = new List<Case>();
+            for(Integer i = 0; i < 50; i++){
+                cases.add(
+                    new Case(  
+                        Status = 'Created', 
+                        SuppliedPhone = '0909'+i,
+                        Web_Mobile_Locale__c = 'Australia (+61)',
+                        Web_Mobile_No_Locale__c = '3333444445555',
+                        ContactId = contactMap.get('work' + i + EMAIL)?.Id,
+                        SuppliedEmail = 'con11223.Test@randomtest.com.'+i,
+                        Description = 'Test Case Description' + i,
+                        Origin = 'Email',
+                        My_Country_Of_Citizenship__c = 'Australia',
+                        My_Citizenship_Status__c = 'Australian Citizen or Permanent Resident',
+                        My_Country_Of_Residency__c = 'Australia',
+                        My_Education_Level__c = 'In Year 8',
+                        My_Primary_Study_Level__c = 'Undergraduate',
+                        Marketing_Opt_In__c = true
+                    )
+                );
+                contactIds.add(contactMap.get('work' + i + EMAIL)?.Id);
+            }
+            
+            CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+            
+            Integer iterationCaseCount = 0;
+            for(Contact con:ContactsDAO.newInstance().getPersonContactsBySetIds(contactIds,AccessLevel.SYSTEM_MODE)){
+                iterationCaseCount++;
+                System.assertEquals(false, con.HasOptedOutOfEmail,'HasOptedOutOfEmail did not match');
+                System.assertEquals(System.today(), date.newinstance(con.Email_Opt_In_DateTime__c.year(), con.Email_Opt_In_DateTime__c.month(), con.Email_Opt_In_DateTime__c.day()),'Email_Opt_In_DateTime__c did not match');
+                System.assertEquals('con11223.Test@randomtest.com.'+iterationCaseCount, con.Email,'Primary Email did not match');
+                System.assertEquals('Australia (+61)', con.ContactMobile_Locale__c,'ContactMobile_Locale__c did not match');
+                System.assertEquals('3333444445555', con.Mobile_No_Locale__c,'Mobile_No_Locale__c did not match');
+            }
+
+        }
+    }
+    
+    private static List<Contact> createTestContactRecords(
+        Integer startAtCount,
+        Integer endBeforeCount
+    ) {
+        List<Contact> newContacts = new List<Contact>();
+        for (Integer i = startAtCount; i < endBeforeCount; i++) {
+            newContacts.add(
+                new Contact(
+                    FirstName = FIRSTNAME + i,
+                    LastName = i + LASTNAME,
+                    BirthDate = Date.valueOf(BIRTHDAY),
+                    QUT_Learner_Email__c = 'learner' + i + EMAIL,
+                    QUT_Staff_Email__c = 'staff' + i + EMAIL,
+                    Work_Email__c = 'work' + i + EMAIL,
+                    hed__Preferred_Email__c = 'Alternate Email',
+                    hed__AlternateEmail__c = i + EMAIL,
+                    RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
+                )
+            );
+        }
+        return newContacts;
     }
 }

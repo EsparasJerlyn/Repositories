@@ -72,13 +72,29 @@ private class CartItemsDAOTest {
         }
         Test.stopTest();
     }
-
+	
+    @isTest
     static void countCartItemsGroupByCourseOfferingEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByCourseOffering(
                     new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(aggrCourseOfferList.isEmpty(), 'aggrCourseOfferList is not empty');
+        }
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void countCartItemsGroupByCourseOfferingNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForCourseOffering = new MockIdGenerator(hed__Course_Offering__c.sObjectType);
+            List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance()
+                .countCartItemsGroupByCourseOffering(
+                    new Set<Id>{builderForCourseOffering.getMockId()},
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(aggrCourseOfferList.isEmpty(), 'aggrCourseOfferList is not empty');
@@ -100,13 +116,29 @@ private class CartItemsDAOTest {
         }
         Test.stopTest();
     }
-
+	
+    @isTest
     static void countCartItemsGroupByProgramOfferingEmptyTest() {
         Test.startTest();
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByProgramOffering(
                     new Set<Id>(),
+                    AccessLevel.SYSTEM_MODE
+                );
+            System.assert(aggrProgramOfferList.isEmpty(), 'aggrProgramOfferList is not empty');
+        }
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void countCartItemsGroupByProgramOfferingNotEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            MockIdGenerator builderForProgramOffering = new MockIdGenerator(Program_Offering__c.sObjectType);
+            List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance()
+                .countCartItemsGroupByProgramOffering(
+                    new Set<Id>{builderForProgramOffering.getMockId()},
                     AccessLevel.SYSTEM_MODE
                 );
             System.assert(aggrProgramOfferList.isEmpty(), 'aggrProgramOfferList is not empty');
