@@ -73,6 +73,7 @@ public inherited sharing class LeadScoreConfigurationDAO extends DmlBase impleme
     public static final String CONFIG_SUB_CATEGORY_UNRESTRICTED_COHORT = 'Untiered nationality - unrestricted cohort (ex. developed countries)';
     public static final String CONFIG_SUB_CATEGORY_RESTRICTED_COHORT = 'Untiered nationality - restricted cohort, Australian';
     public static final String CONFIG_SUB_CATEGORY_DEVELOPED_NATIONS = 'Developed Nations';
+    public static final String CONFIG_SUB_CATEGORY_UNLISTED = 'Unlisted';
     //CONFIG_CATEGORY_FUNDING
     public static final String CONFIG_SUB_CATEGORY_COMPANY_FUNDED = 'Company Funded';
     public static final String CONFIG_SUB_CATEGORY_I_FUND_MY_STUDIES_MYSELF = 'I will fund my studies myself';

@@ -8,5 +8,5 @@ ISPICKVAL(Stage_Name__c , &apos;Granted&apos;),
 ISBLANK( Granted_Date__c )
 )</errorConditionFormula>
     <errorDisplayField>Granted_Date__c</errorDisplayField>
-    <errorMessage>Mandatory Field</errorMessage>
+    <errorMessage>Mandatory field</errorMessage>
 </ValidationRule>

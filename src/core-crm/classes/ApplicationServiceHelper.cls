@@ -243,8 +243,10 @@ public without sharing class ApplicationServiceHelper {
         lead.LastName = app.LastName__c;
         lead.Email = app.Email__c;
         lead.Mobile_No_Locale__c = app.Mobile__c;
-        lead.Company = 'Learner';
-        lead.Lead_Type__c = 'Learner';
+        lead.Company = LeadsDAO.COMPANY_LEARNER;
+        lead.Lead_Type__c = LeadsDAO.LEARNER_LEAD_TYPE;
+        lead.Lead_Source_Category__c = LeadsDAO.LEAD_SOURCE_CATEGORY_STUDY_APPLICATION;
+        lead.LeadSource = LeadsDAO.LEAD_SOURCE_STUDYLINK_STUDYLINK_UNSUBMITTED;
         return lead;
     }
     
