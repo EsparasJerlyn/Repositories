@@ -14,11 +14,6 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Enquiry</fullName>
-                <default>false</default>
-                <label>Enquiry</label>
-            </value>
-            <value>
                 <fullName>Event</fullName>
                 <default>false</default>
                 <label>Event</label>
@@ -31,17 +26,22 @@
             <value>
                 <fullName>Web Form</fullName>
                 <default>false</default>
-                <label>Web Form</label>
+                <label>Online Interaction</label>
             </value>
             <value>
                 <fullName>Outreach Activity</fullName>
                 <default>false</default>
-                <label>Outreach Activity</label>
+                <label>Engagement/Partnership</label>
             </value>
             <value>
                 <fullName>Referral Partner</fullName>
                 <default>false</default>
                 <label>Referral Partner</label>
+            </value>
+            <value>
+                <fullName>Partner Sourced</fullName>
+                <default>false</default>
+                <label>Partner Sourced</label>
             </value>
             <value>
                 <fullName>Strategic Partner</fullName>
@@ -57,6 +57,12 @@
                 <fullName>Other</fullName>
                 <default>false</default>
                 <label>Other</label>
+            </value>
+            <value>
+                <fullName>Enquiry</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Enquiry</label>
             </value>
         </valueSetDefinition>
     </valueSet>
