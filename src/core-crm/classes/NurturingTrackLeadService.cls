@@ -465,7 +465,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             app.Lead__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED) &&
             app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_AUTOMATED).Lead_Score_Threshold__c &&
-            (app.CreatedDate <= System.Now() && app.CreatedDate >= System.Now().addYears(-3))
+            (app.CreatedDate.Date() <= Date.Today() && app.CreatedDate.Date() >= Date.Today().addYears(-3))
         ) {
             return true;
         }
@@ -477,7 +477,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             app.Lead__r.Lead_Score__c != null &&
             nurturingTrackWithThresholdForEntry.containsKey(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL) &&
             app.Lead__r.Lead_Score__c > nurturingTrackWithThresholdForEntry.get(NurtureTrackConfigurationsDAO.DOMESTIC_STRONG_INTEREST_PRE_APPLICATION_MANUAL).Lead_Score_Threshold__c &&
-            (app.CreatedDate <= System.Now() && app.CreatedDate >= System.Now().addYears(-3))
+            (app.CreatedDate.Date() <= Date.Today() && app.CreatedDate.Date() >= Date.Today().addYears(-3))
         ) {
             return true;
         }
@@ -532,7 +532,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
     }
 
     private static boolean checkCaseCreatedDate(Case caseRec){
-        return (caseRec.CreatedDate <= System.Now() && caseRec.CreatedDate >= System.Now().addMonths(-3) && caseRec.Category__c != null);
+        return (caseRec.CreatedDate.Date() <= Date.Today() && caseRec.CreatedDate.Date() >= Date.Today().addMonths(-3) && caseRec.Category__c != null);
     }
 
     private static Set<Id> getLeadIdsWithApplication(List<hed__Application__c> applications){
@@ -678,7 +678,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                 (application.RecordTypeId == ApplicationsDAO.STUDYLINK_RECTYPE_ID) &&
                 (ApplicationsDAO.INTL_ENTRY_APPLICATION_TO_OFFER_STATUSES_FOR_STUDYLINK.contains(application.Application_Status__c)) &&
                 (application.Is_Agent_Assisted__c == false) &&
-                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_APPLICATION_TO_OFFER_DIRECT));
+                (!completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_APPLICATION_TO_OFFER_AUTO));
             if(isPassedCriteria) {
                 directApplicantsToOffer.put(application.Id, application);
             }
@@ -774,7 +774,7 @@ public with sharing class NurturingTrackLeadService { //NOPMD
                 !isPartnerSourced ||
                 //make sure that there are no completed cadence against any succeeding cadence
                 //this should return true if one of the succeeding cadence is already in compeltedCadencesCopy
-                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_STRONG_INTEREST)) {
+                completedCadencesCopy.removeAll(NurtureTrackConfigurationsDAO.INTERNATIONAL_TRACK_SUCCEEDING_PARTNER_SOURCED)) {
                 continue;
             }
 
@@ -825,8 +825,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             
             // Check if the application was created within the specified time range
             Boolean isInitiallyCreatedWithinTimeRange =
-                application.CreatedDate <= System.today() &&
-                application.CreatedDate >= System.today().addYears(-3);
+                application.CreatedDate.Date() <= Date.Today() &&
+                application.CreatedDate.Date() >= Date.today().addYears(-3);
             
             // get lead related to application
             Lead relatedLead = internationalExitLeadMap.get(application.Lead__c);
@@ -876,8 +876,8 @@ public with sharing class NurturingTrackLeadService { //NOPMD
             
             // Check if the application was created within the specified time range
             Boolean isInitiallyCreatedWithinTimeRange =
-                application.CreatedDate <= System.today() &&
-                application.CreatedDate >= System.today().addYears(-years);
+                application.CreatedDate.Date() <= Date.today() &&
+                application.CreatedDate.Date() >= Date.today().addYears(-years);
             
             // If the application meets both criteria, add the associated contact ID to the set
             if(

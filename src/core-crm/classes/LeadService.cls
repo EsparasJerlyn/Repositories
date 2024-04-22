@@ -21,6 +21,7 @@
  *    |                                |                       |                        |     to future                               |
  *    | eccarius.munoz                 | March 5, 2024         | DEPP-7699              | Added method for lead source and lead source|
  *    |                                |                       |                        | category values when user profile is FSE.   |
+ *    ! arsenio.jr.dayrit              | April 15, 2024        | DEPP-8495              | Update updateCanNurture method              |
  */
 @SuppressWarnings('PMD')
 public with sharing class LeadService {
@@ -72,7 +73,7 @@ public with sharing class LeadService {
                 assignLeadToCadenceMap,
                 removeLeadToCadenceMap
             );
-            SalesCadenceCalloutService.updateCompletedCadences(assignLeadToCadenceMap);
+            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(assignLeadToCadenceMap,removeLeadToCadenceMap);
         }
     }
 
@@ -118,7 +119,7 @@ public with sharing class LeadService {
     }
 
     /**
-     * @description Update Lead Parner Sourced
+     * @description Update Lead when Lead Source Category is Partner Sourced
      *
      * @param newItems  Map of new lead records
      * @param oldItems  Map of old lead records
@@ -130,15 +131,27 @@ public with sharing class LeadService {
         Set<Id> leadWithCompletedCadencePartnerSource = checkCompletedCadenceWithPartnerSource(newItems.keySet());
         for (Lead lead : newItems.values()) {
             Boolean hasLeadWithCompletedCadencePartnerSource = leadWithCompletedCadencePartnerSource.contains(lead.Id);
-            Boolean leadForUpdate = lead.Lead_Source_Category__c == 'Partner Sourced' &&
+            Boolean leadWithPartnerSourcedCadenceForUpdateFlagToFalse = lead.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED &&
                                     !lead.IsConverted &&
                                     isForUpdate &&
                                     hasLeadWithCompletedCadencePartnerSource &&
                                     lead.Can_Nurture__c;
+            Boolean leadToPartnerSourcedForUpdateFlagToTrue = isForUpdate &&
+                                    !lead.IsConverted &&
+                                    oldItems.get(lead.Id).Lead_Source_Category__c != lead.Lead_Source_Category__c &&
+                                    lead.Lead_Source_Category__c == LeadsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCED &&
+                                    lead.Lead_Type__c == LeadsDAO.LEARNER_LEAD_TYPE &&
+                                    !lead.Can_Nurture__c;
 
-            if(leadForUpdate){
+
+
+            if(leadWithPartnerSourcedCadenceForUpdateFlagToFalse){
                 lead.Can_Nurture__c = false;
             }
+            else if (leadToPartnerSourcedForUpdateFlagToTrue){
+                lead.Can_Nurture__c = true;
+            }
+
         }
     }
 

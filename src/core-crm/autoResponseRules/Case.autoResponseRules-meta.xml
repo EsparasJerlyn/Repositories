@@ -12,7 +12,11 @@
             <template>QUTDomesticFutureStudentTemplates/Domestic_Future_Student_Acknowledgement_1707205776929</template>
         </ruleEntry>
         <ruleEntry>
-            <formula>AND(RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,OR(ISPICKVAL(Origin, &apos;Email&apos;),ISPICKVAL(Origin, &apos;Website&apos;)),ISNEW())</formula>
+            <formula>AND(
+                RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,
+                ISPICKVAL(Origin, &apos;Email&apos;),
+                ISNEW()
+               )</formula>
             <notifyCcRecipients>false</notifyCcRecipients>
             <replyToEmail>{CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE}</replyToEmail>
             <senderEmail>no-reply@qut.edu.au</senderEmail>

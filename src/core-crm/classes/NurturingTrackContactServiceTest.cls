@@ -219,7 +219,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
-            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentList[0].Enrollment_Status__c = 'Passed';
             programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
             insert programEnrollmentList;
 
@@ -349,7 +349,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
-            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentList[0].Enrollment_Status__c = 'Passed';
             programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
             insert programEnrollmentList;
 
@@ -429,7 +429,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
 
             List<hed__Program_Enrollment__c> programEnrollmentList = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentList[0].hed__Contact__c = newContacts[0].Id;
-            programEnrollmentList[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentList[0].Enrollment_Status__c = 'Passed';
             programEnrollmentList[0].Enrollment_Status_Date__c = System.today().addMonths(-13);
             insert programEnrollmentList;
 
@@ -1733,6 +1733,7 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             List<hed__Program_Enrollment__c> programEnrollmentListOne = TestDataFactory.createTestProgramEnrollmentRecords(1);
             programEnrollmentListOne[0].hed__Contact__c = newContacts[0].Id;
             programEnrollmentListOne[0].Enrollment_Status__c = 'Admitted';
+            programEnrollmentListOne[0].hed__Admission_Date__c = System.today().addMonths(-13);
             ProgramEnrollmentsDAO.newInstance().insertRecords(programEnrollmentListOne, false, AccessLevel.SYSTEM_MODE);
 
             List<hed__Program_Plan__c> programList = TestDataFactory.createTestProgramPlanRecords(1);
@@ -1740,12 +1741,13 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
             insert programList;
 
             List<hed__Application__c> newQtacApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.QTAC_RECTYPE_ID, 'New');
+            newQtacApplications[0].Offer_Status__c = 'Accepted';
             ApplicationsDAO.newInstance().insertRecords(newQtacApplications, false, AccessLevel.SYSTEM_MODE);
             
             List<hed__Application__c> newApplications = createTestApplicationRecords(newContacts, ApplicationsDAO.SAMS_LEGACY_RECTYPE_ID, 'New');
             newApplications[0].Calculated_Intake_Date__c = System.today().addDays(5);
             newApplications[0].Offered_Program_Plan__c = programList[0].Id;
-            newApplications[0].Related_QTAC_Application__c = newQtacApplications[0].Id;
+            newApplications[0].Related_QTAC_Application__c = null;
             newApplications[0].Program_Enrollment__c = programEnrollmentListOne[0].Id;
             ApplicationsDAO.newInstance().insertRecords(newApplications, false, AccessLevel.SYSTEM_MODE);
             
@@ -2054,4 +2056,5 @@ public with sharing class NurturingTrackContactServiceTest { //NOPMD
         ));
         return intakePeriods;
     }
+    
 }

@@ -39,8 +39,10 @@
                 <elementReference>RecordId</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>CaseEmailFlowHelper</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>60.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Add_Merge_Fields</name>
         <label>Add Merge Fields</label>
@@ -87,7 +89,7 @@
             <assignToReference>EmailTemplateDeveloperName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Future_Student_Enquiry_New_Enquiry_Acknowledgement_Email_Initial_1708587231806</stringValue>
+                <stringValue>Future_Student_Enquiry_New_Enquiry_Acknowledgement_Email_Follow_up_1708588496628</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>

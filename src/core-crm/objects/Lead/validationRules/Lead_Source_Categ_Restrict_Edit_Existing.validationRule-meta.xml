@@ -3,7 +3,6 @@
     <fullName>Lead_Source_Categ_Restrict_Edit_Existing</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
- $Profile.Name = &apos;Future Student Engagement&apos;,
  NOT(ISBLANK(TEXT(PRIORVALUE(Lead_Source_Category__c)))),
  ISCHANGED(Lead_Source_Category__c )
 )</errorConditionFormula>

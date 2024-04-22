@@ -139,13 +139,13 @@ public inherited sharing class ApplicationsDAOMock extends DmlBaseMock implement
         String accessLevel
     ) {
         List<hed__Application__c> applicationList = new List<hed__Application__c>();
-        
+
         for (hed__Application__c record : applicationMap.values()) {
             if (recordIds.contains(record.hed__Applicant__c) || recordIds.contains(record.Lead__c)) {
                 applicationList.add(record);
             }
         }
-        
+
         return applicationList;
     }
     

@@ -2113,6 +2113,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Partner Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Referral Partner</fullName>
             <default>false</default>
         </values>
