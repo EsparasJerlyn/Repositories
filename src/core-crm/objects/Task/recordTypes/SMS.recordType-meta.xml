@@ -63,6 +63,10 @@
             <fullName>Send SMS</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Service Appt No Answer SMS</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Type</picklist>

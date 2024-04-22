@@ -23,6 +23,7 @@ private class LeadScoreConfigCountryTierTest {
         data.setUntieredRestricted(10);
         data.setUntieredUnrestricted(10);
         data.setDevelopedNations(10);
+        data.setUnlisted(10);
 
         System.assertEquals(10, data.getCountryTier1(), 'value did not match');
         System.assertEquals(10, data.getCountryTier2(), 'value did not match');
@@ -30,5 +31,6 @@ private class LeadScoreConfigCountryTierTest {
         System.assertEquals(10, data.getUntieredRestricted(), 'value did not match');
         System.assertEquals(10, data.getUntieredUnrestricted(), 'value did not match');
         System.assertEquals(10, data.getDevelopedNations(), 'value did not match');
+        System.assertEquals(10, data.getUnlisted(), 'value did not match');
     }
 }

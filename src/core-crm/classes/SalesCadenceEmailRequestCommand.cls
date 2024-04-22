@@ -84,6 +84,9 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
                                      ? contact.FirstName
                                      : contact.Name;
                 emailMap.put(contact.Id, recipientName);
+                if(contact.Lead_Source_Category__c =='Partner Sourced'){
+                    emailMap.put(contact.Id + contact.Lead_Source_Category__c, contact.LeadSource);
+                }
             }
         }
 
@@ -94,6 +97,9 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
                                      ? lead.FirstName
                                      : lead.Name;
                 emailMap.put(lead.Id, recipientName);
+                if(lead.Lead_Source_Category__c =='Partner Sourced'){
+                    emailMap.put(lead.Id + lead.Lead_Source_Category__c, lead.LeadSource);
+                }
             }
         }
 
@@ -104,7 +110,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
      * retrieve contact list by who id set
      */
     private static List<Contact> getContactListByIdSet(Set<Id> whoIDset){
-        List<String> fields = new List<String>{'Email', 'Name', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c'};
+        List<String> fields = new List<String>{'Email', 'Name', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c', 'LeadSource','Lead_Source_Category__c'};
         List<Contact> contactList =  
             (List<Contact>) DynamicQueryService.getRecordsWithFieldsByIdSet(
                 new DynamicQueryService.FilterWrapper(whoIDset, Contact.getSObjectType(), fields), 
@@ -117,7 +123,7 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
      * retrieve lead list by who id set
      */
     private static List<Lead> getLeadListByIdSet(Set<Id> whoIDset){
-        List<String> fields = new List<String>{'Email', 'Name', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c'};
+        List<String> fields = new List<String>{'Email', 'Name', 'FirstName', 'Can_Nurture__c', 'Calculated_Cadence__c','LeadSource','Lead_Source_Category__c'};
         List<Lead> leadList =  
             (List<Lead>) DynamicQueryService.getRecordsWithFieldsByIdSet(
                 new DynamicQueryService.FilterWrapper(whoIDset, Lead.getSObjectType(), fields), 
@@ -220,6 +226,11 @@ public with sharing class SalesCadenceEmailRequestCommand implements IRequestCom
             bodyParams = new Map<String, String> {
                 '{{{Recipient.FirstName}}}' => recipientMap.get(commsQueue.WhoId__c)
            };
+           if(recipientMap.containsKey(commsQueue.WhoId__c +'Partner Sourced')){
+               String leadSourceValue = recipientMap.get(commsQueue.WhoId__c +'Partner Sourced');
+               bodyParams.put('{{{Recipient.LeadSource}}}',String.isNotBlank(leadSourceValue) ? leadSourceValue : ' ');
+           }
+
         }
        return bodyParams;
     }

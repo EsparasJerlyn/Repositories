@@ -366,6 +366,18 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>LeadSource</field>
+            <value>
+                <stringValue>Enquiry Form</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Lead_Source_Category__c</field>
+            <value>
+                <stringValue>Web Form</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Lead_Type__c</field>
             <value>
                 <stringValue>Learner</stringValue>
