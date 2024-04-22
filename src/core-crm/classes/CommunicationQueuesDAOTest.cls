@@ -6,10 +6,10 @@
  *
  * @history
  *
- *    | Developer Email                | Date                  | JIRA                   | Change Summary               |
-      |--------------------------------|-----------------------|------------------------|------------------------------|
-      | eccarius.munoz                 | August 30, 2023       | DEPP-6138              | Created file                 |
-      |                                |                       |                        |                              |
+ *    | Developer Email                | Date                  | JIRA                   | Change Summary                     |
+      |--------------------------------|-----------------------|------------------------|------------------------------------|
+      | eccarius.munoz                 | August 30, 2023       | DEPP-6138              | Created file                       |
+ *    | alexander.cadalin              | March 07, 2024        | DEPP-8035              | Added queryLocatorNoAnswerSMSQueue |
  */
 @isTest
 public with sharing class CommunicationQueuesDAOTest {
@@ -36,6 +36,18 @@ public with sharing class CommunicationQueuesDAOTest {
             Test.startTest();
             System.assert(
                 CommunicationQueuesDAO.newInstance().queryLocatorSentCommunicationQueue() != null,
+                'Communication queues retrieved is null'
+            );
+            Test.stopTest();
+        }
+    }
+
+    @isTest
+    static void queryLocatorNoAnswerSMSQueueTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                CommunicationQueuesDAO.newInstance().queryLocatorNoAnswerSMSQueue() != null,
                 'Communication queues retrieved is null'
             );
             Test.stopTest();

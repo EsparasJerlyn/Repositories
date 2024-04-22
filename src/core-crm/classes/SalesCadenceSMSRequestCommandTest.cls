@@ -164,4 +164,64 @@ public with sharing class SalesCadenceSMSRequestCommandTest {
         System.assert(!commsQueue.isEmpty(), 'List should not be empty.');
     } 
     
+    @isTest
+    private static void createTaskRecordForNoAnswerSMS() {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+            List<Contact> contacts = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
+            List<Communication_Queue__c> commQueues = new List<Communication_Queue__c>();
+            commQueues.add(new Communication_Queue__c(
+                Business_Process__c = CommunicationQueuesDAO.BUSINESS_PROCESS_DOMESTIC_NO_ANSWER_SMS,
+                WhoId__c = contacts[0].Id,
+                Message__c = 'Sample message.',
+                Type__c = 'SMS'
+            ));
+            CommunicationQueuesDAO.newInstance().insertRecords(commQueues, false, AccessLevel.USER_MODE);
+            
+            Test.startTest();
+            RequestCommand cmd = new RequestCommand();
+            cmd.setCommand(new SalesCadenceSMSRequestCommand(commQueues));
+            cmd.executeCommand();
+            cmd.executeCommand();
+            cmd.executeCommand();
+            cmd.executeCommand();
+            Test.stopTest();
+            
+            commQueues = CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByStatus(
+            new Set<String>{CommunicationQueuesDAO.STATUS_FAILED},
+            AccessLevel.USER_MODE
+        	);
+
+        	System.assert(!commQueues.isEmpty(), 'List should not be empty.');
+        }
+    }
+    
+    @isTest
+    private static void createTaskRecordForNurtureTrackSMS() {
+        System.runAs(TestDataFactory.getSystemAdminUser()) {
+            List<Contact> contacts = ContactsDAO.newInstance().getPersonContactsWithLimit(2);
+            List<Communication_Queue__c> commQueues = new List<Communication_Queue__c>();
+            commQueues.add(new Communication_Queue__c(
+                WhoId__c = contacts[0].Id,
+                Message__c = 'Sample message.',
+                Type__c = 'SMS'
+            ));
+            CommunicationQueuesDAO.newInstance().insertRecords(commQueues, false, AccessLevel.USER_MODE);
+            
+            Test.startTest();
+            RequestCommand cmd = new RequestCommand();
+            cmd.setCommand(new SalesCadenceSMSRequestCommand(commQueues));
+            cmd.executeCommand();
+            cmd.executeCommand();
+            cmd.executeCommand();
+            cmd.executeCommand();
+            Test.stopTest();
+            
+            commQueues = CommunicationQueuesDAO.newInstance().getComminicationQueueRecordsByStatus(
+            new Set<String>{CommunicationQueuesDAO.STATUS_FAILED},
+            AccessLevel.USER_MODE
+        	);
+
+        	System.assert(!commQueues.isEmpty(), 'List should not be empty.');
+        }
+    }
 }

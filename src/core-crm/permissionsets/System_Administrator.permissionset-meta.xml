@@ -9561,6 +9561,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Web_Mobile_No_Locale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Web_Mobile_Locale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Awaiting_Response_From__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9577,6 +9587,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Citizenship_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9652,6 +9667,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Redirected_Case_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Region__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9781,6 +9801,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Country_Tier_Subcategory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case_Priority_Configuration__c.Date_from__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9827,6 +9852,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case_Priority_Configuration__c.Lead_Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case_Priority_Configuration__c.Lead_Source_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12782,6 +12812,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>International_Tier__c.Tier_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>International_Tier__c.Tier_Subcategory__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
