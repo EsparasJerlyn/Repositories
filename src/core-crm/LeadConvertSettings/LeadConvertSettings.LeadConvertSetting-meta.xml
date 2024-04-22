@@ -48,6 +48,10 @@
             <outputField>hed__Gender__c</outputField>
         </mappingFields>
         <mappingFields>
+            <inputField>Lead_Source_Category__c</inputField>
+            <outputField>Lead_Source_Category__c</outputField>
+        </mappingFields>
+        <mappingFields>
             <inputField>LeadMobile_Locale__c</inputField>
             <outputField>ContactMobile_Locale__c</outputField>
         </mappingFields>
