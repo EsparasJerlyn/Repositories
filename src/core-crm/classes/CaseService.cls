@@ -111,7 +111,7 @@ public inherited sharing class CaseService {
                 accessLevel
             );
 
-            Map<String, String> countryTierMap = InternationalTierService.getCountryTierMap(
+            Map<String, International_Tier__c> countryTierMap = InternationalTierService.getCountryTierMap(
                 accessLevel
             );
 

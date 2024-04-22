@@ -26,6 +26,7 @@
       | roy.nino.s.regala              | Feb 23, 2023          | DEPP-7738              | Updated creation of segmentation to sync         |
       | mark.j.mahilum                 | Feb 29, 2024          | DEPP-7739              | Added method to Fixed issue with Lead to Contact |
       |                                |                       |                        | conversion mapping                               |
+      | mark.j.mahilum                 | March 15, 2024        | DEPP-8314              | Updated can nurture logic for partner sourced    |
  */
 public without sharing class ContactTriggerHelper {
     private static final Id BUSINESS_ACC_RECTYPEID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
@@ -681,7 +682,7 @@ public without sharing class ContactTriggerHelper {
                 assignContactToCadenceMap,
                 removeContactToCadenceMap
             );
-            SalesCadenceCalloutService.updateCompletedCadences(assignContactToCadenceMap);
+            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(assignContactToCadenceMap,removeContactToCadenceMap);
         }
     }
     /**
@@ -753,11 +754,16 @@ public without sharing class ContactTriggerHelper {
         Boolean isQUTApplicantChanged = (!isInsert && oldContacts.get(con.Id).QUT_Applicant__c != con.QUT_Applicant__c);
         
         //check if lead score value changed
-        Boolean isLeadScoreChanged = (!isInsert && oldContacts.get(con.Id).Lead_Score__c != con.Lead_Score__c);
+        Boolean isLeadScoreChanged = (!isInsert && oldContacts.get(con.Id).Lead_Score__c != con.Lead_Score__c);       
+        boolean isPartnerSourced = con.Lead_Source_Category__c == ContactsDAO.LEAD_SOURCE_CATEGORY_PARTNER_SOURCE;
+		Boolean isPartnerSourcedChanged = (!isInsert && oldContacts.get(con.Id).Lead_Source_Category__c != con.Lead_Source_Category__c) && isPartnerSourced;
         
+        if(isPartnerSourcedChanged){
+           con.Can_Nurture__c = true; 
+        }
         
        //check if contact is applicant
-        if (con.QUT_Applicant__c && isInsert) {
+        if ((con.QUT_Applicant__c || isPartnerSourced)  && isInsert) {
             con.Can_Nurture__c = true;
         } else if(isLeadScoreChanged || isQUTApplicantChanged) {
             contactsToRecalculate.add(con);

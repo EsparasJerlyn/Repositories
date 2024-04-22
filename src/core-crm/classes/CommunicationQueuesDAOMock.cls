@@ -7,6 +7,7 @@
  *    | Developer                      | Date                  | JIRA                   | Change Summary                      |
  *    |--------------------------------|-----------------------|------------------------|-------------------------------------|
  *    | eccarius.munoz                 | August 30, 2023       |DEPP-6138               | Created File                        |
+ *    | alexander.cadalin              | March 07, 2024        | DEPP-8035              | Added queryLocatorNoAnswerSMSQueue  |
  */
 @isTest
 public inherited sharing class CommunicationQueuesDAOMock extends DmlBaseMock implements ICommunicationQueuesDAO {
@@ -27,6 +28,10 @@ public inherited sharing class CommunicationQueuesDAOMock extends DmlBaseMock im
     }
 
     public Database.QueryLocator queryLocatorSentCommunicationQueue() {
+        return null;
+    }
+    
+    public Database.QueryLocator queryLocatorNoAnswerSMSQueue() {
         return null;
     }
 

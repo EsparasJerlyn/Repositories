@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <sorted>false</sorted>
-    <standardValue>
+    <standardValue> 
         <fullName>Website</fullName>
         <default>false</default>
         <label>Website</label>
@@ -23,12 +23,177 @@
     </standardValue>
     <standardValue>
         <fullName>Outbound Enquiry</fullName>
-        <default>true</default>
+        <default>false</default>
         <label>Outbound Enquiry</label>
     </standardValue>
     <standardValue>
         <fullName>Inbound Enquiry</fullName>
         <default>false</default>
         <label>Inbound Enquiry</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Domestic PG Recruitment</fullName>
+        <default>false</default>
+        <label>Domestic PG Recruitment</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Domestic UG Recruitment</fullName>
+        <default>false</default>
+        <label>Domestic UG Recruitment</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Future Enterprise Series</fullName>
+        <default>false</default>
+        <label>Future Enterprise Series</label>
+    </standardValue>
+    <standardValue>
+        <fullName>International Recruitment Physical</fullName>
+        <default>false</default>
+        <label>International Recruitment Physical</label>
+    </standardValue>
+    <standardValue>
+        <fullName>International Recruitment Virtual</fullName>
+        <default>false</default>
+        <label>International Recruitment Virtual</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Open Day/Expo</fullName>
+        <default>false</default>
+        <label>Open Day/Expo</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Webinar</fullName>
+        <default>false</default>
+        <label>Webinar</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Facebook</fullName>
+        <default>false</default>
+        <label>Facebook</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Google</fullName>
+        <default>false</default>
+        <label>Google</label>
+    </standardValue>
+    <standardValue>
+        <fullName>LinkedIn</fullName>
+        <default>false</default>
+        <label>LinkedIn</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Contact QUTeX</fullName>
+        <default>false</default>
+        <label>Contact QUTeX</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Coursepage PDF Download</fullName>
+        <default>false</default>
+        <label>Coursepage PDF Download</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Coursepage Signup</fullName>
+        <default>false</default>
+        <label>Coursepage Signup</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Enquiry Form</fullName>
+        <default>false</default>
+        <label>Enquiry Form</label>
+    </standardValue>
+    <standardValue>
+        <fullName>insights_whitepapers</fullName>
+        <default>false</default>
+        <label>insights_whitepapers</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Landing Page</fullName>
+        <default>false</default>
+        <label>Landing Page</label>
+    </standardValue>
+    <standardValue>
+        <fullName>MMS</fullName>
+        <default>false</default>
+        <label>MMS</label>
+    </standardValue>
+    <standardValue>
+        <fullName>sfmc TEST</fullName>
+        <default>false</default>
+        <label>sfmc TEST</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Short form</fullName>
+        <default>false</default>
+        <label>Stay connected subscription</label>
+    </standardValue>
+    <standardValue>
+        <fullName>School Visit</fullName>
+        <default>false</default>
+        <label>School Visit</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Guidance Officer</fullName>
+        <default>false</default>
+        <label>Guidance Officer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Austrade Study in Australia</fullName>
+        <default>false</default>
+        <label>Austrade Study in Australia</label>
+    </standardValue>
+    <standardValue>
+        <fullName>IDP Hotcourses</fullName>
+        <default>false</default>
+        <label>IDP Hotcourses</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Keystone</fullName>
+        <default>false</default>
+        <label>Keystone</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Business Development</fullName>
+        <default>false</default>
+        <label>Business Development</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Internal</fullName>
+        <default>false</default>
+        <label>Internal</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Course Offer</fullName>
+        <default>false</default>
+        <label>Course Offer</label>
+    </standardValue>
+    <standardValue>
+        <fullName>QTAC</fullName>
+        <default>false</default>
+        <label>QTAC</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Studylink Unsubmitted</fullName>
+        <default>false</default>
+        <label>Studylink Unsubmitted</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Preference Centre</fullName>
+        <default>false</default>
+        <label>Preference Centre</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Web Form</fullName>
+        <default>false</default>
+        <label>Web Form</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Manual Create</fullName>
+        <default>false</default>
+        <label>Manual Create</label>
     </standardValue>
 </StandardValueSet>
