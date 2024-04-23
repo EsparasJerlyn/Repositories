@@ -13667,6 +13667,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Finance_Summary__c.Endowment_Fund_Summary</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Finance_Summary__c.QUT_Finance_System</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

@@ -3558,6 +3558,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Finance_Summary__c.Endowment_Fund_Summary</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>List_Member__c.List_Member_Distributed_List</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
