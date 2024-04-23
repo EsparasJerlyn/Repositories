@@ -28,6 +28,11 @@ private class DesignationPublicReleaseFilterUpdateTest {
                 10,
                 DesignationsDAO.ENDOWNMENT_RECTYPE_ID
             );
+            
+            for(Designation__c d : designationList){
+                d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;
+            }
+
             ProductsDAO.newInstance().insertRecords(designationList, false, AccessLevel.USER_MODE);
 
             List<Product2> productsList = ProductsDAO.newInstance().getProductByDesignationId(new Set<Id>{designationList[0].Id}, AccessLevel.USER_MODE);

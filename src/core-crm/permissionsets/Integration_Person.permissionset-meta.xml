@@ -3382,6 +3382,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Finance_Summary__c.Designation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Finance_Summary__c.Disbursable_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -13664,6 +13669,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Finance_Summary__c.Dividend_Summary</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Finance_Summary__c.Endowment_Fund_Summary</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

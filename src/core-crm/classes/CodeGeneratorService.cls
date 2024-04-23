@@ -17,7 +17,9 @@
       | neil.s.h.lesidan               | March 1, 2024         | DEPP-7896              | Add INDIVIDUAL_GIVING_RECTYPE_ID record types generate code            |
       |                                |                       |                        | Add ORGANISATION_GIVING_RECTYPE_ID record types generate code          |
       | vincent.ferrer                 | March 18, 2024        | DEPP-8200              | Add generateCodeForDonationCauseRecords method to generate code        |
-      | eugene.andrew.abuan            | April 05, 2024        | DEPP-8390              | Added generationCodeForDesignationRecord                               |
+      | eugene.andrew.abuan            | April 05, 2024        | DEPP-8390              | Added generateCodeForDesignationGivingToCauseRecords                   |
+      | eugene.andrew.abuan            | April 17, 2024        | DEPP-8340              | Added generateCodeForDesignationEndowmentRecords                       |
+
  */
 public with sharing class CodeGeneratorService {
     /**
@@ -148,7 +150,7 @@ public with sharing class CodeGeneratorService {
      * Generate code for Designation__c.Designation_Code__c following the format "ADVGC:00001"
      * The first three characters are based on the record type of the opportunity outcome record.
      */
-    public static void generateCodeForDesignationRecords(List<Designation__c> newItems) {
+    public static void generateCodeForDesignationGivingToCauseRecords(List<Designation__c> newItems) {
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         Map<Id, CodeParts> recordTypeToCodePartsMap = new Map<Id, CodeParts>();
         recordTypeToCodePartsMap.put(DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID, new CodeParts('ADVGC', designationCodeAutoNum.Giving_To_Cause__c));
@@ -166,6 +168,38 @@ public with sharing class CodeGeneratorService {
                 }
             }
             designationCodeAutoNum.Giving_To_Cause__c = recordTypeToCodePartsMap.get(DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID).autoNumber;
+
+            DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
+                new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
+                false, 
+                AccessLevel.SYSTEM_MODE
+            );
+        }
+    }
+
+
+        /**
+     * Generate code for Designation__c.Designation_Code__c following the format "ADVEDW:00001"
+     * The first three characters are based on the record type of the opportunity outcome record.
+     */
+    public static void generateCodeForDesignationEndowmentRecords(List<Designation__c> newItems) {
+        Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+        Map<Id, CodeParts> recordTypeToCodePartsMap = new Map<Id, CodeParts>();
+        recordTypeToCodePartsMap.put(DesignationsDAO.ENDOWNMENT_RECTYPE_ID, new CodeParts('ADVEDW', designationCodeAutoNum.Endowment__c));
+
+        
+        if(designationCodeAutoNum.Endowment__c != null){
+            for(Designation__c newItem : newItems) {
+                if(recordTypeToCodePartsMap.containsKey(newItem.RecordTypeId)) {
+                    String codePrefix = recordTypeToCodePartsMap.get(newItem.RecordTypeId).prefix;
+                    Integer autoNumber = Integer.valueOf(recordTypeToCodePartsMap.get(newItem.RecordTypeId).autoNumber);
+                    String codeNumber = String.valueOf(autoNumber).leftPad(5, '0');
+                    newItem.Designation_Code__c = codePrefix + ':' + codeNumber;
+                    autoNumber++;
+                    recordTypeToCodePartsMap.put(newItem.RecordTypeId, new CodeParts(codePrefix, autoNumber));
+                }
+            }
+            designationCodeAutoNum.Endowment__c = recordTypeToCodePartsMap.get(DesignationsDAO.ENDOWNMENT_RECTYPE_ID).autoNumber;
 
             DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
                 new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 

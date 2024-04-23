@@ -22,6 +22,7 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
     public static final String DC_ARCHIVED = 'Archived';
     public static final String DC_ACTIVE = 'Active';
     public static final String DC_DEFINE = 'Define';
+    public static final String ENDOWMENT_ACCOUNT_TYPE_PERPETUAL = 'Perpetual';
     public static final Id GIVING_TO_CAUSE_RECTYPE_ID = Schema.SObjectType.Designation__c.getRecordTypeInfosByDeveloperName()
     .get('Giving_To_Cause')
     .getRecordTypeId();

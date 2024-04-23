@@ -66,6 +66,7 @@ private with sharing class DistributionManagementServiceTest {
             );
 
             for (Designation__c d : designationList) {
+                d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;
                 d.Ready_For_Publishing__c = false;
                 d.Activation_End_Date__c = System.Today() + 1;
             }
@@ -106,6 +107,7 @@ private with sharing class DistributionManagementServiceTest {
             for (Designation__c d : designationList) {
                 d.Ready_For_Publishing__c = false;
                 d.Activation_End_Date__c = System.Today() + 1;
+                d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;
             }
 
             DesignationsDAO.newInstance()
