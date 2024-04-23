@@ -4,7 +4,14 @@
         <fullName>Future Student Domestic Acknowledgement</fullName>
         <active>true</active>
         <ruleEntry>
-            <formula>AND(     RecordType.DeveloperName = &apos;Domestic_Future_Student_Enquiry&apos;,  ISPICKVAL(Origin, &apos;Email&apos;),  ISNEW() )</formula>
+            <formula>AND(
+                NOT(ISBLANK(SuppliedEmail)),
+                LOWER( SuppliedEmail ) !=&apos;askqut@qut.edu.au&apos;,
+                RecordType.DeveloperName = &apos;Domestic_Future_Student_Enquiry&apos;,
+                ISPICKVAL(Origin, &apos;Email&apos;),
+                ISNEW()
+                )
+            </formula>
             <notifyCcRecipients>false</notifyCcRecipients>
             <replyToEmail>{CASE_ROUTE_EMAIL_ADDRESS_DOMESTIC_FSE}</replyToEmail>
             <senderEmail>no-reply@qut.edu.au</senderEmail>
@@ -13,10 +20,13 @@
         </ruleEntry>
         <ruleEntry>
             <formula>AND(
+                NOT(ISBLANK(SuppliedEmail)),
+                LOWER( SuppliedEmail ) !=&apos;askqut@qut.edu.au&apos;,
                 RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,
                 ISPICKVAL(Origin, &apos;Email&apos;),
                 ISNEW()
-               )</formula>
+               )
+            </formula>
             <notifyCcRecipients>false</notifyCcRecipients>
             <replyToEmail>{CASE_ROUTE_EMAIL_ADDRESS_INTERNATIONAL_FSE}</replyToEmail>
             <senderEmail>no-reply@qut.edu.au</senderEmail>
