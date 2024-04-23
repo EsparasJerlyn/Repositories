@@ -8,10 +8,6 @@
         <label>Case Summary</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Case_Type__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>CaseNumber</field>
             </layoutItems>
@@ -222,9 +218,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <miniLayout>
-        <fields>Case_Type__c</fields>
-    </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>

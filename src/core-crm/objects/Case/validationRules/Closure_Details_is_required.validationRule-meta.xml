@@ -3,8 +3,7 @@
     <fullName>Closure_Details_is_required</fullName>
     <active>true</active>
     <errorConditionFormula>AND (
- OR (RecordType.DeveloperName = &apos;International_Future_Student_Enquiry&apos;,
-     RecordType.DeveloperName = &apos;Domestic_Future_Student_Enquiry&apos;),
+      RecordType.DeveloperName = &apos;Inbound_Enquiry&apos;,
  AND(
   ISPICKVAL( Status , &apos;Closed&apos;),   
   OR(

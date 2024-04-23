@@ -767,6 +767,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Case_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -13087,6 +13092,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.Inbound_Enquiry</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

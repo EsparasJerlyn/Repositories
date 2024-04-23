@@ -165,14 +165,6 @@
         <recordType>Application_Preference__c.QTAC</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Case-Case Layout</layout>
-        <recordType>Case.Domestic_Future_Student_Enquiry</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Case-Case Layout</layout>
-        <recordType>Case.International_Future_Student_Enquiry</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>hed__Application__c-QTAC Application Layout</layout>
         <recordType>hed__Application__c.QTAC</recordType>
     </layoutAssignments>

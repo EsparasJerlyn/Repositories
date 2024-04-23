@@ -65,10 +65,25 @@
         <name>CustomField</name>
     </types>
     <types>
-         <!--DEPP-8075 Start-->
-         <members>Student_Success_Configuration</members>
-         <!-- DEPP-8075 End-->
-         <name>CustomApplication</name>
+        <!--Start DEPP-8242-->
+        <members>Case_Domestic_Future_Student_Path</members>
+        <members>Case_International_Future_Student_Path</members>
+        <!--End DEPP-8242-->
+        <name>PathAssistant</name>
+    </types>
+
+    <types>
+        <!--(Start) DEPP-8584-->
+        <members>Case.International_Online_Enquires</members>
+        <members>Case.Domestic_Online_Enquires</members>
+        <!--(End) DEPP-8584-->
+        <name>ListView</name>
+    </types>
+    <types>
+        <!--DEPP-8075 Start-->
+        <members>Student_Success_Configuration</members>
+        <!-- DEPP-8075 End-->
+        <name>CustomApplication</name>
     </types>
     <version>59.0</version> 
 </Package>
