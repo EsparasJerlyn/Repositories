@@ -62,7 +62,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         String accessLevel
     ) {
         return Database.query(
-            'SELECT  Id, Application__c, Contact__c, Lead__c, Nurture_Track_Configuration__c, Nurture_Track_Configuration__r.Cadence_Name__c ' +
+            'SELECT  Id, Application__c, Contact__c, Lead__c, Nurture_Track_Configuration__c, Nurture_Track_Configuration__r.Cadence_Name__c, ' +
+                'Lead__r.Lead_Source_Category__c, Lead__r.Calculated_Cadence__c, Lead__r.Can_Nurture__c, CreatedDate ' +
                 'FROM Completed_Cadence__c ' +
                 'WHERE Lead__c IN:leadIds ' +
                 'AND Completed_Cadence_Status__c NOT IN: completedCadenceStatuses ' +
@@ -83,6 +84,7 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             'Application__r.Offered_Program_Plan__r.Name, ' +
             'Application__r.Offered_Program_Plan__r.Owning_Faculty__r.Name, ' +
             'Application__r.Related_QTAC_Application__r.QTAC_Offer_Round__c, ' +
+            'Application__r.Current_Preference__r.Name, ' + 
             'Cadence_Name__c, Calculated_Cadence__c ' +
             'FROM Completed_Cadence__c ' +
             'WHERE Nurture_Track_Configuration__r.Cadence_Name__c IN :cadenceNames ' +

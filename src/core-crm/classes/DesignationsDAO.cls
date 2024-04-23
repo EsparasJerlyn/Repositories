@@ -13,7 +13,7 @@
       | kenneth.f.alsay                | April 05, 2024        | DEPP-8399              | Added getDesignationsByNameStart               |
       | kenneth.f.alsay                | April 08, 2024        | DEPP-8399              | Added Record Type Ids                          |
       | eugene.andrew.abuan            | April 10, 2024        | DEPP-8390              | Added Define Stage string                      |
-
+      | eugene.andrew.abuan            | April 10, 2024        | DEPP-8401              | Added Recordtype checking & Distribution Mngmnt|
 */
 
 public inherited sharing class DesignationsDAO extends DmlBase implements IDesignationsDAO {
@@ -56,7 +56,8 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
             'OR Public_Giving_Publish_Start_Date__c > TODAY '+
             'OR Public_Giving_Publish_End_Date__c < TODAY) ' +
             'AND Stage__c !=: DC_ACTIVE '+
-            'AND Stage__C !=: DC_ARCHIVED)';
+            'AND Stage__C !=: DC_ARCHIVED '+ 
+            'AND (RecordTypeId =: GIVING_TO_CAUSE_RECTYPE_ID OR RecordTypeId =:ENDOWNMENT_RECTYPE_ID ) ) ';
 
         String stageToArchivedRule =
             ' ( (Archived_Date__c <= TODAY ' +
@@ -67,7 +68,7 @@ public inherited sharing class DesignationsDAO extends DmlBase implements IDesig
 
         String queryFilter =
             'SELECT Id, Ready_For_Publishing__c,Public_Giving_Publish_Start_Date__c, Public_Giving_Publish_End_Date__c, Stage__c, ' +
-                     'Activation_Start_Date__c, Activation_End_Date__c,Archived_Date__c ' +
+                     'Activation_Start_Date__c, Activation_End_Date__c,Archived_Date__c, RecordTypeId ' +
             'FROM Designation__c ' +
             'WHERE ' +
             stageToPublishRule +

@@ -93,5 +93,5 @@ private class ActionCadenceSTTriggerHelperTest {
         Test.stopTest();          
         // validate if communication queue is created 
         System.assert(!acTracker.isEmpty() , 'ActionCadenceTrackers record is empty');      
-    }   
+    }
 }

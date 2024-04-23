@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Send a no answer SMS.</description>
+    <flowDefinition>Service_Appointment_Domestic_No_Answer_SMS_Flow</flowDefinition>
+    <label>No Answer SMS</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>International Application to Offer - Agent (Auto) - Email Template 3</name>
+    <style>none</style>
+    <subject>We&apos;re nearly there with your QUT Application!</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

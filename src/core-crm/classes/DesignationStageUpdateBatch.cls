@@ -29,6 +29,7 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
     public void execute(Database.BatchableContext bc, List<Designation__c> designationList) {
         try {
             List<Designation__c> designationsToUpdate = new List<Designation__c>();
+            List<Designation__c> designationToUpdateWithActive = new List<Designation__c>();
 
             for (Designation__c dc : designationList) {
                 if (isForPublish(dc)) {
@@ -48,9 +49,18 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
                 }
 
                 if(isForActive(dc)){
+                    designationToUpdateWithActive.add(dc);
+                }
+            }
+
+            if(!designationToUpdateWithActive.isEmpty()){
+                // Call the Distribution Management Service to check if per Designation has an active Distribution Management
+                List<Designation__c> designationWithDistributionManagement = DistributionManagementService.getRelatedDistributionManagementOfDesignation(
+                    designationToUpdateWithActive);
+                for (Designation__c designation : designationWithDistributionManagement){
                     buildDesignationWithNewStage(
                         designationsToUpdate,
-                        dc,
+                        designation,
                         DesignationsDAO.DC_ACTIVE
                     );
                 }
@@ -83,13 +93,16 @@ public class DesignationStageUpdateBatch implements Database.Batchable<sObject> 
     private boolean isForActive(Designation__c dc){
         return dc.Activation_Start_Date__c <= System.today() &&
             dc.Activation_End_Date__c > System.today() &&
-            ( dc.Ready_For_Publishing__c == false ||
+            ( dc.Public_Giving_Publish_End_Date__c < System.today()||
+            dc.Ready_For_Publishing__c == false ||
             dc.Public_Giving_Publish_Start_Date__c == null ||
-            dc.Public_Giving_Publish_Start_Date__c > System.today() ||
-            dc.Public_Giving_Publish_End_Date__c < System.today()
+            dc.Public_Giving_Publish_Start_Date__c > System.today()
             ) &&
             dc.Stage__c != DesignationsDAO.DC_ACTIVE &&
-            dc.Stage__c != DesignationsDAO.DC_ARCHIVED;
+            dc.Stage__c != DesignationsDAO.DC_ARCHIVED &&
+            (dc.RecordtypeId == DesignationsDAO.ENDOWNMENT_RECTYPE_ID ||
+             dc.RecordtypeId == DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID
+            );
     }
 
     private boolean isForArchived(Designation__c dc) {

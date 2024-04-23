@@ -2,6 +2,7 @@
   "files":[
     "src/core-crm/settings/Case.settings-meta.xml",
     "src/core-crm/customMetadata/MySampleCustomMetadata.X1.md-meta.xml",
+    "src/core-crm/autoResponseRules/Case.autoResponseRules-meta.xml",
     "src/core-crm/workflows/Opportunity.workflow-meta.xml",
     "src/core-crm/workflows/Questionnaire_Response_Summary__c.workflow-meta.xml"
   ],
