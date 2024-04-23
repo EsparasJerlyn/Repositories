@@ -676,10 +676,29 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
         
         if(!removedCadenceMap.isEmpty()){
+            //remove all contact/lead that has a running Cadence
+            Set<Id> idSet2 = new Set<Id>( (List<Id>)new List<String>( removedCadenceMap.keySet() ) );        
+            Set<Id> targetIdRunningCadence = new Set<Id>();
+            
+            //get all contact/lead that has a running Cadence
+            for (
+                ActionCadenceTracker aCadenceTracker : ActionCadenceTrackersDAO.newInstance()
+                .getRunningACTrackerByTargetIdAndCadenceName(
+                    idSet2,
+                    new Set<String>(removedCadenceMap.values()),
+                    'SYSTEM_MODE'
+                )
+            ) {
+                targetIdRunningCadence.add(aCadenceTracker.TargetId);
+            }
+                        
             Map<String,String> manualRemoveCadenceMap = new Map<String,String>();
             
             for(String key: removedCadenceMap.keySet()){
-                if(!removedCadenceMap.get(key).containsIgnoreCase('automated')){
+                if(!removedCadenceMap.get(key).containsIgnoreCase('automated')){                   
+                    if(targetIdRunningCadence.contains(key)){
+                        continue;
+                    }
                     manualRemoveCadenceMap.put(key,removedCadenceMap.get(key));
                 }
             }
