@@ -8,6 +8,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <layoutAssignments>
+        <layout>Designation__c-Endowment Designation Layout</layout> 
+        <recordType>Designation__c.Endowment</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Designation__c-Giving To Cause Designation Layout</layout> 
         <recordType>Designation__c.Giving_To_Cause</recordType>
     </layoutAssignments>

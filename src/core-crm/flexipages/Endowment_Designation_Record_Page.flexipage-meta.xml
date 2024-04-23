@@ -50,7 +50,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Name</fieldItem>
                 <identifier>RecordNameField</identifier>
@@ -72,8 +72,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Endowment_Account_Type__c</fieldItem>
-                <identifier>RecordEndowment_Account_Type_cField</identifier>
+                <fieldItem>Record.Is_For_Public_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Public_Giving_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -82,110 +82,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_For_Staff_Giving__c</fieldItem>
-                <identifier>RecordIs_For_Staff_Giving_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Is_For_Staff_Giving__c</fieldItem>
-                <identifier>RecordIs_For_Staff_Giving_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Description__c</fieldItem>
-                <identifier>RecordDescription_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Description__c</fieldItem>
-                <identifier>RecordDescription_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.Is_For_Private_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Private_Giving_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-5de04bc1-44d5-4eb2-ad89-8835eed99f7a</name>
@@ -198,54 +96,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Designation_Code__c</fieldItem>
-                <identifier>RecordDesignation_Code_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Designation_Code__c</fieldItem>
-                <identifier>RecordDesignation_Code_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.Endowment_Account_Type__c</fieldItem>
+                <identifier>RecordEndowment_Account_Type_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -256,52 +108,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Activation_End_Date__c</fieldItem>
                 <identifier>RecordActivation_End_Date_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Activation_End_Date__c</fieldItem>
-                <identifier>RecordActivation_End_Date_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -310,54 +116,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_For_Public_Giving__c</fieldItem>
-                <identifier>RecordIs_For_Public_Giving_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Is_For_Public_Giving__c</fieldItem>
-                <identifier>RecordIs_For_Public_Giving_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.Is_For_Staff_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Staff_Giving_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -366,54 +126,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_For_Private_Giving__c</fieldItem>
-                <identifier>RecordIs_For_Private_Giving_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Is_For_Private_Giving__c</fieldItem>
-                <identifier>RecordIs_For_Private_Giving_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Stage__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Archived</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Manager</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Advancement_Operations_Manager</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.Description__c</fieldItem>
+                <identifier>RecordDescription_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-634c7dc1-611c-46a1-9b6e-3bf5d04220eb</name>
@@ -441,6 +155,404 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-0dee93a2-fe6a-444e-abe8-804d8b20e4ef</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Activation_Start_Date__c</fieldItem>
+                <identifier>RecordActivation_Start_Date_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Endowment_Account_Type__c</fieldItem>
+                <identifier>RecordEndowment_Account_Type_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_For_Staff_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Staff_Giving_cField3</identifier>
+                <visibilityRule>
+                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_For_Staff_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Staff_Giving_cField4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Description__c</fieldItem>
+                <identifier>RecordDescription_cField3</identifier>
+                <visibilityRule>
+                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Description__c</fieldItem>
+                <identifier>RecordDescription_cField4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-6e9zzi4a8ph</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Designation_Code__c</fieldItem>
+                <identifier>RecordDesignation_Code_cField3</identifier>
+                <visibilityRule>
+                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Designation_Code__c</fieldItem>
+                <identifier>RecordDesignation_Code_cField4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Activation_End_Date__c</fieldItem>
+                <identifier>RecordActivation_End_Date_cField3</identifier>
+                <visibilityRule>
+                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Activation_End_Date__c</fieldItem>
+                <identifier>RecordActivation_End_Date_cField4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_For_Public_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Public_Giving_cField3</identifier>
+                <visibilityRule>
+                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_For_Public_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Public_Giving_cField4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_For_Private_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Private_Giving_cField3</identifier>
+                <visibilityRule>
+                    <booleanFilter>NOT(1 OR (2 AND 3))</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_For_Private_Giving__c</fieldItem>
+                <identifier>RecordIs_For_Private_Giving_cField4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Archived</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Manager</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Advancement_Operations_Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-7mbop5tlsv</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-6e9zzi4a8ph</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-7mbop5tlsv</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column12</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-pwieogmq1g</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1000,6 +1112,30 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CreatedBy.Username}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-pwieogmq1g</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Designation Summary</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection6</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.CreatedBy.Username}</leftValue>

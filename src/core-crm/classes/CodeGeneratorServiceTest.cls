@@ -9,13 +9,14 @@
       | alexander.cadalin              | May 22, 2023          | DEPP-5594              | created file                 |
       | eugene.andrew.abuan            | March 20, 2024        | DEPP-8200              | Added Donation Cause         |
       | eugene.andrew.abuan            | April 05, 2024        | DEPP-8390              | Added Designation Cause      |
+      | eugene.andrew.abuan            | April 17, 2024        | DEPP-8340              | Added Designation Endowment  |
 
  */
 @isTest
 public class CodeGeneratorServiceTest {
 	@testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' , 'QUT_Donor_Engagement_Manager' });
+        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_IE_Partnership_Manager' , 'QUT_Donor_Engagement_Manager', 'QUT_Advancement_Manager' });
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
         opptyCodeAutoNum.International_Projects_Unit__c = 1;
@@ -54,6 +55,7 @@ public class CodeGeneratorServiceTest {
         
         Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
         designationCodeAutoNum.Giving_To_Cause__c = 1;
+        designationCodeAutoNum.Endowment__c = 1;
         DesignationCodeAutoNumbersDAO.newInstance().upsertRecords(
             new List<Designation_Code_Auto_Number__c>{designationCodeAutoNum}, 
             false, 
@@ -291,15 +293,15 @@ public class CodeGeneratorServiceTest {
      */
 
     /** 
-     * TEST START: CodeGeneratorService.generateCodeForDesignationRecords()
+     * TEST START: CodeGeneratorService.generateCodeForDesignationGivingToCauseRecords()
      */
     @isTest
-    private static void createDesignationRecords() {
+    private static void createDesignationGivingToCauseRecords() {
 
-        System.runAs(TestDataFactory.getDonorEngagementManager()) {
+        System.runAs(TestDataFactory.getAdvancementManager()) {
             List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100, DesignationsDAO.GIVING_TO_CAUSE_RECTYPE_ID);
             Test.startTest();
-                CodeGeneratorService.generateCodeForDesignationRecords(newItems);
+                CodeGeneratorService.generateCodeForDesignationGivingToCauseRecords(newItems);
                 Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
             Test.stopTest();
 
@@ -316,6 +318,37 @@ public class CodeGeneratorServiceTest {
     }
 
     /**
-     * TEST STOP: CodeGeneratorService.generateCodeForDesignationRecords()
+     * TEST STOP: CodeGeneratorService.generateCodeForDesignationGivingToCauseRecords()
+     */
+        /** 
+     * TEST START: CodeGeneratorService.generateCodeForDesignationEndowmentRecords()
+     */
+    @isTest
+    private static void createDesignationEndowmentRecords() {
+
+        System.runAs(TestDataFactory.getAdvancementManager()) {
+            List<Designation__c> newItems = TestDataFactory.createDesignationRecords(100, DesignationsDAO.ENDOWNMENT_RECTYPE_ID);
+            for(Designation__c d : newItems){
+                d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;
+            }
+            Test.startTest();
+                CodeGeneratorService.generateCodeForDesignationEndowmentRecords(newItems);
+                Designation_Code_Auto_Number__c designationCodeAutoNum = DesignationCodeAutoNumbersDAO.newInstance().getOrganizationalDefaults();
+            Test.stopTest();
+
+            Integer count = 1;
+            for(Designation__c newItem : newItems) {
+                System.assertEquals(
+                    'ADVEDW:' + String.valueOf(count).leftPad(5, '0'),
+                    newItem.Designation_Code__c,
+                    'Incorrect code.');
+                count++;
+            }
+            System.assertEquals(101, designationCodeAutoNum.Endowment__c, 'Incorrect final auto-number value.');
+        }
+    }
+
+    /**
+     * TEST STOP: CodeGeneratorService.generateCodeForDesignationEndowmentRecords()
      */
 }

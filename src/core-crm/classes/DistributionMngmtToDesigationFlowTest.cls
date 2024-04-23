@@ -86,6 +86,7 @@ private with sharing class DistributionMngmtToDesigationFlowTest {
                 d.Stage__c = DesignationsDAO.DC_ARCHIVED;
                 d.Ready_For_Publishing__c = false;
                 d.Activation_End_Date__c = System.Today() + 1;
+                d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;
             }
 
             DesignationsDAO.newInstance()
@@ -185,6 +186,7 @@ private with sharing class DistributionMngmtToDesigationFlowTest {
                 d.Stage__c = DesignationsDAO.DC_ARCHIVED;
                 d.Ready_For_Publishing__c = false;
                 d.Activation_End_Date__c = System.Today() + 1;
+                d.Endowment_Account_Type__c = DesignationsDAO.ENDOWMENT_ACCOUNT_TYPE_PERPETUAL;
             }
 
             DesignationsDAO.newInstance()
