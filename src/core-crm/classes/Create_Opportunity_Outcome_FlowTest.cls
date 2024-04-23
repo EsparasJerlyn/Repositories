@@ -17,6 +17,10 @@ public class Create_Opportunity_Outcome_FlowTest {
     // * Description: This method is used to create initial data for the test methods
     @TestSetup
     static void makeData() {
+        Test.startTest();
+        TestDataFactoryUser.generateUserIndustryPartnershipManager();
+        TestDataFactoryUser.generateUserIndustryOperationsManager();
+        Test.stopTest();
         Opportunity_Code_Auto_Number__c opptyCodeAutoNum = OpportunityCodeAutoNumbersDAO.newInstance()
             .getOrganizationalDefaults();
         opptyCodeAutoNum.Commercialisation__c = 1;
@@ -44,10 +48,8 @@ public class Create_Opportunity_Outcome_FlowTest {
         List<Account> accountList = TestDataFactory.createTestAccountRecords(1);
         AccountsDAO.newInstance().insertRecords(accountList, false, AccessLevel.USER_MODE);
 
-        TestDataFactory.generateTestUsers(
-            new List<String>{ 'QUT_IE_Partnership_Manager', 'QUT_Operations_Manager' }
-        );
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+    
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             // Create Opportunity records with RP record type
             List<Opportunity> rpOpportunityList = TestDataFactory.createTestOpportunityWithStageRecords(
                 200,
@@ -96,7 +98,7 @@ public class Create_Opportunity_Outcome_FlowTest {
     @isTest
     public static void updateOpportunityStagetoExecuted() {
         Test.startTest(); 
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Opportunity> rpOpportunityList = OpportunitiesDAO.newInstance()
                 .getRecordsLikeName('Test RP Opportunity', false, '%');
             for (Opportunity opportunity : rpOpportunityList) {

@@ -16,13 +16,13 @@
 public with sharing class CourseOfferingsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(CourseOfferingsDAO.newInstance() != null, 'CoureOfferingsDAO instance is null');
         }
         Test.stopTest();
@@ -31,7 +31,7 @@ public with sharing class CourseOfferingsDAOTest {
     @isTest
     static void getCourseOfferingByProgramOfferingIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
                 .getCourseOfferingByProgramOfferingId(
                     new Set<Id>(),
@@ -60,7 +60,7 @@ public with sharing class CourseOfferingsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new CourseOfferingsDAO().getSObjectType() == hed__Course_Offering__c.SObjectType,
                 'SObject is not hed__Course__Offering__c'
@@ -72,7 +72,7 @@ public with sharing class CourseOfferingsDAOTest {
     @isTest
     static void getRecordsLikeNameTest() { 
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             String name = '%' + 'test' + '%';
             List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
                 .getRecordsLikeName(
@@ -86,7 +86,7 @@ public with sharing class CourseOfferingsDAOTest {
     @isTest
     static void getCourseOfferingByRecordIdsEmptyTest() { 
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
                 .getCourseOfferingByRecordIds(
                     new Set<Id>(),
@@ -100,7 +100,7 @@ public with sharing class CourseOfferingsDAOTest {
     @isTest
     static void getCourseOfferingByRecordIdsNotEmptyTest() { 
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builder = new MockIdGenerator(hed__Course_Offering__c.sObjectType);
             List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
                 .getCourseOfferingByRecordIds(
@@ -113,7 +113,7 @@ public with sharing class CourseOfferingsDAOTest {
     }
 
     static void getRecordsLikeName() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert( 
                 CourseOfferingsDAO.newInstance().getRecordsLikeName('test') != null,
@@ -124,7 +124,7 @@ public with sharing class CourseOfferingsDAOTest {
 
     @isTest
     static void queryLocatorGetPastActiveRecordsTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 CourseOfferingsDAO.newInstance().queryLocatorGetPastActiveRecords() != null,

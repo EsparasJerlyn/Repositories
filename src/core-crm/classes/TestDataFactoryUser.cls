@@ -1516,7 +1516,7 @@ public class TestDataFactoryUser {
     }
 
     /***********************************************
-    * PORTAL/EXPERIECE UESRS
+    * PORTAL/EXPERIECE USERS
     ************************************************/
     /***********************************************
     *  QUT Corporate Partner Admin
@@ -1538,7 +1538,6 @@ public class TestDataFactoryUser {
 
             getPortalSysAdminUser();
             InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
-            System.runAs(portalSysAdmin) {
             
                 usr.FirstName = 'Test';
                 usr.LastName = 'QUTCorporatePartnerAdmin';
@@ -1552,9 +1551,61 @@ public class TestDataFactoryUser {
 
 
                 usr.permissionsetNames = new Set<String>{'Corporate_Partner'};
-            }
 
             return usr;
+        } set;
+    }
+
+    /***********************************************
+    *  QUT Corporate Partner User
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserQUTCorporatePartnerUser() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOQUTCorporatePartnerUser}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserQUTCorporatePartnerUser {
+        get {return [SELECT Id, AccountId FROM User WHERE Email = 'TestQUTCorporatePartnerUser@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOQUTCorporatePartnerUser{
+        get {
+            getPortalSysAdminUser();
+            System.runAs(portalSysAdmin){
+                //Create account
+                Account account = new Account();
+                account.Name = 'CorporatePortalUserAccount';
+                insert account;
+                //create contact
+                Contact contact = new Contact();
+                contact.FirstName = 'Test';
+                contact.LastName = 'CorporatePortalUser';
+                contact.Email = System.now().millisecond() + '@mailinator.com';
+                contact.AccountId = account.Id;
+                insert contact;
+            }
+            Contact con = [SELECT Id FROM Contact LIMIT 1];
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+        
+            usr.FirstName = 'Test';
+            usr.LastName = 'QUTCorporatePartnerUser';
+            usr.profileName = 'Corporate Partner';
+            usr.contactId = con.Id;
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = false;
+            usr.userpermissionsserviceuser = false;
+
+
+            usr.permissionsetNames = new Set<String>{'Corporate_Partner'};
+
+            return usr;
+            
         } set;
     }
 

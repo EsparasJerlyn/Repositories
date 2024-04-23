@@ -14,8 +14,12 @@
 public with sharing class CourseOfferingLMSCreationStartFlowTest {
     @testSetup
     static void setup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator', 'QUT_ESB'});
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
+        Test.stopTest();
+
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Account> newAccounts = new List<Account>();
             newAccounts.add(TestDataFactory.createTestAccount(false));
             newAccounts[0].RecordTypeId = AccountsDAO.ACCT_UNIV_DEP_ID;
@@ -36,7 +40,7 @@ public with sharing class CourseOfferingLMSCreationStartFlowTest {
 
     @isTest
     public static void populateLMSCreationDate(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){           
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){           
             Test.startTest();
             List<Account> accList = [SELECT Id FROM Account];
             
@@ -59,13 +63,13 @@ public with sharing class CourseOfferingLMSCreationStartFlowTest {
                 cc.Registration_End_Date__c = Date.today()+2;
             }
             CourseOfferingsDAO.newInstance().insertRecords(courseOfferings, false, AccessLevel.USER_MODE);
+            Test.stopTest();
     
             List<hed__Course_Offering__c> courseOfferingActualLMSCreationDate = [SELECT Id,LMS_Creation_Date__c, hed__Start_Date__c FROM hed__Course_Offering__c];
 
             Date expectedLMSCreationDate = courseOfferingActualLMSCreationDate[0].hed__Start_Date__c.addDays(-14);
             
             System.assertEquals(expectedLMSCreationDate,courseOfferingActualLMSCreationDate[0].LMS_Creation_Date__c, 'LMS Creation Date is not added with 14 days');
-            Test.stopTest();
         }
     }
 } 
