@@ -676,17 +676,18 @@ public with sharing class SalesCadenceCalloutService {//NOPMD this is a service 
         }
         
         if(!removedCadenceMap.isEmpty()){
+            Boolean isNotExecutedByAutomatedProcess = !UserInfo.getUserName().contains('autoproc');
             Map<String,String> manualRemoveCadenceMap = new Map<String,String>();
             
             for(String key: removedCadenceMap.keySet()){
-                if(!removedCadenceMap.get(key).containsIgnoreCase('automated')){
+                if(!removedCadenceMap.get(key).containsIgnoreCase('automated')){                   
                     manualRemoveCadenceMap.put(key,removedCadenceMap.get(key));
                 }
             }
             
-            if(!manualRemoveCadenceMap.isEmpty()){
+            if(!manualRemoveCadenceMap.isEmpty() && isNotExecutedByAutomatedProcess){
                 createCompletedCadence(manualRemoveCadenceMap,null);   
-            }               
+            }                
         } 
     }
 } 
