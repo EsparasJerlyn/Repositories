@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Pledge_Child</fullName>
-    <active>true</active>
-    <description>Create a Child Donation record for a Pledge Donation that requires a Parent-Child relationship.</description>
-    <label>Pledge Child</label>
-</RecordType>

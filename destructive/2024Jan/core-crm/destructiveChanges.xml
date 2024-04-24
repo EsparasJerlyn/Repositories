@@ -109,6 +109,13 @@
         <name>PermissionSetGroup</name>
     </types>
     <types>
+        <!--(Start) DEPP-8543 -->
+        <members>Donation__c.Endowment_Child</members>
+        <members>Donation__c.Pledge_Child</members>
+        <!--(End) DEPP-8543 -->
+        <name>RecordType</name>
+    </types>    
+    <types>
         <members>Opportunity.IPU_Opportunities</members>
         <members>Opportunity.Research_Partnership_Opportunities</members>
         <members>Opportunity.Commercialisation_Opportunities</members>
