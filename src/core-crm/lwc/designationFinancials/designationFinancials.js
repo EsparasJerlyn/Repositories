@@ -90,9 +90,17 @@ export default class DesignationFinancials extends LightningElement {
         distributionManagement.forEach((obj) => {
             arr.push({distributionSplit: [], ...obj});
 
+            let arrayLength = arr.length - 1;
+
+            arr[arrayLength].isEditActionDisabled = false;
+
+            if (obj.Status__c === 'Archived') {
+                arr[arrayLength].isEditActionDisabled = true;
+            }
+
             distributionSplit.forEach((obj) => {
-                if (arr[arr.length - 1].Id === obj.Distribution_Management__c) {
-                    arr[arr.length - 1].distributionSplit.push(obj);
+                if (arr[arrayLength].Id === obj.Distribution_Management__c) {
+                    arr[arrayLength].distributionSplit.push(obj);
                 }
             })
         })
