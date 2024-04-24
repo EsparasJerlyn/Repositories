@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Cause</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Cause_Compact_Layout</compactLayoutAssignment>
     <description>Create a Donation record to be managed via the Giving Portal.</description>
     <label>Cause</label>
     <picklistValues>

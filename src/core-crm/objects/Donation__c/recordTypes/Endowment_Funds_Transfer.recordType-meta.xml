@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Endowment_Funds_Transfer</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Endowment_Funds_Transfer_Compact_Layout</compactLayoutAssignment>
     <description>Create a Donation record to manage the internal transfer of funds from an Endowment Account to another Designation.</description>
     <label>Endowment Funds Transfer</label>
     <picklistValues>

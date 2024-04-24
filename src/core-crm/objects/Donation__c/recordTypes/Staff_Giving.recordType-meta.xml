@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Staff_Giving</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Staff_Giving_Compact_Layout</compactLayoutAssignment>
     <description>Create a Donation record for a QUT Staff Giving payroll deduction</description>
     <label>Staff Giving</label>
     <picklistValues>
