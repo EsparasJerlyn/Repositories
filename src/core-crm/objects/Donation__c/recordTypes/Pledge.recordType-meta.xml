@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Pledge</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Pledge_Compact_Layout</compactLayoutAssignment>
     <description>Create a Donation record to capture a Pledge. This record type must be used if the donation needs to be allocated to more than one Designation.</description>
     <label>Pledge</label>
     <picklistValues>

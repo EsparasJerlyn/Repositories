@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Gift_In_Kind</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Gift_In_Kind_Compact_Layout</compactLayoutAssignment>
     <description>Create a Donation record for a Gift In Kind donation.</description>
     <label>Gift In Kind</label>
     <picklistValues>
