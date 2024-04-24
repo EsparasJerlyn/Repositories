@@ -15,9 +15,10 @@
       
     @TestSetup
     static void setupData(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()) { 
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) { 
             setupDomesticUndeterminedLeadScoreConfig(
                 LeadScoreConfigurationDAO.DOMESTIC, 
                 LeadScoreConfigurationDAO.PRIMARY_STUDY_LEVEL_UNDETERMINED
@@ -27,13 +28,12 @@
             List<Contact> contactList = TestDataFactory.createTestContactRecords(2, ContactsDAO.CITIZENSHIP_STATUS_DOMESTIC);
             contactsToAdd.addAll(contactList);
             ContactsDAO.newInstance().insertRecords(contactsToAdd, true, AccessLevel.SYSTEM_MODE);    
-            Test.stopTest();
         }
     }
 
     @isTest
     private static void updateSubCategoryConfigTest() {
-        System.runAs(TestDataFactory.getSystemAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator) {
             
             Test.startTest();
             List<Lead_Score_Configuration__c> configsToUpdate = new List<Lead_Score_Configuration__c>();
