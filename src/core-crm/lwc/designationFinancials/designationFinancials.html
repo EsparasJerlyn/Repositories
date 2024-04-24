@@ -26,7 +26,7 @@
                     <article key={obj.Id} class="slds-card">
                         <p class="slds-float_left slds-p-right_small"><b>{obj.Name}</b></p>
                         <lightning-button-menu alternative-text="View More" icon-size="x-small" class="slds-m-left_xx-small">
-                            <lightning-menu-item value="edit" label="Edit"></lightning-menu-item>
+                            <lightning-menu-item disabled={obj.isEditActionDisabled} value="edit" label="Edit"></lightning-menu-item>
                         </lightning-button-menu>
 
                         <div class="slds-card__body slds-card__body_inner">
