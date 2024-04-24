@@ -218,11 +218,13 @@ public class TestDataFactory {
                     FirstName = 'TestFirstName' + i,
                     LastName = i + 'TestLastName',
                     Email = i + 'testmail@mail.test',
+                    Birthdate = System.Today().addYears(-17).addDays(i),
                     QUT_Learner_Email__c = 'learner' + i + 'testmail@mail.test',
                     QUT_Staff_Email__c = 'staff' + i + 'testmail@mail.test',
                     Work_Email__c = 'work' + i + 'testmail@mail.test',
                     hed__Preferred_Email__c = 'Alternate Email',
                     hed__AlternateEmail__c = i + 'testmail@mail.test',
+                    Mobilephone = '1234567890' + i,
                     RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID 
                 )
             );
@@ -3927,5 +3929,17 @@ public class TestDataFactory {
         newWorkTypes.get(0).Name = 'International Phone Calls';
         newWorkTypes.get(1).Name = 'Domestic Phone Calls';
         return newWorkTypes;
+    }
+
+    /** @description Method for creating test Contact Alternate Id record
+     * @return Contact Alternate Id record
+     */
+    public static Contact_Alternate_ID__c createTestConAltIdRecordByContactAndType(Id contactId, String idType, String contactAltId) {
+        return new Contact_Alternate_ID__c(
+            Contact__c = contactId,
+            Contact_Alternate_Id__c = contactAltId,
+            Alternate_Id_Status__c = 'Active',
+            Alternate_Id_Type__c = idType
+        );
     }
 }

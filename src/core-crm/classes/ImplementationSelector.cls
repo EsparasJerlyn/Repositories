@@ -68,6 +68,8 @@ public class ImplementationSelector {
             CommerceEntitlementBuyerGroup.SObjectType => CommerceEntitlementBuyerGroupsDAO.class,
             Completed_Cadence__c.SObjectType => CompletedCadencesDAO.class,
             Contact.SObjectType => ContactsDAO.class,
+            Contact_Alternate_ID__c.SObjectType => ContactAlternateIdsDAO.class,
+            Contact_Matching_Configuration__c.SObjectType => ContactMatchingConfigurationsDAO.class,
             ContentDocument.SObjectType => ContentDocumentsDAO.class,
             ContentDocumentLink.SObjectType => ContentDocumentLinksDAO.class,
             ContentVersion.SObjectType => ContentVersionsDAO.class,

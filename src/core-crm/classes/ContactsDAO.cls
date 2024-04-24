@@ -100,9 +100,9 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 Id,
                 FirstName,
                 LastName,
-                Birthdate,
                 Matching_Firstname__c,
                 Matching_Lastname__c,
+                Birthdate,
                 Email,
                 QUT_Learner_Email__c,
                 QUT_Staff_Email__c,
@@ -210,6 +210,60 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
                 'OR (Work_Email__c !=NULL AND Work_Email__c IN: applicationEmailsToMatch)))) ' +
                 'WITH ' +
                 String.escapeSingleQuotes(accessLevel)
+        );
+    }
+
+    public List<Contact> getContactsByMatchingAttributes(
+        Map<String,Set<String>> fieldSetMap,
+        Set<Date> birthDateSet,
+        AccessLevel accessLevel
+    ) {
+
+        boolean setsAreEmpty = fieldSetMap.isEmpty() && birthDateSet.isEmpty();
+        Set<String> firstNameSet = fieldSetMap.get('firstName');
+        Set<String> lastNameSet = fieldSetMap.get('lastName');
+        Set<String> emailSet = fieldSetMap.get('email');
+        Set<String> mobilePhoneSet = fieldSetMap.get('mobilePhone');
+
+        if(setsAreEmpty){
+            return new List<Contact>();
+        }
+
+        return Database.query(
+            'SELECT Id, FirstName, LastName, Birthdate, Matching_Firstname__c, Matching_Lastname__c, ' +
+            'Email, MobilePhone, QUT_Staff_Email__c, QUT_Learner_Email__c, Work_Email__c, ' +
+            'QUT_Student_ID__c, QUT_Employee_ID__c ' +
+            'FROM Contact ' +
+            'WHERE RecordTypeId =: PERSON_RECORDTYPE_ID '+
+            //Natural Key Matching
+            'AND ((Matching_Firstname__c IN :firstNameSet ' +
+            'AND Matching_Lastname__c IN :lastNameSet ' +
+            'AND Birthdate IN :birthDateSet) ' +
+            //Partial Key Matching OR First Name Stem
+            'OR (Matching_Lastname__c IN :lastNameSet ' +
+            'AND Birthdate IN :birthDateSet ' +
+            'AND (Email IN :emailSet ' +
+            'OR QUT_Staff_Email__c IN :emailSet ' +
+            'OR QUT_Learner_Email__c IN :emailSet ' +
+            'OR Work_Email__c IN :emailSet ' +
+            'OR MobilePhone IN :mobilePhoneSet)) ' +
+            //Maiden Name Matching
+            'OR (Matching_Firstname__c IN :firstNameSet ' +
+            'AND Birthdate IN :birthDateSet ' +
+            'AND (Email IN :emailSet ' +
+            'OR QUT_Staff_Email__c IN :emailSet ' +
+            'OR QUT_Learner_Email__c IN :emailSet ' +
+            'OR Work_Email__c IN :emailSet ' +
+            'OR MobilePhone IN :mobilePhoneSet)) ' +
+            //No DOB Matching
+            'OR (Matching_Firstname__c IN :firstNameSet ' +
+            'AND Matching_Lastname__c IN :lastNameSet ' +
+            'AND (Email IN :emailSet ' +
+            'OR QUT_Staff_Email__c IN :emailSet ' +
+            'OR QUT_Learner_Email__c IN :emailSet ' +
+            'OR Work_Email__c IN :emailSet ' +
+            'OR MobilePhone IN :mobilePhoneSet))) ',
+            accessLevel
         );
     }
 
@@ -339,7 +393,7 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'IsStaff_Active__c, Staff_Verified__c, hed__Citizenship_Status__c, Can_Nurture__c, ' +
             'HasOptedOutOfEmail, Email_Opt_Out_DateTime__c, Learner_Email_Opt_Out__c, Learner_Email_Opt_Out_DateTime__c, ' +
             'Learner_Email_Opt_In_DateTime__c, Staff_Email_Opt_In_DateTime__c, Work_Email_Opt_In_DateTime__c, Work_SMS_Opt_In_DateTime__c, ' +
-            'SMS_Opt_In_DateTime__c, '+ 
+            'SMS_Opt_In_DateTime__c, QUT_Student_ID__c, QUT_Employee_ID__c, '+ 
             'Staff_Email_Opt_Out__c, Staff_Email_Opt_Out_DateTime__c, Work_Email_Opt_Out__c, Work_Email_Opt_Out_DateTime__c, ' +
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
