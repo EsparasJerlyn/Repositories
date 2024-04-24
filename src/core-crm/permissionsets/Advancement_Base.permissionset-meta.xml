@@ -3527,10 +3527,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Donation__c.Endowment_Child</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <recordType>Donation__c.Endowment</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -3539,15 +3535,23 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Donation__c.Endowment_Instalment</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>    
+    <recordTypeVisibilities>
         <recordType>Donation__c.Gift_In_Kind</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Donation__c.Pledge_Child</recordType>
+        <recordType>Donation__c.Pledge</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Donation__c.Pledge</recordType>
+        <recordType>Donation__c.Pledge_Designation_Split</recordType>
+        <visible>true</visible>    
+    </recordTypeVisibilities>    
+    <recordTypeVisibilities>
+        <recordType>Donation__c.Pledge_Instalment</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
