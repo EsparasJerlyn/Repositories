@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <inlineHelpText>The type of donation(s) the donor intends to make.</inlineHelpText>
     <label>Donation Type</label>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
