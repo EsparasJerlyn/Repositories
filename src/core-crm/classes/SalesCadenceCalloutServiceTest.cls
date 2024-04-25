@@ -268,7 +268,8 @@ private class SalesCadenceCalloutServiceTest {
             ActionCadenceTrackersDAO.newInstance().insertRecords(acTracker,true,AccessLevel.SYSTEM_MODE);
             
             Map<String, String> targetIdCadenceMap = new Map<String, String>{ newContacts[0].Id => 'Test Cadences automated'};
-                SalesCadenceCalloutService.createInitialCompletedCadences(targetIdCadenceMap);
+            SalesCadenceCalloutService.createInitialCompletedCadences(targetIdCadenceMap);
+            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(targetIdCadenceMap,targetIdCadenceMap);
             
             Test.stopTest();
             System.assert([SELECT Id FROM Completed_Cadence__c].isEmpty() , 'Completed_Cadence__c record is not created');
@@ -303,6 +304,7 @@ private class SalesCadenceCalloutServiceTest {
             
             Map<String, String> targetIdCadenceMap = new Map<String, String>{ newContacts[0].Id => 'Test Cadences automated'};
             SalesCadenceCalloutService.createCompletedCadence(targetIdCadenceMap,null);
+            SalesCadenceCalloutService.updateCreateCompletedCadenceRecords(targetIdCadenceMap,targetIdCadenceMap);
             
             Test.stopTest();
             System.assert([SELECT Id FROM Completed_Cadence__c].isEmpty() , 'Completed_Cadence__c record is not created');
