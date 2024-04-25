@@ -358,19 +358,57 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Giving_to_Cause_Designation_Record_Page</content>
+        <content>Endowment_Donation_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Endowment_Donation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Endowment_Donation_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment</recordType>
         <type>Flexipage</type>
         <profile>Advancement</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Giving_to_Cause_Designation_Record_Page</content>
+        <content>Endowment_Donation_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Designation__c</pageOrSobjectType>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment</recordType>
         <type>Flexipage</type>
         <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Endowment_Donation_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Endowment_Donation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Endowment</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
