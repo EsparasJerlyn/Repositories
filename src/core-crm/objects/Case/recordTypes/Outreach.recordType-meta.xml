@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Inbound_Enquiry</fullName>
+    <fullName>Outreach</fullName>
     <active>true</active>
-    <businessProcess>Inbound Enquiry</businessProcess>
-    <label>Inbound Enquiry</label>
+    <businessProcess>Student Success Outreach Case</businessProcess>
+    <label>Outreach</label>
     <picklistValues>
         <picklist>Awaiting_Response_From__c</picklist>
         <values>
@@ -38,11 +38,7 @@
     <picklistValues>
         <picklist>Case_Type__c</picklist>
         <values>
-            <fullName>Domestic Future Student Enquiry</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>International Future Student Enquiry</fullName>
+            <fullName>Student Success - Retention</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -80,35 +76,31 @@
     <picklistValues>
         <picklist>Closure_Code__c</picklist>
         <values>
-            <fullName>Agent Referred</fullName>
+            <fullName>No Longer Meets Criteria</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Invalid Enquiry</fullName>
+            <fullName>Successful - Email</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>No response given</fullName>
+            <fullName>Successful - Message</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Public - No Further Action</fullName>
+            <fullName>Successful - Phone</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Redirected</fullName>
+            <fullName>Unsuccessful - No Contact Attempted</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Redirected Agent Enquiry</fullName>
+            <fullName>Unsuccessful - No Valid Phone%2FSpoke to Other</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Response Given</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tier 3 Referred</fullName>
+            <fullName>Unsuccessful - Uncontactable</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2301,47 +2293,7 @@
     <picklistValues>
         <picklist>Origin</picklist>
         <values>
-            <fullName>Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Facebook</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Intranet Website</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LiveChat</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LiveChat After Hours</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Twitter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WeChat</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Website</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName>
+            <fullName>Engagement List</fullName>
             <default>false</default>
         </values>
     </picklistValues>

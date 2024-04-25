@@ -112,6 +112,14 @@
         <relatedList>Engagement_List_Criteria__c.Engagement_List_Configuration__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>CASES.CASE_NUMBER</fields>
+        <fields>NAME</fields>
+        <fields>CASES.STATUS</fields>
+        <fields>OWNER_NAME</fields>
+        <fields>CASES.CLOSED_DATE</fields>
+        <relatedList>Case.Engagement_List_Configuration__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>
         <fields>ACTIVITY.TASK</fields>
@@ -136,7 +144,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9r000002mjcn</masterLabel>
+        <masterLabel>00hBm0000057fA2</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

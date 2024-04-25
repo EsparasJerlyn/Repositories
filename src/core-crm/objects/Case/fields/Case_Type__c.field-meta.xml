@@ -24,6 +24,11 @@
                 <default>false</default>
                 <label>International Future Student Enquiry</label>
             </value>
+            <value>
+                <fullName>Student Success - Retention</fullName>
+                <default>false</default>
+                <label>Student Success - Retention</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
