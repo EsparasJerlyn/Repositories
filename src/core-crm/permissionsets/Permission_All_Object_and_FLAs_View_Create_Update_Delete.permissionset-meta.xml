@@ -25370,6 +25370,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Document__c.Advancement</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Document__c.Board_Meeting_Minutes</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
