@@ -113,6 +113,41 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Identified_Issues__c</picklist>
+        <values>
+            <fullName>Academic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Careers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Issue %2F Did Not Disclose</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time %26 Workload Management</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>My_Citizenship_Status__c</picklist>
         <values>
             <fullName>Australian Citizen or Permanent Resident</fullName>
@@ -2274,6 +2309,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Intranet Website</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>LiveChat</fullName>
             <default>false</default>
         </values>
@@ -2507,6 +2546,196 @@
         </values>
         <values>
             <fullName>Work experience</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Support_Discussed__c</picklist>
+        <values>
+            <fullName>Academic - Language %26 Learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic - Library</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic - Peer Programs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic - STEM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - Assignment Extension%2FWWAP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - Canvas%2FeStudent%2FEmail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - Faculty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - HiQ%2FAskQUT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - Leave of Absence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - QTAC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Administrative - Units%2FStudy Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging - Chaplaincy%2FMulti-faith prayer rooms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging - Clubs%2FSocieties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging - Oodgeroo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging - Orientation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging - Peer Programs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Careers - General</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Careers - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Counselling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Disability %26 Accessibility</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Parenting Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - QUT Guild</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - QUT Medical Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Welfare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time %26 Workload Management - Coaching</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time %26 Workload Management - Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Support_Referrals__c</picklist>
+        <values>
+            <fullName>Academic - Language %26 Learning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic - Library</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic - Peer Programs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Academic - STEM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belonging - Oodgeroo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Careers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Counselling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Disability %26 Accessibility</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Life - Welfare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time %26 Workload Management - Coaching</fullName>
             <default>false</default>
         </values>
     </picklistValues>

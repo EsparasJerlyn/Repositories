@@ -9,4 +9,8 @@
     <layoutAssignments>
         <layout>Student_Sanction__c-Student Sanction Page Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Outreach Case Layout</layout>
+        <recordType>Case.Outreach</recordType>
+    </layoutAssignments>
 </Profile>

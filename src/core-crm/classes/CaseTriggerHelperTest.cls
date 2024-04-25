@@ -14,6 +14,7 @@
       | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
       | eccarius.munoz                 | February 16, 2024     | DEPP-7714	            | Added test method of case prio with sub category      | 
       | eccarius.munoz                 | February 19, 2024     | DEPP-7867	            | Added test method of case prio with lead src category | 
+      | gabriel.p.ventayen             | April 22, 2024        | DEPP-8544	            | change rectype to inbound enquiry and add case type   | 
  */
 @isTest
 private class CaseTriggerHelperTest {
@@ -51,7 +52,8 @@ private class CaseTriggerHelperTest {
                     Subject = 'Test Case',
                     SuppliedEmail = '1testmail@mail.test',
                     Description = 'Test Case Description',
-                    Origin = 'Email'
+                    Origin = 'Email',
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
@@ -77,7 +79,8 @@ private class CaseTriggerHelperTest {
                     Subject = 'Test Case',
                     SuppliedEmail = '1testmail@mail.test',
                     Description = 'Test Case Description',
-                    Origin = 'Email'
+                    Origin = 'Email',
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, true, AccessLevel.SYSTEM_MODE);
@@ -103,7 +106,8 @@ private class CaseTriggerHelperTest {
                     Subject = 'Test Case',
                     SuppliedEmail = '133testmail@mail.test',
                     Description = 'Test Case Description',
-                    Origin = 'Email'
+                    Origin = 'Email',
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
@@ -127,7 +131,8 @@ private class CaseTriggerHelperTest {
                 new Case(  
                     Status = 'Created', 
                     SuppliedPhone = '090909',
-                    Origin = CasesDAO.ORIGIN_WHATSAPP
+                    Origin = CasesDAO.ORIGIN_WHATSAPP,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
@@ -151,7 +156,8 @@ private class CaseTriggerHelperTest {
                 new Case(  
                     Status = 'Created', 
                     SuppliedPhone = '090909',
-                    Origin = CasesDAO.ORIGIN_WHATSAPP
+                    Origin = CasesDAO.ORIGIN_WHATSAPP,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
@@ -174,7 +180,8 @@ private class CaseTriggerHelperTest {
                     Auto_Priority_Assignment__c = true,
                     SuppliedPhone = '090909',
                     Origin = CasesDAO.ORIGIN_WHATSAPP,
-                    RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
 
@@ -206,7 +213,8 @@ private class CaseTriggerHelperTest {
                     Origin = CasesDAO.ORIGIN_WHATSAPP,
                     Priority = 'Low',
                     ContactId = contactList[0].Id,
-                    RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
 
@@ -238,7 +246,8 @@ private class CaseTriggerHelperTest {
                     Origin = CasesDAO.ORIGIN_WHATSAPP,
                     Priority = 'Low',
                     ContactId = contactList[0].Id,
-                    RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
 

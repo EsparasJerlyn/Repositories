@@ -58,7 +58,8 @@ private class DynamicQueueableProcessTest {
                     Auto_Priority_Assignment__c = true,
                     SuppliedPhone = '090909',
                     Origin = CasesDAO.ORIGIN_WHATSAPP,
-                    RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                    RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             Test.startTest();

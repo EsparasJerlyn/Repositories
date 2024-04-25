@@ -12,6 +12,7 @@
       | arsenio.jr.dayrit              | Sept 27,2023          | DEPP-6720              | Created file                                          |
       | roy.nino.s.regala              | Oct 5, 2023           | DEPP-6425              | updated to use DAO Mock                               |
       | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
+      | gabriel.p.ventayen             | April 22, 2024        | DEPP-8544	            | change rectype to inbound enquiry and add case type   | 
  */
 @isTest
 private class CaseServiceTest {
@@ -112,7 +113,8 @@ private class CaseServiceTest {
                 Auto_Priority_Assignment__c = true,
                 SuppliedPhone = '090909',
                 Origin = CasesDAO.ORIGIN_WHATSAPP,
-                RecordTypeId = CasesDAO.INTERNATIONALFS_RECTYPE_ID
+                RecordTypeId = CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID,
+                Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
             )
         );
 
