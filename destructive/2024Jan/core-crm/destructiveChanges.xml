@@ -91,5 +91,12 @@
         <!-- DEPP-8242 End-->
         <name>BusinessProcess</name>
     </types>
+    <types>
+        <!--DEPP-8542 Start-->
+        <members>Case.Future Student Domestic Acknowledgement</members>
+        <!--DEPP-8542 Start-->
+        <name>AutoResponseRule</name>
+    </types>
+    
     <version>59.0</version> 
 </Package>

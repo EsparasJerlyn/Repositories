@@ -3811,70 +3811,83 @@ public class TestDataFactory {
     public static List<Case_Priority_Configuration__c> createCasePrioConfigRecords(){
         List<Case_Priority_Configuration__c> casePrioConfigList = new List<Case_Priority_Configuration__c>();
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Future_Student_Stage__c = 'Apply',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Enquiry_Category__c = 'My enrolment',
             Future_Student_Stage__c = 'Apply',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 1',
             Is_Active__c = true,
             Lead_Score__c = 120,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 2',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Tier 3',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Future_Student_Stage__c = 'Offer',
+            Lead_Source_Category__c = 'Partner Sourced',
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Enquiry_Sub_Category__c = 'Student support;Welcome and orientation events',
             Is_Active__c = true,
-            Priority__c = 'Medium'
+            Priority__c = 'Medium',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(//this test data is always within range
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Date_From__c =  Date.newInstance(2023, 01, 01),
             Date_To__c = System.today().addDays(1),
             Is_Active__c = true,
-            Priority__c = 'High'
+            Priority__c = 'High',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Country_Tier__c = 'Untiered',
             Country_Tier_Subcategory__c = 'Restricted',
             Is_Active__c = true,
             Priority__c = 'High',
-            Enquiry_Category__c = 'Student life'
+            Enquiry_Category__c = 'Student Life',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         casePrioConfigList.add(new Case_Priority_Configuration__c(
-            Case_Record_Type__c = 'International Future Student Enquiry',
+            Case_Record_Type__c = 'Inbound Enquiry',
             Is_Active__c = true,
             Priority__c = 'High',
-            Enquiry_Category__c = 'Student life',
-            Lead_Source_Category__c = 'Partner Sourced'
+            Enquiry_Category__c = 'Student Life',
+            Lead_Source_Category__c = 'Partner Sourced',
+            Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
         ));
         return casePrioConfigList;
     }

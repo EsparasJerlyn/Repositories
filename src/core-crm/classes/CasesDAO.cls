@@ -10,22 +10,22 @@
  *    | arsenio.jr.dayrit              | September 11, 2023    | DEPP-5652              | created file                                |
  *    | neil.s.h.lesidan               | September 20, 2023    | DEPP-6478              | Added getCaseBySuppliedEmail                |
  *    | arsenio.jr.dayrit              | September 26, 2023    | DEPP-6720              | added new method getCasesBySuppliedPhone    |
+ *    | gabriel.p.ventayen             | April 26, 2024        | DEPP-8544              | change case rectype map to inbound enquiry  |
  */
 public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
     public static final String ORIGIN_WHATSAPP = 'WhatsApp';
 
-    public static final Id DOMESTICFS_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
-        .get('Domestic_Future_Student_Enquiry')
-        .getRecordTypeId();
-    public static final Id INTERNATIONALFS_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
-        .get('International_Future_Student_Enquiry')
+    public static final Id INBOUND_ENQUIRY_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
+        .get('Inbound_Enquiry')
         .getRecordTypeId();
 
     public static final Map<String, Id> CASE_RECTYPE_MAP = new Map<String, Id>{
-        'Domestic Future Student Enquiry' => DOMESTICFS_RECTYPE_ID,
-        'International Future Student Enquiry' => INTERNATIONALFS_RECTYPE_ID
+        'Inbound Enquiry' => INBOUND_ENQUIRY_RECTYPE_ID
     };
+
+    public static final String CASE_TYPE_DOMESTIC = 'Domestic Future Student Enquiry';
+    public static final String CASE_TYPE_INTERNATIONAL = 'International Future Student Enquiry';
 
     public static final Map<String, Integer> PRIORITY_ORDER = new Map<String, Integer>{
         'High' => 3,
@@ -115,7 +115,7 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
         return Database.query(
             'SELECT Id, Category__c, Sub_Category__c, CreatedDate, Lead__c, ContactId, RecordType.Name, Lead__r.Marketing_Segmentation__r.My_Country_Of_Citizenship__c, ' + 
                 'Contact.Lead_Source_Category__c, Lead__r.Lead_Source_Category__c, Contact.Citizenship_Country__c, Lead__r.Lead_Score__c, Contact.Lead_Score__c, ' +
-                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c ' +
+                'Lead__r.Future_Student_Journey_Status__c, Contact.Future_Student_Journey_Status__c, Priority, Subject, Contact.Applicant_Onshore__c, Case_Type__c ' +
             'FROM Case ' +
             'WHERE Id IN :caseIds ',
             accessLevel

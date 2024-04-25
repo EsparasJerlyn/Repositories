@@ -27,8 +27,7 @@ public with sharing class CaseEmailFollowUp_FlowTest {
                 STR_EMAIL_TEMPLATE => 'FS International Email Template Test'
             }).iterator().next();
             insert template;
-            
-            List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', 1);           
+            List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', 1);           
             List<Case> caseList = new List<Case>();
             caseList.addAll(internationalCases);
             
@@ -38,6 +37,7 @@ public with sharing class CaseEmailFollowUp_FlowTest {
                 c.Category__c = 'Student life';
                 c.Status = 'Created';
                 c.SuppliedEmail = 'test333111CaseRec@mailinator.com';
+                c.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
             }
             
             CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);    
@@ -70,7 +70,7 @@ public with sharing class CaseEmailFollowUp_FlowTest {
             }).iterator().next();
             insert template;
             
-            List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INTERNATIONALFS_RECTYPE_ID, 'Test International Case', 1);           
+            List<Case> internationalCases = TestDataFactory.createTestCaseRecords(CasesDAO.INBOUND_ENQUIRY_RECTYPE_ID, 'Test International Case', 1);           
             List<Case> caseList = new List<Case>();
             caseList.addAll(internationalCases);
             
@@ -80,6 +80,7 @@ public with sharing class CaseEmailFollowUp_FlowTest {
                 c.Category__c = 'Student life';
                 c.Status = 'Created';
                 c.SuppliedEmail = 'test333111CaseRec@mailinator.com';
+                c.Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL;
             }
             
             CasesDAO.newInstance().insertRecords(caseList, false, AccessLevel.SYSTEM_MODE);    
