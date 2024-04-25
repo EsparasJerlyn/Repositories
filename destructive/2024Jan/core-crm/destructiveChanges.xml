@@ -85,5 +85,11 @@
         <!-- DEPP-8075 End-->
         <name>CustomApplication</name>
     </types>
+    <types>
+        <!--DEPP-8242 Start-->
+        <members>Case.International Enquiry</members>
+        <!-- DEPP-8242 End-->
+        <name>BusinessProcess</name>
+    </types>
     <version>59.0</version> 
 </Package>
