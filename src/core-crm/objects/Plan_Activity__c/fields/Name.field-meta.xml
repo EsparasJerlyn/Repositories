@@ -4,7 +4,7 @@
     <description>Short description of the Plan Activity.</description>
     <length>255</length>
     <securityClassification>Official</securityClassification>
-    <trackFeedHistory>true</trackFeedHistory>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Text</type>
 </CustomField>
