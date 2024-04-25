@@ -13645,10 +13645,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>Donation__c.Pledge_Child</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <recordType>Donation__c.Pledge</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
