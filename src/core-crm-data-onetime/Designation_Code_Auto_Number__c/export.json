@@ -1,7 +1,7 @@
 {
     "objects": [
         {
-            "query": "SELECT $$Name$Giving_To_Cause__c&Endowment__c,Name, Giving_To_Cause__c,Endowment__c FROM Designation_Code_Auto_Number__c",
+            "query": "SELECT $$Name$Giving_To_Cause__c$Endowment__c,Name, Giving_To_Cause__c,Endowment__c FROM Designation_Code_Auto_Number__c",
             "deleteOldData": true,
             "operation": "Upsert",
             "externalId": "Name;Giving_To_Cause__c;Endowment__c",
