@@ -59,7 +59,8 @@ private class CaseTriggerHandlerTest {
                 new Case(  
                     Status = 'Created', 
                     SuppliedPhone = '090909',
-                    Origin = CasesDAO.ORIGIN_WHATSAPP
+                    Origin = CasesDAO.ORIGIN_WHATSAPP,
+                    Case_Type__c = CasesDAO.CASE_TYPE_INTERNATIONAL
                 )
             );
             CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);

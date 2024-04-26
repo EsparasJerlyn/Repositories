@@ -67,6 +67,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public static final String ACCEPT_ADMIT_JOURNEY_STATUS = 'Accept-Admit';
     public static final String STUDY_JOURNEY_STATUS = 'Study';
 
+    public static final String ATSI_CODE_ABORIGINAL = 'Aboriginal';
+    public static final String ATSI_CODE_ISLANDER = 'Torres Strait Islander';
+    public static final String ATSI_CODE_ABORIGINAL_ISLANDER = 'Aboriginal and Torres Strait Islander';
+
     public static IContactsDAO newInstance() {
         return (IContactsDAO) ImplementationSelector.DAO.newInstance(Contact.SObjectType);
     }
@@ -342,7 +346,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             'Work_SMS_Opt_Out__c, Work_SMS_Opt_Out_DateTime__c, hed__SMS_Opt_Out__c, SMS_Opt_Out_DateTime__c, DoNotCall, ' +
             'Sync_to_MC__c, Do_Not_Sync_To_MC_Override__c, Dont_Market_Reason__c, QUT_Applicant__c, QUT_Lead__c, ' +
             'FirstName, LastName, Birthdate, Email_Opt_In_DateTime__c, Email, Work_Email__c, Registered_Email__c, Lead_Source_Category__c, ' +
-            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c ' +
+            'Marketing_Segmentation__c, Cadence_Application__c, Calculated_Cadence__c, QUT_Staff_Email__c, QUT_Learner_Email__c, MobilePhone, ContactMobile_Locale__c, Mobile_No_Locale__c, ' +
+            'Low_Socio_Economic_Status__c, Regional_Remote__c, ATSI_Code__c, Account.Is_Priority_Program__c, Account.RecordTypeId ' +
                 'FROM Contact ' +
                 'WHERE Id IN: recordIds ' +
                 'AND RecordTypeId =: PERSON_RECORDTYPE_ID ',

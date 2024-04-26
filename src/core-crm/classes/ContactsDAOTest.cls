@@ -205,9 +205,9 @@ private class ContactsDAOTest {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .getPersonContactsBySetIds(
                     new Set<Id>{contactMock.getMockId()},
-                    AccessLevel.USER_MODE
+                    AccessLevel.SYSTEM_MODE
                 );
-            System.assert(contactList.isEmpty(), 'leadList should be empty');
+            System.assert(contactList.isEmpty(), 'contactList should be empty');
         }
         Test.stopTest();
     }

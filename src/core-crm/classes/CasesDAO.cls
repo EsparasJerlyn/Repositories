@@ -19,6 +19,9 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
     public static final Id INBOUND_ENQUIRY_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
         .get('Inbound_Enquiry')
         .getRecordTypeId();
+    public static final Id OUTREACH_RECTYPE_ID = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName()
+        .get('Outreach')
+        .getRecordTypeId();
 
     public static final Map<String, Id> CASE_RECTYPE_MAP = new Map<String, Id>{
         'Inbound Enquiry' => INBOUND_ENQUIRY_RECTYPE_ID
@@ -26,6 +29,9 @@ public inherited sharing class CasesDAO extends DmlBase implements ICasesDAO {
 
     public static final String CASE_TYPE_DOMESTIC = 'Domestic Future Student Enquiry';
     public static final String CASE_TYPE_INTERNATIONAL = 'International Future Student Enquiry';
+    public static final String PRIORITY_HIGH = 'High';
+    public static final String PRIORITY_MEDIUM = 'Medium';
+    public static final String PRIORITY_LOW = 'Low';
 
     public static final Map<String, Integer> PRIORITY_ORDER = new Map<String, Integer>{
         'High' => 3,

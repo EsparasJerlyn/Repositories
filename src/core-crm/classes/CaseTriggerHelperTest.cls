@@ -14,6 +14,7 @@
       | johanna.a.gibas                | Nov 24, 2023          | DEPP-7143              | Removed references to Priority on International Tier  |
       | eccarius.munoz                 | February 16, 2024     | DEPP-7714	            | Added test method of case prio with sub category      | 
       | eccarius.munoz                 | February 19, 2024     | DEPP-7867	            | Added test method of case prio with lead src category | 
+      | eccarius.munoz                 | April 5, 2024         | DEPP-7533	            | Added test method for handleOutreachCasePriority      | 
       | gabriel.p.ventayen             | April 22, 2024        | DEPP-8544	            | change rectype to inbound enquiry and add case type   | 
  */
 @isTest
@@ -257,6 +258,79 @@ private class CaseTriggerHelperTest {
 
             List<Case> caseList = CasesDAO.newInstance().getCasesByIds(new Set<Id>{cases[0].Id}, AccessLevel.SYSTEM_MODE);
             System.assertEquals('High', caseList[0].Priority, 'Case priority should be set to high.');
+        }
+    }
+
+    @isTest
+    private static void testHandleOutreachCasePriority(){
+        
+        System.runAs(TestDataFactory.getESBIntegrationUser()){
+
+            Integer numberOfContactsForHigh = 50;
+            Integer numberOfContactsForMedium = 30;
+            Integer numberOfContactsForLow = 20;
+            Integer numberOfCaseRecords = 100;
+
+            List<Contact> contactList = new List<Contact>();
+
+            //setup contact for high prio
+            List<Contact> contactsForHighPriority = TestDataFactory.createTestContactRecords(numberOfContactsForHigh);
+            for(Contact contact : contactsForHighPriority){
+                contact.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                contact.ATSI_Code__c = ContactsDAO.ATSI_CODE_ABORIGINAL_ISLANDER;
+            }
+
+            //setup contact for medium prio
+            List<Account> academicAccounts = TestDataFactory.createTestAccountRecordsWithRecordType(1, AccountsDAO.ACCT_ACADEMIC_PROGRAM_ID);
+            academicAccounts[0].Is_Priority_Program__c = true;
+            AccountsDAO.newInstance().insertRecords(academicAccounts, true, AccessLevel.SYSTEM_MODE);
+
+            List<Contact> contactsForMediumPriority = TestDataFactory.createTestContactRecords(numberOfContactsForMedium);
+            for(Contact contact : contactsForMediumPriority){
+                contact.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+                contact.AccountId = academicAccounts[0].Id;
+            }
+
+            //setup contact for low prio
+            List<Contact> contactsForLowPriority = TestDataFactory.createTestContactRecords(numberOfContactsForLow);
+            for(Contact contact : contactsForLowPriority){
+                contact.RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;
+            }
+
+            contactList.addAll(contactsForHighPriority);
+            contactList.addAll(contactsForMediumPriority);
+            contactList.addAll(contactsForLowPriority);
+            ContactsDAO.newInstance().insertRecords(contactList, true, AccessLevel.SYSTEM_MODE);
+
+            Test.startTest();
+            List<Case> cases = TestDataFactory.createTestCaseRecords(numberOfCaseRecords, new List<Lead>(), contactList);
+            for(Case caseRecord : cases){
+                caseRecord.RecordTypeId = CasesDAO.OUTREACH_RECTYPE_ID;
+                caseRecord.Origin = 'Email';
+                caseRecord.Case_Type__c = 'Student Success - Retention';
+            }
+            CasesDAO.newInstance().insertRecords(cases, false, AccessLevel.SYSTEM_MODE);
+            Test.stopTest();
+
+            Integer highPrioCase = 0;
+            Integer mediumPrioCase = 0;
+            Integer lowPrioCase = 0;
+
+            Set<Id> caseIdSet = (new Map<Id, Case>(cases)).keySet();
+            List<Case> caseList = CasesDAO.newInstance().getCasesByIds(caseIdSet, AccessLevel.SYSTEM_MODE);
+            for(Case caseRecord : caseList){
+                if(caseRecord.Priority == 'High'){
+                    highPrioCase ++;
+                }else if(caseRecord.Priority == 'Medium'){
+                    mediumPrioCase ++;
+                }else if (caseRecord.Priority == 'Low'){
+                    lowPrioCase ++;
+                }
+            }
+
+            System.assertEquals(numberOfContactsForHigh, highPrioCase, 'Case priority should be set to high.');
+            System.assertEquals(numberOfContactsForMedium, mediumPrioCase, 'Case priority should be set to Medium.');
+            System.assertEquals(numberOfContactsForLow, lowPrioCase, 'Case priority should be set to Low.');
         }
     }
 }
