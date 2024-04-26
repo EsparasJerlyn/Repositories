@@ -16,6 +16,10 @@
         <recordType>Designation__c.Giving_To_Cause</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Document__c-Document - Advancement Page Layout</layout>
+        <recordType>Document__c.Advancement</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Document__c-Document Page Layout</layout>
         <recordType>Document__c.Standard</recordType>
     </layoutAssignments>
