@@ -59,6 +59,7 @@ public with sharing class CaseMarketingHelperTest {
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
                         My_Primary_Study_Level__c = 'Undergraduate',
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC,
                         Marketing_Opt_In__c = true
                     )
                 );
@@ -101,6 +102,7 @@ public with sharing class CaseMarketingHelperTest {
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
                         My_Primary_Study_Level__c = 'Undergraduate',
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC,
                         Marketing_Opt_In__c = true
                     )
                 );
@@ -157,6 +159,7 @@ public with sharing class CaseMarketingHelperTest {
                         My_Country_Of_Residency__c = 'Australia',
                         My_Education_Level__c = 'In Year 8',
                         My_Primary_Study_Level__c = 'Undergraduate',
+                        Case_Type__c = CasesDAO.CASE_TYPE_DOMESTIC,
                         Marketing_Opt_In__c = true
                     )
                 );

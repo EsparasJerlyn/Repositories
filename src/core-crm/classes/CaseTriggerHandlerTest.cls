@@ -35,6 +35,7 @@ private class CaseTriggerHandlerTest {
                     Subject = 'Test Case',
                     SuppliedEmail = '1testmail@mail.test',
                     Description = 'Test Case Description',
+                    Case_type__c = 'Domestic Future Student Enquiry',
                     Origin = 'Email'
                 )
             );
