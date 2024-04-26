@@ -1537,11 +1537,26 @@ public class TestDataFactoryUser {
         get {
 
             getPortalSysAdminUser();
+            System.runAs(portalSysAdmin){
+                //Create account
+                Account account = new Account();
+                account.Name = 'CorporatePortalAdminAccount';
+                insert account;
+                //create contact
+                Contact contact = new Contact();
+                contact.FirstName = 'Test';
+                contact.LastName = 'CorporatePortalAdmin';
+                contact.Email = System.now().millisecond() + '@mailinator.com';
+                contact.AccountId = account.Id;
+                insert contact;
+            }
+            Contact con = [SELECT Id FROM Contact LIMIT 1];
             InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
             
                 usr.FirstName = 'Test';
                 usr.LastName = 'QUTCorporatePartnerAdmin';
                 usr.profileName = 'Corporate Partner';
+                usr.contactId = con.Id;
                 
 
                 usr.userpermissionsmarketinguser = true;

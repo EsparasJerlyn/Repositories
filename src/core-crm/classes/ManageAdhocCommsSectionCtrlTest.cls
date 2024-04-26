@@ -20,9 +20,10 @@ private class ManageAdhocCommsSectionCtrlTest {
 
     @testSetup
     static void setupMethod(){
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator'} );
-        System.runAs(TestDataFactory.getProgramAdminUser()){
-            Test.startTest();
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account acc = TestDataFactory.createTestAccount(false);
             acc.RecordTypeId = AccountsDAO.ACCT_BUSINESS_ORG_ID;
             insert acc;
@@ -56,13 +57,12 @@ private class ManageAdhocCommsSectionCtrlTest {
             List<Adhoc_Communication__c> adhocCommunicationList = TestDataFactory.createTestAdhocCommsRecords(1);
             adhocCommunicationList[0].Program_Offering__c = programOffering[0].Id;
             AdhocCommunicationsDAO.newInstance().insertRecords(adhocCommunicationList, false, AccessLevel.SYSTEM_MODE);
-            Test.stopTest();
         }
     } 
 
     @isTest
     private static void getAdhocCommunicationsTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Test.startTest();
             Id programOfferingId = [Select Id From Program_Offering__c Limit 1]?.Id;
             List<Adhoc_Communication__c> adhocComms = ManageAdhocCommsSectionCtrl.getAdhocCommunications(programOfferingId,PROGRAM_OFFERING);
@@ -73,7 +73,7 @@ private class ManageAdhocCommsSectionCtrlTest {
 
     @isTest
     private static void getHeaderAndFooterImageUrlsTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             String imageInfos = JSON.serialize(
                 new List<Map<String,String>>{
                     new Map<String,String>{
@@ -91,7 +91,7 @@ private class ManageAdhocCommsSectionCtrlTest {
 
    @isTest
    private static void sendEmailToRegisteredLearnersTest(){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
            Test.startTest();
           List<Adhoc_Communication__c> adhocCommunicationList = [SELECT Id, Name, IsSent__c, Send_Date__c, Subject__c, CreatedDate, Email_Content__c, Program_Offering__c, Course_Offering__c
                                                                   FROM Adhoc_Communication__c];

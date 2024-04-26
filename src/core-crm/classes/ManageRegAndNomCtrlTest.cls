@@ -39,15 +39,16 @@ public with sharing class ManageRegAndNomCtrlTest {
     static void makeData(){
         BypassTriggers__c bypass = new BypassTriggers__c(Bypass__c = true, SetupOwnerId = UserInfo.getOrganizationId());
         insert bypass;
-        TestDataFactory.generateTestUsers();
         Test.startTest();
-        createRecord();
+        TestDataFactoryUser.generateUserSystemAdministrator();
         Test.stopTest();
+        createRecord();
+        
     }
 
     @isTest
     static void getNominationStatusValuesTest(){  
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){               
             Test.startTest();
             List<String> nominationStatusValues = ManageRegAndNomCtrl.getNominationStatusValues();
@@ -61,7 +62,7 @@ public with sharing class ManageRegAndNomCtrlTest {
         BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){     
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             Test.startTest();
@@ -84,7 +85,7 @@ public with sharing class ManageRegAndNomCtrlTest {
         BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){    
             List<hed__Course_Offering__c> cList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WITH SECURITY_ENFORCED];
             Expression_of_Interest__c eoi = new Expression_of_Interest__c();
@@ -115,7 +116,7 @@ public with sharing class ManageRegAndNomCtrlTest {
         BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){    
             Test.startTest();
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
@@ -135,7 +136,7 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void updateNotApprovedNominationTest(){  
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){    
             Test.startTest();
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
@@ -155,7 +156,7 @@ public with sharing class ManageRegAndNomCtrlTest {
     
     @isTest
     static void updateExistingContactDiffDetailsTest(){  
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){    
             List<hed__Course_Offering__c> cList = [SELECT Id, hed__Course__c FROM hed__Course_Offering__c WITH SECURITY_ENFORCED];
             Expression_of_Interest__c eoi = new Expression_of_Interest__c();
@@ -183,7 +184,7 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void updateExistingContactDiffEmailTest(){  
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){    
             Expression_of_Interest__c eoi = new Expression_of_Interest__c();
             eoi.First_Name__c = 'Contact';
@@ -210,7 +211,7 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void updateRegistrationStatusTest(){  
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){     
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
             hed__Course_Enrollment__c learner = [SELECT Id FROM hed__Course_Enrollment__c WITH SECURITY_ENFORCED LIMIT 1];
@@ -262,7 +263,7 @@ public with sharing class ManageRegAndNomCtrlTest {
 
     @isTest
     static void formatDateTest(){
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){    
             Test.startTest(); 
             String formattedDateString = ManageRegAndNomCtrl.formatDate(Date.newInstance(1990, 2, 17));
@@ -276,7 +277,7 @@ public with sharing class ManageRegAndNomCtrlTest {
         BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){     
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
 
@@ -310,7 +311,7 @@ public with sharing class ManageRegAndNomCtrlTest {
         BypassTriggers__c bypass = [SELECT Id, Bypass__c FROM BypassTriggers__c WHERE SetupOwnerId =: UserInfo.getOrganizationId() WITH SECURITY_ENFORCED LIMIT 1];
         bypass.Bypass__c = false;
         update bypass;
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){     
             Id businessOrgAcctId = [SELECT Id FROM Account WHERE Name = 'Business Org Account' WITH SECURITY_ENFORCED].Id;
 
@@ -347,7 +348,7 @@ public with sharing class ManageRegAndNomCtrlTest {
     }
 
     private static void createRecord(){
-        final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();      
+        final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;      
         System.runAs(PORTAL_SYS_ADMIN){ 
             Account univAccount = new Account(Name='PortalAccount', RecordTypeId = ACCT_UNIV_DEP_ID, Organization_Unit_Level__c = '2');
             Database.insert(univAccount);

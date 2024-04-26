@@ -2,8 +2,10 @@
  public with sharing class MicrobatchSelfRegControllerTest {
       @isTest
      public static void testMicrobatchSelfRegController() {
-      TestDataFactory.generateTestUsers(new List<String>{ 'QUT_System_Administrator' });
-        System.runAs(TestDataFactory.getSystemAdminUser()){
+      Test.startTest();
+      TestDataFactoryUser.generateUserSystemAdministrator();
+      Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserSystemAdministrator){
          MicrobatchSelfRegController controller = new MicrobatchSelfRegController();
          controller.firstName = 'FirstName';
          controller.lastName = 'LastName';
