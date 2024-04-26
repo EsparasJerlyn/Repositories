@@ -464,6 +464,60 @@
         <type>Flexipage</type>
         <profile>QUT System Administrator</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Cause_Donation_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Cause</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Cause_Donation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Cause</recordType>
+        <type>Flexipage</type>
+        <profile>Advancement</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Cause_Donation_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Cause</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Cause_Donation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Cause</recordType>
+        <type>Flexipage</type>
+        <profile>QUT System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Cause_Donation_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Cause</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Cause_Donation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Donation__c</pageOrSobjectType>
+        <recordType>Donation__c.Cause</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Opportunity</tabs>
