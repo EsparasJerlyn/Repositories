@@ -16,8 +16,8 @@
  *    | kenneth.f.alsay                | February 28, 2024     | DEPP-7883              | Added Plan Activity            |
  *    | eugene.andrew.abuan            | March 12, 2024        | DEPP-7917              | Added Stewardship__c in Oppty, |
  *    |                                |                       |                        | Documents, and Plan Activity   |
-
-
+ *    | kenneth.f.alsay                | April 22, 2024        | DEPP-8432              | Added Designation__c as Parent |
+ *    |                                |                       |                        | Field for Finance Summary      |
  
  * 
 
@@ -39,7 +39,7 @@ public with sharing class DynamicDatatableEventService {
             'ObjectLabel' => 'Document'
         },
         Finance_Summary__c.SObjectType => new Map<String, String>{
-            'ParentFields' => 'Opportunity_Outcome__c',
+            'ParentFields' => 'Opportunity_Outcome__c,Designation__c',
             'ObjectLabel' => 'Finance Summary'
         },
         Financial_Split__c.SObjectType => new Map<String, String>{

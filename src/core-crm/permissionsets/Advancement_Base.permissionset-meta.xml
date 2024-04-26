@@ -1706,6 +1706,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Finance_Summary__c.Finance_GL_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Finance_Summary__c.Funds_Retained_Closing_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Finance_Summary__c.Funds_Retained_Opening_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>

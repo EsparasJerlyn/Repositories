@@ -9,7 +9,7 @@
     <referenceTo>Finance_GL_Account__c</referenceTo>
     <relationshipLabel>Finance Summaries</relationshipLabel>
     <relationshipName>Finance_Summaries</relationshipName>
-    <required>true</required>
+    <required>false</required>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

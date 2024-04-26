@@ -60,6 +60,10 @@
         <recordType>Donation__c.Staff_Giving</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Finance_Summary__c-Finance Summary - Endowment Designation Layout</layout> 
+        <recordType>Finance_Summary__c.Endowment_Fund_Summary</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Opportunity-Advancement Opportunity Layout</layout> 
         <recordType>Opportunity.Individual_Giving</recordType>
     </layoutAssignments>

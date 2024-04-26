@@ -6,7 +6,7 @@
     <inlineHelpText>Closing balance at the end of the summary period.</inlineHelpText>
     <label>Funds Retained Closing Balance</label>
     <precision>18</precision>
-    <required>true</required>
+    <required>false</required>
     <scale>2</scale>
     <securityClassification>Official</securityClassification>
     <trackHistory>false</trackHistory>
