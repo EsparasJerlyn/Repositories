@@ -13,13 +13,13 @@
 public with sharing class WebCartsDAOTest {
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
     @isTest
     static void newInstanceTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(WebCartsDAO.newInstance() != null, 'WebCartsdao instance is null');
         }
         Test.stopTest();
@@ -28,7 +28,7 @@ public with sharing class WebCartsDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new WebCartsDAO().getSObjectType() == WebCart.SObjectType,
                 'SObject is not WebCart'
@@ -40,7 +40,7 @@ public with sharing class WebCartsDAOTest {
     @isTest
     static void getWebCartByUserIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<WebCart> webCartList = WebCartsDAO.newInstance()
                 .getWebCartByUserId(
                     new Set<Id>(),
@@ -54,7 +54,7 @@ public with sharing class WebCartsDAOTest {
     @isTest
     static void getWebCartByUserIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForWebCart = new MockIdGenerator(WebCart.sObjectType);
             List<WebCart> webCartList = WebCartsDAO.newInstance()
                 .getWebCartByUserId(

@@ -4,7 +4,7 @@ private class SetNamesOnNewCCEProdSpecFlowTest {
     private static final String PROGRAM_NAME = 'Test Program';
     @TestSetup
     static void setup(){
-        TestDataFactory.generateTestUsers();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
         Account acc = TestDataFactory.createTestAccount(true);
         Contact con = TestDataFactory.createTestContact(true, acc.Id);
         List<Opportunity> opps = TestDataFactory.createTestOpportunityRecords(1, acc.Id, con.Id);
@@ -16,7 +16,7 @@ private class SetNamesOnNewCCEProdSpecFlowTest {
 
     @isTest
     static void testSetName() {
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Product_Specification__c prsPost = TestDataFactory.retrieveCCEProductSpecifications();
             System.assert(
                 prsPost.Program_Name__c == PROGRAM_NAME && 
