@@ -1624,6 +1624,60 @@ public class TestDataFactoryUser {
         } set;
     }
 
+    /***********************************************
+    *  QUT OPE Catalogue User
+    ************************************************/
+
+    // Used in @testSetup to generate user in a test class
+    public static void generateUserQUTOPECatalogueUser() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTOQUTOPECatalogueUser}));
+    }
+    
+    // Used to get user already generated in test method
+    public static User selectUserQUTOPECatalogueUser {
+        get {return [SELECT Id, AccountId FROM User WHERE Email = 'TestQUTOPECatalogueUser@mailinator.com' LIMIT 1];}set;
+    }
+
+    // object to create user
+    private static InsertUsersQueueable.UserDTO userDTOQUTOPECatalogueUser{
+        get {
+            getPortalSysAdminUser();
+            System.runAs(portalSysAdmin){
+                //Create account
+                Account account = new Account();
+                account.Name = 'QUTOPECatalogueAccount';
+                insert account;
+                //create contact
+                Contact contact = new Contact();
+                contact.FirstName = 'Test';
+                contact.LastName = 'QUTOPECatalogueUser';
+                contact.Email = System.now().millisecond() + '@mailinator.com';
+                contact.AccountId = account.Id;
+                insert contact;
+            }
+            Contact con = [SELECT Id FROM Contact LIMIT 1];
+            InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
+        
+            usr.FirstName = 'Test';
+            usr.LastName = 'QUTOPECatalogueUser';
+            usr.profileName = 'OPE Catalogue';
+            usr.role = 'OPECatalogueCustomerUser';
+            usr.contactId = con.Id;
+            
+
+            usr.userpermissionsmarketinguser = false;
+            usr.userpermissionsknowledgeuser = false;
+            usr.userpermissionsflowuser = false;
+            usr.userpermissionsserviceuser = false;
+
+
+            usr.permissionsetNames = new Set<String>{'OPE_Catalogue'};
+
+            return usr;
+            
+        } set;
+    }
+
     private static void getPortalSysAdminUser() {
         portalSysAdmin = [
             SELECT Id, UserRoleId

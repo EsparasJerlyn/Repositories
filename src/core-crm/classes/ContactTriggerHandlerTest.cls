@@ -42,9 +42,13 @@ public with sharing class ContactTriggerHandlerTest {
 
     @testSetup
     static void testSetup() {
-        TestDataFactory.generateTestUsers(new List<String>{'QUT_Program_Administrator','QUT_Domestic_Future_Student_Agent','QUT_ESB','QUT_Sys_Admin'});
-
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        Test.startTest();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        TestDataFactoryUser.generateUserQUTESB();
+        TestDataFactoryUser.generateUserFutureStudentAgentDomestic();
+        Test.stopTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
             List<Lead_Score_Configuration__c> leadScoreParentConfigList = new List<Lead_Score_Configuration__c>();
             leadScoreParentConfigList.add(
                 new Lead_Score_Configuration__c(
@@ -95,9 +99,8 @@ public with sharing class ContactTriggerHandlerTest {
             ContactsDAO.newInstance().insertRecords(contactList, false, AccessLevel.SYSTEM_MODE);
         }
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
         
-            Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(1);
             contacts[0]
                 .Contact_Image__c = '<p><img src="https://www.w3schools.com/w3css/img_lights.jpg" alt="test.jpg"></img></p>';
@@ -106,13 +109,12 @@ public with sharing class ContactTriggerHandlerTest {
             Account acc = TestDataFactory.createTestAccountRecords(1).iterator().next();
             acc.RecordTypeId = BUSINESS_ACC_RECTYPEID;
             insert acc;
-            Test.stopTest();
         }
     }
     
     @isTest
     private static void insertContactImageSuccessTest() {
-        User currUsr = TestDataFactory.getProgramAdminUser();
+        User currUsr = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         
         System.runAs(currUsr) {
             Test.startTest();
@@ -139,7 +141,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void insertContactImageErrorTest() {
-        User currUsr = TestDataFactory.getProgramAdminUser();
+        User currUsr = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         DmlException expectedException;
         System.runAs(currUsr) {
             Test.startTest();
@@ -167,7 +169,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void updateContactImageSuccessTest() {
-        User currUsr =TestDataFactory.getProgramAdminUser();
+        User currUsr =TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         System.runAs(currUsr) {
             Contact con = [
                 SELECT Id, Contact_Image__c
@@ -195,7 +197,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void updateContactImageErrorTest() {
-        User currUsr = TestDataFactory.getProgramAdminUser();
+        User currUsr = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
 
         DmlException expectedException;
         System.runAs(currUsr) {
@@ -227,7 +229,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void insertContact() {
-        User currUsr = TestDataFactory.getProgramAdminUser();
+        User currUsr = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         
         List<Contact> cons = TestDataFactory.createTestContactRecords(1);
         
@@ -254,7 +256,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void insertContactTest(){
-        User currUsr = TestDataFactory.getProgramAdminUser();
+        User currUsr = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         System.runAs(currUsr){
             Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
             
@@ -274,7 +276,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void insertContactWithPrimaryBusinesssOrgTest(){
-        User currUsr = TestDataFactory.getProgramAdminUser();
+        User currUsr = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
         
         System.runAs(currUsr){
             Account acc = [SELECT Id From Account WHERE RecordTypeId =: BUSINESS_ACC_RECTYPEID  LIMIT 1];
@@ -295,7 +297,7 @@ public with sharing class ContactTriggerHandlerTest {
 
      @isTest
         private static void sendEmailOnContact() {
-            User currUsr = TestDataFactory.getProgramAdminUser();
+            User currUsr = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
             System.runAs(currUsr) {
                 Set<Id> contactIdSet = new Set<Id>();
                 List<Contact> contacts = new List<Contact>();
@@ -359,7 +361,7 @@ public with sharing class ContactTriggerHandlerTest {
         Contact contact = new Contact();
         User commerceUser = new User();
         Test.StartTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Account account = new Account();
             account.Name = 'Test Account';
             account.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Business Organization').getRecordTypeId();
@@ -435,7 +437,7 @@ public with sharing class ContactTriggerHandlerTest {
      */
     @IsTest
     private static void shouldNotSetContactOwner() {
-    final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(PORTAL_SYS_ADMIN) {
             Contact c = new Contact(LastName = 'UnitTest');
 
@@ -454,7 +456,7 @@ public with sharing class ContactTriggerHandlerTest {
   @IsTest
     private static void shouldSetStatustoExplore() {
    
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
 
             Test.startTest();
             List<Contact> contactList = ContactsDAO.newInstance().getPersonContactsWithLimit(10);
@@ -477,7 +479,7 @@ public with sharing class ContactTriggerHandlerTest {
 
     private static void shouldSetStatustoNotExplore() {
    
-        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+        System.runAs(TestDataFactoryUser.selectUserFutureStudentAgentDomestic) {
             List<Contact> newContacts = TestDataFactory.createTestContactRecords(10);  
             newContacts[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;           
             ContactsDAO.newInstance().insertRecords(newContacts, false, AccessLevel.SYSTEM_MODE); 
@@ -500,7 +502,7 @@ public with sharing class ContactTriggerHandlerTest {
     
     @isTest
     private static void createMarketingSegmentationTest() {        
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             List<Contact> contacts = TestDataFactory.createTestContactRecords(10);
 

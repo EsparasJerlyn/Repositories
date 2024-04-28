@@ -67,7 +67,12 @@ public class ProductDetailsCtrlTest {
 
     @testSetup
     static void setupMethod() {
-        TestDataFactory.generateTestUsers();
+        Test.startTest();
+        TestDataFactoryUser.generateUserSystemAdministrator();
+        TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
+        TestDataFactoryUser.generateUserQUTOPECatalogueUser();
+        Test.stopTest();
+        
         EmailTemplate template = TestDataFactory.createTestEmailTemplateRecords(
                 1,
                 new Map<String, String>{ 'Send Register Interest Email' => 'Test Email Subject' }
@@ -76,14 +81,13 @@ public class ProductDetailsCtrlTest {
             .next();
         insert template;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             BypassTriggers__c bypass = new BypassTriggers__c(
                 Bypass__c = true,
                 SetupOwnerId = UserInfo.getOrganizationId()
             );
             insert bypass;
-            Test.startTest();
-            User portalSysAdmin = TestDataFactory.getPortalSysAdminUser();
+            User portalSysAdmin = TestDataFactoryUser.selectUserSystemAdministrator;
             Flow_Automation_Settings__c customEmail = new Flow_Automation_Settings__c(
                 Name = 'test123',
                 New_Idea_To_Email_Address__c = 'qutex@qut.edu.au'
@@ -238,13 +242,12 @@ public class ProductDetailsCtrlTest {
             bg.Name = 'OPE BuyerGroup';
             insert bg;
 
-            Test.stopTest();
         }
     }
 
     @isTest
     static void testGetProductRelatedRecords() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             ProductDetailsCtrl.ProductDetailsData getSingleProductDetails = new ProductDetailsCtrl.ProductDetailsData();
@@ -253,7 +256,7 @@ public class ProductDetailsCtrlTest {
                     SELECT Id
                     FROM Product2
                     WHERE
-                        CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                        CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                         AND Program_Plan__c = ''
                     LIMIT 1
                 ]
@@ -266,7 +269,7 @@ public class ProductDetailsCtrlTest {
                     SELECT Id
                     FROM Product2
                     WHERE
-                        CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                        CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                         AND Program_Plan__c != ''
                     LIMIT 1
                 ]
@@ -289,7 +292,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetCCEProductRelatedRecordsTEE() {
-        final User PROGRAM_ADMIN = TestDataFactory.getProgramAdminUser();
+        final User PROGRAM_ADMIN = TestDataFactoryUser.selectUserQUTeXProgramAdministrator;
 
         BypassTriggers__c bypass = [
             SELECT Id, Bypass__c
@@ -301,7 +304,7 @@ public class ProductDetailsCtrlTest {
         update bypass;
 
         TestDataFactory.loadEDATriggers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             WebStore testWebStoreCCE = new WebStore(Name = 'CCE', DefaultLanguage = 'en_US');
             insert testWebStoreCCE;
@@ -608,7 +611,7 @@ public class ProductDetailsCtrlTest {
                 SELECT Id
                 FROM Product2
                 WHERE
-                    CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                    CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                     AND Program_Plan__c = ''
                 LIMIT 1
             ]
@@ -618,7 +621,7 @@ public class ProductDetailsCtrlTest {
                 SELECT Id
                 FROM Product2
                 WHERE
-                    CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                    CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                     AND Program_Plan__c != ''
                 LIMIT 1
             ]
@@ -666,8 +669,7 @@ public class ProductDetailsCtrlTest {
         update bypass;
 
         TestDataFactory.loadEDATriggers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             WebStore testWebStoreCCE = new WebStore(Name = 'CCE', DefaultLanguage = 'en_US');
             insert testWebStoreCCE;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -701,6 +703,8 @@ public class ProductDetailsCtrlTest {
                 hed__AlternateEmail__c = 'test@email.com'
             );
             insert cceContact;
+
+            Test.startTest();
 
             //get the ACR list to check if exists
             List<AccountContactRelation> acrList = new List<AccountContactRelation>(
@@ -1108,8 +1112,7 @@ public class ProductDetailsCtrlTest {
         update bypass;
 
         TestDataFactory.loadEDATriggers();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            Test.startTest();
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             WebStore testWebStoreCCE = new WebStore(Name = 'CCE', DefaultLanguage = 'en_US');
             insert testWebStoreCCE;
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -1143,7 +1146,8 @@ public class ProductDetailsCtrlTest {
                 hed__AlternateEmail__c = 'test@email.com'
             );
             insert cceContact;
-
+            
+            Test.startTest();
             //get the ACR list to check if exists
             List<AccountContactRelation> acrList = new List<AccountContactRelation>(
                 [
@@ -1618,7 +1622,7 @@ public class ProductDetailsCtrlTest {
         );
         insert childProdRelatedRequest;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
             getProductDetails = ProductDetailsCtrl.getProductRelatedRecords(product.Id);
@@ -1709,7 +1713,7 @@ public class ProductDetailsCtrlTest {
         );
         insert childProdRelatedRequest;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             ProductDetailsCtrl.ProductDetailsData getProductDetails = new ProductDetailsCtrl.ProductDetailsData();
             getProductDetails = ProductDetailsCtrl.getProductRelatedRecords(product.Id);
@@ -1722,7 +1726,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetCourseOfferingRelatedRecords() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Boolean isCCE = true;
             List<ProductDetailsCtrl.CourseOfferingWrapper> getCourseOfferings = new List<ProductDetailsCtrl.CourseOfferingWrapper>();
@@ -1731,7 +1735,7 @@ public class ProductDetailsCtrlTest {
                     SELECT Id, Course__c
                     FROM Product2
                     WHERE
-                        CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                        CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                         AND Course__c != NULL
                     LIMIT 1
                 ]
@@ -1751,7 +1755,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetCourseOfferingRelatedRecordsNotCCE() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Boolean isCCE = false;
             List<ProductDetailsCtrl.CourseOfferingWrapper> getCourseOfferings = new List<ProductDetailsCtrl.CourseOfferingWrapper>();
@@ -1760,7 +1764,7 @@ public class ProductDetailsCtrlTest {
                     SELECT Id, Course__c
                     FROM Product2
                     WHERE
-                        CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                        CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                         AND Course__c != NULL
                     LIMIT 1
                 ]
@@ -1780,7 +1784,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testAddToCart() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             String communityId = [
                 SELECT Id
@@ -1792,7 +1796,7 @@ public class ProductDetailsCtrlTest {
             String effectiveAccountId = [
                 SELECT Id
                 FROM Account
-                WHERE CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                WHERE CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                 LIMIT 1
             ]
             .Id;
@@ -1800,7 +1804,7 @@ public class ProductDetailsCtrlTest {
             Product2 prod = [
                 SELECT Id, Name, Course__c
                 FROM Product2
-                WHERE CreatedById = :TestDataFactory.getProgramAdminUser().Id AND Course__c != NULL
+                WHERE CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id AND Course__c != NULL
                 LIMIT 1
             ];
 
@@ -1830,7 +1834,7 @@ public class ProductDetailsCtrlTest {
                 courseOfferingId,
                 '',
                 pricebookEntryId,
-                TestDataFactory.getProgramAdminUser().Id,
+                TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id,
                 true
             );
             Test.stopTest();
@@ -1849,7 +1853,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testInsertExpressionOfInterest() {
-        User portalSysAdmin = TestDataFactory.getPortalSysAdminUser();
+        User portalSysAdmin = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(portalSysAdmin) {
             //Create account
             Account portalAccount1 = new Account(Name = 'TestAccount', OwnerId = portalSysAdmin.Id);
@@ -1897,7 +1901,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void saveApplicationTest() {
-        User portalSysAdmin = TestDataFactory.getPortalSysAdminUser();
+        User portalSysAdmin = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(portalSysAdmin) {
             //Create account
             Account portalAccount1 = new Account(Name = 'TestAccount', OwnerId = portalSysAdmin.Id);
@@ -1924,7 +1928,7 @@ public class ProductDetailsCtrlTest {
             Database.insert(portalUser);
         }
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
             String cOfferingId = [
@@ -2005,7 +2009,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void getQuestionsTest() {
-        User portalSysAdmin = TestDataFactory.getPortalSysAdminUser();
+        User portalSysAdmin = TestDataFactoryUser.selectUserSystemAdministrator;
         System.runAs(portalSysAdmin) {
             //Create account
             Account portalAccount1 = new Account(Name = 'TestAccount', OwnerId = portalSysAdmin.Id);
@@ -2032,7 +2036,7 @@ public class ProductDetailsCtrlTest {
             Database.insert(portalUser);
         }
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
 
@@ -2050,7 +2054,7 @@ public class ProductDetailsCtrlTest {
     }
 
     private static void createRecord(String productRequestRecordType) {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Id offeringId = null;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
@@ -2181,7 +2185,7 @@ public class ProductDetailsCtrlTest {
         );
         insert programOffering;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             Map<String, Object> returnMap = ProductDetailsCtrl.getProductDataRelatedToProductRequest(
                 produtRequestForProgramPlan.Id
@@ -2274,7 +2278,7 @@ public class ProductDetailsCtrlTest {
         );
         insert programOffering;
 
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
 
             Map<String, Object> returnMap1 = ProductDetailsCtrl.getProductDataRelatedToProductRequest(
@@ -2301,7 +2305,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetQuestionsForGroupBooking() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
             String prodReqId = [
                 SELECT Id
@@ -2320,7 +2324,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testSaveContactData() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
             Test.startTest();
             List<Account> acct = TestDataFactory.createTestAccountRecords(1);
@@ -2339,7 +2343,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetContactAccountId() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
             Test.startTest();
             List<Account> acct = TestDataFactory.createTestAccountRecords(1);
@@ -2356,7 +2360,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetUserContactDetails() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
             Test.startTest();
             List<Contact> con = TestDataFactory.createTestContactRecords(1);
@@ -2370,7 +2374,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetUserCartDetails() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
             Test.startTest();
             List<Account> acct = TestDataFactory.createTestAccountRecords(1);
@@ -2387,7 +2391,7 @@ public class ProductDetailsCtrlTest {
             insert cart;
 
             WebCart wb = ProductDetailsCtrl.getUserCartDetails(
-                TestDataFactory.getProgramAdminUser().Id
+                TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
             );
             Test.stopTest();
             System.assert(wb != null, 'Cart details were not retrieved');
@@ -2396,7 +2400,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetPricebookEntryPrice() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_ACTIVITY_PROD_REQ_RECORD_TYPE_ID);
             Test.startTest();
             PricebookEntry pricebookentry = [
@@ -2412,7 +2416,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetProductRequestWithQuestionairre() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_MODULE_PROD_REQ_RECORD_TYPE_ID);
             String prodReqId = [
                 SELECT Id
@@ -2432,7 +2436,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetQuestions() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             createRecord(OPE_MODULE_PROD_REQ_RECORD_TYPE_ID);
             String prodReqId = [
                 SELECT Id
@@ -2450,7 +2454,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testCategoryBulkRegistration() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             BypassTriggers__c bypass = [
                 SELECT Id, Bypass__c
@@ -2464,7 +2468,7 @@ public class ProductDetailsCtrlTest {
             String effectiveAccountId = [
                 SELECT Id
                 FROM Account
-                WHERE CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                WHERE CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                 LIMIT 1
             ]
             .Id;
@@ -2472,7 +2476,7 @@ public class ProductDetailsCtrlTest {
                 SELECT Id, Name, Course__c, Course__r.ProductRequestID__c
                 FROM Product2
                 WHERE
-                    CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                    CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                     AND Course__c != NULL
                     AND Course__r.ProductRequestID__c != NULL
                 LIMIT 1
@@ -2574,7 +2578,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testGetAssetDetails() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             BypassTriggers__c bypass = [
                 SELECT Id, Bypass__c
@@ -2588,7 +2592,7 @@ public class ProductDetailsCtrlTest {
             String effectiveAccountId = [
                 SELECT Id
                 FROM Account
-                WHERE CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                WHERE CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                 LIMIT 1
             ]
             .Id;
@@ -2596,7 +2600,7 @@ public class ProductDetailsCtrlTest {
                 SELECT Id, Name, Course__c, Course__r.ProductRequestID__c
                 FROM Product2
                 WHERE
-                    CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                    CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                     AND Course__c != NULL
                     AND Course__r.ProductRequestID__c != NULL
                 LIMIT 1
@@ -2638,7 +2642,7 @@ public class ProductDetailsCtrlTest {
 
     @isTest
     static void testRegistrationConfirmationData() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             BypassTriggers__c bypass = [
                 SELECT Id, Bypass__c
@@ -2652,7 +2656,7 @@ public class ProductDetailsCtrlTest {
             String effectiveAccountId = [
                 SELECT Id
                 FROM Account
-                WHERE CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                WHERE CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                 LIMIT 1
             ]
             .Id;
@@ -2660,7 +2664,7 @@ public class ProductDetailsCtrlTest {
                 SELECT Id, Name, Course__c, Course__r.ProductRequestID__c
                 FROM Product2
                 WHERE
-                    CreatedById = :TestDataFactory.getProgramAdminUser().Id
+                    CreatedById = :TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id
                     AND Course__c != NULL
                     AND Course__r.ProductRequestID__c != NULL
                 LIMIT 1
