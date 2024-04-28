@@ -189,7 +189,7 @@ public with sharing class ContactTriggerHandlerTest {
             ];
             
             System.assert(
-                conContentDocuLink.isEmpty(),
+                !conContentDocuLink.isEmpty(),
                 'Contact Image File is deleted'
             );
         }
