@@ -191,7 +191,7 @@ private class CaseTriggerHelperTest {
     @isTest
     private static void testHandleAutoPriorityAssignedCaseWithSubCateg(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].Citizenship_Country__c = 'Yemen';
@@ -223,7 +223,7 @@ private class CaseTriggerHelperTest {
     @isTest
     private static void testHandleAutoPriorityAssignedCaseWithLeadSourceCategory(){
         
-        System.runAs(TestDataFactory.getESBIntegrationUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTESB){
 
             List<Contact> contactList = TestDataFactory.createTestContactRecords(1);
             contactList[0].RecordTypeId = ContactsDAO.PERSON_RECORDTYPE_ID;

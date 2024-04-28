@@ -45,7 +45,7 @@ public with sharing class CommunicationQueuesDAOTest {
 
     @isTest
     static void queryLocatorNoAnswerSMSQueueTest() {
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             Test.startTest();
             System.assert(
                 CommunicationQueuesDAO.newInstance().queryLocatorNoAnswerSMSQueue() != null,

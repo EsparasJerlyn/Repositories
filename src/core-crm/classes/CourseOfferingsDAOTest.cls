@@ -45,7 +45,7 @@ public with sharing class CourseOfferingsDAOTest {
     @isTest
     static void getCourseOfferingByProgramOfferingIdNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForProgramOffering = new MockIdGenerator(Program_Offering__c.sObjectType);
             List<hed__Course_Offering__c> courseOfferingList = CourseOfferingsDAO.newInstance()
                 .getCourseOfferingByProgramOfferingId(

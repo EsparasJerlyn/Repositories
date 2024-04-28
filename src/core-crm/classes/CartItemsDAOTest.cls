@@ -90,7 +90,7 @@ private class CartItemsDAOTest {
     @isTest
     static void countCartItemsGroupByCourseOfferingNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForCourseOffering = new MockIdGenerator(hed__Course_Offering__c.sObjectType);
             List<AggregateResult> aggrCourseOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByCourseOffering(
@@ -134,7 +134,7 @@ private class CartItemsDAOTest {
     @isTest
     static void countCartItemsGroupByProgramOfferingNotEmptyTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             MockIdGenerator builderForProgramOffering = new MockIdGenerator(Program_Offering__c.sObjectType);
             List<AggregateResult> aggrProgramOfferList = CartItemsDAO.newInstance()
                 .countCartItemsGroupByProgramOffering(

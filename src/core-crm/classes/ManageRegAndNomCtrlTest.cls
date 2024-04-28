@@ -16,7 +16,7 @@
 public with sharing class ManageRegAndNomCtrlTest {
 
     private static final String CATEGORY_CCE = 'Corporate Portal';
-    private final User PORTAL_SYS_ADMIN = TestDataFactory.getPortalSysAdminUser();
+    private final User PORTAL_SYS_ADMIN = TestDataFactoryUser.selectUserSystemAdministrator;
     private static final String ACCT_UNIV_DEP = System.Label.RT_Account_University_Department;
     private static final Id ACCT_UNIV_DEP_ID = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(ACCT_UNIV_DEP).getRecordTypeId();
 

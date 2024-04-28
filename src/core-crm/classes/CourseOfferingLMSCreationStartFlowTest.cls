@@ -27,7 +27,7 @@ public with sharing class CourseOfferingLMSCreationStartFlowTest {
 
             AccountsDAO.newInstance().insertRecords(newAccounts, false, AccessLevel.USER_MODE);
             
-            List<AccountShare> accShare = TestDataFactory.createAccountShareRecords(newAccounts, TestDataFactory.getProgramAdminUser().Id, 'Edit');
+            List<AccountShare> accShare = TestDataFactory.createAccountShareRecords(newAccounts, TestDataFactoryUser.selectUserQUTeXProgramAdministrator.Id, 'Edit');
             insert accShare;
     
             List<hed__Term__c> terms = TestDataFactory.createTestTermRecords(10,newAccounts[0].Id);
