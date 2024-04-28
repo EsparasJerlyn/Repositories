@@ -15,7 +15,6 @@
 public with sharing class AccountsDAOTest {
     @testSetup
     static void testSetup() {
-        //TestDataFactory.generateTestUsers(new List<String>{ 'QUT_Program_Administrator' });
         TestDataFactoryUser.generateUserQUTeXProgramAdministrator();
     }
 
