@@ -27,7 +27,7 @@ public with sharing class BuyerGroupPriceBooksDAOTest {
     @isTest
     static void getSObjectTypeTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             System.assert(
                 new BuyerGroupPriceBooksDAO().getSObjectType() == BuyerGroupPriceBook.SObjectType,
                 'SObject is not BuyerGroupPriceBook'

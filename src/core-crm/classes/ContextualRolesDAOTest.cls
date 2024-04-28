@@ -45,7 +45,7 @@ private class ContextualRolesDAOTest {
     @isTest
     static void getActiveOpportunityContextualRolesRecordsTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getQUTIEPartnershipManager()) {
+        System.runAs(TestDataFactoryUser.selectUserIndustryPartnershipManager) {
             List<Contextual_Role__c> contextualRoles = ContextualRolesDAO.newInstance().getActiveOpportunityContextualRolesRecords(new Set<Id>(), new List<String>());
             System.assert(contextualRoles != null, 'Contextual Roles not found');
         }

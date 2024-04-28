@@ -129,7 +129,7 @@ public with sharing class CaseMarketingHelperTest {
     
     @isTest
     static void insertCaseAssociatedToContact(){
-        System.runAs(TestDataFactory.getESBIntegrationUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTESB) {
                         
             List<Contact> contactToUpdate = new List<Contact>();
             Map<String,Contact> contactMap = new Map<String,Contact>();          

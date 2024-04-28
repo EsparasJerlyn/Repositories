@@ -135,7 +135,7 @@ public with sharing class ApplicationsDAOTest {
     @isTest
     static void getApplicationsByLeadIdOrContactIdTest() {
         Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator) {
             List<hed__Application__c> applicationList = ApplicationsDAO.newInstance()
                 .getApplicationsByLeadIdOrContactId(
                     new Set<String>(),

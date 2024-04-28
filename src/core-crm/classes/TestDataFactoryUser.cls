@@ -28,7 +28,7 @@ public class TestDataFactoryUser {
     
     // Used to get user already generated in test method
     public static User selectUserSysAdminIntegration {
-        get {return [SELECT Id FROM User WHERE Email = 'TestSysAdminIntegrationUser@mailinator.com' LIMIT 1];}set;
+        get {return [SELECT Id FROM User WHERE Email = 'TestSysAdminIntegration@mailinator.com' LIMIT 1];}set;
     }
 
     // object to create user
@@ -167,21 +167,21 @@ public class TestDataFactoryUser {
     *************************/
 
     // Used in @testSetup to generate user in a test class
-    public static void generateDevelopmentTeamUser() {
-        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTODevelopmentTeamUser}));
+    public static void generateUserDevelopmentTeam() {
+        System.enqueueJob(new InsertUsersQueueable(new List<InsertUsersQueueable.UserDTO>{userDTODevelopmentTeam}));
     }
     
     // Used to get user already generated in test method
-    public static User selectDevelopmentTeamUser {
-        get {return [SELECT Id FROM User WHERE Email = 'TestDevelopmentTeamUser@mailinator.com' LIMIT 1];}set;
+    public static User selectUserDevelopmentTeam {
+        get {return [SELECT Id FROM User WHERE Email = 'TestDevelopmentTeam@mailinator.com' LIMIT 1];}set;
     }
 
     // object to create user
-    private static InsertUsersQueueable.UserDTO userDTODevelopmentTeamUser {
+    private static InsertUsersQueueable.UserDTO userDTODevelopmentTeam {
         get {
             InsertUsersQueueable.UserDTO usr = new InsertUsersQueueable.UserDTO();
             usr.FirstName = 'Test';
-            usr.LastName = 'DevelopmentTeamUser';
+            usr.LastName = 'DevelopmentTeam';
             usr.Persona = 'Development Team';
             usr.profileName = 'Internal Base';
 

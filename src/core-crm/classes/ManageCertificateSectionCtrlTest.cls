@@ -106,7 +106,7 @@ public with sharing class ManageCertificateSectionCtrlTest {
     }
 
     private static void createRecord(String productRequestRecordType){
-        System.runAs(TestDataFactory.getProgramAdminUser()){
+        System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
             Id offeringId = null;
 
             List<Account> accounts = TestDataFactory.createTestAccountRecords(1);
