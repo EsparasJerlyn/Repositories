@@ -109,4 +109,29 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
             String.escapeSingleQuotes(accessLevel)
         );
     }
+
+    /* private String getWhereClauseByCriteria(Criteria criteria, ContactsDAO.Criteria contactCriteria){
+        //eto yung where clause sa Option 3 (Selected solution)
+    }
+
+    private String getContactQueryByCriteria(Criteria criteria, ContactsDAO.Criteria contactCriteria){
+        //eto yung where clause sa Option 3 (Selected solution)
+    }
+
+    private List<Completed_Cadence__c> findByCriteria(Criteria criteria, ContactsDAO.Criteria contactCriteria){
+        //eto yung where clause sa Option 3 (Selected solution)
+    } */
+
+    /**
+     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     */
+    public class Criteria {
+        public String status;
+        public String completedCadence;
+
+        Boolean isEmpty() {
+            return status == null && completedCadence == null;
+        }
+    }
+   
 }
