@@ -118,7 +118,7 @@
     static void generateUserSystemAdministratorReadOnlyTest() {
 
           //Select user generated
-          User user = TestDataFactoryUser.selectUserSysAdminIntegration;
+          User user = TestDataFactoryUser.selectUserSystemAdministratorReadOnly;
   
           //List of permission set group assigned
           List<String> permissionsetGroupNames = new List<String>{'Persona_System_Administrator'};
