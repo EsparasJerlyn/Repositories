@@ -17,10 +17,10 @@ private class SetNamesOnNewCCEProdSpecFlowTest {
     @isTest
     static void testSetName() {
         System.runAs(TestDataFactoryUser.selectUserQUTeXProgramAdministrator){
-            Product_Specification__c prsPost = TestDataFactory.retrieveCCEProductSpecifications();
+            List<Product_Specification__c> prsPost = TestDataFactory.retrieveCCEProductSpecifications();
             System.assert(
-                prsPost.Program_Name__c == PROGRAM_NAME && 
-                prsPost.Product_Specification_Name__c == PROGRAM_NAME, 
+                prsPost[0].Program_Name__c == PROGRAM_NAME && 
+                prsPost[0].Product_Specification_Name__c == PROGRAM_NAME, 
                 'The Product Specification Name was not updated from an empty value.'
             );
             Test.stopTest();
