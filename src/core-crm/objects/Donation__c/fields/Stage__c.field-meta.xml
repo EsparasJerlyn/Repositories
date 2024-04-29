@@ -51,6 +51,11 @@
                 <label>New</label>
             </value>
             <value>
+                <fullName>Completed - Part Paid</fullName>
+                <default>false</default>
+                <label>Completed - Part Paid</label>
+            </value>
+            <value>
                 <fullName>Active</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

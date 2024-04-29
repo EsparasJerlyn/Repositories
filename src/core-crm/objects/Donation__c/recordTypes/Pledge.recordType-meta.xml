@@ -46,6 +46,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Completed - Part Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Declined</fullName>
             <default>false</default>
         </values>
