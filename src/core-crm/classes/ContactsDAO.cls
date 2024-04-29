@@ -30,6 +30,7 @@
  *    | julie.jane.alegre              | Nov 07, 2023          | DEPP-7152              | Added method getExistingMCPersonaContactsBySetIds         |
  *    | neil.s.h.lesidan               | Nov 23, 2023          | DEPP-7280              | Add Birthdate in getPersonContactsByEmailOrName           |
  *    | sebastianne.k.trias            | Feb 19, 2024          | DEPP-7750              | Added getPersonContactsByNameUsingSOSL method             |
+ *    | eccarius.munoz                 | April 29, 2024        | DEPP-8041              | Added getQueryLocatorByCriteria and findByCriteria        |
  */
 public inherited sharing class ContactsDAO extends DmlBase implements IContactsDAO { //NOPMD
     /**
@@ -496,6 +497,42 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return contactList[0];
     }
 
+    public List<Contact> findByCriteria(
+        Criteria criteria, 
+        AccessLevel accessLevel
+    ){
+
+        if(criteria != null && !criteria.isEmpty()){
+            return Database.query(
+                'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+                  'FROM Contact '+
+                 'WHERE RecordType.DeveloperName =: criteria.recordType AND QUT_Student__c =: criteria.isQUTStudent ' +
+                   'AND Id IN :contactIdSet',
+                accessLevel
+            );
+        }
+
+        return new List<Contact>();
+    }
+
+    public Database.QueryLocator getQueryLocatorByCriteria(Criteria criteria) {        
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + 
+             'WHERE RecordType.DeveloperName =: criteria.recordType AND QUT_Student__c =: criteria.isQUTStudent ' +
+               'AND Id IN :contactIdSet';
+        return Database.getQueryLocator(query);
+    }
+
+    /* public Database.QueryLocator getQueryLocatorBySubQuery(Criteria criteria) {   
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + 
+             'WHERE RecordType.DeveloperName =: criteria.recordType AND QUT_Student__c =: criteria.isQUTStudent ' +
+               'AND Id IN :contactIdSet';
+        return Database.getQueryLocator(query);
+    } */
+
     /**
      * @Description:Wrapper Class that represents the extracted application details.
      */
@@ -526,6 +563,20 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
             firstName = strFirstName;
             lastName = strLastName;
             mobile = strMobile;
+        }
+    }
+
+    /**
+     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     */
+    public class Criteria {
+        Boolean isQUTStudent;
+        String recordType;
+        Boolean hasDomesticPhone;
+        Set<Id> contactIdSet; 
+
+        Boolean isEmpty() {
+            return isQUTStudent == null && recordType == null && hasDomesticPhone == null && contactIdSet.isEmpty();
         }
     }
     
