@@ -4,79 +4,80 @@
  * @author Accenture
  *
  * @history
- *    | Developer                 | Date                  | JIRA                | Change Summary                                                          |
- *    |---------------------------|-----------------------|---------------------|-------------------------------------------------------------------------|
- *    | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170        | Created file                                                            |
- *    | angelika.j.s.galang       | September 3, 2021     | DEP1-156            | Added comments & method for creating user and getting profile id        |
- *    | angelika.j.s.galang       | September 16, 2021    | DEP1-22             | Added method for creating Opportunity                                   |
- *    | roy.nino.s.regala         | October 4,2021        | DEPP-40,42          | Added method for Product Request and Product Specification              |
- *    | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms            |
- *    | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                              |
- *    | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                                  |
- *    | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course            |
- *    | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                             |
- *    | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                               |
- *    | john.bo.a.pineda          | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                          |
- *    | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                          |
- *    | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2        |
- *    | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                                    |
- *    | john.bo.a.pineda          | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                       |
- *    | john.bo.a.pineda          | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                           |
- *    | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                             |
- *    | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                                 |
- *    | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer        |
- *    | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest                     |
- *    | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                             |
- *    | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary             |
- *    | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                           |
- *    | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                       |
- *    | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                        |
- *    | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                                    |
- *    | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                        |
- *    | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification                |
- *    | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings                  |
- *    | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records                     |
- *    | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification         |
- *    | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                   |
- *    | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role |
- *    | ryan.j.a.dela.cruz        | July 03, 2023         | DEPP-5390           | Added method for creation of Pure_Project__c record                     |
- *    | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record         |
- *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                    |
- *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records          |
- *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup     |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                |
- *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                       |
- *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                           |
- *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                       |
- *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                 |
- *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records               |
- *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                     |
- *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords
- *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and  |
- *    |                           |                       |                     | createPackageComponentRecords                                           |
- *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                    |
- *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                   |
- *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                        |
- *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base             |
- *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already             |
- *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                          |
- *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                          |
- *    | kenneth.f.alsay           | September 22, 2023    | DEPP-6629           | Added method createTestCourseConnectionRecordsByStatus                  |
- *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                              |
- *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                           |
- *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                         |
- *    | nicole.genon              | November 23, 2023     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records  |                     |
- *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                    |
- *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,             |
-                                                                                  QUT_Corporate_Engagement_Manager users and Engagement Opportunity records
- *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                |
- *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                  |
- *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                 |
- *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                        |
- *    | eugene.andrew.abuan       | April 10, 2023        | DEPP-8390           | Added Create Designation with Recordtype                                |
- *    | nicole.genon              | April 11, 2024        | DEPP-8452           | Added method createDistributionManagementRecordsWithDesignation         |
- *    | neil.s.h.lesidan          | April 11, 2024        | DEPP-8392           | Added method createTestFinanceGLAccountRecords                          |
- *    |                           |                       |                     | Added method createTestDistributionSplitRecords                         |
+ *    | Developer                 | Date                  | JIRA                | Change Summary                                                              |
+ *    |---------------------------|-----------------------|---------------------|-----------------------------------------------------------------------------|
+ *    | roy.nino.s.regala         | September 3, 2021     | DEP1-169,170        | Created file                                                                |
+ *    | angelika.j.s.galang       | September 3, 2021     | DEP1-156            | Added comments & method for creating user and getting profile id            |
+ *    | angelika.j.s.galang       | September 16, 2021    | DEP1-22             | Added method for creating Opportunity                                       |
+ *    | roy.nino.s.regala         | October 4,2021        | DEPP-40,42          | Added method for Product Request and Product Specification                  |
+ *    | adrian.c.habasa           | October 18,2021       | DEPP-476,425,383    | Added method for Course, Products,Course Offerings and Terms                |
+ *    | roy.nino.s.regala         | November 3, 2021      | DEPP-736            | Added nethod for Opportunity Contact Roles                                  |
+ *    | adrian.c.habasa           | November 11,2021      | DEPP-664            | Added method for Asset                                                      |
+ *    | eccarius.karl.munoz       | November 25,2021      | DEPP-671            | Added method for creation of Products without related Course                |
+ *    | eugene.andrew.abuan       | December 1,2021       | DEPP-771            | Added method for creation of Community User                                 |
+ *    | roy.nino.s.regala         | November 25,2021      | DEPP-362,38,37      | Added method for creation of Program Plan                                   |
+ *    | john.bo.a.pineda          | December 6, 2021      | DEPP-789            | Added method for creation of Course Connection                              |
+ *    | eugene.andrew.abuan       | December 10, 2021     | DEPP-100            | Added method for Buyer Account                                              |
+ *    | marygrace.li@qut.edu.au   | December 13, 2021     | DEPP-174            | Added method creation of Acct,Contact,ByrGrp,ByrGrpMber,Product2            |
+ *    | roy.nino.s.regala         | December 15, 2021     | DEPP-116            | Added Start date on course offerings                                        |
+ *    | john.bo.a.pineda          | December 21, 2021     | DEPP-1150           | Added method for creation of Pending Registration                           |
+ *    | john.bo.a.pineda          | January 05, 2022      | DEPP-1382           | Added method for creation of Program Offering                               |
+ *    | arsenio.dayrit@qut.edu.au | January 12, 2022      | DEPP-1359           | Added method for creation of Product Ledger                                 |
+ *    | adrian.c.habasa           | January 21, 2022      | DEPP-1463           | Added method for creation of Credential                                     |
+ *    | angelika.j.s.galang       | January 25, 2022      | DEPP-1396           | Added method for creation of Questionnaire, Question, and Answer            |
+ *    | roy.nino.s.regala         | February 03, 2022     | DEPP-213            | Added nethod for creation of Expression of Interest                         |
+ *    | john.bo.a.pineda          | February 03, 2022     | DEPP-1396           | Updated method for Answer to Related Answer                                 |
+ *    | arsenio.jr.dayrit         | February 14, 2022     | DEPP-1538           | Added method for creation of Questionnaire response summary                 |
+ *    | adrian.c.habasa           | February 14, 2022     | DEPP-1247           | Added method for Session and Attendance Event                               |
+ *    | eugene.andrew.abuan       | February 16, 2022     | DEPP-1265           | Added method for Creating Courses                                           |
+ *    | keno.domienri.dico        | April 11, 2022        | DEPP-1543           | Added method for Creating Communication Schedule                            |
+ *    | kathy.cornejo             | June 3, 2022          | DEPP-2664           | Added method for Creating Pricebook2                                        |
+ *    | rhea.b.torres             | June 12, 2022         | DEPP-2734           | Implement proper testing persona                                            |
+ *    | marlon.vasquez            | July 25, 2022         | DEPP-3538           | Added Required fields for creating Product Specification                    |
+ *    | william.a.cheng           | September 14, 2022    | DEPP-4266, 1977     | Add methodd to configure TDTM and affiliation mappings                      |
+ *    | rhea.b.torres             | November 10, 2022     | DEPP-4448           | Add methodd to create International_Tier__c records                         |
+ *    | rhea.b.torres             | February 2, 2023      | NA                  | Add new methods to handle creation of CCE Product Specification             |
+ *    | carl.alvin.cabiles        | May 23, 2023          | DEPP-5410           | Add new to create Opportunity Outcome                                       |
+ *    | kenneth.f.alsay           | June 16, 2023         | DEPP-5434, 5399     | Added method to create Opportunity, Financial Split and Contextual Role     |
+ *    | ryan.j.a.dela.cruz        | July 03, 2023         | DEPP-5390           | Added method for creation of Pure_Project__c record                         |
+ *    | eugene.andrew.abuan       | July 11, 2023         | DEPP-5483           | Added method for creation of IP Management and Document  record             |
+ *    | roy.nino.s.regala         | July 13, 2023         | DEPP-5459           | Added percentage split default value                                        |
+ *    | ryan.j.a.dela.cruz        | July 18, 2023         | DEPP-5468           | Added method for creation of IPManagementRelationships records              |
+ *    | eugene.andrew.abuan       | August 01, 2023       | DEPP-6141           | Added method for creation of Relationship Manager w/ Account Lookup         |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID1__c before deleting the field                    |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Task                                           |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of Competed Cadence                               |
+ *    | roy.nino.s.regala         | August 09, 2023       | DEPP-5677           | Added method for creation of ActionCadenceTracker                           |
+ *    | eccarius.munoz            | August 08, 2023       | DEPP-5760           | Added method for creation of Program Enrollment records                     |
+ *    | eccarius.munoz            | August 10, 2023       | DEPP-5760           | Added method for creation of Nurture Track Config records                   |
+ *    | marygrace.li@qut.edu.au   | August 7, 2023        | DEPP-6275           | Updated to Pure_Project_ID__c field                                         |
+ *    | kenneth.f.alsay           | August 14, 2023       | DEPP-6275-6208      | Removed Pure_Project_ID__c param from createTestOpportunityWithStageRecords |
+ *    | julie.jane.alegre         | August 21, 2023       | DEPP-6252           | Added createApplicationRecords, createApplicationPreferenceRecords and      |
+ *    |                           |                       |                     | createPackageComponentRecords                                               |
+ *    | carl.alvin.cabiles        | August 22, 2023       | DEPP-6410           | Added method for creation of Expense                                        |
+ *    | roy.nino.s.regala         | August 22, 2023       | DEPP-5704           | Added method for creation of contact,lead,application                       |
+ *    | eccarius.munoz            | August 31, 2023       | DEPP-6138           | Added method for creation of Communication Queue                            |
+ *    | marygrace.li@qut.edu.au   | September 11, 2023    | DEPP-6473           | Updated permsets name to Office_of_Industry_Engagement_Base                 |
+ *    | roy.nino.s.regala         | September 13, 2023    |                     | removed role update to sys admin user if has a role already                 |
+ *    | carl.alvin.cabiles        | September 18, 2023    | DEPP-6510           | Added method for List and List Member creation                              |
+ *    | julie.jane.alegre         | September 19, 2023    | DEPP-6667           | Added method createMarketingInteractionRecords                              |
+ *    | kenneth.f.alsay           | September 22, 2023    | DEPP-6629           | Added method createTestCourseConnectionRecordsByStatus                      |
+ *    | alexander.cadalin         | September 29, 2023    | DEPP-6769           | Added method createTestSprinklrCaseRecords                                  |
+ *    | roy.nino.s.regala         | October 4, 2023       | DEPP-6426           | Added creation of case priority configuration                               |
+ *    | eugene.andrew.abuan       | October 10, 2023      | DEPP-6612           | Updated Adhoc Communication creation of records                             |
+ *    | nicole.genon              | November 23, 2023     | DEPP-7259           | Added method for creation of Work Type and Service Appointment records      |
+ *    | johanna.a.gibas           | November 24, 2023     | DEPP-7143           | Removed references to Priority on International Tier                        |
+ *    | nicole.genon              | December 19, 2023     | DEPP-6949           | Added method for creation of QUT_Alumni_Engagement_Manager,                 |
+      |                           |                       |                     | QUT_Corporate_Engagement_Manager users and Engagement Opportunity records   |
+ *    | kenneth.f.alsay           | December 27, 2023     |                     | Removed unused variables                                                    |
+ *    | kenneth.f.alsay           | February 29, 2024     | DEPP-7883           | Added method createPlanActivityRecords                                      |
+ *    | nicole.genon              | March 6, 2024         | DEPP-7922           | Added QUT_Donor_Engagement_Manager user                                     |
+ *    | kenneth.f.alsay           | April 8, 2024         | DEPP-8399           | Added method createDistributionManagementRecords                            |
+ *    | eugene.andrew.abuan       | April 10, 2023        | DEPP-8390           | Added Create Designation with Recordtype                                    |
+ *    | nicole.genon              | April 11, 2024        | DEPP-8452           | Added method createDistributionManagementRecordsWithDesignation             |
+ *    | neil.s.h.lesidan          | April 11, 2024        | DEPP-8392           | Added method createTestFinanceGLAccountRecords                              |
+ *    |                           |                       |                     | Added method createTestDistributionSplitRecords                             |
+ *    | nicole.genon              | April 23, 2024        | DEPP-8498           | Added method createDonationAssetRecords                                     |
  **/
 
 @isTest
@@ -4505,5 +4506,26 @@ public class TestDataFactory {
             );
         }
         return dMList;
+    }
+
+    /**
+     * @description Method for creating test Donation Asset records
+     * @params
+     * numOfRecords - number of records to create
+     * @return donationAssetList - List of Donation Assets records created
+     */
+    public static List<Donation_Asset__c> createDonationAssetRecords(
+        Integer numOfRecords
+    ) {
+        List<Donation_Asset__c> donationAssetList = new List<Donation_Asset__c>();
+        for (Integer i = 0; i < numOfRecords; i++) {
+            donationAssetList.add(
+                new Donation_Asset__c(
+                    Asset_Name_Title__c = 'Test Donation',
+                    Asset_Type__c = 'Art'
+                )
+            );
+        }
+        return donationAssetList;
     }
 } 

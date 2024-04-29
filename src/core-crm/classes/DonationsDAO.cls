@@ -10,6 +10,10 @@
 */
 public inherited sharing class DonationsDAO extends DmlBase implements IDonationsDAO {
 
+    public static final Id GIFT_IN_KIND_RECTYPE_ID = Schema.SObjectType.Donation__c.getRecordTypeInfosByDeveloperName()
+    .get('Gift_In_Kind')
+    .getRecordTypeId();
+
     public Schema.SObjectType getSObjectType() {
         return Donation__c.SObjectType;
     }

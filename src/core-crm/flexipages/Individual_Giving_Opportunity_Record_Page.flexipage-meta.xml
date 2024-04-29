@@ -1934,7 +1934,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionType</name>
-                    <value>Default</value>
+                    <value>Screen Flow</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newActionTypeLabel</name>
@@ -1942,6 +1942,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>newScreenFlowApiName</name>
+                    <value>New_Donation_From_Opportunity</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentRecord</name>
@@ -1960,6 +1961,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListFilters</name>
+                    <value>(RecordType.DeveloperName = &apos;Cause&apos; OR RecordType.DeveloperName = &apos;Endowment&apos; OR RecordType.DeveloperName = &apos;Gift_In_Kind&apos; OR RecordType.DeveloperName = &apos;Pledge&apos;)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
@@ -1971,7 +1973,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showEditButton</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showNewButton</name>
@@ -1991,7 +1993,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>visibilityByUser</name>
-                    <value>(UserRole.DeveloperName = &apos;Advancement_Manager&apos; OR UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos; OR UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos; OR UserRole.DeveloperName = &apos;Fundraising_Manager&apos;)</value>
+                    <value>(UserRole.DeveloperName = &apos;Advancement_Manager&apos; OR UserRole.DeveloperName = &apos;Advancement_Operations_Manager&apos; OR UserRole.DeveloperName = &apos;Fundraiser&apos; OR UserRole.DeveloperName = &apos;Donor_Engagement_Manager&apos; OR UserRole.DeveloperName = &apos;Executive_Director_Advancement&apos; OR UserRole.DeveloperName = &apos;Fundraising_Manager&apos;)</value>
                 </componentInstanceProperties>
                 <componentName>dynamicDataTable</componentName>
                 <identifier>c_dynamicDataTable3</identifier>
