@@ -570,13 +570,14 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        Boolean isQUTStudent;
-        String recordType;
-        Boolean hasDomesticPhone;
-        Set<Id> contactIdSet; 
+        public Boolean isQUTStudent;
+        public String recordType;
+        public Boolean hasDomesticPhone;
+        public Set<Id> contactIdSet; 
+        public String citizenshipStatus;
 
         Boolean isEmpty() {
-            return isQUTStudent == null && recordType == null && hasDomesticPhone == null && contactIdSet.isEmpty();
+            return isQUTStudent == null && recordType == null && hasDomesticPhone == null && contactIdSet.isEmpty() && citizenshipStatus == null;
         }
     }
     

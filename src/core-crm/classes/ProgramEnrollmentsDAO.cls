@@ -13,6 +13,9 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
 
     public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
     public static final String ENROLLMENT_STATUS_ADMITTED = 'Admitted';
+    public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
+
+    public static final String ENROLLMENT_STAGE_ADMITTED = 'Admitted';
 
     public static final Set<String> ENROLLMENT_STATUS = new Set<String>{
         'Early Withdrawn',
@@ -20,6 +23,11 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
         'Passed',
         'Conditionally Complete',
         'Potentially Complete'
+    };
+
+    public static final Set<String> ENROLLMENT_STATUS_FOR_OUTREACH = new Set<String>{
+        ENROLLMENT_STATUS_ADMITTED,
+        ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
     };
 
     public Schema.SObjectType getSObjectType(){
@@ -77,5 +85,18 @@ public inherited sharing class ProgramEnrollmentsDAO extends DmlBase implements 
               'FROM hed__Program_Enrollment__c ' +
              'WHERE hed__Contact__c IN :recordIds';
         return Database.getQueryLocator(query);
+    }
+
+    /**
+     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     */
+    public class Criteria {
+        public String academicStatus;
+        public String enrollmentStage;
+        public Set<String> enrollmentStatus;
+       
+        Boolean isEmpty() {
+            return academicStatus == null && enrollmentStage == null && enrollmentStatus.isEmpty();
+        }
     }
 }
