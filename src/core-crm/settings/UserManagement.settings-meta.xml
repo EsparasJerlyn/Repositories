@@ -3,8 +3,8 @@
     <enableCanAnswerContainUsername>true</enableCanAnswerContainUsername>
     <enableEnhancedConcealPersonalInfo>true</enableEnhancedConcealPersonalInfo>
     <enableEnhancedPermsetMgmt>false</enableEnhancedPermsetMgmt>
-    <enableEnhancedProfileMgmt>false</enableEnhancedProfileMgmt>
-    <enableNewProfileUI>false</enableNewProfileUI>
+    <enableEnhancedProfileMgmt>true</enableEnhancedProfileMgmt>
+    <enableNewProfileUI>true</enableNewProfileUI>
     <enableProfileFiltering>false</enableProfileFiltering>
     <enableRestrictEmailDomains>false</enableRestrictEmailDomains>
     <enableScrambleUserData>false</enableScrambleUserData>
