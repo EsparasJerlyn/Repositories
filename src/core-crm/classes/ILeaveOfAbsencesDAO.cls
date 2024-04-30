@@ -10,5 +10,27 @@
  *    |                                |                       |                        |                                                |
  */
 public interface ILeaveOfAbsencesDAO extends DmlInterface {
-    
+    String getWhereClauseByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getContactQueryByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getQueryByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    List<Leave_Of_Absence__c> findByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    );
 }

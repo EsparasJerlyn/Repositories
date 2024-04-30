@@ -21,13 +21,54 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         return 	Leave_of_Absence__c.SObjectType;
     }
 
+    public String getWhereClauseByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 
+            'WHERE Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' +
+              'AND End_Date__c = ' + leaveOfAbsenceCriteria.keyDate + ' ' +
+              'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+              'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
+              'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
+              'AND Student__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+              'AND Student__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+              'AND Student__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+    }
+
+    public String getContactQueryByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Student__c FROM Leave_Of_Absence__c ' + getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
+    }
+
+    public String getQueryByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Id, Student__c, Name FROM Leave_Of_Absence__c ' + getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
+    }
+
+    public List<Leave_Of_Absence__c> findByCriteria(
+        LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return Database.query(getQueryByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria));
+    }
+
     /**
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public String isOnLeave;
-        public String keyDate;
-        Boolean isEmpty() {
+        public Boolean isOnLeave;
+        public Date keyDate;
+        
+        public Boolean isEmpty() {
             return isOnLeave == null && keyDate == null;
         }
     }
