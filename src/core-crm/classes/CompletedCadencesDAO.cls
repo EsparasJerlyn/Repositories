@@ -125,8 +125,8 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     }
 
     public String getContactQueryByCriteria(
-        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
+         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+         ContactsDAO.Criteria contactCriteria
     ){
         return 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
     }

@@ -31,14 +31,15 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         Set<String> cadenceNames,
         String accessLevel
     );
-   /*  String getWhereClauseByCriteria(
+    
+    /* String getWhereClauseByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     );
 
     String getContactQueryByCriteria(
-        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
+         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+         ContactsDAO.Criteria contactCriteria
     );
 
     String getQueryByCriteria(
