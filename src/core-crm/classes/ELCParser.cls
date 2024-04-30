@@ -23,6 +23,7 @@ public with sharing class ELCParser {
     private ContactsDAO.Criteria contactCriteria;
     private ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria;
     private CompletedCadencesDAO.Criteria completedCadenceCriteria;
+    private CourseConnectionsDAO.Criteria courseConnectionCriteria;
     //.... and other DAO.Criteria
 
     public ELCParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
@@ -35,11 +36,13 @@ public with sharing class ELCParser {
         contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
         completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
+        courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
         // process other criterion fields;
 
         applyContactHiddenCriteria(contactCriteria);
         applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
         applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
+        applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
         // similar for other sObjects
     }
 
@@ -78,6 +81,16 @@ public with sharing class ELCParser {
         return completedCadenceCriteria;
     }
 
+    // Course Connection
+    private CourseConnectionsDAO.Criteria applyCourseConnectionHiddenCriteria(CourseConnectionsDAO.Criteria courseConnectionCriteria) {
+        if (courseConnectionCriteria == null) {
+            courseConnectionCriteria = new CourseConnectionsDAO.Criteria();
+        }
+        courseConnectionCriteria.status = CourseConnectionsDAO.ENROLLMENT_STATUS_FOR_OUTREACH;
+
+        return courseConnectionCriteria;
+    }
+
     
     /**************************************************************
      * Criterions
@@ -110,5 +123,15 @@ public with sharing class ELCParser {
             completedCadenceCriteria.completedCadence = engagementListCriteria.Completed_Cadence__c;
         }
         return completedCadenceCriteria;
+    }
+
+    CourseConnectionsDAO.Criteria processCourseConnectionCourseGrade(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionsDAO.Criteria courseGradeCriteria) {
+        if (engagementListCriteria.Course_Grade__c != null) {
+            if (courseGradeCriteria == null) {
+                courseGradeCriteria = new CourseConnectionsDAO.Criteria();
+            }
+            courseGradeCriteria.courseGrade = engagementListCriteria.Course_Grade__c;
+        }
+        return courseGradeCriteria;
     }
 }
