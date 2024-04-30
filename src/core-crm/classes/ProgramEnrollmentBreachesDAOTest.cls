@@ -1,17 +1,17 @@
 /**
- * @description Test Class for CourseConnectionAssessmentsDAO
+ * @description Test Class for ProgramEnrollmentBreachesDAO
  *
  * @author Accenture
  *
  * @history
- * 
+ *
  *    | Developer Email                | Date                  | JIRA                   | Change Summary                                 |
  *    |--------------------------------|-----------------------|------------------------|------------------------------------------------|
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Created file                                   |
  *    |                                |                       |                        |                                                |
  */
 @isTest
-public with sharing class CourseConnectionAssessmentsDAOTest {
+public with sharing class ProgramEnrollmentBreachesDAOTest {
 
     @testSetup
     static void testSetup() {
@@ -23,8 +23,8 @@ public with sharing class CourseConnectionAssessmentsDAOTest {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             System.assert(
-                new CourseConnectionAssessmentsDAO().getSObjectType() == Course_Connection_Assessment__c.SObjectType,
-                'SObject is not Course_Connection_Assessment__c'
+                new ProgramEnrollmentBreachesDAO().getSObjectType() == Program_Enrollment_Breach__c.SObjectType,
+                'SObject is not Program_Enrollment_Breach__c'
             );
         }
         Test.stopTest();

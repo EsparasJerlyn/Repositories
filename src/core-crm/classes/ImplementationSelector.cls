@@ -43,6 +43,7 @@
  *    |                                |                       |                        | Commerce Entitlement Buyer Group, Commerce Entitlement Product|
  *    |                                |                       |                        | Product Category, Product Category Product Object             |
  *    | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added Object mapping for Course_Connection_Assessment__c obj  |
+ *    |                                |                       |                        | Added Object mapping for Program_Enrollment_Breach__c obj     |
  */
 public class ImplementationSelector { 
 
@@ -119,7 +120,8 @@ public class ImplementationSelector {
             ProductCategory.SObjectType => ProductCategoriesDAO.class,
             ProductCategoryProduct.SObjectType => ProductCategoryProductsDAO.class,
             Product_Ledger__c.SObjectType => ProductLedgersDAO.class,
-            Profile.SObjectType => ProfilesDAO.class,            
+            Profile.SObjectType => ProfilesDAO.class,   
+            Program_Enrollment_Breach__c.SObjectType => ProgramEnrollmentBreachesDAO.class,            
             Program_Offering__c.SObjectType => ProgramOfferingsDAO.class,           
             Pure_Project__c.SObjectType => PureProjectsDAO.class,
             Relationship_Manager__c.SObjectType => RelationshipManagersDAO.class,
