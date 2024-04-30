@@ -111,17 +111,17 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         );
     }
 
-    public String getWhereClauseByCriteria(
-        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
-    ){
-        return 
-            'WHERE Cadence_Name__c =: completedCadenceCriteria.completedCadence ' +
-              'AND Completed_Cadence_Status__c =: completedCadenceCriteria.status' +
-              'AND Contact__r.hed__Citizenship_Status__c =: contactCriteria.citizenshipStatus' +
-              'AND Contact__r.QUT_Student__c =: contactCriteria.isQUTStudent' +
-              'AND Contact__r.RecordType.DeveloperName =: contactCriteria.recordType';
-    }
+    // public String getWhereClauseByCriteria(
+    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+    //     ContactsDAO.Criteria contactCriteria
+    // ){
+    //     return 
+    //         'WHERE Cadence_Name__c =: completedCadenceCriteria.completedCadence ' +
+    //           'AND Completed_Cadence_Status__c =: completedCadenceCriteria.status' +
+    //           'AND Contact__r.hed__Citizenship_Status__c =: contactCriteria.citizenshipStatus' +
+    //           'AND Contact__r.QUT_Student__c =: contactCriteria.isQUTStudent' +
+    //           'AND Contact__r.RecordType.DeveloperName =: contactCriteria.recordType';
+    // }
 
     public String getContactQueryByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
