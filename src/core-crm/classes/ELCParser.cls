@@ -193,7 +193,7 @@ public with sharing class ELCParser {
     }
 
     LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceIsOnLeave(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (engagementListCriteria.isOnLeave != null) {
+        if (engagementListCriteria.Is_On_Leave_of_Absence__c != null) {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
@@ -203,11 +203,11 @@ public with sharing class ELCParser {
     }   
     
     LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (engagementListCriteria.keyDate != null) {
+        if (engagementListCriteria.Key_Date__c != null) {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            leaveOfAbsenceCriteria.keyDate = engagementListCriteria.key_date__c;
+            leaveOfAbsenceCriteria.keyDate = engagementListCriteria.Key_Date__c;
         }
         return leaveOfAbsenceCriteria;
     }
@@ -241,10 +241,6 @@ public with sharing class ELCParser {
 
     public LeaveOfAbsencesDAO.Criteria getLeaveOfAbsencesCriteria() {
         return leaveOfAbsenceCriteria;
-    }
-
-    public CourseConnectionsDAO.Criteria getCourseConnectionCriteria() {
-        return courseConnectionCriteria;
     }
 
 }

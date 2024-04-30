@@ -25,8 +25,8 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public Boolean isOnLeave;
-        public Date keyDate;
+        public String isOnLeave;
+        public String keyDate;
         Boolean isEmpty() {
             return isOnLeave == null && keyDate == null;
         }
