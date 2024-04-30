@@ -36,13 +36,13 @@ public interface ICompletedCadencesDAO extends DmlInterface {
     //     ContactsDAO.Criteria contactCriteria
     // );
 
-    String getContactQueryByCriteria(
-        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
-    );
+    // String getContactQueryByCriteria(
+    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+    //     ContactsDAO.Criteria contactCriteria
+    // );
 
-    List<hed__Course_Enrollment__c> findByCriteria(
-        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
-    );
+    // List<hed__Course_Enrollment__c> findByCriteria(
+    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+    //     ContactsDAO.Criteria contactCriteria
+    // );
 } 
