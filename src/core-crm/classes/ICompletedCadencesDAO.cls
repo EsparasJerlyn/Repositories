@@ -32,7 +32,7 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         String accessLevel
     );
     
-    /* String getWhereClauseByCriteria(
+    String getWhereClauseByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     );
@@ -45,7 +45,7 @@ public interface ICompletedCadencesDAO extends DmlInterface {
     String getQueryByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
-    ); */
+    );
 
     List<Completed_Cadence__c> findByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
