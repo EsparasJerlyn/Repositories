@@ -115,12 +115,13 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
+        //since criterias are being checked from batch, do we need to check if fields under criterias are empty or null?
         return 
-            'WHERE Cadence_Name__c =: completedCadenceCriteria.completedCadence ' +
-              'AND Completed_Cadence_Status__c =: completedCadenceCriteria.status' +
-              'AND Contact__r.hed__Citizenship_Status__c =: contactCriteria.citizenshipStatus' +
-              'AND Contact__r.QUT_Student__c =: contactCriteria.isQUTStudent' +
-              'AND Contact__r.RecordType.DeveloperName =: contactCriteria.recordType';
+            'WHERE Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' +
+              'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' +
+              'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+              'AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+              'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
     }
 
     public String getContactQueryByCriteria(
@@ -130,12 +131,18 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         return 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
     }
 
-    public List<hed__Course_Enrollment__c> findByCriteria(
+    public List<Completed_Cadence__c> findByCriteria(
         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
         ContactsDAO.Criteria contactCriteria
     ){
-        String soql = 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
-        return Database.query(soql);
+        return Database.query(getQueryByCriteria(completedCadenceCriteria, contactCriteria));
+    }
+
+    public String getQueryByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Contact__c, Cadence_Name__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
     }
 
     public class Criteria {

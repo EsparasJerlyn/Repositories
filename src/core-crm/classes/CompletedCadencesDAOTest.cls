@@ -9,6 +9,7 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | created file                                                         |
       | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added test method                                                    |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Updated test method getCompletedCadenceByTargetIdsAndCadenceNameTest |
+      | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | added test method for outreach case methods                          |
  */
 @isTest
 public with sharing class CompletedCadencesDAOTest {
@@ -83,6 +84,72 @@ public with sharing class CompletedCadencesDAOTest {
                     'SYSTEM_MODE'
                 );
             System.assert(completedCadenceList.isEmpty(), 'completedCadenceList should not be empty.');
+        }
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void getWhereClauseByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            String whereClauseString = CompletedCadencesDAO.newInstance()
+                .getWhereClauseByCriteria(
+                    new CompletedCadencesDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            String wherClauseString = CompletedCadencesDAO.newInstance()
+                .getContactQueryByCriteria(
+                    new CompletedCadencesDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Contact query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            String wherClauseString = CompletedCadencesDAO.newInstance()
+                .getQueryByCriteria(
+                    new CompletedCadencesDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            List<Completed_Cadence__c> completedCadenceList = CompletedCadencesDAO.newInstance()
+                .findByCriteria(
+                    new CompletedCadencesDAO.Criteria(),
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(completedCadenceList.isEmpty(), 'completedCadenceList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void criteriaIsEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getDomesticFutureStudentAgent()) {
+            CompletedCadencesDAO.Criteria criteria = new CompletedCadencesDAO.Criteria();
+            System.assert(criteria.isEmpty(), 'Criteria should be empty.');
         }
         Test.stopTest();
     }

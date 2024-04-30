@@ -80,4 +80,21 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
         }
         return completedCadenceList;
     }
+
+    public List<Completed_Cadence__c> findByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ) {
+        List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+
+        for (Completed_Cadence__c record : completedCadencesMap.values()) {
+            if(
+                record.Cadence_Name__c == completedCadenceCriteria.completedCadence &&
+                record.Completed_Cadence_Status__c == completedCadenceCriteria.status)
+            {
+                completedCadenceList.add(record);
+            }
+        }
+        return completedCadenceList;
+    }
 } 
