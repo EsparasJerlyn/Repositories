@@ -15,7 +15,10 @@
       |                                |                       |                        | 1. Contact                                                  |
       |                                |                       |                        | 2. Program Enrollment                                       |
       |                                |                       |                        | 3. Completed Cadence                                        |
- */
+      | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added hidden criteria methods for the ff:                   |
+      |                                |                       |                        | 1. Course Connection Assessment                             |
+      |                                |                       |                        | 2. Program Enrollment Breach                                |                                             |
+      */
 public with sharing class ELCParser {
     private Engagement_List_Criteria__c engagementListCriteria;
     private Date executionDate;
@@ -23,6 +26,9 @@ public with sharing class ELCParser {
     private ContactsDAO.Criteria contactCriteria;
     private ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria;
     private CompletedCadencesDAO.Criteria completedCadenceCriteria;
+    private CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria;
+    private ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria;
+    
     //.... and other DAO.Criteria
 
     public ELCParser(Engagement_List_Criteria__c engagementListCriteria, Date executionDate) {
@@ -35,11 +41,17 @@ public with sharing class ELCParser {
         contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
         programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
         completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
+        programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
+        courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(engagementListCriteria, courseConnectionAssessmentCriteria);
+        courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
+
         // process other criterion fields;
 
         applyContactHiddenCriteria(contactCriteria);
         applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
         applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
+        applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
+
         // similar for other sObjects
     }
 
@@ -78,6 +90,17 @@ public with sharing class ELCParser {
         return completedCadenceCriteria;
     }
 
+    // Program Enrollment Breach
+    private ProgramEnrollmentBreachesDAO.Criteria applyProgramEnrollmentBreachHiddenCriteria(ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
+        if (programEnrollmentBreachCriteria == null) {
+            programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+        }
+        programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS;
+
+        return programEnrollmentBreachCriteria;
+    }
+
+
     
     /**************************************************************
      * Criterions
@@ -110,5 +133,37 @@ public with sharing class ELCParser {
             completedCadenceCriteria.completedCadence = engagementListCriteria.Completed_Cadence__c;
         }
         return completedCadenceCriteria;
+    }
+
+    CourseConnectionAssessmentsDAO.Criteria processFailedToSubmitAssessment(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
+        if (engagementListCriteria.Failed_To_Submit_Assessment__c != null) {
+            if (courseConnectionAssessmentCriteria == null) {
+                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
+            }
+            courseConnectionAssessmentCriteria.assessmentGrade = null;
+            courseConnectionAssessmentCriteria.submissionDate = null;
+        }
+        return courseConnectionAssessmentCriteria;
+    }
+
+    CourseConnectionAssessmentsDAO.Criteria processAssessmentPriority(Engagement_List_Criteria__c engagementListCriteria, CourseConnectionAssessmentsDAO.Criteria courseConnectionAssessmentCriteria) {
+        if (engagementListCriteria.Assessment_Priority__c != null) {
+            if (courseConnectionAssessmentCriteria == null) {
+                courseConnectionAssessmentCriteria = new CourseConnectionAssessmentsDAO.Criteria();
+            }
+            courseConnectionAssessmentCriteria.assessmentName = engagementListCriteria.Assessment_Priority__c;
+        }
+        return courseConnectionAssessmentCriteria;
+    }
+
+
+    ProgramEnrollmentBreachesDAO.Criteria processBreachName(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
+        if (engagementListCriteria.Breach__c != null) {
+            if (programEnrollmentBreachCriteria == null) {
+                programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
+            }
+            programEnrollmentBreachCriteria.breachName = engagementListCriteria.Breach__c;
+        }
+        return programEnrollmentBreachCriteria;
     }
 }

@@ -22,5 +22,17 @@ public inherited sharing class CourseConnectionAssessmentsDAO extends DmlBase im
         return 	Course_Connection_Assessment__c.SObjectType;
     }
 
+    /**
+     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     */
+    public class Criteria {
+        public String assessmentGrade;
+        public Date submissionDate;
+        public String assessmentName;
+
+        Boolean isEmpty() {
+            return assessmentGrade == null && submissionDate == null && assessmentName == null;
+        }
+    }
 
 }
