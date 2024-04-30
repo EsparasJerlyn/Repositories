@@ -80,4 +80,47 @@ public inherited sharing class CompletedCadencesDAOMock extends DmlBaseMock impl
         }
         return completedCadenceList;
     }
+
+    public String getWhereClauseByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ) {
+        return 
+            'WHERE Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' +
+              'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' +
+              'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+              'AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+              'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+    }
+
+    public String getContactQueryByCriteria(
+         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+         ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+    }
+
+    public String getQueryByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Id, Contact__c, Cadence_Name__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+    }
+
+    public List<Completed_Cadence__c> findByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ) {
+        List<Completed_Cadence__c> completedCadenceList = new List<Completed_Cadence__c>();
+
+        for (Completed_Cadence__c record : completedCadencesMap.values()) {
+            if(
+                record.Cadence_Name__c == completedCadenceCriteria.completedCadence &&
+                record.Completed_Cadence_Status__c == completedCadenceCriteria.status)
+            {
+                completedCadenceList.add(record);
+            }
+        }
+        return completedCadenceList;
+    }
 } 

@@ -31,18 +31,24 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         Set<String> cadenceNames,
         String accessLevel
     );
-    // String getWhereClauseByCriteria(
-    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-    //     ContactsDAO.Criteria contactCriteria
-    // );
+    
+    String getWhereClauseByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
 
-    // String getContactQueryByCriteria(
-    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-    //     ContactsDAO.Criteria contactCriteria
-    // );
+    String getContactQueryByCriteria(
+         CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+         ContactsDAO.Criteria contactCriteria
+    );
 
-    // List<hed__Course_Enrollment__c> findByCriteria(
-    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-    //     ContactsDAO.Criteria contactCriteria
-    // );
+    String getQueryByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    List<Completed_Cadence__c> findByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
 } 
