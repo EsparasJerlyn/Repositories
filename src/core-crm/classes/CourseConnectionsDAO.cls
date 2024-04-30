@@ -14,9 +14,15 @@
  *    |                                |                       |                        | getActiveCourseConnectionsBySetContactIds      |
  *    | kenneth.f.alsay                | Sep 22, 2023          | DEPP-6299              | added method getCourseConnectionByStatus       |
  *    | arsenio.jr.dayrit              | January 03, 2023      | ApexCRUDViolationFix   | Added method for getCourseConnectionByCartItem |
+ *    | gabriel.p.ventayen             | April 30, 2024        | DEPP-8041              | Added critera                                  |
  */
 
 public inherited sharing class CourseConnectionsDAO extends DmlBase implements ICourseConnectionsDAO {
+
+    public static final String ENROLLMENT_STATUS_DESIGNATED = 'Designated';
+    public static final String ENROLLMENT_STATUS_FAILED = 'Failed';
+    public static final String ENROLLMENT_STATUS_ENROLLED = 'Enrolled';
+    public static final String ENROLLMENT_STATUS_LEAVE_OF_ABSENCE = 'Leave of Absence';
     
     public static final Set<String> enrollmentStatus = new Set<String>{
        'Withdrawn'
@@ -24,7 +30,14 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
 
     public static final Set<String> programEnrollmentStatus = new Set<String>{
        'Admitted'
-    };        
+    };      
+    
+    public static final Set<String> ENROLLMENT_STATUS_FOR_OUTREACH = new Set<String>{
+        ENROLLMENT_STATUS_DESIGNATED,
+        ENROLLMENT_STATUS_FAILED,
+        ENROLLMENT_STATUS_ENROLLED,
+        ENROLLMENT_STATUS_LEAVE_OF_ABSENCE
+    };
     
     public static ICourseConnectionsDAO newInstance() {
         return (ICourseConnectionsDAO) ImplementationSelector.DAO.newInstance(hed__Course_Enrollment__c.SObjectType);
@@ -116,6 +129,18 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
             'WHERE Cart_Item__c IN: cartItemIdSet ',
             accessLevel
         );
+    }
+
+    /**
+     * @Description:Wrapper Class that represents the Criteria for outreach Case.
+     */
+    public class Criteria {
+        public String courseGrade;
+        public String status;
+
+        Boolean isEmpty() {
+            return courseGrade == null && status == null;
+        }
     }
 
 }
