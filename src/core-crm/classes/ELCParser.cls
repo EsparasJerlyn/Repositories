@@ -203,16 +203,16 @@ public with sharing class ELCParser {
     public CompletedCadencesDAO.Criteria getCompletedCadenceCriteria() {
         return completedCadenceCriteria;
     }
-
-    public ContactsDAO.Criteria getCourseConnectionCriteria() {
+    
+    public CourseConnectionsDAO.Criteria getCourseConnectionCriteria() {
         return courseConnectionCriteria;
     }
 
-    public ProgramEnrollmentsDAO.Criteria getCourseConnectionAssessmentCriteria() {
+    public CourseConnectionAssessmentsDAO.Criteria getCourseConnectionAssessmentCriteria() {
         return courseConnectionAssessmentCriteria;
     }
 
-    public CompletedCadencesDAO.Criteria getProgramEnrollmentBreachCriteria() {
+    public ProgramEnrollmentBreachesDAO.Criteria getProgramEnrollmentBreachCriteria() {
         return programEnrollmentBreachCriteria;
     }
 

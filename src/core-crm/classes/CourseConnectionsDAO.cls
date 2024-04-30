@@ -136,7 +136,7 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
      */
     public class Criteria {
         public String courseGrade;
-        public String status;
+        public Set<String> status;
 
         Boolean isEmpty() {
             return courseGrade == null && status == null;
