@@ -131,14 +131,59 @@ public inherited sharing class CourseConnectionsDAO extends DmlBase implements I
         );
     }
 
+    public String getWhereClauseByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 
+            'WHERE Enrollment_Status__c = \'' + courseConnectionCriteria.status + '\' ' +
+              'AND hed__Grade__c = ' + courseConnectionCriteria.courseGrade + ' ' +
+              'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+              'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
+              'AND hed__Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
+              'AND hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+              'AND hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+              'AND hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+    }
+
+    public String getContactQueryByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT hed__Program_Enrollment__r.hed__Contact__c FROM hed__Course_Enrollment__c ' + getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
+    }
+
+    public String getQueryByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT ' + 
+        ' Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Grade__c, ' +
+        ' hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
+        ' hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
+        ' FROM hed__Course_Enrollment__c ' +
+        getWhereClauseByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria);
+    }
+
+    public List<hed__Course_Enrollment__c> findByCriteria(
+        CourseConnectionsDAO.Criteria courseConnectionCriteria,
+        ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return Database.query(getQueryByCriteria(courseConnectionCriteria, programEnrollmentCriteria, contactCriteria));
+    }
+
     /**
      * @Description:Wrapper Class that represents the Criteria for outreach Case.
      */
     public class Criteria {
-        public String courseGrade;
-        public Set<String> status;
+        public Double courseGrade;
+        public String status;
 
-        Boolean isEmpty() {
+        public Boolean isEmpty() {
             return courseGrade == null && status == null;
         }
     }

@@ -26,14 +26,14 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
         ContactsDAO.Criteria contactCriteria
     ){
         return 
-            'WHERE Is_On_Leave__c =: leaveOfAbsenceCriteria.isOnLeave ' +
-              'AND End_Date__c =: leaveOfAbsenceCriteria.keyDate ' +
-              'AND hed_Program_Enrollment__r.Academic_Status__c =: programEnrollmentCriteria.academicStatus ' +
-              'AND hed_Program_Enrollment__r.Enrollment_Stage__c =: programEnrollmentCriteria.enrollmentStage ' +
-              'AND hed_Program_Enrollment__r.Enrollment_Status__c =: programEnrollmentCriteria.enrollmentStatus ' +
-              'AND Student__r.hed__Citizenship_Status__c =: contactCriteria.citizenshipStatus ' +
-              'AND Student__r.QUT_Student__c =: contactCriteria.isQUTStudent ' +
-              'AND Student__r.RecordType.DeveloperName =: contactCriteria.recordType ';
+            'WHERE Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' +
+              'AND End_Date__c = ' + leaveOfAbsenceCriteria.keyDate + ' ' +
+              'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+              'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
+              'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
+              'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+              'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+              'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
     }
 
     public String getContactQueryByCriteria(
@@ -41,7 +41,7 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Student__c FROM Leave_Of_Absence__c ' + getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
+        return 'SELECT hed_Program_Enrollment__r.hed__Contact__c FROM Leave_Of_Absence__c ' + getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
     public String getQueryByCriteria(
@@ -49,7 +49,12 @@ public inherited sharing class LeaveOfAbsencesDAOMock extends DmlBaseMock implem
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        return 'SELECT Id, Student__c, Name FROM Leave_Of_Absence__c ' + getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
+        return 'SELECT ' + 
+        ' Id, hed_Program_Enrollment__r.hed__Contact__c, Name, Is_On_Leave__c, End_Date__c, ' +
+        ' hed_Program_Enrollment__r.Academic_Status__c, hed_Program_Enrollment__r.Enrollment_Stage__c, hed_Program_Enrollment__r.Enrollment_Status__c, ' +
+        ' hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
+        ' FROM Leave_Of_Absence__c ' +
+        getWhereClauseByCriteria(leaveOfAbsenceCriteria, programEnrollmentCriteria, contactCriteria);
     }
 
     public List<Leave_Of_Absence__c> findByCriteria(
