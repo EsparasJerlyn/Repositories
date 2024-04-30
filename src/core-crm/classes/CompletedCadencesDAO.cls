@@ -123,20 +123,20 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     //           'AND Contact__r.RecordType.DeveloperName =: contactCriteria.recordType';
     // }
 
-    public String getContactQueryByCriteria(
-        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
-    ){
-        return 'SELECT Contact__c FROM Completed_Cadence__c ' /*+ getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria)*/;
-    }
+    // public String getContactQueryByCriteria(
+    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+    //     ContactsDAO.Criteria contactCriteria
+    // ){
+    //     return 'SELECT Contact__c FROM Completed_Cadence__c ' /*+ getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria)*/;
+    // }
 
-    public List<hed__Course_Enrollment__c> findByCriteria(
-        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
-        ContactsDAO.Criteria contactCriteria
-    ){
-        String soql = 'SELECT Contact__c FROM Completed_Cadence__c ' /*+ getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria)*/;
-        return Database.query(soql);
-    }
+    // public List<hed__Course_Enrollment__c> findByCriteria(
+    //     CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+    //     ContactsDAO.Criteria contactCriteria
+    // ){
+    //     String soql = 'SELECT Contact__c FROM Completed_Cadence__c ' /*+ getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria)*/;
+    //     return Database.query(soql);
+    // }
 
     public class Criteria {
         public String status;
