@@ -9,6 +9,8 @@
       | mark.j.mahilum                 | July 25, 2023         | DEPP-6106              | created file                 |
       | roy.nino.s.regala              | Aug 9, 2023           | DEPP-5677              | added new query              |
       | mark.j.mahilum                 | Aug 23, 2023          | DEPP-6215              | Added filter condition       |
+      | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for            |
+      |                                |                       |                        | outreach case.               |
  */
 public interface ICompletedCadencesDAO extends DmlInterface {
     List<Completed_Cadence__c> getCompletedCadenceByContactIds(
@@ -28,5 +30,19 @@ public interface ICompletedCadencesDAO extends DmlInterface {
         Set<Id> targetIds,
         Set<String> cadenceNames,
         String accessLevel
+    );
+    String getWhereClauseByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getContactQueryByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    List<hed__Course_Enrollment__c> findByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
     );
 } 

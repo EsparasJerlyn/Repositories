@@ -19,6 +19,7 @@
       | neil.lesidan                   | Oct 23, 2023          | DEPP-6975              | Add additional return fields in SOQL                             |
       | johanna.a.gibas                | Oct 25, 2023          | DEPP-6889              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
       | roy.nino.s.regala              | Oct 30, 2023          | DEPP-7024              | Added new fields in getCompletedCadenceByTargetIdsAndCadenceName |
+      | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added methods for outreach case.                                 |
  */
 public inherited sharing class CompletedCadencesDAO extends DmlBase implements ICompletedCadencesDAO {
 
@@ -110,26 +111,38 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         );
     }
 
-    /* private String getWhereClauseByCriteria(Criteria criteria, ContactsDAO.Criteria contactCriteria){
-        //eto yung where clause sa Option 3 (Selected solution)
+    public String getWhereClauseByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 
+            'WHERE Cadence_Name__c =: completedCadenceCriteria.completedCadence ' +
+              'AND Completed_Cadence_Status__c =: completedCadenceCriteria.status' +
+              'AND Contact__r.hed__Citizenship_Status__c =: contactCriteria.citizenshipStatus' +
+              'AND Contact__r.QUT_Student__c =: contactCriteria.isQUTStudent' +
+              'AND Contact__r.RecordType.DeveloperName =: contactCriteria.recordType';
     }
 
-    private String getContactQueryByCriteria(Criteria criteria, ContactsDAO.Criteria contactCriteria){
-        //eto yung where clause sa Option 3 (Selected solution)
+    public String getContactQueryByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        return 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
     }
 
-    private List<Completed_Cadence__c> findByCriteria(Criteria criteria, ContactsDAO.Criteria contactCriteria){
-        //eto yung where clause sa Option 3 (Selected solution)
-    } */
+    public List<hed__Course_Enrollment__c> findByCriteria(
+        CompletedCadencesDAO.Criteria completedCadenceCriteria, 
+        ContactsDAO.Criteria contactCriteria
+    ){
+        String soql = 'SELECT Contact__c FROM Completed_Cadence__c ' + getWhereClauseByCriteria(completedCadenceCriteria, contactCriteria);
+        return Database.query(soql);
+    }
 
-    /**
-     * @Description:Wrapper Class that represents the Criteria for outreach Case.
-     */
     public class Criteria {
         public String status;
         public String completedCadence;
 
-        Boolean isEmpty() {
+        public Boolean isEmpty() {
             return status == null && completedCadence == null;
         }
     }

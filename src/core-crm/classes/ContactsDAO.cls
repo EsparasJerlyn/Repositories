@@ -576,8 +576,8 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         public Set<Id> contactIdSet; 
         public String citizenshipStatus;
 
-        Boolean isEmpty() {
-            return isQUTStudent == null && recordType == null && hasDomesticPhone == null && contactIdSet.isEmpty() && citizenshipStatus == null;
+        public Boolean isEmpty() {
+            return isQUTStudent == null && recordType == null && hasDomesticPhone == null && (contactIdSet.isEmpty() || contactIdSet == null) && citizenshipStatus == null;
         }
     }
     

@@ -32,9 +32,9 @@ public with sharing class ELCParser {
     }
 
     private void parse() {
-        contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
-        programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
-        completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
+        this.contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
+        this.programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
+        this.completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
         // process other criterion fields;
 
         applyContactHiddenCriteria(contactCriteria);
@@ -51,9 +51,8 @@ public with sharing class ELCParser {
         if (contactCriteria == null) {
             contactCriteria = new ContactsDAO.Criteria();
         }
-        contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE_ID;
+        contactCriteria.recordType = ContactsDAO.PERSON_RECORDTYPE;
         contactCriteria.isQUTStudent = true;
-
         return contactCriteria;
     }
 
@@ -109,6 +108,21 @@ public with sharing class ELCParser {
             }
             completedCadenceCriteria.completedCadence = engagementListCriteria.Completed_Cadence__c;
         }
+        return completedCadenceCriteria;
+    }
+
+    /**
+     * Getter methods
+     */
+    public ContactsDAO.Criteria getContactCriteria() {
+        return contactCriteria;
+    }
+
+    public ProgramEnrollmentsDAO.Criteria getProgramEnrollmentCriteria() {
+        return programEnrollmentCriteria;
+    }
+
+    public CompletedCadencesDAO.Criteria getCompletedCadenceCriteria() {
         return completedCadenceCriteria;
     }
 }
