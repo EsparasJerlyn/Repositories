@@ -30,14 +30,14 @@ public inherited sharing class CourseConnectionAssessmentsDAOMock extends DmlBas
     ) {
         return 
             'WHERE Assessment_Grade__c = \'' + courseConnectionAssessmentsCriteria.assessmentGrade + '\' ' +
-            'AND Submission_Date__c = \'' + courseConnectionAssessmentsCriteria.submissionDate + '\' ' +
+            'AND Submission_Date__c = ' + courseConnectionAssessmentsCriteria.submissionDate + ' ' +
             'AND Assessment_Name__r.Assessment_Priority__c = \'' + courseConnectionAssessmentsCriteria.assessmentPriority + '\' ' +
-            'AND Course_Connection__r.Course_Grade__c  = \'' + courseConnectionCriteria.courseGrade + '\' ' +
+            'AND Course_Connection__r.hed__Display_Grade__c   = \'' + courseConnectionCriteria.courseGrade + '\' ' +
             'AND Course_Connection__r.hed__Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
             'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
-            'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-            'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-            'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__c.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+            'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+            'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+            'AND Course_Connection__r.hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
     }
 
     public String getContactQueryByCriteria(
