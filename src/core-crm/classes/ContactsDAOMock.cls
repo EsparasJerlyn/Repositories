@@ -360,23 +360,23 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
               'AND Id = IN (' + contactCriteria.contactIdSet + ') ';
     }
 
-    public String getContactQueryByCriteria(
-        ContactsDAO.Criteria contactCriteria
-    ){
-        return 'SELECT Id FROM Contact ' + getWhereClauseByCriteria(contactCriteria);
+    public Database.QueryLocator getQueryLocatorByCriteria(ContactsDAO.Criteria criteria) {        
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
     }
 
-    public String getQueryByCriteria(
-        ContactsDAO.Criteria contactCriteria
-    ){
-        return 'SELECT ' + 
-        ' Id, hed__Citizenship_Status__c, QUT_Student_ID__c' +
-        ' FROM Contact ' +
-        getWhereClauseByCriteria(contactCriteria);
+    public Database.QueryLocator getQueryLocatorBySubQuery(ContactsDAO.Criteria criteria) {   
+        String query =
+            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
+              'FROM Contact ' + getWhereClauseByCriteria(criteria);
+        return Database.getQueryLocator(query);
     }
 
     public List<Contact> findByCriteria(
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria contactCriteria,
+        AccessLevel accessLevel
     ) {
         List<Contact> contactList = new List<Contact>();
 
