@@ -36,8 +36,8 @@ public inherited sharing class ProgramEnrollmentBreachesDAO extends DmlBase impl
           'AND Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
           'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
           'AND Program_Enrollment__r.hed__Contact__c.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-          'AND Program_Enrollment__r.hed__Contact__c.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-          'AND Program_Enrollment__r.hed__Contact__c.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+          'AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+          'AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
     }
 
     public String getContactQueryByCriteria(

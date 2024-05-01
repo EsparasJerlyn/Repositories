@@ -357,7 +357,7 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
             'WHERE  ' +
               'AND hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
               'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-              'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+              'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' +
               'AND Id = IN (' + contactCriteria.contactIdSet + ') ';
     }
 
@@ -384,7 +384,7 @@ public inherited sharing class ContactsDAOMock extends DmlBaseMock implements IC
         for (Contact record : contactsMap.values()) {
             if(
                 record.hed__Citizenship_Status__c == contactCriteria.citizenshipStatus &&
-                record.QUT_Student__c == contactCriteria.courseGrade &&
+                record.QUT_Student__c == contactCriteria.isQUTStudent &&
                 record.RecordType.DeveloperName == contactCriteria.recordType 
             )
             {

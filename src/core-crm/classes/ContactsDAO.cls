@@ -497,41 +497,39 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         return contactList[0];
     }
 
-    public List<Contact> findByCriteria(
-        Criteria criteria, 
-        AccessLevel accessLevel
+    public String getWhereClauseByCriteria(
+        Criteria contactCriteria
     ){
-
-        if(criteria != null && !criteria.isEmpty()){
-            return Database.query(
-                'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
-                  'FROM Contact '+
-                 'WHERE RecordType.DeveloperName =: criteria.recordType AND QUT_Student__c =: criteria.isQUTStudent ' +
-                   'AND Id IN :contactIdSet',
-                accessLevel
-            );
-        }
-
-        return new List<Contact>();
+        return 
+            'WHERE  ' +
+              'AND hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+              'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+              'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' +
+              'AND Id = IN (' + contactCriteria.contactIdSet + ') ';
     }
 
-    public Database.QueryLocator getQueryLocatorByCriteria(Criteria criteria) {        
-        String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
-              'FROM Contact ' + 
-             'WHERE RecordType.DeveloperName =: criteria.recordType AND QUT_Student__c =: criteria.isQUTStudent ' +
-               'AND Id IN :contactIdSet';
-        return Database.getQueryLocator(query);
+    public String getContactQueryByCriteria(
+        Criteria contactCriteria
+    ){
+        return 'SELECT Id FROM Contact ' + getWhereClauseByCriteria(contactCriteria);
     }
 
-    /* public Database.QueryLocator getQueryLocatorBySubQuery(Criteria criteria) {   
-        String query =
-            'SELECT Id, hed__Citizenship_Status__c, QUT_Student_ID__c ' + 
-              'FROM Contact ' + 
-             'WHERE RecordType.DeveloperName =: criteria.recordType AND QUT_Student__c =: criteria.isQUTStudent ' +
-               'AND Id IN :contactIdSet';
-        return Database.getQueryLocator(query);
-    } */
+    public String getQueryByCriteria(
+        Criteria contactCriteria
+    ){
+        return 'SELECT ' + 
+        ' Id, hed__Citizenship_Status__c, QUT_Student_ID__c' +
+        ' FROM Contact ' +
+        getWhereClauseByCriteria(contactCriteria);
+    }
+
+    public List<Contact> findByCriteria(
+        Criteria contactCriteria
+    ){
+        return Database.query(getQueryByCriteria(contactCriteria));
+    }
+
+    
 
     /**
      * @Description:Wrapper Class that represents the extracted application details.

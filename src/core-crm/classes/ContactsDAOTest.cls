@@ -404,4 +404,66 @@ private class ContactsDAOTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void getWhereClauseByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String whereClauseString = ContactsDAO.newInstance()
+                .getWhereClauseByCriteria(
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(whereClauseString != null, 'Where Clause by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getContactQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String wherClauseString = ContactsDAO.newInstance()
+                .getContactQueryByCriteria(
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Contact query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getQueryByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            String wherClauseString = ContactsDAO.newInstance()
+                .getQueryByCriteria(
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(wherClauseString != null, 'Query by criteria should not be null.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void findByCriteriaTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            List<Contact> contactList = ContactsDAO.newInstance()
+                .findByCriteria(
+                    new ContactsDAO.Criteria()
+                );
+            System.assert(contactList.isEmpty(), 'contactList should not be empty.');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void criteriaIsEmptyTest() {
+        Test.startTest();
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
+            System.assert(criteria.isEmpty(), 'Criteria should be empty.');
+        }
+        Test.stopTest();
+    }
 }
