@@ -18,8 +18,8 @@
       | julie.jane.alegre              | April 29, 2024        | DEPP-8041              | Added hidden criteria methods for the ff:                   |
       |                                |                       |                        | 1. Course Connection Assessment                             |
       |                                |                       |                        | 2. Program Enrollment Breach                                |
-      | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added getter methods                                        |                                             |
-      */
+      | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added getter methods                                        |
+*/
 public with sharing class ELCParser {
     private Engagement_List_Criteria__c engagementListCriteria;
     private Date executionDate;
