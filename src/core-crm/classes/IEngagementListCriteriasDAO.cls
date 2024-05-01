@@ -8,6 +8,6 @@
       |--------------------------------|-----------------------|------------------------|------------------------------|
       | vincent.ferrer                 | May 1, 2024           | DEPP-8492              | Created file
  */
-public interface IEngagementListCriteriaDAO extends DmlInterface {
+public interface IEngagementListCriteriasDAO extends DmlInterface {
     List<Engagement_List_Criteria__c> findActiveEngagementListCriteria(Date executionDate, AccessLevel accessLevel);
 }

@@ -9,14 +9,14 @@
       | vincent.ferrer                 |  May 1, 2024          | DEPP-8492              | Created file
  */
 
- public inherited sharing class EngagementListCriteriaDAO extends DmlBase implements IEngagementListCriteriaDAO {
-    public static final Id entryCriteriaRecordTypeId = Schema.SObjectType.Engagement_List_Criteria__c.getRecordTypeInfosByName().get('Entry_Criteria').getRecordTypeId();
+ public inherited sharing class EngagementListCriteriasDAO extends DmlBase implements IEngagementListCriteriasDAO {
+    public static final Id entryCriteriasRecordTypeId = Schema.SObjectType.Engagement_List_Criteria__c.getRecordTypeInfosByName().get('Entry_Criteria').getRecordTypeId();
     public Schema.SObjectType getSObjectType() {
         return Engagement_List_Criteria__c.SObjectType;
     }
 
-    public static IEngagementListCriteriaDAO newInstance() {
-        return (IEngagementListCriteriaDAO) ImplementationSelector.DAO.newInstance(Engagement_List_Criteria__c.SObjectType);
+    public static IEngagementListCriteriasDAO newInstance() {
+        return (IEngagementListCriteriasDAO) ImplementationSelector.DAO.newInstance(Engagement_List_Criteria__c.SObjectType);
     }
 
     public static List<Engagement_List_Criteria__c> findActiveEngagementListCriteria(Date executionDate,AccessLevel accessLevel) {
