@@ -1304,6 +1304,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Distribution_Split__c.Is_Soft_Deleted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Document__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
