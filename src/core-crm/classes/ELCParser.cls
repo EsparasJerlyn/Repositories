@@ -21,6 +21,7 @@
       | eccarius.munoz                 | April 30, 2024        | DEPP-8041              | Added getter methods                                        |
 */
 public with sharing class ELCParser {
+    
     private Engagement_List_Criteria__c engagementListCriteria;
     private Date executionDate;
 
@@ -41,22 +42,22 @@ public with sharing class ELCParser {
     }
 
     private void parse() {
-        this.contactCriteria = processCitizenshipStatus(engagementListCriteria, contactCriteria);
-        this.programEnrollmentCriteria = processAcademicStatus(engagementListCriteria, programEnrollmentCriteria);
-        this.completedCadenceCriteria = processCadenceName(engagementListCriteria, completedCadenceCriteria);
-        this.courseConnectionCriteria = processCourseConnectionCourseGrade(engagementListCriteria, courseConnectionCriteria);
-        this.programEnrollmentBreachCriteria = processBreachName(engagementListCriteria, programEnrollmentBreachCriteria);
-        this.courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(engagementListCriteria, courseConnectionAssessmentCriteria);
-        this.courseConnectionAssessmentCriteria = processAssessmentPriority(engagementListCriteria, courseConnectionAssessmentCriteria);
-        this.leaveOfAbsenceCriteria = processleaveOfAbsenceIsOnLeave(engagementListCriteria, leaveOfAbsenceCriteria);
-        this.leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(engagementListCriteria, leaveOfAbsenceCriteria);
+        this.contactCriteria = processCitizenshipStatus(this.engagementListCriteria, this.contactCriteria);
+        this.programEnrollmentCriteria = processAcademicStatus(this.engagementListCriteria, this.programEnrollmentCriteria);
+        this.completedCadenceCriteria = processCadenceName(this.engagementListCriteria, this.completedCadenceCriteria);
+        this.courseConnectionCriteria = processCourseConnectionCourseGrade(this.engagementListCriteria, this.courseConnectionCriteria);
+        this.programEnrollmentBreachCriteria = processBreachName(this.engagementListCriteria, this.programEnrollmentBreachCriteria);
+        this.courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
+        this.courseConnectionAssessmentCriteria = processAssessmentPriority(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
+        this.leaveOfAbsenceCriteria = processleaveOfAbsenceIsOnLeave(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
+        this.leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
         // process other criterion fields;
 
-        applyContactHiddenCriteria(contactCriteria);
-        applyProgramEnrollmentHiddenCriteria(programEnrollmentCriteria);
-        applyCompletedCadenceHiddenCriteria(completedCadenceCriteria);
-        applyCourseConnectionHiddenCriteria(courseConnectionCriteria);
-        applyProgramEnrollmentBreachHiddenCriteria(programEnrollmentBreachCriteria);
+        applyContactHiddenCriteria(this.contactCriteria);
+        applyProgramEnrollmentHiddenCriteria(this.programEnrollmentCriteria);
+        applyCompletedCadenceHiddenCriteria(this.completedCadenceCriteria);
+        applyCourseConnectionHiddenCriteria(this.courseConnectionCriteria);
+        applyProgramEnrollmentBreachHiddenCriteria(this.programEnrollmentBreachCriteria);
         // similar for other sObjects
     }
 
