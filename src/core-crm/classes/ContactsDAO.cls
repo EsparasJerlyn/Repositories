@@ -501,11 +501,10 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
         Criteria contactCriteria
     ){
         return 
-            'WHERE  ' +
-              'AND hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+            'WHERE hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
               'AND QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
               'AND RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ' +
-              'AND Id = IN (' + contactCriteria.contactIdSet + ') ';
+              'AND Id IN (' + contactCriteria.contactIdSet + ') ';
     }
 
     public String getContactQueryByCriteria(
@@ -570,12 +569,11 @@ public inherited sharing class ContactsDAO extends DmlBase implements IContactsD
     public class Criteria {
         public Boolean isQUTStudent;
         public String recordType;
-        public Boolean hasDomesticPhone;
         public Set<Id> contactIdSet; 
         public String citizenshipStatus;
 
         public Boolean isEmpty() {
-            return isQUTStudent == null && recordType == null && hasDomesticPhone == null && (contactIdSet.isEmpty() || contactIdSet == null) && citizenshipStatus == null;
+            return isQUTStudent == null && recordType == null && contactIdSet == null && citizenshipStatus == null;
         }
     }
     
