@@ -58,6 +58,8 @@ public with sharing class ELCParser {
                 this.leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
             } else if(this.engagementListCriteria.Key_Date__c == 'Completed Cadence Date'){ //declare to engagement list criteria dao
                 this.completedCadenceCriteria = processCompletedCadenceKeyDate(this.engagementListCriteria, this.completedCadenceCriteria);
+            } else if(this.engagementListCriteria.Key_Date__c == 'Breach Start Date'){ //declare to engagement list criteria dao
+                this.programEnrollmentBreachCriteria = processProgramEnrollmentBreachKeyDate(this.engagementListCriteria, this.programEnrollmentBreachCriteria);
             } 
             //add others
         }
@@ -247,6 +249,17 @@ public with sharing class ELCParser {
         completedCadenceCriteria.executionDate = this.executionDate;
 
         return completedCadenceCriteria;
+    }
+
+    private ProgramEnrollmentBreachesDAO.Criteria processProgramEnrollmentBreachKeyDate(Engagement_List_Criteria__c engagementListCriteria, ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria) {
+        if (programEnrollmentBreachCriteria == null) {
+            programEnrollmentBreachCriteria = new CompletedCadencesDAO.Criteria();
+        }
+
+        programEnrollmentBreachCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
+        programEnrollmentBreachCriteria.executionDate = this.executionDate;
+
+        return programEnrollmentBreachCriteria;
     }
 
     /**

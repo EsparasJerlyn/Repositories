@@ -27,15 +27,22 @@
         ProgramEnrollmentBreachesDAO.Criteria programEnrollmentBreachCriteria,
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria, 
         ContactsDAO.Criteria contactCriteria
-    ) {
-        return 
-            'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' +
-            'AND Breach_Status__c = \'' + programEnrollmentBreachCriteria.breachStatus + '\' ' +
-            'AND Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
-            'AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
-            'AND Program_Enrollment__r.hed__Contact__c.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-            'AND Program_Enrollment__r.hed__Contact__c.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-            'AND Program_Enrollment__r.hed__Contact__c.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+    ){ 
+        String soql = 'WHERE Breach_Name__c = \'' + programEnrollmentBreachCriteria.breach + '\' ' +
+        ' AND Breach_Status__c = \'' + programEnrollmentBreachCriteria.breachStatus + '\' ' +
+        ' AND Program_Enrollment__r.Academic_Status__c  = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+        ' AND Program_Enrollment__r.hed__Program_Plan__r.Category_Type__c  = \'' + programEnrollmentCriteria.categoryType + '\' ' +
+        ' AND Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+        ' AND Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+        ' AND Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+
+        if(programEnrollmentBreachCriteria.keyDateOffset != null && programEnrollmentBreachCriteria.executionDate != null){
+            Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(-programEnrollmentBreachCriteria.keyDateOffset);
+            Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
+            soql = soql + 'AND Breach_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND Breach_Date__c >= ' + upperKeyDateOffSetBoundary ;
+        }
+
+        return soql;
     }
 
     public String getContactQueryByCriteria(
@@ -60,11 +67,16 @@
         ContactsDAO.Criteria contactCriteria
     ) {
         List<Program_Enrollment_Breach__c> programEnrollmentBreachList = new List<Program_Enrollment_Breach__c>();
+        Date lowerKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(-programEnrollmentBreachCriteria.keyDateOffset);
+        Date upperKeyDateOffSetBoundary = programEnrollmentBreachCriteria.executionDate.addDays(programEnrollmentBreachCriteria.keyDateOffset);
 
         for (Program_Enrollment_Breach__c record : programEnrollmentBreachMap.values()) {
             if(
                 record.Breach_Name__c == programEnrollmentBreachCriteria.breachName &&
-                record.Breach_Status__c == programEnrollmentBreachCriteria.breachStatus)
+                record.Breach_Status__c == programEnrollmentBreachCriteria.breachStatus && 
+                record.Breach_Date__c <= lowerKeyDateOffSetBoundary && 
+                record.Breach_Date__c >= upperKeyDateOffSetBoundary
+            )
             {
                 programEnrollmentBreachList.add(record);
             }
