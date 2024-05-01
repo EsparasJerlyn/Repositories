@@ -26,15 +26,23 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
         ProgramEnrollmentsDAO.Criteria programEnrollmentCriteria,
         ContactsDAO.Criteria contactCriteria
     ){
-        return 
+        Date lowerKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(-leaveOfAbsenceCriteria.keyDateOffset);
+        Date upperKeyDateOffSetBoundary = leaveOfAbsenceCriteria.executionDate.addDays(leaveOfAbsenceCriteria.keyDateOffset);
+        String soql = 
             'WHERE Is_On_Leave__c = ' + leaveOfAbsenceCriteria.isOnLeave + ' ' +
-              'AND End_Date__c = ' + leaveOfAbsenceCriteria.keyDate + ' ' +
-              'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
-              'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
-              'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
-              'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-              'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-              'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+            'AND hed_Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
+            'AND hed_Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
+            'AND hed_Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
+            'AND hed_Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+            'AND hed_Program_Enrollment__r.hed__Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+            'AND hed_Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+        
+        if(leaveOfAbsenceCriteria.keyDateOffset != null && leaveOfAbsenceCriteria.executionDate != null){
+            soql = soql + 'AND End_Date__c <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND End_Date__c >= ' + upperKeyDateOffSetBoundary ;
+        }
+
+        return soql;
+            
     }
 
     public String getContactQueryByCriteria(
@@ -71,10 +79,11 @@ public inherited sharing class LeaveOfAbsencesDAO extends DmlBase implements ILe
      */
     public class Criteria {
         public Boolean isOnLeave;
-        public Date keyDate;
+        public Integer keyDateOffset;    
+        public Date executionDate;
         
         public Boolean isEmpty() {
-            return isOnLeave == null && keyDate == null;
+            return isOnLeave == null && keyDateOffset == null && executionDate == null;
         }
     }
 

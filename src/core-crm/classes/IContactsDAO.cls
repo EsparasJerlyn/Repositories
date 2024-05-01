@@ -109,4 +109,20 @@ public interface IContactsDAO extends DmlInterface {
     List<Contact> getPersonContactsByNameUsingSOSL(
         String filterName
     );
+
+    String getWhereClauseByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getContactQueryByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    String getQueryByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    );
+
+    List<Contact> findByCriteria(
+        ContactsDAO.Criteria contactCriteria
+    );
 }
