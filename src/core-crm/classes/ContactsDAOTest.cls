@@ -419,38 +419,12 @@ private class ContactsDAOTest {
     }
 
     @isTest
-    static void getContactQueryByCriteriaTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            String wherClauseString = ContactsDAO.newInstance()
-                .getContactQueryByCriteria(
-                    new ContactsDAO.Criteria()
-                );
-            System.assert(wherClauseString != null, 'Contact query by criteria should not be null.');
-        }
-        Test.stopTest();
-    }
-
-    @isTest
-    static void getQueryByCriteriaTest() {
-        Test.startTest();
-        System.runAs(TestDataFactory.getProgramAdminUser()) {
-            String wherClauseString = ContactsDAO.newInstance()
-                .getQueryByCriteria(
-                    new ContactsDAO.Criteria()
-                );
-            System.assert(wherClauseString != null, 'Query by criteria should not be null.');
-        }
-        Test.stopTest();
-    }
-
-    @isTest
     static void findByCriteriaTest() {
         Test.startTest();
         System.runAs(TestDataFactory.getProgramAdminUser()) {
             List<Contact> contactList = ContactsDAO.newInstance()
                 .findByCriteria(
-                    new ContactsDAO.Criteria()
+                    new ContactsDAO.Criteria(), AccessLevel.SYSTEM_MODE
                 );
             System.assert(contactList.isEmpty(), 'contactList should not be empty.');
         }
@@ -458,12 +432,30 @@ private class ContactsDAOTest {
     }
 
     @isTest
-    static void criteriaIsEmptyTest() {
-        Test.startTest();
+    static void getQueryLocatorByCriteriaTest() {
         System.runAs(TestDataFactory.getProgramAdminUser()) {
-            ContactsDAO.Criteria criteria = new ContactsDAO.Criteria();
-            System.assert(criteria.isEmpty(), 'Criteria should be empty.');
+            Test.startTest();
+            System.assert(
+                ContactsDAO.newInstance().getQueryLocatorByCriteria(
+                    new ContactsDAO.Criteria()
+                ) != null,
+                'contactList should not be empty.'
+            );
+            Test.stopTest();
         }
-        Test.stopTest();
+    }
+
+    @isTest
+    static void getQueryLocatorBySubQueryTest() {
+        System.runAs(TestDataFactory.getProgramAdminUser()) {
+            Test.startTest();
+            System.assert(
+                ContactsDAO.newInstance().getQueryLocatorBySubQuery(
+                    new ContactsDAO.Criteria()
+                ) != null,
+                'contactList should not be empty.'
+            );
+            Test.stopTest();
+        }
     }
 }

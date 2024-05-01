@@ -114,15 +114,16 @@ public interface IContactsDAO extends DmlInterface {
         ContactsDAO.Criteria contactCriteria
     );
 
-    String getContactQueryByCriteria(
-        ContactsDAO.Criteria contactCriteria
-    );
+    Database.QueryLocator getQueryLocatorByCriteria(
+        ContactsDAO.Criteria criteria
+    ); 
 
-    String getQueryByCriteria(
-        ContactsDAO.Criteria contactCriteria
+    Database.QueryLocator getQueryLocatorBySubQuery(
+        ContactsDAO.Criteria criteria
     );
 
     List<Contact> findByCriteria(
-        ContactsDAO.Criteria contactCriteria
+        ContactsDAO.Criteria Criteria, 
+        AccessLevel accessLevel
     );
 }
