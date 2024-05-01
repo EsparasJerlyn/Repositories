@@ -131,7 +131,7 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
     ){
         return 
             'WHERE Enrollment_Status__c = \'' + courseConnectionCriteria.status + '\' ' +
-              'AND hed__Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' +
+              'AND hed__Display_Grade__c = \'' + courseConnectionCriteria.courseGrade + '\' ' +
               'AND hed__Program_Enrollment__r.Academic_Status__c = \'' + programEnrollmentCriteria.academicStatus + '\' ' +
               'AND hed__Program_Enrollment__r.Enrollment_Stage__c = \'' + programEnrollmentCriteria.enrollmentStage + '\' ' +
               'AND hed__Program_Enrollment__r.Enrollment_Status__c = \'' + programEnrollmentCriteria.enrollmentStatus + '\' ' +
@@ -154,7 +154,7 @@ public inherited sharing class CourseConnectionsDAOMock extends DmlBaseMock impl
         ContactsDAO.Criteria contactCriteria
     ){
         return 'SELECT ' + 
-        ' Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Grade__c, ' +
+        ' Id, hed__Program_Enrollment__r.hed__Contact__c, Name, Enrollment_Status__c, hed__Display_Grade__c, ' +
         ' hed__Program_Enrollment__r.Academic_Status__c, hed__Program_Enrollment__r.Enrollment_Stage__c, hed__Program_Enrollment__r.Enrollment_Status__c, ' +
         ' hed__Program_Enrollment__r.hed__Contact__r.hed__Citizenship_Status__c, hed__Program_Enrollment__r.hed__Contact__r.QUT_Student__c, hed__Program_Enrollment__r.hed__Contact__r.RecordType.DeveloperName ' +
         ' FROM hed__Course_Enrollment__c ' +
