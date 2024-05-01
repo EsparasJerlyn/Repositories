@@ -207,7 +207,11 @@ public with sharing class ELCParser {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            leaveOfAbsenceCriteria.isOnLeave = engagementListCriteria.Is_On_Leave_of_Absence__c;
+            if (engagementListCriteria.Is_On_Leave_of_Absence__c == 'Yes') {
+                leaveOfAbsenceCriteria.isOnLeave = true;
+            } else {
+                leaveOfAbsenceCriteria.isOnLeave = false;
+            }
         }
         return leaveOfAbsenceCriteria;
     }   
@@ -217,7 +221,7 @@ public with sharing class ELCParser {
             if (leaveOfAbsenceCriteria == null) {
                 leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
             }
-            leaveOfAbsenceCriteria.keyDate = engagementListCriteria.Key_Date__c;
+            //leaveOfAbsenceCriteria.keyDate = engagementListCriteria.Key_Date__c;
         }
         return leaveOfAbsenceCriteria;
     }
