@@ -116,12 +116,19 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
         ContactsDAO.Criteria contactCriteria
     ){
         //since criterias are being checked from batch, do we need to check if fields under criterias are empty or null?
-        return 
-            'WHERE Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' +
-              'AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' +
-              'AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
-              'AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
-              'AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\'';
+        String soql = 'WHERE Cadence_Name__c = \'' + completedCadenceCriteria.completedCadence + '\' ' +
+            ' AND Completed_Cadence_Status__c = \'' + completedCadenceCriteria.status + '\' ' +
+            ' AND Contact__r.hed__Citizenship_Status__c = \'' + contactCriteria.citizenshipStatus + '\' ' +
+            ' AND Contact__r.QUT_Student__c = ' + contactCriteria.isQUTStudent + ' ' +
+            ' AND Contact__r.RecordType.DeveloperName = \'' + contactCriteria.recordType + '\' ';
+        
+        if(completedCadenceCriteria.keyDateOffset != null && completedCadenceCriteria.executionDate != null){
+            Date lowerKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(-completedCadenceCriteria.keyDateOffset);
+            Date upperKeyDateOffSetBoundary = completedCadenceCriteria.executionDate.addDays(completedCadenceCriteria.keyDateOffset);
+            soql = soql + ' AND LastModifiedDate <= ' + lowerKeyDateOffSetBoundary + ' ' + 'AND LastModifiedDate >= ' + upperKeyDateOffSetBoundary;
+        }
+        
+        return soql;
     }
 
     public String getContactQueryByCriteria(
@@ -148,9 +155,11 @@ public inherited sharing class CompletedCadencesDAO extends DmlBase implements I
     public class Criteria {
         public String status;
         public String completedCadence;
+        public Integer keyDateOffset;    
+        public Date executionDate;
 
         public Boolean isEmpty() {
-            return status == null && completedCadence == null;
+            return status == null && completedCadence == null && keyDateOffset == null && executionDate == null;
         }
     }
    

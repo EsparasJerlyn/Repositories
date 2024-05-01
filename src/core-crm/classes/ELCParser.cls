@@ -56,9 +56,9 @@ public with sharing class ELCParser {
         if(this.engagementListCriteria.Key_Date__c != null){
             if(this.engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'){ //declare to engagement list criteria dao
                 this.leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
-            }/* else if(this.engagementListCriteria.Key_Date__c == 'Completed Cadence Date')){ //declare to engagement list criteria dao
-                this.completedCadenceCriteria = processCadenceNameKeyDate(this.engagementListCriteria, this.completedCadenceCriteria);
-            } */
+            } else if(this.engagementListCriteria.Key_Date__c == 'Completed Cadence Date'){ //declare to engagement list criteria dao
+                this.completedCadenceCriteria = processCompletedCadenceKeyDate(this.engagementListCriteria, this.completedCadenceCriteria);
+            } 
             //add others
         }
 
@@ -236,6 +236,17 @@ public with sharing class ELCParser {
         leaveOfAbsenceCriteria.executionDate = this.executionDate;
 
         return leaveOfAbsenceCriteria;
+    }
+
+    private CompletedCadencesDAO.Criteria processCompletedCadenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, CompletedCadencesDAO.Criteria completedCadenceCriteria) {
+        if (completedCadenceCriteria == null) {
+            completedCadenceCriteria = new CompletedCadencesDAO.Criteria();
+        }
+
+        completedCadenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
+        completedCadenceCriteria.executionDate = this.executionDate;
+
+        return completedCadenceCriteria;
     }
 
     /**
