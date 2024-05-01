@@ -46,6 +46,7 @@ public with sharing class ELCParser {
         // process other criterion fields;
         this.contactCriteria = processCitizenshipStatus(this.engagementListCriteria, this.contactCriteria);
         this.programEnrollmentCriteria = processAcademicStatus(this.engagementListCriteria, this.programEnrollmentCriteria);
+        this.programEnrollmentCriteria = processCategoryType(engagementListCriteria, programEnrollmentCriteria);
         this.completedCadenceCriteria = processCadenceName(this.engagementListCriteria, this.completedCadenceCriteria);
         this.courseConnectionCriteria = processCourseConnectionCourseGrade(this.engagementListCriteria, this.courseConnectionCriteria);
         this.programEnrollmentBreachCriteria = processBreachName(this.engagementListCriteria, this.programEnrollmentBreachCriteria);
@@ -122,7 +123,7 @@ public with sharing class ELCParser {
         if (programEnrollmentBreachCriteria == null) {
             programEnrollmentBreachCriteria = new ProgramEnrollmentBreachesDAO.Criteria();
         }
-        programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.ACTIVE_BREACH_STATUS;
+        programEnrollmentBreachCriteria.breachStatus = ProgramEnrollmentBreachesDAO.STATUSES_FOR_PROGRAM_ENROLLMENT_BREACH;
 
         return programEnrollmentBreachCriteria;
     }
