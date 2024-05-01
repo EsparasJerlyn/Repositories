@@ -42,6 +42,8 @@ public with sharing class ELCParser {
     }
 
     private void parse() {
+
+        // process other criterion fields;
         this.contactCriteria = processCitizenshipStatus(this.engagementListCriteria, this.contactCriteria);
         this.programEnrollmentCriteria = processAcademicStatus(this.engagementListCriteria, this.programEnrollmentCriteria);
         this.completedCadenceCriteria = processCadenceName(this.engagementListCriteria, this.completedCadenceCriteria);
@@ -50,8 +52,15 @@ public with sharing class ELCParser {
         this.courseConnectionAssessmentCriteria = processFailedToSubmitAssessment(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
         this.courseConnectionAssessmentCriteria = processAssessmentPriority(this.engagementListCriteria, this.courseConnectionAssessmentCriteria);
         this.leaveOfAbsenceCriteria = processleaveOfAbsenceIsOnLeave(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
-        this.leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
-        // process other criterion fields;
+
+        if(this.engagementListCriteria.Key_Date__c != null){
+            if(this.engagementListCriteria.Key_Date__c == 'Leave of Absence End Date'){ //declare to engagement list criteria dao
+                this.leaveOfAbsenceCriteria = processLeaveOfAbsenceKeyDate(this.engagementListCriteria, this.leaveOfAbsenceCriteria);
+            }/* else if(this.engagementListCriteria.Key_Date__c == 'Completed Cadence Date')){ //declare to engagement list criteria dao
+                this.completedCadenceCriteria = processCadenceNameKeyDate(this.engagementListCriteria, this.completedCadenceCriteria);
+            } */
+            //add others
+        }
 
         applyContactHiddenCriteria(this.contactCriteria);
         applyProgramEnrollmentHiddenCriteria(this.programEnrollmentCriteria);
@@ -115,8 +124,6 @@ public with sharing class ELCParser {
 
         return programEnrollmentBreachCriteria;
     }
-
-
     
     /**************************************************************
      * Criterions
@@ -217,13 +224,17 @@ public with sharing class ELCParser {
         return leaveOfAbsenceCriteria;
     }   
     
+    /**
+     * Criterions with Key Dates
+     */
     private LeaveOfAbsencesDAO.Criteria processLeaveOfAbsenceKeyDate(Engagement_List_Criteria__c engagementListCriteria, LeaveOfAbsencesDAO.Criteria leaveOfAbsenceCriteria) {
-        if (engagementListCriteria.Key_Date__c != null) {
-            if (leaveOfAbsenceCriteria == null) {
-                leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
-            }
-            //leaveOfAbsenceCriteria.keyDate = engagementListCriteria.Key_Date__c;
+        if (leaveOfAbsenceCriteria == null) {
+            leaveOfAbsenceCriteria = new LeaveOfAbsencesDAO.Criteria();
         }
+
+        leaveOfAbsenceCriteria.keyDateOffset = Integer.valueOf(engagementListCriteria.Key_Date_Offset__c);
+        leaveOfAbsenceCriteria.executionDate = this.executionDate;
+
         return leaveOfAbsenceCriteria;
     }
 
